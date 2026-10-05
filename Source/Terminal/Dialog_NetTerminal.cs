@@ -270,9 +270,18 @@ public class Dialog_NetTerminal : Window
             Text.Font = GameFont.Small;
         }
 
-        Text.Anchor = TextAnchor.UpperCenter;
+        // Labels sit on a patch of window background, so the links pass under the text instead of through it.
+        string label = NodeLabel(view).ToUpper();
+        float labelWidth = Text.CalcSize(label).x + 12f;
+        Text.Font = GameFont.Tiny;
+        float subWidth = Text.CalcSize(sub).x + 12f;
+        Text.Font = GameFont.Small;
         var labelRect = new Rect(pos.x - 110f, box.yMax + 4f, 220f, 22f);
-        Widgets.Label(labelRect, NodeLabel(view).ToUpper().Colorize(color));
+        Widgets.DrawBoxSolid(new Rect(pos.x - labelWidth / 2f, labelRect.y, labelWidth, labelRect.height), NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(new Rect(pos.x - subWidth / 2f, labelRect.yMax, subWidth, 18f), NetrunUI.BgWindow);
+
+        Text.Anchor = TextAnchor.UpperCenter;
+        Widgets.Label(labelRect, label.Colorize(color));
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(pos.x - 110f, labelRect.yMax, 220f, 18f), sub.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
