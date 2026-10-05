@@ -44,7 +44,6 @@
   <!-- Scrub dialog -->
   <NR_ScrubTitle>Scrub the trace: {0}</NR_ScrubTitle>
   <NR_ScrubRates>Rate: {0} Heat per cyberdata, {1} per advanced cyberdata.</NR_ScrubRates>
-  <NR_ScrubCyberdata>{0}: {1} (in storage: {2})</NR_ScrubCyberdata>
   <NR_ScrubResult>Heat −{0}: {1} → {2}</NR_ScrubResult>
   <NR_ScrubConfirm>Hand over the data</NR_ScrubConfirm>
 
@@ -60,4 +59,7 @@
   <NR_FixerShopTip>Buy hacking gear. Goods arrive by drop pod.</NR_FixerShopTip>
   <NR_ShopRestock>New stock arrives with the next fixer rotation, in {0}.</NR_ShopRestock>
 
+  <NR_ScrubNothing>choose some cyberdata first</NR_ScrubNothing>
+  <NR_ScrubNone>none in the colony</NR_ScrubNone>
+  <NR_ScrubMax>max</NR_ScrubMax>
 </LanguageData>

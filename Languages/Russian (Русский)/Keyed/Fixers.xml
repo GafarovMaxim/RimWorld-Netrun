@@ -44,7 +44,6 @@
   <!-- Окно сброса -->
   <NR_ScrubTitle>Сбросить след: {0}</NR_ScrubTitle>
   <NR_ScrubRates>Курс: {0} Heat за cyberdata, {1} за продвинутые cyberdata.</NR_ScrubRates>
-  <NR_ScrubCyberdata>{0}: {1} (на складе: {2})</NR_ScrubCyberdata>
   <NR_ScrubResult>Heat −{0}: {1} → {2}</NR_ScrubResult>
   <NR_ScrubConfirm>Передать данные</NR_ScrubConfirm>
 
@@ -60,4 +59,7 @@
   <NR_FixerShopTip>Купить снаряжение для взлома. Товар прилетает дроп-подом.</NR_FixerShopTip>
   <NR_ShopRestock>Новый ассортимент придёт со следующей сменой фиксеров, через {0}.</NR_ShopRestock>
 
+  <NR_ScrubNothing>сначала выберите cyberdata</NR_ScrubNothing>
+  <NR_ScrubNone>в колонии нет</NR_ScrubNone>
+  <NR_ScrubMax>макс</NR_ScrubMax>
 </LanguageData>
