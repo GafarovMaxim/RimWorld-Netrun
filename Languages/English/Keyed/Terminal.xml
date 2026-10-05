@@ -15,7 +15,7 @@
   <NR_NodeTip_Board>Contracts: active and on offer.</NR_NodeTip_Board>
   <NR_NodeTip_Archive>The trace journal: everything that raised or lowered your Heat.</NR_NodeTip_Archive>
   <NR_NodeTip_Server>The colony's AIs: on the server, in coprocessors and in hosts.</NR_NodeTip_Server>
-  <NR_NodeTip_Studio>Braindance: raw recordings, the chip library, dependency and the market.</NR_NodeTip_Studio>
+  <NR_NodeTip_Studio>Braindance: raw recordings, the chip library and dependency. Exotic goods traders buy chips.</NR_NodeTip_Studio>
   <NR_NodeTip_Gateway>The way into cyberspace: pick an external node and dive from a cyberpod.</NR_NodeTip_Gateway>
   <NR_NodeSub_Core>Heat, decay, levels</NR_NodeSub_Core>
   <NR_NodeSub_Club>Fixers ({0})</NR_NodeSub_Club>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Exotic goods traders buy braindance chips (the colony sells them to vanilla traders, not in the terminal). -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/TraderKindDef[defName="Orbital_Exotic" or defName="Caravan_Outlander_Exotic"]/stockGenerators</xpath>
+    <value>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>NR_BraindanceChip</thingDef>
+      </li>
+      <li Class="StockGenerator_BuySingleDef">
+        <thingDef>NR_BlackBraindanceChip</thingDef>
+      </li>
+    </value>
+  </Operation>
+
+</Patch>

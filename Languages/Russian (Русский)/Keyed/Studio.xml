@@ -9,9 +9,6 @@
   <NR_StudioNoneHooked>Никто не подсел на брейнданс.</NR_StudioNoneHooked>
   <NR_StudioEdit>Смонтировать: {0}</NR_StudioEdit>
   <NR_StudioEditTip>Выберите колониста: он отнесёт запись к сетевой консоли и смонтирует.</NR_StudioEditTip>
-  <NR_StudioSell>Продать · {0} серебра</NR_StudioSell>
-  <NR_StudioSellTip>Продать один чип в сети. Хорошие записи дороже. Серебро придёт дроп-подом.</NR_StudioSellTip>
-  <NR_StudioSold>{0}: продано в сети за {1} серебра.</NR_StudioSold>
   <NR_StudioAddicted>зависимость ({0})</NR_StudioAddicted>
   <NR_StudioTolerance>толерантность {0}</NR_StudioTolerance>
 </LanguageData>

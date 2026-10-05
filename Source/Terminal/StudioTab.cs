@@ -8,13 +8,12 @@ namespace Netrun;
 
 /// <summary>
 /// The Studio node (braindance): raw recordings waiting for editing, the chip library in storage,
-/// who is hooked, and selling recorded chips online.
+/// and who is hooked. Chips are sold to traders (exotic goods traders buy them), not here.
 /// </summary>
 public static class StudioTab
 {
     private const float RowHeight = 40f;
     private const float SectionHeight = 36f;
-    private const float QualitySellBonus = 0.5f;
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -49,7 +48,7 @@ public static class StudioTab
         if (chips.Count == 0)
             y = Empty(width, y, "NR_StudioNoChips".Translate());
         foreach (Thing chip in chips)
-            y = DrawChip(new Rect(0f, y, width, RowHeight), chip, map);
+            y = DrawChip(new Rect(0f, y, width, RowHeight), chip);
 
         y = NetrunUI.Section(new Rect(0f, y + 8f, width, SectionHeight), "NR_StudioHooked".Translate(hooked.Count));
         if (hooked.Count == 0)
@@ -105,13 +104,7 @@ public static class StudioTab
         return row.yMax + 4f;
     }
 
-    private static int SellPrice(Thing chip)
-    {
-        int tier = chip.TryGetComp<CompBraindanceRecord>()?.QualityTier ?? 0;
-        return Mathf.RoundToInt(chip.def.BaseMarketValue * (1f + tier * QualitySellBonus));
-    }
-
-    private static float DrawChip(Rect row, Thing chip, Map map)
+    private static float DrawChip(Rect row, Thing chip)
     {
         bool black = chip.def == NetrunDefOf.NR_BlackBraindanceChip;
         NetrunUI.Card(row, black ? NetrunUI.Bad : NetrunUI.Accent);
@@ -120,25 +113,7 @@ public static class StudioTab
         Widgets.Label(new Rect(row.x + 50f, row.y, row.width * 0.55f, row.height), chip.LabelCap.Truncate(row.width * 0.55f));
         Text.Anchor = TextAnchor.UpperLeft;
         TooltipHandler.TipRegion(new Rect(row.x, row.y, row.width * 0.6f, row.height), chip.GetInspectString());
-
-        int price = SellPrice(chip);
-        string label = "NR_StudioSell".Translate(price);
-        float w = NetrunUI.ButtonWidth(label);
-        if (NetrunUI.Button(new Rect(row.xMax - 8f - w, row.y + 5f, w, 30f), label, NetrunUI.Warn, true, "NR_StudioSellTip".Translate()))
-            Sell(chip, price, map);
         return row.yMax + 4f;
-    }
-
-    /// <summary>One chip from the stack is sold online; the silver arrives by drop pod.</summary>
-    private static void Sell(Thing chip, int price, Map map)
-    {
-        Thing one = chip.SplitOff(1);
-        string label = one.LabelCap;
-        one.Destroy();
-        Thing silver = ThingMaker.MakeThing(ThingDefOf.Silver);
-        silver.stackCount = price;
-        DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, new[] { silver }, forbid: false);
-        Messages.Message("NR_StudioSold".Translate(label, price), MessageTypeDefOf.PositiveEvent, historical: false);
     }
 
     private static float DrawHooked(Rect row, Pawn pawn)
