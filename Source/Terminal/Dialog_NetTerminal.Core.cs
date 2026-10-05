@@ -48,6 +48,7 @@ public partial class Dialog_NetTerminal
     {
         public string Text;
         public bool Urgent;
+        public string Tip;
     }
 
     private void DrawMap(Rect rect, HeatTracker tracker)
@@ -109,6 +110,8 @@ public partial class Dialog_NetTerminal
         Widgets.Label(rect, badge.Text);
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
+        if (!badge.Tip.NullOrEmpty())
+            TooltipHandler.TipRegion(rect, badge.Tip);
     }
 
     /// <summary>Label and sub-line on a background patch, so the links pass under them.</summary>
@@ -202,7 +205,7 @@ public partial class Dialog_NetTerminal
     private static NodeBadge ClubBadge()
     {
         int open = FixerManager.Get()?.Fixers.Count(f => f.ChannelOpen) ?? 0;
-        return new NodeBadge { Text = open > 0 ? open.ToString() : null };
+        return new NodeBadge { Text = open > 0 ? open.ToString() : null, Tip = "NR_BadgeClub".Translate(open) };
     }
 
     private static string BoardSub()
@@ -216,7 +219,7 @@ public partial class Dialog_NetTerminal
     private static NodeBadge BoardBadge()
     {
         List<Contract> active = ContractManager.Get()?.Active.ToList() ?? [];
-        return new NodeBadge { Text = active.Count > 0 ? active.Count.ToString() : null, Urgent = active.Any(c => c.TicksLeft < GenDate.TicksPerDay) };
+        return new NodeBadge { Text = active.Count > 0 ? active.Count.ToString() : null, Urgent = active.Any(c => c.TicksLeft < GenDate.TicksPerDay), Tip = "NR_BadgeBoard".Translate(active.Count) };
     }
 
     private static NodeBadge ArchiveBadge(HeatTracker tracker)
@@ -224,7 +227,7 @@ public partial class Dialog_NetTerminal
         if (_seenLogCount < 0)
             _seenLogCount = tracker.Log.Count;
         int fresh = tracker.Log.Count - _seenLogCount;
-        return new NodeBadge { Text = fresh > 0 ? fresh.ToString() : null };
+        return new NodeBadge { Text = fresh > 0 ? fresh.ToString() : null, Tip = "NR_BadgeArchive".Translate(fresh) };
     }
 
     private static string ServerSub()
@@ -241,13 +244,13 @@ public partial class Dialog_NetTerminal
     {
         List<NetAI> ais = AIManager.Get()?.AIs.ToList() ?? [];
         int attention = ais.Count(a => a.HasRequest || a.Escaping || a.Hunger >= 70f);
-        return new NodeBadge { Text = attention > 0 ? attention.ToString() : null, Urgent = ais.Any(a => a.Escaping) };
+        return new NodeBadge { Text = attention > 0 ? attention.ToString() : null, Urgent = ais.Any(a => a.Escaping), Tip = "NR_BadgeServer".Translate(attention) };
     }
 
     private NodeBadge StudioBadge()
     {
         int raws = BraindanceEditing.RawRecordings(_map).Count();
-        return new NodeBadge { Text = raws > 0 ? raws.ToString() : null };
+        return new NodeBadge { Text = raws > 0 ? raws.ToString() : null, Tip = "NR_BadgeStudio".Translate(raws) };
     }
 
     private static NodeBadge GatewayBadge()
@@ -256,7 +259,7 @@ public partial class Dialog_NetTerminal
         if (gateway == null)
             return default;
         int fresh = gateway.Nodes.Count(n => !n.Hidden && n.Id > _seenNodeId);
-        return new NodeBadge { Text = fresh > 0 ? fresh.ToString() : null };
+        return new NodeBadge { Text = fresh > 0 ? fresh.ToString() : null, Tip = "NR_BadgeGateway".Translate(fresh) };
     }
 
     // ---- Summary panel ----

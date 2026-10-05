@@ -344,8 +344,8 @@ public static class GatewayView
         Pawn runner = GatewayManager.Runner(map, out _);
         float x = NetrunUI.HeaderChip(xMax, y, runner != null
             ? "NR_GatewayPodReady".Translate().Colorize(NetrunUI.Ok)
-            : "NR_GatewayPodNone".Translate().Colorize(NetrunUI.Bad)) - 8f;
+            : "NR_GatewayPodNone".Translate().Colorize(NetrunUI.Bad), "NR_TipPod".Translate()) - 8f;
         if (runner != null)
-            NetrunUI.HeaderChip(x, y, "NR_GatewayRunner".Translate(runner.LabelShort));
+            NetrunUI.HeaderChip(x, y, "NR_GatewayRunner".Translate(runner.LabelShort), "NR_TipRunner".Translate());
     }
 }

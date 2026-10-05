@@ -84,7 +84,7 @@ public static class NetrunUI
     }
 
     /// <summary>A header chip on the window's title bar, right-aligned at xMax; returns its left edge.</summary>
-    public static float HeaderChip(float xMax, float y, string text)
+    public static float HeaderChip(float xMax, float y, string text, string tip = null)
     {
         float width = Text.CalcSize(text).x + 20f;
         var rect = new Rect(xMax - width, y, width, 24f);
@@ -92,6 +92,8 @@ public static class NetrunUI
         Text.Anchor = TextAnchor.MiddleCenter;
         Widgets.Label(rect, text);
         Text.Anchor = TextAnchor.UpperLeft;
+        if (!tip.NullOrEmpty())
+            TooltipHandler.TipRegion(rect, tip);
         return rect.x;
     }
 

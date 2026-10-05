@@ -82,4 +82,15 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatScreenNetsickTip>Cyberspace dependency of colonists who dive a lot. It grows with time in the pod and Black ICE hits.</NR_HeatScreenNetsickTip>
   <NR_HeatScreenCallFixer>Call a fixer</NR_HeatScreenCallFixer>
   <NR_HeatScreenCallTip>Opens the Club.</NR_HeatScreenCallTip>
+  <NR_TipTrace>Digital trace (Heat), 0-100. Hacks raise it, it cools over time; a fixer can scrub it.</NR_TipTrace>
+  <NR_TipNet>Whether a powered network console is on the map. Without it the terminal works only from a cyberpod.</NR_TipNet>
+  <NR_TipBackToCore>Back to the node map.</NR_TipBackToCore>
+  <NR_TipPod>Dives need a colonist with a cyberlink lying in a powered cyberpod.</NR_TipPod>
+  <NR_TipRunner>The colonist who will dive.</NR_TipRunner>
+  <NR_BadgeClub>Open channels to fixers: {0}</NR_BadgeClub>
+  <NR_BadgeBoard>Active contracts: {0}. Red: one ends within a day.</NR_BadgeBoard>
+  <NR_BadgeArchive>New trace events since you last opened the Archive: {0}</NR_BadgeArchive>
+  <NR_BadgeServer>AIs that need attention (request, hunger, escape): {0}. Red: one is escaping.</NR_BadgeServer>
+  <NR_BadgeStudio>Raw recordings waiting to be edited: {0}</NR_BadgeStudio>
+  <NR_BadgeGateway>New external nodes: {0}</NR_BadgeGateway>
 </LanguageData>

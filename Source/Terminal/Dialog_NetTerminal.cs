@@ -92,7 +92,7 @@ public partial class Dialog_NetTerminal : Window
             return;
         }
 
-        if (NetrunUI.Button(new Rect(content.x, content.y, 90f, 28f), "NR_BackToCore".Translate(), NetrunUI.Accent, true))
+        if (NetrunUI.Button(new Rect(content.x, content.y, 90f, 28f), "NR_BackToCore".Translate(), NetrunUI.Accent, true, "NR_TipBackToCore".Translate()))
             _view = View.Map;
         content.yMin += 40f;
 
@@ -225,16 +225,19 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(x, rect.y, w, rect.height), trace.Colorize(NetrunUI.Muted));
             x += w + 8f;
             NetrunUI.Bar(new Rect(x, rect.y + (rect.height - 12f) / 2f, 120f, 12f), tracker.Heat / HeatTracker.MaxHeat, tracker.Level.Color());
+            TooltipHandler.TipRegion(new Rect(rect.x, rect.y, x + 128f - rect.x, rect.height), "NR_TipTrace".Translate());
             x += 128f;
             HeatLevel level = tracker.Level;
             string heatText = tracker.Heat.ToString("0") + "  " + level.Label().CapitalizeFirst().Colorize(level.Color());
             float hw = Text.CalcSize(heatText).x + 16f;
             Widgets.Label(new Rect(x, rect.y, hw, rect.height), heatText);
+            TooltipHandler.TipRegion(new Rect(x, rect.y, hw, rect.height), level.Description());
             x += hw;
             bool online = AIAwakening.Console(_map) != null;
             string net = (online ? "NR_ChipNetOnline" : "NR_ChipNetOffline").Translate().Colorize(online ? NetrunUI.Ok : NetrunUI.Bad);
             float nw = Text.CalcSize(net).x + 16f;
             Widgets.Label(new Rect(x, rect.y, nw, rect.height), net);
+            TooltipHandler.TipRegion(new Rect(x, rect.y, nw, rect.height), "NR_TipNet".Translate());
             x += nw;
         }
 
@@ -244,6 +247,7 @@ public partial class Dialog_NetTerminal : Window
             : "NR_StatusNetsickNone".Translate().Colorize(NetrunUI.Muted);
         float sw = Text.CalcSize(sick).x + 20f;
         Widgets.Label(new Rect(x, rect.y, sw, rect.height), sick);
+        TooltipHandler.TipRegion(new Rect(x, rect.y, sw, rect.height), "NR_HeatScreenNetsickTip".Translate());
         x += sw;
 
         // The latest trace event; a click opens the Archive.
