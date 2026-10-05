@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
@@ -59,17 +60,17 @@ public class CompNetTerminal : ThingComp
         string terminal = "NR_FloatOpenTerminal".Translate();
         if (!Powered)
         {
-            yield return new FloatMenuOption(terminal + " (" + "NR_TerminalNoPower".Translate() + ")", null);
+            yield return new FloatMenuOption(terminal + " (" + "NR_TerminalNoPower".Translate() + ")", null, NetrunTex.NetTerminal, Color.white);
             yield break;
         }
         if (!selPawn.CanReach(parent, PathEndMode.InteractionCell, Danger.Some))
         {
-            yield return new FloatMenuOption(terminal + " (" + "NoPath".Translate() + ")", null);
+            yield return new FloatMenuOption(terminal + " (" + "NoPath".Translate() + ")", null, NetrunTex.NetTerminal, Color.white);
             yield break;
         }
 
         yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(terminal, () =>
-            selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_UseNetTerminal, parent), JobTag.Misc)), selPawn, parent);
+            selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_UseNetTerminal, parent), JobTag.Misc), NetrunTex.NetTerminal, Color.white), selPawn, parent);
 
         foreach (FloatMenuOption option in BraindanceEditing.FloatOptions(selPawn, (Building)parent))
             yield return option;
