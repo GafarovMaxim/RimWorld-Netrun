@@ -74,14 +74,23 @@ public static class NetrunUI
     }
 
     /// <summary>A bordered button in the given color; disabled ones are muted and explain why.</summary>
-    public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null)
+    public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null, Texture2D icon = null)
     {
         bool active = report.Accepted;
         bool hover = Mouse.IsOver(rect);
         Color c = active ? color : Muted;
         Box(rect, active && hover ? new Color(c.r, c.g, c.b, 0.18f) : new Color(0f, 0f, 0f, 0.15f), new Color(c.r, c.g, c.b, active ? 1f : 0.5f));
+        Rect textRect = rect;
+        if (icon != null)
+        {
+            float size = rect.height - 8f;
+            GUI.color = active ? Color.white : new Color(1f, 1f, 1f, 0.4f);
+            GUI.DrawTexture(new Rect(rect.x + 5f, rect.y + 4f, size, size), icon);
+            GUI.color = Color.white;
+            textRect.xMin += size + 6f;
+        }
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, label.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));
+        Widgets.Label(textRect, label.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));
         Text.Anchor = TextAnchor.UpperLeft;
 
         string fullTip = tip ?? string.Empty;
@@ -99,7 +108,7 @@ public static class NetrunUI
     }
 
     /// <summary>Width a bordered button needs for its label.</summary>
-    public static float ButtonWidth(string label) => Text.CalcSize(label).x + 28f;
+    public static float ButtonWidth(string label, bool icon = false) => Text.CalcSize(label).x + 28f + (icon ? 30f : 0f);
 
     public static void Bar(Rect rect, float fraction, Color color)
     {

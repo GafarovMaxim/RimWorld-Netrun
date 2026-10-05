@@ -102,21 +102,24 @@ public static class FixersTab
         Widgets.Label(new Rect(x, y, width, 22f), StatusText(fixer).Colorize(NetrunUI.Muted));
         y += 22f;
 
-        // Reputation: bar with the pin mark, the number, and how far to pinning.
+        // Reputation: label, bar with the pin mark and the number all centred on one line.
+        const float lineHeight = 22f;
         string repLabel = "NR_FixerReputationLabel".Translate();
         float repLabelWidth = Text.CalcSize(repLabel).x + 8f;
-        Widgets.Label(new Rect(x, y, repLabelWidth, 22f), repLabel);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(x, y, repLabelWidth, lineHeight), repLabel);
         float pinAt = NetrunDefOf.NR_Fixers.pinnedReputation;
-        var barRect = new Rect(x + repLabelWidth, y + 5f, Mathf.Min(200f, width - repLabelWidth - 160f), 12f);
+        var barRect = new Rect(x + repLabelWidth, Mathf.Round(y + (lineHeight - 12f) / 2f), Mathf.Min(200f, width - repLabelWidth - 160f), 12f);
         Color repColor = NetrunTex.Gauge(fixer.Reputation);
         NetrunUI.Bar(barRect, fixer.Reputation / 100f, repColor);
         GUI.color = NetrunUI.Warn;
-        Widgets.DrawLineVertical(barRect.x + barRect.width * pinAt / 100f, barRect.y - 3f, barRect.height + 6f);
+        Widgets.DrawBoxSolid(new Rect(Mathf.Round(barRect.x + barRect.width * pinAt / 100f) - 1f, barRect.y - 3f, 2f, barRect.height + 6f), NetrunUI.Warn);
         GUI.color = Color.white;
         string repText = fixer.Reputation.ToString("0").Colorize(repColor);
         if (!fixer.Pinned)
             repText += "  " + "NR_FixerToPin".Translate(Mathf.CeilToInt(pinAt - fixer.Reputation)).Colorize(NetrunUI.Muted);
-        Widgets.Label(new Rect(barRect.xMax + 8f, y, width - (barRect.xMax + 8f - x), 22f), repText);
+        Widgets.Label(new Rect(barRect.xMax + 8f, y, width - (barRect.xMax + 8f - x), lineHeight), repText);
+        Text.Anchor = TextAnchor.UpperLeft;
         TooltipHandler.TipRegion(new Rect(x, y, width, 22f), "NR_FixerReputationTip".Translate(pinAt.ToString("0")));
         y += 28f;
 
@@ -137,10 +140,10 @@ public static class FixersTab
     {
         float x = rect.x;
 
-        bool Add(string label, Color color, AcceptanceReport report, string tip)
+        bool Add(string label, Color color, AcceptanceReport report, string tip, Texture2D icon = null)
         {
-            float w = NetrunUI.ButtonWidth(label);
-            bool clicked = NetrunUI.Button(new Rect(x, rect.y, w, rect.height), label, color, report, tip);
+            float w = NetrunUI.ButtonWidth(label, icon != null);
+            bool clicked = NetrunUI.Button(new Rect(x, rect.y, w, rect.height), label, color, report, tip, icon);
             x += w + 8f;
             return clicked;
         }
@@ -150,7 +153,7 @@ public static class FixersTab
         if (!fixer.ChannelOpen)
         {
             if (Add("NR_FixerCall".Translate(fixer.EffectiveCallCost), NetrunUI.Warn, silent,
-                    "NR_FixerCallTip".Translate(NetrunDefOf.NR_Fixers.channelHours)))
+                    "NR_FixerCallTip".Translate(NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
                 FixerDeals.Call(fixer, map);
         }
 
