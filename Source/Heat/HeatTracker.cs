@@ -51,7 +51,7 @@ public class HeatTracker : GameComponent
 
     private void NotifyLevelUp()
     {
-        MessageTypeDef type = Level == HeatLevel.Burned
+        MessageTypeDef type = Level >= HeatLevel.Target
             ? MessageTypeDefOf.ThreatSmall
             : MessageTypeDefOf.CautionInput;
 
