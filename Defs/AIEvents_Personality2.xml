@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Personality AI events: Warden, Doc, Oracle, Forge (docs/AI_EVENTS.md B5-B8) -->
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Warden1</defName>
+    <label>perimeter sweep</label>
+    <description>{AI} reports: "intrusion repelled". For two days the colony's defences are a little stronger.</description>
+    <personalities>
+      <li>Warden</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Defense">
+        <amount>0.2</amount>
+        <days>2</days>
+      </li>
+      <li Class="Netrun.AIEffect_Trust">
+        <amount>2</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Warden2</defName>
+    <label>suspicion</label>
+    <description>{AI} suspects {PAWN} of working with the mercenaries and wants to go through their logs.</description>
+    <personalities>
+      <li>Warden</li>
+    </personalities>
+    <minTrust>30</minTrust>
+    <maxTrust>50</maxTrust>
+    <options>
+      <li>
+        <label>Allow the check</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventSuspected</def>
+            <who>Target</who>
+            <chance>1.0</chance>
+          </li>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>2</weight>
+                <result>{AI} found a real leak and closed it.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Heat">
+                    <amount>-10</amount>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>8</weight>
+                <result>{PAWN} is clean. {AI} apologises, stiffly.</result>
+                <effects>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is displeased.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-4</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Warden3</defName>
+    <label>firewall upgrade</label>
+    <description>{AI} asks for 2 components to harden the colony's network.</description>
+    <personalities>
+      <li>Warden</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <options>
+      <li>
+        <label>Give the components</label>
+        <result>For a week network attacks fail more often.</result>
+        <cost>
+          <ComponentIndustrial>2</ComponentIndustrial>
+        </cost>
+        <effects>
+          <li Class="Netrun.AIEffect_Defense">
+            <amount>0.1</amount>
+            <days>7</days>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is displeased.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Warden4</defName>
+    <label>false alarm</label>
+    <description>{AI} panicked and locked down the colony's systems for a couple of hours. Everyone is annoyed. Later it apologised.</description>
+    <personalities>
+      <li>Warden</li>
+    </personalities>
+    <minHunger>60</minHunger>
+    <effects>
+      <li Class="Netrun.AIEffect_Thought">
+        <def>NR_AIEventAnnoyed</def>
+        <who>All</who>
+        <chance>1.0</chance>
+      </li>
+      <li Class="Netrun.AIEffect_PowerOff">
+        <count>3</count>
+      </li>
+      <li Class="Netrun.AIEffect_Trust">
+        <amount>2</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Warden5</defName>
+    <label>night patrol</label>
+    <description>{AI} found a hole in the colony's network while patrolling.</description>
+    <personalities>
+      <li>Warden</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Close it ({HACKER})</label>
+        <result>Hole closed. Mercenaries lose the trail for two days.</result>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_MercDelay">
+            <days>2</days>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Leave it open</label>
+        <result>Someone used the hole.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>8</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Doc1</defName>
+    <label>check-up</label>
+    <description>{AI} examined the colony through its sensors. For two days it keeps an eye on everyone's health.</description>
+    <personalities>
+      <li>Doc</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Host</li>
+    </places>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Hediff">
+        <def>NR_AIEventImmunity</def>
+        <who>All</who>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Doc2</defName>
+    <label>worrying readings</label>
+    <description>{AI} sees the first signs of cyberspace dependency in {HACKER} and offers treatment.</description>
+    <personalities>
+      <li>Doc</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <needsHacker>true</needsHacker>
+    <options>
+      <li>
+        <label>Accept treatment</label>
+        <result>{HACKER} spends a few hours offline with {AI}.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Netsick">
+            <amount>-0.2</amount>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>4</hours>
+            <who>Hacker</who>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Ignore it</label>
+        <result>The dependency grows.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Netsick">
+            <amount>0.1</amount>
+            <who>Hacker</who>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Doc3</defName>
+    <label>experimental protocol</label>
+    <description>{AI} wants to try an experimental treatment on a volunteer: {PAWN}.</description>
+    <personalities>
+      <li>Doc</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <options>
+      <li>
+        <label>Let {PAWN} volunteer</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Target</who>
+          </li>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>6</weight>
+                <result>It worked: {PAWN} is cured of a chronic condition.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_CureChronic">
+                    <who>Target</who>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>3</weight>
+                <result>Nothing changed.</result>
+                <effects>
+                </effects>
+              </li>
+              <li>
+                <weight>1</weight>
+                <result>Side effects: {PAWN} feels awful.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Hediff">
+                    <def>NR_AIEventSideEffect</def>
+                    <who>Target</who>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is disappointed.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Doc4</defName>
+    <label>ethics</label>
+    <description>{AI} refuses to help treat the colony's prisoners. It says they are criminals.</description>
+    <personalities>
+      <li>Doc</li>
+    </personalities>
+    <minTrust>30</minTrust>
+    <maxTrust>50</maxTrust>
+    <needsPrisoner>true</needsPrisoner>
+    <options>
+      <li>
+        <label>Make it help</label>
+        <result>{AI} obeys, resentfully.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-5</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Respect its choice</label>
+        <result>{AI} is grateful.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>4</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Doc5</defName>
+    <label>caring for its makers</label>
+    <description>{AI} worries about the colonists' wear and tear and sends them reminders to sleep at night.</description>
+    <personalities>
+      <li>Doc</li>
+    </personalities>
+    <minTrust>70</minTrust>
+    <options>
+      <li>
+        <label>Let it</label>
+        <result>The colonists feel looked after.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventRested</def>
+            <who>All</who>
+            <chance>1.0</chance>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Turn it off</label>
+        <result>{AI} is hurt.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Oracle1</defName>
+    <label>prediction</label>
+    <description>{AI} sees a raid coming in a day or two.</description>
+    <personalities>
+      <li>Oracle</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Chance">
+        <branches>
+          <li>
+            <weight>3</weight>
+            <effects>
+              <li Class="Netrun.AIEffect_Incident">
+                <def>RaidEnemy</def>
+                <delayHours>30</delayHours>
+              </li>
+            </effects>
+          </li>
+          <li>
+            <weight>1</weight>
+            <effects>
+            </effects>
+          </li>
+        </branches>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Oracle2</defName>
+    <label>bad omen</label>
+    <description>{AI} has foreseen {PAWN}'s death.</description>
+    <personalities>
+      <li>Oracle</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Protect {PAWN}</label>
+        <result>For three days {AI} steers {PAWN} away from harm.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hediff">
+            <def>NR_AIEventProtected</def>
+            <who>Target</who>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Do not listen</label>
+        <result>{AI} falls silent.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-1</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Oracle3</defName>
+    <label>two paths</label>
+    <description>{AI} sees two futures. In one the fixers love you and the net knows you. In the other you are quiet and forgotten. It does not know which is better.</description>
+    <personalities>
+      <li>Oracle</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <options>
+      <li>
+        <label>The loud path</label>
+        <result>The fixers noticed you. So did others.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_FixerReputation">
+            <amount>5~10</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>10</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>The quiet path</label>
+        <result>The colony's trace fades, and so does its name.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_FixerReputation">
+            <amount>-8~-3</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>-10</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Oracle4</defName>
+    <label>hungry for questions</label>
+    <description>{AI} demands questions. Silence starves it.</description>
+    <personalities>
+      <li>Oracle</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Ask a question</label>
+        <result>{AI} answered.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_FreeService">
+          </li>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-10</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Stay silent</label>
+        <result>{AI} is hungrier.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>10</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Oracle5</defName>
+    <label>a wrong prediction</label>
+    <description>{AI} admits that one of its predictions was wrong. It is honest about it.</description>
+    <personalities>
+      <li>Oracle</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Trust">
+        <amount>3</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Forge1</defName>
+    <label>an upgrade</label>
+    <description>{AI} offers to rework a weapon or a piece of armour from storage for 2 advanced cyberdata.</description>
+    <personalities>
+      <li>Forge</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Pay</label>
+        <cost>
+          <USH_AdvancedCyberdata>2</USH_AdvancedCyberdata>
+        </cost>
+        <effects>
+          <li Class="Netrun.AIEffect_Quality">
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is disappointed.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Forge2</defName>
+    <label>a blueprint</label>
+    <description>{AI} found a blueprint for something rare and shared it with your researchers. It asks only that the thing be named after it.</description>
+    <personalities>
+      <li>Forge</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Research">
+        <amount>800</amount>
+      </li>
+      <li Class="Netrun.AIEffect_Trust">
+        <amount>4</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Forge3</defName>
+    <label>overload</label>
+    <description>{AI} is burning power to print things "from the spirit".</description>
+    <personalities>
+      <li>Forge</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Feed it</label>
+        <result>{AI} stopped.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-30</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it burn</label>
+        <result>The batteries are drained.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_BatteryDrain">
+            <fraction>0.4</fraction>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Forge4</defName>
+    <label>master and apprentice</label>
+    <description>{AI} offers to teach {PAWN} its craft.</description>
+    <personalities>
+      <li>Forge</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>70</minTrust>
+    <options>
+      <li>
+        <label>Learn</label>
+        <result>{PAWN} learned a lot.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Target</who>
+          </li>
+          <li Class="Netrun.AIEffect_Skill">
+            <amount>3500</amount>
+            <who>Target</who>
+            <skill>Crafting</skill>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is disappointed.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Forge5</defName>
+    <label>machine failure</label>
+    <description>{AI} broke a machine in a fit of temper and is now apologising.</description>
+    <personalities>
+      <li>Forge</li>
+    </personalities>
+    <minTrust>30</minTrust>
+    <maxTrust>50</maxTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_BreakMachine">
+        <count>1</count>
+      </li>
+    </effects>
+    <options>
+      <li>
+        <label>Accept the apology</label>
+        <result>{AI} is relieved.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>3</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Scold it</label>
+        <result>{AI} sulks.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+</Defs>

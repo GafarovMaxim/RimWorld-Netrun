@@ -305,6 +305,18 @@ public class AIEffect_Erase : AIEventEffect
     public override void Apply(AIEventContext c) => AIManager.Get()?.Erase(c.AI);
 }
 
+/// <summary>Powered machines break down (no letter: the event already explains it).</summary>
+public class AIEffect_BreakMachine : AIEventEffect
+{
+    public int count = 1;
+
+    public override void Apply(AIEventContext c)
+    {
+        foreach (CompBreakdownable comp in IncidentWorker_NetBreakdown.Targets(c.Map).InRandomOrder().Take(count))
+            comp.DoBreakdown();
+    }
+}
+
 /// <summary>The AI leaves for good, quietly.</summary>
 public class AIEffect_Leave : AIEventEffect
 {

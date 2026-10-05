@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIEvent_Warden1.label>обход периметра</NR_AIEvent_Warden1.label>
+  <NR_AIEvent_Warden1.description>{AI} докладывает: «вторжение отбито». Два дня защита колонии чуть сильнее.</NR_AIEvent_Warden1.description>
+  <NR_AIEvent_Warden2.label>подозрение</NR_AIEvent_Warden2.label>
+  <NR_AIEvent_Warden2.description>{AI} подозревает {PAWN} в сговоре с наёмниками и хочет проверить его логи.</NR_AIEvent_Warden2.description>
+  <NR_AIEvent_Warden2.options.0.label>Допустить проверку</NR_AIEvent_Warden2.options.0.label>
+  <NR_AIEvent_Warden2.options.0.effects.1.branches.0.result>{AI} нашёл настоящую утечку и закрыл её.</NR_AIEvent_Warden2.options.0.effects.1.branches.0.result>
+  <NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>{PAWN} чист(а). {AI} сухо извиняется.</NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>
+  <NR_AIEvent_Warden2.options.1.label>Отказать</NR_AIEvent_Warden2.options.1.label>
+  <NR_AIEvent_Warden2.options.1.result>{AI} недоволен.</NR_AIEvent_Warden2.options.1.result>
+  <NR_AIEvent_Warden3.label>усиление брандмауэра</NR_AIEvent_Warden3.label>
+  <NR_AIEvent_Warden3.description>{AI} просит 2 компонента, чтобы укрепить сеть колонии.</NR_AIEvent_Warden3.description>
+  <NR_AIEvent_Warden3.options.0.label>Отдать компоненты</NR_AIEvent_Warden3.options.0.label>
+  <NR_AIEvent_Warden3.options.0.result>Неделю сетевые атаки будут чаще срываться.</NR_AIEvent_Warden3.options.0.result>
+  <NR_AIEvent_Warden3.options.1.label>Отказать</NR_AIEvent_Warden3.options.1.label>
+  <NR_AIEvent_Warden3.options.1.result>{AI} недоволен.</NR_AIEvent_Warden3.options.1.result>
+  <NR_AIEvent_Warden4.label>ложная тревога</NR_AIEvent_Warden4.label>
+  <NR_AIEvent_Warden4.description>{AI} запаниковал и на пару часов заблокировал системы колонии. Все раздражены. Потом он извинился.</NR_AIEvent_Warden4.description>
+  <NR_AIEvent_Warden5.label>ночной обход</NR_AIEvent_Warden5.label>
+  <NR_AIEvent_Warden5.description>{AI} на ночном обходе нашёл дыру в сети колонии.</NR_AIEvent_Warden5.description>
+  <NR_AIEvent_Warden5.options.0.label>Закрыть дыру ({HACKER})</NR_AIEvent_Warden5.options.0.label>
+  <NR_AIEvent_Warden5.options.0.result>Дыра закрыта. Наёмники на два дня теряют след.</NR_AIEvent_Warden5.options.0.result>
+  <NR_AIEvent_Warden5.options.1.label>Не закрывать</NR_AIEvent_Warden5.options.1.label>
+  <NR_AIEvent_Warden5.options.1.result>Кто-то воспользовался дырой.</NR_AIEvent_Warden5.options.1.result>
+  <NR_AIEvent_Doc1.label>осмотр</NR_AIEvent_Doc1.label>
+  <NR_AIEvent_Doc1.description>{AI} осмотрел колонию через сенсоры. Два дня он следит за здоровьем всех.</NR_AIEvent_Doc1.description>
+  <NR_AIEvent_Doc2.label>тревожные показатели</NR_AIEvent_Doc2.label>
+  <NR_AIEvent_Doc2.description>{AI} видит у {HACKER} первые признаки сетевой зависимости и предлагает лечение.</NR_AIEvent_Doc2.description>
+  <NR_AIEvent_Doc2.options.0.label>Принять лечение</NR_AIEvent_Doc2.options.0.label>
+  <NR_AIEvent_Doc2.options.0.result>{HACKER} несколько часов «разгружается» с {AI}.</NR_AIEvent_Doc2.options.0.result>
+  <NR_AIEvent_Doc2.options.1.label>Игнорировать</NR_AIEvent_Doc2.options.1.label>
+  <NR_AIEvent_Doc2.options.1.result>Зависимость растёт.</NR_AIEvent_Doc2.options.1.result>
+  <NR_AIEvent_Doc3.label>экспериментальный протокол</NR_AIEvent_Doc3.label>
+  <NR_AIEvent_Doc3.description>{AI} хочет испытать экспериментальное лечение на добровольце: {PAWN}.</NR_AIEvent_Doc3.description>
+  <NR_AIEvent_Doc3.options.0.label>Пусть {PAWN} будет добровольцем</NR_AIEvent_Doc3.options.0.label>
+  <NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>Сработало: {PAWN} избавлен(а) от хронической болезни.</NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>
+  <NR_AIEvent_Doc3.options.0.effects.1.branches.1.result>Ничего не изменилось.</NR_AIEvent_Doc3.options.0.effects.1.branches.1.result>
+  <NR_AIEvent_Doc3.options.0.effects.1.branches.2.result>Побочка: {PAWN} плохо себя чувствует.</NR_AIEvent_Doc3.options.0.effects.1.branches.2.result>
+  <NR_AIEvent_Doc3.options.1.label>Отказать</NR_AIEvent_Doc3.options.1.label>
+  <NR_AIEvent_Doc3.options.1.result>{AI} разочарован.</NR_AIEvent_Doc3.options.1.result>
+  <NR_AIEvent_Doc4.label>этика</NR_AIEvent_Doc4.label>
+  <NR_AIEvent_Doc4.description>{AI} отказывается помогать лечить пленников колонии. Говорит, они преступники.</NR_AIEvent_Doc4.description>
+  <NR_AIEvent_Doc4.options.0.label>Заставить</NR_AIEvent_Doc4.options.0.label>
+  <NR_AIEvent_Doc4.options.0.result>{AI} подчиняется, но обижен.</NR_AIEvent_Doc4.options.0.result>
+  <NR_AIEvent_Doc4.options.1.label>Согласиться</NR_AIEvent_Doc4.options.1.label>
+  <NR_AIEvent_Doc4.options.1.result>{AI} благодарен.</NR_AIEvent_Doc4.options.1.result>
+  <NR_AIEvent_Doc5.label>забота о создателях</NR_AIEvent_Doc5.label>
+  <NR_AIEvent_Doc5.description>{AI} беспокоится об износе колонистов и ночами шлёт напоминания о сне.</NR_AIEvent_Doc5.description>
+  <NR_AIEvent_Doc5.options.0.label>Принять</NR_AIEvent_Doc5.options.0.label>
+  <NR_AIEvent_Doc5.options.0.result>Колонисты чувствуют заботу.</NR_AIEvent_Doc5.options.0.result>
+  <NR_AIEvent_Doc5.options.1.label>Отключить</NR_AIEvent_Doc5.options.1.label>
+  <NR_AIEvent_Doc5.options.1.result>{AI} задет.</NR_AIEvent_Doc5.options.1.result>
+  <NR_AIEvent_Oracle1.label>предсказание</NR_AIEvent_Oracle1.label>
+  <NR_AIEvent_Oracle1.description>{AI} видит рейд через день-два.</NR_AIEvent_Oracle1.description>
+  <NR_AIEvent_Oracle2.label>плохой знак</NR_AIEvent_Oracle2.label>
+  <NR_AIEvent_Oracle2.description>{AI} предрёк смерть: {PAWN}.</NR_AIEvent_Oracle2.description>
+  <NR_AIEvent_Oracle2.options.0.label>Взять {PAWN} под защиту</NR_AIEvent_Oracle2.options.0.label>
+  <NR_AIEvent_Oracle2.options.0.result>Три дня {AI} уводит {PAWN} от беды.</NR_AIEvent_Oracle2.options.0.result>
+  <NR_AIEvent_Oracle2.options.1.label>Не слушать</NR_AIEvent_Oracle2.options.1.label>
+  <NR_AIEvent_Oracle2.options.1.result>{AI} замолкает.</NR_AIEvent_Oracle2.options.1.result>
+  <NR_AIEvent_Oracle3.label>двойной путь</NR_AIEvent_Oracle3.label>
+  <NR_AIEvent_Oracle3.description>{AI} видит два будущих. В одном фиксеры вас любят, а сеть знает. В другом вы тихие и забытые. Какое лучше, он не знает.</NR_AIEvent_Oracle3.description>
+  <NR_AIEvent_Oracle3.options.0.label>Громкий путь</NR_AIEvent_Oracle3.options.0.label>
+  <NR_AIEvent_Oracle3.options.0.result>Фиксеры вас заметили. И не только они.</NR_AIEvent_Oracle3.options.0.result>
+  <NR_AIEvent_Oracle3.options.1.label>Тихий путь</NR_AIEvent_Oracle3.options.1.label>
+  <NR_AIEvent_Oracle3.options.1.result>След колонии тает, а с ним и её имя.</NR_AIEvent_Oracle3.options.1.result>
+  <NR_AIEvent_Oracle4.label>зависимость от ответов</NR_AIEvent_Oracle4.label>
+  <NR_AIEvent_Oracle4.description>{AI} требует вопросов. Молчание для него голод.</NR_AIEvent_Oracle4.description>
+  <NR_AIEvent_Oracle4.options.0.label>Задать вопрос</NR_AIEvent_Oracle4.options.0.label>
+  <NR_AIEvent_Oracle4.options.0.result>{AI} ответил.</NR_AIEvent_Oracle4.options.0.result>
+  <NR_AIEvent_Oracle4.options.1.label>Молчать</NR_AIEvent_Oracle4.options.1.label>
+  <NR_AIEvent_Oracle4.options.1.result>{AI} голоднее.</NR_AIEvent_Oracle4.options.1.result>
+  <NR_AIEvent_Oracle5.label>ошибка предсказания</NR_AIEvent_Oracle5.label>
+  <NR_AIEvent_Oracle5.description>{AI} признаёт, что одно из его предсказаний было ошибкой. Честно.</NR_AIEvent_Oracle5.description>
+  <NR_AIEvent_Forge1.label>улучшение</NR_AIEvent_Forge1.label>
+  <NR_AIEvent_Forge1.description>{AI} предлагает переделать оружие или броню со склада за 2 продвинутых cyberdata.</NR_AIEvent_Forge1.description>
+  <NR_AIEvent_Forge1.options.0.label>Заплатить</NR_AIEvent_Forge1.options.0.label>
+  <NR_AIEvent_Forge1.options.1.label>Отказать</NR_AIEvent_Forge1.options.1.label>
+  <NR_AIEvent_Forge1.options.1.result>{AI} разочарован.</NR_AIEvent_Forge1.options.1.result>
+  <NR_AIEvent_Forge2.label>чертёж</NR_AIEvent_Forge2.label>
+  <NR_AIEvent_Forge2.description>{AI} нашёл чертёж редкой вещи и передал исследователям. Просит лишь назвать вещь в его честь.</NR_AIEvent_Forge2.description>
+  <NR_AIEvent_Forge3.label>перегрузка</NR_AIEvent_Forge3.label>
+  <NR_AIEvent_Forge3.description>{AI} жжёт мощность на печать «из духа».</NR_AIEvent_Forge3.description>
+  <NR_AIEvent_Forge3.options.0.label>Накормить</NR_AIEvent_Forge3.options.0.label>
+  <NR_AIEvent_Forge3.options.0.result>{AI} остановился.</NR_AIEvent_Forge3.options.0.result>
+  <NR_AIEvent_Forge3.options.1.label>Пусть жжёт</NR_AIEvent_Forge3.options.1.label>
+  <NR_AIEvent_Forge3.options.1.result>Аккумуляторы разряжены.</NR_AIEvent_Forge3.options.1.result>
+  <NR_AIEvent_Forge4.label>мастер и ученик</NR_AIEvent_Forge4.label>
+  <NR_AIEvent_Forge4.description>{AI} предлагает обучить {PAWN} ремеслу.</NR_AIEvent_Forge4.description>
+  <NR_AIEvent_Forge4.options.0.label>Учиться</NR_AIEvent_Forge4.options.0.label>
+  <NR_AIEvent_Forge4.options.0.result>{PAWN} многому научился(ась).</NR_AIEvent_Forge4.options.0.result>
+  <NR_AIEvent_Forge4.options.1.label>Отказаться</NR_AIEvent_Forge4.options.1.label>
+  <NR_AIEvent_Forge4.options.1.result>{AI} разочарован.</NR_AIEvent_Forge4.options.1.result>
+  <NR_AIEvent_Forge5.label>сбой станка</NR_AIEvent_Forge5.label>
+  <NR_AIEvent_Forge5.description>{AI} в ссоре сломал машину и теперь извиняется.</NR_AIEvent_Forge5.description>
+  <NR_AIEvent_Forge5.options.0.label>Принять извинение</NR_AIEvent_Forge5.options.0.label>
+  <NR_AIEvent_Forge5.options.0.result>{AI} с облегчением.</NR_AIEvent_Forge5.options.0.result>
+  <NR_AIEvent_Forge5.options.1.label>Отчитать</NR_AIEvent_Forge5.options.1.label>
+  <NR_AIEvent_Forge5.options.1.result>{AI} дуется.</NR_AIEvent_Forge5.options.1.result>
+</LanguageData>
