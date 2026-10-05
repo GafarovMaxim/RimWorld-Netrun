@@ -12,6 +12,8 @@ public class ContractManager : GameComponent
     private const int TickInterval = 250;
 
     private List<Contract> _contracts = [];
+    private List<ContractRecord> _history = [];
+    private const int HistorySize = 5;
     private int _nextId = 1;
 
     public ContractManager(Game game) { }
@@ -22,6 +24,16 @@ public class ContractManager : GameComponent
 
     public IEnumerable<Contract> Active => _contracts.Where(c => c.Accepted);
     public IEnumerable<Contract> OffersOf(Fixer fixer) => _contracts.Where(c => !c.Accepted && c.FixerId == fixer.Id);
+    /// <summary>The last few finished contracts, newest first.</summary>
+    public IReadOnlyList<ContractRecord> History => _history;
+
+    private void Record(Contract contract, string fixerName, bool success)
+    {
+        _history.Insert(0, new ContractRecord { Type = contract.Type, FixerName = fixerName, Success = success, Reward = contract.Reward });
+        if (_history.Count > HistorySize)
+            _history.RemoveRange(HistorySize, _history.Count - HistorySize);
+    }
+
     public bool HasActive(Fixer fixer) => _contracts.Any(c => c.Accepted && c.FixerId == fixer.Id);
 
     public override void GameComponentTick()
@@ -188,6 +200,7 @@ public class ContractManager : GameComponent
         }
 
         string fixerName = fixer?.Name ?? "?";
+        Record(contract, fixerName, success: true);
         if (fixer != null)
         {
             fixer.GainReputation(Settings.contractReputation);
@@ -207,6 +220,7 @@ public class ContractManager : GameComponent
         _contracts.Remove(contract);
         Fixer fixer = FixerManager.Get()?.ById(contract.FixerId);
         string fixerName = fixer?.Name ?? "?";
+        Record(contract, fixerName, success: false);
 
         if (fixer != null)
         {
@@ -234,6 +248,8 @@ public class ContractManager : GameComponent
     {
         base.ExposeData();
         Scribe_Collections.Look(ref _contracts, "contracts", LookMode.Deep);
+        Scribe_Collections.Look(ref _history, "history", LookMode.Deep);
+        _history ??= [];
         Scribe_Values.Look(ref _nextId, "nextId", 1);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)

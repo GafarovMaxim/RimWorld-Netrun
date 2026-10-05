@@ -51,14 +51,14 @@ public static class FixersTab
         Widgets.EndScrollView();
     }
 
-    private static Color SpecialtyColor(FixerSpecialty specialty) => specialty switch
+    public static Color SpecialtyColor(FixerSpecialty specialty) => specialty switch
     {
         FixerSpecialty.Broker => NetrunUI.Accent,
         FixerSpecialty.Cleaner => NetrunUI.Ok,
         _ => NetrunUI.Purple,
     };
 
-    private static Color TraitColor(Fixer fixer)
+    public static Color TraitColor(Fixer fixer)
     {
         if (!fixer.TraitKnown)
             return NetrunUI.Muted;

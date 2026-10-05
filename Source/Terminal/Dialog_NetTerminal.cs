@@ -178,6 +178,10 @@ public class Dialog_NetTerminal : Window
         {
             GatewayView.HeaderChips(x, y, _map);
         }
+        else if (_view == View.Board)
+        {
+            ContractsTab.HeaderChips(x, y);
+        }
         else if (_view == View.Server)
         {
             // Awaken button, fragments and AI count live in the title bar of the Server room.

@@ -10,15 +10,9 @@
   <NR_ContractDesc_QuietRun>Завершить взломов: {0}, при этом след не должен подняться выше уровня «Отслеживается».</NR_ContractDesc_QuietRun>
 
   <!-- Вкладка «Контракты» -->
-  <NR_ContractsActive>Активные контракты</NR_ContractsActive>
-  <NR_ContractsOffers>Предложения</NR_ContractsOffers>
   <NR_ContractsNoActive>Активных контрактов нет.</NR_ContractsNoActive>
   <NR_ContractsNoOffers>Сейчас предложений нет.</NR_ContractsNoOffers>
-  <NR_ContractHeader>{0} от {1}: {2} серебра</NR_ContractHeader>
-  <NR_ContractTimeLeft>Осталось: {0}</NR_ContractTimeLeft>
-  <NR_ContractDuration>Срок после принятия: {0}</NR_ContractDuration>
   <NR_ContractAccept>Принять</NR_ContractAccept>
-  <NR_ContractDeliver>Передать данные</NR_ContractDeliver>
   <NR_ContractAbandon>Отказаться</NR_ContractAbandon>
   <NR_ContractAbandonConfirm>Отказаться от контракта «{0}»? Это засчитается как провал.</NR_ContractAbandonConfirm>
 
@@ -37,8 +31,27 @@
   <NR_ContractFailedLoud>след поднялся слишком высоко</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>вы отказались от работы</NR_ContractFailedAbandoned>
   <!-- Прогресс -->
-  <NR_ContractProgress>Выполнено: {0} из {1} (осталось: {2})</NR_ContractProgress>
   <NR_ContractDeliverTip>Передаёт cyberdata со склада. Одни продвинутые cyberdata засчитываются за {0}.</NR_ContractDeliverTip>
   <NR_ContractDelivered>Сдано: {0}. Выполнено {1} из {2}, осталось {3}.</NR_ContractDelivered>
 
+  <NR_BoardActive>Активный контракт</NR_BoardActive>
+  <NR_BoardOffers>Доступные ({0})</NR_BoardOffers>
+  <NR_BoardHistory>История</NR_BoardHistory>
+  <NR_BoardDue>срок {0}</NR_BoardDue>
+  <NR_BoardProgress>{0} / {1} сдано</NR_BoardProgress>
+  <NR_BoardReward>Награда: {0} серебра, +{1} репутации</NR_BoardReward>
+  <NR_BoardFail>Провал: −{0} реп., фиксер молчит {1} дня</NR_BoardFail>
+  <NR_BoardDeliver>⇩ Сдать cyberdata ({0} в колонии)</NR_BoardDeliver>
+  <NR_BoardDifficulty>Сложность</NR_BoardDifficulty>
+  <NR_BoardDuration>Срок: {0}</NR_BoardDuration>
+  <NR_BoardSilver>{0} серебра</NR_BoardSilver>
+  <NR_BoardRep>+{0} реп.</NR_BoardRep>
+  <NR_BoardOneActive>Один активный</NR_BoardOneActive>
+  <NR_BoardSilentText>Фиксер молчит: контракт сорван ранее.</NR_BoardSilentText>
+  <NR_BoardSilentFor>молчит {0}</NR_BoardSilentFor>
+  <NR_BoardNoHistory>Завершённых контрактов пока нет.</NR_BoardNoHistory>
+  <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
+  <NR_BoardHistoryFailed>{0}, {1}: провален</NR_BoardHistoryFailed>
+  <NR_BoardRepChip>Реп. {0}: {1}</NR_BoardRepChip>
+  <NR_BoardActiveChip>Активных: {0} / {1}</NR_BoardActiveChip>
 </LanguageData>

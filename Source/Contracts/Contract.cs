@@ -40,3 +40,20 @@ public class Contract : IExposable
         Scribe_Values.Look(ref DeadlineTick, "deadlineTick", -1);
     }
 }
+
+/// <summary>A finished contract for the Board's history line.</summary>
+public class ContractRecord : IExposable
+{
+    public ContractType Type;
+    public string FixerName;
+    public bool Success;
+    public int Reward;
+
+    public void ExposeData()
+    {
+        Scribe_Values.Look(ref Type, "type");
+        Scribe_Values.Look(ref FixerName, "fixerName");
+        Scribe_Values.Look(ref Success, "success");
+        Scribe_Values.Look(ref Reward, "reward");
+    }
+}

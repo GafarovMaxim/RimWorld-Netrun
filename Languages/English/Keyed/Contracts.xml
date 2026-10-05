@@ -10,15 +10,9 @@
   <NR_ContractDesc_QuietRun>Complete {0} hacks without your trace rising above Tracked.</NR_ContractDesc_QuietRun>
 
   <!-- Contracts tab -->
-  <NR_ContractsActive>Active contracts</NR_ContractsActive>
-  <NR_ContractsOffers>Offers</NR_ContractsOffers>
   <NR_ContractsNoActive>No active contracts.</NR_ContractsNoActive>
   <NR_ContractsNoOffers>No offers right now.</NR_ContractsNoOffers>
-  <NR_ContractHeader>{0} from {1}: {2} silver</NR_ContractHeader>
-  <NR_ContractTimeLeft>Time left: {0}</NR_ContractTimeLeft>
-  <NR_ContractDuration>Deadline after accepting: {0}</NR_ContractDuration>
   <NR_ContractAccept>Accept</NR_ContractAccept>
-  <NR_ContractDeliver>Hand over data</NR_ContractDeliver>
   <NR_ContractAbandon>Abandon</NR_ContractAbandon>
   <NR_ContractAbandonConfirm>Abandon "{0}"? It counts as a failure.</NR_ContractAbandonConfirm>
 
@@ -37,8 +31,27 @@
   <NR_ContractFailedLoud>your trace rose too high</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>you walked away from the job</NR_ContractFailedAbandoned>
   <!-- Progress -->
-  <NR_ContractProgress>Done: {0} of {1} (left: {2})</NR_ContractProgress>
   <NR_ContractDeliverTip>Hands over cyberdata from storage. One advanced cyberdata counts as {0}.</NR_ContractDeliverTip>
   <NR_ContractDelivered>Delivered {0}. Done {1} of {2}, {3} left.</NR_ContractDelivered>
 
+  <NR_BoardActive>Active contract</NR_BoardActive>
+  <NR_BoardOffers>Available ({0})</NR_BoardOffers>
+  <NR_BoardHistory>History</NR_BoardHistory>
+  <NR_BoardDue>due in {0}</NR_BoardDue>
+  <NR_BoardProgress>{0} / {1} done</NR_BoardProgress>
+  <NR_BoardReward>Reward: {0} silver, +{1} reputation</NR_BoardReward>
+  <NR_BoardFail>Failure: −{0} rep., the fixer goes silent for {1} days</NR_BoardFail>
+  <NR_BoardDeliver>⇩ Deliver cyberdata ({0} in the colony)</NR_BoardDeliver>
+  <NR_BoardDifficulty>Difficulty</NR_BoardDifficulty>
+  <NR_BoardDuration>Time: {0}</NR_BoardDuration>
+  <NR_BoardSilver>{0} silver</NR_BoardSilver>
+  <NR_BoardRep>+{0} rep.</NR_BoardRep>
+  <NR_BoardOneActive>One active</NR_BoardOneActive>
+  <NR_BoardSilentText>This fixer is not answering: an earlier contract went wrong.</NR_BoardSilentText>
+  <NR_BoardSilentFor>silent for {0}</NR_BoardSilentFor>
+  <NR_BoardNoHistory>No finished contracts yet.</NR_BoardNoHistory>
+  <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
+  <NR_BoardHistoryFailed>{0}, {1}: failed</NR_BoardHistoryFailed>
+  <NR_BoardRepChip>Rep. {0}: {1}</NR_BoardRepChip>
+  <NR_BoardActiveChip>Active: {0} / {1}</NR_BoardActiveChip>
 </LanguageData>
