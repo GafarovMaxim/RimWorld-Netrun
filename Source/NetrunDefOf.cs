@@ -8,6 +8,7 @@ public static class NetrunDefOf
 {
     static NetrunDefOf() => DefOfHelper.EnsureInitializedInCtor(typeof(NetrunDefOf));
 
+    public static HeatSettingsDef NR_Heat;
     public static FixerSettingsDef NR_Fixers;
     public static RulePackDef NR_NamerFixer;
 

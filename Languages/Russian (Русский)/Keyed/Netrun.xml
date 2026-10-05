@@ -47,4 +47,10 @@
   <NR_TerminalJournalEmpty>Событий пока нет.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Скоро.</NR_TerminalComingSoon>
 
+  <!-- Кибер-капсула и ICE -->
+  <NR_StatPartInCyberpod>В кибер-капсуле</NR_StatPartInCyberpod>
+  <NR_LogTraceLock>Захват следа: {0}</NR_LogTraceLock>
+  <NR_LogRip>{0} вытянул(а) {1} из: {2}</NR_LogRip>
+  <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишний cyberdata.</NR_CyberpodBonusData>
+
 </LanguageData>

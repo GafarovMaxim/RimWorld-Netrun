@@ -47,4 +47,10 @@
   <NR_TerminalJournalEmpty>No events yet.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Coming soon.</NR_TerminalComingSoon>
 
+  <!-- Cyberpod and ICE -->
+  <NR_StatPartInCyberpod>In a cyberpod</NR_StatPartInCyberpod>
+  <NR_LogTraceLock>Trace lock on {0}</NR_LogTraceLock>
+  <NR_LogRip>{0} ripped {1} from {2}</NR_LogRip>
+  <NR_CyberpodBonusData>{0} pulled an extra cyberdata through the cyberpod.</NR_CyberpodBonusData>
+
 </LanguageData>

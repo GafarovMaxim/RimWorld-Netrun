@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Heat and cyberpod balance numbers. Tweak here, no code changes needed. -->
+  <Netrun.HeatSettingsDef>
+    <defName>NR_Heat</defName>
+
+    <!-- Heat from a completed hack: target defence / defencePerHeat, kept within hackHeat -->
+    <defencePerHeat>1000</defencePerHeat>
+    <hackHeat>2~15</hackHeat>
+
+    <!-- Hacker stealth: Heat is multiplied by baseStealth / stealth, kept within stealthFactor -->
+    <baseStealth>100</baseStealth>
+    <stealthFactor>0.25~2</stealthFactor>
+
+    <!-- Hacking from a Hacking Expansion cyberpod: Heat multiplier, stealth multiplier
+         (also makes Hacking Expansion ICE outcomes rarer), chance of an extra cyberdata per hack -->
+    <cyberpodHeatFactor>0.6</cyberpodHeatFactor>
+    <cyberpodStealthFactor>1.3</cyberpodStealthFactor>
+    <cyberpodBonusDataChance>0.25</cyberpodBonusDataChance>
+
+    <!-- Heat per item ripped with Hacking Expansion's data ripping -->
+    <heatPerRippedItem>1</heatPerRippedItem>
+
+    <!-- Heat from the "trace lock" ICE outcome -->
+    <traceLockHeat>8</traceLockHeat>
+  </Netrun.HeatSettingsDef>
+
+  <!-- ICE outcome added to Hacking Expansion's ICE hacksets (see Patches/HackingExpansion.xml). -->
+  <USH_HE.HackingOutcomeDef ParentName="USH_HackingOutcomeBase">
+    <defName>NR_TraceLock</defName>
+    <label>trace lock</label>
+    <workerClass>Netrun.HackingOutcomeWorker_TraceLock</workerClass>
+    <worksWithPod>true</worksWithPod>
+  </USH_HE.HackingOutcomeDef>
+
+</Defs>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Trace lock joins Hacking Expansion's ICE. Core-command ICE and Black ICE inherit the list from USH_ICE. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/*[defName="USH_ICE"]/hackingOutcomes</xpath>
+    <value>
+      <li>NR_TraceLock</li>
+    </value>
+  </Operation>
+
+  <!-- Hackers inside a cyberpod are stealthier: fewer ICE outcomes and less Heat. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/StatDef[defName="HackingStealth"]/parts</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/StatDef[defName="HackingStealth"]</xpath>
+      <value>
+        <parts>
+          <li Class="Netrun.StatPart_InCyberpod" />
+        </parts>
+      </value>
+    </nomatch>
+    <match Class="PatchOperationAdd">
+      <xpath>Defs/StatDef[defName="HackingStealth"]/parts</xpath>
+      <value>
+        <li Class="Netrun.StatPart_InCyberpod" />
+      </value>
+    </match>
+  </Operation>
+
+</Patch>
