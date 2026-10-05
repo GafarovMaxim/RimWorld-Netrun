@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using LudeonTK;
 using RimWorld;
 using Verse;
@@ -28,6 +30,26 @@ public static class NetrunDebugActions
 
     [DebugAction(Category, "Reset Heat", allowedGameStates = AllowedGameStates.Playing)]
     private static void ResetHeat() => HeatTracker.Get()?.ReduceHeat(HeatTracker.MaxHeat, "NR_LogDev".Translate());
+
+    /// <summary>Fires any AI event now, ignoring its conditions and limits, on an AI that fits its personality.</summary>
+    [DebugAction(Category, "Fire AI event...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void FireAIEvent()
+    {
+        AIManager manager = AIManager.Get();
+        var options = new List<FloatMenuOption>();
+        foreach (AIEventDef def in DefDatabase<AIEventDef>.AllDefsListForReading)
+        {
+            NetAI ai = manager?.AIs.FirstOrDefault(a => a.Housed && (def.General || def.personalities.Contains(a.Personality)));
+            if (ai == null)
+                continue;
+            AIEventDef captured = def;
+            options.Add(new FloatMenuOption(def.defName + ": " + def.label + " (" + ai.Name + ")",
+                () => AIEventManager.Get()?.Fire(captured, AIEventContext.Make(ai, Find.CurrentMap, captured))));
+        }
+        if (options.Count == 0)
+            options.Add(new FloatMenuOption("No awakened AI fits any event.", null));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
 
     [DebugAction(Category, "Open network terminal", allowedGameStates = AllowedGameStates.Playing)]
     private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
