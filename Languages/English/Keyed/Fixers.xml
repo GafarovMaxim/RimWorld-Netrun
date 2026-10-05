@@ -20,17 +20,12 @@
   <NR_FixerTraitUnknownDesc>You don't know this fixer well enough yet. The trait is revealed at {0} reputation.</NR_FixerTraitUnknownDesc>
 
   <!-- Fixers tab -->
-  <NR_FixersResources>Silver: {0}   Cyberdata: {1}   Advanced cyberdata: {2}</NR_FixersResources>
-  <NR_FixersRotation>Unpinned fixers move on in {0}.</NR_FixersRotation>
   <NR_FixerPinnedTag>Pinned: this fixer stays when the others rotate, and the trait is known.</NR_FixerPinnedTag>
-  <NR_FixerSpecialtyLine>Specialty: {0}</NR_FixerSpecialtyLine>
-  <NR_FixerTraitLine>Trait: {0}</NR_FixerTraitLine>
-  <NR_FixerReputation>Reputation {0} / 100</NR_FixerReputation>
   <NR_FixerReputationTip>Every deal raises reputation. Higher reputation means lower prices. At {0} the fixer stays with you for good.</NR_FixerReputationTip>
   <NR_FixerStatusSilent>Not answering. Back in {0}.</NR_FixerStatusSilent>
   <NR_FixerStatusOpen>Channel open for {0}.</NR_FixerStatusOpen>
   <NR_FixerStatusClosed>Channel closed.</NR_FixerStatusClosed>
-  <NR_FixerCall>Contact ({0} silver)</NR_FixerCall>
+  <NR_FixerCall>Call · {0} silver</NR_FixerCall>
   <NR_FixerScrub>Scrub the trace</NR_FixerScrub>
   <NR_FixerShop>Shop</NR_FixerShop>
 

@@ -41,13 +41,6 @@
   <NR_CommandNetTerminal>Сетевой терминал</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Открыть сетевой терминал: цифровой след, фиксеры, контракты и журнал последних событий.</NR_CommandNetTerminalDesc>
   <NR_TerminalNoPower>Нет питания.</NR_TerminalNoPower>
-  <NR_TerminalTitle>Сетевой терминал</NR_TerminalTitle>
-  <NR_TerminalTab_Overview>Обзор</NR_TerminalTab_Overview>
-  <NR_TerminalTab_Fixers>Фиксеры</NR_TerminalTab_Fixers>
-  <NR_TerminalTab_Contracts>Контракты</NR_TerminalTab_Contracts>
-  <NR_TerminalTab_AI>ИИ</NR_TerminalTab_AI>
-  <NR_TerminalTab_Braindance>Брейнданс</NR_TerminalTab_Braindance>
-  <NR_TerminalTab_Journal>Журнал</NR_TerminalTab_Journal>
   <NR_TerminalHeatValue>Цифровой след: {0} / 100, {1}</NR_TerminalHeatValue>
   <NR_TerminalHeatDecay>Сам по себе след остывает на {0} в день.</NR_TerminalHeatDecay>
   <NR_TerminalLevelsHeader>Уровни следа:</NR_TerminalLevelsHeader>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_BackToCore>◄ Ядро</NR_BackToCore>
+  <NR_TerminalTitleMap>NETRUN // ЯДРО СЕТИ</NR_TerminalTitleMap>
+  <NR_TerminalTitleNode>NETRUN // {0}</NR_TerminalTitleNode>
+  <NR_Node_Core>Ядро</NR_Node_Core>
+  <NR_Node_Club>Клуб</NR_Node_Club>
+  <NR_Node_Board>Доска</NR_Node_Board>
+  <NR_Node_Archive>Архив</NR_Node_Archive>
+  <NR_Node_Server>Серверная</NR_Node_Server>
+  <NR_Node_Studio>Студия</NR_Node_Studio>
+  <NR_Node_Gateway>Шлюз</NR_Node_Gateway>
+  <NR_NodeTip_Core>Ваш цифровой след: уровень, остывание, что даёт каждый уровень.</NR_NodeTip_Core>
+  <NR_NodeTip_Club>Фиксеры: звонки, сброс следа, магазин.</NR_NodeTip_Club>
+  <NR_NodeTip_Board>Контракты: активные и предложения.</NR_NodeTip_Board>
+  <NR_NodeTip_Archive>Журнал следа: всё, что поднимало или снижало Heat.</NR_NodeTip_Archive>
+  <NR_NodeTip_Server>ИИ колонии: на сервере, в сопроцессорах и в носителях.</NR_NodeTip_Server>
+  <NR_NodeTip_Studio>Брейнданс: записи и чипы. Скоро.</NR_NodeTip_Studio>
+  <NR_NodeTip_Gateway>Вход в киберпространство. Нужна кибер-капсула. Скоро.</NR_NodeTip_Gateway>
+  <NR_NodeSub_Core>Heat, остывание, уровни</NR_NodeSub_Core>
+  <NR_NodeSub_Club>Фиксеры ({0})</NR_NodeSub_Club>
+  <NR_NodeSub_Board>Контракт: {0} / {1} сдано</NR_NodeSub_Board>
+  <NR_NodeSub_BoardNone>Нет активного контракта</NR_NodeSub_BoardNone>
+  <NR_NodeSub_Archive>Журнал следа ({0})</NR_NodeSub_Archive>
+  <NR_NodeSub_Server>ИИ: {0}</NR_NodeSub_Server>
+  <NR_NodeSub_ServerRequest>ИИ: {0}, просьба</NR_NodeSub_ServerRequest>
+  <NR_NodeSub_Studio>Скоро</NR_NodeSub_Studio>
+  <NR_NodeSub_Gateway>Нырок (нужна капсула)</NR_NodeSub_Gateway>
+  <NR_ChipHeat>Heat: {0}</NR_ChipHeat>
+  <NR_ChipNetOnline>Сеть: онлайн</NR_ChipNetOnline>
+  <NR_ChipNetOffline>Сеть: нет питания</NR_ChipNetOffline>
+  <NR_ChipSilver>Серебро: {0}</NR_ChipSilver>
+  <NR_ChipCyberdata>Cyberdata: {0} / {1}</NR_ChipCyberdata>
+  <NR_StatusTrace>След</NR_StatusTrace>
+  <NR_StatusNetsick>Netsick: {0}</NR_StatusNetsick>
+  <NR_StatusNetsickNone>Netsick: нет</NR_StatusNetsickNone>
+  <NR_StatusClickOutside>Клик вне окна: закрыть</NR_StatusClickOutside>
+  <NR_ClubPinned>Закреплённые контакты ({0})</NR_ClubPinned>
+  <NR_ClubPool>В пуле ({0}) · смена через {1}</NR_ClubPool>
+  <NR_FixerReputationLabel>Репутация</NR_FixerReputationLabel>
+  <NR_FixerToPin>до закрепления {0}</NR_FixerToPin>
+  <NR_FixerAfterCall>сначала позвоните фиксеру</NR_FixerAfterCall>
+</LanguageData>

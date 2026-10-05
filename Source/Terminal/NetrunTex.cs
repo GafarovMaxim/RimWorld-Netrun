@@ -8,6 +8,7 @@ public static class NetrunTex
 {
     public static readonly Texture2D NetTerminal = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_NetTerminal");
     public static readonly Texture2D CallFixer = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_CallFixer");
+    public static readonly Texture2D Dive = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_NetrunDive");
 
     private static readonly Texture2D[] HeatIcons =
     [

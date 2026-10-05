@@ -20,17 +20,12 @@
   <NR_FixerTraitUnknownDesc>Вы пока плохо знаете этого фиксера. Черта откроется при репутации {0}.</NR_FixerTraitUnknownDesc>
 
   <!-- Вкладка «Фиксеры» -->
-  <NR_FixersResources>Серебро: {0}   Cyberdata: {1}   Продвинутые cyberdata: {2}</NR_FixersResources>
-  <NR_FixersRotation>Незакреплённые фиксеры уйдут через {0}.</NR_FixersRotation>
   <NR_FixerPinnedTag>Закреплён: этот фиксер остаётся при смене остальных, его черта известна.</NR_FixerPinnedTag>
-  <NR_FixerSpecialtyLine>Специализация: {0}</NR_FixerSpecialtyLine>
-  <NR_FixerTraitLine>Черта: {0}</NR_FixerTraitLine>
-  <NR_FixerReputation>Репутация {0} / 100</NR_FixerReputation>
   <NR_FixerReputationTip>Каждая сделка поднимает репутацию. Чем она выше, тем ниже цены. При {0} фиксер остаётся с вами навсегда.</NR_FixerReputationTip>
   <NR_FixerStatusSilent>Не отвечает. Вернётся через {0}.</NR_FixerStatusSilent>
   <NR_FixerStatusOpen>Канал открыт ещё {0}.</NR_FixerStatusOpen>
   <NR_FixerStatusClosed>Канал закрыт.</NR_FixerStatusClosed>
-  <NR_FixerCall>Связаться ({0} серебра)</NR_FixerCall>
+  <NR_FixerCall>Позвонить · {0} серебра</NR_FixerCall>
   <NR_FixerScrub>Сбросить след</NR_FixerScrub>
   <NR_FixerShop>Магазин</NR_FixerShop>
 
