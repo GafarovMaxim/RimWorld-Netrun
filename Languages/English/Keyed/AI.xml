@@ -210,4 +210,8 @@
   <NR_AIEventBadLabel>{0} is acting up</NR_AIEventBadLabel>
   <NR_AIEventBad>{0} does not trust you and went poking around the network on its own. Heat +{1}.</NR_AIEventBad>
 
+  <NR_AISectionServer>On the AI server</NR_AISectionServer>
+  <NR_AISectionCoprocessor>In coprocessors</NR_AISectionCoprocessor>
+  <NR_AISectionHost>In hosts</NR_AISectionHost>
+  <NR_AISectionOther>Elsewhere</NR_AISectionOther>
 </LanguageData>

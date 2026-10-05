@@ -16,6 +16,7 @@ public static class AITab
     private const float ButtonWidth = 190f;
     private const float ButtonHeight = 30f;
     private const float LineHeight = 24f;
+    private const float SectionHeight = 32f;
 
     private static readonly Texture2D TrustTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.30f, 0.75f, 0.45f));
     private static readonly Texture2D HungerTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.85f, 0.45f, 0.25f));
@@ -38,17 +39,35 @@ public static class AITab
             return;
         }
 
+        // Separate lists by where each AI lives: the server, a coprocessor or a host.
+        var groups = new List<(string label, List<NetAI> list)>
+        {
+            ("NR_AISectionServer".Translate(), ais.Where(a => a.InMainServer).ToList()),
+            ("NR_AISectionCoprocessor".Translate(), ais.Where(a => a.InCoprocessor).ToList()),
+            ("NR_AISectionHost".Translate(), ais.Where(a => a.InHost).ToList()),
+            ("NR_AISectionOther".Translate(), ais.Where(a => !a.InMainServer && !a.InCoprocessor && !a.InHost).ToList()),
+        };
+        groups.RemoveAll(g => g.list.Count == 0);
+
         float width = listRect.width - 16f;
-        float height = ais.Sum(a => CardHeight(a, width) + RowGap);
+        float height = groups.Sum(g => SectionHeight + g.list.Sum(a => CardHeight(a, width) + RowGap));
         var viewRect = new Rect(0f, 0f, width, height);
 
         Widgets.BeginScrollView(listRect, ref scroll, viewRect);
         float y = 0f;
-        foreach (NetAI ai in ais.ToList())
+        foreach ((string label, List<NetAI> list) in groups)
         {
-            float h = CardHeight(ai, width);
-            DrawAI(new Rect(0f, y, width, h), ai, map, manager);
-            y += h + RowGap;
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(0f, y, width, SectionHeight), (label + " (" + list.Count + ")").Colorize(NetrunTex.Accent));
+            Text.Font = GameFont.Small;
+            y += SectionHeight;
+
+            foreach (NetAI ai in list)
+            {
+                float h = CardHeight(ai, width);
+                DrawAI(new Rect(0f, y, width, h), ai, map, manager);
+                y += h + RowGap;
+            }
         }
         Widgets.EndScrollView();
     }

@@ -210,4 +210,8 @@
   <NR_AIEventBadLabel>{0} своевольничает</NR_AIEventBadLabel>
   <NR_AIEventBad>{0} вам не доверяет и сам полез шарить по сети. Heat +{1}.</NR_AIEventBad>
 
+  <NR_AISectionServer>На ИИ-сервере</NR_AISectionServer>
+  <NR_AISectionCoprocessor>В сопроцессорах</NR_AISectionCoprocessor>
+  <NR_AISectionHost>В носителях</NR_AISectionHost>
+  <NR_AISectionOther>В другом месте</NR_AISectionOther>
 </LanguageData>
