@@ -49,6 +49,19 @@ public static class NetrunDebugActions
         }
     }
 
+    [DebugAction(Category, "Spawn AI fragment", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void SpawnAIFragment() => SpawnAtMouse(NetrunDefOf.NR_AIFragment);
+
+    [DebugAction(Category, "Spawn AI core module", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void SpawnCoreModule() => SpawnAtMouse(NetrunDefOf.NR_AICoreModule);
+
+    private static void SpawnAtMouse(ThingDef def)
+    {
+        IntVec3 cell = UI.MouseCell();
+        if (cell.InBounds(Find.CurrentMap))
+            GenPlace.TryPlaceThing(ThingMaker.MakeThing(def), cell, Find.CurrentMap, ThingPlaceMode.Near);
+    }
+
     [DebugAction(Category, "Rotate fixers", allowedGameStates = AllowedGameStates.Playing)]
     private static void RotateFixers() => FixerManager.Get()?.Rotate(notify: true);
 

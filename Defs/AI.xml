@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- AI balance numbers. Tweak here, no code changes needed. -->
+  <Netrun.AISettingsDef>
+    <defName>NR_AI</defName>
+
+    <!-- Server slots: at start and the maximum reachable with core modules -->
+    <baseSlots>1</baseSlots>
+    <maxSlots>3</maxSlots>
+
+    <!-- Awakening: work ticks at hacking speed 100% (2500 ticks = 1 hour),
+         detection chance per point of Heat, Heat added when detected -->
+    <awakenWorkTicks>5000</awakenWorkTicks>
+    <awakenDetectChancePerHeat>0.006</awakenDetectChancePerHeat>
+    <awakenDetectHeat>10</awakenDetectHeat>
+
+    <!-- Finds on completed hacks: AI fragment from core-command ICE / Black ICE targets,
+         core module from Black ICE targets and satellite black boxes -->
+    <fragmentChanceCoreCommandICE>0.1</fragmentChanceCoreCommandICE>
+    <fragmentChanceBlackICE>0.25</fragmentChanceBlackICE>
+    <moduleChanceBlackICE>0.05</moduleChanceBlackICE>
+    <moduleChanceBlackBox>0.1</moduleChanceBlackBox>
+  </Netrun.AISettingsDef>
+
+  <!-- Sleeping AI fragment -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>NR_AIFragment</defName>
+    <label>AI fragment</label>
+    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at a comms console and move it into an AI server. Its personality stays hidden until then.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <graphicData>
+      <texPath>Things/Item/ExecData</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <techLevel>Spacer</techLevel>
+    <statBases>
+      <MarketValue>1200</MarketValue>
+      <Mass>0.2</Mass>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+    <tradeability>Sellable</tradeability>
+    <comps>
+      <li Class="Netrun.CompProperties_AIFragment" />
+    </comps>
+  </ThingDef>
+
+  <!-- Rare server upgrade -->
+  <ThingDef ParentName="ResourceBase">
+    <defName>NR_AICoreModule</defName>
+    <label>AI core module</label>
+    <description>An old-world processing module with a living lattice of qubits. Installed into an AI server, it opens one more slot for an AI. Almost impossible to find: they turn up behind black ICE and in fallen satellites.</description>
+    <graphicData>
+      <texPath>Things/Item/AdvancedCyberlinkUpgrade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <stackLimit>5</stackLimit>
+    <techLevel>Archotech</techLevel>
+    <statBases>
+      <MarketValue>4000</MarketValue>
+      <Mass>0.5</Mass>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>ItemsMisc</li>
+    </thingCategories>
+  </ThingDef>
+
+  <!-- AI server -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_AIServer</defName>
+    <label>AI server</label>
+    <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Starts with one slot; AI core modules add more, up to three.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Misc/NR_AIServer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Impassable</passability>
+    <fillPercent>0.9</fillPercent>
+    <canOverlapZones>false</canOverlapZones>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <WorkToBuild>6000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>150</Steel>
+      <Plasteel>60</Plasteel>
+      <ComponentSpacer>4</ComponentSpacer>
+      <USH_AdvancedCyberdata>4</USH_AdvancedCyberdata>
+    </costList>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>USH_AdvancedCybertech</li>
+    </researchPrerequisites>
+    <building>
+      <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>300</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+      <li Class="Netrun.CompProperties_AIServer" />
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>NR_AwakenAI</defName>
+    <driverClass>Netrun.JobDriver_AwakenAI</driverClass>
+    <reportString>awakening an AI fragment.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

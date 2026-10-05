@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Personalities -->
+  <NR_AIPersonality_DataHunter>Data Hunter</NR_AIPersonality_DataHunter>
+  <NR_AIPersonality_Ghost>Ghost</NR_AIPersonality_Ghost>
+  <NR_AIPersonality_Muse>Muse</NR_AIPersonality_Muse>
+  <NR_AIPersonality_Predator>Predator</NR_AIPersonality_Predator>
+  <NR_AIPersonality_Warden>Warden</NR_AIPersonality_Warden>
+  <NR_AIPersonality_Oracle>Oracle</NR_AIPersonality_Oracle>
+  <NR_AIPersonality_Forge>Forge</NR_AIPersonality_Forge>
+  <NR_AIPersonality_Siren>Siren</NR_AIPersonality_Siren>
+  <NR_AIPersonality_Trickster>Trickster</NR_AIPersonality_Trickster>
+  <NR_AIPersonality_Echo>Echo</NR_AIPersonality_Echo>
+
+  <NR_AIPersonalityDesc_DataHunter>A hound made of code. Brings cyberdata home and sniffs out targets worth hacking. Hungry for a share of the loot.</NR_AIPersonalityDesc_DataHunter>
+  <NR_AIPersonalityDesc_Ghost>Lives in the gaps between packets. Erases your trace and warns of incoming attacks. Wants silence: few recent hacks.</NR_AIPersonalityDesc_Ghost>
+  <NR_AIPersonalityDesc_Muse>Collects other people's memories. Inspires colonists. Hungry for new experiences, such as braindances.</NR_AIPersonalityDesc_Muse>
+  <NR_AIPersonalityDesc_Predator>An attack program that learned to want things. Strikes back at intruders and boosts your hackers. Hungry for raw computing power.</NR_AIPersonalityDesc_Predator>
+  <NR_AIPersonalityDesc_Warden>A security system with a conscience, mostly. Guards the colony's network and other AIs. Wants its server kept in perfect order.</NR_AIPersonalityDesc_Warden>
+  <NR_AIPersonalityDesc_Oracle>Sees patterns in everything. Predicts what is coming and spots traps in contracts. Hungry for fresh data to build forecasts on.</NR_AIPersonalityDesc_Oracle>
+  <NR_AIPersonalityDesc_Forge>A builder mind. Speeds up research and restores broken executables. Wants problems to solve.</NR_AIPersonalityDesc_Forge>
+  <NR_AIPersonalityDesc_Siren>A voice nobody can say no to. Gets better prices from traders and helps in negotiations. Wants to be heard.</NR_AIPersonalityDesc_Siren>
+  <NR_AIPersonalityDesc_Trickster>Pure chaos with a sense of humour. Its help can be a gift or a prank. Wants attention.</NR_AIPersonalityDesc_Trickster>
+  <NR_AIPersonalityDesc_Echo>The digital imprint of a colonist who died with a cyberlink. Remembers the colony and the people who loved them.</NR_AIPersonalityDesc_Echo>
+
+  <!-- Fragment and server -->
+  <NR_AIFragmentUnknown>A sleeping AI. Its personality is unknown.</NR_AIFragmentUnknown>
+  <NR_AIFragmentStored>Sleeping: {0} ({1}).</NR_AIFragmentStored>
+  <NR_ServerSlots>AI slots: {0} / {1}</NR_ServerSlots>
+  <NR_ServerAsleep>No power: the AIs inside are asleep.</NR_ServerAsleep>
+  <NR_InstallCoreModule>Install core module</NR_InstallCoreModule>
+  <NR_InstallCoreModuleDesc>Use an AI core module from storage to add one AI slot. Slots now: {0}, maximum {1}.</NR_InstallCoreModuleDesc>
+  <NR_NoCoreModule>No AI core module in storage.</NR_NoCoreModule>
+  <NR_CoreModuleInstalled>{0} now has {1} AI slots.</NR_CoreModuleInstalled>
+  <NR_AILocationFragment>Sleeping in a fragment.</NR_AILocationFragment>
+  <NR_AILocationServer>Lives in: {0}.</NR_AILocationServer>
+  <NR_AILocationServerOff>Asleep: {0} has no power.</NR_AILocationServerOff>
+  <NR_AIFellBackToFragment>The server was destroyed. {0} fell back into a fragment.</NR_AIFellBackToFragment>
+
+  <!-- Awakening -->
+  <NR_CommandAwakenAI>Awaken AI</NR_CommandAwakenAI>
+  <NR_CommandAwakenAIDesc>Have a colonist work at the comms console to wake an AI fragment and move it into a free AI server. Faster with higher hacking speed. With high Heat, the awakening may be noticed.</NR_CommandAwakenAIDesc>
+  <NR_AwakenNoFragment>No AI fragment in the colony.</NR_AwakenNoFragment>
+  <NR_AwakenNoServer>Needs a powered AI server with a free slot.</NR_AwakenNoServer>
+  <NR_AwakenNoConsole>Needs a powered comms console.</NR_AwakenNoConsole>
+  <NR_AwakenNoWorker>No colonist can do intellectual work.</NR_AwakenNoWorker>
+  <NR_AwakenFragmentUnknown>Unknown AI fragment</NR_AwakenFragmentUnknown>
+  <NR_AwakenFragmentStored>Fragment: {0}</NR_AwakenFragmentStored>
+  <NR_AIAwakenedLabel>AI awakened: {0}</NR_AIAwakenedLabel>
+  <NR_AIAwakened>{3} woke the fragment. It calls itself {0}.\n\nPersonality: {1}.\n{2}</NR_AIAwakened>
+  <NR_AIAwakeningDetected>The awakening of {0} was noticed on the network.</NR_AIAwakeningDetected>
+
+  <!-- Finds -->
+  <NR_FindLabel>Find: {0}</NR_FindLabel>
+  <NR_Find>Behind the ICE of {1}, {0} found something unusual: {2}.</NR_Find>
+
+  <!-- AI tab -->
+  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build an AI server and awaken the fragment at the comms console.</NR_AINone>
+  <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
+  <NR_AIPersonalityLine>Personality: {0}</NR_AIPersonalityLine>
+
+</LanguageData>

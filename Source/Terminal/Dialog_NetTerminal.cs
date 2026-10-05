@@ -30,6 +30,7 @@ public class Dialog_NetTerminal : Window
     private Vector2 _journalScroll;
     private Vector2 _fixersScroll;
     private Vector2 _contractsScroll;
+    private Vector2 _aiScroll;
 
     public override Vector2 InitialSize => new(820f, 640f);
 
@@ -72,6 +73,9 @@ public class Dialog_NetTerminal : Window
                 break;
             case Tab.Contracts:
                 ContractsTab.Draw(content, _map, ref _contractsScroll);
+                break;
+            case Tab.AI:
+                AITab.Draw(content, _map, ref _aiScroll);
                 break;
             case Tab.Journal:
                 DrawJournal(content, tracker);

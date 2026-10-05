@@ -57,7 +57,7 @@ public class FixerManager : GameComponent
                 contracts.RegenerateOffers(fixer);
 
             if (fixer.HasShop)
-                fixer.Stock = RollStock();
+                fixer.Stock = RollStock(fixer);
         }
 
         int newcomers = Math.Max(1, Settings.poolSize - _fixers.Count);
@@ -82,13 +82,19 @@ public class FixerManager : GameComponent
         };
 
         if (fixer.HasShop)
-            fixer.Stock = RollStock();
+            fixer.Stock = RollStock(fixer);
 
         return fixer;
     }
 
-    private static List<ThingDef> RollStock()
-        => Settings.shopItems.InRandomOrder().Take(Settings.shopStockSize).ToList();
+    /// <summary>Random stock; fixers who trust the colony also offer their rare goods.</summary>
+    private static List<ThingDef> RollStock(Fixer fixer)
+    {
+        List<ThingDef> stock = Settings.shopItems.InRandomOrder().Take(Settings.shopStockSize).ToList();
+        if (fixer.Pinned)
+            stock.AddRange(Settings.pinnedShopItems);
+        return stock;
+    }
 
     private string GenerateName()
     {

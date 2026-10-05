@@ -47,7 +47,12 @@
       <li>USH_ICEBreaker</li>
       <li>USH_BrokenExecData</li>
       <li>USH_AdvancedCyberdata</li>
+      <li>NR_AIFragment</li>
     </shopItems>
+    <!-- Extra goods only from pinned fixers -->
+    <pinnedShopItems>
+      <li>NR_AICoreModule</li>
+    </pinnedShopItems>
 
     <!-- Contracts: offers per fixer, deadline in days, reputation on success / loss on failure,
          days a fixer stays silent after a failure, chance that a Rat leaks after a failure -->

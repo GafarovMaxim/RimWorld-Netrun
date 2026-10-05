@@ -39,6 +39,7 @@ public class FixerSettingsDef : Def
     public float shopMarkup = 1.3f;
     public int shopStockSize = 4;
     public List<ThingDef> shopItems = [];
+    public List<ThingDef> pinnedShopItems = [];
 
     // Contracts
     public IntRange offersPerFixer = new(1, 2);
