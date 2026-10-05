@@ -57,7 +57,7 @@ public static class BraindanceEditing
                 ThingDef capturedChip = chip;
                 yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(
                     "NR_BDEditOption".Translate(rec.Author, rec.Event, chip.label),
-                    () => Order(pawn, capturedRaw, console, capturedChip)), pawn, console);
+                    () => Order(pawn, capturedRaw, console, capturedChip), NetrunTex.BDRecord, Color.white), pawn, console);
             }
         }
     }

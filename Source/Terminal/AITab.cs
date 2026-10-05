@@ -287,12 +287,12 @@ public static class AITab
         {
             Add(NetrunTex.AIEmbody, "NR_AIUpload".Translate(), "NR_AIUploadTip".Translate(),
                 AIHosting.CanUpload(ai, map), () => AIHosting.OpenUploadMenu(ai, map), HostColor);
-            Add(NetrunTex.AIEmbody, "NR_AIToCoprocessor".Translate(), "NR_AIToCoprocessorTip".Translate(),
+            Add(NetrunTex.AIToCoprocessor, "NR_AIToCoprocessor".Translate(), "NR_AIToCoprocessorTip".Translate(),
                 AIHosting.CanMoveToCoprocessor(ai, map), () => AIHosting.MoveToCoprocessor(ai, map), CoprocessorColor);
         }
         else if (ai.InHost || ai.InCoprocessor)
         {
-            Add(NetrunTex.AIEmbody, "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
+            Add(NetrunTex.AIReturnServer, "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
                 AIHosting.CanDownload(ai, map), () => AIHosting.Download(ai, map), NetrunTex.Accent);
         }
 

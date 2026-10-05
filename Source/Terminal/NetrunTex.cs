@@ -46,6 +46,10 @@ public static class NetrunTex
     public static readonly Texture2D AIIsolate = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Isolate");
     public static readonly Texture2D AIEmbody = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Embody");
     public static readonly Texture2D AIErase = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Erase");
+    public static readonly Texture2D AIToCoprocessor = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_CoprocessorUpload");
+    public static readonly Texture2D AIReturnServer = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_ReturnServer");
+    public static readonly Texture2D BDWatch = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_BD_Watch");
+    public static readonly Texture2D BDRecord = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_BD_Record");
 
     private static readonly System.Collections.Generic.Dictionary<AIPersonality, Texture2D> Portraits = [];
 
