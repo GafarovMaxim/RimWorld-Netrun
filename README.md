@@ -16,8 +16,6 @@
   <b>English</b> | <a href="README_RU.md">Русский</a>
 </p>
 
-> 🇷🇺 Киберпанк-дополнение к Hacking Expansion: сетевой терминал, цифровой след, фиксеры, сетевые ИИ, нырки и брейнданс. Полное описание на русском: [README_RU.md](README_RU.md).
-
 ---
 
 > *"The network remembers your trace. Data is currency, but the netrunner pays in body and sanity."*
