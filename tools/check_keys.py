@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 LANGUAGES = ["English", "Russian (Русский)"]
 
 # Def names that look like keys but are not.
-NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI"}
+NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Echo"]
