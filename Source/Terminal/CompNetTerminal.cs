@@ -13,7 +13,7 @@ public class CompProperties_NetTerminal : CompProperties
 
 /// <summary>
 /// The comms console as a network terminal: colonists walk up to it to open the terminal or to
-/// awaken an AI fragment they carry there. No gizmos: everything goes through the colonist.
+/// edit braindance recordings. Awakening an AI fragment is a gizmo on the console (fragment, then colonist).
 /// </summary>
 public class CompNetTerminal : ThingComp
 {
@@ -25,6 +25,27 @@ public class CompNetTerminal : ThingComp
     {
         base.PostSpawnSetup(respawningAfterLoad);
         _power = parent.GetComp<CompPowerTrader>();
+    }
+
+    public override IEnumerable<Gizmo> CompGetGizmosExtra()
+    {
+        foreach (Gizmo gizmo in base.CompGetGizmosExtra())
+            yield return gizmo;
+
+        if (parent.Faction != Faction.OfPlayer)
+            yield break;
+
+        var awaken = new Command_Action
+        {
+            defaultLabel = "NR_CommandAwakenAI".Translate(),
+            defaultDesc = "NR_CommandAwakenAIDesc".Translate(),
+            icon = NetrunTex.AIEmbody,
+            action = () => AIAwakening.OpenMenu(parent.Map),
+        };
+        AcceptanceReport report = AIAwakening.CanAwaken(parent.Map);
+        if (!report.Accepted)
+            awaken.Disable(report.Reason);
+        yield return awaken;
     }
 
     public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
@@ -49,9 +70,6 @@ public class CompNetTerminal : ThingComp
 
         yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(terminal, () =>
             selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_UseNetTerminal, parent), JobTag.Misc)), selPawn, parent);
-
-        foreach (FloatMenuOption option in AIAwakening.FloatOptions(selPawn, (Building)parent))
-            yield return option;
 
         foreach (FloatMenuOption option in BraindanceEditing.FloatOptions(selPawn, (Building)parent))
             yield return option;

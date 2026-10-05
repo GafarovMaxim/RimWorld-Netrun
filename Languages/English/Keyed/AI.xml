@@ -52,7 +52,7 @@
   <NR_Find>Behind the ICE of {1}, {0} found something unusual: {2}.</NR_Find>
 
   <!-- AI tab -->
-  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then have a colonist carry the fragment to the comms console and awaken it there (right-click the console).</NR_AINone>
+  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awaken AI" on the network console: pick the fragment and a colonist, who carries it there and wakes it.</NR_AINone>
   <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
   <NR_AIPersonalityLine>Personality: {0}</NR_AIPersonalityLine>
 
@@ -204,7 +204,6 @@
   <NR_AIToCoprocessor>Move to the coprocessor</NR_AIToCoprocessor>
   <NR_AIToCoprocessorTip>Move the AI into a netrun coprocessor linked to a cyberpod. It stops offering services and boosts the pod instead.</NR_AIToCoprocessorTip>
   <NR_FloatOpenTerminal>Open the network terminal</NR_FloatOpenTerminal>
-  <NR_FloatAwaken>Bring here and awaken: {0}</NR_FloatAwaken>
   <NR_AINeedOneStack>Needs one stack of {0} × {1} in the colony.</NR_AINeedOneStack>
   <NR_AINoCarrier>No colonist can carry it there.</NR_AINoCarrier>
   <NR_AIEventGood>{0} did something for the colony on its own.</NR_AIEventGood>

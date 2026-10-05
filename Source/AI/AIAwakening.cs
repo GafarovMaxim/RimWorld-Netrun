@@ -90,36 +90,4 @@ public static class AIAwakening
         job.count = 1;
         pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
     }
-
-    /// <summary>Right-click options on the comms console: carry a fragment here and wake it.</summary>
-    public static IEnumerable<FloatMenuOption> FloatOptions(Pawn pawn, Building console)
-    {
-        Map map = pawn.Map;
-        List<Thing> fragments = Fragments(map).ToList();
-        if (fragments.Count == 0)
-            yield break;
-
-        if (pawn.WorkTagIsDisabled(WorkTags.Intellectual))
-        {
-            yield return new FloatMenuOption("NR_CommandAwakenAI".Translate() + " (" + "NR_AwakenNoWorker".Translate() + ")", null);
-            yield break;
-        }
-        if (FreeServer(map) == null)
-        {
-            yield return new FloatMenuOption("NR_CommandAwakenAI".Translate() + " (" + "NR_AwakenNoServer".Translate() + ")", null);
-            yield break;
-        }
-
-        foreach (Thing fragment in fragments)
-        {
-            if (!pawn.CanReserveAndReach(fragment, PathEndMode.ClosestTouch, Danger.Some))
-                continue;
-
-            NetAI stored = fragment.TryGetComp<CompAIFragment>()?.StoredAI;
-            string what = stored == null ? "NR_AwakenFragmentUnknown".Translate() : "NR_AwakenFragmentStored".Translate(stored.Name);
-            Thing captured = fragment;
-            yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(
-                "NR_FloatAwaken".Translate(what), () => Order(pawn, captured, console)), pawn, console);
-        }
-    }
 }
