@@ -4,6 +4,12 @@
   <!-- Настройки -->
   <NR_SettingsHeatGain>Прирост цифрового следа: {0}</NR_SettingsHeatGain>
   <NR_SettingsHeatDecay>Остывание цифрового следа в день: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsAccent>Цвет подсветки терминала:</NR_SettingsAccent>
+  <NR_SettingsAccent_0>Голубой</NR_SettingsAccent_0>
+  <NR_SettingsAccent_1>Пурпурный</NR_SettingsAccent_1>
+  <NR_SettingsAccent_2>Зелёный</NR_SettingsAccent_2>
+  <NR_SettingsAccent_3>Янтарный</NR_SettingsAccent_3>
+  <NR_SettingsAccent_4>Белый</NR_SettingsAccent_4>
   <NR_SettingsReset>Сбросить по умолчанию</NR_SettingsReset>
 
   <!-- Уровни следа -->

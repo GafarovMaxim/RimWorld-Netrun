@@ -31,6 +31,7 @@ DYNAMIC = {
     "NR_AIService_": PERSONALITIES,
     "NR_AIServiceDesc_": PERSONALITIES,
     "NR_AIFoodSpecial_": ["Ghost", "Trickster", "Seed"],
+    "NR_SettingsAccent_": ["0", "1", "2", "3", "4"],
 }
 
 

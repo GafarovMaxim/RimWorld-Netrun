@@ -68,7 +68,7 @@ public static class FixersTab
 
         // Name and pin.
         Text.Font = GameFont.Medium;
-        string name = fixer.Name;
+        string name = fixer.Name.Colorize(NetrunTex.Accent);
         if (fixer.Pinned)
             name += " " + "NR_FixerPinnedTag".Translate().Colorize(ColorLibrary.Gold);
         Widgets.Label(new Rect(textX, inner.y, textWidth, 32f), name);
@@ -87,7 +87,7 @@ public static class FixersTab
 
         // Reputation: readable label next to the bar, the bar marks the pin threshold.
         var repLabelRect = new Rect(textX, inner.y + 78f, 170f, 22f);
-        Widgets.Label(repLabelRect, "NR_FixerReputation".Translate(fixer.Reputation.ToString("0")));
+        Widgets.Label(repLabelRect, "NR_FixerReputation".Translate(fixer.Reputation.ToString("0").Colorize(NetrunTex.Gauge(fixer.Reputation))));
         var barRect = new Rect(repLabelRect.xMax + 6f, inner.y + 82f, textWidth - repLabelRect.width - 6f, 14f);
         Widgets.FillableBar(barRect, fixer.Reputation / 100f, ReputationTex, BaseContent.BlackTex, doBorder: true);
         float pinX = barRect.x + barRect.width * NetrunDefOf.NR_Fixers.pinnedReputation / 100f;

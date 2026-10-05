@@ -4,6 +4,12 @@
   <!-- Settings -->
   <NR_SettingsHeatGain>Digital Heat gain: {0}</NR_SettingsHeatGain>
   <NR_SettingsHeatDecay>Digital Heat cooldown per day: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsAccent>Terminal highlight color:</NR_SettingsAccent>
+  <NR_SettingsAccent_0>Cyan</NR_SettingsAccent_0>
+  <NR_SettingsAccent_1>Magenta</NR_SettingsAccent_1>
+  <NR_SettingsAccent_2>Green</NR_SettingsAccent_2>
+  <NR_SettingsAccent_3>Amber</NR_SettingsAccent_3>
+  <NR_SettingsAccent_4>White</NR_SettingsAccent_4>
   <NR_SettingsReset>Reset to defaults</NR_SettingsReset>
 
   <!-- Heat levels -->

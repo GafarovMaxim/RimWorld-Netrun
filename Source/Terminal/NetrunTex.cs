@@ -62,4 +62,23 @@ public static class NetrunTex
 
     /// <summary>Secondary text that stays readable on the dark window background.</summary>
     public static readonly Color DimText = new(0.78f, 0.78f, 0.78f);
+
+    /// <summary>Terminal highlight colors to pick from in the mod settings: cyan, magenta, green, amber, white.</summary>
+    public static readonly Color[] Accents =
+    [
+        new(0.35f, 0.90f, 1.00f),
+        new(1.00f, 0.40f, 0.85f),
+        new(0.45f, 1.00f, 0.55f),
+        new(1.00f, 0.75f, 0.30f),
+        Color.white,
+    ];
+
+    public static Color Accent => Accents[Mathf.Clamp(NetrunMod.Settings?.TerminalAccent ?? 0, 0, Accents.Length - 1)];
+
+    /// <summary>Green when good, gold in the middle, red when bad; hunger-like values pass highIsGood false.</summary>
+    public static Color Gauge(float value, bool highIsGood = true)
+    {
+        float good = highIsGood ? value : 100f - value;
+        return good >= 60f ? ColorLibrary.Green : good >= 30f ? ColorLibrary.Gold : ColorLibrary.RedReadable;
+    }
 }

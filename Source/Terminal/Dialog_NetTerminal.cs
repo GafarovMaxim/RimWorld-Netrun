@@ -20,8 +20,8 @@ public class Dialog_NetTerminal : Window
     }
 
     private const float TitleHeight = 40f;
-    private const float TabStripHeight = 40f;
-    private const float TabIconSize = 24f;
+    private const float TabStripHeight = 44f;
+    private const float TabIconSize = 32f;
     private const float JournalRowHeight = 30f;
     private const float LevelRowHeight = 36f;
 
@@ -49,7 +49,7 @@ public class Dialog_NetTerminal : Window
     public override void DoWindowContents(Rect inRect)
     {
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, TitleHeight), "NR_TerminalTitle".Translate());
+        Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, TitleHeight), "NR_TerminalTitle".Translate().Colorize(NetrunTex.Accent));
         Text.Font = GameFont.Small;
 
         DrawTabStrip(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, TabStripHeight));
@@ -100,14 +100,18 @@ public class Dialog_NetTerminal : Window
 
             Widgets.DrawOptionBackground(tabRect, selected);
             if (selected)
+            {
+                GUI.color = NetrunTex.Accent;
                 Widgets.DrawBox(tabRect, 2);
+                GUI.color = Color.white;
+            }
 
             var iconRect = new Rect(tabRect.x + 8f, tabRect.y + (tabRect.height - TabIconSize) / 2f, TabIconSize, TabIconSize);
             GUI.DrawTexture(iconRect, NetrunTex.TabIcon(i));
 
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(new Rect(iconRect.xMax + 6f, tabRect.y, tabRect.width - TabIconSize - 16f, tabRect.height),
-                ("NR_TerminalTab_" + tab).Translate());
+                selected ? ("NR_TerminalTab_" + tab).Translate().Colorize(NetrunTex.Accent) : (string)("NR_TerminalTab_" + tab).Translate());
             Text.Anchor = TextAnchor.UpperLeft;
 
             if (Widgets.ButtonInvisible(tabRect) && !selected)
@@ -143,7 +147,7 @@ public class Dialog_NetTerminal : Window
 
         Widgets.DrawLineHorizontal(rect.x, y, rect.width);
         y += 8f;
-        Widgets.Label(new Rect(rect.x, y, rect.width, 24f), "NR_TerminalLevelsHeader".Translate());
+        Widgets.Label(new Rect(rect.x, y, rect.width, 24f), "NR_TerminalLevelsHeader".Translate().Colorize(NetrunTex.Accent));
         y += 28f;
 
         foreach (HeatLevel each in System.Enum.GetValues(typeof(HeatLevel)))
@@ -152,7 +156,7 @@ public class Dialog_NetTerminal : Window
             if (each == level)
                 Widgets.DrawHighlight(row);
 
-            GUI.DrawTexture(new Rect(row.x + 4f, row.y + 4f, 28f, 28f), NetrunTex.HeatIcon(each));
+            GUI.DrawTexture(new Rect(row.x + 2f, row.y + 2f, 32f, 32f), NetrunTex.HeatIcon(each));
 
             string range = each == HeatLevel.RedZone
                 ? $"{each.MinHeat():0}–100"

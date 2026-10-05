@@ -73,7 +73,7 @@ public static class ContractsTab
     private static float DrawSectionHeader(float width, float y, string label)
     {
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(0f, y, width, SectionHeight), label);
+        Widgets.Label(new Rect(0f, y, width, SectionHeight), label.Colorize(NetrunTex.Accent));
         Text.Font = GameFont.Small;
         return y + SectionHeight;
     }

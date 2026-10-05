@@ -12,7 +12,7 @@ public static class AITab
     private const float HeaderHeight = 64f;
     private const float RowGap = 8f;
     private const float Padding = 10f;
-    private const float PortraitSize = 64f;
+    private const float PortraitSize = 80f;
     private const float ButtonWidth = 190f;
     private const float ButtonHeight = 30f;
     private const float LineHeight = 24f;
@@ -104,11 +104,11 @@ public static class AITab
         float y = inner.y;
 
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(x, y, width, 30f), ai.Name);
+        Widgets.Label(new Rect(x, y, width, 30f), ai.Name.Colorize(NetrunTex.Accent));
         Text.Font = GameFont.Small;
         y += 30f;
 
-        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIPersonalityLine".Translate(ai.Personality.Label()));
+        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIPersonalityLine".Translate(ai.Personality.Label().Colorize(ColorLibrary.Gold)));
         y += LineHeight;
 
         float descHeight = Text.CalcHeight(ai.Personality.Description(), width);
@@ -119,8 +119,8 @@ public static class AITab
         GUI.color = Color.white;
         y += LineHeight;
 
-        y = DrawBar(x, y, width, "NR_AITrust".Translate(ai.Trust.ToString("0")), ai.Trust, TrustTex, "NR_AITrustTip".Translate());
-        y = DrawBar(x, y, width, "NR_AIHunger".Translate(ai.Hunger.ToString("0")), ai.Hunger, HungerTex,
+        y = DrawBar(x, y, width, "NR_AITrust".Translate(ai.Trust.ToString("0").Colorize(NetrunTex.Gauge(ai.Trust))), ai.Trust, TrustTex, "NR_AITrustTip".Translate());
+        y = DrawBar(x, y, width, "NR_AIHunger".Translate(ai.Hunger.ToString("0").Colorize(NetrunTex.Gauge(ai.Hunger, highIsGood: false))), ai.Hunger, HungerTex,
             "NR_AIHungerTip".Translate(AIBehavior.FoodText(ai.Personality)));
 
         GUI.color = NetrunTex.DimText;
@@ -209,7 +209,7 @@ public static class AITab
     private static void Button(Rect rect, Texture2D icon, string label, string tip, AcceptanceReport report, System.Action action)
     {
         bool clicked = Widgets.ButtonText(rect, "      " + label, active: report.Accepted);
-        GUI.DrawTexture(new Rect(rect.x + 4f, rect.y + (rect.height - 22f) / 2f, 22f, 22f), icon);
+        GUI.DrawTexture(new Rect(rect.x + 3f, rect.y + (rect.height - 26f) / 2f, 26f, 26f), icon);
 
         if (report.Accepted)
         {

@@ -11,6 +11,9 @@ public class NetrunSettings : ModSettings
     public float HeatGainMultiplier = DefaultHeatGainMultiplier;
     public float HeatDecayPerDay = DefaultHeatDecayPerDay;
 
+    /// <summary>Index into NetrunTex.Accents: the terminal's highlight color.</summary>
+    public int TerminalAccent;
+
     public void DoWindowContents(Rect inRect)
     {
         var list = new Listing_Standard();
@@ -24,8 +27,17 @@ public class NetrunSettings : ModSettings
         HeatDecayPerDay = list.Slider(HeatDecayPerDay, 0f, 20f);
         list.Gap();
 
+        list.Label("NR_SettingsAccent".Translate());
+        for (int i = 0; i < NetrunTex.Accents.Length; i++)
+        {
+            if (list.RadioButton(("NR_SettingsAccent_" + i).Translate().Colorize(NetrunTex.Accents[i]), TerminalAccent == i))
+                TerminalAccent = i;
+        }
+        list.Gap();
+
         if (list.ButtonText("NR_SettingsReset".Translate()))
         {
+            TerminalAccent = 0;
             HeatGainMultiplier = DefaultHeatGainMultiplier;
             HeatDecayPerDay = DefaultHeatDecayPerDay;
         }
@@ -38,5 +50,6 @@ public class NetrunSettings : ModSettings
         base.ExposeData();
         Scribe_Values.Look(ref HeatGainMultiplier, "heatGainMultiplier", DefaultHeatGainMultiplier);
         Scribe_Values.Look(ref HeatDecayPerDay, "heatDecayPerDay", DefaultHeatDecayPerDay);
+        Scribe_Values.Look(ref TerminalAccent, "terminalAccent");
     }
 }
