@@ -14,7 +14,6 @@ namespace Netrun;
 [StaticConstructorOnStartup]
 public static class AITab
 {
-    private const float HeaderHeight = 44f;
     private const float SectionHeight = 36f;
     private const float CardGap = 10f;
     private const float PortraitSize = 96f;
@@ -30,9 +29,7 @@ public static class AITab
         if (manager == null || map == null)
             return;
 
-        DrawHeader(new Rect(rect.x, rect.y, rect.width, HeaderHeight), map);
-
-        var listRect = new Rect(rect.x, rect.y + HeaderHeight, rect.width, rect.height - HeaderHeight);
+        var listRect = rect;
         IReadOnlyList<NetAI> ais = manager.AIs;
         if (ais.Count == 0)
         {
@@ -59,7 +56,9 @@ public static class AITab
         float y = 0f;
         foreach ((string label, Color color, List<NetAI> list) in groups)
         {
-            y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), $"{label} ({list.Count})");
+            // The server section counts slots (1/3), the others count AIs.
+            string count = color == NetrunUI.Accent ? ServerSlots(map) ?? list.Count.ToString() : list.Count.ToString();
+            y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), $"{label} ({count})");
             foreach (NetAI ai in list)
             {
                 float h = CardHeight(ai, map, manager, width);
@@ -70,24 +69,11 @@ public static class AITab
         Widgets.EndScrollView();
     }
 
-    private static void DrawHeader(Rect rect, Map map)
+    /// <summary>Used and total slots of the colony's AI server, for the section title: "1/3".</summary>
+    private static string ServerSlots(Map map)
     {
-        List<Building> servers = map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).ToList();
-        int slots = servers.Sum(s => s.GetComp<CompAIServer>()?.Slots ?? 0);
-        int used = servers.Sum(s => s.GetComp<CompAIServer>()?.Used ?? 0);
-        int fragments = AIAwakening.Fragments(map).Count();
-
-        string awaken = "NR_CommandAwakenAI".Translate();
-        float bw = NetrunUI.ButtonWidth(awaken, icon: true);
-        AcceptanceReport report = AIAwakening.CanAwaken(map);
-        if (NetrunUI.Button(new Rect(rect.xMax - bw, rect.y, bw, ButtonHeight), awaken, NetrunUI.Accent, report,
-                "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIEmbody))
-            AIAwakening.OpenMenu(map);
-
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(rect.x, rect.y, rect.width - bw - 12f, ButtonHeight),
-            "NR_AIHeader".Translate(servers.Count, used, slots, fragments).Colorize(NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
+        CompAIServer server = map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault(c => c != null);
+        return server == null ? null : $"{server.Used}/{server.Slots}";
     }
 
     // ---- Card ----

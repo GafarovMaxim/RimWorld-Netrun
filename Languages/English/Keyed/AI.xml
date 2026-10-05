@@ -53,7 +53,6 @@
 
   <!-- AI tab -->
   <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awaken AI" on the network console: pick the fragment and a colonist, who carries it there and wakes it.</NR_AINone>
-  <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
 
   <!-- Services -->
   <NR_AIService_DataHunter>Hunt for data</NR_AIService_DataHunter>
@@ -217,4 +216,5 @@
   <NR_AITrustLabel>Trust</NR_AITrustLabel>
   <NR_AIHungerLabel>Hunger</NR_AIHungerLabel>
   <NR_ChipAIs>AIs: {0}</NR_ChipAIs>
+  <NR_ChipFragments>Fragments: {0}</NR_ChipFragments>
 </LanguageData>

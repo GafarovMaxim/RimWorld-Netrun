@@ -172,6 +172,14 @@ public class Dialog_NetTerminal : Window
         }
         else if (_view == View.Server)
         {
+            // Awaken button, fragments and AI count live in the title bar of the Server room.
+            string awaken = "NR_CommandAwakenAI".Translate();
+            float bw = NetrunUI.ButtonWidth(awaken, icon: true);
+            if (NetrunUI.Button(new Rect(x - bw, y - 3f, bw, 30f), awaken, NetrunUI.Accent, AIAwakening.CanAwaken(_map),
+                    "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIEmbody))
+                AIAwakening.OpenMenu(_map);
+            x -= bw + 8f;
+            x = NetrunUI.HeaderChip(x, y, "NR_ChipFragments".Translate(AIAwakening.Fragments(_map).Count())) - 8f;
             NetrunUI.HeaderChip(x, y, "NR_ChipAIs".Translate(AIManager.Get()?.AIs.Count ?? 0));
         }
         else if (_view == View.Club)
