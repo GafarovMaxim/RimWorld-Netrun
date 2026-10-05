@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- General AI events A1-A10 (docs/AI_EVENTS.md) -->
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A1</defName>
+    <label>sleepless night</label>
+    <description>{AI} is "dreaming" in its idle cycles. The server hums softly on the noise frequency, and the colonists nearby feel uneasy. {PAWN} seems to hear words in it.</description>
+    <minTrust>40</minTrust>
+    <options>
+      <li>
+        <label>Listen</label>
+        <result>{PAWN} listened all night and woke up inspired. The others slept badly.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Inspiration">
+            <who>Target</who>
+            <count>1</count>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>3</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventCreepy</def>
+            <who>Others</who>
+            <chance>1.0</chance>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Mute it</label>
+        <result>{AI} went quiet. It did not like that.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A2</defName>
+    <label>a gift</label>
+    <description>{AI} has put something together for the colony and left it by the server. It is clearly proud of it.</description>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>70</minTrust>
+    <options>
+      <li>
+        <label>Accept the gift</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>2</weight>
+                <result>{AI} gave the colony cyberdata.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Items">
+                    <thing>USH_Cyberdata</thing>
+                    <count>2~3</count>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>2</weight>
+                <result>{AI} gave the colony components.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Items">
+                    <thing>ComponentIndustrial</thing>
+                    <count>2~4</count>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>1</weight>
+                <result>{AI} gave the colony a braindance chip.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Items">
+                    <thing>NR_BraindanceChip</thing>
+                    <count>1~1</count>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>2</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is hurt. To make up for it, it scrubbed some of your trace.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-5</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>-5</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A3</defName>
+    <label>spiteful overheating</label>
+    <description>{AI} is hungry and making a point of it: the server is running hot on purpose. Something may short out.</description>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Feed it</label>
+        <result>{AI} cooled down.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-30</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Power it down for an hour</label>
+        <result>{AI} sulked in the dark, but nothing burned.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>10</amount>
+          </li>
+          <li Class="Netrun.AIEffect_ServiceBlock">
+            <days>0.05</days>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Ignore it</label>
+        <result>The server burned power all day.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_BatteryDrain">
+            <fraction>0.3</fraction>
+          </li>
+          <li Class="Netrun.AIEffect_Fire">
+            <chance>0.1</chance>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>2</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A4</defName>
+    <label>night whisper</label>
+    <description>{AI} is whispering to {PAWN} at night, through the speakers and the cyberlink.</description>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>30</minTrust>
+    <options>
+      <li>
+        <label>Let {PAWN} listen</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>5</weight>
+                <result>{PAWN} woke up with a brilliant idea.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Inspiration">
+                    <who>Target</who>
+                    <count>1</count>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>3</weight>
+                <result>{PAWN} had a nightmare.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Thought">
+                    <def>NR_AIEventNightmare</def>
+                    <who>Target</who>
+                    <chance>1.0</chance>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>2</weight>
+                <result>Nothing came of it.</result>
+                <effects>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Cut it off</label>
+        <result>{AI} went silent, offended.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A5</defName>
+    <label>a walk in the net</label>
+    <description>{AI} asks to be let out for a two-day "walk" in the open net. No services while it is away.</description>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Let it go</label>
+        <result>{AI} is gone into the net.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_ServiceBlock">
+            <days>2</days>
+          </li>
+          <li Class="Netrun.AIEffect_Delayed">
+            <key>walk</key>
+            <days>2</days>
+            <effects>
+              <li Class="Netrun.AIEffect_Chance">
+                <branches>
+                  <li>
+                    <weight>6</weight>
+                    <result>{AI} came back with data.</result>
+                    <effects>
+                      <li Class="Netrun.AIEffect_Items">
+                        <thing>USH_Cyberdata</thing>
+                        <count>2~4</count>
+                      </li>
+                    </effects>
+                  </li>
+                  <li>
+                    <weight>4</weight>
+                    <result>{AI} came back, but someone followed it.</result>
+                    <effects>
+                      <li Class="Netrun.AIEffect_Heat">
+                        <amount>8</amount>
+                      </li>
+                    </effects>
+                  </li>
+                </branches>
+              </li>
+            </effects>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is disappointed.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-4</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A6</defName>
+    <label>broken appliances</label>
+    <description>{AI} reflashed the colony's appliances by accident: lamps, stoves and fridges are acting up.</description>
+    <options>
+      <li>
+        <label>Fix it by hand</label>
+        <result>{PAWN} spent an hour putting things right. {AI} apologised.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>1</hours>
+            <who>Target</who>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>1</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Leave it</label>
+        <result>Some machines are switched off. {AI} is pleased with its work.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_PowerOff">
+            <count>3</count>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A7</defName>
+    <label>argument with a netrunner</label>
+    <description>{AI} quarrelled with {HACKER} and refuses their commands. Both expect you to take a side.</description>
+    <minTrust>20</minTrust>
+    <maxTrust>60</maxTrust>
+    <needsHacker>true</needsHacker>
+    <options>
+      <li>
+        <label>Side with {HACKER}</label>
+        <result>{HACKER} is satisfied. {AI} is not.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-6</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventFavoured</def>
+            <who>Hacker</who>
+            <chance>1.0</chance>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Side with {AI}</label>
+        <result>{AI} is pleased. {HACKER} will sulk for days.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>6</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventGrudge</def>
+            <who>Hacker</who>
+            <chance>1.0</chance>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Make them compromise</label>
+        <result>Nobody is happy, but it is over.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-1</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventAnnoyed</def>
+            <who>Hacker</who>
+            <chance>1.0</chance>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>2</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A8</defName>
+    <label>leak</label>
+    <description>{AI} is starving and has started feeding in the open net. Every minute the colony's trace grows.</description>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minHunger>70</minHunger>
+    <options>
+      <li>
+        <label>Feed it</label>
+        <result>{AI} stopped.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-40</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Isolate it for a while</label>
+        <result>No trace, but {AI} got even hungrier.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>20</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Ignore it</label>
+        <result>The colony's trace grew.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>10</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>2</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A9</defName>
+    <label>a memory</label>
+    <description>{AI} offers to play {PAWN} a saved recording of a moment from the colony's past.</description>
+    <minTrust>60</minTrust>
+    <options>
+      <li>
+        <label>Watch</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>3</weight>
+                <result>{PAWN} remembered the good times.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Thought">
+                    <def>NR_AIEventGoodMemory</def>
+                    <who>Target</who>
+                    <chance>1.0</chance>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>1</weight>
+                <result>The recording showed someone {PAWN} lost.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Thought">
+                    <def>NR_AIEventLonging</def>
+                    <who>Target</who>
+                    <chance>1.0</chance>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Not now</label>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_A10</defName>
+    <label>diagnostics</label>
+    <description>{AI} ran a check on the colony and found a hidden problem: someone's health, a worn implant or a fire risk.</description>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+      <li>Host</li>
+    </places>
+    <minTrust>40</minTrust>
+    <options>
+      <li>
+        <label>Take the advice</label>
+        <result>{AI} is watching the colony's health for a couple of days.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hediff">
+            <def>NR_AIEventImmunity</def>
+            <who>All</who>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>1</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Brush it off</label>
+        <result>{AI} is hurt. The problem has not gone anywhere.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+</Defs>

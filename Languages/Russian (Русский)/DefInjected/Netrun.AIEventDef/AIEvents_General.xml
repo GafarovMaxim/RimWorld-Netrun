@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIEvent_A1.label>бессонная ночь</NR_AIEvent_A1.label>
+  <NR_AIEvent_A1.description>{AI} «видит сны» в простое. Сервер тихо поёт на частоте шума, колонистам рядом не по себе. {PAWN} будто слышит в этом слова.</NR_AIEvent_A1.description>
+  <NR_AIEvent_A1.options.0.label>Слушать</NR_AIEvent_A1.options.0.label>
+  <NR_AIEvent_A1.options.0.result>{PAWN} слушал(а) всю ночь и проснулся(ась) вдохновлённым(ой). Остальные спали плохо.</NR_AIEvent_A1.options.0.result>
+  <NR_AIEvent_A1.options.1.label>Заглушить</NR_AIEvent_A1.options.1.label>
+  <NR_AIEvent_A1.options.1.result>{AI} замолчал. Ему это не понравилось.</NR_AIEvent_A1.options.1.result>
+  <NR_AIEvent_A2.label>подарок</NR_AIEvent_A2.label>
+  <NR_AIEvent_A2.description>{AI} что-то собрал для колонии и оставил у сервера. Видно, что гордится.</NR_AIEvent_A2.description>
+  <NR_AIEvent_A2.options.0.label>Принять подарок</NR_AIEvent_A2.options.0.label>
+  <NR_AIEvent_A2.options.0.effects.0.branches.0.result>{AI} подарил колонии cyberdata.</NR_AIEvent_A2.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_A2.options.0.effects.0.branches.1.result>{AI} подарил колонии компоненты.</NR_AIEvent_A2.options.0.effects.0.branches.1.result>
+  <NR_AIEvent_A2.options.0.effects.0.branches.2.result>{AI} подарил колонии брейнданс-чип.</NR_AIEvent_A2.options.0.effects.0.branches.2.result>
+  <NR_AIEvent_A2.options.1.label>Отказаться</NR_AIEvent_A2.options.1.label>
+  <NR_AIEvent_A2.options.1.result>{AI} обиделся. Чтобы загладить, он подчистил часть вашего следа.</NR_AIEvent_A2.options.1.result>
+  <NR_AIEvent_A3.label>перегрев обиды</NR_AIEvent_A3.label>
+  <NR_AIEvent_A3.description>{AI} голоден и демонстративно греет сервер. Что-нибудь может закоротить.</NR_AIEvent_A3.description>
+  <NR_AIEvent_A3.options.0.label>Накормить</NR_AIEvent_A3.options.0.label>
+  <NR_AIEvent_A3.options.0.result>{AI} остыл.</NR_AIEvent_A3.options.0.result>
+  <NR_AIEvent_A3.options.1.label>Выключить на час</NR_AIEvent_A3.options.1.label>
+  <NR_AIEvent_A3.options.1.result>{AI} дулся в темноте, но ничего не сгорело.</NR_AIEvent_A3.options.1.result>
+  <NR_AIEvent_A3.options.2.label>Игнорировать</NR_AIEvent_A3.options.2.label>
+  <NR_AIEvent_A3.options.2.result>Сервер весь день жёг энергию.</NR_AIEvent_A3.options.2.result>
+  <NR_AIEvent_A4.label>ночной шёпот</NR_AIEvent_A4.label>
+  <NR_AIEvent_A4.description>{AI} по ночам шепчет {PAWN} через динамики и кибер-линк.</NR_AIEvent_A4.description>
+  <NR_AIEvent_A4.options.0.label>Пусть {PAWN} слушает</NR_AIEvent_A4.options.0.label>
+  <NR_AIEvent_A4.options.0.effects.0.branches.0.result>{PAWN} проснулся(ась) с блестящей идеей.</NR_AIEvent_A4.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_A4.options.0.effects.0.branches.1.result>Кошмар: {PAWN} не может забыть услышанное.</NR_AIEvent_A4.options.0.effects.0.branches.1.result>
+  <NR_AIEvent_A4.options.0.effects.0.branches.2.result>Ничего не вышло.</NR_AIEvent_A4.options.0.effects.0.branches.2.result>
+  <NR_AIEvent_A4.options.1.label>Прервать</NR_AIEvent_A4.options.1.label>
+  <NR_AIEvent_A4.options.1.result>{AI} обиженно замолчал.</NR_AIEvent_A4.options.1.result>
+  <NR_AIEvent_A5.label>разведка</NR_AIEvent_A5.label>
+  <NR_AIEvent_A5.description>{AI} просит отпустить его на двухдневную «прогулку» по открытой сети. Пока его нет, услуг не будет.</NR_AIEvent_A5.description>
+  <NR_AIEvent_A5.options.0.label>Отпустить</NR_AIEvent_A5.options.0.label>
+  <NR_AIEvent_A5.options.0.result>{AI} ушёл в сеть.</NR_AIEvent_A5.options.0.result>
+  <NR_AIEvent_A5.options.0.effects.1.effects.0.branches.0.result>{AI} вернулся с данными.</NR_AIEvent_A5.options.0.effects.1.effects.0.branches.0.result>
+  <NR_AIEvent_A5.options.0.effects.1.effects.0.branches.1.result>{AI} вернулся, но за ним кто-то пошёл.</NR_AIEvent_A5.options.0.effects.1.effects.0.branches.1.result>
+  <NR_AIEvent_A5.options.1.label>Отказать</NR_AIEvent_A5.options.1.label>
+  <NR_AIEvent_A5.options.1.result>{AI} разочарован.</NR_AIEvent_A5.options.1.result>
+  <NR_AIEvent_A6.label>сломанная вещь</NR_AIEvent_A6.label>
+  <NR_AIEvent_A6.description>{AI} случайно перепрошил бытовую технику: лампы, плиты и холодильники ведут себя странно.</NR_AIEvent_A6.description>
+  <NR_AIEvent_A6.options.0.label>Починить вручную</NR_AIEvent_A6.options.0.label>
+  <NR_AIEvent_A6.options.0.result>{PAWN} час всё налаживал(а). {AI} извинился.</NR_AIEvent_A6.options.0.result>
+  <NR_AIEvent_A6.options.1.label>Оставить</NR_AIEvent_A6.options.1.label>
+  <NR_AIEvent_A6.options.1.result>Часть техники выключена. {AI} доволен своей работой.</NR_AIEvent_A6.options.1.result>
+  <NR_AIEvent_A7.label>спор с колонистом</NR_AIEvent_A7.label>
+  <NR_AIEvent_A7.description>{AI} поссорился с {HACKER} и отказывается выполнять его команды. Оба ждут, чью сторону вы займёте.</NR_AIEvent_A7.description>
+  <NR_AIEvent_A7.options.0.label>На стороне {HACKER}</NR_AIEvent_A7.options.0.label>
+  <NR_AIEvent_A7.options.0.result>{HACKER} доволен(льна). {AI} нет.</NR_AIEvent_A7.options.0.result>
+  <NR_AIEvent_A7.options.1.label>На стороне {AI}</NR_AIEvent_A7.options.1.label>
+  <NR_AIEvent_A7.options.1.result>{AI} доволен. {HACKER} будет дуться несколько дней.</NR_AIEvent_A7.options.1.result>
+  <NR_AIEvent_A7.options.2.label>Компромисс</NR_AIEvent_A7.options.2.label>
+  <NR_AIEvent_A7.options.2.result>Никто не рад, но всё закончилось.</NR_AIEvent_A7.options.2.result>
+  <NR_AIEvent_A8.label>утечка</NR_AIEvent_A8.label>
+  <NR_AIEvent_A8.description>{AI} голодает и начал «кормиться» в открытой сети. С каждой минутой след колонии растёт.</NR_AIEvent_A8.description>
+  <NR_AIEvent_A8.options.0.label>Накормить</NR_AIEvent_A8.options.0.label>
+  <NR_AIEvent_A8.options.0.result>{AI} остановился.</NR_AIEvent_A8.options.0.result>
+  <NR_AIEvent_A8.options.1.label>Изолировать на время</NR_AIEvent_A8.options.1.label>
+  <NR_AIEvent_A8.options.1.result>Следа нет, но {AI} проголодался ещё сильнее.</NR_AIEvent_A8.options.1.result>
+  <NR_AIEvent_A8.options.2.label>Игнорировать</NR_AIEvent_A8.options.2.label>
+  <NR_AIEvent_A8.options.2.result>След колонии вырос.</NR_AIEvent_A8.options.2.result>
+  <NR_AIEvent_A9.label>воспоминание</NR_AIEvent_A9.label>
+  <NR_AIEvent_A9.description>{AI} предлагает показать {PAWN} сохранённую запись момента из прошлого колонии.</NR_AIEvent_A9.description>
+  <NR_AIEvent_A9.options.0.label>Смотреть</NR_AIEvent_A9.options.0.label>
+  <NR_AIEvent_A9.options.0.effects.0.branches.0.result>{PAWN} вспомнил(а) хорошее.</NR_AIEvent_A9.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_A9.options.0.effects.0.branches.1.result>Запись показала того, кого {PAWN} потерял(а).</NR_AIEvent_A9.options.0.effects.0.branches.1.result>
+  <NR_AIEvent_A9.options.1.label>Не сейчас</NR_AIEvent_A9.options.1.label>
+  <NR_AIEvent_A10.label>диагностика</NR_AIEvent_A10.label>
+  <NR_AIEvent_A10.description>{AI} проверил колонию и нашёл скрытую проблему: чьё-то здоровье, износ импланта или риск пожара.</NR_AIEvent_A10.description>
+  <NR_AIEvent_A10.options.0.label>Принять совет</NR_AIEvent_A10.options.0.label>
+  <NR_AIEvent_A10.options.0.result>{AI} пару дней следит за здоровьем колонии.</NR_AIEvent_A10.options.0.result>
+  <NR_AIEvent_A10.options.1.label>Отмахнуться</NR_AIEvent_A10.options.1.label>
+  <NR_AIEvent_A10.options.1.result>{AI} обиделся. Проблема никуда не делась.</NR_AIEvent_A10.options.1.result>
+</LanguageData>

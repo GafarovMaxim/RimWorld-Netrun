@@ -92,11 +92,15 @@ public class AIEventOption
     /// <summary>Paid from colony storage; the option is greyed out without it.</summary>
     public List<ThingDefCountClass> cost = [];
     public bool needsHacker;
+    /// <summary>Feeds the AI its usual food from storage (one portion).</summary>
+    public bool needsFood;
 
     public AcceptanceReport Available(AIEventContext context)
     {
         if (needsHacker && context.Hacker == null)
             return "NR_AIEventNeedsHacker".Translate();
+        if (needsFood && AIBehavior.Food(context.AI.Personality) is { } food && ColonyGoods.Count(context.Map, food.thing) < food.count)
+            return "NR_AINoFood".Translate(food.count, food.thing.label);
         foreach (ThingDefCountClass c in cost)
         {
             if (ColonyGoods.Count(context.Map, c.thingDef) < c.count)

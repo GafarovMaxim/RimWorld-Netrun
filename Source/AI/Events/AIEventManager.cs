@@ -124,6 +124,8 @@ public class AIEventManager : GameComponent
         AIEventOption option = def.options[index];
         foreach (ThingDefCountClass c in option.cost)
             ColonyGoods.TryTake(context.Map, c.thingDef, c.count);
+        if (option.needsFood && AIBehavior.Food(context.AI.Personality) is { } food)
+            ColonyGoods.TryTake(context.Map, food.thing, food.count);
         foreach (AIEventEffect effect in option.effects)
             effect.Apply(context);
 
