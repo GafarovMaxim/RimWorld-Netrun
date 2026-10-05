@@ -22,6 +22,11 @@ public class CyberspaceSettingsDef : Def
     public int searchCost = 5;
     public int programCost = 1;
     public int programSlots = 2;
+    /// <summary>Entry cost of any dive; the node adds one per two defense levels.</summary>
+    public int diveBaseCost = 1;
+    /// <summary>Discounts on the dive cost: an AI in the pod's coprocessor, an AI riding in the netrunner.</summary>
+    public int coprocessorDiscount = 1;
+    public int passengerDiscount = 1;
     public int maxTurns = 8;
 
     public float hackBase = 0.35f;

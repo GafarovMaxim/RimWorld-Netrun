@@ -232,10 +232,16 @@ public static class GatewayView
         }
         y += 40f;
 
-        // Dive.
+        // Dive cost with its breakdown, then the button.
+        int cost = gateway.DiveCost(map, node, out string breakdown);
+        var costRect = new Rect(inner.x, y, inner.width, 22f);
+        Widgets.Label(costRect, "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn));
+        TooltipHandler.TipRegion(costRect, breakdown);
+        y += 26f;
+
         AcceptanceReport dive = gateway.CanDive(map, node);
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 44f), "NR_GatewayDive".Translate(), NetrunUI.Accent, dive,
-                runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) : null))
+        string diveTip = (runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) + "\n\n" : string.Empty) + breakdown;
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 44f), "NR_GatewayDiveCost".Translate(cost), NetrunUI.Accent, dive, diveTip))
             gateway.Dive(map, node);
         y += 52f;
 

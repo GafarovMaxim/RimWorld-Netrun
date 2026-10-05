@@ -106,7 +106,6 @@
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
   <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
-  <NR_GatewayDive>⇩ НЫРНУТЬ</NR_GatewayDive>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
   <NR_GatewaySearch>Найти новую ноду ({0} cyberdata)</NR_GatewaySearch>
   <NR_GatewaySearchTip>Раскрыть скрытую ноду или найти новую, если скрытых нет.</NR_GatewaySearchTip>
@@ -130,4 +129,11 @@
   <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // НЫРОК: {0}</NR_TerminalTitleDive>
   <NR_GatewayFull>в Шлюзе нет места</NR_GatewayFull>
+  <NR_DiveCostLine>Стоимость: {0} cyberdata</NR_DiveCostLine>
+  <NR_DiveCostEntry>Вход в ноду: {0}</NR_DiveCostEntry>
+  <NR_DiveCostPrograms>Программы ({0}): {1}</NR_DiveCostPrograms>
+  <NR_DiveCostCoprocessor>ИИ в сопроцессоре: −{0}</NR_DiveCostCoprocessor>
+  <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
+  <NR_DiveCostTotal>Итого: {0} cyberdata</NR_DiveCostTotal>
+  <NR_GatewayDiveCost>⇩ НЫРНУТЬ ({0})</NR_GatewayDiveCost>
 </LanguageData>

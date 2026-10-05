@@ -106,7 +106,6 @@
   <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
   <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>no free slots</NR_GatewayNoSlots>
-  <NR_GatewayDive>⇩ DIVE</NR_GatewayDive>
   <NR_GatewayDiveTip>{0} dives from the cyberpod. The game stays paused while you play the dive.</NR_GatewayDiveTip>
   <NR_GatewaySearch>Discover new node ({0} cyberdata)</NR_GatewaySearch>
   <NR_GatewaySearchTip>Reveal a hidden node, or find a new one if nothing is hidden.</NR_GatewaySearchTip>
@@ -130,4 +129,11 @@
   <NR_DiveRetreatButton>◄ Retreat</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // DIVE: {0}</NR_TerminalTitleDive>
   <NR_GatewayFull>the Gateway is full</NR_GatewayFull>
+  <NR_DiveCostLine>Cost: {0} cyberdata</NR_DiveCostLine>
+  <NR_DiveCostEntry>Node entry: {0}</NR_DiveCostEntry>
+  <NR_DiveCostPrograms>Programs ({0}): {1}</NR_DiveCostPrograms>
+  <NR_DiveCostCoprocessor>AI in the coprocessor: −{0}</NR_DiveCostCoprocessor>
+  <NR_DiveCostPassenger>AI passenger in the netrunner: −{0}</NR_DiveCostPassenger>
+  <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
+  <NR_GatewayDiveCost>⇩ DIVE ({0})</NR_GatewayDiveCost>
 </LanguageData>

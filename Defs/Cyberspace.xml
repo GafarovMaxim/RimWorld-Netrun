@@ -22,6 +22,9 @@
     <searchCost>5</searchCost>
     <programCost>1</programCost>
     <programSlots>2</programSlots>
+    <diveBaseCost>1</diveBaseCost>
+    <coprocessorDiscount>1</coprocessorDiscount>
+    <passengerDiscount>1</passengerDiscount>
     <maxTurns>8</maxTurns>
     <hackBase>0.35</hackBase>
     <hackPerSkill>0.03</hackPerSkill>

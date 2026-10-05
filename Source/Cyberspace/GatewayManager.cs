@@ -83,7 +83,7 @@ public class GatewayManager : GameComponent
             return "NR_GatewayNodeHidden".Translate();
         if (Runner(map, out _) == null)
             return "NR_GatewayNoPod".Translate();
-        int cost = SelectedPrograms.Count * Settings.programCost;
+        int cost = DiveCost(map, node, out _);
         if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) < cost)
             return "NR_AINoFood".Translate(cost, NetrunDefOf.USH_Cyberdata.label);
         return true;
@@ -94,9 +94,32 @@ public class GatewayManager : GameComponent
         Pawn runner = Runner(map, out _);
         if (runner == null)
             return;
-        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, SelectedPrograms.Count * Settings.programCost);
+        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, DiveCost(map, node, out _));
         Session = DiveSession.Start(node, runner, SelectedPrograms);
         SelectedPrograms = [];
+    }
+
+    /// <summary>
+    /// Cyberdata a dive costs: the node's entry (base + one per two defense levels) plus the programs,
+    /// minus discounts for an AI in the pod's coprocessor and an AI riding in the netrunner. Never below zero.
+    /// </summary>
+    public int DiveCost(Map map, ExternalNode node, out string breakdown)
+    {
+        int entry = node == null ? 0 : Settings.diveBaseCost + node.Defense / 2;
+        int programs = SelectedPrograms.Count * Settings.programCost;
+        Pawn runner = Runner(map, out Building_Cyberpod pod);
+        int coprocessor = pod != null && CyberpodUtility.CoprocessorAI(pod) != null ? Settings.coprocessorDiscount : 0;
+        int passenger = runner != null && AIManager.Get()?.AIs.Any(a => a.Host == runner) == true ? Settings.passengerDiscount : 0;
+        int total = System.Math.Max(0, entry + programs - coprocessor - passenger);
+
+        var lines = new List<string> { "NR_DiveCostEntry".Translate(entry), "NR_DiveCostPrograms".Translate(SelectedPrograms.Count, programs) };
+        if (coprocessor > 0)
+            lines.Add("NR_DiveCostCoprocessor".Translate(coprocessor));
+        if (passenger > 0)
+            lines.Add("NR_DiveCostPassenger".Translate(passenger));
+        lines.Add("NR_DiveCostTotal".Translate(total));
+        breakdown = lines.ToLineList();
+        return total;
     }
 
     /// <summary>The dive window was closed after the end: forget it.</summary>
