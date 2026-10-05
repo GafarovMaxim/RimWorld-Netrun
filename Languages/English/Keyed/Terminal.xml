@@ -26,7 +26,6 @@
   <NR_NodeSub_ServerRequest>AIs: {0}, a request</NR_NodeSub_ServerRequest>
   <NR_NodeSub_Studio>Raw recordings: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Dive (needs a cyberpod)</NR_NodeSub_Gateway>
-  <NR_ChipHeat>Heat: {0}</NR_ChipHeat>
   <NR_ChipNetOnline>Net: online</NR_ChipNetOnline>
   <NR_ChipNetOffline>Net: no power</NR_ChipNetOffline>
   <NR_ChipSilver>Silver: {0}</NR_ChipSilver>
@@ -34,10 +33,13 @@
   <NR_StatusTrace>Trace</NR_StatusTrace>
   <NR_StatusNetsick>Netsick: {0}</NR_StatusNetsick>
   <NR_StatusNetsickNone>Netsick: none</NR_StatusNetsickNone>
-  <NR_StatusClickOutside>Click outside the window to close</NR_StatusClickOutside>
   <NR_ClubPinned>Pinned contacts ({0})</NR_ClubPinned>
   <NR_ClubPool>In the pool ({0}) · rotation in {1}</NR_ClubPool>
   <NR_FixerReputationLabel>Reputation</NR_FixerReputationLabel>
   <NR_FixerToPin>{0} to pinning</NR_FixerToPin>
   <NR_FixerAfterCall>call the fixer first</NR_FixerAfterCall>
+  <NR_Speed_Paused>Pause (Space)</NR_Speed_Paused>
+  <NR_Speed_Normal>Normal speed (1)</NR_Speed_Normal>
+  <NR_Speed_Fast>Fast (2)</NR_Speed_Fast>
+  <NR_Speed_Superfast>Superfast (3)</NR_Speed_Superfast>
 </LanguageData>

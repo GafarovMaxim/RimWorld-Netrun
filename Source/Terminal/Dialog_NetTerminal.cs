@@ -49,7 +49,8 @@ public class Dialog_NetTerminal : Window
         doCloseX = false;
         doCloseButton = false;
         draggable = true;
-        forcePause = true;
+        // Paused once on opening (PreOpen); the player may unpause and change speed while it is open.
+        forcePause = false;
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
         preventCameraMotion = false;
@@ -138,6 +139,13 @@ public class Dialog_NetTerminal : Window
         }
     }
 
+    public override void PreOpen()
+    {
+        base.PreOpen();
+        if (Find.TickManager is { Paused: false } ticks)
+            ticks.TogglePaused();
+    }
+
     public override void PostClose()
     {
         base.PostClose();
@@ -188,13 +196,6 @@ public class Dialog_NetTerminal : Window
                 ColonyGoods.Count(_map, NetrunDefOf.USH_AdvancedCyberdata))) - 8f;
             NetrunUI.HeaderChip(x, y, "NR_ChipSilver".Translate(ColonyGoods.Count(_map, ThingDefOf.Silver)));
         }
-        else if (tracker != null)
-        {
-            bool online = AIAwakening.Console(_map) != null;
-            x = NetrunUI.HeaderChip(x, y, (online ? "NR_ChipNetOnline" : "NR_ChipNetOffline").Translate()) - 8f;
-            HeatLevel level = tracker.Level;
-            NetrunUI.HeaderChip(x, y, "NR_ChipHeat".Translate((level.Label() + " " + tracker.Heat.ToString("0")).Colorize(level.Color())));
-        }
 
         GUI.color = new Color(1f, 1f, 1f, 0.25f);
         Widgets.DrawLineHorizontal(rect.x, rect.yMax - 1f, rect.width);
@@ -217,8 +218,16 @@ public class Dialog_NetTerminal : Window
             x += w + 8f;
             NetrunUI.Bar(new Rect(x, rect.y + (rect.height - 12f) / 2f, 120f, 12f), tracker.Heat / HeatTracker.MaxHeat, tracker.Level.Color());
             x += 128f;
-            Widgets.Label(new Rect(x, rect.y, 40f, rect.height), tracker.Heat.ToString("0"));
-            x += 48f;
+            HeatLevel level = tracker.Level;
+            string heatText = tracker.Heat.ToString("0") + "  " + level.Label().CapitalizeFirst().Colorize(level.Color());
+            float hw = Text.CalcSize(heatText).x + 16f;
+            Widgets.Label(new Rect(x, rect.y, hw, rect.height), heatText);
+            x += hw;
+            bool online = AIAwakening.Console(_map) != null;
+            string net = (online ? "NR_ChipNetOnline" : "NR_ChipNetOffline").Translate().Colorize(online ? NetrunUI.Ok : NetrunUI.Bad);
+            float nw = Text.CalcSize(net).x + 16f;
+            Widgets.Label(new Rect(x, rect.y, nw, rect.height), net);
+            x += nw;
         }
 
         int netsick = _map.mapPawns.FreeColonistsSpawned.Count(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick));
@@ -227,9 +236,34 @@ public class Dialog_NetTerminal : Window
             : "NR_StatusNetsickNone".Translate().Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(x, rect.y, 260f, rect.height), sick);
 
-        Text.Anchor = TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(rect.xMax - 300f, rect.y, 286f, rect.height), "NR_StatusClickOutside".Translate().Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
+        DrawSpeedButtons(new Rect(rect.xMax - 14f - 4 * 34f, rect.y + 6f, 4 * 34f, rect.height - 12f));
+    }
+
+    /// <summary>Pause and the three speeds, like the game's own time controls.</summary>
+    private static void DrawSpeedButtons(Rect rect)
+    {
+        TickManager ticks = Find.TickManager;
+        string[] labels = ["||", ">", ">>", ">>>"];
+        TimeSpeed[] speeds = [TimeSpeed.Paused, TimeSpeed.Normal, TimeSpeed.Fast, TimeSpeed.Superfast];
+        for (int i = 0; i < speeds.Length; i++)
+        {
+            var button = new Rect(rect.x + i * 34f, rect.y, 30f, rect.height);
+            bool on = speeds[i] == TimeSpeed.Paused ? ticks.Paused : !ticks.Paused && ticks.CurTimeSpeed == speeds[i];
+            if (NetrunUI.Button(button, labels[i], on ? NetrunUI.Accent : NetrunUI.Muted, true, ("NR_Speed_" + speeds[i]).Translate()))
+            {
+                if (speeds[i] == TimeSpeed.Paused)
+                {
+                    if (!ticks.Paused)
+                        ticks.TogglePaused();
+                }
+                else
+                {
+                    // Setting a speed also unpauses.
+                    ticks.CurTimeSpeed = speeds[i];
+                }
+            }
+        }
     }
 
     // ---- Node map ----
@@ -244,12 +278,12 @@ public class Dialog_NetTerminal : Window
 
         var nodes = new List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, string badge)>
         {
-            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.TabIcon(2), NetrunUI.Ok, BoardSub(), BoardBadge()),
+            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.TabIcon(2), BoardColor, BoardSub(), BoardBadge()),
             (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.TabIcon(1), NetrunUI.Warn, ClubSub(), ClubBadge()),
             (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.TabIcon(5), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
             (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.TabIcon(3), NetrunUI.Purple, ServerSub(), ServerBadge()),
             (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.TabIcon(4), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
-            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Cyberspace, NetrunUI.Accent, "NR_NodeSub_Gateway".Translate(), null),
+            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Cyberspace, GatewayColor, "NR_NodeSub_Gateway".Translate(), null),
         };
 
         // Links first, so the nodes are drawn over them.
@@ -259,10 +293,13 @@ public class Dialog_NetTerminal : Window
         foreach (var node in nodes)
             DrawNode(node.view, node.pos, NodeSize, node.icon, node.color, node.sub, node.badge);
 
-        DrawNode(View.Core, center, CoreSize, NetrunTex.TabIcon(0), NetrunUI.Accent, "NR_NodeSub_Core".Translate(), null);
+        // The Core shows the current Heat level icon.
+        DrawNode(View.Core, center, CoreSize, NetrunTex.HeatIcon(tracker.Level), NetrunUI.Accent, "NR_NodeSub_Core".Translate(), null);
     }
 
     private static readonly Color StudioColor = new(1f, 0.45f, 0.35f);
+    private static readonly Color BoardColor = new(0.35f, 0.85f, 1f);
+    private static readonly Color GatewayColor = new(0.45f, 0.55f, 1f);
 
     private void DrawNode(View view, Vector2 pos, float size, Texture2D icon, Color color, string sub, string badge)
     {
