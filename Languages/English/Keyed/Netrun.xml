@@ -7,15 +7,16 @@
   <NR_SettingsReset>Reset to defaults</NR_SettingsReset>
 
   <!-- Heat levels -->
-  <NR_HeatLevel_Ghost>Ghost</NR_HeatLevel_Ghost>
+  <NR_HeatLevel_Shadow>Shadow</NR_HeatLevel_Shadow>
   <NR_HeatLevel_Noticed>Noticed</NR_HeatLevel_Noticed>
-  <NR_HeatLevel_Hunted>Hunted</NR_HeatLevel_Hunted>
-  <NR_HeatLevel_Burned>Burned</NR_HeatLevel_Burned>
+  <NR_HeatLevel_Tracked>Tracked</NR_HeatLevel_Tracked>
+  <NR_HeatLevel_Target>Target</NR_HeatLevel_Target>
+  <NR_HeatLevel_RedZone>Red Zone</NR_HeatLevel_RedZone>
 
   <NR_HeatLevelUp>Digital trace: {0}. The network is paying closer attention to your colony.</NR_HeatLevelUp>
 
   <!-- Alert -->
   <NR_AlertHeatLabel>Digital Heat: {0} ({1})</NR_AlertHeatLabel>
-  <NR_AlertHeatDesc>Your colony's digital trace is {0} out of 100 ({1}).\n\nEvery successful hack leaves a trace. Hackers with higher stealth leave less of it, and hacking from a cyberpod is quieter still.\n\nThe trace cools down by {2} per day on its own.\n\nLevels: Ghost 0–24, Noticed 25–49, Hunted 50–74, Burned 75–100.</NR_AlertHeatDesc>
+  <NR_AlertHeatDesc>Your colony's digital trace is {0} out of 100 ({1}).\n\nEvery successful hack leaves a trace. Hackers with higher stealth leave less of it, and hacking from a cyberpod is quieter still.\n\nThe trace cools down by {2} per day on its own.\n\nLevels: Shadow 0–24, Noticed 25–49, Tracked 50–74, Target 75–94, Red Zone 95–100.</NR_AlertHeatDesc>
 
 </LanguageData>
