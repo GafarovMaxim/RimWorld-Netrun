@@ -35,6 +35,10 @@
       <HintPath>$(RIMWORLD_DIR)\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(RIMWORLD_DIR)\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="0Harmony">
       <HintPath>$(WORKSHOP_DIR)\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
       <Private>false</Private>

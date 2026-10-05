@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- The vanilla comms console doubles as the network terminal. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="CommsConsole"]/comps</xpath>
+    <value>
+      <li Class="Netrun.CompProperties_NetTerminal" />
+    </value>
+  </Operation>
+
+</Patch>

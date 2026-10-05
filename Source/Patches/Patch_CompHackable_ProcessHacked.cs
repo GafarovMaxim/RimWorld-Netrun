@@ -19,7 +19,8 @@ public static class Patch_CompHackable_ProcessHacked
             if (hacker == null || hacker.Faction != Faction.OfPlayer)
                 return;
 
-            HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker));
+            string reason = "NR_LogHack".Translate(hacker.LabelShort, __instance.parent.LabelCap);
+            HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason);
         }
         catch (Exception ex)
         {

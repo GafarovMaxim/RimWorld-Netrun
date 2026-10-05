@@ -13,10 +13,38 @@
   <NR_HeatLevel_Target>Target</NR_HeatLevel_Target>
   <NR_HeatLevel_RedZone>Red Zone</NR_HeatLevel_RedZone>
 
+  <NR_HeatLevelDesc_Shadow>Nobody is looking for you.</NR_HeatLevelDesc_Shadow>
+  <NR_HeatLevelDesc_Noticed>Your intrusions are starting to be linked together.</NR_HeatLevelDesc_Noticed>
+  <NR_HeatLevelDesc_Tracked>Someone is deliberately tracing the source of the signal.</NR_HeatLevelDesc_Tracked>
+  <NR_HeatLevelDesc_Target>Your colony is a known target. Expect an answer.</NR_HeatLevelDesc_Target>
+  <NR_HeatLevelDesc_RedZone>The whole network can see you.</NR_HeatLevelDesc_RedZone>
+
   <NR_HeatLevelUp>Digital trace: {0}. The network is paying closer attention to your colony.</NR_HeatLevelUp>
 
   <!-- Alert -->
   <NR_AlertHeatLabel>Digital Heat: {0} ({1})</NR_AlertHeatLabel>
   <NR_AlertHeatDesc>Your colony's digital trace is {0} out of 100 ({1}).\n\nEvery successful hack leaves a trace. Hackers with higher stealth leave less of it, and hacking from a cyberpod is quieter still.\n\nThe trace cools down by {2} per day on its own.\n\nLevels: Shadow 0–24, Noticed 25–49, Tracked 50–74, Target 75–94, Red Zone 95–100.</NR_AlertHeatDesc>
+
+  <!-- Journal -->
+  <NR_LogHack>{0} hacked {1}</NR_LogHack>
+  <NR_LogDev>Developer action</NR_LogDev>
+  <NR_TimeAgo>{0} ago</NR_TimeAgo>
+
+  <!-- Network terminal -->
+  <NR_CommandNetTerminal>Network terminal</NR_CommandNetTerminal>
+  <NR_CommandNetTerminalDesc>Open the network terminal: your digital trace, fixers, contracts and the journal of recent events.</NR_CommandNetTerminalDesc>
+  <NR_TerminalNoPower>No power.</NR_TerminalNoPower>
+  <NR_TerminalTitle>Network terminal</NR_TerminalTitle>
+  <NR_TerminalTab_Overview>Overview</NR_TerminalTab_Overview>
+  <NR_TerminalTab_Fixers>Fixers</NR_TerminalTab_Fixers>
+  <NR_TerminalTab_Contracts>Contracts</NR_TerminalTab_Contracts>
+  <NR_TerminalTab_AI>AI</NR_TerminalTab_AI>
+  <NR_TerminalTab_Braindance>Braindance</NR_TerminalTab_Braindance>
+  <NR_TerminalTab_Journal>Journal</NR_TerminalTab_Journal>
+  <NR_TerminalHeatValue>Digital Heat: {0} / 100, {1}</NR_TerminalHeatValue>
+  <NR_TerminalHeatDecay>The trace cools down by {0} per day on its own.</NR_TerminalHeatDecay>
+  <NR_TerminalLevelsHeader>Trace levels:</NR_TerminalLevelsHeader>
+  <NR_TerminalJournalEmpty>No events yet.</NR_TerminalJournalEmpty>
+  <NR_TerminalComingSoon>Coming soon.</NR_TerminalComingSoon>
 
 </LanguageData>

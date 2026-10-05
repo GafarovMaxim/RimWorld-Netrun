@@ -18,7 +18,7 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 
 ## Layout
 - `About/`: mod metadata. packageId `GafarovMaxim.HackingExpansionNetrun`.
-- `Defs/`, `Languages/English`, `Languages/Russian (Русский)`, `Textures/`: game content.
+- `Defs/`, `Patches/` (XML patches), `Languages/English`, `Languages/Russian (Русский)`, `Textures/`: game content.
 - `Source/`: C#, namespace `Netrun`, net48, references the game, Harmony and `HackingExpansion.dll` from the local Steam folders (`RIMWORLD_DIR` overrides the default path).
 - `Assemblies/HackingExpansionNetrun.dll`: built output, committed so the mod works straight from the repo.
 - `Art/`: full-size source art, not loaded by the game. Game copies go to `Textures/` (items 128 px, 2x2 buildings 256 px).

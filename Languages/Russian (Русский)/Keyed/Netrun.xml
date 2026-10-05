@@ -13,10 +13,38 @@
   <NR_HeatLevel_Target>Цель</NR_HeatLevel_Target>
   <NR_HeatLevel_RedZone>Красная зона</NR_HeatLevel_RedZone>
 
+  <NR_HeatLevelDesc_Shadow>Вас никто не ищет.</NR_HeatLevelDesc_Shadow>
+  <NR_HeatLevelDesc_Noticed>Ваши вторжения начинают связывать между собой.</NR_HeatLevelDesc_Noticed>
+  <NR_HeatLevelDesc_Tracked>Кто-то целенаправленно ищет источник сигнала.</NR_HeatLevelDesc_Tracked>
+  <NR_HeatLevelDesc_Target>Ваша колония — известная цель. Ждите ответа.</NR_HeatLevelDesc_Target>
+  <NR_HeatLevelDesc_RedZone>Вас видит вся сеть.</NR_HeatLevelDesc_RedZone>
+
   <NR_HeatLevelUp>Цифровой след: {0}. Сеть внимательнее присматривается к вашей колонии.</NR_HeatLevelUp>
 
   <!-- Оповещение -->
   <NR_AlertHeatLabel>Цифровой след: {0} ({1})</NR_AlertHeatLabel>
   <NR_AlertHeatDesc>Цифровой след колонии: {0} из 100 ({1}).\n\nКаждый успешный взлом оставляет след. Хакеры с высокой скрытностью оставляют его меньше, а взлом из кибер-капсулы ещё тише.\n\nСам по себе след остывает на {2} в день.\n\nУровни: Тень 0–24, Замечен 25–49, Отслеживается 50–74, Цель 75–94, Красная зона 95–100.</NR_AlertHeatDesc>
+
+  <!-- Журнал -->
+  <NR_LogHack>{0} взломал(а): {1}</NR_LogHack>
+  <NR_LogDev>Действие разработчика</NR_LogDev>
+  <NR_TimeAgo>{0} назад</NR_TimeAgo>
+
+  <!-- Сетевой терминал -->
+  <NR_CommandNetTerminal>Сетевой терминал</NR_CommandNetTerminal>
+  <NR_CommandNetTerminalDesc>Открыть сетевой терминал: цифровой след, фиксеры, контракты и журнал последних событий.</NR_CommandNetTerminalDesc>
+  <NR_TerminalNoPower>Нет питания.</NR_TerminalNoPower>
+  <NR_TerminalTitle>Сетевой терминал</NR_TerminalTitle>
+  <NR_TerminalTab_Overview>Обзор</NR_TerminalTab_Overview>
+  <NR_TerminalTab_Fixers>Фиксеры</NR_TerminalTab_Fixers>
+  <NR_TerminalTab_Contracts>Контракты</NR_TerminalTab_Contracts>
+  <NR_TerminalTab_AI>ИИ</NR_TerminalTab_AI>
+  <NR_TerminalTab_Braindance>Брейнданс</NR_TerminalTab_Braindance>
+  <NR_TerminalTab_Journal>Журнал</NR_TerminalTab_Journal>
+  <NR_TerminalHeatValue>Цифровой след: {0} / 100, {1}</NR_TerminalHeatValue>
+  <NR_TerminalHeatDecay>Сам по себе след остывает на {0} в день.</NR_TerminalHeatDecay>
+  <NR_TerminalLevelsHeader>Уровни следа:</NR_TerminalLevelsHeader>
+  <NR_TerminalJournalEmpty>Событий пока нет.</NR_TerminalJournalEmpty>
+  <NR_TerminalComingSoon>Скоро.</NR_TerminalComingSoon>
 
 </LanguageData>
