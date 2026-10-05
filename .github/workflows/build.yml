@@ -18,9 +18,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '8.0.x'
 
@@ -65,14 +65,14 @@ jobs:
           cp -r About Assemblies Defs Languages Textures README.md dist/$MOD_FOLDER/
           cd dist && zip -qr $MOD_FOLDER.zip $MOD_FOLDER
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ env.MOD_FOLDER }}
           path: dist/${{ env.MOD_FOLDER }}.zip
 
       - name: Release
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: dist/${{ env.MOD_FOLDER }}.zip
           generate_release_notes: true
