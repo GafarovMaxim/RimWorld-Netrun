@@ -9,6 +9,14 @@
     </value>
   </Operation>
 
+  <!-- The Netrun coprocessor links to the cyberpod like Hacking Expansion's own coprocessors. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>
+    <value>
+      <li>NR_NetrunCoprocessor</li>
+    </value>
+  </Operation>
+
   <!-- Hackers inside a cyberpod are stealthier: fewer ICE outcomes and less Heat. -->
   <Operation Class="PatchOperationConditional">
     <xpath>Defs/StatDef[defName="HackingStealth"]/parts</xpath>

@@ -50,4 +50,24 @@ public class AISettingsDef : Def
     public int requestDays = 3;
     public int requestFeedMultiplier = 3;
     public float requestTrust = 15f;
+
+    // Power loss: the AI sleeps at once, is lost for good after this many days.
+    public float lostAfterUnpoweredDays = 5f;
+
+    // Escape and betrayal.
+    public float escapeTrust = 20f;
+    public float escapeHunger = 70f;
+    public int escapeWarningHours = 6;
+    public float escapeHeat = 10f;
+    public float betrayalTrust = 10f;
+    public float betrayalHeat = 25f;
+
+    // Erasing an AI gives some of it back as cyberdata.
+    public int eraseCyberdata = 3;
+
+    // Echo: chance that a colonist dying with a cyberlink leaves a digital imprint.
+    public float echoChance = 0.35f;
+
+    // Hosted Data Hunter: extra cyberdata chance per hack by its host.
+    public float hostedDataHunterBonusChance = 0.25f;
 }

@@ -85,8 +85,9 @@ public static class AITab
     private static float CardHeight(NetAI ai, float width)
     {
         float description = Text.CalcHeight(ai.Personality.Description(), TextWidth(width));
-        float lines = 30f + LineHeight + description + 4 * LineHeight + (ai.HasRequest ? LineHeight * 2 : 0f);
-        float buttons = 4 * (ButtonHeight + 6f);
+        float lines = 30f + LineHeight + description + 4 * LineHeight + (ai.HasRequest ? LineHeight * 2 : 0f)
+            + (ai.Escaping ? LineHeight * 2 : 0f);
+        float buttons = 6 * (ButtonHeight + 6f);
         return Mathf.Max(lines, buttons) + 2 * Padding;
     }
 
@@ -126,6 +127,16 @@ public static class AITab
         Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIFoodLine".Translate(AIBehavior.FoodText(ai.Personality)));
         GUI.color = Color.white;
         y += LineHeight;
+
+        if (ai.Escaping)
+        {
+            string escape = "NR_AIEscapeLine".Translate((ai.EscapeAtTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
+            float eh = Text.CalcHeight(escape, width);
+            GUI.color = ColorLibrary.RedReadable;
+            Widgets.Label(new Rect(x, y, width, eh), escape);
+            GUI.color = Color.white;
+            y += eh;
+        }
 
         if (ai.HasRequest)
         {
@@ -169,11 +180,33 @@ public static class AITab
             y += ButtonHeight + 6f;
         }
 
-        if (ai.InServer)
+        if (ai.Housed)
         {
             string label = ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate();
             Button(new Rect(rect.x, y, rect.width, ButtonHeight), label, "NR_AIIsolateTip".Translate(), true,
                 () => ai.Isolated = !ai.Isolated);
+            y += ButtonHeight + 6f;
+        }
+
+        if (ai.InServer)
+        {
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIUpload".Translate(), "NR_AIUploadTip".Translate(),
+                AIHosting.CanUpload(ai, map), () => AIHosting.OpenUploadMenu(ai, map));
+            y += ButtonHeight + 6f;
+        }
+        else if (ai.InHost)
+        {
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
+                AIHosting.CanDownload(ai, map), () => AIHosting.Download(ai, map));
+            y += ButtonHeight + 6f;
+        }
+
+        if (ai.Housed)
+        {
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIErase".Translate(),
+                "NR_AIEraseTip".Translate(NetrunDefOf.NR_AI.eraseCyberdata), true,
+                () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "NR_AIEraseConfirm".Translate(ai.Name), () => manager.Erase(ai), destructive: true)));
         }
     }
 

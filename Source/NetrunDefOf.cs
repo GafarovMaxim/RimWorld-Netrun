@@ -18,6 +18,8 @@ public static class NetrunDefOf
     public static ThingDef NR_BraindanceChip;
     public static HediffDef NR_PredatorBoost;
     public static ThoughtDef NR_EchoPresence;
+    public static HediffDef NR_AISocketInstalled;
+    public static ThingDef NR_NetrunCoprocessor;
     public static RulePackDef NR_NamerFixer;
 
     // Hacking Expansion

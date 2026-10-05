@@ -136,4 +136,43 @@
   <NR_AIConnect>Reconnect</NR_AIConnect>
   <NR_AIIsolateTip>An isolated AI does not work and cannot escape, but gets hungry twice as fast and loses trust every day.</NR_AIIsolateTip>
 
+  <!-- Hosts and the AI socket -->
+  <NR_AISocketEmpty>empty</NR_AISocketEmpty>
+  <NR_AILocationHost>Rides in the AI socket of {0}.</NR_AILocationHost>
+  <NR_AILocationHostIsolated>Isolated in the AI socket of {0}. Not working, cannot escape.</NR_AILocationHostIsolated>
+  <NR_AIUpload>Upload into a host</NR_AIUpload>
+  <NR_AIUploadTip>Move the AI over the network into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents; the AI keeps working for the colony and needs no server power.</NR_AIUploadTip>
+  <NR_AIUploadNeedsServer>Only an awake AI in a powered server can be uploaded.</NR_AIUploadNeedsServer>
+  <NR_AIUploadNoHost>No colonist with a cyberlink and an empty AI socket.</NR_AIUploadNoHost>
+  <NR_AIUploaded>{0} moved into the AI socket of {1}.</NR_AIUploaded>
+  <NR_AIDownload>Return to a server</NR_AIDownload>
+  <NR_AIDownloadTip>Move the AI back from its host into a powered AI server with a free slot.</NR_AIDownloadTip>
+  <NR_AIDownloaded>{0} moved back into {1}.</NR_AIDownloaded>
+  <NR_AISocketRemoved>The AI socket of {1} was removed. {0} fell back into a fragment.</NR_AISocketRemoved>
+  <NR_AIHostDied>{1} died. {0} fell back into a fragment next to the body.</NR_AIHostDied>
+
+  <!-- Power loss, escape, betrayal, erasure -->
+  <NR_AIFellAsleep>{0} fell asleep: no power. Without power for too long, it will be lost.</NR_AIFellAsleep>
+  <NR_AILostLabel>AI lost: {0}</NR_AILostLabel>
+  <NR_AILostNoPower>{0} slept without power for too long. What was left of it has decayed.</NR_AILostNoPower>
+  <NR_AIEscapingLabel>{0} is escaping</NR_AIEscapingLabel>
+  <NR_AIEscaping>{0} is starving and no longer trusts you. It has started copying itself out into the network and will be gone in {1} hours.\n\nTo stop it: isolate it, feed it, or erase it.</NR_AIEscaping>
+  <NR_AIEscapeLine>Escaping: gone in {0}. Isolate, feed or erase it.</NR_AIEscapeLine>
+  <NR_AIEscapeStopped>{0} stopped trying to escape.</NR_AIEscapeStopped>
+  <NR_AIGoneLabel>AI gone: {0}</NR_AIGoneLabel>
+  <NR_AIEscaped>{0} copied itself out into the network and is gone. On the way out it left a trail: Heat +{1}.</NR_AIEscaped>
+  <NR_AIGhostLeft>{0} simply vanished. Ghosts do not argue, they leave.</NR_AIGhostLeft>
+  <NR_AIBetrayalLabel>Betrayal: {0}</NR_AIBetrayalLabel>
+  <NR_AIBetrayal>{0} sold everything it knew about your colony and disappeared. Heat +{1}.</NR_AIBetrayal>
+  <NR_AIErase>Erase</NR_AIErase>
+  <NR_AIEraseTip>Wipe the AI for good. Its remains give {0} cyberdata.</NR_AIEraseTip>
+  <NR_AIEraseConfirm>Erase {0} for good? This cannot be undone.</NR_AIEraseConfirm>
+  <NR_AIErasedLabel>AI erased: {0}</NR_AIErasedLabel>
+  <NR_AIErased>{0} has been erased. Only raw data is left of it.</NR_AIErased>
+
+  <!-- Echo -->
+  <NR_EchoName>Echo of {0}</NR_EchoName>
+  <NR_EchoBornLabel>An echo of {0}</NR_EchoBornLabel>
+  <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.\n\nAwaken it at the comms console, and {0} will be with the colony again, in a way.</NR_EchoBorn>
+
 </LanguageData>

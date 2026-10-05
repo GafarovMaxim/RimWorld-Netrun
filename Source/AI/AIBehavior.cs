@@ -50,7 +50,7 @@ public static class AIBehavior
 
     public static AcceptanceReport CanFeed(NetAI ai, Map map)
     {
-        if (!ai.InServer)
+        if (!ai.Housed)
             return "NR_AIAsleep".Translate();
         if (Food(ai.Personality) is not { } food)
             return ("NR_AIFoodSpecial_" + ai.Personality).Translate();
@@ -124,7 +124,7 @@ public static class AIBehavior
             }
             case AIPersonality.Warden:
             {
-                foreach (NetAI other in AIManager.Get().AIs.Where(a => a != ai && a.InServer))
+                foreach (NetAI other in AIManager.Get().AIs.Where(a => a != ai && a.Housed))
                     other.AddTrust(Settings.wardenTrust);
                 Report("NR_AIDidWarden", ai, Settings.wardenTrust.ToString("0"));
                 break;
@@ -181,8 +181,9 @@ public static class AIBehavior
 
     private static void Drop(Map map, NetAI ai, Thing thing)
     {
-        IntVec3 cell = ai.Server?.Spawned == true ? ai.Server.Position : DropCellFinder.TradeDropSpot(map);
-        GenPlace.TryPlaceThing(thing, cell, ai.Server?.Map ?? map, ThingPlaceMode.Near);
+        Thing anchor = ai.Anchor;
+        IntVec3 cell = anchor?.Spawned == true ? anchor.Position : DropCellFinder.TradeDropSpot(map);
+        GenPlace.TryPlaceThing(thing, cell, anchor?.Map ?? map, ThingPlaceMode.Near);
     }
 
     private static void Report(string key, NetAI ai, NamedArgument arg)

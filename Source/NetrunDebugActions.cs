@@ -55,6 +55,36 @@ public static class NetrunDebugActions
     [DebugAction(Category, "Spawn AI core module", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
     private static void SpawnCoreModule() => SpawnAtMouse(NetrunDefOf.NR_AICoreModule);
 
+    [DebugAction(Category, "Spawn AI socket", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void SpawnAISocket() => SpawnAtMouse(DefDatabase<ThingDef>.GetNamed("NR_AISocket"));
+
+    [DebugAction(Category, "AIs: starve (escape test)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void StarveAIs()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+        {
+            ai.Trust = 15f;
+            ai.Hunger = 90f;
+        }
+    }
+
+    [DebugAction(Category, "AIs: trust 5 (betrayal test)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void BetrayAIs()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            ai.Trust = 5f;
+    }
+
+    [DebugAction(Category, "AIs: ready services and requests", allowedGameStates = AllowedGameStates.Playing)]
+    private static void ReadyAIs()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+        {
+            ai.ServiceReadyTick = 0;
+            ai.NextRequestTick = Find.TickManager.TicksGame;
+        }
+    }
+
     private static void SpawnAtMouse(ThingDef def)
     {
         IntVec3 cell = UI.MouseCell();

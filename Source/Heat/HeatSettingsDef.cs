@@ -18,6 +18,12 @@ public class HeatSettingsDef : Def
     public float cyberpodStealthFactor = 1.3f;
     public float cyberpodBonusDataChance = 0.25f;
 
+    // Netrun coprocessor linked to the cyberpod: extra Heat reduction, extra data chance,
+    // and slower cyberspace dependency (Netsick) while diving.
+    public float coprocessorHeatFactor = 0.7f;
+    public float coprocessorBonusDataChance = 0.15f;
+    public float coprocessorNetsickFactor = 0.5f;
+
     // Ripping data with Hacking Expansion.
     public float heatPerRippedItem = 1f;
 

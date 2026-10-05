@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- AI socket: a Hacking Expansion style cyberlink upgrade that can carry one AI -->
+  <ThingDef ParentName="USH_AdvancedCyberlinkUpgradeBase">
+    <defName>NR_AISocket</defName>
+    <label>AI socket</label>
+    <description>A neural socket that plugs into a cyberlink and gives an awakened AI a place to live inside its host. The AI rides along, lends the host its talents and keeps working for the colony.\n\nRequires a cyberlink. Upload and download the AI from the AI tab of the network terminal.\n\nIt can be self-installed without surgery.</description>
+    <descriptionHyperlinks>
+      <HediffDef>NR_AISocketInstalled</HediffDef>
+    </descriptionHyperlinks>
+    <costList>
+      <USH_AdvancedCyberdata>3</USH_AdvancedCyberdata>
+      <ComponentSpacer>2</ComponentSpacer>
+      <Plasteel>10</Plasteel>
+    </costList>
+    <statBases>
+      <MaxInstallCount>1</MaxInstallCount>
+    </statBases>
+    <recipeMaker>
+      <researchPrerequisite>USH_AdvancedCybertech</researchPrerequisite>
+    </recipeMaker>
+    <comps>
+      <li Class="USH_HE.CompProperties_UsableExpanded">
+        <useJob>UseItem</useJob>
+        <useLabel>Implant {0_label}</useLabel>
+        <userMustHaveAnyHediff>
+          <li>USH_InstalledCyberlink</li>
+          <li>USH_InstalledAdvancedCyberlink</li>
+        </userMustHaveAnyHediff>
+      </li>
+      <li Class="CompProperties_UseEffectInstallImplant">
+        <hediffDef>NR_AISocketInstalled</hediffDef>
+        <bodyPart>Brain</bodyPart>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>NR_AISocketInstalled</defName>
+    <hediffClass>Netrun.Hediff_AISocket</hediffClass>
+    <label>AI socket</label>
+    <description>A neural socket in the cyberlink. It can carry one awakened AI.</description>
+    <descriptionShort>A neural socket that can carry one AI.</descriptionShort>
+    <spawnThingOnRemoved>NR_AISocket</spawnThingOnRemoved>
+    <isBad>false</isBad>
+    <duplicationAllowed>false</duplicationAllowed>
+  </HediffDef>
+
+  <!-- AI passengers: one hediff per personality, added and removed by the mod -->
+  <HediffDef Abstract="True" Name="NR_HostedAIBase">
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.4, 0.9, 1)</defaultLabelColor>
+    <isBad>false</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <duplicationAllowed>false</duplicationAllowed>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_DataHunter</defName>
+    <label>AI passenger: Data Hunter</label>
+    <description>A data-hunting AI rides in this colonist's socket. Hacks go faster and sometimes turn up extra cyberdata.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <HackingSpeed>0.15</HackingSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Ghost</defName>
+    <label>AI passenger: Ghost</label>
+    <description>A Ghost AI hides this colonist's intrusions. Hacks leave much less trace.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <HackingStealth>40</HackingStealth>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Muse</defName>
+    <label>AI passenger: Muse</label>
+    <description>A Muse AI whispers ideas. This colonist learns noticeably faster.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.25</GlobalLearningFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Predator</defName>
+    <label>AI passenger: Predator</label>
+    <description>A Predator AI pushes this colonist's mind hard. Hacks go much faster, the mind runs hot.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <HackingSpeed>0.3</HackingSpeed>
+          <MentalBreakThreshold>0.03</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Warden</defName>
+    <label>AI passenger: Warden</label>
+    <description>A Warden AI keeps watch over this colonist's mind. They are steadier under stress.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>-0.06</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Oracle</defName>
+    <label>AI passenger: Oracle</label>
+    <description>An Oracle AI sees patterns this colonist would miss. Research goes faster.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <ResearchSpeed>0.15</ResearchSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Forge</defName>
+    <label>AI passenger: Forge</label>
+    <description>A Forge AI plans every motion. This colonist works faster at everything.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <WorkSpeedGlobal>0.1</WorkSpeedGlobal>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Siren</defName>
+    <label>AI passenger: Siren</label>
+    <description>A Siren AI lends this colonist her voice. Better at talking, trading and negotiating.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <SocialImpact>0.3</SocialImpact>
+          <NegotiationAbility>0.2</NegotiationAbility>
+          <TradePriceImprovement>0.05</TradePriceImprovement>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Trickster</defName>
+    <label>AI passenger: Trickster</label>
+    <description>A Trickster AI turns everything into a game. This colonist learns faster but is a little less stable.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.1</GlobalLearningFactor>
+          <MentalBreakThreshold>0.04</MentalBreakThreshold>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Echo</defName>
+    <label>AI passenger: Echo</label>
+    <description>The echo of a lost colonist lives in this socket. Its host is calmer and warmer with people.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <MentalBreakThreshold>-0.05</MentalBreakThreshold>
+          <SocialImpact>0.15</SocialImpact>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>

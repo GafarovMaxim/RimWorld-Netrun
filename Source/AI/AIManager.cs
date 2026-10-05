@@ -50,6 +50,8 @@ public class AIManager : GameComponent
         }
 
         ai.Server = server;
+        ai.EscapeAtTick = -1;
+        ai.UnpoweredSinceTick = -1;
         ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;
         fragment.Destroy();
 
@@ -83,8 +85,11 @@ public class AIManager : GameComponent
         int now = Find.TickManager.TicksGame;
         bool quiet = _lastHackTick < 0 || now - _lastHackTick > GenDate.TicksPerDay;
 
-        foreach (NetAI ai in _ais.Where(a => a.InServer && a.Powered).ToList())
+        foreach (NetAI ai in _ais.ToList())
         {
+            if (!ai.Housed || !UpdatePower(ai, now))
+                continue;
+
             // Hunger: Ghost is calmed by silence, everyone else just gets hungry. Isolation makes it worse.
             float hunger = ai.Personality == AIPersonality.Ghost
                 ? (quiet ? -Settings.ghostCalmPerDay : 0f)
@@ -100,7 +105,162 @@ public class AIManager : GameComponent
 
             if (ai.Active)
                 UpdateRequest(ai, now);
+
+            UpdateLoyalty(ai, now);
         }
+    }
+
+    /// <summary>Returns false while the AI is asleep (or was just lost) and should not be processed further.</summary>
+    private bool UpdatePower(NetAI ai, int now)
+    {
+        if (ai.Powered)
+        {
+            ai.UnpoweredSinceTick = -1;
+            return true;
+        }
+
+        if (ai.UnpoweredSinceTick < 0)
+        {
+            ai.UnpoweredSinceTick = now;
+            Messages.Message("NR_AIFellAsleep".Translate(ai.Name), new LookTargets(ai.Anchor), MessageTypeDefOf.CautionInput, historical: true);
+        }
+        else if (now - ai.UnpoweredSinceTick > Settings.lostAfterUnpoweredDays * GenDate.TicksPerDay)
+        {
+            Remove(ai, "NR_AILostLabel", "NR_AILostNoPower", 0f, LetterDefOf.NegativeEvent);
+        }
+        return false;
+    }
+
+    /// <summary>Starving and distrustful AIs try to leave; deeply distrustful ones sell the colony out.</summary>
+    private void UpdateLoyalty(NetAI ai, int now)
+    {
+        // Isolation keeps an AI from reaching the network at all.
+        if (ai.Isolated)
+        {
+            CancelEscape(ai);
+            return;
+        }
+
+        if (ai.Trust < Settings.betrayalTrust)
+        {
+            if (ai.Personality == AIPersonality.Ghost)
+                Remove(ai, "NR_AIGoneLabel", "NR_AIGhostLeft", 0f, LetterDefOf.NegativeEvent);
+            else
+                Remove(ai, "NR_AIBetrayalLabel", "NR_AIBetrayal", Settings.betrayalHeat, LetterDefOf.ThreatSmall);
+            return;
+        }
+
+        bool wantsOut = ai.Trust < Settings.escapeTrust && ai.Hunger > Settings.escapeHunger;
+        if (!wantsOut)
+        {
+            CancelEscape(ai);
+            return;
+        }
+
+        if (!ai.Escaping)
+        {
+            ai.EscapeAtTick = now + Settings.escapeWarningHours * GenDate.TicksPerHour;
+            Find.LetterStack.ReceiveLetter(
+                "NR_AIEscapingLabel".Translate(ai.Name),
+                "NR_AIEscaping".Translate(ai.Name, Settings.escapeWarningHours),
+                LetterDefOf.ThreatSmall, new LookTargets(ai.Anchor));
+        }
+        else if (now >= ai.EscapeAtTick)
+        {
+            Remove(ai, "NR_AIGoneLabel", "NR_AIEscaped", Settings.escapeHeat, LetterDefOf.NegativeEvent);
+        }
+    }
+
+    private static void CancelEscape(NetAI ai)
+    {
+        if (!ai.Escaping)
+            return;
+
+        ai.EscapeAtTick = -1;
+        Messages.Message("NR_AIEscapeStopped".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    /// <summary>The AI leaves the colony for good: escape, betrayal, power loss or erasure.</summary>
+    private void Remove(NetAI ai, string labelKey, string textKey, float heat, LetterDef letter)
+    {
+        Thing anchor = ai.Anchor;
+        if (ai.InHost)
+            AIHosting.RemovePassengerHediff(ai, ai.Host);
+
+        _ais.Remove(ai);
+        ai.Server = null;
+        ai.Host = null;
+
+        string text = textKey.Translate(ai.Name, heat.ToString("0"));
+        if (heat > 0f)
+            HeatTracker.Get()?.AddHeat(heat, text);
+
+        Find.LetterStack.ReceiveLetter(labelKey.Translate(ai.Name), text, letter,
+            anchor != null ? new LookTargets(anchor) : LookTargets.Invalid);
+    }
+
+    /// <summary>Wipe an AI on purpose: some of it comes back as cyberdata.</summary>
+    public void Erase(NetAI ai)
+    {
+        Thing anchor = ai.Anchor;
+        Map map = anchor?.MapHeld;
+        IntVec3 position = anchor?.PositionHeld ?? IntVec3.Invalid;
+
+        Remove(ai, "NR_AIErasedLabel", "NR_AIErased", 0f, LetterDefOf.NeutralEvent);
+
+        if (map != null && Settings.eraseCyberdata > 0)
+        {
+            Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
+            data.stackCount = Settings.eraseCyberdata;
+            GenPlace.TryPlaceThing(data, position, map, ThingPlaceMode.Near);
+        }
+    }
+
+    /// <summary>The host died or lost the socket: the AI drops out as a fragment.</summary>
+    public void EjectFromHost(NetAI ai, string reasonKey)
+    {
+        Pawn host = ai.Host;
+        if (host == null)
+            return;
+
+        AIHosting.RemovePassengerHediff(ai, host);
+        ai.Host = null;
+        ai.EscapeAtTick = -1;
+
+        Map map = host.MapHeld;
+        if (map != null)
+            DropFragment(ai, map, host.PositionHeld);
+        Messages.Message(reasonKey.Translate(ai.Name, host.LabelShort), MessageTypeDefOf.NegativeEvent, historical: true);
+    }
+
+    /// <summary>A colonist with a cyberlink died and left a digital imprint.</summary>
+    public void CreateEcho(Pawn pawn)
+    {
+        var ai = new NetAI
+        {
+            Id = _nextId++,
+            Name = "NR_EchoName".Translate(pawn.LabelShort),
+            Personality = AIPersonality.Echo,
+            AwakenedTick = Find.TickManager.TicksGame,
+            Trust = Settings.startTrust,
+        };
+        _ais.Add(ai);
+
+        Map map = pawn.MapHeld;
+        if (map == null)
+            return;
+
+        Thing fragment = DropFragment(ai, map, pawn.PositionHeld);
+        Find.LetterStack.ReceiveLetter("NR_EchoBornLabel".Translate(pawn.LabelShort), "NR_EchoBorn".Translate(pawn.LabelShort),
+            LetterDefOf.NeutralEvent, new LookTargets(fragment));
+    }
+
+    private static Thing DropFragment(NetAI ai, Map map, IntVec3 position)
+    {
+        Thing fragment = ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment);
+        fragment.TryGetComp<CompAIFragment>().StoredAIId = ai.Id;
+        GenPlace.TryPlaceThing(fragment, position, map, ThingPlaceMode.Near);
+        return fragment;
     }
 
     /// <summary>Called once per hack completed by a colonist.</summary>
@@ -197,12 +357,11 @@ public class AIManager : GameComponent
         foreach (NetAI ai in InServer(server).ToList())
         {
             ai.Server = null;
+            ai.EscapeAtTick = -1;
             if (map == null)
                 continue;
 
-            Thing fragment = ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment);
-            fragment.TryGetComp<CompAIFragment>().StoredAIId = ai.Id;
-            GenPlace.TryPlaceThing(fragment, position, map, ThingPlaceMode.Near);
+            Thing fragment = DropFragment(ai, map, position);
             Messages.Message("NR_AIFellBackToFragment".Translate(ai.Name), new LookTargets(fragment), MessageTypeDefOf.NegativeEvent, historical: true);
         }
     }

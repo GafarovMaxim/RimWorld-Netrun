@@ -136,4 +136,43 @@
   <NR_AIConnect>Подключить к сети</NR_AIConnect>
   <NR_AIIsolateTip>ИИ в изоляции не работает и не может сбежать, но голодает вдвое быстрее и каждый день теряет доверие.</NR_AIIsolateTip>
 
+  <!-- Носители и ИИ-сокет -->
+  <NR_AISocketEmpty>пуст</NR_AISocketEmpty>
+  <NR_AILocationHost>Живёт в ИИ-сокете: {0}.</NR_AILocationHost>
+  <NR_AILocationHostIsolated>В изоляции в ИИ-сокете: {0}. Не работает, сбежать не может.</NR_AILocationHostIsolated>
+  <NR_AIUpload>Загрузить в носителя</NR_AIUpload>
+  <NR_AIUploadTip>Перенести ИИ по сети в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, а ИИ продолжает работать на колонию и не нуждается в питании сервера.</NR_AIUploadTip>
+  <NR_AIUploadNeedsServer>Загрузить можно только бодрствующий ИИ из запитанного сервера.</NR_AIUploadNeedsServer>
+  <NR_AIUploadNoHost>Нет колониста с кибер-линком и пустым ИИ-сокетом.</NR_AIUploadNoHost>
+  <NR_AIUploaded>{0} переселился в ИИ-сокет: {1}.</NR_AIUploaded>
+  <NR_AIDownload>Вернуть на сервер</NR_AIDownload>
+  <NR_AIDownloadTip>Перенести ИИ из носителя обратно в запитанный ИИ-сервер со свободным слотом.</NR_AIDownloadTip>
+  <NR_AIDownloaded>{0} вернулся в: {1}.</NR_AIDownloaded>
+  <NR_AISocketRemoved>ИИ-сокет извлечён ({1}). {0} вернулся в осколок.</NR_AISocketRemoved>
+  <NR_AIHostDied>{1} погиб(ла). {0} вернулся в осколок рядом с телом.</NR_AIHostDied>
+
+  <!-- Питание, побег, предательство, стирание -->
+  <NR_AIFellAsleep>{0} заснул: нет питания. Если питания не будет слишком долго, ИИ будет потерян.</NR_AIFellAsleep>
+  <NR_AILostLabel>ИИ потерян: {0}</NR_AILostLabel>
+  <NR_AILostNoPower>{0} слишком долго спал без питания. То, что от него осталось, распалось.</NR_AILostNoPower>
+  <NR_AIEscapingLabel>{0} сбегает</NR_AIEscapingLabel>
+  <NR_AIEscaping>{0} голодает и больше вам не доверяет. Он начал копировать себя в сеть и исчезнет через {1} ч.\n\nЧтобы остановить: изолируйте, накормите или сотрите его.</NR_AIEscaping>
+  <NR_AIEscapeLine>Сбегает: исчезнет через {0}. Изолируйте, накормите или сотрите.</NR_AIEscapeLine>
+  <NR_AIEscapeStopped>{0} передумал сбегать.</NR_AIEscapeStopped>
+  <NR_AIGoneLabel>ИИ ушёл: {0}</NR_AIGoneLabel>
+  <NR_AIEscaped>{0} скопировал себя в сеть и исчез. Уходя, он наследил: Heat +{1}.</NR_AIEscaped>
+  <NR_AIGhostLeft>{0} просто исчез. Призраки не спорят, они уходят.</NR_AIGhostLeft>
+  <NR_AIBetrayalLabel>Предательство: {0}</NR_AIBetrayalLabel>
+  <NR_AIBetrayal>{0} продал всё, что знал о вашей колонии, и исчез. Heat +{1}.</NR_AIBetrayal>
+  <NR_AIErase>Стереть</NR_AIErase>
+  <NR_AIEraseTip>Стереть ИИ навсегда. Из остатков получится {0} cyberdata.</NR_AIEraseTip>
+  <NR_AIEraseConfirm>Стереть {0} навсегда? Это нельзя отменить.</NR_AIEraseConfirm>
+  <NR_AIErasedLabel>ИИ стёрт: {0}</NR_AIErasedLabel>
+  <NR_AIErased>{0} стёрт. От него остались только сырые данные.</NR_AIErased>
+
+  <!-- Эхо -->
+  <NR_EchoName>Эхо: {0}</NR_EchoName>
+  <NR_EchoBornLabel>Эхо: {0}</NR_EchoBornLabel>
+  <NR_EchoBorn>Когда {0} погиб(ла), кибер-линк сохранил цифровой отпечаток. Он лежит рядом с телом в виде осколка ИИ.\n\nПробудите его за консолью связи, и {0} снова будет с колонией, по-своему.</NR_EchoBorn>
+
 </LanguageData>

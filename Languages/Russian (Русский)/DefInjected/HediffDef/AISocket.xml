@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AISocketInstalled.label>ИИ-сокет</NR_AISocketInstalled.label>
+  <NR_AISocketInstalled.description>Нейросокет в кибер-линке. Может нести одного пробуждённого ИИ.</NR_AISocketInstalled.description>
+  <NR_AISocketInstalled.descriptionShort>Нейросокет, который может нести одного ИИ.</NR_AISocketInstalled.descriptionShort>
+
+  <NR_HostedAI_DataHunter.label>ИИ-пассажир: Охотник за данными</NR_HostedAI_DataHunter.label>
+  <NR_HostedAI_DataHunter.description>В сокете этого колониста едет ИИ-охотник за данными. Взлом идёт быстрее и иногда приносит лишние cyberdata.</NR_HostedAI_DataHunter.description>
+  <NR_HostedAI_Ghost.label>ИИ-пассажир: Призрак</NR_HostedAI_Ghost.label>
+  <NR_HostedAI_Ghost.description>ИИ-призрак прячет вторжения этого колониста. Взломы оставляют намного меньше следа.</NR_HostedAI_Ghost.description>
+  <NR_HostedAI_Muse.label>ИИ-пассажир: Муза</NR_HostedAI_Muse.label>
+  <NR_HostedAI_Muse.description>ИИ-муза нашёптывает идеи. Этот колонист заметно быстрее учится.</NR_HostedAI_Muse.description>
+  <NR_HostedAI_Predator.label>ИИ-пассажир: Хищник</NR_HostedAI_Predator.label>
+  <NR_HostedAI_Predator.description>ИИ-хищник сильно разгоняет разум этого колониста. Взлом идёт намного быстрее, но голова перегревается.</NR_HostedAI_Predator.description>
+  <NR_HostedAI_Warden.label>ИИ-пассажир: Страж</NR_HostedAI_Warden.label>
+  <NR_HostedAI_Warden.description>ИИ-страж присматривает за разумом этого колониста. Он устойчивее к стрессу.</NR_HostedAI_Warden.description>
+  <NR_HostedAI_Oracle.label>ИИ-пассажир: Оракул</NR_HostedAI_Oracle.label>
+  <NR_HostedAI_Oracle.description>ИИ-оракул видит закономерности, которые колонист упустил бы. Исследования идут быстрее.</NR_HostedAI_Oracle.description>
+  <NR_HostedAI_Forge.label>ИИ-пассажир: Кузнец</NR_HostedAI_Forge.label>
+  <NR_HostedAI_Forge.description>ИИ-кузнец просчитывает каждое движение. Этот колонист быстрее работает во всём.</NR_HostedAI_Forge.description>
+  <NR_HostedAI_Siren.label>ИИ-пассажир: Сирена</NR_HostedAI_Siren.label>
+  <NR_HostedAI_Siren.description>ИИ-сирена одалживает колонисту свой голос. Лучше общается, торгуется и договаривается.</NR_HostedAI_Siren.description>
+  <NR_HostedAI_Trickster.label>ИИ-пассажир: Трикстер</NR_HostedAI_Trickster.label>
+  <NR_HostedAI_Trickster.description>ИИ-трикстер превращает всё в игру. Этот колонист быстрее учится, но чуть менее устойчив.</NR_HostedAI_Trickster.description>
+  <NR_HostedAI_Echo.label>ИИ-пассажир: Эхо</NR_HostedAI_Echo.label>
+  <NR_HostedAI_Echo.description>В этом сокете живёт эхо погибшего колониста. Носитель спокойнее и теплее с людьми.</NR_HostedAI_Echo.description>
+</LanguageData>

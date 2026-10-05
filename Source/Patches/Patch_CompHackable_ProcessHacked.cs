@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using USH_HE;
@@ -65,17 +66,31 @@ public static class Patch_CompHackable_ProcessHacked
             LetterDefOf.PositiveEvent, new LookTargets(thing));
     }
 
-    /// <summary>A hack finished from a cyberpod sometimes yields an extra cyberdata next to the pod.</summary>
+    /// <summary>
+    /// Extra cyberdata: from a cyberpod (more with a Netrun coprocessor) and from a hosted Data Hunter.
+    /// </summary>
     private static void TryGiveCyberpodBonusData(Pawn hacker)
     {
-        if (!hacker.TryGetHoldingCyberpod(out Building_Cyberpod pod) || !pod.Spawned)
+        float chance = 0f;
+        Thing anchor = hacker;
+
+        if (hacker.TryGetHoldingCyberpod(out Building_Cyberpod pod) && pod.Spawned)
+        {
+            anchor = pod;
+            chance += NetrunDefOf.NR_Heat.cyberpodBonusDataChance;
+            if (CyberpodUtility.HasNetrunCoprocessor(pod))
+                chance += NetrunDefOf.NR_Heat.coprocessorBonusDataChance;
+        }
+
+        if (AIManager.Get()?.AIs.Any(a => a.Host == hacker && a.Personality == AIPersonality.DataHunter && a.Active) == true)
+            chance += NetrunDefOf.NR_AI.hostedDataHunterBonusChance;
+
+        if (!anchor.Spawned || !Rand.Chance(chance))
             return;
 
-        if (!Rand.Chance(NetrunDefOf.NR_Heat.cyberpodBonusDataChance))
-            return;
-
+        IntVec3 cell = anchor is Building building && building.def.hasInteractionCell ? building.InteractionCell : anchor.Position;
         Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
-        GenPlace.TryPlaceThing(data, pod.InteractionCell, pod.Map, ThingPlaceMode.Near);
+        GenPlace.TryPlaceThing(data, cell, anchor.Map, ThingPlaceMode.Near);
         Messages.Message("NR_CyberpodBonusData".Translate(hacker.LabelShort), new LookTargets(data), MessageTypeDefOf.PositiveEvent, historical: false);
     }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Netrun coprocessor: a cyberpod facility like Hacking Expansion's own coprocessors.
+       Its bonuses (less Heat, more cyberdata, slower Netsick) are numbers in Defs/Heat.xml. -->
+  <ThingDef ParentName="USH_CoprocessorBase">
+    <defName>NR_NetrunCoprocessor</defName>
+    <label>netrun coprocessor</label>
+    <description>A cyberpod subsystem that scrubs the netrunner's signature in real time and filters the noise of deep sessions. A cyberpod with it leaves less trace, pulls more cyberdata and makes cyberspace dependency grow slower.\n\nOnly one can connect to a pod.</description>
+    <graphicData>
+      <texPath>Things/Building/JammerCoprocessor</texPath>
+      <color>(0.55, 0.85, 1)</color>
+    </graphicData>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentSpacer>2</ComponentSpacer>
+      <USH_AdvancedCyberdata>2</USH_AdvancedCyberdata>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>150</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Facility">
+        <statOffsets>
+          <USH_HackingStealthMultiplier>0.1</USH_HackingStealthMultiplier>
+        </statOffsets>
+        <maxSimultaneous>1</maxSimultaneous>
+      </li>
+    </comps>
+    <researchPrerequisites>
+      <li>USH_CybertechMachinery</li>
+    </researchPrerequisites>
+  </ThingDef>
+
+</Defs>
