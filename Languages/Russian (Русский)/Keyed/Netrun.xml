@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Настройки -->
+  <NR_SettingsHeatGain>Прирост цифрового следа: {0}</NR_SettingsHeatGain>
+  <NR_SettingsHeatDecay>Остывание цифрового следа в день: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsReset>Сбросить по умолчанию</NR_SettingsReset>
+
+  <!-- Уровни следа -->
+  <NR_HeatLevel_Ghost>Призрак</NR_HeatLevel_Ghost>
+  <NR_HeatLevel_Noticed>Замечен</NR_HeatLevel_Noticed>
+  <NR_HeatLevel_Hunted>Под прицелом</NR_HeatLevel_Hunted>
+  <NR_HeatLevel_Burned>Засвечен</NR_HeatLevel_Burned>
+
+  <NR_HeatLevelUp>Цифровой след: {0}. Сеть внимательнее присматривается к вашей колонии.</NR_HeatLevelUp>
+
+  <!-- Оповещение -->
+  <NR_AlertHeatLabel>Цифровой след: {0} ({1})</NR_AlertHeatLabel>
+  <NR_AlertHeatDesc>Цифровой след колонии: {0} из 100 ({1}).\n\nКаждый успешный взлом оставляет след. Хакеры с высокой скрытностью оставляют его меньше, а взлом из кибер-капсулы ещё тише.\n\nСам по себе след остывает на {2} в день.\n\nУровни: Призрак 0–24, Замечен 25–49, Под прицелом 50–74, Засвечен 75–100.</NR_AlertHeatDesc>
+
+</LanguageData>

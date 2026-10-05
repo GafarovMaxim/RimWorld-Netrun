@@ -2,74 +2,33 @@
 setlocal
 
 echo ========================================
-echo Hacking Expansion: Black ICE
-echo Build script
+echo Hacking Expansion: Netrun - build
 echo ========================================
 echo.
-
-if "%RIMWORLD_DIR%"=="" (
-    echo RIMWORLD_DIR is not set.
-    echo.
-    echo Example:
-    echo set "RIMWORLD_DIR=E:\SteamLibrary\steamapps\common\RimWorld"
-    echo.
-    pause
-    exit /b 1
-)
-
-echo RimWorld directory:
-echo "%RIMWORLD_DIR%"
-echo.
-
-if not exist "%RIMWORLD_DIR%\RimWorldWin64_Data\Managed\Assembly-CSharp.dll" (
-    echo ERROR: Assembly-CSharp.dll was not found.
-    echo.
-    echo Expected:
-    echo "%RIMWORLD_DIR%\RimWorldWin64_Data\Managed\Assembly-CSharp.dll"
-    echo.
-    pause
-    exit /b 1
-)
 
 where dotnet >nul 2>nul
 if errorlevel 1 (
-    echo ERROR: .NET SDK was not found.
-    echo.
-    echo Install the .NET SDK and try again.
-    echo.
+    echo ERROR: .NET SDK was not found. Install it and try again.
     pause
     exit /b 1
 )
 
-echo Building...
+if not "%RIMWORLD_DIR%"=="" (
+    echo RimWorld directory: "%RIMWORLD_DIR%"
+) else (
+    echo RIMWORLD_DIR is not set, using the default from Source\Netrun.csproj.
+)
 echo.
 
-dotnet build "Source\BlackIce.csproj" -c Release
+dotnet build "%~dp0Source\Netrun.csproj" -c Release
 
 if errorlevel 1 (
     echo.
-    echo ========================================
     echo BUILD FAILED
-    echo ========================================
-    echo.
     pause
     exit /b 1
 )
 
 echo.
-echo ========================================
-echo BUILD SUCCESSFUL
-echo ========================================
-echo.
-
-if not exist "Assemblies" mkdir "Assemblies"
-
-if exist "Assemblies\HackingExpansionBlackIce.dll" (
-    echo DLL created:
-    echo "Assemblies\HackingExpansionBlackIce.dll"
-) else (
-    echo WARNING: DLL was not found in Assemblies.
-)
-
-echo.
+echo BUILD SUCCESSFUL: Assemblies\HackingExpansionNetrun.dll
 pause

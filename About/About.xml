@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Hacking Expansion: Black ICE</name>
-  <author>OpenAI</author>
-  <packageId>OpenAI.HackingExpansionBlackIce</packageId>
+  <name>Hacking Expansion: Netrun</name>
+  <author>GafarovMaxim</author>
+  <packageId>GafarovMaxim.HackingExpansionNetrun</packageId>
+  <modVersion>0.2.0</modVersion>
+  <url>https://github.com/GafarovMaxim/RimWorld-Netrun</url>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
-  <dependencies>
-    <li>Ushanka.HackingExpansion</li>
-  </dependencies>
+  <modDependencies>
+    <li>
+      <packageId>Ushanka.HackingExpansion</packageId>
+      <displayName>Ushankas Hacking Expansion</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/3573344880</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+    <li>
+      <packageId>OskarPotocki.VanillaFactionsExpanded.Core</packageId>
+      <displayName>Vanilla Expanded Framework</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2023507013</steamWorkshopUrl>
+    </li>
+  </modDependencies>
   <loadAfter>
+    <li>Ludeon.RimWorld</li>
+    <li>brrainz.harmony</li>
+    <li>OskarPotocki.VanillaFactionsExpanded.Core</li>
     <li>Ushanka.HackingExpansion</li>
   </loadAfter>
-  <description>
-Adds a cyberpunk-focused layer to Hacking Expansion: digital traces and consequences, fixer contracts, cyberdata economy, discoverable AI personalities, adaptive ICE, cyberspace dependence, braindance, and network attacks against the colony.
-  </description>
+  <description>A cyberpunk layer for Ushankas Hacking Expansion.
+
+Every successful intrusion leaves a digital trace. Keep your Heat low, deal with fixers, bring rogue AIs home, dive into cyberspace and record braindances, but remember that the network always answers.
+
+Work in progress. Current version: digital Heat tracking and braindance.</description>
 </ModMetaData>

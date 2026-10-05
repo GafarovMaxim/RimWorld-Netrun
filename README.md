@@ -1,29 +1,39 @@
-# Hacking Expansion: Black ICE
+# Hacking Expansion: Netrun
 
-Standalone RimWorld 1.6 addon for **Hacking Expansion**.
+A cyberpunk layer for RimWorld 1.6, built on top of [Ushankas Hacking Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880).
 
-## Included systems
+Every successful intrusion leaves a digital trace. Keep your Heat low, deal with fixers, bring rogue AIs home, dive into cyberspace and record braindances, but remember that the network always answers.
 
-- Digital trace / digital heat that rises from hacking and creates escalating consequences.
-- Fixer contracts: data delivery, system taps, and trace-burning jobs.
-- Cyberdata as a physical resource that can be sold, used for fixer work, crafted into braindance, or burned to scrub trace.
-- Unknown AI fragments that can be sold or awakened into persistent AI contacts with different personalities and benefits.
-- Adaptive ICE: repeated successful hacks of the same target type gradually increase the chance of rejection and neural feedback.
-- Cyberspace dependence: deep sessions through the Hacking Expansion cyberpod create a dependency that grows while connected and decays slowly offline.
-- Braindance: ingestible recorded experiences with mood/work benefits, tolerance, and addiction.
-- Network attacks: high digital heat schedules attacks that break down powered systems and can inflict neural noise.
+## Status
 
-## Installation
+Work in progress, version 0.2.0 (Phase 0: clean foundation).
 
-1. Install RimWorld 1.6.
-2. Install the original **Hacking Expansion**.
-3. Copy this folder into `RimWorld/Mods/`.
-4. If you are using the source project, build against the RimWorld 1.6 managed assemblies and place `HackingExpansionBlackIce.dll` in `Assemblies/`.
+Working now:
+- **Digital Heat.** Every completed hack by a colonist raises the colony's trace. Hacker stealth and Hacking Expansion cyberpods reduce it, and it cools down over time. An alert shows the current level: Ghost, Noticed, Hunted, Burned.
+- **Braindance chip.** A craftable recorded experience (drug lab, Hacking Expansion cyberdata + neutroamine) with its own tolerance and addiction.
 
-## Important implementation note
+Planned: network terminal on the comms console, fixers, AI personalities with an AI server, cyberspace dependency, braindance goggles and recording, network attacks.
 
-The integration intentionally avoids a compile-time dependency on Hacking Expansion's C# assembly. It resolves `CompHackable` by type name at runtime and patches its `Hack`, `OnHacked`, `ProcessHacked`, and `CanHackNow` methods when present. This makes the addon less brittle across small Hacking Expansion code changes.
+## Requirements
 
-## First prototype scope
+- RimWorld 1.6
+- Harmony
+- Vanilla Expanded Framework
+- Ushankas Hacking Expansion
 
-Version 0.1 is designed as a playable systems prototype rather than a finished content pack. It intentionally uses vanilla textures for new items/buildings, and the cyberspace layer is represented as a state attached to a cyberpod session rather than a separate graphical network map.
+## Building
+
+Requires the .NET SDK. The project references the game, Harmony and Hacking Expansion from the Steam folders.
+
+```
+build.bat
+```
+
+If RimWorld is not in `E:\SteamLibrary\steamapps\common\RimWorld`, set `RIMWORLD_DIR` first. The DLL goes to `Assemblies/`.
+
+## Layout
+
+- `About/`, `Defs/`, `Languages/` (English, Russian), `Textures/`: mod content.
+- `Source/`: C# code (`Netrun` namespace).
+- `Art/`: full-size source art, not loaded by the game.
+- `docs/`: design notes and art requests.

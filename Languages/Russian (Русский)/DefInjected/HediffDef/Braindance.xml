@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_BraindanceHigh.label>погружение в брейнданс</NR_BraindanceHigh.label>
+  <NR_BraindanceHigh.labelNoun>погружение в брейнданс</NR_BraindanceHigh.labelNoun>
+  <NR_BraindanceHigh.description>Граница между собственными воспоминаниями и записанным переживанием временно размыта.</NR_BraindanceHigh.description>
+
+  <NR_BraindanceAddiction.label>зависимость от брейнданса</NR_BraindanceAddiction.label>
+  <NR_BraindanceAddiction.description>Зависимость от записанных переживаний. Обычная реальность по сравнению с ними кажется тусклой и плоской.\n\nБез регулярных брейндансов начнётся ломка. Долгое воздержание постепенно избавит от зависимости.</NR_BraindanceAddiction.description>
+  <NR_BraindanceAddiction.stages.1.label>ломка</NR_BraindanceAddiction.stages.1.label>
+
+  <NR_BraindanceTolerance.label>толерантность к брейндансу</NR_BraindanceTolerance.label>
+  <NR_BraindanceTolerance.description>Накопленная толерантность к брейндансам. Чем она выше, тем слабее действует запись.</NR_BraindanceTolerance.description>
+</LanguageData>

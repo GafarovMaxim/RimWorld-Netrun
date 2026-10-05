@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Braindance chip (temporary drug form until goggles and recording arrive) -->
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>NR_BraindanceChip</defName>
+    <label>braindance chip</label>
+    <description>A recorded sensory experience compressed onto a neural chip. Playing it hijacks the user's senses: for a while, someone else's memory feels like your own.\n\nIt is pleasant and dangerously easy to come back to. Regular use builds tolerance and can turn into an addiction.</description>
+    <descriptionHyperlinks>
+      <HediffDef>NR_BraindanceHigh</HediffDef>
+      <HediffDef>NR_BraindanceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_BraindanceChip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>900</WorkToMake>
+      <MarketValue>60</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.6</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceTolerance</hediffDef>
+          <severity>0.04</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1600</displayPriority>
+    </recipeMaker>
+    <costList>
+      <USH_Cyberdata>1</USH_Cyberdata>
+      <Neutroamine>1</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <addictiveness>0.04</addictiveness>
+        <minToleranceToAddict>0.05</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1000</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- Immersion -->
+
+  <HediffDef>
+    <defName>NR_BraindanceHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>braindance immersion</label>
+    <labelNoun>braindance immersion</labelNoun>
+    <description>The boundary between the user's own memories and a recorded experience is temporarily blurred.</description>
+    <defaultLabelColor>(0.3, 0.9, 1)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.05</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_BraindanceHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>NR_BraindanceHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>braindance afterglow</label>
+        <description>For a little while I lived someone else's best moment. It still echoes.</description>
+        <baseMoodEffect>10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Addiction -->
+
+  <ChemicalDef>
+    <defName>NR_Braindance</defName>
+    <label>braindance</label>
+    <addictionHediff>NR_BraindanceAddiction</addictionHediff>
+    <toleranceHediff>NR_BraindanceTolerance</toleranceHediff>
+    <onGeneratedAddictedToleranceChance>0.8</onGeneratedAddictedToleranceChance>
+  </ChemicalDef>
+
+  <NeedDef ParentName="DrugAddictionNeedBase">
+    <defName>Chemical_NR_Braindance</defName>
+    <needClass>Need_Chemical</needClass>
+    <label>braindance</label>
+    <description>Because of a braindance addiction, this person needs to regularly replay recorded experiences to avoid withdrawal symptoms.</description>
+    <fallPerDay>0.25</fallPerDay>
+    <listPriority>45</listPriority>
+  </NeedDef>
+
+  <HediffDef ParentName="AddictionBase">
+    <defName>NR_BraindanceAddiction</defName>
+    <hediffClass>Hediff_Addiction</hediffClass>
+    <label>braindance addiction</label>
+    <description>A dependency on recorded experiences. Ordinary reality has started to feel dull and flat in comparison.\n\nWithout regular braindances, withdrawal symptoms will begin. Extended abstinence will slowly resolve the addiction.</description>
+    <chemicalNeed>Chemical_NR_Braindance</chemicalNeed>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.04</severityPerDay>
+        <showDaysToRecover>true</showDaysToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li />
+      <li>
+        <label>withdrawal</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Binging_DrugMajor</mentalState>
+            <mtbDays>35</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_BraindanceWithdrawal</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>NR_BraindanceAddiction</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Baby, Child, Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <visible>false</visible>
+      </li>
+      <li>
+        <label>braindance withdrawal</label>
+        <description>Everything around me is grey and muted. I keep reaching for memories that were never mine.</description>
+        <baseMoodEffect>-18</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <HediffDef ParentName="DrugToleranceBase">
+    <defName>NR_BraindanceTolerance</defName>
+    <label>braindance tolerance</label>
+    <description>A built-up tolerance to braindances. The more severe it is, the less a recording affects the user.</description>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.02</severityPerDay>
+      </li>
+      <li Class="HediffCompProperties_DrugEffectFactor">
+        <chemical>NR_Braindance</chemical>
+      </li>
+    </comps>
+  </HediffDef>
+
+</Defs>
