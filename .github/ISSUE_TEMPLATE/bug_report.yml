@@ -1,0 +1,42 @@
+name: Bug report
+description: Something does not work in Hacking Expansion: Netrun
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! Please attach **Player.log** - without it most bugs cannot be found.
+        Where it is: `%USERPROFILE%\AppData\LocalLow\Ludeon Studios\RimWorld by Ludeon Studios\Player.log` (Windows),
+        `~/Library/Logs/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` (macOS), `~/.config/unity3d/Ludeon Studios/RimWorld by Ludeon Studios/Player.log` (Linux).
+        Or share a HugsLib/"Share logs" link.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open the network console\n2. ..."
+  - type: input
+    id: version
+    attributes:
+      label: Mod version
+      description: From the mod list or About/About.xml (for example 0.5.0).
+    validations:
+      required: true
+  - type: textarea
+    id: mods
+    attributes:
+      label: Mod list
+      description: Other mods and their load order (a RimSort/RimPy export is fine).
+  - type: textarea
+    id: log
+    attributes:
+      label: Player.log
+      description: Attach the file or paste a log link.
+    validations:
+      required: true

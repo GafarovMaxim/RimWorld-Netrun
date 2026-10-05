@@ -1,0 +1,11 @@
+name: Idea
+description: Suggest a feature or a balance change
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: What should change and why it would make the game better.
+    validations:
+      required: true

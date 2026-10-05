@@ -16,6 +16,8 @@
   <b>English</b> | <a href="README_RU.md">Русский</a>
 </p>
 
+> 🇷🇺 Киберпанк-дополнение к Hacking Expansion: сетевой терминал, цифровой след, фиксеры, сетевые ИИ, нырки и брейнданс. Полное описание на русском: [README_RU.md](README_RU.md).
+
 ---
 
 > *"The network remembers your trace. Data is currency, but the netrunner pays in body and sanity."*
@@ -40,13 +42,19 @@ Intrusions are no longer isolated events: every breach leaves a digital trace ac
 
 ## 🚀 Key Features
 
+### 0. Network Terminal & Cyberspace Dives
+The comms console becomes a **network console**; a colonist opens the terminal there (a cyberpod has its own button).
+* **Node map:** Core (Heat ring with daily trend, alerts and resources), Club (fixers), Board (contracts), Archive (trace journal), Server room (AIs), Studio (braindance), Gateway (dives).
+* **Gateway:** external nodes float as circles (size = haul, color = type, dashed = hidden). Pick programs (Sword, Shield, Decoy, Stealth, Killer) and dive from a cyberpod.
+* **Turn-based dives:** move through code gates, scan hidden caches, hack Black ICE, download data and leave through the I/O port. Black ICE answers with Hacking Expansion outcomes: nausea, lockout, coma.
+
 ### 1. Digital Heat & Network Trace
 Every intrusion or data siphon generates measurable telemetry for the colony (0–100%).
 * **Shadow (0–24%):** Undetected ghost presence. Networks remain passive.
 * **Noticed (25–49%):** Security alerts tripped. Slight neuro-noise and data theft risks.
 * **Tracked (50–74%):** Active triangulation. Viral machine breakdowns, battery power grid spikes.
-* **Target (75–89%):** High-priority threat. Corporate ransomware, mercenary strike deployment.
-* **Red Zone (90–100%):** Maximum alert. Lethal black-ops raids, rogue AI flight or hijacking risks.
+* **Target (75–94%):** High-priority threat. Corporate ransomware, mercenary strike deployment.
+* **Red Zone (95–100%):** Maximum alert. Lethal black-ops raids, rogue AI flight or hijacking risks.
 
 Trace passively cools down over time or can be actively expunged through underworld fixers using Cyberdata.
 
@@ -125,5 +133,5 @@ python tools/check_keys.py
 
 ## 📜 Authors & Credits
 
-* **Lead Developer & Art:** GafarovMaxim
+* **Author:** Raul Moreau (GafarovMaxim)
 * **Special Thanks:** BlueEagle421 & the Ushanka Modding Team for the incredible foundation of Hacking Expansion.
