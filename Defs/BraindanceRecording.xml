@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Raw recording: made by braindance goggles, edited into a chip at the comms console -->
+  <!-- Raw recording: made by braindance goggles, edited into a chip at the network console -->
 
   <ThingDef ParentName="ResourceBase">
     <defName>NR_BraindanceRaw</defName>
     <label>raw braindance recording</label>
-    <description>Unedited sensory data captured by braindance goggles: everything the wearer saw and felt in a strong moment. Carry it to a comms console to edit it into a playable chip.</description>
+    <description>Unedited sensory data captured by braindance goggles: everything the wearer saw and felt in a strong moment. Carry it to a network console to edit it into a playable chip.</description>
     <graphicData>
       <texPath>Things/Item/NR_BraindanceRaw</texPath>
       <graphicClass>Graphic_Single</graphicClass>

@@ -36,10 +36,10 @@
 
   <!-- Awakening -->
   <NR_CommandAwakenAI>Awaken AI</NR_CommandAwakenAI>
-  <NR_CommandAwakenAIDesc>Have a colonist work at the comms console to wake an AI fragment and move it into a free AI server. Faster with higher hacking speed. With high Heat, the awakening may be noticed.</NR_CommandAwakenAIDesc>
+  <NR_CommandAwakenAIDesc>Have a colonist work at the network console to wake an AI fragment and move it into a free AI server. Faster with higher hacking speed. With high Heat, the awakening may be noticed.</NR_CommandAwakenAIDesc>
   <NR_AwakenNoFragment>No AI fragment in the colony.</NR_AwakenNoFragment>
   <NR_AwakenNoServer>Needs a powered AI server with a free slot.</NR_AwakenNoServer>
-  <NR_AwakenNoConsole>Needs a powered comms console.</NR_AwakenNoConsole>
+  <NR_AwakenNoConsole>Needs a powered network console.</NR_AwakenNoConsole>
   <NR_AwakenNoWorker>No colonist can do intellectual work.</NR_AwakenNoWorker>
   <NR_AwakenFragmentUnknown>Unknown AI fragment</NR_AwakenFragmentUnknown>
   <NR_AwakenFragmentStored>Fragment: {0}</NR_AwakenFragmentStored>
@@ -192,7 +192,7 @@
   <!-- Echo -->
   <NR_EchoName>Echo of {0}</NR_EchoName>
   <NR_EchoBornLabel>An echo of {0}</NR_EchoBornLabel>
-  <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.\n\nAwaken it at the comms console, and {0} will be with the colony again, in a way.</NR_EchoBorn>
+  <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.\n\nAwaken it at the network console, and {0} will be with the colony again, in a way.</NR_EchoBorn>
 
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
   <NR_OnlyOneAIServer>The colony can have only one AI server. Build server racks next to it for more slots.</NR_OnlyOneAIServer>

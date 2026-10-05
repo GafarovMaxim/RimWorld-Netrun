@@ -36,10 +36,10 @@
 
   <!-- Пробуждение -->
   <NR_CommandAwakenAI>Пробудить ИИ</NR_CommandAwakenAI>
-  <NR_CommandAwakenAIDesc>Колонист поработает за консолью связи, разбудит осколок ИИ и перенесёт его в свободный ИИ-сервер. Чем выше скорость взлома, тем быстрее. При высоком Heat пробуждение могут заметить.</NR_CommandAwakenAIDesc>
+  <NR_CommandAwakenAIDesc>Колонист поработает за сетевой консолью, разбудит осколок ИИ и перенесёт его в свободный ИИ-сервер. Чем выше скорость взлома, тем быстрее. При высоком Heat пробуждение могут заметить.</NR_CommandAwakenAIDesc>
   <NR_AwakenNoFragment>В колонии нет осколков ИИ.</NR_AwakenNoFragment>
   <NR_AwakenNoServer>Нужен запитанный ИИ-сервер со свободным слотом.</NR_AwakenNoServer>
-  <NR_AwakenNoConsole>Нужна запитанная консоль связи.</NR_AwakenNoConsole>
+  <NR_AwakenNoConsole>Нужна запитанная сетевая консоль.</NR_AwakenNoConsole>
   <NR_AwakenNoWorker>Нет колонистов, способных к интеллектуальному труду.</NR_AwakenNoWorker>
   <NR_AwakenFragmentUnknown>Неизвестный осколок ИИ</NR_AwakenFragmentUnknown>
   <NR_AwakenFragmentStored>Осколок: {0}</NR_AwakenFragmentStored>
@@ -192,7 +192,7 @@
   <!-- Эхо -->
   <NR_EchoName>Эхо: {0}</NR_EchoName>
   <NR_EchoBornLabel>Эхо: {0}</NR_EchoBornLabel>
-  <NR_EchoBorn>Когда {0} погиб(ла), кибер-линк сохранил цифровой отпечаток. Он лежит рядом с телом в виде осколка ИИ.\n\nПробудите его за консолью связи, и {0} снова будет с колонией, по-своему.</NR_EchoBorn>
+  <NR_EchoBorn>Когда {0} погиб(ла), кибер-линк сохранил цифровой отпечаток. Он лежит рядом с телом в виде осколка ИИ.\n\nПробудите его за сетевой консолью, и {0} снова будет с колонией, по-своему.</NR_EchoBorn>
 
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
   <NR_OnlyOneAIServer>В колонии может быть только один ИИ-сервер. Для новых слотов стройте рядом серверные стойки.</NR_OnlyOneAIServer>

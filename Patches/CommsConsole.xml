@@ -9,4 +9,12 @@
     </value>
   </Operation>
 
+  <!-- Renamed: it is the colony's network console now. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[defName="CommsConsole"]/label</xpath>
+    <value>
+      <label>network console</label>
+    </value>
+  </Operation>
+
 </Patch>

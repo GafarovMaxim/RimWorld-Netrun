@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_BraindanceRaw.label>сырая брейнданс-запись</NR_BraindanceRaw.label>
-  <NR_BraindanceRaw.description>Несмонтированные чувственные данные с брейнданс-очков: всё, что носитель видел и чувствовал в сильный момент. Отнесите к консоли связи, чтобы смонтировать из неё чип.</NR_BraindanceRaw.description>
+  <NR_BraindanceRaw.description>Несмонтированные чувственные данные с брейнданс-очков: всё, что носитель видел и чувствовал в сильный момент. Отнесите к сетевой консоли, чтобы смонтировать из неё чип.</NR_BraindanceRaw.description>
 </LanguageData>
