@@ -1,0 +1,78 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  HE_DLL_URL: https://raw.githubusercontent.com/BlueEagle421/HackingExpansion/main/1.6/Assemblies/HackingExpansion.dll
+  MOD_FOLDER: HackingExpansionNetrun
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Validate XML
+        run: |
+          python3 - <<'EOF'
+          import glob, sys, xml.dom.minidom
+          bad = 0
+          for f in glob.glob('**/*.xml', recursive=True):
+              try:
+                  xml.dom.minidom.parse(f)
+              except Exception as e:
+                  print(f'::error file={f}::{e}')
+                  bad += 1
+          sys.exit(1 if bad else 0)
+          EOF
+
+      - name: Check translation keys (English vs Russian)
+        run: |
+          python3 - <<'EOF'
+          import glob, sys, xml.etree.ElementTree as ET
+          def keys(lang):
+              out = set()
+              for f in glob.glob(f'Languages/{lang}/Keyed/*.xml'):
+                  out |= {e.tag for e in ET.parse(f).getroot()}
+              return out
+          en, ru = keys('English'), keys('Russian (Русский)')
+          for k in sorted(en - ru): print(f'::error::Missing Russian key: {k}')
+          for k in sorted(ru - en): print(f'::warning::Russian key not in English: {k}')
+          sys.exit(1 if en - ru else 0)
+          EOF
+
+      - name: Download Hacking Expansion
+        run: curl -fsSL "$HE_DLL_URL" -o Source/lib/HackingExpansion.dll --create-dirs
+
+      - name: Build
+        run: dotnet build Source/Netrun.csproj -c Release -warnaserror
+
+      - name: Package mod
+        run: |
+          mkdir -p dist/$MOD_FOLDER
+          cp -r About Assemblies Defs Languages Textures README.md dist/$MOD_FOLDER/
+          cd dist && zip -qr $MOD_FOLDER.zip $MOD_FOLDER
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ env.MOD_FOLDER }}
+          path: dist/${{ env.MOD_FOLDER }}.zip
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v3
+        with:
+          files: dist/${{ env.MOD_FOLDER }}.zip
+          generate_release_notes: true

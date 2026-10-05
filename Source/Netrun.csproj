@@ -18,9 +18,11 @@
 
     <RIMWORLD_DIR Condition="'$(RIMWORLD_DIR)' == ''">E:\SteamLibrary\steamapps\common\RimWorld</RIMWORLD_DIR>
     <WORKSHOP_DIR>$(RIMWORLD_DIR)\..\..\workshop\content\294100</WORKSHOP_DIR>
+    <LocalGame Condition="Exists('$(RIMWORLD_DIR)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll')">true</LocalGame>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- Local build: the installed game, Harmony and Hacking Expansion from Steam. -->
+  <ItemGroup Condition="'$(LocalGame)' == 'true'">
     <Reference Include="Assembly-CSharp">
       <HintPath>$(RIMWORLD_DIR)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
@@ -39,6 +41,16 @@
     </Reference>
     <Reference Include="HackingExpansion">
       <HintPath>$(WORKSHOP_DIR)\3573344880\1.6\Assemblies\HackingExpansion.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- CI build (no game installed): reference packages plus the Hacking Expansion DLL downloaded to lib/. -->
+  <ItemGroup Condition="'$(LocalGame)' != 'true'">
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4871" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" ExcludeAssets="runtime" PrivateAssets="all" />
+    <Reference Include="HackingExpansion">
+      <HintPath>lib\HackingExpansion.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

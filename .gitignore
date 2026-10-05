@@ -8,3 +8,7 @@ Source/bin/
 .vscode/
 *.user
 *.suo
+
+# CI download
+Source/lib/
+dist/
