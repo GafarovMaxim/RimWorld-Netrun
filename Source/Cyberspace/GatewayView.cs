@@ -276,7 +276,21 @@ public static class GatewayView
             }
             x += w + 6f;
         }
-        y += 40f;
+        y += 36f;
+
+        // Daemons: permanent programs, always on, no slot.
+        Text.Font = GameFont.Tiny;
+        string daemons = gateway.Daemons.Count == 0
+            ? "NR_GatewayNoDaemons".Translate().Colorize(NetrunUI.Muted)
+            : "NR_GatewayDaemons".Translate(gateway.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate()).ToCommaList()).Colorize(NetrunUI.Ok);
+        float dh = Text.CalcHeight(daemons, inner.width);
+        var daemonRect = new Rect(inner.x, y, inner.width, dh);
+        Widgets.Label(daemonRect, daemons);
+        TooltipHandler.TipRegion(daemonRect, gateway.Daemons.Count == 0
+            ? "NR_GatewayDaemonsTip".Translate()
+            : string.Join("\n", gateway.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate())));
+        Text.Font = GameFont.Small;
+        y += dh + 8f;
 
         // Dive cost with its breakdown, then the button.
         int cost = gateway.DiveCost(map, node, out string breakdown);

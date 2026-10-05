@@ -32,6 +32,8 @@ public class Fixer : IExposable
     public int ChannelOpenUntilTick;
     public int SilentUntilTick;
     public bool TraitRevealed;
+    /// <summary>Free trace scrubs owed by this fixer (a cyberspace find).</summary>
+    public int FreeScrubs;
     public List<ThingDef> Stock = [];
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
@@ -118,6 +120,7 @@ public class Fixer : IExposable
         Scribe_Values.Look(ref SilentUntilTick, "silentUntilTick");
         Scribe_Values.Look(ref TraitRevealed, "traitRevealed");
         Scribe_Collections.Look(ref Stock, "stock", LookMode.Def);
+        Scribe_Values.Look(ref FreeScrubs, "freeScrubs");
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {

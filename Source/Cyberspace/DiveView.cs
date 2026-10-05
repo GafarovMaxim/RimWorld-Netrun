@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
@@ -136,6 +137,13 @@ public static class DiveView
             float ph = Text.CalcHeight(programs, inner.width);
             Widgets.Label(new Rect(inner.x, y, inner.width, ph), programs.Colorize(NetrunUI.Muted));
             y += ph + 4f;
+            if (session.Daemons.Count > 0)
+            {
+                string daemons = "NR_DiveDaemons".Translate(session.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate()).ToCommaList());
+                float dh = Text.CalcHeight(daemons, inner.width);
+                Widgets.Label(new Rect(inner.x, y, inner.width, dh), daemons.Colorize(NetrunUI.Ok));
+                y += dh + 4f;
+            }
             Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "NR_DiveTurn".Translate(session.Turn, NetrunDefOf.NR_Cyberspace.maxTurns).Colorize(NetrunUI.Muted));
             y += 26f;
             Widgets.Label(new Rect(inner.x, y, inner.width, 40f), "NR_DiveLoot".Translate(session.LootText()).Colorize(NetrunUI.Ok));

@@ -148,4 +148,47 @@
   <NR_GatewayZoomReset>Reset zoom and position. Drag the field with the mouse to move it.</NR_GatewayZoomReset>
   <NR_GatewayRewardValue>x{0} of the dive cost: {1}</NR_GatewayRewardValue>
   <NR_DiveLogSpecial>Something special was waiting at the exit.</NR_DiveLogSpecial>
+  <NR_ExtNodeName_CorpCore>Corp core-{0}</NR_ExtNodeName_CorpCore>
+  <NR_ExtNodeType_CorpCore>corporate core (boss)</NR_ExtNodeType_CorpCore>
+  <NR_ExtNodeReward_CorpCore>a daemon or a celebrity chip, often an AI core module, lots of data</NR_ExtNodeReward_CorpCore>
+  <NR_BossNodeLabel>Corporate core in the Gateway</NR_BossNodeLabel>
+  <NR_BossNode>{0} has surfaced in the Gateway for {1} days: top defense, strong Black ICE, and a reward worth the risk.</NR_BossNode>
+  <NR_DiveLogBoss>The core's vault is open.</NR_DiveLogBoss>
+  <NR_FindResearch>Research data from the net: {0} moved forward.</NR_FindResearch>
+  <NR_FindFixerService>{0} owes you a favor: one free scrub of {1} Heat (Club).</NR_FindFixerService>
+  <NR_FindGroupFavor>A hacker group noticed your work. Favor: {0}/{1}.</NR_FindGroupFavor>
+  <NR_FindCelebrity>A rare recording turned up: {0}.</NR_FindCelebrity>
+  <NR_CelebrityEvent>a famous performance</NR_CelebrityEvent>
+  <NR_CelebrityEventDark>the last minutes before the end</NR_CelebrityEventDark>
+  <NR_FindDaemonLabel>Daemon found: {0}</NR_FindDaemonLabel>
+  <NR_FindDaemon>Your netrunner brought back a daemon, a program that lives on in the colony's systems: {0}.
+
+{1}
+
+It works in every dive, for free, without a slot.</NR_FindDaemon>
+  <NR_GatewayDaemons>Daemons: {0}</NR_GatewayDaemons>
+  <NR_GatewayNoDaemons>Daemons: none yet</NR_GatewayNoDaemons>
+  <NR_GatewayDaemonsTip>Daemons are permanent programs found in cyberspace (rare finds, the corporate core). They work in every dive for free.</NR_GatewayDaemonsTip>
+  <NR_DiveDaemons>Daemons: {0}</NR_DiveDaemons>
+  <NR_AlliesNeedFavor>needs the group's favor: {0}/{1}</NR_AlliesNeedFavor>
+  <NR_AlliesCooldown>the group can help again in {0}</NR_AlliesCooldown>
+  <NR_AlliesNoFaction>No allied faction can come, so the hacker group sent data instead.</NR_AlliesNoFaction>
+  <NR_Daemon_Blade>Blade</NR_Daemon_Blade>
+  <NR_DaemonDesc_Blade>Hacking +30% in every dive, without the Sword's double trace.</NR_DaemonDesc_Blade>
+  <NR_Daemon_Aegis>Aegis</NR_Daemon_Aegis>
+  <NR_DaemonDesc_Aegis>One Shield charge in every dive.</NR_DaemonDesc_Aegis>
+  <NR_Daemon_Wraith>Wraith</NR_Daemon_Wraith>
+  <NR_DaemonDesc_Wraith>Half the trace in every dive, like Stealth.</NR_DaemonDesc_Wraith>
+  <NR_Daemon_Hound>Hound</NR_Daemon_Hound>
+  <NR_DaemonDesc_Hound>One Killer charge in every dive.</NR_DaemonDesc_Hound>
+  <NR_Daemon_Lens>Lens</NR_Daemon_Lens>
+  <NR_DaemonDesc_Lens>Hidden caches are visible from the start.</NR_DaemonDesc_Lens>
+  <NR_Celebrity_0>Johnny Silverhand</NR_Celebrity_0>
+  <NR_Celebrity_1>Lady Neon</NR_Celebrity_1>
+  <NR_Celebrity_2>Kaiser Volkov</NR_Celebrity_2>
+  <NR_Celebrity_3>Mira Seven</NR_Celebrity_3>
+  <NR_Celebrity_4>Dr. Hollow</NR_Celebrity_4>
+  <NR_Celebrity_5>Saint Rust</NR_Celebrity_5>
+  <NR_Celebrity_6>Yuki Kurogane</NR_Celebrity_6>
+  <NR_Celebrity_7>The Last Pilot</NR_Celebrity_7>
 </LanguageData>

@@ -11,6 +11,18 @@ public enum ExternalNodeType
     Corp,
     Abandoned,
     DarkExchange,
+    /// <summary>The boss node: a corporate core that shows up every few weeks for a few days.</summary>
+    CorpCore,
+}
+
+/// <summary>Permanent programs found in cyberspace: active in every dive, free, no slot.</summary>
+public enum DiveDaemon
+{
+    Blade,
+    Aegis,
+    Wraith,
+    Hound,
+    Lens,
 }
 
 /// <summary>Numbers for the Gateway and dives (docs/CYBERSPACE.md), in Defs/Cyberspace.xml.</summary>
@@ -47,6 +59,27 @@ public class CyberspaceSettingsDef : Def
     public float rewardMultBlackIce = 3f;
     public float specialItemChance = 0.1f;
     public float specialItemChanceBlackIce = 0.25f;
+
+    // Special finds on a clean exit, by weight.
+    public float findFragment = 30f;
+    public float findResearch = 20f;
+    public float findFixerService = 15f;
+    public float findGroupFavor = 15f;
+    public float findCelebrityChip = 12f;
+    public float findDaemon = 5f;
+    public float findCoreModule = 3f;
+    public float researchReward = 600f;
+    public float fixerServiceReputation = 8f;
+    public float freeScrubHeat = 15f;
+    public int groupFavorForAllies = 3;
+    public float alliesCooldownDays = 15f;
+
+    // The boss node.
+    public float bossIntervalDays = 20f;
+    public float bossLifetimeDays = 3f;
+    public int bossIceStrength = 8;
+    public float bossRewardMult = 6f;
+    public float bossCoreModuleChance = 0.5f;
 }
 
 /// <summary>A node outside the home cluster: something to dive into from a cyberpod.</summary>
@@ -60,6 +93,10 @@ public class ExternalNode : IExposable
     public int IceStrength;
     public bool Hidden;
     public bool Contract;
+    /// <summary>Tick the node leaves the Gateway on its own (boss node only, -1 never).</summary>
+    public int ExpireTick = -1;
+
+    public bool IsBoss => Type == ExternalNodeType.CorpCore;
 
     public string Name => ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
@@ -70,12 +107,14 @@ public class ExternalNode : IExposable
         ExternalNodeType.Archive => NetrunUI.Ok,
         ExternalNodeType.Corp => NetrunUI.Bad,
         ExternalNodeType.Abandoned => NetrunUI.Purple,
+        ExternalNodeType.CorpCore => new Color(0.85f, 0.15f, 0.25f),
         _ => NetrunUI.Warn,
     };
 
     /// <summary>Rough value of the haul, for the circle size and the panel.</summary>
     public float RewardScore => Type switch
     {
+        ExternalNodeType.CorpCore => 1.4f,
         ExternalNodeType.Corp => 1f,
         ExternalNodeType.DarkExchange => 0.8f,
         ExternalNodeType.Abandoned => 0.7f,
@@ -85,6 +124,7 @@ public class ExternalNode : IExposable
 
     public float HeatPerTrace => Type switch
     {
+        ExternalNodeType.CorpCore => 2f,
         ExternalNodeType.Corp => 1.5f,
         ExternalNodeType.DarkExchange => 1.2f,
         _ => 1f,
@@ -92,7 +132,7 @@ public class ExternalNode : IExposable
 
     public Texture2D Icon => NetrunTex.CyberIcon("Node_" + Type switch
     {
-        ExternalNodeType.Corp => "CorpVault",
+        ExternalNodeType.Corp or ExternalNodeType.CorpCore => "CorpVault",
         ExternalNodeType.Abandoned => "AbandonedServer",
         _ => Type.ToString(),
     });
@@ -110,20 +150,35 @@ public class ExternalNode : IExposable
             if (Type == ExternalNodeType.DarkExchange)
                 yield return ThingDefOf.Silver.uiIcon;
             yield return NetrunDefOf.USH_Cyberdata.uiIcon;
-            if (Type == ExternalNodeType.Corp)
+            if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
                 yield return NetrunDefOf.USH_AdvancedCyberdata.uiIcon;
+            if (IsBoss)
+                yield return NetrunDefOf.NR_AICoreModule.uiIcon;
             if (Type == ExternalNodeType.Abandoned)
                 yield return NetrunDefOf.NR_AIFragment.uiIcon;
-            if (Type is ExternalNodeType.Corp or ExternalNodeType.DarkExchange)
+            if (Type is ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
                 yield return NetrunTex.CyberIcon("Reward_Valuables");
         }
     }
 
     /// <summary>How many times the dive cost the main files pay back.</summary>
-    public float RewardMultiplier => BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
+    public float RewardMultiplier => IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
+        : BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
         : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
 
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
+
+    /// <summary>The corporate core: top defense, strong Black ICE, gone after a few days.</summary>
+    public static ExternalNode GenerateBoss(int id) => new()
+    {
+        Id = id,
+        Number = Rand.RangeInclusive(1, 99),
+        Type = ExternalNodeType.CorpCore,
+        Defense = 5,
+        BlackIce = true,
+        IceStrength = NetrunDefOf.NR_Cyberspace.bossIceStrength,
+        ExpireTick = Find.TickManager.TicksGame + (int)(NetrunDefOf.NR_Cyberspace.bossLifetimeDays * GenDate.TicksPerDay),
+    };
 
     public static ExternalNode Generate(int id)
     {
@@ -151,5 +206,6 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref IceStrength, "iceStrength");
         Scribe_Values.Look(ref Hidden, "hidden");
         Scribe_Values.Look(ref Contract, "contract");
+        Scribe_Values.Look(ref ExpireTick, "expireTick", -1);
     }
 }

@@ -148,4 +148,47 @@
   <NR_GatewayZoomReset>Сбросить масштаб и положение. Поле можно таскать мышью.</NR_GatewayZoomReset>
   <NR_GatewayRewardValue>x{0} от стоимости нырка: {1}</NR_GatewayRewardValue>
   <NR_DiveLogSpecial>У выхода ждало что-то особенное.</NR_DiveLogSpecial>
+  <NR_ExtNodeName_CorpCore>Корп-ядро-{0}</NR_ExtNodeName_CorpCore>
+  <NR_ExtNodeType_CorpCore>корпоративное ядро (босс)</NR_ExtNodeType_CorpCore>
+  <NR_ExtNodeReward_CorpCore>демон или чип знаменитости, часто модуль ядра ИИ, много данных</NR_ExtNodeReward_CorpCore>
+  <NR_BossNodeLabel>Корпоративное ядро в Шлюзе</NR_BossNodeLabel>
+  <NR_BossNode>{0} всплыло в Шлюзе на {1} дня: максимальная защита, сильный Black ICE и награда, которая стоит риска.</NR_BossNode>
+  <NR_DiveLogBoss>Хранилище ядра открыто.</NR_DiveLogBoss>
+  <NR_FindResearch>Данные исследований из сети: {0} продвинулось.</NR_FindResearch>
+  <NR_FindFixerService>{0} должен вам услугу: один бесплатный сброс {1} Heat (Клуб).</NR_FindFixerService>
+  <NR_FindGroupFavor>Хакерская группа заметила вашу работу. Благосклонность: {0}/{1}.</NR_FindGroupFavor>
+  <NR_FindCelebrity>Нашлась редкая запись: {0}.</NR_FindCelebrity>
+  <NR_CelebrityEvent>знаменитое выступление</NR_CelebrityEvent>
+  <NR_CelebrityEventDark>последние минуты перед концом</NR_CelebrityEventDark>
+  <NR_FindDaemonLabel>Найден демон: {0}</NR_FindDaemonLabel>
+  <NR_FindDaemon>Нетраннер принёс демона, программу, которая останется в системах колонии: {0}.
+
+{1}
+
+Работает в каждом нырке, бесплатно и без слота.</NR_FindDaemon>
+  <NR_GatewayDaemons>Демоны: {0}</NR_GatewayDaemons>
+  <NR_GatewayNoDaemons>Демоны: пока нет</NR_GatewayNoDaemons>
+  <NR_GatewayDaemonsTip>Демоны — постоянные программы из киберпространства (редкие находки, корпоративное ядро). Работают в каждом нырке бесплатно.</NR_GatewayDaemonsTip>
+  <NR_DiveDaemons>Демоны: {0}</NR_DiveDaemons>
+  <NR_AlliesNeedFavor>нужна благосклонность группы: {0}/{1}</NR_AlliesNeedFavor>
+  <NR_AlliesCooldown>группа сможет помочь снова через {0}</NR_AlliesCooldown>
+  <NR_AlliesNoFaction>Союзной фракции рядом нет, поэтому хакерская группа прислала данные.</NR_AlliesNoFaction>
+  <NR_Daemon_Blade>Клинок</NR_Daemon_Blade>
+  <NR_DaemonDesc_Blade>Взлом +30% в каждом нырке, без двойного следа Меча.</NR_DaemonDesc_Blade>
+  <NR_Daemon_Aegis>Эгида</NR_Daemon_Aegis>
+  <NR_DaemonDesc_Aegis>Один заряд Щита в каждом нырке.</NR_DaemonDesc_Aegis>
+  <NR_Daemon_Wraith>Морок</NR_Daemon_Wraith>
+  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как Призрак.</NR_DaemonDesc_Wraith>
+  <NR_Daemon_Hound>Гончая</NR_Daemon_Hound>
+  <NR_DaemonDesc_Hound>Один заряд Убийцы в каждом нырке.</NR_DaemonDesc_Hound>
+  <NR_Daemon_Lens>Линза</NR_Daemon_Lens>
+  <NR_DaemonDesc_Lens>Скрытые тайники видны сразу.</NR_DaemonDesc_Lens>
+  <NR_Celebrity_0>Джонни Сильверхенд</NR_Celebrity_0>
+  <NR_Celebrity_1>Леди Неон</NR_Celebrity_1>
+  <NR_Celebrity_2>Кайзер Волков</NR_Celebrity_2>
+  <NR_Celebrity_3>Мира Семь</NR_Celebrity_3>
+  <NR_Celebrity_4>Доктор Холлоу</NR_Celebrity_4>
+  <NR_Celebrity_5>Святой Раст</NR_Celebrity_5>
+  <NR_Celebrity_6>Юки Курогане</NR_Celebrity_6>
+  <NR_Celebrity_7>Последний пилот</NR_Celebrity_7>
 </LanguageData>

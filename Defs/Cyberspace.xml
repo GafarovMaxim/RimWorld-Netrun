@@ -44,6 +44,25 @@
     <rewardMultBlackIce>3</rewardMultBlackIce>
     <specialItemChance>0.1</specialItemChance>
     <specialItemChanceBlackIce>0.25</specialItemChanceBlackIce>
+    <!-- Special finds by weight (docs/PHASE5_REWARDS.md) -->
+    <findFragment>30</findFragment>
+    <findResearch>20</findResearch>
+    <findFixerService>15</findFixerService>
+    <findGroupFavor>15</findGroupFavor>
+    <findCelebrityChip>12</findCelebrityChip>
+    <findDaemon>5</findDaemon>
+    <findCoreModule>3</findCoreModule>
+    <researchReward>600</researchReward>
+    <fixerServiceReputation>8</fixerServiceReputation>
+    <freeScrubHeat>15</freeScrubHeat>
+    <groupFavorForAllies>3</groupFavorForAllies>
+    <alliesCooldownDays>15</alliesCooldownDays>
+    <!-- Boss node: corporate core -->
+    <bossIntervalDays>20</bossIntervalDays>
+    <bossLifetimeDays>3</bossLifetimeDays>
+    <bossIceStrength>8</bossIceStrength>
+    <bossRewardMult>6</bossRewardMult>
+    <bossCoreModuleChance>0.5</bossCoreModuleChance>
   </Netrun.CyberspaceSettingsDef>
 
 </Defs>

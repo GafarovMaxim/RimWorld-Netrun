@@ -25,6 +25,22 @@ public static class FixersTab
         List<Fixer> pinned = manager.Fixers.Where(f => f.Pinned).ToList();
         List<Fixer> pool = manager.Fixers.Where(f => !f.Pinned).ToList();
 
+        // The hacker group: favor from cyberspace finds, spent on calling allies.
+        GatewayManager gateway = GatewayManager.Get();
+        if (gateway != null && (gateway.GroupFavor > 0 || !gateway.AlliesReady))
+        {
+            var groupRect = new Rect(rect.x, rect.y, rect.width, 34f);
+            string favor = "NR_ClubFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(groupRect.x, groupRect.y, groupRect.width - 220f, groupRect.height), favor.Colorize(NetrunUI.Purple));
+            Text.Anchor = TextAnchor.UpperLeft;
+            string call = "NR_ClubCallAllies".Translate();
+            float cw = NetrunUI.ButtonWidth(call);
+            if (NetrunUI.Button(new Rect(groupRect.xMax - cw - 16f, groupRect.y, cw, 30f), call, NetrunUI.Purple, gateway.CanCallAllies(), "NR_ClubCallAlliesTip".Translate()))
+                gateway.CallAllies(map);
+            rect.yMin += 40f;
+        }
+
         float width = rect.width - 16f;
         float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);
@@ -162,5 +178,13 @@ public static class FixersTab
 
         if (fixer.HasShop && Add("NR_FixerShop".Translate(), NetrunUI.Ok, needsChannel, "NR_FixerShopTip".Translate()))
             Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
+
+        // A favor the fixer owes from a cyberspace find: a free scrub, no channel needed.
+        if (fixer.FreeScrubs > 0 && Add("NR_FixerFreeScrub".Translate(fixer.FreeScrubs), NetrunUI.Purple, true,
+                "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
+        {
+            fixer.FreeScrubs--;
+            HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name));
+        }
     }
 }

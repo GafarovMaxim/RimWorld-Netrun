@@ -68,6 +68,7 @@ public class DiveSession : IExposable
     public int ActionsLeft;
     public float Trace;
     public List<DiveProgram> Programs = [];
+    public List<DiveDaemon> Daemons = [];
     public int ShieldCharges;
     public int DecoyCharges;
     public int KillerCharges;
@@ -92,12 +93,17 @@ public class DiveSession : IExposable
     public DiveElement Current => Elements[Position];
     public DiveElement Next => Position + 1 < Elements.Count ? Elements[Position + 1] : null;
 
-    public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid)
+    public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid, List<DiveDaemon> daemons)
     {
-        var session = new DiveSession { Node = node, Runner = runner, Programs = programs.ToList(), CostPaid = costPaid };
+        var session = new DiveSession { Node = node, Runner = runner, Programs = programs.ToList(), CostPaid = costPaid, Daemons = daemons.ToList() };
         session.ShieldCharges = programs.Count(p => p == DiveProgram.Shield);
         session.DecoyCharges = programs.Count(p => p == DiveProgram.Decoy);
         session.KillerCharges = programs.Count(p => p == DiveProgram.Killer);
+        // Daemons: Aegis and Hound add a charge each dive.
+        if (session.Daemons.Contains(DiveDaemon.Aegis))
+            session.ShieldCharges++;
+        if (session.Daemons.Contains(DiveDaemon.Hound))
+            session.KillerCharges++;
         session.Build();
         session.ActionsLeft = session.ActionsPerTurn;
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
@@ -108,15 +114,15 @@ public class DiveSession : IExposable
     private void Build()
     {
         Elements.Add(new DiveElement { Kind = DiveElementKind.Lobby, Cleared = true });
-        int gates = 1 + Node.Defense / 2;
+        int gates = Node.IsBoss ? 4 : 1 + Node.Defense / 2;
         for (int i = 0; i < gates; i++)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = Node.Defense + Rand.RangeInclusive(0, 2) });
         if (Rand.Chance(0.6f))
-            Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Hidden = true, Cache = true, Cleared = true });
+            Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Hidden = !Daemons.Contains(DiveDaemon.Lens), Cache = true, Cleared = true });
         if (Node.BlackIce)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = Node.IceStrength });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Cleared = true });
-        if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange)
+        if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Exit, Cleared = true });
     }
@@ -163,7 +169,7 @@ public class DiveSession : IExposable
     {
         int skill = Runner?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
         float chance = Settings.hackBase + skill * Settings.hackPerSkill - target.Strength * Settings.hackPerStrength;
-        if (Programs.Contains(DiveProgram.Sword))
+        if (Programs.Contains(DiveProgram.Sword) || Daemons.Contains(DiveDaemon.Blade))
             chance += Settings.swordBonus;
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
@@ -219,25 +225,116 @@ public class DiveSession : IExposable
     {
         int basis = Mathf.Max(CostPaid, Settings.diveBaseCost + Node.Defense / 2);
         LootCyberdata += Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier * Rand.Range(0.85f, 1.15f)));
-        if (Node.Type == ExternalNodeType.Corp)
+        if (Node.Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
             LootAdvanced += Rand.RangeInclusive(1, 2);
         else if (Node.Type == ExternalNodeType.DarkExchange)
             LootSilver += Rand.RangeInclusive(200, 400);
     }
 
-    /// <summary>On a clean exit, sometimes something special: an AI fragment, rarely a core module, otherwise advanced data.</summary>
+    /// <summary>
+    /// On a clean exit: the boss always pays out; other nodes sometimes leave a special find
+    /// (docs/PHASE5_REWARDS.md): a fragment, research, a fixer's service, the hacker group's favor,
+    /// a celebrity braindance, a daemon or a core module.
+    /// </summary>
     private void RollSpecial()
     {
+        if (Node.IsBoss)
+        {
+            RollBossReward();
+            return;
+        }
         if (!Rand.Chance(Node.BlackIce ? Settings.specialItemChanceBlackIce : Settings.specialItemChance))
             return;
-        float roll = Rand.Value;
-        if (roll < 0.15f)
-            LootItems.Add(NetrunDefOf.NR_AICoreModule);
-        else if (roll < 0.6f)
-            LootItems.Add(NetrunDefOf.NR_AIFragment);
-        else
-            LootAdvanced += 3;
+
+        var finds = new List<(System.Action find, float weight)>
+        {
+            (() => LootItems.Add(NetrunDefOf.NR_AIFragment), Settings.findFragment),
+            (FindResearch, Settings.findResearch),
+            (FindFixerService, Settings.findFixerService),
+            (FindGroupFavor, Settings.findGroupFavor),
+            (FindCelebrityChip, Settings.findCelebrityChip),
+            (() => FindDaemon(), Settings.findDaemon),
+            (() => LootItems.Add(NetrunDefOf.NR_AICoreModule), Settings.findCoreModule),
+        };
+        finds.RandomElementByWeight(f => f.weight).find();
         AddLog("NR_DiveLogSpecial".Translate().Colorize(NetrunUI.Ok));
+    }
+
+    /// <summary>The corporate core: a daemon (or a celebrity chip once all are found), maybe a core module.</summary>
+    private void RollBossReward()
+    {
+        if (!FindDaemon())
+            FindCelebrityChip();
+        if (Rand.Chance(Settings.bossCoreModuleChance))
+            LootItems.Add(NetrunDefOf.NR_AICoreModule);
+        AddLog("NR_DiveLogBoss".Translate().Colorize(NetrunUI.Ok));
+    }
+
+    private void FindResearch()
+    {
+        ResearchProjectDef project = Find.ResearchManager.GetProject();
+        if (project == null)
+        {
+            LootAdvanced += 2;
+            return;
+        }
+        Find.ResearchManager.AddProgress(project, Settings.researchReward, null);
+        Messages.Message("NR_FindResearch".Translate(project.LabelCap), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    private void FindFixerService()
+    {
+        Fixer fixer = FixerManager.Get()?.Fixers.RandomElementWithFallback();
+        if (fixer == null)
+        {
+            LootAdvanced += 1;
+            return;
+        }
+        fixer.GainReputation(Settings.fixerServiceReputation);
+        fixer.FreeScrubs++;
+        Messages.Message("NR_FindFixerService".Translate(fixer.Name, Settings.freeScrubHeat.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    private static void FindGroupFavor()
+    {
+        GatewayManager gateway = GatewayManager.Get();
+        if (gateway == null)
+            return;
+        gateway.GroupFavor++;
+        Messages.Message("NR_FindGroupFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies),
+            MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    /// <summary>A masterful recording of someone famous, delivered with the rest of the haul.</summary>
+    private void FindCelebrityChip()
+    {
+        bool black = Rand.Chance(0.3f);
+        Thing chip = ThingMaker.MakeThing(black ? NetrunDefOf.NR_BlackBraindanceChip : NetrunDefOf.NR_BraindanceChip);
+        CompBraindanceRecord rec = chip.TryGetComp<CompBraindanceRecord>();
+        if (rec != null)
+        {
+            rec.Author = ("NR_Celebrity_" + Rand.RangeInclusive(0, 7)).Translate();
+            rec.Event = (black ? "NR_CelebrityEventDark" : "NR_CelebrityEvent").Translate();
+            rec.Mood = black ? BraindanceMood.Dark : BraindanceMood.Bright;
+            rec.Strength = 1f;
+        }
+        if (Runner?.MapHeld is { } map)
+            GenPlace.TryPlaceThing(chip, Runner.PositionHeld, map, ThingPlaceMode.Near);
+        Messages.Message("NR_FindCelebrity".Translate(chip.LabelCap), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    /// <summary>Unlocks a daemon the colony does not have yet; false when all are already found.</summary>
+    private bool FindDaemon()
+    {
+        GatewayManager gateway = GatewayManager.Get();
+        var missing = System.Enum.GetValues(typeof(DiveDaemon)).Cast<DiveDaemon>().Where(d => gateway?.Daemons.Contains(d) == false).ToList();
+        if (gateway == null || missing.Count == 0)
+            return false;
+        DiveDaemon daemon = missing.RandomElement();
+        gateway.AddDaemon(daemon);
+        Find.LetterStack.ReceiveLetter("NR_FindDaemonLabel".Translate(("NR_Daemon_" + daemon).Translate()),
+            "NR_FindDaemon".Translate(("NR_Daemon_" + daemon).Translate(), ("NR_DaemonDesc_" + daemon).Translate()), LetterDefOf.PositiveEvent);
+        return true;
     }
 
     private void RollMemory()
@@ -266,7 +363,8 @@ public class DiveSession : IExposable
     /// <summary>Each action costs one network action and raises the trace; when actions run out the node takes its turn.</summary>
     private void Spend(float trace)
     {
-        Trace += trace * (Programs.Contains(DiveProgram.Stealth) ? Settings.stealthTraceFactor : 1f);
+        bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
+        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f);
         ActionsLeft--;
         if (ActionsLeft <= 0 && !Finished)
             NodeTurn();
@@ -435,6 +533,7 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref ActionsLeft, "actionsLeft");
         Scribe_Values.Look(ref Trace, "trace");
         Scribe_Collections.Look(ref Programs, "programs", LookMode.Value);
+        Scribe_Collections.Look(ref Daemons, "daemons", LookMode.Value);
         Scribe_Values.Look(ref ShieldCharges, "shield");
         Scribe_Values.Look(ref DecoyCharges, "decoy");
         Scribe_Values.Look(ref KillerCharges, "killer");
@@ -447,6 +546,7 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref CostPaid, "costPaid");
         Elements ??= [];
         Programs ??= [];
+        Daemons ??= [];
         LootItems ??= [];
         Log ??= [];
     }

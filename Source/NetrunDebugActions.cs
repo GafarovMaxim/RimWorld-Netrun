@@ -56,6 +56,23 @@ public static class NetrunDebugActions
     private static void EconomySummary()
         => Find.WindowStack.Add(new Dialog_MessageBox(EconomyTracker.Get()?.Summary(10) ?? "-"));
 
+    [DebugAction(Category, "Spawn boss node", allowedGameStates = AllowedGameStates.Playing)]
+    private static void SpawnBossNode() => GatewayManager.Get()?.SpawnBoss();
+
+    [DebugAction(Category, "Grant all daemons", allowedGameStates = AllowedGameStates.Playing)]
+    private static void GrantDaemons()
+    {
+        foreach (DiveDaemon daemon in System.Enum.GetValues(typeof(DiveDaemon)))
+            GatewayManager.Get()?.AddDaemon(daemon);
+    }
+
+    [DebugAction(Category, "+1 hacker group favor", allowedGameStates = AllowedGameStates.Playing)]
+    private static void AddFavor()
+    {
+        if (GatewayManager.Get() is { } gateway)
+            gateway.GroupFavor++;
+    }
+
     [DebugAction(Category, "Open network terminal", allowedGameStates = AllowedGameStates.Playing)]
     private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
 

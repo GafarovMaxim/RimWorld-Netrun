@@ -18,6 +18,12 @@ public class GatewayManager : GameComponent
     private int _nextRefreshTick = -1;
     private int _nextId = 1;
     public List<DiveProgram> SelectedPrograms = [];
+    /// <summary>Permanent programs found in cyberspace.</summary>
+    public List<DiveDaemon> Daemons = [];
+    /// <summary>Favor of a hacker group, spent on calling allies.</summary>
+    public int GroupFavor;
+    private int _alliesReadyTick;
+    private int _nextBossTick = -1;
     public DiveSession Session;
 
     public GatewayManager(Game game)
@@ -30,8 +36,15 @@ public class GatewayManager : GameComponent
     {
         get
         {
-            if (_nextRefreshTick < 0 || Find.TickManager.TicksGame >= _nextRefreshTick)
+            int now = Find.TickManager.TicksGame;
+            if (_nextRefreshTick < 0 || now >= _nextRefreshTick)
                 Refresh();
+            // The boss leaves when its time is up (unless someone is inside), and comes back every few weeks.
+            _nodes.RemoveAll(n => n.ExpireTick >= 0 && now >= n.ExpireTick && (Session == null || n.Id != Session.Node.Id));
+            if (_nextBossTick < 0)
+                _nextBossTick = now + (int)(Settings.bossIntervalDays * GenDate.TicksPerDay);
+            else if (now >= _nextBossTick)
+                SpawnBoss();
             return _nodes;
         }
     }
@@ -39,8 +52,8 @@ public class GatewayManager : GameComponent
     private void Refresh()
     {
         _nextRefreshTick = Find.TickManager.TicksGame + (int)(Settings.refreshDays * GenDate.TicksPerDay);
-        // The node being dived into stays until the dive ends.
-        _nodes.RemoveAll(n => Session == null || n.Id != Session.Node.Id);
+        // The node being dived into and a live boss node stay.
+        _nodes.RemoveAll(n => (Session == null || n.Id != Session.Node.Id) && !n.IsBoss);
         int count = Settings.nodeCount.RandomInRange;
         for (int i = 0; i < count; i++)
             _nodes.Add(ExternalNode.Generate(_nextId++));
@@ -52,6 +65,63 @@ public class GatewayManager : GameComponent
     }
 
     public void RemoveNode(ExternalNode node) => _nodes.RemoveAll(n => n.Id == node.Id);
+
+    /// <summary>The corporate core appears now (and the next one is scheduled).</summary>
+    public ExternalNode SpawnBoss()
+    {
+        _nextBossTick = Find.TickManager.TicksGame + (int)(Settings.bossIntervalDays * GenDate.TicksPerDay);
+        _nodes.RemoveAll(n => n.IsBoss && (Session == null || n.Id != Session.Node.Id));
+        ExternalNode boss = ExternalNode.GenerateBoss(_nextId++);
+        _nodes.Add(boss);
+        Find.LetterStack.ReceiveLetter("NR_BossNodeLabel".Translate(), "NR_BossNode".Translate(boss.Name, Settings.bossLifetimeDays.ToString("0")),
+            LetterDefOf.PositiveEvent);
+        return boss;
+    }
+
+    public bool AddDaemon(DiveDaemon daemon)
+    {
+        if (Daemons.Contains(daemon))
+            return false;
+        Daemons.Add(daemon);
+        return true;
+    }
+
+    public bool AlliesReady => Find.TickManager.TicksGame >= _alliesReadyTick;
+
+    public AcceptanceReport CanCallAllies()
+    {
+        if (GroupFavor < Settings.groupFavorForAllies)
+            return "NR_AlliesNeedFavor".Translate(GroupFavor, Settings.groupFavorForAllies);
+        if (!AlliesReady)
+            return "NR_AlliesCooldown".Translate((_alliesReadyTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
+        return true;
+    }
+
+    /// <summary>The hacker group sends help: a friendly party from an allied faction, or data when there is none.</summary>
+    public void CallAllies(Map map)
+    {
+        if (!CanCallAllies().Accepted)
+            return;
+        GroupFavor -= Settings.groupFavorForAllies;
+        _alliesReadyTick = Find.TickManager.TicksGame + (int)(Settings.alliesCooldownDays * GenDate.TicksPerDay);
+
+        Faction ally = Find.FactionManager.AllFactionsVisible
+            .Where(f => !f.IsPlayer && f.def.humanlikeFaction && f.PlayerRelationKind == FactionRelationKind.Ally && !f.defeated)
+            .RandomElementWithFallback();
+        if (ally != null)
+        {
+            IncidentParms parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
+            parms.faction = ally;
+            parms.forced = true;
+            if (IncidentDefOf.RaidFriendly.Worker.TryExecute(parms))
+                return;
+        }
+
+        Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_AdvancedCyberdata);
+        data.stackCount = 3;
+        DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [data], forbid: false);
+        Messages.Message("NR_AlliesNoFaction".Translate(), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
 
     public int TicksUntilRefresh => System.Math.Max(0, _nextRefreshTick - Find.TickManager.TicksGame);
 
@@ -96,7 +166,7 @@ public class GatewayManager : GameComponent
             return;
         int cost = DiveCost(map, node, out _);
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
-        Session = DiveSession.Start(node, runner, SelectedPrograms, cost);
+        Session = DiveSession.Start(node, runner, SelectedPrograms, cost, Daemons);
         EconomyTracker.Get()?.Note(spent: cost, dive: true);
         SelectedPrograms = [];
     }
@@ -180,6 +250,11 @@ public class GatewayManager : GameComponent
         Scribe_Values.Look(ref _nextId, "nextId", 1);
         Scribe_Collections.Look(ref SelectedPrograms, "selectedPrograms", LookMode.Value);
         Scribe_Deep.Look(ref Session, "session");
+        Scribe_Collections.Look(ref Daemons, "daemons", LookMode.Value);
+        Scribe_Values.Look(ref GroupFavor, "groupFavor");
+        Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
+        Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
+        Daemons ??= [];
         _nodes ??= [];
         SelectedPrograms ??= [];
     }
