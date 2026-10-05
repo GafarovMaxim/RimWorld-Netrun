@@ -69,7 +69,16 @@ public class AISettingsDef : Def
     public float betrayalHeat = 25f;
 
     // Erasing an AI gives some of it back as cyberdata.
-    public int eraseCyberdata = 3;
+    public int eraseAdvancedCyberdata = 2;
+
+    // "Fell asleep" notice waits this long, so power flickers stay quiet.
+    public int sleepNoticeHours = 2;
+
+    // Random AI events: how often, and the trust needed for a good one (below the low mark they cause trouble).
+    public IntRange eventIntervalDays = new(4, 8);
+    public float eventGoodTrust = 50f;
+    public float eventBadTrust = 30f;
+    public float eventBadHeat = 6f;
 
     // Echo: chance that a colonist dying with a cyberlink leaves a digital imprint.
     public float echoChance = 0.35f;

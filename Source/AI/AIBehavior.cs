@@ -47,6 +47,9 @@ public static class AIBehavior
 
     public static AcceptanceReport CanUseService(NetAI ai)
     {
+        // A host gets the passenger hediff and a pod gets the coprocessor bonus; services need the server's uplink.
+        if (!ai.InMainServer)
+            return "NR_AIServiceOnlyInServer".Translate();
         if (!ai.Powered)
             return "NR_AIAsleep".Translate();
         if (ai.Isolated)
@@ -82,10 +85,25 @@ public static class AIBehavior
         if (!CanFeed(ai, map).Accepted || Food(ai.Personality) is not { } food)
             return;
 
+        if (AIDelivery.NeedsCarrying(ai))
+        {
+            AIDelivery.OpenCarrierMenu(ai, map, AIDeliveryKind.Feed, food.thing, food.count, ai.Personality);
+            return;
+        }
+
         ColonyGoods.TryTake(map, food.thing, food.count);
+        FedDelivered(ai, ai.Personality);
+    }
+
+    /// <summary>The food reached the AI (carried to its server, or taken from storage by its host).</summary>
+    public static void FedDelivered(NetAI ai, AIPersonality seedGrows)
+    {
         ai.AddHunger(-Settings.feedHungerRelief);
         ai.AddTrust(Settings.feedTrust);
         Messages.Message("NR_AIFed".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: false);
+
+        if (ai.Personality == AIPersonality.Seed)
+            AIManager.Get()?.GrowSeed(ai, seedGrows);
     }
 
     /// <summary>A Seed is fed by choice: what it eats decides what it grows into.</summary>
@@ -104,11 +122,13 @@ public static class AIBehavior
             var captured = food;
             options.Add(new FloatMenuOption(label, () =>
             {
-                if (!ColonyGoods.TryTake(map, captured.thing, captured.count))
+                if (AIDelivery.NeedsCarrying(ai))
+                {
+                    AIDelivery.OpenCarrierMenu(ai, map, AIDeliveryKind.Feed, captured.thing, captured.count, captured.grows);
                     return;
-                ai.AddHunger(-Settings.feedHungerRelief);
-                ai.AddTrust(Settings.feedTrust);
-                AIManager.Get()?.GrowSeed(ai, captured.grows);
+                }
+                if (ColonyGoods.TryTake(map, captured.thing, captured.count))
+                    FedDelivered(ai, captured.grows);
             }));
         }
         Find.WindowStack.Add(new FloatMenu(options));
@@ -128,6 +148,13 @@ public static class AIBehavior
             ai.AddHunger(-Settings.feedHungerRelief);
 
         Perform(ai, ai.Personality, map);
+    }
+
+    /// <summary>A free use of the AI's service, without cooldown: used by random events.</summary>
+    public static void PerformOnItsOwn(NetAI ai, Map map)
+    {
+        if (map != null)
+            Perform(ai, ai.Personality, map);
     }
 
     private static void Perform(NetAI ai, AIPersonality personality, Map map)

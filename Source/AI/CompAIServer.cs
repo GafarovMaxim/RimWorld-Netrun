@@ -7,18 +7,38 @@ namespace Netrun;
 
 public class CompProperties_AIServer : CompProperties
 {
+    /// <summary>Slots before racks. The main server gets more from linked racks; a coprocessor never does.</summary>
+    public int baseSlots = 1;
+
+    /// <summary>True for the cyberpod coprocessor: its AI boosts the pod instead of offering services.</summary>
+    public bool coprocessor;
+
     public CompProperties_AIServer() => compClass = typeof(CompAIServer);
 }
 
-/// <summary>Hosts awakened AIs. Starts with one slot; rare core modules add more.</summary>
+/// <summary>
+/// Hosts awakened AIs. The main AI server starts with one slot and gains one per linked server rack;
+/// a netrun coprocessor holds a single AI that works for its cyberpod.
+/// </summary>
 public class CompAIServer : ThingComp
 {
+    // Kept from 0.3.0 saves, when core modules were installed straight into the server.
     private int _installedModules;
     private CompPowerTrader _power;
+    private CompAffectedByFacilities _facilities;
 
     private static AISettingsDef Settings => NetrunDefOf.NR_AI;
+    public CompProperties_AIServer Props => (CompProperties_AIServer)props;
 
-    public int Slots => System.Math.Min(Settings.maxSlots, Settings.baseSlots + _installedModules);
+    public bool IsCoprocessor => Props.coprocessor;
+
+    public int ActiveRacks => _facilities?.LinkedFacilitiesListForReading
+        .Count(f => f.def == NetrunDefOf.NR_AIServerRack && _facilities.IsFacilityActive(f)) ?? 0;
+
+    public int Slots => IsCoprocessor
+        ? Props.baseSlots
+        : System.Math.Min(Settings.maxSlots, Props.baseSlots + ActiveRacks + _installedModules);
+
     public int Used => AIManager.Get()?.InServer((Building)parent).Count() ?? 0;
     public bool HasFreeSlot => Used < Slots;
     public bool Powered => _power == null || _power.PowerOn;
@@ -27,46 +47,13 @@ public class CompAIServer : ThingComp
     {
         base.PostSpawnSetup(respawningAfterLoad);
         _power = parent.GetComp<CompPowerTrader>();
+        _facilities = parent.GetComp<CompAffectedByFacilities>();
     }
 
     public override void PostDestroy(DestroyMode mode, Map previousMap)
     {
         base.PostDestroy(mode, previousMap);
         AIManager.Get()?.OnServerDestroyed((Building)parent, previousMap, parent.Position);
-    }
-
-    public override IEnumerable<Gizmo> CompGetGizmosExtra()
-    {
-        foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            yield return gizmo;
-
-        if (parent.Faction != Faction.OfPlayer)
-            yield break;
-
-        yield return NetTerminalUtility.MakeGizmo(parent.Map, Powered);
-
-        if (Slots >= Settings.maxSlots)
-            yield break;
-
-        var install = new Command_Action
-        {
-            defaultLabel = "NR_InstallCoreModule".Translate(),
-            defaultDesc = "NR_InstallCoreModuleDesc".Translate(Slots, Settings.maxSlots),
-            icon = NetrunDefOf.NR_AICoreModule.uiIcon,
-            action = InstallModule,
-        };
-        if (ColonyGoods.Count(parent.Map, NetrunDefOf.NR_AICoreModule) == 0)
-            install.Disable("NR_NoCoreModule".Translate());
-        yield return install;
-    }
-
-    private void InstallModule()
-    {
-        if (!ColonyGoods.TryTake(parent.Map, NetrunDefOf.NR_AICoreModule, 1))
-            return;
-
-        _installedModules++;
-        Messages.Message("NR_CoreModuleInstalled".Translate(parent.LabelCap, Slots), parent, MessageTypeDefOf.PositiveEvent, historical: false);
     }
 
     public override string CompInspectStringExtra()
@@ -83,5 +70,18 @@ public class CompAIServer : ThingComp
     {
         base.PostExposeData();
         Scribe_Values.Look(ref _installedModules, "installedModules");
+    }
+}
+
+/// <summary>Only one AI server per colony map (blueprints and frames count too).</summary>
+public class PlaceWorker_OnlyOneAIServer : PlaceWorker
+{
+    public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null, Thing thing = null)
+    {
+        ThingDef def = NetrunDefOf.NR_AIServer;
+        bool exists = map.listerBuildings.AllBuildingsColonistOfDef(def).Any()
+            || map.listerThings.ThingsInGroup(ThingRequestGroup.Blueprint).Any(t => t.def.entityDefToBuild == def && t != thingToIgnore)
+            || map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame).Any(t => t.def.entityDefToBuild == def && t != thingToIgnore);
+        return exists ? "NR_OnlyOneAIServer".Translate() : AcceptanceReport.WasAccepted;
     }
 }

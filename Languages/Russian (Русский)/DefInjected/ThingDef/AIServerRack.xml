@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIServerRack.label>серверная стойка ИИ</NR_AIServerRack.label>
+  <NR_AIServerRack.description>Стойка расширения для ИИ-сервера, собранная вокруг редкого модуля ядра ИИ. Подключённая к запитанному серверу, даёт ещё один слот для ИИ. К серверу можно подключить до двух стоек.</NR_AIServerRack.description>
+</LanguageData>

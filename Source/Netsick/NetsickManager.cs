@@ -70,7 +70,7 @@ public class NetsickManager : GameComponent
     }
 
     private static float PodFactor(Building_Cyberpod pod)
-        => CyberpodUtility.HasNetrunCoprocessor(pod) ? NetrunDefOf.NR_Heat.coprocessorNetsickFactor : 1f;
+        => CyberpodUtility.NetsickFactor(CyberpodUtility.CoprocessorAI(pod));
 
     private static Hediff_Netsick AddNetsick(Pawn pawn, float amount)
     {

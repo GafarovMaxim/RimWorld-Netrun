@@ -7,8 +7,8 @@ using Verse.AI;
 namespace Netrun;
 
 /// <summary>
-/// A colonist sits at the comms console and coaxes a fragment awake, then moves it into a server.
-/// A: console, B: fragment, C: server.
+/// A colonist picks up an AI fragment, carries it to the comms console and coaxes it awake there,
+/// then moves it into the AI server. A: console, B: fragment, C: server.
 /// </summary>
 public class JobDriver_AwakenAI : JobDriver
 {
@@ -16,19 +16,20 @@ public class JobDriver_AwakenAI : JobDriver
     private const TargetIndex FragmentInd = TargetIndex.B;
     private const TargetIndex ServerInd = TargetIndex.C;
 
-    private Thing Fragment => job.GetTarget(FragmentInd).Thing;
     private Building Server => job.GetTarget(ServerInd).Thing as Building;
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
         => pawn.Reserve(job.GetTarget(ConsoleInd), job, errorOnFailed: errorOnFailed)
-           && pawn.Reserve(job.GetTarget(FragmentInd), job, errorOnFailed: errorOnFailed);
+           && pawn.Reserve(job.GetTarget(FragmentInd), job, 1, 1, null, errorOnFailed);
 
     protected override IEnumerable<Toil> MakeNewToils()
     {
         this.FailOnDespawnedNullOrForbidden(ConsoleInd);
-        this.FailOnDespawnedOrNull(FragmentInd);
+        this.FailOnDestroyedOrNull(FragmentInd);
         this.FailOn(() => Server == null || Server.Destroyed || Server.GetComp<CompAIServer>()?.HasFreeSlot != true);
 
+        yield return Toils_Goto.GotoThing(FragmentInd, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(FragmentInd);
+        yield return Toils_Haul.StartCarryThing(FragmentInd);
         yield return Toils_Goto.GotoThing(ConsoleInd, PathEndMode.InteractionCell);
 
         float speed = Mathf.Max(0.25f, pawn.GetStatValue(StatDefOf.HackingSpeed));
@@ -36,6 +37,7 @@ public class JobDriver_AwakenAI : JobDriver
 
         Toil work = Toils_General.Wait(ticks, ConsoleInd);
         work.FailOnCannotTouch(ConsoleInd, PathEndMode.InteractionCell);
+        work.FailOn(() => pawn.carryTracker.CarriedThing?.def != NetrunDefOf.NR_AIFragment);
         work.WithProgressBarToilDelay(ConsoleInd);
         work.WithEffect(EffecterDefOf.Hacking, ConsoleInd);
         work.tickAction = () => pawn.skills?.Learn(SkillDefOf.Intellectual, 0.05f);
@@ -43,7 +45,12 @@ public class JobDriver_AwakenAI : JobDriver
         yield return work;
 
         Toil finish = ToilMaker.MakeToil("AwakenAI");
-        finish.initAction = () => AIManager.Get()?.Awaken(Fragment, Server, pawn);
+        finish.initAction = () =>
+        {
+            Thing carried = pawn.carryTracker.CarriedThing;
+            if (carried != null)
+                AIManager.Get()?.Awaken(carried, Server, pawn);
+        };
         finish.defaultCompleteMode = ToilCompleteMode.Instant;
         yield return finish;
     }

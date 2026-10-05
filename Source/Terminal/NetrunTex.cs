@@ -41,6 +41,25 @@ public static class NetrunTex
     /// <summary>Indexed by Dialog_NetTerminal tab order.</summary>
     public static Texture2D TabIcon(int index) => TabIcons[index];
 
+    public static readonly Texture2D AIUse = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Use");
+    public static readonly Texture2D AIFeed = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Feed");
+    public static readonly Texture2D AIIsolate = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Isolate");
+    public static readonly Texture2D AIEmbody = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Embody");
+    public static readonly Texture2D AIErase = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Erase");
+
+    private static readonly System.Collections.Generic.Dictionary<AIPersonality, Texture2D> Portraits = [];
+
+    /// <summary>Portrait of an AI personality; falls back to the AI tab icon when there is no art yet.</summary>
+    public static Texture2D Portrait(AIPersonality personality)
+    {
+        if (!Portraits.TryGetValue(personality, out Texture2D tex))
+        {
+            tex = ContentFinder<Texture2D>.Get("UI/Netrun/AI/AI_" + personality, reportFailure: false) ?? TabIcon(3);
+            Portraits[personality] = tex;
+        }
+        return tex;
+    }
+
     /// <summary>Secondary text that stays readable on the dark window background.</summary>
     public static readonly Color DimText = new(0.78f, 0.78f, 0.78f);
 }

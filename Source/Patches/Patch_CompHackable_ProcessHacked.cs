@@ -68,7 +68,7 @@ public static class Patch_CompHackable_ProcessHacked
     }
 
     /// <summary>
-    /// Extra cyberdata: from a cyberpod (more with a Netrun coprocessor) and from a hosted Data Hunter.
+    /// Extra cyberdata: from a cyberpod (more with an AI in a Netrun coprocessor) and from a hosted Data Hunter.
     /// </summary>
     private static void TryGiveCyberpodBonusData(Pawn hacker)
     {
@@ -79,8 +79,7 @@ public static class Patch_CompHackable_ProcessHacked
         {
             anchor = pod;
             chance += NetrunDefOf.NR_Heat.cyberpodBonusDataChance;
-            if (CyberpodUtility.HasNetrunCoprocessor(pod))
-                chance += NetrunDefOf.NR_Heat.coprocessorBonusDataChance;
+            chance += CyberpodUtility.BonusDataChance(CyberpodUtility.CoprocessorAI(pod));
         }
 
         if (AIManager.Get()?.AIs.Any(a => a.Host == hacker && a.Personality == AIPersonality.DataHunter && a.Active) == true)

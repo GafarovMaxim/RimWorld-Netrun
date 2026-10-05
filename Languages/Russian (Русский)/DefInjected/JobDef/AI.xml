@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_AwakenAI.reportString>пробуждает осколок ИИ.</NR_AwakenAI.reportString>
+  <NR_UseNetTerminal.reportString>работает с сетевым терминалом.</NR_UseNetTerminal.reportString>
+  <NR_DeliverToAI.reportString>несёт TargetB к TargetA.</NR_DeliverToAI.reportString>
 </LanguageData>

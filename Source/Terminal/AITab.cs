@@ -87,7 +87,7 @@ public static class AITab
         float description = Text.CalcHeight(ai.Personality.Description(), TextWidth(width));
         float lines = 30f + LineHeight + description + 4 * LineHeight + (ai.HasRequest ? LineHeight * 2 : 0f)
             + (ai.Escaping ? LineHeight * 2 : 0f);
-        float buttons = 6 * (ButtonHeight + 6f);
+        float buttons = 7 * (ButtonHeight + 6f);
         return Mathf.Max(lines, buttons) + 2 * Padding;
     }
 
@@ -97,7 +97,7 @@ public static class AITab
         Rect inner = rect.ContractedBy(Padding);
 
         // Portrait placeholder until the personality art arrives.
-        GUI.DrawTexture(new Rect(inner.x, inner.y, PortraitSize, PortraitSize), NetrunTex.TabIcon(3));
+        GUI.DrawTexture(new Rect(inner.x, inner.y, PortraitSize, PortraitSize), NetrunTex.Portrait(ai.Personality));
 
         float x = inner.x + PortraitSize + 12f;
         float width = TextWidth(rect.width);
@@ -165,63 +165,60 @@ public static class AITab
     {
         float y = rect.y;
 
-        Button(new Rect(rect.x, y, rect.width, ButtonHeight), AIBehavior.ServiceLabel(ai.Personality),
-            AIBehavior.ServiceDescription(ai.Personality), AIBehavior.CanUseService(ai), () => AIBehavior.UseService(ai, map));
-        y += ButtonHeight + 6f;
+        void Add(Texture2D icon, string label, string tip, AcceptanceReport report, System.Action action)
+        {
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), icon, label, tip, report, action);
+            y += ButtonHeight + 6f;
+        }
 
-        Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIFeed".Translate(),
-            "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)), AIBehavior.CanFeed(ai, map), () => AIBehavior.Feed(ai, map));
-        y += ButtonHeight + 6f;
+        Add(NetrunTex.AIUse, AIBehavior.ServiceLabel(ai.Personality), AIBehavior.ServiceDescription(ai.Personality),
+            AIBehavior.CanUseService(ai), () => AIBehavior.UseService(ai, map));
+
+        Add(NetrunTex.AIFeed, "NR_AIFeed".Translate(), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
+            AIBehavior.CanFeed(ai, map), () => AIBehavior.Feed(ai, map));
 
         if (ai.Request == AIRequestKind.Deliver)
-        {
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIFulfil".Translate(),
-                "NR_AIFulfilTip".Translate(), manager.CanFulfil(ai, map), () => manager.Fulfil(ai, map));
-            y += ButtonHeight + 6f;
-        }
+            Add(NetrunTex.AIFeed, "NR_AIFulfil".Translate(), "NR_AIFulfilTip".Translate(), manager.CanFulfil(ai, map), () => manager.Fulfil(ai, map));
 
         if (ai.Housed)
-        {
-            string label = ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate();
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), label, "NR_AIIsolateTip".Translate(), true,
+            Add(NetrunTex.AIIsolate, ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate(), "NR_AIIsolateTip".Translate(), true,
                 () => ai.Isolated = !ai.Isolated);
-            y += ButtonHeight + 6f;
-        }
 
-        if (ai.InServer)
+        if (ai.InMainServer)
         {
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIUpload".Translate(), "NR_AIUploadTip".Translate(),
+            Add(NetrunTex.AIEmbody, "NR_AIUpload".Translate(), "NR_AIUploadTip".Translate(),
                 AIHosting.CanUpload(ai, map), () => AIHosting.OpenUploadMenu(ai, map));
-            y += ButtonHeight + 6f;
+            Add(NetrunTex.AIEmbody, "NR_AIToCoprocessor".Translate(), "NR_AIToCoprocessorTip".Translate(),
+                AIHosting.CanMoveToCoprocessor(ai, map), () => AIHosting.MoveToCoprocessor(ai, map));
         }
-        else if (ai.InHost)
+        else if (ai.InHost || ai.InCoprocessor)
         {
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
+            Add(NetrunTex.AIEmbody, "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
                 AIHosting.CanDownload(ai, map), () => AIHosting.Download(ai, map));
-            y += ButtonHeight + 6f;
         }
 
         if (ai.Housed)
-        {
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIErase".Translate(),
-                "NR_AIEraseTip".Translate(NetrunDefOf.NR_AI.eraseCyberdata), true,
+            Add(NetrunTex.AIErase, "NR_AIErase".Translate(), "NR_AIEraseTip".Translate(NetrunDefOf.NR_AI.eraseAdvancedCyberdata), true,
                 () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                     "NR_AIEraseConfirm".Translate(ai.Name), () => manager.Erase(ai), destructive: true)));
-        }
     }
 
-    /// <summary>A button that explains itself: the tooltip always describes it, and a disabled one says why.</summary>
-    private static void Button(Rect rect, string label, string tip, AcceptanceReport report, System.Action action)
+    /// <summary>
+    /// A button with an icon that explains itself: the tooltip always describes it, a disabled one says why.
+    /// </summary>
+    private static void Button(Rect rect, Texture2D icon, string label, string tip, AcceptanceReport report, System.Action action)
     {
+        bool clicked = Widgets.ButtonText(rect, "      " + label, active: report.Accepted);
+        GUI.DrawTexture(new Rect(rect.x + 4f, rect.y + (rect.height - 22f) / 2f, 22f, 22f), icon);
+
         if (report.Accepted)
         {
-            if (Widgets.ButtonText(rect, label))
-                action();
             TooltipHandler.TipRegion(rect, tip);
+            if (clicked)
+                action();
             return;
         }
 
-        Widgets.ButtonText(rect, label, active: false);
         TooltipHandler.TipRegion(rect, tip + "\n\n" + report.Reason.Colorize(ColorLibrary.RedReadable));
     }
 }

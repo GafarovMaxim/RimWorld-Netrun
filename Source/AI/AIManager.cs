@@ -85,6 +85,8 @@ public class AIManager : GameComponent
         int now = Find.TickManager.TicksGame;
         bool quiet = _lastHackTick < 0 || now - _lastHackTick > GenDate.TicksPerDay;
 
+        AIHosting.ReconcilePassengerHediffs(_ais);
+
         foreach (NetAI ai in _ais.ToList())
         {
             if (!ai.Housed || !UpdatePower(ai, now))
@@ -106,6 +108,9 @@ public class AIManager : GameComponent
             if (ai.Active)
                 UpdateRequest(ai, now);
 
+            if (ai.Active && ai.InMainServer)
+                UpdateRandomEvent(ai, now);
+
             // A Seed left in silence for a whole day leans toward Ghost.
             if (ai.Personality == AIPersonality.Seed && ai.Active && quiet && now - ai.SeedLastQuietDayTick >= GenDate.TicksPerDay)
             {
@@ -114,6 +119,32 @@ public class AIManager : GameComponent
             }
 
             UpdateLoyalty(ai, now);
+        }
+    }
+
+    /// <summary>Now and then an AI acts on its own: helps when it trusts you, makes trouble when it does not.</summary>
+    private void UpdateRandomEvent(NetAI ai, int now)
+    {
+        if (ai.NextEventTick <= 0)
+        {
+            ai.NextEventTick = now + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
+            return;
+        }
+        if (now < ai.NextEventTick)
+            return;
+
+        ai.NextEventTick = now + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
+
+        if (ai.Trust >= Settings.eventGoodTrust)
+        {
+            Messages.Message("NR_AIEventGood".Translate(ai.Name), new LookTargets(ai.Anchor), MessageTypeDefOf.PositiveEvent, historical: true);
+            AIBehavior.PerformOnItsOwn(ai, ai.Server.Map);
+        }
+        else if (ai.Trust < Settings.eventBadTrust)
+        {
+            string text = "NR_AIEventBad".Translate(ai.Name, Settings.eventBadHeat.ToString("0"));
+            HeatTracker.Get()?.AddHeat(Settings.eventBadHeat, text);
+            Find.LetterStack.ReceiveLetter("NR_AIEventBadLabel".Translate(ai.Name), text, LetterDefOf.NegativeEvent, new LookTargets(ai.Anchor));
         }
     }
 
@@ -126,9 +157,15 @@ public class AIManager : GameComponent
             return true;
         }
 
+        int unpoweredFor = ai.UnpoweredSinceTick < 0 ? 0 : now - ai.UnpoweredSinceTick;
         if (ai.UnpoweredSinceTick < 0)
         {
             ai.UnpoweredSinceTick = now;
+        }
+        else if (unpoweredFor >= Settings.sleepNoticeHours * GenDate.TicksPerHour
+                 && unpoweredFor < (Settings.sleepNoticeHours + 1) * GenDate.TicksPerHour)
+        {
+            // Said once, and only after a delay, so short power flickers stay quiet.
             Messages.Message("NR_AIFellAsleep".Translate(ai.Name), new LookTargets(ai.Anchor), MessageTypeDefOf.CautionInput, historical: true);
         }
         else if (now - ai.UnpoweredSinceTick > Settings.lostAfterUnpoweredDays * GenDate.TicksPerDay)
@@ -215,10 +252,10 @@ public class AIManager : GameComponent
 
         Remove(ai, "NR_AIErasedLabel", "NR_AIErased", 0f, LetterDefOf.NeutralEvent);
 
-        if (map != null && Settings.eraseCyberdata > 0)
+        if (map != null && Settings.eraseAdvancedCyberdata > 0)
         {
-            Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
-            data.stackCount = Settings.eraseCyberdata;
+            Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_AdvancedCyberdata);
+            data.stackCount = Settings.eraseAdvancedCyberdata;
             GenPlace.TryPlaceThing(data, position, map, ThingPlaceMode.Near);
         }
     }
@@ -382,7 +419,22 @@ public class AIManager : GameComponent
         if (!CanFulfil(ai, map).Accepted || AIBehavior.Food(ai.Personality) is not { } food)
             return;
 
+        if (AIDelivery.NeedsCarrying(ai))
+        {
+            AIDelivery.OpenCarrierMenu(ai, map, AIDeliveryKind.Request, food.thing, ai.RequestAmount, ai.Personality);
+            return;
+        }
+
         ColonyGoods.TryTake(map, food.thing, ai.RequestAmount);
+        FulfilDelivered(ai);
+    }
+
+    /// <summary>The requested items reached the AI.</summary>
+    public void FulfilDelivered(NetAI ai)
+    {
+        if (ai.Request != AIRequestKind.Deliver)
+            return;
+
         ai.AddHunger(-100f);
         CompleteRequest(ai);
     }

@@ -22,6 +22,9 @@ public static class NetrunDefOf
     public static NetsickSettingsDef NR_NetsickSettings;
     public static HediffDef NR_Netsick;
     public static ThingDef NR_NetrunCoprocessor;
+    public static ThingDef NR_AIServerRack;
+    public static JobDef NR_UseNetTerminal;
+    public static JobDef NR_DeliverToAI;
     public static RulePackDef NR_NamerFixer;
 
     // Hacking Expansion

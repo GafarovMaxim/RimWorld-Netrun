@@ -24,6 +24,15 @@
 
     <!-- Heat from the "trace lock" ICE outcome -->
     <traceLockHeat>8</traceLockHeat>
+
+    <!-- An AI in a Netrun coprocessor linked to the cyberpod: Heat factor (Ghost hides better),
+         extra cyberdata chance (Data Hunter finds more), Netsick factor (Doc and Warden protect the diver) -->
+    <coprocessorHeatFactor>0.8</coprocessorHeatFactor>
+    <coprocessorGhostHeatFactor>0.5</coprocessorGhostHeatFactor>
+    <coprocessorBonusDataChance>0.1</coprocessorBonusDataChance>
+    <coprocessorDataHunterBonusDataChance>0.3</coprocessorDataHunterBonusDataChance>
+    <coprocessorNetsickFactor>0.75</coprocessorNetsickFactor>
+    <coprocessorDocNetsickFactor>0.4</coprocessorDocNetsickFactor>
   </Netrun.HeatSettingsDef>
 
   <!-- ICE outcome added to Hacking Expansion's ICE hacksets (see Patches/HackingExpansion.xml). -->

@@ -53,24 +53,68 @@ public static class AIHosting
 
     public static AcceptanceReport CanDownload(NetAI ai, Map map)
     {
-        if (!ai.InHost)
+        if (!ai.InHost && !ai.InCoprocessor)
             return false;
         if (AIAwakening.FreeServer(map) == null)
             return "NR_AwakenNoServer".Translate();
         return true;
     }
 
+    /// <summary>Back to the main server, from a host or from a cyberpod coprocessor.</summary>
     public static void Download(NetAI ai, Map map)
     {
         Building server = AIAwakening.FreeServer(map);
-        if (server == null || !ai.InHost)
+        if (server == null || (!ai.InHost && !ai.InCoprocessor))
             return;
 
-        Pawn host = ai.Host;
-        RemovePassengerHediff(ai, host);
+        if (ai.InHost)
+            RemovePassengerHediff(ai, ai.Host);
         ai.Host = null;
         ai.Server = server;
         Messages.Message("NR_AIDownloaded".Translate(ai.Name, server.LabelCap), server, MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
+    public static Building FreeCoprocessor(Map map)
+        => map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_NetrunCoprocessor)
+            .FirstOrDefault(b => b.GetComp<CompAIServer>() is { Powered: true, HasFreeSlot: true });
+
+    public static AcceptanceReport CanMoveToCoprocessor(NetAI ai, Map map)
+    {
+        if (!ai.InMainServer || !ai.Powered)
+            return "NR_AIUploadNeedsServer".Translate();
+        if (FreeCoprocessor(map) == null)
+            return "NR_AINoCoprocessor".Translate();
+        return true;
+    }
+
+    /// <summary>The AI moves into a cyberpod coprocessor and works for the pod instead of the colony.</summary>
+    public static void MoveToCoprocessor(NetAI ai, Map map)
+    {
+        Building coprocessor = FreeCoprocessor(map);
+        if (coprocessor == null)
+            return;
+
+        ai.Server = coprocessor;
+        Messages.Message("NR_AIMovedToCoprocessor".Translate(ai.Name), coprocessor, MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
+    /// <summary>
+    /// Safety net: every colonist carries exactly the passenger hediff of the AI riding in them, and nothing else.
+    /// </summary>
+    public static void ReconcilePassengerHediffs(IEnumerable<NetAI> ais)
+    {
+        foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_Colonists)
+        {
+            NetAI rider = ais.FirstOrDefault(a => a.Host == pawn);
+            HediffDef keep = rider == null ? null : PassengerHediff(rider.Personality);
+
+            foreach (Hediff hediff in pawn.health.hediffSet.hediffs
+                         .Where(h => h.def.defName.StartsWith("NR_HostedAI_") && h.def != keep).ToList())
+                pawn.health.RemoveHediff(hediff);
+
+            if (rider != null)
+                AddPassengerHediff(rider, pawn);
+        }
     }
 
     public static void AddPassengerHediff(NetAI ai, Pawn host)

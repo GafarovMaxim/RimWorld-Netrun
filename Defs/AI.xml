@@ -25,7 +25,7 @@
     <!-- Trust and hunger, 0-100. Starving (hunger above starvingHunger) and isolation cost trust daily.
          Ghost is not fed: its hunger grows per hack and drops on quiet days (no hacks for a day). -->
     <startTrust>50</startTrust>
-    <hungerPerDay>10</hungerPerDay>
+    <hungerPerDay>8</hungerPerDay>
     <starvingHunger>70</starvingHunger>
     <starvingTrustPerDay>2</starvingTrustPerDay>
     <isolatedTrustPerDay>3</isolatedTrustPerDay>
@@ -37,7 +37,7 @@
 
     <!-- Services: trust needed, cooldown, and what each personality does -->
     <minTrustForService>20</minTrustForService>
-    <serviceCooldownDays>3</serviceCooldownDays>
+    <serviceCooldownDays>4</serviceCooldownDays>
     <dataHunterData>2~4</dataHunterData>
     <dataHunterHeat>2</dataHunterHeat>
     <ghostHeatScrub>10</ghostHeatScrub>
@@ -49,10 +49,20 @@
     <tricksterHeat>10</tricksterHeat>
 
     <!-- Requests: how often, how long to answer, how much food (x one feeding), trust won or lost -->
-    <requestIntervalDays>6~10</requestIntervalDays>
+    <requestIntervalDays>8~12</requestIntervalDays>
     <requestDays>3</requestDays>
-    <requestFeedMultiplier>3</requestFeedMultiplier>
+    <requestFeedMultiplier>2</requestFeedMultiplier>
     <requestTrust>15</requestTrust>
+
+    <!-- Erasing an AI gives back advanced cyberdata. "Fell asleep" notice delay in hours (power flickers stay quiet). -->
+    <eraseAdvancedCyberdata>2</eraseAdvancedCyberdata>
+    <sleepNoticeHours>2</sleepNoticeHours>
+
+    <!-- Random AI events: interval in days; trust for a helpful event; below eventBadTrust the AI causes trouble -->
+    <eventIntervalDays>4~8</eventIntervalDays>
+    <eventGoodTrust>50</eventGoodTrust>
+    <eventBadTrust>30</eventBadTrust>
+    <eventBadHeat>6</eventBadHeat>
   </Netrun.AISettingsDef>
 
   <!-- Predator service: a temporary edge for every hacker with a cyberlink -->
@@ -100,7 +110,7 @@
     <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at a comms console and move it into an AI server. Its personality stays hidden until then.</description>
     <thingClass>ThingWithComps</thingClass>
     <graphicData>
-      <texPath>Things/Item/ExecData</texPath>
+      <texPath>Things/Item/NR_AIFragment</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <stackLimit>1</stackLimit>
@@ -124,9 +134,9 @@
   <ThingDef ParentName="ResourceBase">
     <defName>NR_AICoreModule</defName>
     <label>AI core module</label>
-    <description>An old-world processing module with a living lattice of qubits. Installed into an AI server, it opens one more slot for an AI. Almost impossible to find: they turn up behind black ICE and in fallen satellites.</description>
+    <description>An old-world processing module with a living lattice of qubits. Needed to build a server rack, which opens one more slot for an AI. Almost impossible to find: they turn up behind black ICE and in fallen satellites.</description>
     <graphicData>
-      <texPath>Things/Item/AdvancedCyberlinkUpgrade</texPath>
+      <texPath>Things/Item/NR_AICoreModule</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
     <stackLimit>5</stackLimit>
@@ -146,7 +156,7 @@
   <ThingDef ParentName="BuildingBase">
     <defName>NR_AIServer</defName>
     <label>AI server</label>
-    <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Starts with one slot; AI core modules add more, up to three.</description>
+    <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Only one can be built. Starts with one slot; server racks built next to it add more, up to three.</description>
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
@@ -178,6 +188,10 @@
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
     </building>
+    <placeWorkers>
+      <li>Netrun.PlaceWorker_OnlyOneAIServer</li>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
     <comps>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
@@ -186,8 +200,74 @@
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Breakdownable" />
       <li Class="Netrun.CompProperties_AIServer" />
+      <li Class="CompProperties_AffectedByFacilities">
+        <linkableFacilities>
+          <li>NR_AIServerRack</li>
+        </linkableFacilities>
+      </li>
     </comps>
   </ThingDef>
+
+  <!-- Server rack: an extension built next to the AI server, +1 AI slot each (up to 2 racks) -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_AIServerRack</defName>
+    <label>AI server rack</label>
+    <description>An extension rack for the AI server, built around a rare AI core module. Linked to a powered server, it gives one more slot for an AI. Up to two racks can link to the server.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Misc/NR_AIServerRack</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.1, 1.1)</drawSize>
+    </graphicData>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.6</fillPercent>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <WorkToBuild>3000</WorkToBuild>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <costList>
+      <Steel>60</Steel>
+      <ComponentSpacer>2</ComponentSpacer>
+      <NR_AICoreModule>1</NR_AICoreModule>
+    </costList>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>USH_AdvancedCybertech</li>
+    </researchPrerequisites>
+    <placeWorkers>
+      <li>PlaceWorker_ShowFacilitiesConnections</li>
+    </placeWorkers>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Facility">
+        <maxSimultaneous>2</maxSimultaneous>
+        <maxDistance>6</maxDistance>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>NR_UseNetTerminal</defName>
+    <driverClass>Netrun.JobDriver_UseNetTerminal</driverClass>
+    <reportString>using the network terminal.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+  <JobDef>
+    <defName>NR_DeliverToAI</defName>
+    <driverClass>Netrun.JobDriver_DeliverToAI</driverClass>
+    <reportString>bringing TargetB to TargetA.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
 
   <JobDef>
     <defName>NR_AwakenAI</defName>

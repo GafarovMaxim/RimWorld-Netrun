@@ -16,12 +16,8 @@ public static class HackHeatUtility
         float stealth = Mathf.Max(1f, hacker.GetStatValue(StatDefOf.HackingStealth));
         heat *= Settings.stealthFactor.ClampToRange(Settings.baseStealth / stealth);
 
-        if (CyberpodUtility.InCyberpod(hacker, out bool boosted))
-        {
-            heat *= Settings.cyberpodHeatFactor;
-            if (boosted)
-                heat *= Settings.coprocessorHeatFactor;
-        }
+        if (CyberpodUtility.InCyberpod(hacker, out NetAI coprocessorAI))
+            heat *= Settings.cyberpodHeatFactor * CyberpodUtility.HeatFactor(coprocessorAI);
 
         return heat;
     }

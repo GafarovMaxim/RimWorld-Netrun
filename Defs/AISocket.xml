@@ -5,7 +5,7 @@
   <ThingDef ParentName="USH_AdvancedCyberlinkUpgradeBase">
     <defName>NR_AISocket</defName>
     <label>AI socket</label>
-    <description>A neural socket that plugs into a cyberlink and gives an awakened AI a place to live inside its host. The AI rides along, lends the host its talents and keeps working for the colony.\n\nRequires a cyberlink. Upload and download the AI from the AI tab of the network terminal.\n\nIt can be self-installed without surgery.</description>
+    <description>A neural socket that plugs into a cyberlink and gives an awakened AI a place to live inside its host. The AI rides along and lends the host its talents. Its services are not available from a host: they need the AI server.\n\nRequires a cyberlink. Upload and download the AI from the AI tab of the network terminal.\n\nIt can be self-installed without surgery.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_AISocketInstalled</HediffDef>
     </descriptionHyperlinks>

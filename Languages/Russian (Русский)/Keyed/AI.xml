@@ -29,10 +29,6 @@
   <NR_AIFragmentStored>Спит: {0} ({1}).</NR_AIFragmentStored>
   <NR_ServerSlots>Слоты для ИИ: {0} / {1}</NR_ServerSlots>
   <NR_ServerAsleep>Нет питания: ИИ внутри спят.</NR_ServerAsleep>
-  <NR_InstallCoreModule>Установить модуль ядра</NR_InstallCoreModule>
-  <NR_InstallCoreModuleDesc>Использовать модуль ядра ИИ со склада, чтобы добавить слот для ИИ. Сейчас слотов: {0}, максимум {1}.</NR_InstallCoreModuleDesc>
-  <NR_NoCoreModule>На складе нет модуля ядра ИИ.</NR_NoCoreModule>
-  <NR_CoreModuleInstalled>{0}: теперь слотов для ИИ — {1}.</NR_CoreModuleInstalled>
   <NR_AILocationFragment>Спит в осколке.</NR_AILocationFragment>
   <NR_AILocationServer>Живёт в: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Спит: {0} без питания.</NR_AILocationServerOff>
@@ -56,7 +52,7 @@
   <NR_Find>За ICE цели «{1}» {0} нашёл(ла) нечто необычное: {2}.</NR_Find>
 
   <!-- Вкладка «ИИ» -->
-  <NR_AINone>ИИ пока нет. Найдите осколок ИИ (за сильным ICE или у Скупщика), постройте ИИ-сервер и пробудите осколок за консолью связи.</NR_AINone>
+  <NR_AINone>ИИ пока нет. Найдите осколок ИИ (за сильным ICE или у Скупщика), постройте ИИ-сервер, затем пусть колонист отнесёт осколок к консоли связи и пробудит его там (правый щелчок по консоли).</NR_AINone>
   <NR_AIHeader>Серверов: {0}, занято слотов {1} / {2}. Осколков в колонии: {3}.</NR_AIHeader>
   <NR_AIPersonalityLine>Личность: {0}</NR_AIPersonalityLine>
 
@@ -141,12 +137,12 @@
   <NR_AILocationHost>Живёт в ИИ-сокете: {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>В изоляции в ИИ-сокете: {0}. Не работает, сбежать не может.</NR_AILocationHostIsolated>
   <NR_AIUpload>Загрузить в носителя</NR_AIUpload>
-  <NR_AIUploadTip>Перенести ИИ по сети в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, а ИИ продолжает работать на колонию и не нуждается в питании сервера.</NR_AIUploadTip>
+  <NR_AIUploadTip>Перенести ИИ в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, но услуги ИИ больше не оказывает: для них нужен сервер.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Загрузить можно только бодрствующий ИИ из запитанного сервера.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>Нет колониста с кибер-линком и пустым ИИ-сокетом.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} переселился в ИИ-сокет: {1}.</NR_AIUploaded>
   <NR_AIDownload>Вернуть на сервер</NR_AIDownload>
-  <NR_AIDownloadTip>Перенести ИИ из носителя обратно в запитанный ИИ-сервер со свободным слотом.</NR_AIDownloadTip>
+  <NR_AIDownloadTip>Перенести ИИ из носителя или сопроцессора обратно на ИИ-сервер, если там есть свободный слот.</NR_AIDownloadTip>
   <NR_AIDownloaded>{0} вернулся в: {1}.</NR_AIDownloaded>
   <NR_AISocketRemoved>ИИ-сокет извлечён ({1}). {0} вернулся в осколок.</NR_AISocketRemoved>
   <NR_AIHostDied>{1} погиб(ла). {0} вернулся в осколок рядом с телом.</NR_AIHostDied>
@@ -197,5 +193,21 @@
   <NR_EchoName>Эхо: {0}</NR_EchoName>
   <NR_EchoBornLabel>Эхо: {0}</NR_EchoBornLabel>
   <NR_EchoBorn>Когда {0} погиб(ла), кибер-линк сохранил цифровой отпечаток. Он лежит рядом с телом в виде осколка ИИ.\n\nПробудите его за консолью связи, и {0} снова будет с колонией, по-своему.</NR_EchoBorn>
+
+  <!-- 0.4: server racks, coprocessor AI, carrying, events -->
+  <NR_OnlyOneAIServer>В колонии может быть только один ИИ-сервер. Для новых слотов стройте рядом серверные стойки.</NR_OnlyOneAIServer>
+  <NR_AILocationCoprocessor>Работает на кибер-капсулу из: {0}.</NR_AILocationCoprocessor>
+  <NR_AIServiceOnlyInServer>Услугам нужен канал ИИ-сервера. В носителе или сопроцессоре ИИ помогает по-своему.</NR_AIServiceOnlyInServer>
+  <NR_AINoCoprocessor>Нужен запитанный сопроцессор Netrun со свободным слотом.</NR_AINoCoprocessor>
+  <NR_AIMovedToCoprocessor>{0} переселился в сопроцессор и теперь работает на кибер-капсулу.</NR_AIMovedToCoprocessor>
+  <NR_AIToCoprocessor>Перенести в сопроцессор</NR_AIToCoprocessor>
+  <NR_AIToCoprocessorTip>Перенести ИИ в сопроцессор Netrun, подключённый к кибер-капсуле. Услуги он больше не оказывает, зато усиливает капсулу.</NR_AIToCoprocessorTip>
+  <NR_FloatOpenTerminal>Открыть сетевой терминал</NR_FloatOpenTerminal>
+  <NR_FloatAwaken>Принести сюда и пробудить: {0}</NR_FloatAwaken>
+  <NR_AINeedOneStack>Нужна одна стопка: {0} × {1}.</NR_AINeedOneStack>
+  <NR_AINoCarrier>Никто из колонистов не может это отнести.</NR_AINoCarrier>
+  <NR_AIEventGood>{0} сделал кое-что для колонии по собственной инициативе.</NR_AIEventGood>
+  <NR_AIEventBadLabel>{0} своевольничает</NR_AIEventBadLabel>
+  <NR_AIEventBad>{0} вам не доверяет и сам полез шарить по сети. Heat +{1}.</NR_AIEventBad>
 
 </LanguageData>

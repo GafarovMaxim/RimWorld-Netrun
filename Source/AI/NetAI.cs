@@ -46,8 +46,12 @@ public class NetAI : IExposable
     public int SeedTowardGhost;
     public int SeedLastQuietDayTick;
 
+    public int NextEventTick;
+
     public bool InServer => Server != null && !Server.Destroyed;
     public bool InHost => Host != null && !Host.Dead;
+    public bool InCoprocessor => InServer && Server.GetComp<CompAIServer>()?.IsCoprocessor == true;
+    public bool InMainServer => InServer && !InCoprocessor;
     public bool Housed => InServer || InHost;
 
     /// <summary>A server needs power; a living host always keeps the AI running.</summary>
@@ -78,6 +82,8 @@ public class NetAI : IExposable
                 return "NR_AILocationFragment".Translate();
             if (!Powered)
                 return "NR_AILocationServerOff".Translate(Server.LabelCap);
+            if (InCoprocessor)
+                return Isolated ? "NR_AILocationIsolated".Translate(Server.LabelCap) : "NR_AILocationCoprocessor".Translate(Server.LabelCap);
             if (Isolated)
                 return "NR_AILocationIsolated".Translate(Server.LabelCap);
             return "NR_AILocationServer".Translate(Server.LabelCap);
@@ -108,5 +114,6 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref SeedTowardPredator, "seedTowardPredator");
         Scribe_Values.Look(ref SeedTowardGhost, "seedTowardGhost");
         Scribe_Values.Look(ref SeedLastQuietDayTick, "seedLastQuietDayTick");
+        Scribe_Values.Look(ref NextEventTick, "nextEventTick");
     }
 }

@@ -42,7 +42,7 @@ public class Dialog_NetTerminal : Window
         draggable = true;
         forcePause = false;
         absorbInputAroundWindow = false;
-        closeOnClickedOutside = false;
+        closeOnClickedOutside = true;
         preventCameraMotion = false;
     }
 

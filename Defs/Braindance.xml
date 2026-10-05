@@ -86,10 +86,9 @@
       <HediffDef>NR_BraindanceAddiction</HediffDef>
     </descriptionHyperlinks>
     <graphicData>
-      <texPath>Things/Item/Drug/NR_BraindanceChip</texPath>
+      <texPath>Things/Item/Drug/NR_BlackBraindanceChip</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>0.8</drawSize>
-      <color>(0.75, 0.25, 0.25)</color>
     </graphicData>
     <rotatable>false</rotatable>
     <statBases>

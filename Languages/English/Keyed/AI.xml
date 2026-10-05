@@ -29,10 +29,6 @@
   <NR_AIFragmentStored>Sleeping: {0} ({1}).</NR_AIFragmentStored>
   <NR_ServerSlots>AI slots: {0} / {1}</NR_ServerSlots>
   <NR_ServerAsleep>No power: the AIs inside are asleep.</NR_ServerAsleep>
-  <NR_InstallCoreModule>Install core module</NR_InstallCoreModule>
-  <NR_InstallCoreModuleDesc>Use an AI core module from storage to add one AI slot. Slots now: {0}, maximum {1}.</NR_InstallCoreModuleDesc>
-  <NR_NoCoreModule>No AI core module in storage.</NR_NoCoreModule>
-  <NR_CoreModuleInstalled>{0} now has {1} AI slots.</NR_CoreModuleInstalled>
   <NR_AILocationFragment>Sleeping in a fragment.</NR_AILocationFragment>
   <NR_AILocationServer>Lives in: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Asleep: {0} has no power.</NR_AILocationServerOff>
@@ -56,7 +52,7 @@
   <NR_Find>Behind the ICE of {1}, {0} found something unusual: {2}.</NR_Find>
 
   <!-- AI tab -->
-  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build an AI server and awaken the fragment at the comms console.</NR_AINone>
+  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then have a colonist carry the fragment to the comms console and awaken it there (right-click the console).</NR_AINone>
   <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
   <NR_AIPersonalityLine>Personality: {0}</NR_AIPersonalityLine>
 
@@ -141,12 +137,12 @@
   <NR_AILocationHost>Rides in the AI socket of {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>Isolated in the AI socket of {0}. Not working, cannot escape.</NR_AILocationHostIsolated>
   <NR_AIUpload>Upload into a host</NR_AIUpload>
-  <NR_AIUploadTip>Move the AI over the network into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents; the AI keeps working for the colony and needs no server power.</NR_AIUploadTip>
+  <NR_AIUploadTip>Move the AI into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents, but the AI stops offering services: those need the server.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Only an awake AI in a powered server can be uploaded.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>No colonist with a cyberlink and an empty AI socket.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} moved into the AI socket of {1}.</NR_AIUploaded>
-  <NR_AIDownload>Return to a server</NR_AIDownload>
-  <NR_AIDownloadTip>Move the AI back from its host into a powered AI server with a free slot.</NR_AIDownloadTip>
+  <NR_AIDownload>Return to the server</NR_AIDownload>
+  <NR_AIDownloadTip>Move the AI back from its host or coprocessor into the AI server, if it has a free slot.</NR_AIDownloadTip>
   <NR_AIDownloaded>{0} moved back into {1}.</NR_AIDownloaded>
   <NR_AISocketRemoved>The AI socket of {1} was removed. {0} fell back into a fragment.</NR_AISocketRemoved>
   <NR_AIHostDied>{1} died. {0} fell back into a fragment next to the body.</NR_AIHostDied>
@@ -197,5 +193,21 @@
   <NR_EchoName>Echo of {0}</NR_EchoName>
   <NR_EchoBornLabel>An echo of {0}</NR_EchoBornLabel>
   <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.\n\nAwaken it at the comms console, and {0} will be with the colony again, in a way.</NR_EchoBorn>
+
+  <!-- 0.4: server racks, coprocessor AI, carrying, events -->
+  <NR_OnlyOneAIServer>The colony can have only one AI server. Build server racks next to it for more slots.</NR_OnlyOneAIServer>
+  <NR_AILocationCoprocessor>Works for the cyberpod from: {0}.</NR_AILocationCoprocessor>
+  <NR_AIServiceOnlyInServer>Services need the AI server's uplink. In a host or a coprocessor the AI helps in its own way.</NR_AIServiceOnlyInServer>
+  <NR_AINoCoprocessor>Needs a powered netrun coprocessor with a free slot.</NR_AINoCoprocessor>
+  <NR_AIMovedToCoprocessor>{0} moved into the coprocessor and now works for the cyberpod.</NR_AIMovedToCoprocessor>
+  <NR_AIToCoprocessor>Move to the coprocessor</NR_AIToCoprocessor>
+  <NR_AIToCoprocessorTip>Move the AI into a netrun coprocessor linked to a cyberpod. It stops offering services and boosts the pod instead.</NR_AIToCoprocessorTip>
+  <NR_FloatOpenTerminal>Open the network terminal</NR_FloatOpenTerminal>
+  <NR_FloatAwaken>Bring here and awaken: {0}</NR_FloatAwaken>
+  <NR_AINeedOneStack>Needs one stack of {0} × {1} in the colony.</NR_AINeedOneStack>
+  <NR_AINoCarrier>No colonist can carry it there.</NR_AINoCarrier>
+  <NR_AIEventGood>{0} did something for the colony on its own.</NR_AIEventGood>
+  <NR_AIEventBadLabel>{0} is acting up</NR_AIEventBadLabel>
+  <NR_AIEventBad>{0} does not trust you and went poking around the network on its own. Heat +{1}.</NR_AIEventBad>
 
 </LanguageData>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Netrun;
 
@@ -11,9 +11,15 @@ public class CompProperties_NetTerminal : CompProperties
     public CompProperties_NetTerminal() => compClass = typeof(CompNetTerminal);
 }
 
+/// <summary>
+/// The comms console as a network terminal: colonists walk up to it to open the terminal or to
+/// awaken an AI fragment they carry there. No gizmos: everything goes through the colonist.
+/// </summary>
 public class CompNetTerminal : ThingComp
 {
     private CompPowerTrader _power;
+
+    public bool Powered => _power == null || _power.PowerOn;
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
@@ -21,30 +27,30 @@ public class CompNetTerminal : ThingComp
         _power = parent.GetComp<CompPowerTrader>();
     }
 
-    public override IEnumerable<Gizmo> CompGetGizmosExtra()
+    public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
     {
-        foreach (Gizmo gizmo in base.CompGetGizmosExtra())
-            yield return gizmo;
+        foreach (FloatMenuOption option in base.CompFloatMenuOptions(selPawn))
+            yield return option;
 
         if (parent.Faction != Faction.OfPlayer)
             yield break;
 
-        bool powered = _power == null || _power.PowerOn;
-        yield return NetTerminalUtility.MakeGizmo(parent.Map, powered);
-
-        if (!AIAwakening.Fragments(parent.Map).Any())
-            yield break;
-
-        var awaken = new Command_Action
+        string terminal = "NR_FloatOpenTerminal".Translate();
+        if (!Powered)
         {
-            defaultLabel = "NR_CommandAwakenAI".Translate(),
-            defaultDesc = "NR_CommandAwakenAIDesc".Translate(),
-            icon = NetrunDefOf.NR_AIFragment.uiIcon,
-            action = () => AIAwakening.OpenMenu(parent.Map),
-        };
-        AcceptanceReport report = AIAwakening.CanAwaken(parent.Map);
-        if (!report.Accepted)
-            awaken.Disable(report.Reason);
-        yield return awaken;
+            yield return new FloatMenuOption(terminal + " (" + "NR_TerminalNoPower".Translate() + ")", null);
+            yield break;
+        }
+        if (!selPawn.CanReach(parent, PathEndMode.InteractionCell, Danger.Some))
+        {
+            yield return new FloatMenuOption(terminal + " (" + "NoPath".Translate() + ")", null);
+            yield break;
+        }
+
+        yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(terminal, () =>
+            selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_UseNetTerminal, parent), JobTag.Misc)), selPawn, parent);
+
+        foreach (FloatMenuOption option in AIAwakening.FloatOptions(selPawn, (Building)parent))
+            yield return option;
     }
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Netrun coprocessor: a cyberpod facility like Hacking Expansion's own coprocessors.
-       Its bonuses (less Heat, more cyberdata, slower Netsick) are numbers in Defs/Heat.xml. -->
+  <!-- Netrun coprocessor: a cyberpod facility like Hacking Expansion's own coprocessors that hosts one AI.
+       The AI's pod bonuses are numbers in Defs/Heat.xml. -->
   <ThingDef ParentName="USH_CoprocessorBase">
     <defName>NR_NetrunCoprocessor</defName>
     <label>netrun coprocessor</label>
-    <description>A cyberpod subsystem that scrubs the netrunner's signature in real time and filters the noise of deep sessions. A cyberpod with it leaves less trace, pulls more cyberdata and makes cyberspace dependency grow slower.\n\nOnly one can connect to a pod.</description>
+    <description>A cyberpod subsystem that holds one awakened AI. The AI works for the linked cyberpod instead of the colony: every AI makes the pod a little quieter and luckier, and some are especially good at it (Ghost hides the trace, Data Hunter finds more cyberdata, Doc and Warden protect the diver from cyberspace dependency).\n\nMove an AI here from the AI tab of the network terminal. Only one can connect to a pod.</description>
     <graphicData>
-      <texPath>Things/Building/JammerCoprocessor</texPath>
-      <color>(0.55, 0.85, 1)</color>
+      <texPath>Things/Building/Misc/NR_NetrunCoprocessor</texPath>
+      <drawSize>(1.2, 1.2)</drawSize>
     </graphicData>
     <costList>
       <Steel>40</Steel>
@@ -23,10 +23,10 @@
         <basePowerConsumption>150</basePowerConsumption>
       </li>
       <li Class="CompProperties_Facility">
-        <statOffsets>
-          <USH_HackingStealthMultiplier>0.1</USH_HackingStealthMultiplier>
-        </statOffsets>
         <maxSimultaneous>1</maxSimultaneous>
+      </li>
+      <li Class="Netrun.CompProperties_AIServer">
+        <coprocessor>true</coprocessor>
       </li>
     </comps>
     <researchPrerequisites>
