@@ -1,0 +1,53 @@
+<!doctype html><meta charset=utf-8><style>
+:root{--bg:#161914;--card:#262a24;--acc:#3fe0ef;--ok:#4fd36a;--warn:#f0c040;--bad:#e5533d;--pur:#a070e0;--mut:#8b9183;--tx:#e6e8e0}
+*{box-sizing:border-box}body{margin:0;background:#0b0c0a;font:14px/1.3 "Segoe UI",Arial,sans-serif;color:var(--tx)}
+.win{width:900px;height:720px;background:var(--bg);border:2px solid #000;position:relative;overflow:hidden;box-shadow:inset 0 0 0 1px #3a4033}
+.top{height:44px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--acc);background:#10130f;gap:8px}
+.top h1{font-size:18px;margin:0;color:var(--acc);letter-spacing:2px;flex:1}
+.pill{padding:3px 10px;border:1px solid #3a4033;background:var(--card);font-size:12px}
+.map{position:absolute;left:0;top:44px;width:590px;bottom:40px;background-image:linear-gradient(#1c2019 1px,transparent 1px),linear-gradient(90deg,#1c2019 1px,transparent 1px);background-size:30px 30px}
+svg.l{position:absolute;inset:0}
+.node{position:absolute;width:150px;text-align:center;transform:translate(-50%,-50%)}
+.node .ic{width:70px;height:70px;margin:0 auto;background:#10130f;border:2px solid var(--c);box-shadow:0 0 14px -2px var(--c);display:flex;align-items:center;justify-content:center;position:relative}
+.node img{width:52px;height:52px}.node b{display:block;margin-top:5px;color:var(--c);letter-spacing:1px;font-size:13px}.node small{color:var(--mut);font-size:11px}
+.badge{position:absolute;top:-9px;right:-9px;color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;line-height:20px;border-radius:10px;border:1px solid #000}
+.core{position:absolute;left:295px;top:290px;width:180px;height:180px;transform:translate(-50%,-50%)}
+.core svg{position:absolute;inset:0}
+.core .c{position:absolute;left:50%;top:46%;width:96px;height:96px;transform:translate(-50%,-50%);background:#10130f;border:2px solid var(--acc);box-shadow:0 0 22px -2px var(--acc);display:flex;align-items:center;justify-content:center}
+.core .c img{width:72px;height:72px}
+.core .n{position:absolute;left:0;right:0;bottom:-4px;text-align:center}
+.core .n b{font-size:22px;color:var(--warn)}.core .n div{font-size:12px;color:var(--warn);letter-spacing:1px}.core .n small{color:var(--bad);font-size:11px}
+.core .t{position:absolute;left:0;right:0;top:-18px;text-align:center;color:var(--mut);font-size:11px;letter-spacing:2px}
+.side{position:absolute;right:0;top:44px;width:310px;bottom:40px;border-left:1px solid #3a4033;background:#1b1f19;padding:10px 12px;overflow:hidden}
+.sec{color:var(--acc);font-size:13px;letter-spacing:1px;border-bottom:1px solid var(--acc);padding:3px 0;margin:6px 0 8px}
+.row{display:flex;gap:8px;align-items:center;padding:5px 6px;margin-bottom:4px;background:var(--card);border-left:4px solid var(--c);font-size:12px}
+.row i{font-style:normal;font-weight:700;color:var(--c);width:16px;text-align:center}.row span{flex:1}.row em{font-style:normal;color:var(--mut);font-size:11px}
+.kv{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px solid #2c3128}
+.btn{display:block;text-align:center;height:32px;line-height:30px;border:1px solid var(--ok);color:var(--ok);background:#10130f;margin-top:8px;font-size:13px}
+.bot{position:absolute;bottom:0;left:0;right:0;height:40px;border-top:1px solid #3a4033;background:#10130f;display:flex;align-items:center;padding:0 12px;gap:16px;font-size:12px;color:var(--mut)}
+.bar{width:110px;height:12px;background:#000;border:1px solid #3a4033;display:inline-block;vertical-align:middle;margin:0 6px}.bar i{display:block;height:100%;background:var(--warn)}
+.feed{margin-left:auto;color:var(--tx)}
+</style>
+<div class=win id=s7><div class=top><h1>NETRUN // ЯДРО СЕТИ</h1><span class=pill>Нетраннер: Redfields</span><span class=pill style="color:var(--ok)">Капсула готова</span></div>
+<div class=map><svg class=l width=590 height=636><line x1="295" y1="246" x2="295" y2="70" stroke="#3fb6ff" stroke-opacity=".45" stroke-width="2" /><line x1="295" y1="246" x2="80" y2="165" stroke="#f0c040" stroke-opacity=".45" stroke-width="2" /><line x1="295" y1="246" x2="510" y2="165" stroke="#8b9183" stroke-opacity=".45" stroke-width="2" /><line x1="295" y1="246" x2="80" y2="420" stroke="#a070e0" stroke-opacity=".45" stroke-width="2" /><line x1="295" y1="246" x2="510" y2="420" stroke="#ff8a5c" stroke-opacity=".45" stroke-width="2" /><line x1="295" y1="246" x2="295" y2="520" stroke="#4a8cff" stroke-opacity=".45" stroke-width="2" /></svg>
+<div class=core><svg width=180 height=180 viewBox="0 0 180 180"><path d="M21.2 126.7 A78 78 0 0 1 21.2 53.3" stroke="#4fd36a" stroke-width="8" fill="none" opacity="0.28"/><path d="M21.2 126.7 A78 78 0 0 1 21.2 53.3" stroke="#4fd36a" stroke-width="8" fill="none" opacity="1"/><path d="M23.8 48.8 A78 78 0 0 1 87.4 12.0" stroke="#f0c040" stroke-width="8" fill="none" opacity="0.28"/><path d="M23.8 48.8 A78 78 0 0 1 87.4 12.0" stroke="#f0c040" stroke-width="8" fill="none" opacity="1"/><path d="M92.6 12.0 A78 78 0 0 1 156.2 48.8" stroke="#f08a30" stroke-width="8" fill="none" opacity="0.28"/><path d="M92.6 12.0 A78 78 0 0 1 115.7 16.3" stroke="#f08a30" stroke-width="8" fill="none" opacity="1"/><path d="M158.8 53.3 A78 78 0 0 1 164.9 111.6" stroke="#e5533d" stroke-width="8" fill="none" opacity="0.28"/><path d="M163.3 116.6 A78 78 0 0 1 158.8 126.7" stroke="#a01c1c" stroke-width="8" fill="none" opacity="0.28"/><circle cx="115.7" cy="16.3" r="7" fill="#fff" stroke="#000" stroke-width="2"/></svg><div class=t>HEAT</div><div class=c><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Heat_3_Tracked.png"></div>
+<div class=n><b>58</b><div>ОТСЛЕЖИВАЕТСЯ ▲</div><small>+6 за сутки</small></div></div>
+<div class=node style="left:295px;top:56px;--c:#3fb6ff"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Tab_Contracts.png"><span class=badge style="background:#3fb6ff">3</span></div><b>ДОСКА</b><small>1 активный · 3 новых</small></div><div class=node style="left:80px;top:140px;--c:var(--warn)"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Tab_Fixers.png"><span class=badge style="background:var(--bad)">1</span></div><b>КЛУБ</b><small>Фиксеры (3)</small></div><div class=node style="left:510px;top:140px;--c:var(--mut)"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Tab_Log.png"></div><b>АРХИВ</b><small>Журнал следа</small></div><div class=node style="left:80px;top:400px;--c:var(--pur)"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Tab_AI.png"><span class=badge style="background:var(--bad)">!</span></div><b>СЕРВЕРНАЯ</b><small>ИИ: 3 · просьба</small></div><div class=node style="left:510px;top:400px;--c:#ff8a5c"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Tab_Braindance.png"><span class=badge style="background:var(--ok)">2</span></div><b>СТУДИЯ</b><small>2 записи · 4 чипа</small></div><div class=node style="left:295px;top:520px;--c:#4a8cff"><div class=ic><img src="file:///home/claude/rimworld-netrun/Hacking%20Expansion%20Netrun%20Art/Gizmo_NetrunDive.png"></div><b>ШЛЮЗ</b><small>Нырок · 2 новые ноды</small></div></div>
+<div class=side>
+<div class=sec>HEAT: ОТСЛЕЖИВАЕТСЯ</div>
+<div class=kv><span>Следы взлома замечают</span><span style="color:var(--warn)">+25% рейдов</span></div>
+<div class=kv><span>До «Цель»</span><span>ещё 17 пунктов</span></div>
+<div class=kv><span>Остывание</span><span style="color:var(--ok)">−2 / сутки</span></div>
+<div class=btn>✂ Scrub the trace · 3 Cyberdata</div>
+<div class=sec style="margin-top:14px">ТРЕВОГИ</div>
+<div class=row style="--c:var(--bad)"><i>!</i><span>Контракт «Доставка данных» истекает</span><em>12 ч</em></div>
+<div class=row style="--c:var(--pur)"><i>!</i><span>ИИ «Призрак» просит доступ к сети</span><em>Серверная</em></div>
+<div class=row style="--c:var(--warn)"><i>▲</i><span>Рейд мстителей через</span><em>2д 5ч</em></div>
+<div class=row style="--c:var(--acc)"><i>●</i><span>Фиксер Кай прислал сообщение</span><em>Клуб</em></div>
+<div class=sec style="margin-top:14px">РЕСУРСЫ</div>
+<div class=kv><span>Cyberdata</span><span style="color:var(--acc)">7</span></div>
+<div class=kv><span>ИИ на сервере</span><span>2 / 3 слота</span></div>
+<div class=kv><span>Чипы брейнданса</span><span>4 обычных · 1 чёрный</span></div>
+<div class=kv><span>Нагрузка сети</span><span>300 Вт</span></div>
+</div>
+<div class=bot>Trace<span class=bar><i style="width:58%"></i></span>58 &nbsp; Netsick: нет<span class=feed>▸ 22:41 Взлом «Рынок-34»: +1 Heat</span></div></div>
