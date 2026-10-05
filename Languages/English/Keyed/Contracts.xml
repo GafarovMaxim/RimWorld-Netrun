@@ -39,5 +39,6 @@
   <!-- Progress -->
   <NR_ContractProgress>Done: {0} of {1} (left: {2})</NR_ContractProgress>
   <NR_ContractDeliverTip>Hands over cyberdata from storage. One advanced cyberdata counts as {0}.</NR_ContractDeliverTip>
+  <NR_ContractDelivered>Delivered {0}. Done {1} of {2}, {3} left.</NR_ContractDelivered>
 
 </LanguageData>

@@ -39,5 +39,6 @@
   <!-- Прогресс -->
   <NR_ContractProgress>Выполнено: {0} из {1} (осталось: {2})</NR_ContractProgress>
   <NR_ContractDeliverTip>Передаёт cyberdata со склада. Одни продвинутые cyberdata засчитываются за {0}.</NR_ContractDeliverTip>
+  <NR_ContractDelivered>Сдано: {0}. Выполнено {1} из {2}, осталось {3}.</NR_ContractDelivered>
 
 </LanguageData>

@@ -52,5 +52,6 @@
   <NR_LogTraceLock>Trace lock on {0}</NR_LogTraceLock>
   <NR_LogRip>{0} ripped {1} from {2}</NR_LogRip>
   <NR_CyberpodBonusData>{0} pulled an extra cyberdata through the cyberpod.</NR_CyberpodBonusData>
+  <NR_TerminalHackHint>What can be hacked: ancient terminals and consoles (Ideology), ancient doors, hatches and reactors (Odyssey), encrypted crates, data centers, ancient cyberdecks and satellite black boxes (Hacking Expansion). Turrets and mechanoids can only be hacked by a hacker with a cyberlink. To hack, select a colonist and right-click the target, or use "Hack target" on a hacker with a cyberlink.</NR_TerminalHackHint>
 
 </LanguageData>

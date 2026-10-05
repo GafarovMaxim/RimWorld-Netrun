@@ -157,6 +157,12 @@ public class ContractManager : GameComponent
         }
 
         AddProgress(contract, delivered);
+
+        if (!contract.Done)
+        {
+            Messages.Message("NR_ContractDelivered".Translate(delivered, contract.Progress, contract.Goal, contract.Goal - contract.Progress),
+                MessageTypeDefOf.NeutralEvent, historical: false);
+        }
     }
 
     public void Abandon(Contract contract) => Fail(contract, "NR_ContractFailedAbandoned");

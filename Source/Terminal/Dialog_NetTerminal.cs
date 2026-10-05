@@ -162,6 +162,14 @@ public class Dialog_NetTerminal : Window
 
             y += LevelRowHeight;
         }
+
+        // What can be hacked at all: new players asked.
+        y += 8f;
+        Widgets.DrawLineHorizontal(rect.x, y, rect.width);
+        y += 8f;
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(rect.x, y, rect.width, rect.yMax - y), "NR_TerminalHackHint".Translate());
+        GUI.color = Color.white;
     }
 
     private void DrawJournal(Rect rect, HeatTracker tracker)
