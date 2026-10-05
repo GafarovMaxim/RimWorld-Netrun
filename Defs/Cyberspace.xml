@@ -13,4 +13,28 @@
     </specialDesignatorClasses>
   </DesignationCategoryDef>
 
+  <!-- Gateway and dive numbers (docs/CYBERSPACE.md); field meanings in CyberspaceSettingsDef -->
+  <Netrun.CyberspaceSettingsDef>
+    <defName>NR_Cyberspace</defName>
+    <nodeCount>4~6</nodeCount>
+    <hiddenNodes>1</hiddenNodes>
+    <refreshDays>5</refreshDays>
+    <searchCost>1</searchCost>
+    <programCost>1</programCost>
+    <programSlots>2</programSlots>
+    <maxTurns>8</maxTurns>
+    <hackBase>0.35</hackBase>
+    <hackPerSkill>0.03</hackPerSkill>
+    <hackPerStrength>0.06</hackPerStrength>
+    <swordBonus>0.3</swordBonus>
+    <tracePerAction>1</tracePerAction>
+    <stealthTraceFactor>0.5</stealthTraceFactor>
+    <iceAttackChance>0.6</iceAttackChance>
+    <decoyChance>0.5</decoyChance>
+    <retreatLootLoss>0.5</retreatLootLoss>
+    <netsickPerDive>0.03</netsickPerDive>
+    <netsickPerIceHit>0.1</netsickPerIceHit>
+    <successXp>400</successXp>
+  </Netrun.CyberspaceSettingsDef>
+
 </Defs>

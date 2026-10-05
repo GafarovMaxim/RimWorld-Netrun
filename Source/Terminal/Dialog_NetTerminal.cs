@@ -72,8 +72,25 @@ public class Dialog_NetTerminal : Window
             return;
         }
 
-        // Inside a node: a back button, then the node's own view.
+        // Inside a node: a back button, then the node's own view. A dive replaces the Gateway until it ends.
         Rect content = body.ContractedBy(12f);
+        DiveSession dive = Dive;
+        if (dive != null)
+        {
+            string back = dive.Finished ? "NR_DiveBackToGateway".Translate() : "NR_DiveRetreatButton".Translate();
+            if (NetrunUI.Button(new Rect(content.x, content.y, 130f, 28f), back, dive.Finished ? NetrunUI.Accent : NetrunUI.Bad, true,
+                    dive.Finished ? null : "NR_DiveActTip_Retreat".Translate()))
+            {
+                if (dive.Finished)
+                    GatewayManager.Get()?.ClearFinished();
+                else
+                    dive.Retreat();
+            }
+            content.yMin += 40f;
+            DiveView.Draw(content, dive);
+            return;
+        }
+
         if (NetrunUI.Button(new Rect(content.x, content.y, 90f, 28f), "NR_BackToCore".Translate(), NetrunUI.Accent, true))
             _view = View.Map;
         content.yMin += 40f;
@@ -95,10 +112,32 @@ public class Dialog_NetTerminal : Window
             case View.Server:
                 AITab.Draw(content, _map, ref _aiScroll);
                 break;
+            case View.Gateway:
+                GatewayView.Draw(content, _map);
+                break;
             default:
                 DrawCentered(content, "NR_TerminalComingSoon".Translate());
                 break;
         }
+    }
+
+    /// <summary>The dive in progress, shown while the Gateway is open.</summary>
+    private DiveSession Dive
+    {
+        get
+        {
+            if (_view != View.Gateway)
+                return null;
+            GatewayManager gateway = GatewayManager.Get();
+            gateway?.ValidateSession();
+            return gateway?.Session;
+        }
+    }
+
+    public override void PostClose()
+    {
+        base.PostClose();
+        GatewayManager.Get()?.ClearFinished();
     }
 
     // ---- Title and status bar ----
@@ -107,16 +146,27 @@ public class Dialog_NetTerminal : Window
     {
         Text.Font = GameFont.Medium;
         Text.Anchor = TextAnchor.MiddleLeft;
+        DiveSession dive = Dive;
         string title = _view == View.Map
             ? "NR_TerminalTitleMap".Translate()
-            : "NR_TerminalTitleNode".Translate(NodeLabel(_view).ToUpper());
+            : dive != null
+                ? "NR_TerminalTitleDive".Translate(dive.Node.Name.ToUpper())
+                : "NR_TerminalTitleNode".Translate(NodeLabel(_view).ToUpper());
         Widgets.Label(new Rect(rect.x + 14f, rect.y, rect.width - 28f, rect.height), title.Colorize(NetrunUI.Accent));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 
         float x = rect.xMax - 12f;
         float y = rect.y + 10f;
-        if (_view == View.Club)
+        if (dive != null)
+        {
+            DiveView.HeaderChips(x, y, dive);
+        }
+        else if (_view == View.Gateway)
+        {
+            GatewayView.HeaderChips(x, y, _map);
+        }
+        else if (_view == View.Club)
         {
             x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata),
                 ColonyGoods.Count(_map, NetrunDefOf.USH_AdvancedCyberdata))) - 8f;

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_ExtNodeName_Market>Рынок-{0}</NR_ExtNodeName_Market>
+  <NR_ExtNodeType_Market>рынок данных</NR_ExtNodeType_Market>
+  <NR_ExtNodeReward_Market>3–5 cyberdata</NR_ExtNodeReward_Market>
+  <NR_ExtNodeName_Archive>Архив-{0}</NR_ExtNodeName_Archive>
+  <NR_ExtNodeType_Archive>архив</NR_ExtNodeType_Archive>
+  <NR_ExtNodeReward_Archive>2–4 cyberdata</NR_ExtNodeReward_Archive>
+  <NR_ExtNodeName_Corp>Корп-хранилище-{0}</NR_ExtNodeName_Corp>
+  <NR_ExtNodeType_Corp>корпоративное хранилище</NR_ExtNodeType_Corp>
+  <NR_ExtNodeReward_Corp>4–6 cyberdata, 1–2 продвинутых, ценности</NR_ExtNodeReward_Corp>
+  <NR_ExtNodeName_Abandoned>Заброш. сервер-{0}</NR_ExtNodeName_Abandoned>
+  <NR_ExtNodeType_Abandoned>заброшенный сервер</NR_ExtNodeType_Abandoned>
+  <NR_ExtNodeReward_Abandoned>2–3 cyberdata, шанс осколка ИИ</NR_ExtNodeReward_Abandoned>
+  <NR_ExtNodeName_DarkExchange>Тёмная биржа-{0}</NR_ExtNodeName_DarkExchange>
+  <NR_ExtNodeType_DarkExchange>тёмная биржа</NR_ExtNodeType_DarkExchange>
+  <NR_ExtNodeReward_DarkExchange>200–400 серебра, cyberdata, ценности</NR_ExtNodeReward_DarkExchange>
+  <NR_DiveElement_Hidden>?</NR_DiveElement_Hidden>
+  <NR_DiveElement_Lobby>Вход</NR_DiveElement_Lobby>
+  <NR_DiveElement_Gate>Кодовые ворота</NR_DiveElement_Gate>
+  <NR_DiveElement_Ice>Black ICE</NR_DiveElement_Ice>
+  <NR_DiveElement_Files>Файлы</NR_DiveElement_Files>
+  <NR_DiveElement_Memory>Хранилище</NR_DiveElement_Memory>
+  <NR_DiveElement_Exit>Выход</NR_DiveElement_Exit>
+  <NR_DiveInfo_Hidden>скрыто (сканировать)</NR_DiveInfo_Hidden>
+  <NR_DiveInfo_Open>открыты</NR_DiveInfo_Open>
+  <NR_DiveInfo_Gate>Wall, сила {0}</NR_DiveInfo_Gate>
+  <NR_DiveInfo_Broken>сломан</NR_DiveInfo_Broken>
+  <NR_DiveInfo_Ice>Убийца, сила {0}</NR_DiveInfo_Ice>
+  <NR_DiveInfo_Looted>скачано</NR_DiveInfo_Looted>
+  <NR_DiveInfo_Files>данные для скачивания</NR_DiveInfo_Files>
+  <NR_DiveInfo_Memory>что-то ценное?</NR_DiveInfo_Memory>
+  <NR_DiveInfo_Lobby>безопасно, можно уйти</NR_DiveInfo_Lobby>
+  <NR_DiveInfo_Exit>быстрый выход</NR_DiveInfo_Exit>
+  <NR_DiveInfo_Here>◉ вы здесь</NR_DiveInfo_Here>
+  <NR_DiveAct_Move>▶ Двигаться</NR_DiveAct_Move>
+  <NR_DiveActTip_Move>Перейти к следующему элементу.</NR_DiveActTip_Move>
+  <NR_DiveAct_Scan>◎ Сканировать</NR_DiveAct_Scan>
+  <NR_DiveActTip_Scan>Раскрыть скрытый элемент впереди.</NR_DiveActTip_Scan>
+  <NR_DiveAct_Hack>⚔ Взломать</NR_DiveAct_Hack>
+  <NR_DiveActTip_Hack>Взломать ворота или ICE впереди.</NR_DiveActTip_Hack>
+  <NR_DiveAct_Download>⇩ Скачать</NR_DiveAct_Download>
+  <NR_DiveActTip_Download>Забрать данные здесь.</NR_DiveActTip_Download>
+  <NR_DiveAct_Exit>Выход</NR_DiveAct_Exit>
+  <NR_DiveActTip_Exit>Уйти через выход со всей добычей.</NR_DiveActTip_Exit>
+  <NR_DiveActTip_HackChance>Шанс взлома: {0}.</NR_DiveActTip_HackChance>
+  <NR_DiveActTip_Retreat>Уйти сейчас. Со входа бесплатно; глубже теряется половина добычи и растёт Netsick.</NR_DiveActTip_Retreat>
+  <NR_Program_Sword>Меч</NR_Program_Sword>
+  <NR_ProgramDesc_Sword>Взлом +30%, но взломы оставляют вдвое больше следа. Стоит {0} cyberdata.</NR_ProgramDesc_Sword>
+  <NR_Program_Shield>Щит</NR_Program_Shield>
+  <NR_ProgramDesc_Shield>Поглощает один удар Black ICE. Стоит {0} cyberdata.</NR_ProgramDesc_Shield>
+  <NR_Program_Decoy>Фальшивка</NR_Program_Decoy>
+  <NR_ProgramDesc_Decoy>50% отвести один удар ICE. Стоит {0} cyberdata.</NR_ProgramDesc_Decoy>
+  <NR_Program_Stealth>Призрак</NR_Program_Stealth>
+  <NR_ProgramDesc_Stealth>Вдвое меньше следа за весь нырок. Стоит {0} cyberdata.</NR_ProgramDesc_Stealth>
+  <NR_Program_Killer>Убийца</NR_Program_Killer>
+  <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки. Стоит {0} cyberdata.</NR_ProgramDesc_Killer>
+  <NR_DiveLogStart>{0} подключается к {1}.</NR_DiveLogStart>
+  <NR_DiveNoFurther>дальше некуда</NR_DiveNoFurther>
+  <NR_DiveHiddenAhead>впереди что-то скрыто: сначала сканируйте</NR_DiveHiddenAhead>
+  <NR_DiveBlocked>путь закрыт: сначала взломайте</NR_DiveBlocked>
+  <NR_DiveLogMove>Переход: {0}.</NR_DiveLogMove>
+  <NR_DiveNothingToScan>впереди ничего не скрыто</NR_DiveNothingToScan>
+  <NR_DiveLogScan>Сканирование нашло: {0}.</NR_DiveLogScan>
+  <NR_DiveNothingToHack>впереди нечего взламывать</NR_DiveNothingToHack>
+  <NR_DiveLogKiller>Убийца сломал: {0}.</NR_DiveLogKiller>
+  <NR_DiveLogHackOk>{0}: пройдено.</NR_DiveLogHackOk>
+  <NR_DiveLogHackFail>{0} устоял(и).</NR_DiveLogHackFail>
+  <NR_DiveNothingToDownload>здесь нечего скачивать</NR_DiveNothingToDownload>
+  <NR_DiveAlreadyLooted>уже скачано</NR_DiveAlreadyLooted>
+  <NR_DiveLogDownload>Скачано. Добыча: {0}.</NR_DiveLogDownload>
+  <NR_DiveLogTimeout>Слишком долго в сети: нода выбросила вас. Нетраннер без сознания.</NR_DiveLogTimeout>
+  <NR_DiveLogIceWatching>Black ICE вас видит.</NR_DiveLogIceWatching>
+  <NR_DiveLogShield>Щит принял удар ICE.</NR_DiveLogShield>
+  <NR_DiveLogDecoy>Фальшивка отвела ICE.</NR_DiveLogDecoy>
+  <NR_DiveLogNausea>Black ICE ударил {0}: тошнота.</NR_DiveLogNausea>
+  <NR_DiveLogLockOut>Black ICE заблокировал {0} в сети.</NR_DiveLogLockOut>
+  <NR_DiveLogComa>Black ICE отправил {0} в кому.</NR_DiveLogComa>
+  <NR_DiveExitFar>выход дальше</NR_DiveExitFar>
+  <NR_DiveLogExit>Выход через порт.</NR_DiveLogExit>
+  <NR_DiveLogRetreat>Отступление.</NR_DiveLogRetreat>
+  <NR_DiveHeatReason>{0}: нырок в {1}</NR_DiveHeatReason>
+  <NR_DiveDone>{0} закончил(а) нырок в {1}. Добыча: {2}. След: +{3} Heat.</NR_DiveDone>
+  <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
+  <NR_DiveAborted>Нырок прерван: нетраннер больше не в капсуле.</NR_DiveAborted>
+  <NR_GatewayPickNode>Выберите ноду.</NR_GatewayPickNode>
+  <NR_GatewayNodeHidden>Нода скрыта. Найдите её Поиском.</NR_GatewayNodeHidden>
+  <NR_GatewayNoPod>нужен колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
+  <NR_GatewayNothingHidden>скрытых нод не осталось</NR_GatewayNothingHidden>
+  <NR_GatewayLegend>Размер = награда · цвет = тип · ★ контракт фиксера · пунктир = скрыта (нужен Поиск)</NR_GatewayLegend>
+  <NR_GatewayHidden>скрыта</NR_GatewayHidden>
+  <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
+  <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
+  <NR_GatewayHiddenRow>? скрытая нода (нужен Поиск)</NR_GatewayHiddenRow>
+  <NR_GatewayRowType>Тип</NR_GatewayRowType>
+  <NR_GatewayRowDefense>Защита</NR_GatewayRowDefense>
+  <NR_GatewayDefenseValue>{0} ворот, уровень {1}</NR_GatewayDefenseValue>
+  <NR_GatewayRowIce>ICE</NR_GatewayRowIce>
+  <NR_GatewayIceBlack>Black ICE, сила {0}</NR_GatewayIceBlack>
+  <NR_GatewayIceWhite>только белый, без Black ICE</NR_GatewayIceWhite>
+  <NR_GatewayRowReward>Награда</NR_GatewayRowReward>
+  <NR_GatewayRowTrace>След</NR_GatewayRowTrace>
+  <NR_GatewayTraceValue>x{0} Heat за действие</NR_GatewayTraceValue>
+  <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
+  <NR_GatewayRiskIce>тошнота, блокировка, кома</NR_GatewayRiskIce>
+  <NR_GatewayRiskLow>низкий</NR_GatewayRiskLow>
+  <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
+  <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
+  <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
+  <NR_GatewayDive>⇩ НЫРНУТЬ</NR_GatewayDive>
+  <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
+  <NR_GatewaySearch>Поиск ({0} cyberdata)</NR_GatewaySearch>
+  <NR_GatewaySearchTip>Найти одну скрытую ноду.</NR_GatewaySearchTip>
+  <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>
+  <NR_GatewayViewList>Вид: ☰ список</NR_GatewayViewList>
+  <NR_GatewayRefresh>Новые ноды через {0}.</NR_GatewayRefresh>
+  <NR_GatewayPodReady>Капсула готова</NR_GatewayPodReady>
+  <NR_GatewayPodNone>Нет капсулы</NR_GatewayPodNone>
+  <NR_GatewayRunner>Нетраннер: {0}</NR_GatewayRunner>
+  <NR_DiveOver>Нырок окончен</NR_DiveOver>
+  <NR_DiveLoot>Добыча: {0}</NR_DiveLoot>
+  <NR_DiveActions>Действия ({0} из {1})</NR_DiveActions>
+  <NR_DivePrograms>Программы</NR_DivePrograms>
+  <NR_DiveNoPrograms>нет</NR_DiveNoPrograms>
+  <NR_DiveProgramState>Щит ×{0}, Фальшивка ×{1}, Убийца ×{2}, Меч {3}, Призрак {4}</NR_DiveProgramState>
+  <NR_DiveTurn>Ход {0} из {1}</NR_DiveTurn>
+  <NR_DiveLogHeader>Лог</NR_DiveLogHeader>
+  <NR_DiveTraceChip>След +{0}</NR_DiveTraceChip>
+  <NR_DiveActionsChip>Сет. действий: {0}/{1}</NR_DiveActionsChip>
+  <NR_DiveBackToGateway>◄ Шлюз</NR_DiveBackToGateway>
+  <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
+  <NR_TerminalTitleDive>NETRUN // НЫРОК: {0}</NR_TerminalTitleDive>
+</LanguageData>

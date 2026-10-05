@@ -16,7 +16,7 @@
   <NR_NodeTip_Archive>The trace journal: everything that raised or lowered your Heat.</NR_NodeTip_Archive>
   <NR_NodeTip_Server>The colony's AIs: on the server, in coprocessors and in hosts.</NR_NodeTip_Server>
   <NR_NodeTip_Studio>Braindance: recordings and chips. Coming soon.</NR_NodeTip_Studio>
-  <NR_NodeTip_Gateway>The way into cyberspace. Needs a cyberpod. Coming soon.</NR_NodeTip_Gateway>
+  <NR_NodeTip_Gateway>The way into cyberspace: pick an external node and dive from a cyberpod.</NR_NodeTip_Gateway>
   <NR_NodeSub_Core>Heat, decay, levels</NR_NodeSub_Core>
   <NR_NodeSub_Club>Fixers ({0})</NR_NodeSub_Club>
   <NR_NodeSub_Board>Contract: {0} / {1} done</NR_NodeSub_Board>

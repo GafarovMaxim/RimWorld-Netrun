@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_ExtNodeName_Market>Market-{0}</NR_ExtNodeName_Market>
+  <NR_ExtNodeType_Market>data market</NR_ExtNodeType_Market>
+  <NR_ExtNodeReward_Market>3–5 cyberdata</NR_ExtNodeReward_Market>
+  <NR_ExtNodeName_Archive>Archive-{0}</NR_ExtNodeName_Archive>
+  <NR_ExtNodeType_Archive>archive</NR_ExtNodeType_Archive>
+  <NR_ExtNodeReward_Archive>2–4 cyberdata</NR_ExtNodeReward_Archive>
+  <NR_ExtNodeName_Corp>Corp vault-{0}</NR_ExtNodeName_Corp>
+  <NR_ExtNodeType_Corp>corporate vault</NR_ExtNodeType_Corp>
+  <NR_ExtNodeReward_Corp>4–6 cyberdata, 1–2 advanced, valuables</NR_ExtNodeReward_Corp>
+  <NR_ExtNodeName_Abandoned>Dead server-{0}</NR_ExtNodeName_Abandoned>
+  <NR_ExtNodeType_Abandoned>abandoned server</NR_ExtNodeType_Abandoned>
+  <NR_ExtNodeReward_Abandoned>2–3 cyberdata, a chance of an AI fragment</NR_ExtNodeReward_Abandoned>
+  <NR_ExtNodeName_DarkExchange>Dark exchange-{0}</NR_ExtNodeName_DarkExchange>
+  <NR_ExtNodeType_DarkExchange>dark exchange</NR_ExtNodeType_DarkExchange>
+  <NR_ExtNodeReward_DarkExchange>200–400 silver, cyberdata, valuables</NR_ExtNodeReward_DarkExchange>
+  <NR_DiveElement_Hidden>?</NR_DiveElement_Hidden>
+  <NR_DiveElement_Lobby>Lobby</NR_DiveElement_Lobby>
+  <NR_DiveElement_Gate>Code gate</NR_DiveElement_Gate>
+  <NR_DiveElement_Ice>Black ICE</NR_DiveElement_Ice>
+  <NR_DiveElement_Files>Files</NR_DiveElement_Files>
+  <NR_DiveElement_Memory>Memory unit</NR_DiveElement_Memory>
+  <NR_DiveElement_Exit>I/O port</NR_DiveElement_Exit>
+  <NR_DiveInfo_Hidden>hidden (scan it)</NR_DiveInfo_Hidden>
+  <NR_DiveInfo_Open>open</NR_DiveInfo_Open>
+  <NR_DiveInfo_Gate>Wall, strength {0}</NR_DiveInfo_Gate>
+  <NR_DiveInfo_Broken>broken</NR_DiveInfo_Broken>
+  <NR_DiveInfo_Ice>Killer, strength {0}</NR_DiveInfo_Ice>
+  <NR_DiveInfo_Looted>downloaded</NR_DiveInfo_Looted>
+  <NR_DiveInfo_Files>data to download</NR_DiveInfo_Files>
+  <NR_DiveInfo_Memory>something valuable?</NR_DiveInfo_Memory>
+  <NR_DiveInfo_Lobby>safe, you can leave</NR_DiveInfo_Lobby>
+  <NR_DiveInfo_Exit>fast way out</NR_DiveInfo_Exit>
+  <NR_DiveInfo_Here>◉ you are here</NR_DiveInfo_Here>
+  <NR_DiveAct_Move>▶ Move</NR_DiveAct_Move>
+  <NR_DiveActTip_Move>Move to the next element.</NR_DiveActTip_Move>
+  <NR_DiveAct_Scan>◎ Scan</NR_DiveAct_Scan>
+  <NR_DiveActTip_Scan>Reveal the hidden element ahead.</NR_DiveActTip_Scan>
+  <NR_DiveAct_Hack>⚔ Hack</NR_DiveAct_Hack>
+  <NR_DiveActTip_Hack>Break the gate or ICE ahead.</NR_DiveActTip_Hack>
+  <NR_DiveAct_Download>⇩ Download</NR_DiveAct_Download>
+  <NR_DiveActTip_Download>Take the data here.</NR_DiveActTip_Download>
+  <NR_DiveAct_Exit>Exit</NR_DiveAct_Exit>
+  <NR_DiveActTip_Exit>Leave through the I/O port with everything you took.</NR_DiveActTip_Exit>
+  <NR_DiveActTip_HackChance>Chance to break it: {0}.</NR_DiveActTip_HackChance>
+  <NR_DiveActTip_Retreat>Leave now. From the lobby it is free; deeper in, half the haul is lost and Netsick grows.</NR_DiveActTip_Retreat>
+  <NR_Program_Sword>Sword</NR_Program_Sword>
+  <NR_ProgramDesc_Sword>Hacking +30%, but hacks leave twice the trace. Costs {0} cyberdata.</NR_ProgramDesc_Sword>
+  <NR_Program_Shield>Shield</NR_Program_Shield>
+  <NR_ProgramDesc_Shield>Absorbs one Black ICE strike. Costs {0} cyberdata.</NR_ProgramDesc_Shield>
+  <NR_Program_Decoy>Decoy</NR_Program_Decoy>
+  <NR_ProgramDesc_Decoy>50% to draw off one ICE strike. Costs {0} cyberdata.</NR_ProgramDesc_Decoy>
+  <NR_Program_Stealth>Stealth</NR_Program_Stealth>
+  <NR_ProgramDesc_Stealth>Half the trace for the whole dive. Costs {0} cyberdata.</NR_ProgramDesc_Stealth>
+  <NR_Program_Killer>Killer</NR_Program_Killer>
+  <NR_ProgramDesc_Killer>Breaks one gate or ICE without a roll. Costs {0} cyberdata.</NR_ProgramDesc_Killer>
+  <NR_DiveLogStart>{0} jacks into {1}.</NR_DiveLogStart>
+  <NR_DiveNoFurther>nowhere further to go</NR_DiveNoFurther>
+  <NR_DiveHiddenAhead>something hidden ahead: scan it first</NR_DiveHiddenAhead>
+  <NR_DiveBlocked>the way is blocked: hack it first</NR_DiveBlocked>
+  <NR_DiveLogMove>Moved to: {0}.</NR_DiveLogMove>
+  <NR_DiveNothingToScan>nothing hidden ahead</NR_DiveNothingToScan>
+  <NR_DiveLogScan>Scan found: {0}.</NR_DiveLogScan>
+  <NR_DiveNothingToHack>nothing to hack ahead</NR_DiveNothingToHack>
+  <NR_DiveLogKiller>Killer broke {0}.</NR_DiveLogKiller>
+  <NR_DiveLogHackOk>{0}: passed.</NR_DiveLogHackOk>
+  <NR_DiveLogHackFail>{0} held.</NR_DiveLogHackFail>
+  <NR_DiveNothingToDownload>nothing to download here</NR_DiveNothingToDownload>
+  <NR_DiveAlreadyLooted>already downloaded</NR_DiveAlreadyLooted>
+  <NR_DiveLogDownload>Downloaded. Haul so far: {0}.</NR_DiveLogDownload>
+  <NR_DiveLogTimeout>Too long in the net: the node threw you out. The netrunner is unconscious.</NR_DiveLogTimeout>
+  <NR_DiveLogIceWatching>Black ICE sees you.</NR_DiveLogIceWatching>
+  <NR_DiveLogShield>Shield took the ICE strike.</NR_DiveLogShield>
+  <NR_DiveLogDecoy>Decoy drew the ICE off.</NR_DiveLogDecoy>
+  <NR_DiveLogNausea>Black ICE hit {0}: cyberspace nausea.</NR_DiveLogNausea>
+  <NR_DiveLogLockOut>Black ICE locked {0} out of the net.</NR_DiveLogLockOut>
+  <NR_DiveLogComa>Black ICE put {0} into a coma.</NR_DiveLogComa>
+  <NR_DiveExitFar>the exit is further on</NR_DiveExitFar>
+  <NR_DiveLogExit>Out through the I/O port.</NR_DiveLogExit>
+  <NR_DiveLogRetreat>Retreat.</NR_DiveLogRetreat>
+  <NR_DiveHeatReason>{0} dived into {1}</NR_DiveHeatReason>
+  <NR_DiveDone>{0} finished the dive into {1}. Haul: {2}. Trace: +{3} Heat.</NR_DiveDone>
+  <NR_DiveFailed>{0} left {1} early. Trace: +{2} Heat.</NR_DiveFailed>
+  <NR_DiveAborted>The dive was cut: the netrunner is no longer in the cyberpod.</NR_DiveAborted>
+  <NR_GatewayPickNode>Pick a node.</NR_GatewayPickNode>
+  <NR_GatewayNodeHidden>This node is hidden. Use Search to find it.</NR_GatewayNodeHidden>
+  <NR_GatewayNoPod>needs a colonist with a cyberlink in a powered cyberpod</NR_GatewayNoPod>
+  <NR_GatewayNothingHidden>nothing hidden left</NR_GatewayNothingHidden>
+  <NR_GatewayLegend>Size = haul · color = type · ★ fixer contract · dashed = hidden (needs Search)</NR_GatewayLegend>
+  <NR_GatewayHidden>hidden</NR_GatewayHidden>
+  <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
+  <NR_GatewayDefense>defense {0}</NR_GatewayDefense>
+  <NR_GatewayHiddenRow>? hidden node (needs Search)</NR_GatewayHiddenRow>
+  <NR_GatewayRowType>Type</NR_GatewayRowType>
+  <NR_GatewayRowDefense>Defense</NR_GatewayRowDefense>
+  <NR_GatewayDefenseValue>{0} gates, level {1}</NR_GatewayDefenseValue>
+  <NR_GatewayRowIce>ICE</NR_GatewayRowIce>
+  <NR_GatewayIceBlack>Black ICE, strength {0}</NR_GatewayIceBlack>
+  <NR_GatewayIceWhite>white only, no Black ICE</NR_GatewayIceWhite>
+  <NR_GatewayRowReward>Reward</NR_GatewayRowReward>
+  <NR_GatewayRowTrace>Trace</NR_GatewayRowTrace>
+  <NR_GatewayTraceValue>x{0} Heat per action</NR_GatewayTraceValue>
+  <NR_GatewayRowRisk>Risk</NR_GatewayRowRisk>
+  <NR_GatewayRiskIce>nausea, lockout, coma</NR_GatewayRiskIce>
+  <NR_GatewayRiskLow>low</NR_GatewayRiskLow>
+  <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
+  <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
+  <NR_GatewayNoSlots>no free slots</NR_GatewayNoSlots>
+  <NR_GatewayDive>⇩ DIVE</NR_GatewayDive>
+  <NR_GatewayDiveTip>{0} dives from the cyberpod. The game stays paused while you play the dive.</NR_GatewayDiveTip>
+  <NR_GatewaySearch>Search ({0} cyberdata)</NR_GatewaySearch>
+  <NR_GatewaySearchTip>Find one hidden node.</NR_GatewaySearchTip>
+  <NR_GatewayViewCircles>View: ◉ circles</NR_GatewayViewCircles>
+  <NR_GatewayViewList>View: ☰ list</NR_GatewayViewList>
+  <NR_GatewayRefresh>New nodes in {0}.</NR_GatewayRefresh>
+  <NR_GatewayPodReady>Cyberpod ready</NR_GatewayPodReady>
+  <NR_GatewayPodNone>No cyberpod</NR_GatewayPodNone>
+  <NR_GatewayRunner>Netrunner: {0}</NR_GatewayRunner>
+  <NR_DiveOver>Dive over</NR_DiveOver>
+  <NR_DiveLoot>Haul: {0}</NR_DiveLoot>
+  <NR_DiveActions>Actions ({0} of {1})</NR_DiveActions>
+  <NR_DivePrograms>Programs</NR_DivePrograms>
+  <NR_DiveNoPrograms>none</NR_DiveNoPrograms>
+  <NR_DiveProgramState>Shield ×{0}, Decoy ×{1}, Killer ×{2}, Sword {3}, Stealth {4}</NR_DiveProgramState>
+  <NR_DiveTurn>Turn {0} of {1}</NR_DiveTurn>
+  <NR_DiveLogHeader>Log</NR_DiveLogHeader>
+  <NR_DiveTraceChip>Trace +{0}</NR_DiveTraceChip>
+  <NR_DiveActionsChip>Net actions: {0}/{1}</NR_DiveActionsChip>
+  <NR_DiveBackToGateway>◄ Gateway</NR_DiveBackToGateway>
+  <NR_DiveRetreatButton>◄ Retreat</NR_DiveRetreatButton>
+  <NR_TerminalTitleDive>NETRUN // DIVE: {0}</NR_TerminalTitleDive>
+</LanguageData>

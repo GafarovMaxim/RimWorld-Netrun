@@ -16,7 +16,7 @@
   <NR_NodeTip_Archive>Журнал следа: всё, что поднимало или снижало Heat.</NR_NodeTip_Archive>
   <NR_NodeTip_Server>ИИ колонии: на сервере, в сопроцессорах и в носителях.</NR_NodeTip_Server>
   <NR_NodeTip_Studio>Брейнданс: записи и чипы. Скоро.</NR_NodeTip_Studio>
-  <NR_NodeTip_Gateway>Вход в киберпространство. Нужна кибер-капсула. Скоро.</NR_NodeTip_Gateway>
+  <NR_NodeTip_Gateway>Вход в киберпространство: выберите внешнюю ноду и ныряйте из капсулы.</NR_NodeTip_Gateway>
   <NR_NodeSub_Core>Heat, остывание, уровни</NR_NodeSub_Core>
   <NR_NodeSub_Club>Фиксеры ({0})</NR_NodeSub_Club>
   <NR_NodeSub_Board>Контракт: {0} / {1} сдано</NR_NodeSub_Board>
