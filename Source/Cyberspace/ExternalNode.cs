@@ -19,7 +19,7 @@ public class CyberspaceSettingsDef : Def
     public IntRange nodeCount = new(4, 6);
     public int hiddenNodes = 1;
     public float refreshDays = 5f;
-    public int searchCost = 1;
+    public int searchCost = 5;
     public int programCost = 1;
     public int programSlots = 2;
     public int maxTurns = 8;
