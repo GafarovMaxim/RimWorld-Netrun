@@ -305,6 +305,34 @@ public class AIEffect_Erase : AIEventEffect
     public override void Apply(AIEventContext c) => AIManager.Get()?.Erase(c.AI);
 }
 
+/// <summary>The AI leaves for good, quietly.</summary>
+public class AIEffect_Leave : AIEventEffect
+{
+    public override void Apply(AIEventContext c) => AIManager.Get()?.LeaveQuietly(c.AI);
+}
+
+/// <summary>Items are lost from storage, as many as there are up to the count.</summary>
+public class AIEffect_TakeItems : AIEventEffect
+{
+    public ThingDef thing;
+    public int count = 1;
+
+    public override void Apply(AIEventContext c)
+        => ColonyGoods.TryTake(c.Map, thing, Mathf.Min(count, ColonyGoods.Count(c.Map, thing)));
+}
+
+/// <summary>Every other AI of the colony changes its trust (jealousy, solidarity).</summary>
+public class AIEffect_OtherAIsTrust : AIEventEffect
+{
+    public float amount;
+
+    public override void Apply(AIEventContext c)
+    {
+        foreach (NetAI other in AIManager.Get()?.AIs.Where(a => a != c.AI) ?? Enumerable.Empty<NetAI>())
+            other.AddTrust(amount);
+    }
+}
+
 /// <summary>A weapon or apparel in storage goes up one quality level, up to a cap.</summary>
 public class AIEffect_Quality : AIEventEffect
 {

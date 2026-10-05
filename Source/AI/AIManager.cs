@@ -270,6 +270,9 @@ public class AIManager : GameComponent
     }
 
     /// <summary>The host died or lost the socket: the AI drops out as a fragment.</summary>
+    /// <summary>The AI slips away without a trace (an AI event): no Heat, no fragment.</summary>
+    public void LeaveQuietly(NetAI ai) => Remove(ai, "NR_AIGoneLabel", "NR_AIGhostLeft", 0f, LetterDefOf.NegativeEvent);
+
     public void EjectFromHost(NetAI ai, string reasonKey)
     {
         Pawn host = ai.Host;

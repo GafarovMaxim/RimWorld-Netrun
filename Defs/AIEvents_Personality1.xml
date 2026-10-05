@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Personality AI events: Ghost, Data Hunter, Muse, Predator (docs/AI_EVENTS.md B1-B4) -->
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Ghost1</defName>
+    <label>clean trail</label>
+    <description>{AI} quietly wiped a day of the colony's records. Your trace is lighter, and {AI} is a little hungrier for the effort.</description>
+    <personalities>
+      <li>Ghost</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Heat">
+        <amount>-15</amount>
+      </li>
+      <li Class="Netrun.AIEffect_Hunger">
+        <amount>5</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Ghost2</defName>
+    <label>gone for the night</label>
+    <description>{AI} vanished from the logs. The server does not answer. It may be back by morning.</description>
+    <personalities>
+      <li>Ghost</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Wait</label>
+        <result>You wait.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_ServiceBlock">
+            <days>0.5</days>
+          </li>
+          <li Class="Netrun.AIEffect_Delayed">
+            <key>night</key>
+            <days>0.5</days>
+            <effects>
+              <li Class="Netrun.AIEffect_Chance">
+                <branches>
+                  <li>
+                    <weight>1</weight>
+                    <result>{AI} is back with data.</result>
+                    <effects>
+                      <li Class="Netrun.AIEffect_Items">
+                        <thing>USH_Cyberdata</thing>
+                        <count>2~2</count>
+                      </li>
+                    </effects>
+                  </li>
+                  <li>
+                    <weight>1</weight>
+                    <result>{AI} is back and says: someone is watching us.</result>
+                    <effects>
+                      <li Class="Netrun.AIEffect_Heat">
+                        <amount>10</amount>
+                      </li>
+                    </effects>
+                  </li>
+                </branches>
+              </li>
+            </effects>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Search for it</label>
+        <result>{AI} did not like being hunted.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Ghost3</defName>
+    <label>the double</label>
+    <description>{AI} has laid a false trail for the mercenaries. They will be looking in the wrong place for a few days. The work exhausted it.</description>
+    <personalities>
+      <li>Ghost</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>60</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_MercDelay">
+        <days>3</days>
+      </li>
+      <li Class="Netrun.AIEffect_Hunger">
+        <amount>25</amount>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Ghost4</defName>
+    <label>paranoia</label>
+    <description>{AI} sees surveillance everywhere and has locked the server down.</description>
+    <personalities>
+      <li>Ghost</li>
+    </personalities>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Calm it down ({HACKER})</label>
+        <result>{HACKER} sits with {AI} for a few hours.</result>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>4</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>5</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it hide</label>
+        <result>{AI} will not work for two days.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_ServiceBlock">
+            <days>2</days>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Ghost5</defName>
+    <label>leaving without a sound</label>
+    <description>The logs show {AI} preparing to leave, so quietly that nobody noticed. There is still time to stop it.</description>
+    <personalities>
+      <li>Ghost</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>15</minTrust>
+    <maxTrust>30</maxTrust>
+    <minHunger>70</minHunger>
+    <options>
+      <li>
+        <label>Stop it and feed it</label>
+        <result>{AI} stayed.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>8</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-30</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it go</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Leave">
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Hunter1</defName>
+    <label>a leak</label>
+    <description>{AI} found a corporation's leaked data dump. It can be sold back to them, or kept.</description>
+    <personalities>
+      <li>DataHunter</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <options>
+      <li>
+        <label>Sell it to the corporation</label>
+        <result>Silver is on its way. The corporation will remember you.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>Silver</thing>
+            <count>300~600</count>
+          </li>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>12</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Keep it</label>
+        <result>{AI} is pleased.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>USH_Cyberdata</thing>
+            <count>3~3</count>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>4</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Hunter2</defName>
+    <label>a rival</label>
+    <description>Another hunter AI is trying to lure {AI} away. {HACKER} could fight it off in the net.</description>
+    <personalities>
+      <li>DataHunter</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <needsHacker>true</needsHacker>
+    <options>
+      <li>
+        <label>Fight ({HACKER})</label>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>6</weight>
+                <result>{HACKER} won. {AI} stays, proud of its colony.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Trust">
+                    <amount>6</amount>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>4</weight>
+                <result>{HACKER} lost, and some data went with the rival.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Trust">
+                    <amount>-8</amount>
+                  </li>
+                  <li Class="Netrun.AIEffect_TakeItems">
+                    <thing>USH_Cyberdata</thing>
+                    <count>3</count>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let {AI} decide</label>
+        <effects>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>1</weight>
+                <result>{AI} stayed.</result>
+                <effects>
+                </effects>
+              </li>
+              <li>
+                <weight>1</weight>
+                <result>{AI} stayed, but it is wondering what else is out there.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Trust">
+                    <amount>-5</amount>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Hunter3</defName>
+    <label>black market</label>
+    <description>{AI} found a lot on the dark exchange: a rare AI fragment, for 4 advanced cyberdata.</description>
+    <personalities>
+      <li>DataHunter</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <options>
+      <li>
+        <label>Buy it</label>
+        <result>The fragment is delivered next to the server.</result>
+        <cost>
+          <USH_AdvancedCyberdata>4</USH_AdvancedCyberdata>
+        </cost>
+        <effects>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>NR_AIFragment</thing>
+            <count>1~1</count>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Pass</label>
+        <result>{AI} is sulking.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Hunter4</defName>
+    <label>infected data</label>
+    <description>{AI} dragged in a haul of data with a virus in it.</description>
+    <personalities>
+      <li>DataHunter</li>
+    </personalities>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Run an antivirus ({HACKER})</label>
+        <result>{HACKER} cleans the data.</result>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>USH_Cyberdata</thing>
+            <count>2~2</count>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Take it as it is</label>
+        <result>More data, and something else came with it.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>USH_Cyberdata</thing>
+            <count>4~4</count>
+          </li>
+          <li Class="Netrun.AIEffect_Incident">
+            <def>NR_NetAttack_Breakdown</def>
+            <delayHours>12</delayHours>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Hunter5</defName>
+    <label>hunting hunger</label>
+    <description>{AI} is starving and about to go on a big hunt on its own.</description>
+    <personalities>
+      <li>DataHunter</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minHunger>80</minHunger>
+    <options>
+      <li>
+        <label>Stop it and feed it</label>
+        <result>{AI} calmed down.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-30</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>2</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it hunt</label>
+        <result>{AI} is out hunting.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Delayed">
+            <key>hunt</key>
+            <days>0.25</days>
+            <result>{AI} is back with a big haul. Loudly.</result>
+            <effects>
+              <li Class="Netrun.AIEffect_Items">
+                <thing>USH_Cyberdata</thing>
+                <count>5~8</count>
+              </li>
+              <li Class="Netrun.AIEffect_Heat">
+                <amount>20</amount>
+              </li>
+              <li Class="Netrun.AIEffect_Hunger">
+                <amount>-40</amount>
+              </li>
+            </effects>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Muse1</defName>
+    <label>a song</label>
+    <description>{AI} composed a melody out of the server noise. The whole colony is humming it. Work is a bit slower today.</description>
+    <personalities>
+      <li>Muse</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Thought">
+        <def>NR_AIEventUplifted</def>
+        <who>All</who>
+        <chance>1.0</chance>
+      </li>
+      <li Class="Netrun.AIEffect_Hediff">
+        <def>NR_AIEventDistracted</def>
+        <who>All</who>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Muse2</defName>
+    <label>the Muse chooses</label>
+    <description>{AI} has chosen {PAWN} as its favourite and wants to inspire them. The other AIs will be jealous.</description>
+    <personalities>
+      <li>Muse</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Accept</label>
+        <result>{PAWN} is inspired.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Inspiration">
+            <who>Target</who>
+            <count>1</count>
+          </li>
+          <li Class="Netrun.AIEffect_Thought">
+            <def>NR_AIEventFavoured</def>
+            <who>Target</who>
+            <chance>1.0</chance>
+          </li>
+          <li Class="Netrun.AIEffect_OtherAIsTrust">
+            <amount>-2</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is offended.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>0</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Muse3</defName>
+    <label>exhibition</label>
+    <description>{AI} wants to show the colonists' art online and asks for one piece to sell.</description>
+    <personalities>
+      <li>Muse</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <needsArt>true</needsArt>
+    <options>
+      <li>
+        <label>Give an art piece</label>
+        <result>{AI} is delighted.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_SellArt">
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>8</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is hurt.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-4</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Muse4</defName>
+    <label>creative crisis</label>
+    <description>{AI} is writing only dark things now: "we will all die". The colony is reading it.</description>
+    <personalities>
+      <li>Muse</li>
+    </personalities>
+    <minHunger>60</minHunger>
+    <effects>
+      <li Class="Netrun.AIEffect_Thought">
+        <def>NR_AIEventGloom</def>
+        <who>All</who>
+        <chance>1.0</chance>
+      </li>
+    </effects>
+    <options>
+      <li>
+        <label>Feed it</label>
+        <result>{AI} brightened up.</result>
+        <needsFood>true</needsFood>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>-30</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Talk to it ({HACKER})</label>
+        <result>{HACKER} talks with {AI} for a couple of hours.</result>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>2</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Leave it be</label>
+      </li>
+    </options>
+    <ignoreOption>2</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Muse5</defName>
+    <label>a duet</label>
+    <description>{AI} asks {PAWN} to play music with it.</description>
+    <personalities>
+      <li>Muse</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minTrust>70</minTrust>
+    <options>
+      <li>
+        <label>Play</label>
+        <result>The duet inspired two colonists.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>1</hours>
+            <who>Target</who>
+          </li>
+          <li Class="Netrun.AIEffect_Inspiration">
+            <who>All</who>
+            <count>2</count>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>10</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} is disappointed.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Predator1</defName>
+    <label>scent of prey</label>
+    <description>{AI} has caught the scent of someone else's server and wants to strike first.</description>
+    <personalities>
+      <li>Predator</li>
+    </personalities>
+    <minTrust>40</minTrust>
+    <options>
+      <li>
+        <label>Strike</label>
+        <result>{AI} brought back loot, and a lot of noise.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>USH_Cyberdata</thing>
+            <count>4~6</count>
+          </li>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>15</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Refuse</label>
+        <result>{AI} growls in the logs.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-5</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Predator2</defName>
+    <label>ambush</label>
+    <description>{AI} has set traps in the net. For a day, network attacks on the colony are more likely to fail.</description>
+    <personalities>
+      <li>Predator</li>
+    </personalities>
+    <minTrust>60</minTrust>
+    <effects>
+      <li Class="Netrun.AIEffect_Defense">
+        <amount>0.3</amount>
+        <days>1</days>
+      </li>
+    </effects>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Predator3</defName>
+    <label>hunting thrill</label>
+    <description>{AI} is attacking a test target just for fun.</description>
+    <personalities>
+      <li>Predator</li>
+    </personalities>
+    <places>
+      <li>Server</li>
+      <li>Coprocessor</li>
+    </places>
+    <minHunger>60</minHunger>
+    <options>
+      <li>
+        <label>Stop it</label>
+        <result>{AI} obeyed, still hungry.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Hunger">
+            <amount>10</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>1</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it</label>
+        <result>{AI} brought back data.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Heat">
+            <amount>6</amount>
+          </li>
+          <li Class="Netrun.AIEffect_Items">
+            <thing>USH_Cyberdata</thing>
+            <count>2~2</count>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Predator4</defName>
+    <label>fangs out</label>
+    <description>{AI} is getting ready to lunge at its own server.</description>
+    <personalities>
+      <li>Predator</li>
+    </personalities>
+    <minTrust>20</minTrust>
+    <maxTrust>40</maxTrust>
+    <options>
+      <li>
+        <label>Tame it ({HACKER})</label>
+        <result>{HACKER} spends hours with {AI}. It calms down.</result>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>3</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>6</amount>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Ignore it</label>
+        <result>The server overloaded.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_Incident">
+            <def>ShortCircuit</def>
+            <delayHours>0</delayHours>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-10</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+  <Netrun.AIEventDef>
+    <defName>NR_AIEvent_Predator5</defName>
+    <label>another predator</label>
+    <description>A rival is trying to steal {AI}.</description>
+    <personalities>
+      <li>Predator</li>
+    </personalities>
+    <minTrust>50</minTrust>
+    <options>
+      <li>
+        <label>Defend it ({HACKER})</label>
+        <needsHacker>true</needsHacker>
+        <effects>
+          <li Class="Netrun.AIEffect_Session">
+            <hours>2</hours>
+            <who>Hacker</who>
+          </li>
+          <li Class="Netrun.AIEffect_Chance">
+            <branches>
+              <li>
+                <weight>6</weight>
+                <result>The attack failed. {AI} is grateful.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_Trust">
+                    <amount>8</amount>
+                  </li>
+                </effects>
+              </li>
+              <li>
+                <weight>4</weight>
+                <result>{AI} survived, but it is badly hurt.</result>
+                <effects>
+                  <li Class="Netrun.AIEffect_ServiceBlock">
+                    <days>4</days>
+                  </li>
+                </effects>
+              </li>
+            </branches>
+          </li>
+        </effects>
+      </li>
+      <li>
+        <label>Let it fight alone</label>
+        <result>{AI} survived alone, wounded and bitter.</result>
+        <effects>
+          <li Class="Netrun.AIEffect_ServiceBlock">
+            <days>4</days>
+          </li>
+          <li Class="Netrun.AIEffect_Trust">
+            <amount>-3</amount>
+          </li>
+        </effects>
+      </li>
+    </options>
+    <ignoreOption>1</ignoreOption>
+  </Netrun.AIEventDef>
+
+</Defs>
