@@ -17,6 +17,7 @@
       <drawSize>0.8</drawSize>
     </graphicData>
     <rotatable>false</rotatable>
+    <stackLimit>10</stackLimit>
     <statBases>
       <MarketValue>60</MarketValue>
       <Mass>0.05</Mass>
@@ -82,6 +83,7 @@
       <drawSize>0.8</drawSize>
     </graphicData>
     <rotatable>false</rotatable>
+    <stackLimit>10</stackLimit>
     <statBases>
       <MarketValue>140</MarketValue>
       <Mass>0.05</Mass>
