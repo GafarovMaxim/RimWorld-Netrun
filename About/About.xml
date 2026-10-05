@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Hacking Expansion: Black ICE</name>
+  <author>OpenAI</author>
+  <packageId>OpenAI.HackingExpansionBlackIce</packageId>
+  <supportedVersions>
+    <li>1.6</li>
+  </supportedVersions>
+  <dependencies>
+    <li>Ushanka.HackingExpansion</li>
+  </dependencies>
+  <loadAfter>
+    <li>Ushanka.HackingExpansion</li>
+  </loadAfter>
+  <description>
+Adds a cyberpunk-focused layer to Hacking Expansion: digital traces and consequences, fixer contracts, cyberdata economy, discoverable AI personalities, adaptive ICE, cyberspace dependence, braindance, and network attacks against the colony.
+  </description>
+</ModMetaData>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <ThingDef ParentName="BaseResource">
+    <defName>BI_Cyberdata</defName>
+    <label>cyberdata</label>
+    <description>Encrypted fragments of proprietary or illicit network information. Cyberdata can be sold, used to establish contacts with fixers, or burned to scrub a digital trace.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <stackLimit>25</stackLimit>
+    <mass>0.01</mass>
+    <techLevel>Spacer</techLevel>
+    <marketValue>70</marketValue>
+    <graphicData>
+      <texPath>Things/Item/Resource/ComponentIndustrial</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="BlackIce.CompCyberData" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseResource">
+    <defName>BI_UnknownAI</defName>
+    <label>unknown AI fragment</label>
+    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something is still thinking inside it.</description>
+    <thingClass>ThingWithComps</thingClass>
+    <stackLimit>1</stackLimit>
+    <mass>0.02</mass>
+    <techLevel>Archotech</techLevel>
+    <marketValue>1500</marketValue>
+    <graphicData>
+      <texPath>Things/Item/Resource/ComponentSpacer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <comps>
+      <li Class="BlackIce.CompAIFragment" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BuildingBase">
+    <defName>BI_NetTerminal</defName>
+    <label>black ICE net terminal</label>
+    <description>A hardened terminal for dealing with fixers, managing stolen cyberdata, consulting contacted AIs, and scrubbing the colony's digital trace.</description>
+    <thingClass>Building</thingClass>
+    <size>(2,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>60</fillPercent>
+    <pathCost>30</pathCost>
+    <statBases>
+      <MaxHitPoints>220</MaxHitPoints>
+      <WorkToBuild>1800</WorkToBuild>
+      <Mass>2</Mass>
+    </statBases>
+    <graphicData>
+      <texPath>Things/Building/Misc/HiTechResearchBench</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(2,2)</drawSize>
+    </graphicData>
+    <building>
+      <isEdifice>true</isEdifice>
+    </building>
+    <designationCategory>Misc</designationCategory>
+    <researchPrerequisites>
+      <li>MultiAnalyzer</li>
+    </researchPrerequisites>
+    <costList>
+      <Plasteel>35</Plasteel>
+      <ComponentSpacer>2</ComponentSpacer>
+      <AdvancedComponent>2</AdvancedComponent>
+    </costList>
+    <comps>
+      <li Class="BlackIce.CompProperties_NetTerminal" />
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseDrug">
+    <defName>BI_BrainDance</defName>
+    <label>braindance</label>
+    <description>A recorded sensory experience that hijacks the user's neural interface. It can be euphoric, educational, or deeply disturbing. Repeated use risks developing dependency.</description>
+    <graphicData>
+      <texPath>Things/Item/Resource/MedicineIndustrial</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <statBases>
+      <MarketValue>110</MarketValue>
+      <Mass>0.02</Mass>
+    </statBases>
+    <ingestible>
+      <baseIngestTicks>80</baseIngestTicks>
+      <foodType>Processed</foodType>
+      <joyKind>Chemical</joyKind>
+      <joy>1.0</joy>
+      <drugCategory>Hard</drugCategory>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>BI_BrainDanceEuphoria</hediffDef>
+          <severity>0.7</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>BI_BrainDanceTolerance</hediffDef>
+          <severity>0.025</severity>
+          <divideByBodySize>true</divideByBodySize>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>BI_BrainDanceChemical</chemical>
+        <addictiveness>0.045</addictiveness>
+        <minToleranceToAddict>0.12</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.10</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>60</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+</Defs>

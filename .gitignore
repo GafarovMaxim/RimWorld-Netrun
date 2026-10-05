@@ -1,0 +1,10 @@
+# Build output
+Source/obj/
+Source/bin/
+*.pdb
+
+# IDE
+.vs/
+.vscode/
+*.user
+*.suo

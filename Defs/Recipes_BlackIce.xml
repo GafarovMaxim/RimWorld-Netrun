@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <RecipeDef>
+    <defName>BI_CraftBrainDance</defName>
+    <label>encode braindance</label>
+    <description>Compile stolen neural recordings into a consumable braindance.</description>
+    <workAmount>1200</workAmount>
+    <workSkill>Intellectual</workSkill>
+    <recipeUsers><li>HiTechResearchBench</li></recipeUsers>
+    <researchPrerequisite>MultiAnalyzer</researchPrerequisite>
+    <jobString>Encoding braindance.</jobString>
+    <ingredients>
+      <li><filter><thingDefs><li>BI_Cyberdata</li></thingDefs></filter><count>2</count></li>
+      <li><filter><thingDefs><li>Neutroamine</li></thingDefs></filter><count>1</count></li>
+    </ingredients>
+    <products><BI_BrainDance>1</BI_BrainDance></products>
+  </RecipeDef>
+</Defs>
