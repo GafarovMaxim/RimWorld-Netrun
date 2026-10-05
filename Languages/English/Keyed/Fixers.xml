@@ -49,7 +49,6 @@
 
   <!-- Shop -->
   <NR_ShopTitle>{0}: shop</NR_ShopTitle>
-  <NR_ShopSilver>Silver in storage: {0}</NR_ShopSilver>
   <NR_ShopEmpty>Nothing left for sale.</NR_ShopEmpty>
   <NR_ShopPrice>{0} silver</NR_ShopPrice>
   <NR_ShopBuy>Buy</NR_ShopBuy>
@@ -63,4 +62,5 @@
   <NR_ScrubNone>none in the colony</NR_ScrubNone>
   <NR_ScrubMax>max</NR_ScrubMax>
   <NR_ShopNoSilver>not enough silver</NR_ShopNoSilver>
+  <NR_ScrubMin>min</NR_ScrubMin>
 </LanguageData>

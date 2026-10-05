@@ -49,7 +49,6 @@
 
   <!-- Магазин -->
   <NR_ShopTitle>{0}: магазин</NR_ShopTitle>
-  <NR_ShopSilver>Серебро на складе: {0}</NR_ShopSilver>
   <NR_ShopEmpty>Товаров больше нет.</NR_ShopEmpty>
   <NR_ShopPrice>{0} серебра</NR_ShopPrice>
   <NR_ShopBuy>Купить</NR_ShopBuy>
@@ -63,4 +62,5 @@
   <NR_ScrubNone>в колонии нет</NR_ScrubNone>
   <NR_ScrubMax>макс</NR_ScrubMax>
   <NR_ShopNoSilver>не хватает серебра</NR_ShopNoSilver>
+  <NR_ScrubMin>мин</NR_ScrubMin>
 </LanguageData>

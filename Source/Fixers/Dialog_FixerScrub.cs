@@ -81,7 +81,7 @@ public class Dialog_FixerScrub : Window
             Close();
     }
 
-    /// <summary>Icon, name, then -, an exact number field, +, and "max".</summary>
+    /// <summary>Icon, name, then "min", -, an exact number field, +, and "max".</summary>
     private static float AmountRow(Rect rect, ThingDef def, ref int value, ref string buffer, int available)
     {
         NetrunUI.Card(rect, NetrunUI.Accent);
@@ -110,6 +110,12 @@ public class Dialog_FixerScrub : Window
         if (NetrunUI.Button(new Rect(x, cy, 30f, 30f), "−", NetrunUI.Accent, value > 0 ? true : (AcceptanceReport)false))
         {
             value--;
+            buffer = null;
+        }
+        x -= 66f;
+        if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMin".Translate(), NetrunUI.Muted, value > 0 ? true : (AcceptanceReport)false))
+        {
+            value = 0;
             buffer = null;
         }
         return rect.yMax;

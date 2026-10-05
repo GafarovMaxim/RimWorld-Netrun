@@ -86,7 +86,7 @@ public static class AITab
             return ("NR_AIStatusIsolated".Translate(), NetrunUI.Warn);
         if (!ai.Powered)
             return ("NR_AIStatusAsleep".Translate(), NetrunUI.Muted);
-        return ("NR_AIStatusActive".Translate(), NetrunUI.TextColor);
+        return ("NR_AIStatusActive".Translate(), NetrunUI.Ok);
     }
 
     private const float TextIndent = 4f + Pad + PortraitSize + 14f;
