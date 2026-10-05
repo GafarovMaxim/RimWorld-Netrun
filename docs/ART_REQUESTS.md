@@ -21,6 +21,18 @@ readable at 64 pixels, transparent background, no text
 
 Технические требования: PNG с прозрачным фоном, без текста и тени. Предметы и постройки можно в 1024x1024, иконки 128x128. Уменьшу сам.
 
+## Нужно сейчас (после теста терминала, 2026-10-06), по приоритету
+
+| Файл | Что это | Размер | Идея |
+|---|---|---|---|
+| `NR_NetrunCoprocessor.png` | Сопроцессор Netrun: постройка 1x1 рядом с кибер-капсулой, внутри живёт ИИ | 256x256, вписать в клетку с небольшим запасом, вид сверху-спереди как у сопроцессоров Hacking Expansion | корпус в стиле HE (Optimization/Jammer coprocessor), но с прозрачным отсеком, где светится ядро ИИ; фиолетовый акцент |
+| `NR_AIServerRack.png` | Серверная стойка: постройка 1x1 рядом с ИИ-сервером, +1 слот | 256x256, тот же ракурс и палитра, что у `AIServer` | узкая стойка с рядами модулей и индикаторов, в центре золотистый модуль ядра ИИ; должна выглядеть частью сервера |
+| `Icon_Pinned.png` | Значок закреплённого фиксера (Клуб) | 64x64 | неоновая булавка, золото, читается на тёмном фоне (сейчас ванильная) |
+| `AI_Archivist.png` + `_64` | Портрет Архивариуса | 128 и 64 | раскрытая книга или стеллаж из светящихся строк, янтарный (сейчас заглушка) |
+| `Node_Core`, `Node_Club`, `Node_Board`, `Node_Archive`, `Node_Server`, `Node_Studio`, `Node_Gateway` | Иконки нод на карте терминала | 128x128 | один набор в неоновых линиях, как на макете 1-core-map (сейчас стоят иконки старых вкладок) |
+| `Ext_Market`, `Ext_Archive`, `Ext_Corp`, `Ext_Abandoned`, `Ext_DarkExchange` | Значки типов внешних нод в кругах Шлюза | 64x64 | простой символ в центре круга, как на макете 5 (шестигранник с точкой и т.п.) |
+| `Prog_Sword`, `Prog_Shield`, `Prog_Decoy`, `Prog_Stealth`, `Prog_Killer` | Иконки программ нырка | 64x64 | меч, щит, двойник-силуэт, глаз с чертой, череп или молния |
+
 ## Уже есть (Art/Approved)
 AIServer, AIServer_Minimal, BraindanceChip, BraindanceGoggles, Fixer_Corp / ShadowBroker / Street, Gizmo_NetTerminal / CallFixer / NetrunDive, Heat_1…5, Tab_Overview / Fixers / Contracts / AI / Braindance / Log (+ варианты), OpenCyberspace (+ Node), Preview.
 
