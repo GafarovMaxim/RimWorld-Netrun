@@ -12,3 +12,26 @@ Source/bin/
 # CI download
 Source/lib/
 dist/
+
+# Source art kept only on the author's PC (game copies are in Textures/)
+Art/
+Hacking Expansion Netrun Art/Icon_Pinned_Dim_Brass.png
+Hacking Expansion Netrun Art/Icon_Pinned_Dim_Brass_32.png
+Hacking Expansion Netrun Art/Icon_Pinned_Dim_Brass_64.png
+Hacking Expansion Netrun Art/Icon_Pinned_Diag_Dim.png
+Hacking Expansion Netrun Art/Icon_Pinned_Diag_Dim_32.png
+Hacking Expansion Netrun Art/Icon_Pinned_Diag_Dim_64.png
+Hacking Expansion Netrun Art/Server_Upgrade_Quantum.png
+Hacking Expansion Netrun Art/Node_Server.png
+Hacking Expansion Netrun Art/Node_Server_64.png
+Hacking Expansion Netrun Art/Node_HomeArchive.png
+Hacking Expansion Netrun Art/Node_HomeArchive_64.png
+Hacking Expansion Netrun Art/Node_Archive_64.png
+Hacking Expansion Netrun Art/Node_Board.png
+Hacking Expansion Netrun Art/Node_Board_64.png
+Hacking Expansion Netrun Art/Node_Club.png
+Hacking Expansion Netrun Art/Node_Club_64.png
+Hacking Expansion Netrun Art/Node_Gateway.png
+Hacking Expansion Netrun Art/Node_Gateway_64.png
+Hacking Expansion Netrun Art/Node_Studio.png
+Hacking Expansion Netrun Art/Node_Studio_64.png

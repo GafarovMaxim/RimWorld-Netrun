@@ -131,6 +131,10 @@ python tools/check_keys.py
 
 ---
 
+## 📄 License
+
+[MIT](LICENSE) © 2026 Raul Moreau.
+
 ## 📜 Authors & Credits
 
 * **Author:** Raul Moreau (GafarovMaxim)
