@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Architect tab for the mod's buildings: AI server, server rack, netrun coprocessor -->
+  <DesignationCategoryDef>
+    <defName>NR_Cyberspace</defName>
+    <label>cyberspace</label>
+    <description>AI servers, server racks and cyberpod coprocessors.</description>
+    <order>245</order>
+    <specialDesignatorClasses>
+      <li>Designator_Cancel</li>
+      <li>Designator_Deconstruct</li>
+    </specialDesignatorClasses>
+  </DesignationCategoryDef>
+
+</Defs>

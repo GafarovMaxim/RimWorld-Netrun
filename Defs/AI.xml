@@ -181,7 +181,7 @@
       <USH_AdvancedCyberdata>4</USH_AdvancedCyberdata>
     </costList>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>NR_Cyberspace</designationCategory>
     <researchPrerequisites>
       <li>USH_AdvancedCybertech</li>
     </researchPrerequisites>
@@ -235,7 +235,7 @@
       <NR_AICoreModule>1</NR_AICoreModule>
     </costList>
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
-    <designationCategory>Misc</designationCategory>
+    <designationCategory>NR_Cyberspace</designationCategory>
     <researchPrerequisites>
       <li>USH_AdvancedCybertech</li>
     </researchPrerequisites>

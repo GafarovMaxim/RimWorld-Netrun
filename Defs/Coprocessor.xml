@@ -6,6 +6,7 @@
   <ThingDef ParentName="USH_CoprocessorBase">
     <defName>NR_NetrunCoprocessor</defName>
     <label>netrun coprocessor</label>
+    <designationCategory>NR_Cyberspace</designationCategory>
     <description>A cyberpod subsystem that holds one awakened AI. The AI works for the linked cyberpod instead of the colony: every AI makes the pod a little quieter and luckier, and some are especially good at it (Ghost hides the trace, Data Hunter finds more cyberdata, Doc and Warden protect the diver from cyberspace dependency).\n\nMove an AI here from the AI tab of the network terminal. Only one can connect to a pod.</description>
     <graphicData>
       <texPath>Things/Building/Misc/NR_NetrunCoprocessor</texPath>
