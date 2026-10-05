@@ -5,7 +5,7 @@
   <NR_FixerSpecialty_Broker>Брокер</NR_FixerSpecialty_Broker>
   <NR_FixerSpecialty_Cleaner>Чистильщик</NR_FixerSpecialty_Cleaner>
   <NR_FixerSpecialty_Fence>Скупщик</NR_FixerSpecialty_Fence>
-  <NR_FixerSpecialtyDesc_Broker>Торгует информацией. Больше платит за доставку данных (контракты появятся в следующем обновлении).</NR_FixerSpecialtyDesc_Broker>
+  <NR_FixerSpecialtyDesc_Broker>Торгует информацией. Платит в полтора раза больше за контракты на доставку данных.</NR_FixerSpecialtyDesc_Broker>
   <NR_FixerSpecialtyDesc_Cleaner>Зарабатывает на стирании следов. Сброс Heat у чистильщика дешевле.</NR_FixerSpecialtyDesc_Cleaner>
   <NR_FixerSpecialtyDesc_Fence>Достаёт железо. Продаёт кибер-импланты и снаряжение для взлома, доставка дроп-подом.</NR_FixerSpecialtyDesc_Fence>
 

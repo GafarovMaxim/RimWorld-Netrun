@@ -5,7 +5,7 @@
   <NR_FixerSpecialty_Broker>Broker</NR_FixerSpecialty_Broker>
   <NR_FixerSpecialty_Cleaner>Cleaner</NR_FixerSpecialty_Cleaner>
   <NR_FixerSpecialty_Fence>Fence</NR_FixerSpecialty_Fence>
-  <NR_FixerSpecialtyDesc_Broker>Deals in information. Pays more for data deliveries (contracts arrive in a later update).</NR_FixerSpecialtyDesc_Broker>
+  <NR_FixerSpecialtyDesc_Broker>Deals in information. Pays half as much again for data delivery contracts.</NR_FixerSpecialtyDesc_Broker>
   <NR_FixerSpecialtyDesc_Cleaner>Erases traces for a living. Scrubbing your Heat is cheaper with a cleaner.</NR_FixerSpecialtyDesc_Cleaner>
   <NR_FixerSpecialtyDesc_Fence>Moves hardware. Sells cyberware and hacking gear, delivered by drop pod.</NR_FixerSpecialtyDesc_Fence>
 

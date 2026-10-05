@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Contract types -->
+  <NR_Contract_DataDelivery>Data delivery</NR_Contract_DataDelivery>
+  <NR_Contract_SystemTap>System tap</NR_Contract_SystemTap>
+  <NR_Contract_QuietRun>Quiet run</NR_Contract_QuietRun>
+  <NR_ContractDesc_DataDelivery>Hand over {0} cyberdata through the terminal. Advanced cyberdata counts as several.</NR_ContractDesc_DataDelivery>
+  <NR_ContractDesc_SystemTap>Complete {0} hacks.</NR_ContractDesc_SystemTap>
+  <NR_ContractDesc_QuietRun>Complete {0} hacks without your trace rising above Tracked.</NR_ContractDesc_QuietRun>
+
+  <!-- Contracts tab -->
+  <NR_ContractsActive>Active contracts</NR_ContractsActive>
+  <NR_ContractsOffers>Offers</NR_ContractsOffers>
+  <NR_ContractsNoActive>No active contracts.</NR_ContractsNoActive>
+  <NR_ContractsNoOffers>No offers right now.</NR_ContractsNoOffers>
+  <NR_ContractHeader>{0} from {1}: {2} silver</NR_ContractHeader>
+  <NR_ContractTimeLeft>Time left: {0}</NR_ContractTimeLeft>
+  <NR_ContractDuration>Deadline after accepting: {0}</NR_ContractDuration>
+  <NR_ContractAccept>Accept</NR_ContractAccept>
+  <NR_ContractDeliver>Hand over data</NR_ContractDeliver>
+  <NR_ContractAbandon>Abandon</NR_ContractAbandon>
+  <NR_ContractAbandonConfirm>Abandon "{0}"? It counts as a failure.</NR_ContractAbandonConfirm>
+
+  <!-- Accept checks -->
+  <NR_ContractNeedsChannel>Contact the fixer first.</NR_ContractNeedsChannel>
+  <NR_ContractAlreadyActive>You already have a contract with {0}.</NR_ContractAlreadyActive>
+  <NR_ContractTooLoud>Your trace is already too high for a quiet run.</NR_ContractTooLoud>
+
+  <!-- Results -->
+  <NR_ContractAccepted>Contract accepted: {0} for {1}.</NR_ContractAccepted>
+  <NR_ContractCompletedLabel>Contract completed</NR_ContractCompletedLabel>
+  <NR_ContractCompleted>"{0}" for {1} is done. {2} silver is on its way by drop pod.</NR_ContractCompleted>
+  <NR_ContractFailedLabel>Contract failed</NR_ContractFailedLabel>
+  <NR_ContractFailed>"{0}" for {1} failed: {2}\n\nThe fixer trusts you less and won't answer for {3} days.</NR_ContractFailed>
+  <NR_ContractFailedExpired>the deadline passed</NR_ContractFailedExpired>
+  <NR_ContractFailedLoud>your trace rose too high</NR_ContractFailedLoud>
+  <NR_ContractFailedAbandoned>you walked away from the job</NR_ContractFailedAbandoned>
+
+</LanguageData>

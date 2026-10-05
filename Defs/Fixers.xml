@@ -48,6 +48,30 @@
       <li>USH_BrokenExecData</li>
       <li>USH_AdvancedCyberdata</li>
     </shopItems>
+
+    <!-- Contracts: offers per fixer, deadline in days, reputation on success / loss on failure,
+         days a fixer stays silent after a failure, chance that a Rat leaks after a failure -->
+    <offersPerFixer>1~2</offersPerFixer>
+    <contractDays>3~7</contractDays>
+    <contractReputation>10</contractReputation>
+    <failReputationLoss>10</failReputationLoss>
+    <failSilentDays>3</failSilentDays>
+    <ratFailLeakChance>0.5</ratFailLeakChance>
+
+    <!-- Data delivery: items wanted, silver per item, how many items one advanced cyberdata counts as,
+         Broker reward multiplier -->
+    <dataDeliveryGoal>4~10</dataDeliveryGoal>
+    <dataDeliveryRewardPerItem>60</dataDeliveryRewardPerItem>
+    <advancedCyberdataWorth>3</advancedCyberdataWorth>
+    <brokerDataBonus>1.5</brokerDataBonus>
+
+    <!-- System tap: hacks wanted, silver per hack -->
+    <systemTapGoal>2~5</systemTapGoal>
+    <systemTapRewardPerHack>120</systemTapRewardPerHack>
+
+    <!-- Quiet run: hacks wanted while Heat stays at Tracked or lower, silver per hack -->
+    <quietRunGoal>2~4</quietRunGoal>
+    <quietRunRewardPerHack>180</quietRunRewardPerHack>
   </Netrun.FixerSettingsDef>
 
   <!-- Fixer handles -->

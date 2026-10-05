@@ -21,6 +21,7 @@ public static class Patch_CompHackable_ProcessHacked
 
             string reason = "NR_LogHack".Translate(hacker.LabelShort, __instance.parent.LabelCap);
             HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason);
+            ContractManager.Get()?.NotifyHackCompleted();
         }
         catch (Exception ex)
         {

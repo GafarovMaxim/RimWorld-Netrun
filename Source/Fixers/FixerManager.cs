@@ -21,6 +21,7 @@ public class FixerManager : GameComponent
     public static FixerManager Get() => Current.Game?.GetComponent<FixerManager>();
 
     public IReadOnlyList<Fixer> Fixers => _fixers;
+    public Fixer ById(int id) => _fixers.Find(f => f.Id == id);
     public int TicksUntilRotation => Math.Max(0, _nextRotationTick - Find.TickManager.TicksGame);
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
@@ -41,10 +42,20 @@ public class FixerManager : GameComponent
             Rotate(notify: true);
     }
 
-    /// <summary>Unpinned fixers leave, new ones fill the free slots (always at least one newcomer).</summary>
+    /// <summary>
+    /// Unpinned fixers leave (unless a contract with them is running), new ones fill the free slots
+    /// (always at least one newcomer). Fixers who stay get fresh contract offers.
+    /// </summary>
     public void Rotate(bool notify)
     {
-        _fixers.RemoveAll(f => !f.Pinned);
+        ContractManager contracts = ContractManager.Get();
+        _fixers.RemoveAll(f => !f.Pinned && contracts?.HasActive(f) != true);
+
+        foreach (Fixer fixer in _fixers)
+        {
+            if (contracts?.HasActive(fixer) == false && !fixer.IsSilent)
+                contracts.RegenerateOffers(fixer);
+        }
 
         int newcomers = Math.Max(1, Settings.poolSize - _fixers.Count);
         for (int i = 0; i < newcomers; i++)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- Типы контрактов -->
+  <NR_Contract_DataDelivery>Доставка данных</NR_Contract_DataDelivery>
+  <NR_Contract_SystemTap>Системный взлом</NR_Contract_SystemTap>
+  <NR_Contract_QuietRun>Тихий заход</NR_Contract_QuietRun>
+  <NR_ContractDesc_DataDelivery>Передать через терминал {0} cyberdata. Продвинутые cyberdata засчитываются за несколько.</NR_ContractDesc_DataDelivery>
+  <NR_ContractDesc_SystemTap>Завершить взломов: {0}.</NR_ContractDesc_SystemTap>
+  <NR_ContractDesc_QuietRun>Завершить взломов: {0}, при этом след не должен подняться выше уровня «Отслеживается».</NR_ContractDesc_QuietRun>
+
+  <!-- Вкладка «Контракты» -->
+  <NR_ContractsActive>Активные контракты</NR_ContractsActive>
+  <NR_ContractsOffers>Предложения</NR_ContractsOffers>
+  <NR_ContractsNoActive>Активных контрактов нет.</NR_ContractsNoActive>
+  <NR_ContractsNoOffers>Сейчас предложений нет.</NR_ContractsNoOffers>
+  <NR_ContractHeader>{0} от {1}: {2} серебра</NR_ContractHeader>
+  <NR_ContractTimeLeft>Осталось: {0}</NR_ContractTimeLeft>
+  <NR_ContractDuration>Срок после принятия: {0}</NR_ContractDuration>
+  <NR_ContractAccept>Принять</NR_ContractAccept>
+  <NR_ContractDeliver>Передать данные</NR_ContractDeliver>
+  <NR_ContractAbandon>Отказаться</NR_ContractAbandon>
+  <NR_ContractAbandonConfirm>Отказаться от контракта «{0}»? Это засчитается как провал.</NR_ContractAbandonConfirm>
+
+  <!-- Проверки при принятии -->
+  <NR_ContractNeedsChannel>Сначала свяжитесь с фиксером.</NR_ContractNeedsChannel>
+  <NR_ContractAlreadyActive>У вас уже есть контракт с {0}.</NR_ContractAlreadyActive>
+  <NR_ContractTooLoud>Ваш след уже слишком высок для тихого захода.</NR_ContractTooLoud>
+
+  <!-- Итоги -->
+  <NR_ContractAccepted>Контракт принят: {0} для {1}.</NR_ContractAccepted>
+  <NR_ContractCompletedLabel>Контракт выполнен</NR_ContractCompletedLabel>
+  <NR_ContractCompleted>«{0}» для {1} выполнен. {2} серебра уже летит дроп-подом.</NR_ContractCompleted>
+  <NR_ContractFailedLabel>Контракт провален</NR_ContractFailedLabel>
+  <NR_ContractFailed>«{0}» для {1} провален: {2}.\n\nФиксер доверяет вам меньше и не будет отвечать {3} дн.</NR_ContractFailed>
+  <NR_ContractFailedExpired>истёк срок</NR_ContractFailedExpired>
+  <NR_ContractFailedLoud>след поднялся слишком высоко</NR_ContractFailedLoud>
+  <NR_ContractFailedAbandoned>вы отказались от работы</NR_ContractFailedAbandoned>
+
+</LanguageData>

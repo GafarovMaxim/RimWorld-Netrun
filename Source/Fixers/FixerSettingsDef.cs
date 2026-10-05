@@ -39,4 +39,23 @@ public class FixerSettingsDef : Def
     public float shopMarkup = 1.3f;
     public int shopStockSize = 4;
     public List<ThingDef> shopItems = [];
+
+    // Contracts
+    public IntRange offersPerFixer = new(1, 2);
+    public IntRange contractDays = new(3, 7);
+    public float contractReputation = 10f;
+    public float failReputationLoss = 10f;
+    public int failSilentDays = 3;
+    public float ratFailLeakChance = 0.5f;
+
+    public IntRange dataDeliveryGoal = new(4, 10);
+    public int dataDeliveryRewardPerItem = 60;
+    public int advancedCyberdataWorth = 3;
+    public float brokerDataBonus = 1.5f;
+
+    public IntRange systemTapGoal = new(2, 5);
+    public int systemTapRewardPerHack = 120;
+
+    public IntRange quietRunGoal = new(2, 4);
+    public int quietRunRewardPerHack = 180;
 }
