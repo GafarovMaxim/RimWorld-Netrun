@@ -84,14 +84,13 @@
   <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>Нырок прерван: нетраннер больше не в капсуле.</NR_DiveAborted>
   <NR_GatewayPickNode>Выберите ноду.</NR_GatewayPickNode>
-  <NR_GatewayNodeHidden>Нода скрыта. Найдите её Поиском.</NR_GatewayNodeHidden>
+  <NR_GatewayNodeHidden>Нода скрыта. Нажмите «Найти новую ноду».</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>нужен колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
-  <NR_GatewayNothingHidden>скрытых нод не осталось</NR_GatewayNothingHidden>
-  <NR_GatewayLegend>Размер = награда · цвет = тип · ★ контракт фиксера · пунктир = скрыта (нужен Поиск)</NR_GatewayLegend>
+  <NR_GatewayLegend>Размер = награда · цвет = тип · ★ контракт фиксера · пунктир = скрыта (нужен поиск)</NR_GatewayLegend>
   <NR_GatewayHidden>скрыта</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
-  <NR_GatewayHiddenRow>? скрытая нода (нужен Поиск)</NR_GatewayHiddenRow>
+  <NR_GatewayHiddenRow>? скрытая нода (найдите её)</NR_GatewayHiddenRow>
   <NR_GatewayRowType>Тип</NR_GatewayRowType>
   <NR_GatewayRowDefense>Защита</NR_GatewayRowDefense>
   <NR_GatewayDefenseValue>{0} ворот, уровень {1}</NR_GatewayDefenseValue>
@@ -109,8 +108,8 @@
   <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
   <NR_GatewayDive>⇩ НЫРНУТЬ</NR_GatewayDive>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
-  <NR_GatewaySearch>Поиск ({0} cyberdata)</NR_GatewaySearch>
-  <NR_GatewaySearchTip>Найти одну скрытую ноду.</NR_GatewaySearchTip>
+  <NR_GatewaySearch>Найти новую ноду ({0} cyberdata)</NR_GatewaySearch>
+  <NR_GatewaySearchTip>Раскрыть скрытую ноду или найти новую, если скрытых нет.</NR_GatewaySearchTip>
   <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>
   <NR_GatewayViewList>Вид: ☰ список</NR_GatewayViewList>
   <NR_GatewayRefresh>Новые ноды через {0}.</NR_GatewayRefresh>
@@ -130,4 +129,5 @@
   <NR_DiveBackToGateway>◄ Шлюз</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // НЫРОК: {0}</NR_TerminalTitleDive>
+  <NR_GatewayFull>в Шлюзе нет места</NR_GatewayFull>
 </LanguageData>

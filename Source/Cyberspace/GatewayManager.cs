@@ -118,10 +118,14 @@ public class GatewayManager : GameComponent
         }
     }
 
+    /// <summary>The Gateway map has room for this many circles.</summary>
+    public const int MaxNodes = 7;
+
+    /// <summary>"Discover new node": reveals a hidden node, or finds a new one when nothing is hidden.</summary>
     public AcceptanceReport CanSearch(Map map)
     {
-        if (!_nodes.Any(n => n.Hidden))
-            return "NR_GatewayNothingHidden".Translate();
+        if (!_nodes.Any(n => n.Hidden) && _nodes.Count >= MaxNodes)
+            return "NR_GatewayFull".Translate();
         return ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= Settings.searchCost
             ? true
             : "NR_AINoFood".Translate(Settings.searchCost, NetrunDefOf.USH_Cyberdata.label);
@@ -129,10 +133,15 @@ public class GatewayManager : GameComponent
 
     public ExternalNode Search(Map map)
     {
-        ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
-        if (found == null)
+        if (!CanSearch(map).Accepted)
             return null;
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, Settings.searchCost);
+        ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
+        if (found == null)
+        {
+            found = ExternalNode.Generate(_nextId++);
+            _nodes.Add(found);
+        }
         found.Hidden = false;
         return found;
     }
