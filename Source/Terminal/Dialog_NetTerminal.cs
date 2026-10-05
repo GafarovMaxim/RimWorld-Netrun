@@ -11,7 +11,7 @@ namespace Netrun;
 /// The network terminal as a node map (docs/TERMINAL_UI.md, mockup 1-core-map): the Core in the middle,
 /// every section is a node around it. A node opens its view inside the window; "Core" goes back.
 /// </summary>
-public class Dialog_NetTerminal : Window
+public partial class Dialog_NetTerminal : Window
 {
     private enum View
     {
@@ -30,7 +30,6 @@ public class Dialog_NetTerminal : Window
     private const float JournalRowHeight = 30f;
     private const float LevelRowHeight = 36f;
     private const float NodeSize = 84f;
-    private const float CoreSize = 110f;
 
     private readonly Map _map;
     private View _view = View.Map;
@@ -70,7 +69,7 @@ public class Dialog_NetTerminal : Window
 
         if (_view == View.Map)
         {
-            DrawMap(body.ContractedBy(12f), tracker);
+            DrawCoreScreen(body.ContractedBy(12f), tracker);
             return;
         }
 
@@ -170,7 +169,12 @@ public class Dialog_NetTerminal : Window
 
         float x = rect.xMax - 12f;
         float y = rect.y + 10f;
-        if (dive != null)
+        if (_view == View.Map)
+        {
+            // Core: who would dive and whether the pod is ready, next to the window title.
+            GatewayView.HeaderChips(x, y, _map);
+        }
+        else if (dive != null)
         {
             DiveView.HeaderChips(x, y, dive);
         }
@@ -238,121 +242,23 @@ public class Dialog_NetTerminal : Window
         string sick = netsick > 0
             ? "NR_StatusNetsick".Translate(netsick).Colorize(NetrunUI.Warn)
             : "NR_StatusNetsickNone".Translate().Colorize(NetrunUI.Muted);
-        Widgets.Label(new Rect(x, rect.y, 260f, rect.height), sick);
+        float sw = Text.CalcSize(sick).x + 20f;
+        Widgets.Label(new Rect(x, rect.y, sw, rect.height), sick);
+        x += sw;
+
+        // The latest trace event; a click opens the Archive.
+        if (tracker != null && tracker.Log.Count > 0)
+        {
+            var eventRect = new Rect(x, rect.y, rect.xMax - 14f - x, rect.height);
+            string last = tracker.Log[tracker.Log.Count - 1].Text;
+            Widgets.Label(eventRect, last.Truncate(eventRect.width).Colorize(NetrunUI.Muted));
+            TooltipHandler.TipRegion(eventRect, last + "\n\n" + "NR_StatusEventTip".Translate());
+            if (Widgets.ButtonInvisible(eventRect))
+                OpenNode(View.Archive);
+        }
 
         Text.Anchor = TextAnchor.UpperLeft;
     }
-
-    // ---- Node map ----
-
-    private static string NodeLabel(View view) => ("NR_Node_" + view).Translate();
-
-    private void DrawMap(Rect rect, HeatTracker tracker)
-    {
-        Vector2 center = rect.center;
-        float dx = rect.width * 0.36f;
-        float dy = rect.height * 0.36f;
-
-        var nodes = new List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, string badge)>
-        {
-            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), BoardColor, BoardSub(), BoardBadge()),
-            (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), NetrunUI.Warn, ClubSub(), ClubBadge()),
-            (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
-            (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), NetrunUI.Purple, ServerSub(), ServerBadge()),
-            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
-            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), GatewayColor, "NR_NodeSub_Gateway".Translate(), null),
-        };
-
-        // Links first, so the nodes are drawn over them.
-        foreach (var node in nodes)
-            Widgets.DrawLine(center, node.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.8f), 2f);
-
-        foreach (var node in nodes)
-            DrawNode(node.view, node.pos, NodeSize, node.icon, node.color, node.sub, node.badge);
-
-        // The Core shows the current Heat level icon.
-        DrawNode(View.Core, center, CoreSize, NetrunTex.HeatIcon(tracker.Level), NetrunUI.Accent, "NR_NodeSub_Core".Translate(), null);
-    }
-
-    private static readonly Color StudioColor = new(1f, 0.45f, 0.35f);
-    private static readonly Color BoardColor = new(0.35f, 0.85f, 1f);
-    private static readonly Color GatewayColor = new(0.45f, 0.55f, 1f);
-
-    private void DrawNode(View view, Vector2 pos, float size, Texture2D icon, Color color, string sub, string badge)
-    {
-        var box = new Rect(pos.x - size / 2f, pos.y - size / 2f - 14f, size, size);
-        bool hover = Mouse.IsOver(box);
-        // Opaque tile first, so the links never show through, then the hover tint on top.
-        Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
-        NetrunUI.Box(box, hover ? new Color(color.r, color.g, color.b, 0.15f) : NetrunUI.BgWindow, color, hover ? 3 : 2);
-        GUI.DrawTexture(box.ContractedBy(size * 0.2f), icon);
-
-        if (!badge.NullOrEmpty())
-        {
-            var badgeRect = new Rect(box.xMax - 11f, box.y - 9f, 20f, 20f);
-            Widgets.DrawBoxSolid(badgeRect, NetrunUI.Bad);
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(badgeRect, badge);
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-        }
-
-        // Labels sit on a patch of window background, so the links pass under the text instead of through it.
-        string label = NodeLabel(view).ToUpper();
-        float labelWidth = Text.CalcSize(label).x + 12f;
-        Text.Font = GameFont.Tiny;
-        float subWidth = Text.CalcSize(sub).x + 12f;
-        Text.Font = GameFont.Small;
-        var labelRect = new Rect(pos.x - 110f, box.yMax + 4f, 220f, 22f);
-        Widgets.DrawBoxSolid(new Rect(pos.x - labelWidth / 2f, labelRect.y, labelWidth, labelRect.height), NetrunUI.BgWindow);
-        Widgets.DrawBoxSolid(new Rect(pos.x - subWidth / 2f, labelRect.yMax, subWidth, 18f), NetrunUI.BgWindow);
-
-        Text.Anchor = TextAnchor.UpperCenter;
-        Widgets.Label(labelRect, label.Colorize(color));
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(pos.x - 110f, labelRect.yMax, 220f, 18f), sub.Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        Text.Anchor = TextAnchor.UpperLeft;
-
-        TooltipHandler.TipRegion(box, ("NR_NodeTip_" + view).Translate());
-        if (Widgets.ButtonInvisible(box))
-        {
-            SoundDefOf.Click.PlayOneShotOnCamera();
-            _view = view;
-        }
-    }
-
-    private static string ClubSub() => "NR_NodeSub_Club".Translate(FixerManager.Get()?.Fixers.Count ?? 0);
-
-    private static string ClubBadge()
-    {
-        int open = FixerManager.Get()?.Fixers.Count(f => f.ChannelOpen) ?? 0;
-        return open > 0 ? open.ToString() : null;
-    }
-
-    private static string BoardSub()
-    {
-        Contract active = ContractManager.Get()?.Active.FirstOrDefault();
-        return active == null
-            ? "NR_NodeSub_BoardNone".Translate()
-            : (string)"NR_NodeSub_Board".Translate(active.Progress, active.Goal);
-    }
-
-    private static string BoardBadge()
-        => ContractManager.Get()?.Active.Any(c => c.TicksLeft < GenDate.TicksPerDay) == true ? "!" : null;
-
-    private static string ServerSub()
-    {
-        IReadOnlyList<NetAI> ais = AIManager.Get()?.AIs;
-        int count = ais?.Count ?? 0;
-        return ais != null && ais.Any(a => a.HasRequest)
-            ? "NR_NodeSub_ServerRequest".Translate(count)
-            : (string)"NR_NodeSub_Server".Translate(count);
-    }
-
-    private static string ServerBadge()
-        => AIManager.Get()?.AIs.Any(a => a.HasRequest || a.Escaping) == true ? "!" : null;
 
     // ---- Core: Heat overview ----
 

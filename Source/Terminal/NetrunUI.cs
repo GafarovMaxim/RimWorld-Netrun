@@ -29,6 +29,28 @@ public static class NetrunUI
 
     public static Color Accent => NetrunTex.Accent;
 
+    /// <summary>White circle textures for round widgets (Heat ring, Gateway nodes); tint with GUI.color.</summary>
+    public static readonly Texture2D Disc = MakeCircle(filled: true);
+    public static readonly Texture2D Ring = MakeCircle(filled: false);
+
+    private static Texture2D MakeCircle(bool filled)
+    {
+        const int size = 128;
+        var tex = new Texture2D(size, size, TextureFormat.ARGB32, false) { filterMode = FilterMode.Bilinear };
+        float r = size / 2f - 1f;
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float d = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), new Vector2(size / 2f, size / 2f));
+                float alpha = filled ? Mathf.Clamp01(r - d + 0.5f) : Mathf.Clamp01(1f - Mathf.Abs(d - (r - 3f)) / 3f);
+                tex.SetPixel(x, y, new Color(1f, 1f, 1f, alpha));
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
     /// <summary>Filled rectangle with a 1 px border.</summary>
     public static void Box(Rect rect, Color fill, Color border, int thickness = 1)
     {

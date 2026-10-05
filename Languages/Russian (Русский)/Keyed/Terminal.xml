@@ -38,4 +38,29 @@
   <NR_FixerReputationLabel>Репутация</NR_FixerReputationLabel>
   <NR_FixerToPin>до закрепления {0}</NR_FixerToPin>
   <NR_FixerAfterCall>сначала позвоните фиксеру</NR_FixerAfterCall>
+  <NR_StatusEventTip>Последнее событие следа. Клик открывает Архив.</NR_StatusEventTip>
+  <NR_CoreTrendUp>+{0} в сутки</NR_CoreTrendUp>
+  <NR_CoreTrendDown>−{0} в сутки</NR_CoreTrendDown>
+  <NR_CoreTrendFlat>без изменений</NR_CoreTrendFlat>
+  <NR_CoreRingTip>Цифровой след: {0} ({1}).
+{2}
+
+Кольцо — пять уровней, стрелка — изменение за сутки. Клик — подробности.</NR_CoreRingTip>
+  <NR_CoreSummaryHeat>Heat</NR_CoreSummaryHeat>
+  <NR_CoreLowerHeat>Снижают: сброс у фиксера, ИИ Призрак, тихие дни (−{0} в сутки).</NR_CoreLowerHeat>
+  <NR_CoreScrubButton>Сбросить след</NR_CoreScrubButton>
+  <NR_CoreScrubTip>Открывает Клуб: позвоните фиксеру и отдайте cyberdata, чтобы снизить Heat.</NR_CoreScrubTip>
+  <NR_CoreSummaryAlerts>Тревоги</NR_CoreSummaryAlerts>
+  <NR_CoreNoAlerts>Ничего срочного.</NR_CoreNoAlerts>
+  <NR_CoreAlertGo>Клик — открыть: {0}</NR_CoreAlertGo>
+  <NR_CoreSummaryResources>Ресурсы</NR_CoreSummaryResources>
+  <NR_CoreAISlots>Слоты ИИ</NR_CoreAISlots>
+  <NR_CoreNoServer>нет сервера</NR_CoreNoServer>
+  <NR_CoreChips>Брейнданс-чипы</NR_CoreChips>
+  <NR_CoreAlertEscape>{0} сбегает через {1}</NR_CoreAlertEscape>
+  <NR_CoreAlertContract>Контракт «{0}» истекает через {1}</NR_CoreAlertContract>
+  <NR_CoreAlertMercs>След на уровне «Цель»: возможны рейды наёмников</NR_CoreAlertMercs>
+  <NR_CoreAlertRequest>{0} просит: {1}</NR_CoreAlertRequest>
+  <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
+  <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
 </LanguageData>

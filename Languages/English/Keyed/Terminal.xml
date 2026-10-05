@@ -38,4 +38,29 @@
   <NR_FixerReputationLabel>Reputation</NR_FixerReputationLabel>
   <NR_FixerToPin>{0} to pinning</NR_FixerToPin>
   <NR_FixerAfterCall>call the fixer first</NR_FixerAfterCall>
+  <NR_StatusEventTip>Latest trace event. Click to open the Archive.</NR_StatusEventTip>
+  <NR_CoreTrendUp>+{0} a day</NR_CoreTrendUp>
+  <NR_CoreTrendDown>−{0} a day</NR_CoreTrendDown>
+  <NR_CoreTrendFlat>steady</NR_CoreTrendFlat>
+  <NR_CoreRingTip>Digital trace: {0} ({1}).
+{2}
+
+The ring shows the five levels; the arrow is the change over the last day. Click for details.</NR_CoreRingTip>
+  <NR_CoreSummaryHeat>Heat</NR_CoreSummaryHeat>
+  <NR_CoreLowerHeat>Lowers it: scrubbing at a fixer, a Ghost AI, quiet days (−{0} a day).</NR_CoreLowerHeat>
+  <NR_CoreScrubButton>Scrub the trace</NR_CoreScrubButton>
+  <NR_CoreScrubTip>Opens the Club: call a fixer and hand over cyberdata to lower Heat.</NR_CoreScrubTip>
+  <NR_CoreSummaryAlerts>Alerts</NR_CoreSummaryAlerts>
+  <NR_CoreNoAlerts>Nothing urgent.</NR_CoreNoAlerts>
+  <NR_CoreAlertGo>Click to open: {0}</NR_CoreAlertGo>
+  <NR_CoreSummaryResources>Resources</NR_CoreSummaryResources>
+  <NR_CoreAISlots>AI slots</NR_CoreAISlots>
+  <NR_CoreNoServer>no server</NR_CoreNoServer>
+  <NR_CoreChips>Braindance chips</NR_CoreChips>
+  <NR_CoreAlertEscape>{0} is escaping in {1}</NR_CoreAlertEscape>
+  <NR_CoreAlertContract>Contract "{0}" ends in {1}</NR_CoreAlertContract>
+  <NR_CoreAlertMercs>Trace at Target: mercenary raids possible</NR_CoreAlertMercs>
+  <NR_CoreAlertRequest>{0} asks: {1}</NR_CoreAlertRequest>
+  <NR_CoreAlertHungry>{0} is starving</NR_CoreAlertHungry>
+  <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
 </LanguageData>
