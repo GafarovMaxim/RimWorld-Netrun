@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Hidden mercenary faction: no settlements, comes only as raids (see Mercenaries.cs) -->
+
+  <FactionDef ParentName="FactionBase">
+    <defName>NR_Mercenaries</defName>
+    <label>black ledger mercenaries</label>
+    <description>Hired guns who follow digital trails. Nobody knows who pays them: corporations, fixers or the people you hacked. They have no home on this planet, only contracts.</description>
+    <pawnSingular>mercenary</pawnSingular>
+    <pawnsPlural>mercenaries</pawnsPlural>
+    <fixedName>Black Ledger</fixedName>
+    <hidden>true</hidden>
+    <requiredCountAtGameStart>1</requiredCountAtGameStart>
+    <settlementGenerationWeight>0</settlementGenerationWeight>
+    <permanentEnemy>true</permanentEnemy>
+    <humanlikeFaction>true</humanlikeFaction>
+    <canSiege>false</canSiege>
+    <canStageAttacks>true</canStageAttacks>
+    <leaderTitle>handler</leaderTitle>
+    <factionIconPath>UI/Netrun/Faction_Mercenaries</factionIconPath>
+    <colorSpectrum>
+      <li>(0.15, 0.15, 0.18)</li>
+      <li>(0.9, 0.2, 0.3)</li>
+    </colorSpectrum>
+    <techLevel>Spacer</techLevel>
+    <allowedCultures><li>Kriminul</li></allowedCultures>
+    <requiredMemes>
+      <li MayRequire="Ludeon.RimWorld.Ideology">Raider</li>
+    </requiredMemes>
+    <backstoryFilters>
+      <li>
+        <categories>
+          <li>Pirate</li>
+        </categories>
+      </li>
+    </backstoryFilters>
+    <allowedArrivalTemperatureRange>-40~45</allowedArrivalTemperatureRange>
+    <raidLootMaker>PirateRaidLootMaker</raidLootMaker>
+    <maxPawnCostPerTotalPointsCurve>
+      <points>
+        <li>(0,35)</li>
+        <li>(70, 50)</li>
+        <li>(700, 100)</li>
+        <li>(1300, 150)</li>
+        <li>(100000, 10000)</li>
+      </points>
+    </maxPawnCostPerTotalPointsCurve>
+    <pawnGroupMakers>
+      <li>
+        <!-- Strike team: gunners with elite leads -->
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <Mercenary_Gunner>10</Mercenary_Gunner>
+          <Mercenary_Elite>6</Mercenary_Elite>
+          <Mercenary_Sniper>3</Mercenary_Sniper>
+          <Mercenary_Slasher>3</Mercenary_Slasher>
+          <Grenadier_EMP>2</Grenadier_EMP>
+        </options>
+      </li>
+      <li>
+        <!-- Heavy team: breach and burn -->
+        <kindDef>Combat</kindDef>
+        <commonality>40</commonality>
+        <options>
+          <Mercenary_Heavy>10</Mercenary_Heavy>
+          <Grenadier_Destructive>4</Grenadier_Destructive>
+          <Mercenary_Elite>3</Mercenary_Elite>
+        </options>
+      </li>
+      <li>
+        <!-- Overwatch team: snipers -->
+        <kindDef>Combat</kindDef>
+        <commonality>25</commonality>
+        <options>
+          <Mercenary_Sniper>10</Mercenary_Sniper>
+          <Mercenary_Elite>2</Mercenary_Elite>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <IncidentDef>
+    <defName>NR_MercRaid</defName>
+    <label>mercenary raid</label>
+    <category>ThreatBig</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_MercRaid</workerClass>
+    <baseChance>0.6</baseChance>
+    <minRefireDays>12</minRefireDays>
+    <tale>Raid</tale>
+    <pointsScaleable>true</pointsScaleable>
+  </IncidentDef>
+
+</Defs>

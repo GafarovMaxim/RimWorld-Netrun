@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Mercenaries.label>наёмники "Чёрной книги"</NR_Mercenaries.label>
+  <NR_Mercenaries.description>Наёмные стрелки, которые идут по цифровому следу. Никто не знает, кто им платит: корпорации, фиксеры или те, кого вы взломали. Дома на этой планете у них нет, только контракты.</NR_Mercenaries.description>
+  <NR_Mercenaries.pawnSingular>наёмник</NR_Mercenaries.pawnSingular>
+  <NR_Mercenaries.pawnsPlural>наёмники</NR_Mercenaries.pawnsPlural>
+  <NR_Mercenaries.fixedName>Чёрная книга</NR_Mercenaries.fixedName>
+  <NR_Mercenaries.leaderTitle>куратор</NR_Mercenaries.leaderTitle>
+</LanguageData>

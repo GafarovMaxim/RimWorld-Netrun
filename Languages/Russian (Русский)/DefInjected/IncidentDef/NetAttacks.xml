@@ -5,4 +5,5 @@
   <NR_NetAttack_Breakdown.label>вирусная поломка</NR_NetAttack_Breakdown.label>
   <NR_NetAttack_PowerSurge.label>скачок напряжения</NR_NetAttack_PowerSurge.label>
   <NR_NetAttack_Ransom.label>вымогатель</NR_NetAttack_Ransom.label>
+  <NR_MercRaid.label>рейд наёмников</NR_MercRaid.label>
 </LanguageData>

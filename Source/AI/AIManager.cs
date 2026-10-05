@@ -190,7 +190,10 @@ public class AIManager : GameComponent
             if (ai.Personality == AIPersonality.Ghost)
                 Remove(ai, "NR_AIGoneLabel", "NR_AIGhostLeft", 0f, LetterDefOf.NegativeEvent);
             else
+            {
                 Remove(ai, "NR_AIBetrayalLabel", "NR_AIBetrayal", Settings.betrayalHeat, LetterDefOf.ThreatSmall);
+                Mercenaries.TryQueueRevenge(0.5f, "NR_MercReasonBetrayal", ai.Name);
+            }
             return;
         }
 
@@ -212,6 +215,8 @@ public class AIManager : GameComponent
         else if (now >= ai.EscapeAtTick)
         {
             Remove(ai, "NR_AIGoneLabel", "NR_AIEscaped", Settings.escapeHeat, LetterDefOf.NegativeEvent);
+            // Hunters follow the runaway AI's trail back to where it came from.
+            Mercenaries.TryQueueRevenge(0.3f, "NR_MercReasonEscaped", ai.Name);
         }
     }
 

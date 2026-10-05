@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_MercWarningLabel>Mercenaries on your trail</NR_MercWarningLabel>
+  <NR_MercWarning>{0} have taken a contract on your colony. Expect them within a few days.</NR_MercWarning>
+  <NR_MercReasonContract>The failed job for {0} cost someone a lot of money.</NR_MercReasonContract>
+  <NR_MercReasonBetrayal>{0} sold your colony's location before it left.</NR_MercReasonBetrayal>
+  <NR_MercReasonEscaped>Hunters are chasing {0}, and its trail leads back to you.</NR_MercReasonEscaped>
+  <NR_MercRaidIntro>Black Ledger mercenaries followed your digital trace here. They came for a contract, not for loot.</NR_MercRaidIntro>
+</LanguageData>

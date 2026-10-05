@@ -200,6 +200,8 @@ public class ContractManager : GameComponent
             LetterDefOf.PositiveEvent);
     }
 
+    private const float MercRevengeChance = 0.25f;
+
     private void Fail(Contract contract, string reasonKey)
     {
         _contracts.Remove(contract);
@@ -218,6 +220,9 @@ public class ContractManager : GameComponent
                 HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, "NR_FixerRatLeak".Translate(fixer.Name));
             }
         }
+
+        // Whoever lost money on the job may send someone to collect.
+        Mercenaries.TryQueueRevenge(MercRevengeChance, "NR_MercReasonContract", fixerName);
 
         Find.LetterStack.ReceiveLetter(
             "NR_ContractFailedLabel".Translate(),

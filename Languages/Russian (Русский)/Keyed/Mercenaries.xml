@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_MercWarningLabel>Наёмники идут по следу</NR_MercWarningLabel>
+  <NR_MercWarning>{0} взяли контракт на вашу колонию. Ждите их в ближайшие дни.</NR_MercWarning>
+  <NR_MercReasonContract>Проваленная работа для {0} стоила кому-то больших денег.</NR_MercReasonContract>
+  <NR_MercReasonBetrayal>{0} продал(а) координаты колонии, прежде чем уйти.</NR_MercReasonBetrayal>
+  <NR_MercReasonEscaped>За {0} идёт охота, и след ведёт обратно к вам.</NR_MercReasonEscaped>
+  <NR_MercRaidIntro>Наёмники "Чёрной книги" пришли по вашему цифровому следу. Им нужен контракт, а не добыча.</NR_MercRaidIntro>
+</LanguageData>
