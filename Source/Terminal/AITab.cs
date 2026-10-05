@@ -6,34 +6,23 @@ using Verse;
 
 namespace Netrun;
 
+/// <summary>
+/// The Server room node (mockup 2-ai-node): sections by where the AI lives, one card per AI with a colored
+/// stripe, a framed portrait, name and status, archetype and request tags, trust and hunger bars on one
+/// line and a row of colored buttons.
+/// </summary>
 [StaticConstructorOnStartup]
 public static class AITab
 {
-    private const float HeaderHeight = 64f;
-    private const float RowGap = 10f;
-    private const float Padding = 12f;
-    private const float StripeWidth = 5f;
-    private const float PortraitSize = 96f;
-    private const float StatusHeight = 22f;
-    private const float ButtonWidth = 230f;
-    private const float ButtonHeight = 40f;
-    private const float ButtonGap = 6f;
-    private const float ButtonIconSize = 34f;
-    private const float LineHeight = 24f;
-    private const float BarHeight = 16f;
+    private const float HeaderHeight = 44f;
     private const float SectionHeight = 36f;
+    private const float CardGap = 10f;
+    private const float PortraitSize = 96f;
+    private const float ButtonHeight = 34f;
+    private const float ButtonGap = 6f;
+    private const float Pad = 12f;
 
-    private static readonly Color TrustColor = new(0.30f, 0.80f, 0.45f);
-    private static readonly Color HungerColor = new(0.95f, 0.50f, 0.25f);
-    private static readonly Texture2D TrustTex = SolidColorMaterials.NewSolidColorTexture(TrustColor);
-    private static readonly Texture2D HungerTex = SolidColorMaterials.NewSolidColorTexture(HungerColor);
-    private static readonly Texture2D BarBackTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.08f, 0.08f, 0.10f));
-
-    private static readonly Color CardBack = new(0.12f, 0.13f, 0.16f);
-    private static readonly Color IconBack = new(0.05f, 0.06f, 0.08f, 0.85f);
-    private static readonly Color CoprocessorColor = new(0.70f, 0.50f, 1.00f);
     private static readonly Color HostColor = new(0.45f, 1.00f, 0.55f);
-    private static readonly Color DangerColor = new(1.00f, 0.40f, 0.40f);
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -47,54 +36,38 @@ public static class AITab
         IReadOnlyList<NetAI> ais = manager.AIs;
         if (ais.Count == 0)
         {
-            GUI.color = NetrunTex.DimText;
-            Widgets.Label(listRect, "NR_AINone".Translate());
-            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(listRect, "NR_AINone".Translate().Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
             return;
         }
 
-        // Separate lists by where each AI lives: the server, a coprocessor or a host.
         var groups = new List<(string label, Color color, List<NetAI> list)>
         {
-            ("NR_AISectionServer".Translate(), NetrunTex.Accent, ais.Where(a => a.InMainServer).ToList()),
-            ("NR_AISectionCoprocessor".Translate(), CoprocessorColor, ais.Where(a => a.InCoprocessor).ToList()),
+            ("NR_AISectionServer".Translate(), NetrunUI.Accent, ais.Where(a => a.InMainServer).ToList()),
+            ("NR_AISectionCoprocessor".Translate(), NetrunUI.Purple, ais.Where(a => a.InCoprocessor).ToList()),
             ("NR_AISectionHost".Translate(), HostColor, ais.Where(a => a.InHost).ToList()),
-            ("NR_AISectionOther".Translate(), NetrunTex.DimText, ais.Where(a => !a.InMainServer && !a.InCoprocessor && !a.InHost).ToList()),
+            ("NR_AISectionOther".Translate(), NetrunUI.Muted, ais.Where(a => !a.InMainServer && !a.InCoprocessor && !a.InHost).ToList()),
         };
         groups.RemoveAll(g => g.list.Count == 0);
 
         float width = listRect.width - 16f;
-        float height = groups.Sum(g => SectionHeight + g.list.Sum(a => CardHeight(a, width) + RowGap));
+        float height = groups.Sum(g => SectionHeight + g.list.Sum(a => CardHeight(a, map, manager, width) + CardGap));
         var viewRect = new Rect(0f, 0f, width, height);
 
         Widgets.BeginScrollView(listRect, ref scroll, viewRect);
         float y = 0f;
         foreach ((string label, Color color, List<NetAI> list) in groups)
         {
-            DrawSectionHeader(new Rect(0f, y, width, SectionHeight), label, list.Count, color);
-            y += SectionHeight;
-
+            y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), $"{label} ({list.Count})");
             foreach (NetAI ai in list)
             {
-                float h = CardHeight(ai, width);
-                DrawAI(new Rect(0f, y, width, h), ai, map, manager, color);
-                y += h + RowGap;
+                float h = CardHeight(ai, map, manager, width);
+                DrawCard(new Rect(0f, y, width, h), ai, map, manager, color);
+                y += h + CardGap;
             }
         }
         Widgets.EndScrollView();
-    }
-
-    private static void DrawSectionHeader(Rect rect, string label, int count, Color color)
-    {
-        Text.Font = GameFont.Medium;
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(rect.x, rect.y, rect.width, rect.height - 6f), $"{label} ({count})".Colorize(color));
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
-
-        GUI.color = color;
-        Widgets.DrawLineHorizontal(rect.x, rect.yMax - 6f, rect.width);
-        GUI.color = Color.white;
     }
 
     private static void DrawHeader(Rect rect, Map map)
@@ -104,238 +77,193 @@ public static class AITab
         int used = servers.Sum(s => s.GetComp<CompAIServer>()?.Used ?? 0);
         int fragments = AIAwakening.Fragments(map).Count();
 
-        float textWidth = rect.width - ButtonWidth - 12f;
-        Widgets.Label(new Rect(rect.x, rect.y, textWidth, 24f), "NR_AIHeader".Translate(servers.Count, used, slots, fragments));
-
+        string awaken = "NR_CommandAwakenAI".Translate();
+        float bw = NetrunUI.ButtonWidth(awaken, icon: true);
         AcceptanceReport report = AIAwakening.CanAwaken(map);
-        Button(new Rect(rect.xMax - ButtonWidth, rect.y, ButtonWidth, ButtonHeight), NetrunTex.AIEmbody,
-            "NR_CommandAwakenAI".Translate(), "NR_CommandAwakenAIDesc".Translate(), report, () => AIAwakening.OpenMenu(map), NetrunTex.Accent);
+        if (NetrunUI.Button(new Rect(rect.xMax - bw, rect.y, bw, ButtonHeight), awaken, NetrunUI.Accent, report,
+                "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIEmbody))
+            AIAwakening.OpenMenu(map);
 
-        if (!report.Accepted)
-        {
-            GUI.color = NetrunTex.DimText;
-            Widgets.Label(new Rect(rect.x, rect.y + 28f, textWidth, 32f), report.Reason);
-            GUI.color = Color.white;
-        }
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(rect.x, rect.y, rect.width - bw - 12f, ButtonHeight),
+            "NR_AIHeader".Translate(servers.Count, used, slots, fragments).Colorize(NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperLeft;
     }
 
-    private static float TextWidth(float width) => width - StripeWidth - 2 * Padding - PortraitSize - 14f - ButtonWidth - 14f;
-
-    private static int ButtonCount(NetAI ai)
-    {
-        int count = 2;
-        if (ai.Request == AIRequestKind.Deliver)
-            count++;
-        if (ai.Housed)
-            count += 2;
-        if (ai.InMainServer)
-            count += 2;
-        else if (ai.InHost || ai.InCoprocessor)
-            count++;
-        return count;
-    }
-
-    private static float CardHeight(NetAI ai, float width)
-    {
-        float textWidth = TextWidth(width);
-        float lines = 34f + LineHeight + Text.CalcHeight(ai.Personality.Description(), textWidth) + 6f
-            + LineHeight + 2 * (LineHeight + 4f) + LineHeight
-            + (ai.Escaping ? Text.CalcHeight(EscapeText(ai), textWidth) + 8f : 0f)
-            + (ai.HasRequest ? Text.CalcHeight(RequestText(ai), textWidth - 12f) + 14f : 0f);
-        float portrait = PortraitSize + 6f + StatusHeight;
-        float buttons = ButtonCount(ai) * (ButtonHeight + ButtonGap) - ButtonGap;
-        return Mathf.Max(lines, portrait, buttons) + 2 * Padding;
-    }
-
-    private static string EscapeText(NetAI ai)
-        => "NR_AIEscapeLine".Translate((ai.EscapeAtTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
-
-    private static string RequestText(NetAI ai)
-        => "NR_AIRequestLine".Translate(AIManager.RequestText(ai), ai.RequestDeadlineTick > Find.TickManager.TicksGame
-            ? (ai.RequestDeadlineTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "0");
+    // ---- Card ----
 
     private static (string label, Color color) Status(NetAI ai)
     {
-        if (ai.Isolated)
-            return ("NR_AIStatusIsolated".Translate(), ColorLibrary.Gold);
-        if (!ai.Powered)
-            return ("NR_AIStatusAsleep".Translate(), NetrunTex.DimText);
         if (ai.Escaping)
-            return ("NR_AIStatusEscaping".Translate(), DangerColor);
-        return ("NR_AIStatusActive".Translate(), ColorLibrary.Green);
+            return ("NR_AIStatusEscaping".Translate(), NetrunUI.Bad);
+        if (ai.Isolated)
+            return ("NR_AIStatusIsolated".Translate(), NetrunUI.Warn);
+        if (!ai.Powered)
+            return ("NR_AIStatusAsleep".Translate(), NetrunUI.Muted);
+        return ("NR_AIStatusActive".Translate(), NetrunUI.TextColor);
     }
 
-    private static void DrawAI(Rect rect, NetAI ai, Map map, AIManager manager, Color color)
+    private const float TextIndent = 4f + Pad + PortraitSize + 14f;
+
+    private static float CardHeight(NetAI ai, Map map, AIManager manager, float width)
     {
-        // Card: dark body, colored stripe on the left, thin colored frame.
-        Widgets.DrawBoxSolid(rect, CardBack);
-        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, StripeWidth, rect.height), color);
-        GUI.color = new Color(color.r, color.g, color.b, 0.45f);
-        Widgets.DrawBox(rect);
-        GUI.color = Color.white;
-        Widgets.DrawHighlightIfMouseover(rect);
+        float textWidth = width - TextIndent - Pad;
+        int rows = ButtonRows(Buttons(ai, map, manager), textWidth);
+        float content = 30f + 24f + 26f + 8f + rows * (ButtonHeight + ButtonGap) - ButtonGap + (ai.Escaping ? 22f : 0f);
+        return Mathf.Max(PortraitSize, content) + 2 * Pad;
+    }
 
-        Rect inner = new Rect(rect.x + StripeWidth, rect.y, rect.width - StripeWidth, rect.height).ContractedBy(Padding);
-
-        // Portrait in a frame, status badge under it.
-        var portraitRect = new Rect(inner.x, inner.y, PortraitSize, PortraitSize);
-        Widgets.DrawBoxSolid(portraitRect, IconBack);
-        GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Portrait(ai.Personality));
-        GUI.color = ai.Personality.Color();
-        Widgets.DrawBox(portraitRect, 2);
-        GUI.color = Color.white;
-
-        (string statusLabel, Color statusColor) = Status(ai);
-        var statusRect = new Rect(inner.x, portraitRect.yMax + 6f, PortraitSize, StatusHeight);
-        Widgets.DrawBoxSolid(statusRect, new Color(statusColor.r, statusColor.g, statusColor.b, 0.25f));
-        Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(statusRect, statusLabel.Colorize(statusColor));
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
-
-        float x = portraitRect.xMax + 14f;
-        float width = TextWidth(rect.width);
-        float y = inner.y;
-
-        Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(x, y, width, 34f), ai.Name.Colorize(NetrunTex.Accent));
-        Text.Font = GameFont.Small;
-        y += 34f;
-
-        // Archetype: its icon and its own color.
-        Color personalityColor = ai.Personality.Color();
-        var archetypeIcon = new Rect(x, y, LineHeight, LineHeight);
-        GUI.DrawTexture(archetypeIcon, NetrunTex.Portrait(ai.Personality));
-        Widgets.Label(new Rect(archetypeIcon.xMax + 6f, y, width - LineHeight - 6f, LineHeight),
-            "NR_AIPersonalityLine".Translate(ai.Personality.Label().Colorize(personalityColor)));
-        TooltipHandler.TipRegion(new Rect(x, y, width, LineHeight), ai.Personality.Description());
-        y += LineHeight;
-
-        float descHeight = Text.CalcHeight(ai.Personality.Description(), width);
-        GUI.color = NetrunTex.DimText;
-        Widgets.Label(new Rect(x, y, width, descHeight), ai.Personality.Description());
-        y += descHeight + 6f;
-        Widgets.Label(new Rect(x, y, width, LineHeight), ai.LocationText.Colorize(color));
-        GUI.color = Color.white;
-        y += LineHeight;
-
-        y = DrawBar(x, y, width, "NR_AITrust".Translate(ai.Trust.ToString("0").Colorize(NetrunTex.Gauge(ai.Trust))),
-            ai.Trust, TrustTex, "NR_AITrustTip".Translate());
-        y = DrawBar(x, y, width, "NR_AIHunger".Translate(ai.Hunger.ToString("0").Colorize(NetrunTex.Gauge(ai.Hunger, highIsGood: false))),
-            ai.Hunger, HungerTex, "NR_AIHungerTip".Translate(AIBehavior.FoodText(ai.Personality)));
-
-        GUI.color = NetrunTex.DimText;
-        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIFoodLine".Translate(AIBehavior.FoodText(ai.Personality)));
-        GUI.color = Color.white;
-        y += LineHeight;
-
-        if (ai.Escaping)
-        {
-            string escape = EscapeText(ai);
-            float eh = Text.CalcHeight(escape, width);
-            y += 4f;
-            Widgets.Label(new Rect(x, y, width, eh), escape.Colorize(DangerColor));
-            y += eh + 4f;
-        }
-
+    private static void DrawCard(Rect rect, NetAI ai, Map map, AIManager manager, Color color)
+    {
+        NetrunUI.Card(rect, color);
         if (ai.HasRequest)
         {
-            // The request stands out: a gold box the player cannot miss.
-            string request = RequestText(ai);
-            float h = Text.CalcHeight(request, width - 12f);
-            var box = new Rect(x, y + 4f, width, h + 8f);
-            Widgets.DrawBoxSolid(box, new Color(0.9f, 0.75f, 0.2f, 0.15f));
-            GUI.color = ColorLibrary.Gold;
-            Widgets.DrawBox(box);
+            GUI.color = NetrunUI.Warn;
+            Widgets.DrawBox(rect);
             GUI.color = Color.white;
-            Widgets.Label(new Rect(box.x + 6f, box.y + 4f, box.width - 12f, h), request.Colorize(ColorLibrary.Gold));
         }
 
-        DrawButtons(new Rect(inner.xMax - ButtonWidth, inner.y, ButtonWidth, inner.height), ai, map, manager);
-    }
+        // Portrait framed in the location color.
+        var portrait = new Rect(rect.x + 4f + Pad, rect.y + Pad, PortraitSize, PortraitSize);
+        NetrunUI.Box(portrait, NetrunUI.BgWindow, color, 2);
+        GUI.DrawTexture(portrait.ContractedBy(6f), NetrunTex.Portrait(ai.Personality));
+        TooltipHandler.TipRegion(portrait, ai.LocationText);
 
-    private static float DrawBar(float x, float y, float width, string label, float value, Texture2D tex, string tip)
-    {
-        const float labelWidth = 150f;
-        Widgets.Label(new Rect(x, y, labelWidth, LineHeight), label);
-        var barRect = new Rect(x + labelWidth + 4f, y + (LineHeight - BarHeight) / 2f, width - labelWidth - 4f, BarHeight);
-        Widgets.FillableBar(barRect, value / 100f, tex, BarBackTex, doBorder: true);
-        TooltipHandler.TipRegion(new Rect(x, y, width, LineHeight), tip);
-        return y + LineHeight + 4f;
-    }
+        float x = rect.x + TextIndent;
+        float width = rect.xMax - Pad - x;
+        float y = rect.y + Pad - 2f;
 
-    private static void DrawButtons(Rect rect, NetAI ai, Map map, AIManager manager)
-    {
-        float y = rect.y;
+        // Name and status badge.
+        Text.Font = GameFont.Medium;
+        float nameWidth = Mathf.Min(Text.CalcSize(ai.Name).x, width * 0.6f);
+        Widgets.Label(new Rect(x, y, nameWidth + 4f, 30f), ai.Name);
+        Text.Font = GameFont.Small;
+        (string status, Color statusColor) = Status(ai);
+        NetrunUI.Chip(x + nameWidth + 10f, y + 6f, status.ToUpper(), statusColor, ai.LocationText);
+        y += 30f;
 
-        void Add(Texture2D icon, string label, string tip, AcceptanceReport report, System.Action action, Color? color = null)
+        // Archetype tag (icon, personality color) and the request, if any.
+        GUI.DrawTexture(new Rect(x, y + 1f, 18f, 18f), NetrunTex.Portrait(ai.Personality));
+        float tagX = x + 22f;
+        tagX += NetrunUI.Chip(tagX, y + 1f, ai.Personality.Label().ToUpper(), ai.Personality.Color(), ai.Personality.Description()) + 6f;
+        if (ai.HasRequest)
         {
-            Button(new Rect(rect.x, y, rect.width, ButtonHeight), icon, label, tip, report, action, color);
-            y += ButtonHeight + ButtonGap;
+            string left = ai.RequestDeadlineTick > Find.TickManager.TicksGame
+                ? (ai.RequestDeadlineTick - Find.TickManager.TicksGame).ToStringTicksToPeriod()
+                : "0";
+            NetrunUI.Chip(tagX, y + 1f, "NR_AIRequestTag".Translate(AIManager.RequestText(ai), left), NetrunUI.Warn);
+        }
+        y += 24f;
+
+        // Trust and hunger on one line.
+        Text.Anchor = TextAnchor.MiddleLeft;
+        float half = width / 2f;
+        DrawGauge(new Rect(x, y, half - 10f, 22f), "NR_AITrustLabel".Translate(), ai.Trust, NetrunTex.Gauge(ai.Trust), "NR_AITrustTip".Translate());
+        DrawGauge(new Rect(x + half, y, half, 22f), "NR_AIHungerLabel".Translate(), ai.Hunger, NetrunTex.Gauge(ai.Hunger, highIsGood: false),
+            "NR_AIHungerTip".Translate(AIBehavior.FoodText(ai.Personality)));
+        Text.Anchor = TextAnchor.UpperLeft;
+        y += 26f;
+
+        if (ai.Escaping)
+        {
+            string escape = "NR_AIEscapeLine".Translate((ai.EscapeAtTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
+            Widgets.Label(new Rect(x, y, width, 22f), escape.Colorize(NetrunUI.Bad));
+            y += 22f;
         }
 
-        Add(NetrunTex.AIUse, AIBehavior.ServiceLabel(ai.Personality), AIBehavior.ServiceDescription(ai.Personality),
-            AIBehavior.CanUseService(ai), () => AIBehavior.UseService(ai, map), NetrunTex.Accent);
+        DrawButtons(new Rect(x, y + 8f, width, rect.yMax - y - 8f - Pad), Buttons(ai, map, manager));
+    }
 
-        Add(NetrunTex.AIFeed, "NR_AIFeed".Translate(), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
-            AIBehavior.CanFeed(ai, map), () => AIBehavior.Feed(ai, map), HungerColor);
+    private static void DrawGauge(Rect rect, string label, float value, Color color, string tip)
+    {
+        float labelWidth = Text.CalcSize(label).x + 8f;
+        Widgets.Label(new Rect(rect.x, rect.y, labelWidth, rect.height), label);
+        var bar = new Rect(rect.x + labelWidth, rect.y + (rect.height - 12f) / 2f, Mathf.Max(40f, rect.width - labelWidth - 40f), 12f);
+        NetrunUI.Bar(bar, value / 100f, color);
+        Widgets.Label(new Rect(bar.xMax + 8f, rect.y, 36f, rect.height), value.ToString("0").Colorize(color));
+        TooltipHandler.TipRegion(rect, tip);
+    }
 
+    // ---- Buttons ----
+
+    private struct ButtonSpec
+    {
+        public string Label;
+        public Color Color;
+        public AcceptanceReport Report;
+        public string Tip;
+        public Texture2D Icon;
+        public System.Action Action;
+    }
+
+    private static List<ButtonSpec> Buttons(NetAI ai, Map map, AIManager manager)
+    {
+        var list = new List<ButtonSpec>();
+
+        void Add(string label, Color color, AcceptanceReport report, string tip, Texture2D icon, System.Action action)
+            => list.Add(new ButtonSpec { Label = label, Color = color, Report = report, Tip = tip, Icon = icon, Action = action });
+
+        Add(AIBehavior.ServiceLabel(ai.Personality), NetrunUI.Accent, AIBehavior.CanUseService(ai), AIBehavior.ServiceDescription(ai.Personality),
+            NetrunTex.AIUse, () => AIBehavior.UseService(ai, map));
+        Add("NR_AIFeed".Translate(), NetrunUI.Warn, AIBehavior.CanFeed(ai, map), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
+            NetrunTex.AIFeed, () => AIBehavior.Feed(ai, map));
         if (ai.Request == AIRequestKind.Deliver)
-            Add(NetrunTex.AIFeed, "NR_AIFulfil".Translate(), "NR_AIFulfilTip".Translate(), manager.CanFulfil(ai, map),
-                () => manager.Fulfil(ai, map), ColorLibrary.Gold);
-
-        if (ai.Housed)
-            Add(NetrunTex.AIIsolate, ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate(), "NR_AIIsolateTip".Translate(), true,
-                () => ai.Isolated = !ai.Isolated);
-
+            Add("NR_AIFulfil".Translate(), NetrunUI.Warn, manager.CanFulfil(ai, map), "NR_AIFulfilTip".Translate(), NetrunTex.AIFeed,
+                () => manager.Fulfil(ai, map));
         if (ai.InMainServer)
         {
-            Add(NetrunTex.AIEmbody, "NR_AIUpload".Translate(), "NR_AIUploadTip".Translate(),
-                AIHosting.CanUpload(ai, map), () => AIHosting.OpenUploadMenu(ai, map), HostColor);
-            Add(NetrunTex.AIToCoprocessor, "NR_AIToCoprocessor".Translate(), "NR_AIToCoprocessorTip".Translate(),
-                AIHosting.CanMoveToCoprocessor(ai, map), () => AIHosting.MoveToCoprocessor(ai, map), CoprocessorColor);
+            Add("NR_AIUpload".Translate(), HostColor, AIHosting.CanUpload(ai, map), "NR_AIUploadTip".Translate(), NetrunTex.AIEmbody,
+                () => AIHosting.OpenUploadMenu(ai, map));
+            Add("NR_AIToCoprocessor".Translate(), NetrunUI.Purple, AIHosting.CanMoveToCoprocessor(ai, map), "NR_AIToCoprocessorTip".Translate(),
+                NetrunTex.AIToCoprocessor, () => AIHosting.MoveToCoprocessor(ai, map));
         }
         else if (ai.InHost || ai.InCoprocessor)
         {
-            Add(NetrunTex.AIReturnServer, "NR_AIDownload".Translate(), "NR_AIDownloadTip".Translate(),
-                AIHosting.CanDownload(ai, map), () => AIHosting.Download(ai, map), NetrunTex.Accent);
+            Add("NR_AIDownload".Translate(), HostColor, AIHosting.CanDownload(ai, map), "NR_AIDownloadTip".Translate(), NetrunTex.AIReturnServer,
+                () => AIHosting.Download(ai, map));
         }
-
         if (ai.Housed)
-            Add(NetrunTex.AIErase, "NR_AIErase".Translate(), "NR_AIEraseTip".Translate(NetrunDefOf.NR_AI.eraseAdvancedCyberdata), true,
-                () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                    "NR_AIEraseConfirm".Translate(ai.Name), () => manager.Erase(ai), destructive: true)), DangerColor);
+        {
+            Add(ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate(), NetrunUI.Muted, true, "NR_AIIsolateTip".Translate(),
+                NetrunTex.AIIsolate, () => ai.Isolated = !ai.Isolated);
+            Add("NR_AIErase".Translate(), NetrunUI.Bad, true, "NR_AIEraseTip".Translate(NetrunDefOf.NR_AI.eraseAdvancedCyberdata), NetrunTex.AIErase,
+                () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_AIEraseConfirm".Translate(ai.Name), () => manager.Erase(ai), destructive: true)));
+        }
+        return list;
     }
 
-    /// <summary>
-    /// A button with a large icon on a dark tile and a colored label. The tooltip always describes it,
-    /// a disabled one also says why; disabled buttons are faded.
-    /// </summary>
-    private static void Button(Rect rect, Texture2D icon, string label, string tip, AcceptanceReport report, System.Action action, Color? color = null)
+    private static int ButtonRows(List<ButtonSpec> buttons, float width)
     {
-        bool active = report.Accepted;
-        bool clicked = Widgets.ButtonText(rect, string.Empty, active: active);
-
-        var iconTile = new Rect(rect.x + 3f, rect.y + (rect.height - ButtonIconSize) / 2f, ButtonIconSize, ButtonIconSize);
-        Widgets.DrawBoxSolid(iconTile, IconBack);
-        GUI.color = active ? Color.white : new Color(1f, 1f, 1f, 0.35f);
-        GUI.DrawTexture(iconTile.ContractedBy(2f), icon);
-        GUI.color = Color.white;
-
-        Color textColor = active ? color ?? Color.white : NetrunTex.DimText * new Color(1f, 1f, 1f, 0.7f);
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(iconTile.xMax + 8f, rect.y, rect.width - ButtonIconSize - 14f, rect.height), label.Colorize(textColor));
-        Text.Anchor = TextAnchor.UpperLeft;
-
-        if (active)
+        int rows = 1;
+        float x = 0f;
+        foreach (ButtonSpec b in buttons)
         {
-            TooltipHandler.TipRegion(rect, tip);
-            if (clicked)
-                action();
-            return;
+            float w = NetrunUI.ButtonWidth(b.Label, icon: true);
+            if (x > 0f && x + w > width)
+            {
+                rows++;
+                x = 0f;
+            }
+            x += w + ButtonGap;
         }
+        return rows;
+    }
 
-        TooltipHandler.TipRegion(rect, tip + "\n\n" + report.Reason.Colorize(ColorLibrary.RedReadable));
+    private static void DrawButtons(Rect rect, List<ButtonSpec> buttons)
+    {
+        float x = rect.x;
+        float y = rect.y;
+        foreach (ButtonSpec b in buttons)
+        {
+            float w = NetrunUI.ButtonWidth(b.Label, icon: true);
+            if (x > rect.x && x + w > rect.xMax)
+            {
+                x = rect.x;
+                y += ButtonHeight + ButtonGap;
+            }
+            if (NetrunUI.Button(new Rect(x, y, w, ButtonHeight), b.Label, b.Color, b.Report, b.Tip, b.Icon))
+                b.Action();
+            x += w + ButtonGap;
+        }
     }
 }

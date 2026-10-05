@@ -170,6 +170,10 @@ public class Dialog_NetTerminal : Window
         {
             GatewayView.HeaderChips(x, y, _map);
         }
+        else if (_view == View.Server)
+        {
+            NetrunUI.HeaderChip(x, y, "NR_ChipAIs".Translate(AIManager.Get()?.AIs.Count ?? 0));
+        }
         else if (_view == View.Club)
         {
             x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata),

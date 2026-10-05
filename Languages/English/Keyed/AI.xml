@@ -54,7 +54,6 @@
   <!-- AI tab -->
   <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awaken AI" on the network console: pick the fragment and a colonist, who carries it there and wakes it.</NR_AINone>
   <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
-  <NR_AIPersonalityLine>Personality: {0}</NR_AIPersonalityLine>
 
   <!-- Services -->
   <NR_AIService_DataHunter>Hunt for data</NR_AIService_DataHunter>
@@ -118,12 +117,8 @@
 
   <!-- AI card -->
   <NR_AILocationIsolated>Isolated in: {0}. Not working, cannot escape.</NR_AILocationIsolated>
-  <NR_AITrust>Trust: {0} / 100</NR_AITrust>
   <NR_AITrustTip>Grows when you feed the AI and grant its requests. Falls when it starves, is isolated or ignored. Below 20 it refuses to work.</NR_AITrustTip>
-  <NR_AIHunger>Hunger: {0} / 100</NR_AIHunger>
   <NR_AIHungerTip>What it wants: {0}\n\nAbove 70 the AI starts losing trust.</NR_AIHungerTip>
-  <NR_AIFoodLine>Wants: {0}</NR_AIFoodLine>
-  <NR_AIRequestLine>Request: {0}. Time left: {1}.</NR_AIRequestLine>
   <NR_AIFeed>Feed</NR_AIFeed>
   <NR_AIFeedTip>Give the AI what it wants from storage: {0}. Lowers hunger, raises trust a little.</NR_AIFeedTip>
   <NR_AIFulfil>Fulfil request</NR_AIFulfil>
@@ -218,4 +213,8 @@
   <NR_AIStatusAsleep>ASLEEP</NR_AIStatusAsleep>
   <NR_AIStatusIsolated>ISOLATED</NR_AIStatusIsolated>
   <NR_AIStatusEscaping>ESCAPING</NR_AIStatusEscaping>
+  <NR_AIRequestTag>! REQUEST: {0}, {1}</NR_AIRequestTag>
+  <NR_AITrustLabel>Trust</NR_AITrustLabel>
+  <NR_AIHungerLabel>Hunger</NR_AIHungerLabel>
+  <NR_ChipAIs>AIs: {0}</NR_ChipAIs>
 </LanguageData>

@@ -54,7 +54,6 @@
   <!-- Вкладка «ИИ» -->
   <NR_AINone>ИИ пока нет. Найдите осколок ИИ (за сильным ICE или у Скупщика), постройте ИИ-сервер, затем нажмите "Пробудить ИИ" у сетевой консоли: выберите осколок и колониста, он отнесёт осколок туда и пробудит его.</NR_AINone>
   <NR_AIHeader>Серверов: {0}, занято слотов {1} / {2}. Осколков в колонии: {3}.</NR_AIHeader>
-  <NR_AIPersonalityLine>Личность: {0}</NR_AIPersonalityLine>
 
   <!-- Услуги -->
   <NR_AIService_DataHunter>Добыть данные</NR_AIService_DataHunter>
@@ -118,12 +117,8 @@
 
   <!-- Карточка ИИ -->
   <NR_AILocationIsolated>В изоляции: {0}. Не работает, сбежать не может.</NR_AILocationIsolated>
-  <NR_AITrust>Доверие: {0} / 100</NR_AITrust>
   <NR_AITrustTip>Растёт, когда вы кормите ИИ и выполняете его просьбы. Падает от голода, изоляции и игнорирования. Ниже 20 ИИ отказывается работать.</NR_AITrustTip>
-  <NR_AIHunger>Голод: {0} / 100</NR_AIHunger>
   <NR_AIHungerTip>Чего хочет: {0}\n\nВыше 70 ИИ начинает терять доверие.</NR_AIHungerTip>
-  <NR_AIFoodLine>Хочет: {0}</NR_AIFoodLine>
-  <NR_AIRequestLine>Просьба: {0}. Осталось: {1}.</NR_AIRequestLine>
   <NR_AIFeed>Накормить</NR_AIFeed>
   <NR_AIFeedTip>Отдать ИИ то, что он хочет, со склада: {0}. Снижает голод, немного повышает доверие.</NR_AIFeedTip>
   <NR_AIFulfil>Выполнить просьбу</NR_AIFulfil>
@@ -218,4 +213,8 @@
   <NR_AIStatusAsleep>СПИТ</NR_AIStatusAsleep>
   <NR_AIStatusIsolated>ИЗОЛЯЦИЯ</NR_AIStatusIsolated>
   <NR_AIStatusEscaping>СБЕГАЕТ</NR_AIStatusEscaping>
+  <NR_AIRequestTag>! ПРОСЬБА: {0}, {1}</NR_AIRequestTag>
+  <NR_AITrustLabel>Доверие</NR_AITrustLabel>
+  <NR_AIHungerLabel>Голод</NR_AIHungerLabel>
+  <NR_ChipAIs>ИИ: {0}</NR_ChipAIs>
 </LanguageData>
