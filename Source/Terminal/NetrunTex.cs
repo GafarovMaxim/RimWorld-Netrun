@@ -11,6 +11,20 @@ public static class NetrunTex
     public static readonly Texture2D CallFixer = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_CallFixer");
     public static readonly Texture2D Dive = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_NetrunDive");
     public static readonly Texture2D Cyberspace = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Cyberspace");
+    /// <summary>Home node icon (Textures/UI/Netrun/Nodes/Home_*), or the fallback while there is no art.</summary>
+    public static Texture2D HomeNode(string name, Texture2D fallback)
+        => CyberIconAt("UI/Netrun/Nodes/Home_" + name) ?? fallback;
+
+    private static Texture2D CyberIconAt(string path)
+    {
+        if (!CyberIcons.TryGetValue(path, out Texture2D tex))
+        {
+            tex = ContentFinder<Texture2D>.Get(path, reportFailure: false);
+            CyberIcons[path] = tex;
+        }
+        return tex;
+    }
+
     public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_NeutralZone");
 
     private static readonly Dictionary<string, Texture2D> CyberIcons = [];

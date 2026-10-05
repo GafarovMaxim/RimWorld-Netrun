@@ -28,7 +28,6 @@ DYNAMIC = {
     "NR_DiveActTip_": ["Move", "Scan", "Hack", "Download", "Exit"],
     "NR_Program_": ["Sword", "Shield", "Decoy", "Stealth", "Killer"],
     "NR_ProgramDesc_": ["Sword", "Shield", "Decoy", "Stealth", "Killer"],
-    "NR_Speed_": ["Paused", "Normal", "Fast", "Superfast"],
     "NR_Node_": ["Core", "Club", "Board", "Archive", "Server", "Studio", "Gateway"],
     "NR_NodeTip_": ["Core", "Club", "Board", "Archive", "Server", "Studio", "Gateway"],
     "NR_FixerSpecialty_": ["Broker", "Cleaner", "Fence"],

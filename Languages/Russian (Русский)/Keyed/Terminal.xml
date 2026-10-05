@@ -38,8 +38,4 @@
   <NR_FixerReputationLabel>Репутация</NR_FixerReputationLabel>
   <NR_FixerToPin>до закрепления {0}</NR_FixerToPin>
   <NR_FixerAfterCall>сначала позвоните фиксеру</NR_FixerAfterCall>
-  <NR_Speed_Paused>Пауза (пробел)</NR_Speed_Paused>
-  <NR_Speed_Normal>Обычная скорость (1)</NR_Speed_Normal>
-  <NR_Speed_Fast>Быстро (2)</NR_Speed_Fast>
-  <NR_Speed_Superfast>Очень быстро (3)</NR_Speed_Superfast>
 </LanguageData>

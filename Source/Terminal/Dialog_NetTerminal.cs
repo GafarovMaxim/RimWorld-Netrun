@@ -241,33 +241,6 @@ public class Dialog_NetTerminal : Window
         Widgets.Label(new Rect(x, rect.y, 260f, rect.height), sick);
 
         Text.Anchor = TextAnchor.UpperLeft;
-        DrawSpeedButtons(new Rect(rect.xMax - 14f - 4 * 34f, rect.y + 6f, 4 * 34f, rect.height - 12f));
-    }
-
-    /// <summary>Pause and the three speeds, like the game's own time controls.</summary>
-    private static void DrawSpeedButtons(Rect rect)
-    {
-        TickManager ticks = Find.TickManager;
-        string[] labels = ["||", ">", ">>", ">>>"];
-        TimeSpeed[] speeds = [TimeSpeed.Paused, TimeSpeed.Normal, TimeSpeed.Fast, TimeSpeed.Superfast];
-        for (int i = 0; i < speeds.Length; i++)
-        {
-            var button = new Rect(rect.x + i * 34f, rect.y, 30f, rect.height);
-            bool on = speeds[i] == TimeSpeed.Paused ? ticks.Paused : !ticks.Paused && ticks.CurTimeSpeed == speeds[i];
-            if (NetrunUI.Button(button, labels[i], on ? NetrunUI.Accent : NetrunUI.Muted, true, ("NR_Speed_" + speeds[i]).Translate()))
-            {
-                if (speeds[i] == TimeSpeed.Paused)
-                {
-                    if (!ticks.Paused)
-                        ticks.TogglePaused();
-                }
-                else
-                {
-                    // Setting a speed also unpauses.
-                    ticks.CurTimeSpeed = speeds[i];
-                }
-            }
-        }
     }
 
     // ---- Node map ----
@@ -282,12 +255,12 @@ public class Dialog_NetTerminal : Window
 
         var nodes = new List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, string badge)>
         {
-            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.TabIcon(2), BoardColor, BoardSub(), BoardBadge()),
-            (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.TabIcon(1), NetrunUI.Warn, ClubSub(), ClubBadge()),
-            (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.TabIcon(5), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
+            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), BoardColor, BoardSub(), BoardBadge()),
+            (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), NetrunUI.Warn, ClubSub(), ClubBadge()),
+            (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
             (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.TabIcon(3), NetrunUI.Purple, ServerSub(), ServerBadge()),
-            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.TabIcon(4), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
-            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Cyberspace, GatewayColor, "NR_NodeSub_Gateway".Translate(), null),
+            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
+            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), GatewayColor, "NR_NodeSub_Gateway".Translate(), null),
         };
 
         // Links first, so the nodes are drawn over them.
@@ -309,6 +282,8 @@ public class Dialog_NetTerminal : Window
     {
         var box = new Rect(pos.x - size / 2f, pos.y - size / 2f - 14f, size, size);
         bool hover = Mouse.IsOver(box);
+        // Opaque tile first, so the links never show through, then the hover tint on top.
+        Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
         NetrunUI.Box(box, hover ? new Color(color.r, color.g, color.b, 0.15f) : NetrunUI.BgWindow, color, hover ? 3 : 2);
         GUI.DrawTexture(box.ContractedBy(size * 0.2f), icon);
 

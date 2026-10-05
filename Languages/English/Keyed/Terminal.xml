@@ -38,8 +38,4 @@
   <NR_FixerReputationLabel>Reputation</NR_FixerReputationLabel>
   <NR_FixerToPin>{0} to pinning</NR_FixerToPin>
   <NR_FixerAfterCall>call the fixer first</NR_FixerAfterCall>
-  <NR_Speed_Paused>Pause (Space)</NR_Speed_Paused>
-  <NR_Speed_Normal>Normal speed (1)</NR_Speed_Normal>
-  <NR_Speed_Fast>Fast (2)</NR_Speed_Fast>
-  <NR_Speed_Superfast>Superfast (3)</NR_Speed_Superfast>
 </LanguageData>
