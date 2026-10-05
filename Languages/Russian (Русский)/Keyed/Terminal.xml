@@ -15,7 +15,7 @@
   <NR_NodeTip_Board>Контракты: активные и предложения.</NR_NodeTip_Board>
   <NR_NodeTip_Archive>Журнал следа: всё, что поднимало или снижало Heat.</NR_NodeTip_Archive>
   <NR_NodeTip_Server>ИИ колонии: на сервере, в сопроцессорах и в носителях.</NR_NodeTip_Server>
-  <NR_NodeTip_Studio>Брейнданс: записи и чипы. Скоро.</NR_NodeTip_Studio>
+  <NR_NodeTip_Studio>Брейнданс: сырые записи, библиотека чипов, зависимость и рынок.</NR_NodeTip_Studio>
   <NR_NodeTip_Gateway>Вход в киберпространство: выберите внешнюю ноду и ныряйте из капсулы.</NR_NodeTip_Gateway>
   <NR_NodeSub_Core>Heat, остывание, уровни</NR_NodeSub_Core>
   <NR_NodeSub_Club>Фиксеры ({0})</NR_NodeSub_Club>
@@ -24,7 +24,7 @@
   <NR_NodeSub_Archive>Журнал следа ({0})</NR_NodeSub_Archive>
   <NR_NodeSub_Server>ИИ: {0}</NR_NodeSub_Server>
   <NR_NodeSub_ServerRequest>ИИ: {0}, просьба</NR_NodeSub_ServerRequest>
-  <NR_NodeSub_Studio>Скоро</NR_NodeSub_Studio>
+  <NR_NodeSub_Studio>Сырых записей: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Нырок (нужна капсула)</NR_NodeSub_Gateway>
   <NR_ChipHeat>Heat: {0}</NR_ChipHeat>
   <NR_ChipNetOnline>Сеть: онлайн</NR_ChipNetOnline>

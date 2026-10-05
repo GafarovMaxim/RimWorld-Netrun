@@ -62,6 +62,26 @@ public static class BraindanceEditing
         }
     }
 
+    /// <summary>From the Studio: pick a colonist who carries the recording to a network console and edits it.</summary>
+    public static void OpenEditorMenu(Thing raw, ThingDef chip)
+    {
+        Map map = raw.MapHeld;
+        Building console = map == null ? null : AIAwakening.Console(map);
+        var options = new List<FloatMenuOption>();
+        if (console != null)
+        {
+            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned.Where(p => !p.Downed && !p.WorkTagIsDisabled(WorkTags.Intellectual)))
+            {
+                Pawn editor = pawn;
+                int skill = pawn.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
+                options.Add(new FloatMenuOption($"{pawn.LabelShort} ({SkillDefOf.Intellectual.LabelCap}: {skill})", () => Order(editor, raw, console, chip)));
+            }
+        }
+        if (options.Count == 0)
+            options.Add(new FloatMenuOption(console == null ? "NR_AwakenNoConsole".Translate() : "NR_AwakenNoWorker".Translate(), null));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
     private static void Order(Pawn pawn, Thing raw, Building console, ThingDef chip)
     {
         Job job = JobMaker.MakeJob(NetrunDefOf.NR_EditBraindance, console, raw);

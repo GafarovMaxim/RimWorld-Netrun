@@ -38,6 +38,7 @@ public class Dialog_NetTerminal : Window
     private Vector2 _fixersScroll;
     private Vector2 _contractsScroll;
     private Vector2 _aiScroll;
+    private Vector2 _studioScroll;
 
     public override Vector2 InitialSize => new(900f, 720f);
     protected override float Margin => 0f;
@@ -114,6 +115,9 @@ public class Dialog_NetTerminal : Window
                 break;
             case View.Gateway:
                 GatewayView.Draw(content, _map);
+                break;
+            case View.Studio:
+                StudioTab.Draw(content, _map, ref _studioScroll);
                 break;
             default:
                 DrawCentered(content, "NR_TerminalComingSoon".Translate());
@@ -232,7 +236,7 @@ public class Dialog_NetTerminal : Window
             (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.TabIcon(1), NetrunUI.Warn, ClubSub(), ClubBadge()),
             (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.TabIcon(5), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
             (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.TabIcon(3), NetrunUI.Purple, ServerSub(), ServerBadge()),
-            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.TabIcon(4), StudioColor, "NR_NodeSub_Studio".Translate(), null),
+            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.TabIcon(4), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
             (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Dive, NetrunUI.Accent, "NR_NodeSub_Gateway".Translate(), null),
         };
 

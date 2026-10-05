@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_StudioSummary>Брейнданс-очки: {0} · чипов на складе: {1} · сырых записей: {2}</NR_StudioSummary>
+  <NR_StudioRecordings>Сырые записи ({0})</NR_StudioRecordings>
+  <NR_StudioNoRecordings>Сырых записей нет. Колонисты в брейнданс-очках сами записывают сильные моменты.</NR_StudioNoRecordings>
+  <NR_StudioLibrary>Библиотека чипов ({0})</NR_StudioLibrary>
+  <NR_StudioNoChips>На складе нет чипов.</NR_StudioNoChips>
+  <NR_StudioHooked>Зависимость ({0})</NR_StudioHooked>
+  <NR_StudioNoneHooked>Никто не подсел на брейнданс.</NR_StudioNoneHooked>
+  <NR_StudioEdit>Смонтировать: {0}</NR_StudioEdit>
+  <NR_StudioEditTip>Выберите колониста: он отнесёт запись к сетевой консоли и смонтирует.</NR_StudioEditTip>
+  <NR_StudioSell>Продать · {0} серебра</NR_StudioSell>
+  <NR_StudioSellTip>Продать один чип в сети. Хорошие записи дороже. Серебро придёт дроп-подом.</NR_StudioSellTip>
+  <NR_StudioSold>{0}: продано в сети за {1} серебра.</NR_StudioSold>
+  <NR_StudioAddicted>зависимость ({0})</NR_StudioAddicted>
+  <NR_StudioTolerance>толерантность {0}</NR_StudioTolerance>
+</LanguageData>

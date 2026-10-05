@@ -15,7 +15,7 @@
   <NR_NodeTip_Board>Contracts: active and on offer.</NR_NodeTip_Board>
   <NR_NodeTip_Archive>The trace journal: everything that raised or lowered your Heat.</NR_NodeTip_Archive>
   <NR_NodeTip_Server>The colony's AIs: on the server, in coprocessors and in hosts.</NR_NodeTip_Server>
-  <NR_NodeTip_Studio>Braindance: recordings and chips. Coming soon.</NR_NodeTip_Studio>
+  <NR_NodeTip_Studio>Braindance: raw recordings, the chip library, dependency and the market.</NR_NodeTip_Studio>
   <NR_NodeTip_Gateway>The way into cyberspace: pick an external node and dive from a cyberpod.</NR_NodeTip_Gateway>
   <NR_NodeSub_Core>Heat, decay, levels</NR_NodeSub_Core>
   <NR_NodeSub_Club>Fixers ({0})</NR_NodeSub_Club>
@@ -24,7 +24,7 @@
   <NR_NodeSub_Archive>Trace journal ({0})</NR_NodeSub_Archive>
   <NR_NodeSub_Server>AIs: {0}</NR_NodeSub_Server>
   <NR_NodeSub_ServerRequest>AIs: {0}, a request</NR_NodeSub_ServerRequest>
-  <NR_NodeSub_Studio>Coming soon</NR_NodeSub_Studio>
+  <NR_NodeSub_Studio>Raw recordings: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Dive (needs a cyberpod)</NR_NodeSub_Gateway>
   <NR_ChipHeat>Heat: {0}</NR_ChipHeat>
   <NR_ChipNetOnline>Net: online</NR_ChipNetOnline>

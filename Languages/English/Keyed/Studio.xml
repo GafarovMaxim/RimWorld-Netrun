@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_StudioSummary>Braindance goggles: {0} · chips in storage: {1} · raw recordings: {2}</NR_StudioSummary>
+  <NR_StudioRecordings>Raw recordings ({0})</NR_StudioRecordings>
+  <NR_StudioNoRecordings>No raw recordings. Colonists wearing braindance goggles record strong moments on their own.</NR_StudioNoRecordings>
+  <NR_StudioLibrary>Chip library ({0})</NR_StudioLibrary>
+  <NR_StudioNoChips>No chips in storage.</NR_StudioNoChips>
+  <NR_StudioHooked>Dependency ({0})</NR_StudioHooked>
+  <NR_StudioNoneHooked>Nobody is hooked on braindance.</NR_StudioNoneHooked>
+  <NR_StudioEdit>Edit into: {0}</NR_StudioEdit>
+  <NR_StudioEditTip>Pick a colonist: they carry the recording to the network console and edit it.</NR_StudioEditTip>
+  <NR_StudioSell>Sell · {0} silver</NR_StudioSell>
+  <NR_StudioSellTip>Sell one chip online. Better recordings fetch more. Silver arrives by drop pod.</NR_StudioSellTip>
+  <NR_StudioSold>{0} sold online for {1} silver.</NR_StudioSold>
+  <NR_StudioAddicted>addicted ({0})</NR_StudioAddicted>
+  <NR_StudioTolerance>tolerance {0}</NR_StudioTolerance>
+</LanguageData>
