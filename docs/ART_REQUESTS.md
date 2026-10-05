@@ -35,6 +35,30 @@ readable at 64 pixels, transparent background, no text
 | `Ext_Market`, `Ext_Archive`, `Ext_Corp`, `Ext_Abandoned`, `Ext_DarkExchange` | Значки типов внешних нод в кругах Шлюза | 64x64 | простой символ в центре круга, как на макете 5 (шестигранник с точкой и т.п.) |
 | `Prog_Sword`, `Prog_Shield`, `Prog_Decoy`, `Prog_Stealth`, `Prog_Killer` | Иконки программ нырка | 64x64 | меч, щит, двойник-силуэт, глаз с чертой, череп или молния |
 
+## Промпт: иконки домашних нод терминала (7 шт.)
+
+Файлы: `Node_Core.png`, `Node_Club.png`, `Node_Board.png`, `Node_Archive.png`, `Node_Server.png`, `Node_Studio.png`, `Node_Gateway.png`, 128x128, прозрачный фон. Рисуются внутри квадратной плитки ноды на тёмном фоне, рамку плитки красит код, поэтому сама иконка без рамки.
+
+Общая часть (вставлять перед каждой):
+```
+game UI icon for a cyberpunk network terminal, one centered symbol, thin neon line art
+with soft glow, 2-3 px strokes, cyan and white lines on transparent background,
+minimal detail, readable at 64 pixels, same style as a set of 7 icons, no frame,
+no text, no background plate, no shadow
+```
+
+| Файл | Нода | Описание для промпта |
+|---|---|---|
+| `Node_Core` | Ядро (обзор следа) | `a stylized network core: a glowing hexagon chip with a pulse line (heartbeat) across it, small nodes on the edges` |
+| `Node_Club` | Клуб (фиксеры, контакты) | `a contact card with a hooded figure silhouette and a small speech bubble, two connected dots like a phone link` |
+| `Node_Board` | Доска (контракты) | `a document with a checkmark and a pin at the top corner, like a job posting on a board` |
+| `Node_Archive` | Архив (журнал следа) | `a terminal window with stacked log lines and a small clock symbol` |
+| `Node_Server` | Серверная (ИИ) | `a server rack with three slots, a small robot head glowing in the middle slot` |
+| `Node_Studio` | Студия (брейнданс) | `VR braindance goggles with a sound wave or film frame passing through them` |
+| `Node_Gateway` | Шлюз (нырок) | `a portal ring with a downward arrow diving into a grid plane` |
+
+Цвет линий можно оставить единым (циан): код окрашивает рамку ноды в её цвет. Положи в папку арта, подключу сам.
+
 ## Уже есть (Art/Approved)
 AIServer, AIServer_Minimal, BraindanceChip, BraindanceGoggles, Fixer_Corp / ShadowBroker / Street, Gizmo_NetTerminal / CallFixer / NetrunDive, Heat_1…5, Tab_Overview / Fixers / Contracts / AI / Braindance / Log (+ варианты), OpenCyberspace (+ Node), Preview.
 
