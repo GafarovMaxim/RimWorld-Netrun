@@ -241,7 +241,7 @@ public class Dialog_NetTerminal : Window
             (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.TabIcon(5), NetrunUI.Muted, "NR_NodeSub_Archive".Translate(tracker.Log.Count), null),
             (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.TabIcon(3), NetrunUI.Purple, ServerSub(), ServerBadge()),
             (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.TabIcon(4), StudioColor, "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), null),
-            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Dive, NetrunUI.Accent, "NR_NodeSub_Gateway".Translate(), null),
+            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.Cyberspace, NetrunUI.Accent, "NR_NodeSub_Gateway".Translate(), null),
         };
 
         // Links first, so the nodes are drawn over them.

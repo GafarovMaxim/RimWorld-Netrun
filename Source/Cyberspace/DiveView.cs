@@ -107,13 +107,14 @@ public static class DiveView
             void Act(string key, Color color, AcceptanceReport report, System.Action action, string tip = null)
             {
                 string label = ("NR_DiveAct_" + key).Translate();
-                float w = NetrunUI.ButtonWidth(label);
+                Texture2D icon = NetrunTex.CyberIcon("Action_" + key);
+                float w = NetrunUI.ButtonWidth(label, icon != null);
                 if (x + w > inner.xMax)
                 {
                     x = inner.x;
                     rowY += 36f;
                 }
-                if (NetrunUI.Button(new Rect(x, rowY, w, 30f), label, color, report, tip ?? ("NR_DiveActTip_" + key).Translate()))
+                if (NetrunUI.Button(new Rect(x, rowY, w, 30f), label, color, report, tip ?? ("NR_DiveActTip_" + key).Translate(), icon))
                     action();
                 x += w + 6f;
             }

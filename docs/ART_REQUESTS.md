@@ -23,6 +23,8 @@ readable at 64 pixels, transparent background, no text
 
 ## Нужно сейчас (после теста терминала, 2026-10-06), по приоритету
 
+Подключено 2026-10-06: портрет Архивариуса, Icon_Pinned (64), значки внешних нод (Node_Market/Archive/CorpVault/AbandonedServer/DarkExchange, Node_NeutralZone — скрытая нода), Program_* на кнопках программ, Action_* на кнопках нырка, Icon_Cyberspace_V2 — нода Шлюз на карте. Ещё нет: новых спрайтов построек сопроцессора и стойки (стоят Capsule_Coprocessor и AIServer_Minimal), иконок домашних нод (Node_Core/Club/Board/Archive/Server/Studio/Gateway — стоят иконки старых вкладок). Не используются: Icon_Pinned_Dim_Brass, Icon_Pinned_Diag_Dim, Server_Upgrade_Quantum.
+
 | Файл | Что это | Размер | Идея |
 |---|---|---|---|
 | `NR_NetrunCoprocessor.png` | Сопроцессор Netrun: постройка 1x1 рядом с кибер-капсулой, внутри живёт ИИ | 256x256, вписать в клетку с небольшим запасом, вид сверху-спереди как у сопроцессоров Hacking Expansion | корпус в стиле HE (Optimization/Jammer coprocessor), но с прозрачным отсеком, где светится ядро ИИ; фиолетовый акцент |

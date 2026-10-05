@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -9,6 +10,21 @@ public static class NetrunTex
     public static readonly Texture2D NetTerminal = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_NetTerminal");
     public static readonly Texture2D CallFixer = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_CallFixer");
     public static readonly Texture2D Dive = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_NetrunDive");
+    public static readonly Texture2D Cyberspace = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Cyberspace");
+    public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_NeutralZone");
+
+    private static readonly Dictionary<string, Texture2D> CyberIcons = [];
+
+    /// <summary>Cyberspace icons by file name: Node_*, Program_*, Action_* (null if missing).</summary>
+    public static Texture2D CyberIcon(string name)
+    {
+        if (!CyberIcons.TryGetValue(name, out Texture2D tex))
+        {
+            tex = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/" + name, reportFailure: false);
+            CyberIcons[name] = tex;
+        }
+        return tex;
+    }
 
     private static readonly Texture2D[] HeatIcons =
     [

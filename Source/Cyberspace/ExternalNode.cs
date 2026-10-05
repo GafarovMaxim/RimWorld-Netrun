@@ -80,6 +80,13 @@ public class ExternalNode : IExposable
         _ => 1f,
     };
 
+    public Texture2D Icon => NetrunTex.CyberIcon("Node_" + Type switch
+    {
+        ExternalNodeType.Corp => "CorpVault",
+        ExternalNodeType.Abandoned => "AbandonedServer",
+        _ => Type.ToString(),
+    });
+
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
     public static ExternalNode Generate(int id)

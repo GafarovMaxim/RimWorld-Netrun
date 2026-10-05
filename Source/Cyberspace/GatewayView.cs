@@ -117,11 +117,16 @@ public static class GatewayView
         Text.Anchor = TextAnchor.MiddleCenter;
         if (node.Hidden)
         {
+            GUI.color = new Color(1f, 1f, 1f, 0.4f);
+            GUI.DrawTexture(new Rect(rect.center.x - 12f, rect.center.y - 22f, 24f, 24f), NetrunTex.HiddenNode);
+            GUI.color = Color.white;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(rect, ("?\n" + "NR_GatewayHidden".Translate()).Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(rect.x, rect.center.y + 2f, rect.width, 18f), "NR_GatewayHidden".Translate().Colorize(NetrunUI.Muted));
         }
         else
         {
+            if (node.Icon != null)
+                GUI.DrawTexture(new Rect(rect.center.x - 14f, rect.center.y - 46f, 28f, 28f), node.Icon);
             Widgets.Label(new Rect(rect.x, rect.center.y - 18f, rect.width, 22f), node.Name.Colorize(color));
             Text.Font = GameFont.Tiny;
             string sub = node.BlackIce ? "NR_GatewayBlackIce".Translate(node.Defense) : "NR_GatewayDefense".Translate(node.Defense);
@@ -206,7 +211,8 @@ public static class GatewayView
         {
             bool on = gateway.SelectedPrograms.Contains(program);
             string label = ("NR_Program_" + program).Translate();
-            float w = NetrunUI.ButtonWidth(label);
+            Texture2D programIcon = NetrunTex.CyberIcon("Program_" + program);
+            float w = NetrunUI.ButtonWidth(label, programIcon != null);
             if (x + w > inner.xMax)
             {
                 x = inner.x;
@@ -215,7 +221,7 @@ public static class GatewayView
             AcceptanceReport report = on || gateway.SelectedPrograms.Count < slots ? true : (AcceptanceReport)"NR_GatewayNoSlots".Translate();
             Color color = on ? NetrunUI.Ok : NetrunUI.Muted;
             if (NetrunUI.Button(new Rect(x, y, w, 28f), (on ? "✓ " : string.Empty) + label, on ? color : NetrunUI.TextColor, report,
-                    ("NR_ProgramDesc_" + program).Translate(NetrunDefOf.NR_Cyberspace.programCost)))
+                    ("NR_ProgramDesc_" + program).Translate(NetrunDefOf.NR_Cyberspace.programCost), programIcon))
             {
                 if (on)
                     gateway.SelectedPrograms.Remove(program);
