@@ -46,8 +46,6 @@
 {2}
 
 Кольцо — пять уровней, стрелка — изменение за сутки. Клик — подробности.</NR_CoreRingTip>
-  <NR_CoreSummaryHeat>Heat</NR_CoreSummaryHeat>
-  <NR_CoreLowerHeat>Снижают: сброс у фиксера, ИИ Призрак, тихие дни (−{0} в сутки).</NR_CoreLowerHeat>
   <NR_CoreScrubButton>Сбросить след</NR_CoreScrubButton>
   <NR_CoreScrubTip>Открывает Клуб: позвоните фиксеру и отдайте cyberdata, чтобы снизить Heat.</NR_CoreScrubTip>
   <NR_CoreSummaryAlerts>Тревоги</NR_CoreSummaryAlerts>
@@ -63,4 +61,25 @@
   <NR_CoreAlertRequest>{0} просит: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
+  <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
+  <NR_CoreToNext>До «{0}»</NR_CoreToNext>
+  <NR_CoreToNextValue>ещё {0}</NR_CoreToNextValue>
+  <NR_CoreDecay>Остывание</NR_CoreDecay>
+  <NR_CoreDecayValue>−{0} / сутки</NR_CoreDecayValue>
+  <NR_HeatScreenNow>Сейчас: {0} ({1})</NR_HeatScreenNow>
+  <NR_HeatScreenNoHistory>График заполнится со временем (точка раз в час).</NR_HeatScreenNoHistory>
+  <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
+  <NR_HeatScreenLevels>Что даёт каждый уровень</NR_HeatScreenLevels>
+  <NR_HeatScreenLowers>Что снижает Heat</NR_HeatScreenLowers>
+  <NR_HeatScreenScrub>Сброс у фиксера ({0}): 1 cyberdata = −{1}, 1 продвинутая = −{2}</NR_HeatScreenScrub>
+  <NR_HeatScreenNoFixer>Сброс у фиксера: сейчас никто не отвечает</NR_HeatScreenNoFixer>
+  <NR_HeatScreenDecay>Тишина: −{0} в сутки</NR_HeatScreenDecay>
+  <NR_HeatScreenGhost>ИИ Призрак: его услуга и события стирают след</NR_HeatScreenGhost>
+  <NR_HeatScreenRaises>Что поднимало за неделю</NR_HeatScreenRaises>
+  <NR_HeatScreenNothingRaised>За неделю ничего.</NR_HeatScreenNothingRaised>
+  <NR_HeatScreenNetsickNone>Netsick: ни у кого</NR_HeatScreenNetsickNone>
+  <NR_HeatScreenNetsick>Netsick: {0}</NR_HeatScreenNetsick>
+  <NR_HeatScreenNetsickTip>Зависимость от киберпространства у тех, кто много ныряет. Растёт от времени в капсуле и ударов Black ICE.</NR_HeatScreenNetsickTip>
+  <NR_HeatScreenCallFixer>Позвать фиксера</NR_HeatScreenCallFixer>
+  <NR_HeatScreenCallTip>Открывает Клуб.</NR_HeatScreenCallTip>
 </LanguageData>

@@ -46,8 +46,6 @@
 {2}
 
 The ring shows the five levels; the arrow is the change over the last day. Click for details.</NR_CoreRingTip>
-  <NR_CoreSummaryHeat>Heat</NR_CoreSummaryHeat>
-  <NR_CoreLowerHeat>Lowers it: scrubbing at a fixer, a Ghost AI, quiet days (−{0} a day).</NR_CoreLowerHeat>
   <NR_CoreScrubButton>Scrub the trace</NR_CoreScrubButton>
   <NR_CoreScrubTip>Opens the Club: call a fixer and hand over cyberdata to lower Heat.</NR_CoreScrubTip>
   <NR_CoreSummaryAlerts>Alerts</NR_CoreSummaryAlerts>
@@ -63,4 +61,25 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreAlertRequest>{0} asks: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} is starving</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
+  <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
+  <NR_CoreToNext>Until "{0}"</NR_CoreToNext>
+  <NR_CoreToNextValue>{0} more</NR_CoreToNextValue>
+  <NR_CoreDecay>Cooling</NR_CoreDecay>
+  <NR_CoreDecayValue>−{0} / day</NR_CoreDecayValue>
+  <NR_HeatScreenNow>Now: {0} ({1})</NR_HeatScreenNow>
+  <NR_HeatScreenNoHistory>The graph fills in as time passes (one point an hour).</NR_HeatScreenNoHistory>
+  <NR_HeatScreenGraph>Heat over 7 days</NR_HeatScreenGraph>
+  <NR_HeatScreenLevels>What each level brings</NR_HeatScreenLevels>
+  <NR_HeatScreenLowers>What lowers Heat</NR_HeatScreenLowers>
+  <NR_HeatScreenScrub>Scrub at a fixer ({0}): 1 cyberdata = −{1}, 1 advanced = −{2}</NR_HeatScreenScrub>
+  <NR_HeatScreenNoFixer>Scrub at a fixer: no fixer is answering right now</NR_HeatScreenNoFixer>
+  <NR_HeatScreenDecay>Quiet time: −{0} a day</NR_HeatScreenDecay>
+  <NR_HeatScreenGhost>A Ghost AI: its service and events wipe the trace</NR_HeatScreenGhost>
+  <NR_HeatScreenRaises>What raised it this week</NR_HeatScreenRaises>
+  <NR_HeatScreenNothingRaised>Nothing this week.</NR_HeatScreenNothingRaised>
+  <NR_HeatScreenNetsickNone>Netsick: nobody</NR_HeatScreenNetsickNone>
+  <NR_HeatScreenNetsick>Netsick: {0}</NR_HeatScreenNetsick>
+  <NR_HeatScreenNetsickTip>Cyberspace dependency of colonists who dive a lot. It grows with time in the pod and Black ICE hits.</NR_HeatScreenNetsickTip>
+  <NR_HeatScreenCallFixer>Call a fixer</NR_HeatScreenCallFixer>
+  <NR_HeatScreenCallTip>Opens the Club.</NR_HeatScreenCallTip>
 </LanguageData>

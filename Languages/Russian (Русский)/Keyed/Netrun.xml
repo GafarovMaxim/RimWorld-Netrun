@@ -41,9 +41,6 @@
   <NR_CommandNetTerminal>Сетевой терминал</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Открыть сетевой терминал: цифровой след, фиксеры, контракты и журнал последних событий.</NR_CommandNetTerminalDesc>
   <NR_TerminalNoPower>Нет питания.</NR_TerminalNoPower>
-  <NR_TerminalHeatValue>Цифровой след: {0} / 100, {1}</NR_TerminalHeatValue>
-  <NR_TerminalHeatDecay>Сам по себе след остывает на {0} в день.</NR_TerminalHeatDecay>
-  <NR_TerminalLevelsHeader>Уровни следа:</NR_TerminalLevelsHeader>
   <NR_TerminalJournalEmpty>Событий пока нет.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Скоро.</NR_TerminalComingSoon>
 
@@ -52,6 +49,5 @@
   <NR_LogTraceLock>Захват следа: {0}</NR_LogTraceLock>
   <NR_LogRip>{0} вытянул(а) {1} из: {2}</NR_LogRip>
   <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишний cyberdata.</NR_CyberpodBonusData>
-  <NR_TerminalHackHint>Что можно взломать: древние терминалы и консоли (Ideology), древние двери, люки и реакторы (Odyssey), зашифрованные ящики, дата-центры, древние кибер-деки и спутниковые чёрные ящики (Hacking Expansion). Турели и механоидов может взламывать только хакер с кибер-линком. Чтобы взломать, выберите колониста и щёлкните по цели правой кнопкой или нажмите «Взломать цель» у хакера с кибер-линком.</NR_TerminalHackHint>
 
 </LanguageData>

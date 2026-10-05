@@ -41,9 +41,6 @@
   <NR_CommandNetTerminal>Network terminal</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Open the network terminal: your digital trace, fixers, contracts and the journal of recent events.</NR_CommandNetTerminalDesc>
   <NR_TerminalNoPower>No power.</NR_TerminalNoPower>
-  <NR_TerminalHeatValue>Digital Heat: {0} / 100, {1}</NR_TerminalHeatValue>
-  <NR_TerminalHeatDecay>The trace cools down by {0} per day on its own.</NR_TerminalHeatDecay>
-  <NR_TerminalLevelsHeader>Trace levels:</NR_TerminalLevelsHeader>
   <NR_TerminalJournalEmpty>No events yet.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Coming soon.</NR_TerminalComingSoon>
 
@@ -52,6 +49,5 @@
   <NR_LogTraceLock>Trace lock on {0}</NR_LogTraceLock>
   <NR_LogRip>{0} ripped {1} from {2}</NR_LogRip>
   <NR_CyberpodBonusData>{0} pulled an extra cyberdata through the cyberpod.</NR_CyberpodBonusData>
-  <NR_TerminalHackHint>What can be hacked: ancient terminals and consoles (Ideology), ancient doors, hatches and reactors (Odyssey), encrypted crates, data centers, ancient cyberdecks and satellite black boxes (Hacking Expansion). Turrets and mechanoids can only be hacked by a hacker with a cyberlink. To hack, select a colonist and right-click the target, or use "Hack target" on a hacker with a cyberlink.</NR_TerminalHackHint>
 
 </LanguageData>

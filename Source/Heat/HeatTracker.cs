@@ -11,9 +11,13 @@ public class HeatTracker : GameComponent
     public const float MaxHeat = 100f;
     private const int TickInterval = 250;
     private const int MaxLogEntries = 30;
+    /// <summary>Heat is sampled once an hour for the 7-day graph on the Heat screen.</summary>
+    public const int HistoryInterval = GenDate.TicksPerHour;
+    public const int HistorySize = 7 * 24;
 
     private float _heat;
     private List<HeatLogEntry> _log = [];
+    private List<float> _history = [];
 
     public HeatTracker(Game game) { }
 
@@ -24,6 +28,9 @@ public class HeatTracker : GameComponent
 
     /// <summary>Newest entries last.</summary>
     public IReadOnlyList<HeatLogEntry> Log => _log;
+
+    /// <summary>Hourly Heat samples, oldest first, up to 7 days.</summary>
+    public IReadOnlyList<float> History => _history;
 
     /// <summary>Adds heat after the settings multiplier is applied.</summary>
     public void AddHeat(float amount, string reason)
@@ -59,6 +66,13 @@ public class HeatTracker : GameComponent
 
     public override void GameComponentTick()
     {
+        if (Find.TickManager.TicksGame % HistoryInterval == 0)
+        {
+            _history.Add(_heat);
+            if (_history.Count > HistorySize)
+                _history.RemoveRange(0, _history.Count - HistorySize);
+        }
+
         if (_heat <= 0f || Find.TickManager.TicksGame % TickInterval != 0)
             return;
 
@@ -90,8 +104,12 @@ public class HeatTracker : GameComponent
         base.ExposeData();
         Scribe_Values.Look(ref _heat, "heat", 0f);
         Scribe_Collections.Look(ref _log, "log", LookMode.Deep);
+        Scribe_Collections.Look(ref _history, "history", LookMode.Value);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
             _log ??= [];
+            _history ??= [];
+        }
     }
 }

@@ -99,7 +99,7 @@ public partial class Dialog_NetTerminal : Window
         switch (_view)
         {
             case View.Core:
-                DrawOverview(content, tracker);
+                HeatScreen.Draw(content, _map, tracker, () => OpenNode(View.Club));
                 break;
             case View.Club:
                 FixersTab.Draw(content, _map, ref _fixersScroll);
@@ -258,53 +258,6 @@ public partial class Dialog_NetTerminal : Window
         }
 
         Text.Anchor = TextAnchor.UpperLeft;
-    }
-
-    // ---- Core: Heat overview ----
-
-    private static void DrawOverview(Rect rect, HeatTracker tracker)
-    {
-        HeatLevel level = tracker.Level;
-        float y = rect.y;
-
-        GUI.DrawTexture(new Rect(rect.x, y, 48f, 48f), NetrunTex.HeatIcon(level));
-        Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(rect.x + 58f, y + 8f, rect.width - 58f, 34f),
-            "NR_TerminalHeatValue".Translate(tracker.Heat.ToString("0"), level.Label().Colorize(level.Color())));
-        Text.Font = GameFont.Small;
-        y += 56f;
-
-        NetrunUI.Bar(new Rect(rect.x, y, rect.width, 18f), tracker.Heat / HeatTracker.MaxHeat, level.Color());
-        y += 26f;
-
-        Widgets.Label(new Rect(rect.x, y, rect.width, 24f),
-            "NR_TerminalHeatDecay".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.0")).Colorize(NetrunUI.Muted));
-        y += 30f;
-
-        y = NetrunUI.Section(new Rect(rect.x, y, rect.width, 36f), "NR_TerminalLevelsHeader".Translate());
-
-        foreach (HeatLevel each in System.Enum.GetValues(typeof(HeatLevel)))
-        {
-            var row = new Rect(rect.x, y, rect.width, LevelRowHeight);
-            if (each == level)
-                Widgets.DrawBoxSolid(row, NetrunUI.BgCardAlt);
-
-            GUI.DrawTexture(new Rect(row.x + 2f, row.y + 2f, 32f, 32f), NetrunTex.HeatIcon(each));
-
-            string range = each == HeatLevel.RedZone
-                ? $"{each.MinHeat():0}–100"
-                : $"{each.MinHeat():0}–{(each + 1).MinHeat() - 1:0}";
-
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(row.x + 40f, row.y, 220f, row.height), $"{each.Label().Colorize(each.Color())} ({range})");
-            Widgets.Label(new Rect(row.x + 260f, row.y, row.width - 260f, row.height), each.Description());
-            Text.Anchor = TextAnchor.UpperLeft;
-
-            y += LevelRowHeight;
-        }
-
-        y += 8f;
-        Widgets.Label(new Rect(rect.x, y, rect.width, rect.yMax - y), "NR_TerminalHackHint".Translate().Colorize(NetrunUI.Muted));
     }
 
     // ---- Archive: the Heat journal ----

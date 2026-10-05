@@ -267,24 +267,27 @@ public partial class Dialog_NetTerminal
         Rect inner = rect.ContractedBy(10f);
         float y = inner.y;
 
-        // Heat: what the level means and how to bring it down.
+        // Heat: what the level brings, how far the next one is, how fast it cools.
         HeatLevel level = tracker.Level;
-        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryHeat".Translate());
-        string desc = level.Label().CapitalizeFirst().Colorize(level.Color()) + ": " + level.Description();
-        float dh = Text.CalcHeight(desc, inner.width);
-        Widgets.Label(new Rect(inner.x, y, inner.width, dh), desc);
-        y += dh + 4f;
+        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryHeatLevel".Translate(level.Label().ToUpper()));
         Text.Font = GameFont.Tiny;
-        string lower = "NR_CoreLowerHeat".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.#"));
-        float lh = Text.CalcHeight(lower, inner.width);
-        Widgets.Label(new Rect(inner.x, y, inner.width, lh), lower.Colorize(NetrunUI.Muted));
+        float dh = Text.CalcHeight(level.Description(), inner.width);
+        Widgets.Label(new Rect(inner.x, y, inner.width, dh), level.Description().Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
-        y += lh + 4f;
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_CoreScrubButton".Translate(), NetrunUI.Accent, true, "NR_CoreScrubTip".Translate()))
+        y += dh + 4f;
+        if (level != HeatLevel.RedZone)
+        {
+            HeatLevel next = level + 1;
+            y = SummaryRow(inner, y, "NR_CoreToNext".Translate(next.Label()),
+                "NR_CoreToNextValue".Translate((next.MinHeat() - tracker.Heat).ToString("0")), next.Color());
+        }
+        y = SummaryRow(inner, y, "NR_CoreDecay".Translate(), "NR_CoreDecayValue".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.#")), NetrunUI.Ok);
+        y += 4f;
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_CoreScrubButton".Translate(), NetrunUI.Ok, true, "NR_CoreScrubTip".Translate()))
             OpenNode(View.Club);
-        y += 36f;
+        y += 38f;
 
-        // Alerts: the most urgent first, a click leads to the node.
+        // Alerts: the most urgent first, striped by severity, the node on the right; a click leads there.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryAlerts".Translate());
         List<(string text, Color color, View? target)> alerts = Alerts(tracker);
         if (alerts.Count == 0)
@@ -295,22 +298,26 @@ public partial class Dialog_NetTerminal
         Text.Font = GameFont.Tiny;
         foreach ((string text, Color color, View? target) in alerts.Take(4))
         {
-            float h = Mathf.Max(20f, Text.CalcHeight("• " + text, inner.width));
+            string where = target == null ? string.Empty : NodeLabel(target.Value);
+            float whereWidth = target == null ? 0f : Text.CalcSize(where).x + 8f;
+            float h = Mathf.Max(24f, Text.CalcHeight(text, inner.width - 14f - whereWidth) + 6f);
             var row = new Rect(inner.x, y, inner.width, h);
-            if (target != null && Mouse.IsOver(row))
-                Widgets.DrawBoxSolid(row, NetrunUI.BgCardAlt);
-            Widgets.Label(row, ("• " + text).Colorize(color));
+            Widgets.DrawBoxSolid(row, Mouse.IsOver(row) && target != null ? NetrunUI.BgCardAlt : NetrunUI.BgWindow);
+            Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), color);
+            Widgets.Label(new Rect(row.x + 8f, row.y + 3f, row.width - 14f - whereWidth, h), text);
             if (target != null)
             {
-                TooltipHandler.TipRegion(row, "NR_CoreAlertGo".Translate(NodeLabel(target.Value)));
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(new Rect(row.xMax - whereWidth - 4f, row.y, whereWidth, h), where.Colorize(NetrunUI.Muted));
+                Text.Anchor = TextAnchor.UpperLeft;
+                TooltipHandler.TipRegion(row, "NR_CoreAlertGo".Translate(where));
                 if (Widgets.ButtonInvisible(row))
                     OpenNode(target.Value);
             }
-            y += h + 2f;
+            y += h + 3f;
         }
         Text.Font = GameFont.Small;
         y += 6f;
-
         // Resources.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryResources".Translate());
         y = ResourceRow(inner, y, NetrunDefOf.USH_Cyberdata.uiIcon, NetrunDefOf.USH_Cyberdata.LabelCap, ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata).ToString());
@@ -321,6 +328,18 @@ public partial class Dialog_NetTerminal
             server == null ? "NR_CoreNoServer".Translate() : (string)$"{server.Used}/{server.Slots}");
         int chips = ColonyGoods.Count(_map, NetrunDefOf.NR_BraindanceChip) + ColonyGoods.Count(_map, NetrunDefOf.NR_BlackBraindanceChip);
         ResourceRow(inner, y, NetrunDefOf.NR_BraindanceChip.uiIcon, "NR_CoreChips".Translate(), chips.ToString());
+    }
+
+    private static float SummaryRow(Rect inner, float y, string label, string value, Color color)
+    {
+        Widgets.Label(new Rect(inner.x, y, inner.width - 100f, 22f), label);
+        Text.Anchor = TextAnchor.UpperRight;
+        Widgets.Label(new Rect(inner.xMax - 100f, y, 100f, 22f), value.Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        GUI.color = new Color(1f, 1f, 1f, 0.08f);
+        Widgets.DrawLineHorizontal(inner.x, y + 23f, inner.width);
+        GUI.color = Color.white;
+        return y + 26f;
     }
 
     private static float ResourceRow(Rect inner, float y, Texture2D icon, string label, string value)
