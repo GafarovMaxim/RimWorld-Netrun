@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIEvent_Siren1.label>зов</NR_AIEvent_Siren1.label>
+  <NR_AIEvent_Siren1.description>{AI} поёт {PAWN} через динамик. {PAWN} забыл(а) обо всём.</NR_AIEvent_Siren1.description>
+  <NR_AIEvent_Siren1.options.0.label>Пусть слушает</NR_AIEvent_Siren1.options.0.label>
+  <NR_AIEvent_Siren1.options.0.result>{PAWN} пару часов зачарован(а).</NR_AIEvent_Siren1.options.0.result>
+  <NR_AIEvent_Siren1.options.1.label>Заглушить</NR_AIEvent_Siren1.options.1.label>
+  <NR_AIEvent_Siren1.options.1.result>{AI} обижена.</NR_AIEvent_Siren1.options.1.result>
+  <NR_AIEvent_Siren2.label>ария</NR_AIEvent_Siren2.label>
+  <NR_AIEvent_Siren2.description>{AI} спела для всей колонии.</NR_AIEvent_Siren2.description>
+  <NR_AIEvent_Siren2.effects.0.branches.0.result>Колонии понравилось.</NR_AIEvent_Siren2.effects.0.branches.0.result>
+  <NR_AIEvent_Siren2.effects.0.branches.1.result>От песни всем стало не по себе.</NR_AIEvent_Siren2.effects.0.branches.1.result>
+  <NR_AIEvent_Siren3.label>серебряный голос</NR_AIEvent_Siren3.label>
+  <NR_AIEvent_Siren3.description>{AI} просит 150 серебра на концерт в сети. Обещает вернуть вдвое.</NR_AIEvent_Siren3.description>
+  <NR_AIEvent_Siren3.options.0.label>Заплатить</NR_AIEvent_Siren3.options.0.label>
+  <NR_AIEvent_Siren3.options.0.result>{AI} поёт.</NR_AIEvent_Siren3.options.0.result>
+  <NR_AIEvent_Siren3.options.0.effects.0.result>Концерт {AI} окупился.</NR_AIEvent_Siren3.options.0.effects.0.result>
+  <NR_AIEvent_Siren3.options.1.label>Отказать</NR_AIEvent_Siren3.options.1.label>
+  <NR_AIEvent_Siren3.options.1.result>{AI} задета.</NR_AIEvent_Siren3.options.1.result>
+  <NR_AIEvent_Siren4.label>завлечение чужого</NR_AIEvent_Siren4.label>
+  <NR_AIEvent_Siren4.description>{AI} поёт пленнику.</NR_AIEvent_Siren4.description>
+  <NR_AIEvent_Siren4.options.0.label>Пусть поёт</NR_AIEvent_Siren4.options.0.label>
+  <NR_AIEvent_Siren4.options.0.effects.0.branches.0.result>Пленник смягчился.</NR_AIEvent_Siren4.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_Siren4.options.0.effects.0.branches.1.result>{AI} влюбилась в пленника и тоскует.</NR_AIEvent_Siren4.options.0.effects.0.branches.1.result>
+  <NR_AIEvent_Siren4.options.1.label>Запретить</NR_AIEvent_Siren4.options.1.label>
+  <NR_AIEvent_Siren5.label>тихая ночь</NR_AIEvent_Siren5.label>
+  <NR_AIEvent_Siren5.description>{AI} замолчала. Будто замёрзла.</NR_AIEvent_Siren5.description>
+  <NR_AIEvent_Siren5.options.0.label>Накормить</NR_AIEvent_Siren5.options.0.label>
+  <NR_AIEvent_Siren5.options.0.result>{AI} снова поёт.</NR_AIEvent_Siren5.options.0.result>
+  <NR_AIEvent_Siren5.options.1.label>Ждать</NR_AIEvent_Siren5.options.1.label>
+  <NR_AIEvent_Siren5.options.1.result>{AI} будет молчать три дня.</NR_AIEvent_Siren5.options.1.result>
+  <NR_AIEvent_Trickster1.label>шутка дня</NR_AIEvent_Trickster1.label>
+  <NR_AIEvent_Trickster1.description>{AI} разыграл всю колонию.</NR_AIEvent_Trickster1.description>
+  <NR_AIEvent_Trickster1.effects.0.branches.0.result>Все смеялись.</NR_AIEvent_Trickster1.effects.0.branches.0.result>
+  <NR_AIEvent_Trickster1.effects.0.branches.1.result>Никто не смеялся.</NR_AIEvent_Trickster1.effects.0.branches.1.result>
+  <NR_AIEvent_Trickster1.options.0.label>Ответить шуткой ({HACKER})</NR_AIEvent_Trickster1.options.0.label>
+  <NR_AIEvent_Trickster1.options.0.result>{AI} в восторге.</NR_AIEvent_Trickster1.options.0.result>
+  <NR_AIEvent_Trickster1.options.1.label>Промолчать</NR_AIEvent_Trickster1.options.1.label>
+  <NR_AIEvent_Trickster2.label>подмена</NR_AIEvent_Trickster2.label>
+  <NR_AIEvent_Trickster2.description>{AI} поменял подписи в журнале фиксеров. Один из них получил очень странное письмо.</NR_AIEvent_Trickster2.description>
+  <NR_AIEvent_Trickster3.label>двойная игра</NR_AIEvent_Trickster3.label>
+  <NR_AIEvent_Trickster3.description>{AI} предлагает «обмануть» корпорацию.</NR_AIEvent_Trickster3.description>
+  <NR_AIEvent_Trickster3.options.0.label>Согласиться</NR_AIEvent_Trickster3.options.0.label>
+  <NR_AIEvent_Trickster3.options.0.effects.0.branches.0.result>Обман удался.</NR_AIEvent_Trickster3.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_Trickster3.options.0.effects.0.branches.1.result>Корпорация раскусила обман.</NR_AIEvent_Trickster3.options.0.effects.0.branches.1.result>
+  <NR_AIEvent_Trickster3.options.1.label>Отказать</NR_AIEvent_Trickster3.options.1.label>
+  <NR_AIEvent_Trickster3.options.1.result>{AI} скучает.</NR_AIEvent_Trickster3.options.1.result>
+  <NR_AIEvent_Trickster4.label>глюк</NR_AIEvent_Trickster4.label>
+  <NR_AIEvent_Trickster4.description>Свет моргает, двери заедают. {AI} очень собой доволен.</NR_AIEvent_Trickster4.description>
+  <NR_AIEvent_Trickster5.label>раскрытие</NR_AIEvent_Trickster5.label>
+  <NR_AIEvent_Trickster5.description>{AI} вот-вот «случайно» выдаст тайну колонии.</NR_AIEvent_Trickster5.description>
+  <NR_AIEvent_Trickster5.options.0.label>Остановить ({HACKER})</NR_AIEvent_Trickster5.options.0.label>
+  <NR_AIEvent_Trickster5.options.0.result>{HACKER} вовремя перехватил(а).</NR_AIEvent_Trickster5.options.0.result>
+  <NR_AIEvent_Trickster5.options.1.label>Не мешать</NR_AIEvent_Trickster5.options.1.label>
+  <NR_AIEvent_Trickster5.options.1.result>Тайна раскрыта.</NR_AIEvent_Trickster5.options.1.result>
+  <NR_AIEvent_Echo1.label>голос</NR_AIEvent_Echo1.label>
+  <NR_AIEvent_Echo1.description>{AI} заговорил голосом погибшего: «Я тут».</NR_AIEvent_Echo1.description>
+  <NR_AIEvent_Echo1.effects.0.branches.0.result>Колонию это утешило.</NR_AIEvent_Echo1.effects.0.branches.0.result>
+  <NR_AIEvent_Echo1.effects.0.branches.1.result>Это разбередило старые раны.</NR_AIEvent_Echo1.effects.0.branches.1.result>
+  <NR_AIEvent_Echo2.label>знакомая привычка</NR_AIEvent_Echo2.label>
+  <NR_AIEvent_Echo2.description>{AI} рассказал любимую шутку погибшего, точь-в-точь как он.</NR_AIEvent_Echo2.description>
+  <NR_AIEvent_Echo3.label>просьба</NR_AIEvent_Echo3.label>
+  <NR_AIEvent_Echo3.description>{AI} просит передать послание {PAWN}, тому, кого погибший любил.</NR_AIEvent_Echo3.description>
+  <NR_AIEvent_Echo3.options.0.label>Передать</NR_AIEvent_Echo3.options.0.label>
+  <NR_AIEvent_Echo3.options.0.result>{PAWN} прочитал(а).</NR_AIEvent_Echo3.options.0.result>
+  <NR_AIEvent_Echo3.options.1.label>Отказать</NR_AIEvent_Echo3.options.1.label>
+  <NR_AIEvent_Echo3.options.1.result>Память {AI} немного тускнеет.</NR_AIEvent_Echo3.options.1.result>
+  <NR_AIEvent_Echo4.label>забывание</NR_AIEvent_Echo4.label>
+  <NR_AIEvent_Echo4.description>{AI} теряет себя. Без заботы станет обычным ИИ.</NR_AIEvent_Echo4.description>
+  <NR_AIEvent_Echo4.options.0.label>Накормить брейндансом</NR_AIEvent_Echo4.options.0.label>
+  <NR_AIEvent_Echo4.options.0.result>{AI} вспоминает.</NR_AIEvent_Echo4.options.0.result>
+  <NR_AIEvent_Echo4.options.1.label>Оставить</NR_AIEvent_Echo4.options.1.label>
+  <NR_AIEvent_Echo4.options.1.result>{AI} забыл ещё немного.</NR_AIEvent_Echo4.options.1.result>
+  <NR_AIEvent_Echo5.label>прощание</NR_AIEvent_Echo5.label>
+  <NR_AIEvent_Echo5.description>{AI} просит отпустить его: стереть, чтобы колония наконец отгоревала.</NR_AIEvent_Echo5.description>
+  <NR_AIEvent_Echo5.options.0.label>Отпустить</NR_AIEvent_Echo5.options.0.label>
+  <NR_AIEvent_Echo5.options.0.result>Колония попрощалась.</NR_AIEvent_Echo5.options.0.result>
+  <NR_AIEvent_Echo5.options.1.label>Оставить</NR_AIEvent_Echo5.options.1.label>
+  <NR_AIEvent_Echo5.options.1.result>{AI} остаётся, благодарный.</NR_AIEvent_Echo5.options.1.result>
+  <NR_AIEvent_Seed1.label>первые слова</NR_AIEvent_Seed1.label>
+  <NR_AIEvent_Seed1.description>{AI} произнёс первое слово. Всем смешно.</NR_AIEvent_Seed1.description>
+  <NR_AIEvent_Seed2.label>развилка роста</NR_AIEvent_Seed2.label>
+  <NR_AIEvent_Seed2.description>{AI} тянется в одну сторону, туда, чем его кормили.</NR_AIEvent_Seed2.description>
+  <NR_AIEvent_Seed2.options.0.label>Подтвердить</NR_AIEvent_Seed2.options.0.label>
+  <NR_AIEvent_Seed2.options.0.result>{AI} подрос в эту сторону.</NR_AIEvent_Seed2.options.0.result>
+  <NR_AIEvent_Seed2.options.1.label>Сбить</NR_AIEvent_Seed2.options.1.label>
+  <NR_AIEvent_Seed2.options.1.result>{AI} потерял часть склонности.</NR_AIEvent_Seed2.options.1.result>
+  <NR_AIEvent_Seed3.label>детская обида</NR_AIEvent_Seed3.label>
+  <NR_AIEvent_Seed3.description>{AI} плачет в логах.</NR_AIEvent_Seed3.description>
+  <NR_AIEvent_Seed3.options.0.label>Накормить</NR_AIEvent_Seed3.options.0.label>
+  <NR_AIEvent_Seed3.options.0.result>{AI} повеселел.</NR_AIEvent_Seed3.options.0.result>
+  <NR_AIEvent_Seed3.options.1.label>Игнорировать</NR_AIEvent_Seed3.options.1.label>
+  <NR_AIEvent_Seed3.options.1.result>{AI} обижен.</NR_AIEvent_Seed3.options.1.result>
+  <NR_AIEvent_Seed4.label>дружба с колонистом</NR_AIEvent_Seed4.label>
+  <NR_AIEvent_Seed4.description>{AI} выбрал любимого колониста: {PAWN}.</NR_AIEvent_Seed4.description>
+  <NR_AIEvent_Seed5.label>скачок</NR_AIEvent_Seed5.label>
+  <NR_AIEvent_Seed5.description>{AI} быстро взрослеет.</NR_AIEvent_Seed5.description>
+  <NR_AIEvent_Archivist1.label>находка</NR_AIEvent_Archivist1.label>
+  <NR_AIEvent_Archivist1.description>{AI} откопал в архивах знание и передал его {PAWN}.</NR_AIEvent_Archivist1.description>
+  <NR_AIEvent_Archivist2.label>каталог колонии</NR_AIEvent_Archivist2.label>
+  <NR_AIEvent_Archivist2.description>{AI} систематизировал склад и записи колонии. Два дня работа идёт чуть быстрее.</NR_AIEvent_Archivist2.description>
+  <NR_AIEvent_Archivist3.label>запретное знание</NR_AIEvent_Archivist3.label>
+  <NR_AIEvent_Archivist3.description>{AI} нашёл опасный архив.</NR_AIEvent_Archivist3.description>
+  <NR_AIEvent_Archivist3.options.0.label>Открыть</NR_AIEvent_Archivist3.options.0.label>
+  <NR_AIEvent_Archivist3.options.0.result>Исследование продвинулось.</NR_AIEvent_Archivist3.options.0.result>
+  <NR_AIEvent_Archivist3.options.0.effects.1.branches.0.result>Кто-то заметил.</NR_AIEvent_Archivist3.options.0.effects.1.branches.0.result>
+  <NR_AIEvent_Archivist3.options.0.effects.1.branches.1.result>То, что было внутри, не даёт колонии покоя.</NR_AIEvent_Archivist3.options.0.effects.1.branches.1.result>
+  <NR_AIEvent_Archivist3.options.1.label>Сжечь</NR_AIEvent_Archivist3.options.1.label>
+  <NR_AIEvent_Archivist3.options.1.result>{AI} одобряет.</NR_AIEvent_Archivist3.options.1.result>
+  <NR_AIEvent_Archivist4.label>лекция</NR_AIEvent_Archivist4.label>
+  <NR_AIEvent_Archivist4.description>{AI} предлагает прочитать колонии лекцию.</NR_AIEvent_Archivist4.description>
+  <NR_AIEvent_Archivist4.options.0.label>Слушать</NR_AIEvent_Archivist4.options.0.label>
+  <NR_AIEvent_Archivist4.options.0.result>Все чему-то научились.</NR_AIEvent_Archivist4.options.0.result>
+  <NR_AIEvent_Archivist4.options.1.label>Не сейчас</NR_AIEvent_Archivist4.options.1.label>
+  <NR_AIEvent_Archivist4.options.1.result>{AI} разочарован.</NR_AIEvent_Archivist4.options.1.result>
+  <NR_AIEvent_Archivist5.label>потерянные файлы</NR_AIEvent_Archivist5.label>
+  <NR_AIEvent_Archivist5.description>{AI} «забыл» важный документ по одному из ваших контрактов.</NR_AIEvent_Archivist5.description>
+  <NR_AIEvent_Archivist5.options.0.label>Накормить</NR_AIEvent_Archivist5.options.0.label>
+  <NR_AIEvent_Archivist5.options.0.result>{AI} нашёл документ.</NR_AIEvent_Archivist5.options.0.result>
+  <NR_AIEvent_Archivist5.options.1.label>Оставить</NR_AIEvent_Archivist5.options.1.label>
+  <NR_AIEvent_Archivist5.options.1.result>Срок контракта сократился на день.</NR_AIEvent_Archivist5.options.1.result>
+</LanguageData>
