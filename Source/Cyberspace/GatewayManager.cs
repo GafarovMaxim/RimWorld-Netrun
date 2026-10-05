@@ -61,7 +61,7 @@ public class GatewayManager : GameComponent
     public static Pawn Runner(Map map, out Building_Cyberpod pod)
     {
         pod = null;
-        foreach (Building_Cyberpod each in map.listerBuildings.allBuildingsColonist.OfType<Building_Cyberpod>())
+        foreach (Building_Cyberpod each in CyberpodUtility.PlayerPods(map))
         {
             if (each.ContainedThing is Pawn pawn && pawn.IsHacker() && each.GetComp<CompPowerTrader>()?.PowerOn != false)
             {

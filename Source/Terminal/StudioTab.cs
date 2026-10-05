@@ -18,8 +18,10 @@ public static class StudioTab
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
         List<Thing> raws = BraindanceEditing.RawRecordings(map).ToList();
-        List<Thing> chips = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver)
-            .Where(t => BraindanceUtility.IsChip(t.def) && t.Spawned && !t.IsForbidden(Faction.OfPlayer)).ToList();
+        // Only the two chip defs, not every haulable thing on the map.
+        List<Thing> chips = map.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceChip)
+            .Concat(map.listerThings.ThingsOfDef(NetrunDefOf.NR_BlackBraindanceChip))
+            .Where(t => t.Spawned && !t.IsForbidden(Faction.OfPlayer)).ToList();
         List<Pawn> hooked = map.mapPawns.FreeColonistsSpawned
             .Where(p => p.health.hediffSet.hediffs.Any(h => h is Hediff_Addiction a && a.Chemical == NetrunDefOf.NR_Braindance)
                         || p.health.hediffSet.HasHediff(NetrunDefOf.NR_BraindanceTolerance)).ToList();

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using USH_HE;
@@ -12,6 +13,11 @@ namespace Netrun;
 public static class CyberpodUtility
 {
     private static HeatSettingsDef Settings => NetrunDefOf.NR_Heat;
+
+    /// <summary>The colony's cyberpods from Hacking Expansion's own registry (no scan of all buildings).</summary>
+    public static IEnumerable<Building_Cyberpod> PlayerPods(Map map)
+        => map?.GetComponent<MapComponent_CyberpodManager>()?.Pods.Where(p => p.Spawned && p.Faction == Faction.OfPlayer)
+           ?? Enumerable.Empty<Building_Cyberpod>();
 
     /// <summary>The awake AI in a powered coprocessor linked to this pod, if any.</summary>
     public static NetAI CoprocessorAI(Building_Cyberpod pod)

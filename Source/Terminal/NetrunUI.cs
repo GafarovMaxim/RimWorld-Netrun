@@ -29,6 +29,22 @@ public static class NetrunUI
 
     public static Color Accent => NetrunTex.Accent;
 
+    private static readonly System.Collections.Generic.Dictionary<string, (float time, object value)> Cache = [];
+
+    /// <summary>
+    /// A value for the UI recomputed at most every few real seconds. OnGUI runs several times a frame, so counts
+    /// and lists shown in the terminal come from here instead of being rebuilt on every call.
+    /// </summary>
+    public static T Cached<T>(string key, System.Func<T> compute, float seconds = 0.5f)
+    {
+        float now = Time.realtimeSinceStartup;
+        if (Cache.TryGetValue(key, out var entry) && now - entry.time < seconds && entry.value is T value)
+            return value;
+        T fresh = compute();
+        Cache[key] = (now, fresh);
+        return fresh;
+    }
+
     /// <summary>White circle textures for round widgets (Heat ring, Gateway nodes); tint with GUI.color.</summary>
     public static readonly Texture2D Disc = MakeCircle(filled: true);
     public static readonly Texture2D Ring = MakeCircle(filled: false);

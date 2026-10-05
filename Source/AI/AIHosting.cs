@@ -10,7 +10,11 @@ namespace Netrun;
 public static class AIHosting
 {
     public static HediffDef PassengerHediff(AIPersonality personality)
-        => DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + personality);
+        => PassengerHediffs.TryGetValue(personality, out HediffDef def)
+            ? def
+            : PassengerHediffs[personality] = DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + personality);
+
+    private static readonly Dictionary<AIPersonality, HediffDef> PassengerHediffs = [];
 
     public static bool HasEmptySocket(Pawn pawn)
         => pawn.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_AISocketInstalled) is Hediff_AISocket socket

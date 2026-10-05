@@ -58,8 +58,7 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         float chance = 0f;
         var names = new List<string>();
 
-        Pawn runner = map.listerBuildings.allBuildingsColonist.OfType<Building_Cyberpod>()
-            .Select(p => p.ContainedThing as Pawn).FirstOrDefault(p => p != null);
+        Pawn runner = CyberpodUtility.PlayerPods(map).Select(p => p.ContainedThing as Pawn).FirstOrDefault(p => p != null);
         if (runner != null)
         {
             chance += PodDefense;

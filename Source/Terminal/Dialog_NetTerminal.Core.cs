@@ -59,15 +59,15 @@ public partial class Dialog_NetTerminal
 
         var nodes = new List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, NodeBadge badge)>
         {
-            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), BoardColor, BoardSub(), BoardBadge()),
+            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), BoardColor, BoardSub(), NetrunUI.Cached("core.badge.board", BoardBadge)),
             (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), NetrunUI.Warn, ClubSub(), ClubBadge()),
             (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), NetrunUI.Muted,
                 "NR_NodeSub_Archive".Translate(tracker.Log.Count), ArchiveBadge(tracker)),
-            (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), NetrunUI.Purple, ServerSub(), ServerBadge()),
+            (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), NetrunUI.Purple, ServerSub(), NetrunUI.Cached("core.badge.server", ServerBadge)),
             (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), StudioColor,
-                "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), StudioBadge()),
+                "NR_NodeSub_Studio".Translate(NetrunUI.Cached("core.raws." + _map.uniqueID, () => BraindanceEditing.RawRecordings(_map).Count())), StudioBadge()),
             (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), GatewayColor,
-                "NR_NodeSub_Gateway".Translate(), GatewayBadge()),
+                "NR_NodeSub_Gateway".Translate(), NetrunUI.Cached("core.badge.gateway", GatewayBadge)),
         };
 
         foreach (var node in nodes)
@@ -249,7 +249,7 @@ public partial class Dialog_NetTerminal
 
     private NodeBadge StudioBadge()
     {
-        int raws = BraindanceEditing.RawRecordings(_map).Count();
+        int raws = NetrunUI.Cached("core.raws." + _map.uniqueID, () => BraindanceEditing.RawRecordings(_map).Count());
         return new NodeBadge { Text = raws > 0 ? raws.ToString() : null, Tip = "NR_BadgeStudio".Translate(raws) };
     }
 
@@ -292,7 +292,7 @@ public partial class Dialog_NetTerminal
 
         // Alerts: the most urgent first, striped by severity, the node on the right; a click leads there.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryAlerts".Translate());
-        List<(string text, Color color, View? target)> alerts = Alerts(tracker);
+        List<(string text, Color color, View? target)> alerts = NetrunUI.Cached("core.alerts." + _map.uniqueID, () => Alerts(tracker));
         if (alerts.Count == 0)
         {
             Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "NR_CoreNoAlerts".Translate().Colorize(NetrunUI.Muted));
