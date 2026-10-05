@@ -21,7 +21,77 @@
     <fragmentChanceBlackICE>0.25</fragmentChanceBlackICE>
     <moduleChanceBlackICE>0.05</moduleChanceBlackICE>
     <moduleChanceBlackBox>0.1</moduleChanceBlackBox>
+
+    <!-- Trust and hunger, 0-100. Starving (hunger above starvingHunger) and isolation cost trust daily.
+         Ghost is not fed: its hunger grows per hack and drops on quiet days (no hacks for a day). -->
+    <startTrust>50</startTrust>
+    <hungerPerDay>10</hungerPerDay>
+    <starvingHunger>70</starvingHunger>
+    <starvingTrustPerDay>2</starvingTrustPerDay>
+    <isolatedTrustPerDay>3</isolatedTrustPerDay>
+    <isolatedHungerFactor>2</isolatedHungerFactor>
+    <feedHungerRelief>50</feedHungerRelief>
+    <feedTrust>5</feedTrust>
+    <ghostHungerPerHack>15</ghostHungerPerHack>
+    <ghostCalmPerDay>15</ghostCalmPerDay>
+
+    <!-- Services: trust needed, cooldown, and what each personality does -->
+    <minTrustForService>20</minTrustForService>
+    <serviceCooldownDays>3</serviceCooldownDays>
+    <dataHunterData>2~4</dataHunterData>
+    <dataHunterHeat>2</dataHunterHeat>
+    <ghostHeatScrub>10</ghostHeatScrub>
+    <wardenTrust>10</wardenTrust>
+    <oracleDeadlineDays>1</oracleDeadlineDays>
+    <forgeResearch>600</forgeResearch>
+    <sirenReputation>10</sirenReputation>
+    <tricksterBadChance>0.35</tricksterBadChance>
+    <tricksterHeat>10</tricksterHeat>
+
+    <!-- Requests: how often, how long to answer, how much food (x one feeding), trust won or lost -->
+    <requestIntervalDays>6~10</requestIntervalDays>
+    <requestDays>3</requestDays>
+    <requestFeedMultiplier>3</requestFeedMultiplier>
+    <requestTrust>15</requestTrust>
   </Netrun.AISettingsDef>
+
+  <!-- Predator service: a temporary edge for every hacker with a cyberlink -->
+  <HediffDef>
+    <defName>NR_PredatorBoost</defName>
+    <label>predator overclock</label>
+    <description>A hunting AI rides along in this hacker's cyberlink, pushing every intrusion harder and quieter.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.9, 0.3, 0.3)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <HackingSpeed>0.3</HackingSpeed>
+          <HackingStealth>30</HackingStealth>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Echo service: the colony feels a lost friend nearby -->
+  <ThoughtDef>
+    <defName>NR_EchoPresence</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>an echo of a friend</label>
+        <description>For a moment I heard a voice I thought I had lost. It is still out there, in the network.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
 
   <!-- Sleeping AI fragment -->
   <ThingDef ParentName="ResourceBase">

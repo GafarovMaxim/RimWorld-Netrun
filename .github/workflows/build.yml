@@ -38,20 +38,8 @@ jobs:
           sys.exit(1 if bad else 0)
           EOF
 
-      - name: Check translation keys (English vs Russian)
-        run: |
-          python3 - <<'EOF'
-          import glob, sys, xml.etree.ElementTree as ET
-          def keys(lang):
-              out = set()
-              for f in glob.glob(f'Languages/{lang}/Keyed/*.xml'):
-                  out |= {e.tag for e in ET.parse(f).getroot()}
-              return out
-          en, ru = keys('English'), keys('Russian (Русский)')
-          for k in sorted(en - ru): print(f'::error::Missing Russian key: {k}')
-          for k in sorted(ru - en): print(f'::warning::Russian key not in English: {k}')
-          sys.exit(1 if en - ru else 0)
-          EOF
+      - name: Check translation keys (code vs English and Russian)
+        run: PYTHONIOENCODING=utf-8 python3 tools/check_keys.py
 
       - name: Download Hacking Expansion
         run: curl -fsSL "$HE_DLL_URL" -o Source/lib/HackingExpansion.dll --create-dirs

@@ -8,6 +8,7 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 
 ## End of every task
 1. Build: `dotnet build Source/Netrun.csproj -c Release` (0 errors, 0 warnings).
+   Check translations: `python tools/check_keys.py` (every NR_ key used in code exists in English and Russian).
 2. Update `docs/STATUS.md`: what changed, what is next, open questions.
 3. Commit and `git push`. One logical step per commit.
 

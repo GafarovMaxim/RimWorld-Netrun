@@ -60,4 +60,80 @@
   <NR_AIHeader>Серверов: {0}, занято слотов {1} / {2}. Осколков в колонии: {3}.</NR_AIHeader>
   <NR_AIPersonalityLine>Личность: {0}</NR_AIPersonalityLine>
 
+  <!-- Услуги -->
+  <NR_AIService_DataHunter>Добыть данные</NR_AIService_DataHunter>
+  <NR_AIService_Ghost>Стереть след</NR_AIService_Ghost>
+  <NR_AIService_Muse>Вдохновить</NR_AIService_Muse>
+  <NR_AIService_Predator>Разогнать хакеров</NR_AIService_Predator>
+  <NR_AIService_Warden>Успокоить сеть</NR_AIService_Warden>
+  <NR_AIService_Oracle>Прогноз</NR_AIService_Oracle>
+  <NR_AIService_Forge>Решить задачу</NR_AIService_Forge>
+  <NR_AIService_Siren>Договориться</NR_AIService_Siren>
+  <NR_AIService_Trickster>Бросить кости</NR_AIService_Trickster>
+  <NR_AIService_Echo>Поговорить с колонией</NR_AIService_Echo>
+  <NR_AIServiceDesc_DataHunter>Приносит к серверу немного cyberdata. Шумит: Heat немного растёт.</NR_AIServiceDesc_DataHunter>
+  <NR_AIServiceDesc_Ghost>Стирает часть цифрового следа колонии.</NR_AIServiceDesc_Ghost>
+  <NR_AIServiceDesc_Muse>Даёт вдохновение случайному колонисту.</NR_AIServiceDesc_Muse>
+  <NR_AIServiceDesc_Predator>Все колонисты с кибер-линком сутки взламывают быстрее и тише.</NR_AIServiceDesc_Predator>
+  <NR_AIServiceDesc_Warden>Успокаивает остальных ИИ: их доверие растёт.</NR_AIServiceDesc_Warden>
+  <NR_AIServiceDesc_Oracle>Раскрывает черты всех фиксеров и добавляет сутки к каждому активному контракту.</NR_AIServiceDesc_Oracle>
+  <NR_AIServiceDesc_Forge>Продвигает текущее исследование.</NR_AIServiceDesc_Forge>
+  <NR_AIServiceDesc_Siren>Говорит с фиксерами за вас: репутация у всех растёт.</NR_AIServiceDesc_Siren>
+  <NR_AIServiceDesc_Trickster>Делает то, что сделал бы другой ИИ, или устраивает розыгрыш, поднимающий Heat.</NR_AIServiceDesc_Trickster>
+  <NR_AIServiceDesc_Echo>Колонисты слышат знакомый голос, и им на два дня становится чуть легче.</NR_AIServiceDesc_Echo>
+
+  <!-- Проверки и результаты услуг -->
+  <NR_AIAsleep>ИИ спит: у сервера нет питания.</NR_AIAsleep>
+  <NR_AIIsolatedNoService>ИИ в изоляции не работают.</NR_AIIsolatedNoService>
+  <NR_AIRefuses>{0} недостаточно вам доверяет.</NR_AIRefuses>
+  <NR_AICooldown>Будет готов через {0}.</NR_AICooldown>
+  <NR_LogAIService>Работа ИИ {0}</NR_LogAIService>
+  <NR_AIDidDataHunter>{0} принёс к серверу {1} cyberdata.</NR_AIDidDataHunter>
+  <NR_AIDidGhost>{0} стёр {1} очков вашего следа.</NR_AIDidGhost>
+  <NR_AIDidMuse>{0} вдохновила: {1}.</NR_AIDidMuse>
+  <NR_AIDidMuseNoOne>{0} не нашла никого, готового к вдохновению.</NR_AIDidMuseNoOne>
+  <NR_AIInspired>Вдохновение от {0}</NR_AIInspired>
+  <NR_AIDidPredator>{0} разогнал хакеров на сутки: {1}.</NR_AIDidPredator>
+  <NR_AIDidPredatorNoOne>{0} не нашёл хакеров с кибер-линком.</NR_AIDidPredatorNoOne>
+  <NR_AIDidWarden>{0} успокоил сеть: доверие остальных ИИ +{1}.</NR_AIDidWarden>
+  <NR_AIDidOracle>{0} увидел будущее: черты фиксеров раскрыты, к активным контрактам добавлено {1} дн.</NR_AIDidOracle>
+  <NR_AIDidForge>{0} продвинул исследование: {1}.</NR_AIDidForge>
+  <NR_AIDidForgeNoProject>{0} хотел помочь с исследованием, но сейчас ничего не изучается.</NR_AIDidForgeNoProject>
+  <NR_AIDidSiren>{0} поговорила с фиксерами: репутация +{1} у каждого.</NR_AIDidSiren>
+  <NR_AIDidTricksterBad>{0} решил, что будет смешно постучаться в корпоративный ханипот. Heat +{1}.</NR_AIDidTricksterBad>
+  <NR_AIDidEcho>{0} поговорил с колонией. Кто-то заплакал.</NR_AIDidEcho>
+
+  <!-- Кормёжка -->
+  <NR_AIFoodItem>{0} × {1}</NR_AIFoodItem>
+  <NR_AIFoodSpecial_Ghost>Тишина: сутки без взломов его успокаивают, каждый взлом делает голоднее.</NR_AIFoodSpecial_Ghost>
+  <NR_AIFoodSpecial_Trickster>Внимание: его кормит использование его услуги.</NR_AIFoodSpecial_Trickster>
+  <NR_AINoFood>Не хватает на складе: {0} × {1}.</NR_AINoFood>
+  <NR_AIFed>{0} доволен.</NR_AIFed>
+
+  <!-- Просьбы -->
+  <NR_AIRequestLabel>{0} чего-то хочет</NR_AIRequestLabel>
+  <NR_AIRequest>{0} просит: {1}\n\nУ вас {2} дн. Выполните — доверие вырастет, проигнорируете — упадёт.</NR_AIRequest>
+  <NR_AIRequestDeliver>принести {0} × {1} (кнопка «Выполнить просьбу» во вкладке «ИИ»)</NR_AIRequestDeliver>
+  <NR_AIRequestSilence>ни одного взлома {0} дн.</NR_AIRequestSilence>
+  <NR_AIRequestAttention>использовать его услугу до конца срока</NR_AIRequestAttention>
+  <NR_AIRequestNotDeliverable>Эта просьба не о предметах.</NR_AIRequestNotDeliverable>
+  <NR_AIRequestDone>{0} получил, что хотел. Доверие выросло.</NR_AIRequestDone>
+  <NR_AIRequestFailed>Вы проигнорировали просьбу {0}. Доверие упало.</NR_AIRequestFailed>
+
+  <!-- Карточка ИИ -->
+  <NR_AILocationIsolated>В изоляции: {0}. Не работает, сбежать не может.</NR_AILocationIsolated>
+  <NR_AITrust>Доверие: {0} / 100</NR_AITrust>
+  <NR_AITrustTip>Растёт, когда вы кормите ИИ и выполняете его просьбы. Падает от голода, изоляции и игнорирования. Ниже 20 ИИ отказывается работать.</NR_AITrustTip>
+  <NR_AIHunger>Голод: {0} / 100</NR_AIHunger>
+  <NR_AIHungerTip>Чего хочет: {0}\n\nВыше 70 ИИ начинает терять доверие.</NR_AIHungerTip>
+  <NR_AIFoodLine>Хочет: {0}</NR_AIFoodLine>
+  <NR_AIRequestLine>Просьба: {0}. Осталось: {1}.</NR_AIRequestLine>
+  <NR_AIFeed>Накормить</NR_AIFeed>
+  <NR_AIFeedTip>Отдать ИИ то, что он хочет, со склада: {0}. Снижает голод, немного повышает доверие.</NR_AIFeedTip>
+  <NR_AIFulfil>Выполнить просьбу</NR_AIFulfil>
+  <NR_AIFulfilTip>Передать запрошенное со склада.</NR_AIFulfilTip>
+  <NR_AIIsolate>Изолировать (air-gap)</NR_AIIsolate>
+  <NR_AIConnect>Подключить к сети</NR_AIConnect>
+  <NR_AIIsolateTip>ИИ в изоляции не работает и не может сбежать, но голодает вдвое быстрее и каждый день теряет доверие.</NR_AIIsolateTip>
+
 </LanguageData>

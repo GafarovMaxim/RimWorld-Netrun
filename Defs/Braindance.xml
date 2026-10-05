@@ -75,6 +75,123 @@
     </comps>
   </ThingDef>
 
+  <!-- Black braindance: illegal recordings, a much stronger hit and a much stronger hook -->
+
+  <ThingDef ParentName="MakeableDrugBase">
+    <defName>NR_BlackBraindanceChip</defName>
+    <label>black braindance chip</label>
+    <description>An illegal recording: real pain, real fear, real death, experienced first-hand. The rush is far stronger than any ordinary braindance, and so is the pull to come back.\n\nShares the braindance addiction, but hooks users much faster.</description>
+    <descriptionHyperlinks>
+      <HediffDef>NR_BlackBraindanceHigh</HediffDef>
+      <HediffDef>NR_BraindanceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_BraindanceChip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+      <color>(0.75, 0.25, 0.25)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <WorkToMake>1500</WorkToMake>
+      <MarketValue>140</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>1.0</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BlackBraindanceHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceTolerance</hediffDef>
+          <severity>0.08</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <recipeMaker>
+      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+      <recipeUsers>
+        <li>DrugLab</li>
+      </recipeUsers>
+      <soundWorking>Recipe_Drug</soundWorking>
+      <displayPriority>1601</displayPriority>
+    </recipeMaker>
+    <costList>
+      <USH_AdvancedCyberdata>1</USH_AdvancedCyberdata>
+      <Neutroamine>2</Neutroamine>
+    </costList>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <addictiveness>0.12</addictiveness>
+        <minToleranceToAddict>0.02</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1001</listOrder>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>NR_BlackBraindanceHigh</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>black braindance rush</label>
+    <labelNoun>a black braindance rush</labelNoun>
+    <description>Someone else's worst or most intense moment is still burning through the user's senses.</description>
+    <defaultLabelColor>(0.9, 0.2, 0.2)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>0.10</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_BlackBraindanceHigh</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>NR_BlackBraindanceHigh</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>black braindance rush</label>
+        <description>I lived through something nobody should, and walked away. Nothing has ever felt this real.</description>
+        <baseMoodEffect>18</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
   <!-- Immersion -->
 
   <HediffDef>

@@ -6,13 +6,19 @@ using Verse;
 
 namespace Netrun;
 
+[StaticConstructorOnStartup]
 public static class AITab
 {
     private const float HeaderHeight = 64f;
     private const float RowGap = 8f;
     private const float Padding = 10f;
     private const float PortraitSize = 64f;
-    private const float ButtonWidth = 200f;
+    private const float ButtonWidth = 190f;
+    private const float ButtonHeight = 30f;
+    private const float LineHeight = 24f;
+
+    private static readonly Texture2D TrustTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.30f, 0.75f, 0.45f));
+    private static readonly Texture2D HungerTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.85f, 0.45f, 0.25f));
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -38,10 +44,10 @@ public static class AITab
 
         Widgets.BeginScrollView(listRect, ref scroll, viewRect);
         float y = 0f;
-        foreach (NetAI ai in ais)
+        foreach (NetAI ai in ais.ToList())
         {
             float h = CardHeight(ai, width);
-            DrawAI(new Rect(0f, y, width, h), ai);
+            DrawAI(new Rect(0f, y, width, h), ai, map, manager);
             y += h + RowGap;
         }
         Widgets.EndScrollView();
@@ -74,14 +80,17 @@ public static class AITab
         }
     }
 
+    private static float TextWidth(float width) => width - 2 * Padding - PortraitSize - 12f - ButtonWidth - 12f;
+
     private static float CardHeight(NetAI ai, float width)
     {
-        float textWidth = width - 2 * Padding - PortraitSize - 12f;
-        float description = Text.CalcHeight(ai.Personality.Description(), textWidth);
-        return Mathf.Max(PortraitSize, 24f + 24f + description + 24f) + 2 * Padding;
+        float description = Text.CalcHeight(ai.Personality.Description(), TextWidth(width));
+        float lines = 30f + LineHeight + description + 4 * LineHeight + (ai.HasRequest ? LineHeight * 2 : 0f);
+        float buttons = 4 * (ButtonHeight + 6f);
+        return Mathf.Max(lines, buttons) + 2 * Padding;
     }
 
-    private static void DrawAI(Rect rect, NetAI ai)
+    private static void DrawAI(Rect rect, NetAI ai, Map map, AIManager manager)
     {
         Widgets.DrawOptionBackground(rect, selected: false);
         Rect inner = rect.ContractedBy(Padding);
@@ -90,18 +99,96 @@ public static class AITab
         GUI.DrawTexture(new Rect(inner.x, inner.y, PortraitSize, PortraitSize), NetrunTex.TabIcon(3));
 
         float x = inner.x + PortraitSize + 12f;
-        float width = inner.xMax - x;
+        float width = TextWidth(rect.width);
+        float y = inner.y;
 
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(x, inner.y, width, 30f), ai.Name);
+        Widgets.Label(new Rect(x, y, width, 30f), ai.Name);
         Text.Font = GameFont.Small;
+        y += 30f;
 
-        Widgets.Label(new Rect(x, inner.y + 28f, width, 24f), "NR_AIPersonalityLine".Translate(ai.Personality.Label()));
+        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIPersonalityLine".Translate(ai.Personality.Label()));
+        y += LineHeight;
 
         float descHeight = Text.CalcHeight(ai.Personality.Description(), width);
         GUI.color = NetrunTex.DimText;
-        Widgets.Label(new Rect(x, inner.y + 52f, width, descHeight), ai.Personality.Description());
-        Widgets.Label(new Rect(x, inner.y + 52f + descHeight, width, 24f), ai.LocationText);
+        Widgets.Label(new Rect(x, y, width, descHeight), ai.Personality.Description());
+        y += descHeight;
+        Widgets.Label(new Rect(x, y, width, LineHeight), ai.LocationText);
         GUI.color = Color.white;
+        y += LineHeight;
+
+        y = DrawBar(x, y, width, "NR_AITrust".Translate(ai.Trust.ToString("0")), ai.Trust, TrustTex, "NR_AITrustTip".Translate());
+        y = DrawBar(x, y, width, "NR_AIHunger".Translate(ai.Hunger.ToString("0")), ai.Hunger, HungerTex,
+            "NR_AIHungerTip".Translate(AIBehavior.FoodText(ai.Personality)));
+
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIFoodLine".Translate(AIBehavior.FoodText(ai.Personality)));
+        GUI.color = Color.white;
+        y += LineHeight;
+
+        if (ai.HasRequest)
+        {
+            string request = "NR_AIRequestLine".Translate(AIManager.RequestText(ai), ai.RequestDeadlineTick > Find.TickManager.TicksGame
+                ? (ai.RequestDeadlineTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "0");
+            float h = Text.CalcHeight(request, width);
+            GUI.color = ColorLibrary.Gold;
+            Widgets.Label(new Rect(x, y, width, h), request);
+            GUI.color = Color.white;
+        }
+
+        DrawButtons(new Rect(inner.xMax - ButtonWidth, inner.y, ButtonWidth, inner.height), ai, map, manager);
+    }
+
+    private static float DrawBar(float x, float y, float width, string label, float value, Texture2D tex, string tip)
+    {
+        var labelRect = new Rect(x, y, 150f, LineHeight);
+        Widgets.Label(labelRect, label);
+        var barRect = new Rect(x + 154f, y + 5f, width - 154f, 14f);
+        Widgets.FillableBar(barRect, value / 100f, tex, BaseContent.BlackTex, doBorder: true);
+        TooltipHandler.TipRegion(new Rect(x, y, width, LineHeight), tip);
+        return y + LineHeight;
+    }
+
+    private static void DrawButtons(Rect rect, NetAI ai, Map map, AIManager manager)
+    {
+        float y = rect.y;
+
+        Button(new Rect(rect.x, y, rect.width, ButtonHeight), AIBehavior.ServiceLabel(ai.Personality),
+            AIBehavior.ServiceDescription(ai.Personality), AIBehavior.CanUseService(ai), () => AIBehavior.UseService(ai, map));
+        y += ButtonHeight + 6f;
+
+        Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIFeed".Translate(),
+            "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)), AIBehavior.CanFeed(ai, map), () => AIBehavior.Feed(ai, map));
+        y += ButtonHeight + 6f;
+
+        if (ai.Request == AIRequestKind.Deliver)
+        {
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_AIFulfil".Translate(),
+                "NR_AIFulfilTip".Translate(), manager.CanFulfil(ai, map), () => manager.Fulfil(ai, map));
+            y += ButtonHeight + 6f;
+        }
+
+        if (ai.InServer)
+        {
+            string label = ai.Isolated ? "NR_AIConnect".Translate() : "NR_AIIsolate".Translate();
+            Button(new Rect(rect.x, y, rect.width, ButtonHeight), label, "NR_AIIsolateTip".Translate(), true,
+                () => ai.Isolated = !ai.Isolated);
+        }
+    }
+
+    /// <summary>A button that explains itself: the tooltip always describes it, and a disabled one says why.</summary>
+    private static void Button(Rect rect, string label, string tip, AcceptanceReport report, System.Action action)
+    {
+        if (report.Accepted)
+        {
+            if (Widgets.ButtonText(rect, label))
+                action();
+            TooltipHandler.TipRegion(rect, tip);
+            return;
+        }
+
+        Widgets.ButtonText(rect, label, active: false);
+        TooltipHandler.TipRegion(rect, tip + "\n\n" + report.Reason.Colorize(ColorLibrary.RedReadable));
     }
 }

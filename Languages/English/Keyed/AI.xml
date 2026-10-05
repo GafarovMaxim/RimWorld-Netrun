@@ -60,4 +60,80 @@
   <NR_AIHeader>Servers: {0}, slots used {1} / {2}. Fragments in the colony: {3}.</NR_AIHeader>
   <NR_AIPersonalityLine>Personality: {0}</NR_AIPersonalityLine>
 
+  <!-- Services -->
+  <NR_AIService_DataHunter>Hunt for data</NR_AIService_DataHunter>
+  <NR_AIService_Ghost>Erase the trace</NR_AIService_Ghost>
+  <NR_AIService_Muse>Inspire</NR_AIService_Muse>
+  <NR_AIService_Predator>Overclock hackers</NR_AIService_Predator>
+  <NR_AIService_Warden>Calm the network</NR_AIService_Warden>
+  <NR_AIService_Oracle>Forecast</NR_AIService_Oracle>
+  <NR_AIService_Forge>Solve research</NR_AIService_Forge>
+  <NR_AIService_Siren>Negotiate</NR_AIService_Siren>
+  <NR_AIService_Trickster>Roll the dice</NR_AIService_Trickster>
+  <NR_AIService_Echo>Speak to the colony</NR_AIService_Echo>
+  <NR_AIServiceDesc_DataHunter>Brings a few cyberdata to the server. A little noisy: adds some Heat.</NR_AIServiceDesc_DataHunter>
+  <NR_AIServiceDesc_Ghost>Erases part of the colony's digital trace.</NR_AIServiceDesc_Ghost>
+  <NR_AIServiceDesc_Muse>Gives a random colonist an inspiration.</NR_AIServiceDesc_Muse>
+  <NR_AIServiceDesc_Predator>Every colonist with a cyberlink hacks faster and quieter for a day.</NR_AIServiceDesc_Predator>
+  <NR_AIServiceDesc_Warden>Steadies the other AIs: they trust you more.</NR_AIServiceDesc_Warden>
+  <NR_AIServiceDesc_Oracle>Reveals the traits of all fixers and buys a day more on every active contract.</NR_AIServiceDesc_Oracle>
+  <NR_AIServiceDesc_Forge>Adds progress to the current research project.</NR_AIServiceDesc_Forge>
+  <NR_AIServiceDesc_Siren>Talks to every fixer for you: reputation with all of them grows.</NR_AIServiceDesc_Siren>
+  <NR_AIServiceDesc_Trickster>Does what another AI would do, or plays a prank that adds Heat.</NR_AIServiceDesc_Trickster>
+  <NR_AIServiceDesc_Echo>Colonists hear a familiar voice and feel a little better for two days.</NR_AIServiceDesc_Echo>
+
+  <!-- Service checks and results -->
+  <NR_AIAsleep>The AI is asleep: its server has no power.</NR_AIAsleep>
+  <NR_AIIsolatedNoService>Isolated AIs do not work.</NR_AIIsolatedNoService>
+  <NR_AIRefuses>{0} does not trust you enough.</NR_AIRefuses>
+  <NR_AICooldown>Ready again in {0}.</NR_AICooldown>
+  <NR_LogAIService>Work of {0}</NR_LogAIService>
+  <NR_AIDidDataHunter>{0} brought {1} cyberdata to the server.</NR_AIDidDataHunter>
+  <NR_AIDidGhost>{0} erased {1} points of your trace.</NR_AIDidGhost>
+  <NR_AIDidMuse>{0} inspired {1}.</NR_AIDidMuse>
+  <NR_AIDidMuseNoOne>{0} found nobody ready for inspiration.</NR_AIDidMuseNoOne>
+  <NR_AIInspired>Inspired by {0}</NR_AIInspired>
+  <NR_AIDidPredator>{0} overclocked {1} hackers for a day.</NR_AIDidPredator>
+  <NR_AIDidPredatorNoOne>{0} found no hackers with a cyberlink to ride along with.</NR_AIDidPredatorNoOne>
+  <NR_AIDidWarden>{0} steadied the network: other AIs trust you {1} more.</NR_AIDidWarden>
+  <NR_AIDidOracle>{0} saw what is coming: fixer traits revealed, active contracts got {1} more day.</NR_AIDidOracle>
+  <NR_AIDidForge>{0} pushed the research on {1}.</NR_AIDidForge>
+  <NR_AIDidForgeNoProject>{0} wanted to help with research, but nothing is being researched.</NR_AIDidForgeNoProject>
+  <NR_AIDidSiren>{0} talked to the fixers: reputation +{1} with each of them.</NR_AIDidSiren>
+  <NR_AIDidTricksterBad>{0} thought it would be funny to ping a corporate honeypot. Heat +{1}.</NR_AIDidTricksterBad>
+  <NR_AIDidEcho>{0} spoke to the colony. Some of them cried.</NR_AIDidEcho>
+
+  <!-- Feeding -->
+  <NR_AIFoodItem>{0} × {1}</NR_AIFoodItem>
+  <NR_AIFoodSpecial_Ghost>Silence: a day without hacks calms it, every hack makes it hungrier.</NR_AIFoodSpecial_Ghost>
+  <NR_AIFoodSpecial_Trickster>Attention: using its service feeds it.</NR_AIFoodSpecial_Trickster>
+  <NR_AINoFood>Not enough in storage: {0} × {1}.</NR_AINoFood>
+  <NR_AIFed>{0} is satisfied.</NR_AIFed>
+
+  <!-- Requests -->
+  <NR_AIRequestLabel>{0} wants something</NR_AIRequestLabel>
+  <NR_AIRequest>{0} asks: {1}\n\nYou have {2} days. Doing it raises trust, ignoring it lowers trust.</NR_AIRequest>
+  <NR_AIRequestDeliver>bring {0} × {1} (button "Fulfil request" in the AI tab)</NR_AIRequestDeliver>
+  <NR_AIRequestSilence>no hacks at all for {0} days</NR_AIRequestSilence>
+  <NR_AIRequestAttention>use its service before the deadline</NR_AIRequestAttention>
+  <NR_AIRequestNotDeliverable>This request is not about items.</NR_AIRequestNotDeliverable>
+  <NR_AIRequestDone>{0} got what it wanted. Trust grew.</NR_AIRequestDone>
+  <NR_AIRequestFailed>You ignored the request of {0}. Trust fell.</NR_AIRequestFailed>
+
+  <!-- AI card -->
+  <NR_AILocationIsolated>Isolated in: {0}. Not working, cannot escape.</NR_AILocationIsolated>
+  <NR_AITrust>Trust: {0} / 100</NR_AITrust>
+  <NR_AITrustTip>Grows when you feed the AI and grant its requests. Falls when it starves, is isolated or ignored. Below 20 it refuses to work.</NR_AITrustTip>
+  <NR_AIHunger>Hunger: {0} / 100</NR_AIHunger>
+  <NR_AIHungerTip>What it wants: {0}\n\nAbove 70 the AI starts losing trust.</NR_AIHungerTip>
+  <NR_AIFoodLine>Wants: {0}</NR_AIFoodLine>
+  <NR_AIRequestLine>Request: {0}. Time left: {1}.</NR_AIRequestLine>
+  <NR_AIFeed>Feed</NR_AIFeed>
+  <NR_AIFeedTip>Give the AI what it wants from storage: {0}. Lowers hunger, raises trust a little.</NR_AIFeedTip>
+  <NR_AIFulfil>Fulfil request</NR_AIFulfil>
+  <NR_AIFulfilTip>Hand over the requested items from storage.</NR_AIFulfilTip>
+  <NR_AIIsolate>Isolate (air-gap)</NR_AIIsolate>
+  <NR_AIConnect>Reconnect</NR_AIConnect>
+  <NR_AIIsolateTip>An isolated AI does not work and cannot escape, but gets hungry twice as fast and loses trust every day.</NR_AIIsolateTip>
+
 </LanguageData>

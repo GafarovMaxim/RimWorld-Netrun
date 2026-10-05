@@ -15,6 +15,9 @@ public static class NetrunDefOf
     public static ThingDef NR_AICoreModule;
     public static ThingDef NR_AIServer;
     public static JobDef NR_AwakenAI;
+    public static ThingDef NR_BraindanceChip;
+    public static HediffDef NR_PredatorBoost;
+    public static ThoughtDef NR_EchoPresence;
     public static RulePackDef NR_NamerFixer;
 
     // Hacking Expansion

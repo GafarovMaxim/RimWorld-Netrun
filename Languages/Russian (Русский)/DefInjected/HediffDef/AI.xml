@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_PredatorBoost.label>разгон от Хищника</NR_PredatorBoost.label>
+  <NR_PredatorBoost.description>Охотничий ИИ едет в кибер-линке этого хакера и делает каждое вторжение сильнее и тише.</NR_PredatorBoost.description>
+
+  <NR_BlackBraindanceHigh.label>приход от чёрного брейнданса</NR_BlackBraindanceHigh.label>
+  <NR_BlackBraindanceHigh.labelNoun>приход от чёрного брейнданса</NR_BlackBraindanceHigh.labelNoun>
+  <NR_BlackBraindanceHigh.description>Чужой худший или самый острый момент всё ещё прожигает органы чувств.</NR_BlackBraindanceHigh.description>
+</LanguageData>
