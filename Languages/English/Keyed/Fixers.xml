@@ -62,4 +62,5 @@
   <NR_ScrubNothing>choose some cyberdata first</NR_ScrubNothing>
   <NR_ScrubNone>none in the colony</NR_ScrubNone>
   <NR_ScrubMax>max</NR_ScrubMax>
+  <NR_ShopNoSilver>not enough silver</NR_ShopNoSilver>
 </LanguageData>
