@@ -59,5 +59,10 @@
   <NR_ShopEmpty>Товаров больше нет.</NR_ShopEmpty>
   <NR_ShopPrice>{0} серебра</NR_ShopPrice>
   <NR_ShopBuy>Купить</NR_ShopBuy>
+  <!-- Подсказки -->
+  <NR_FixerCallTip>Заплатить фиксеру и открыть канал на {0} ч. Пока канал открыт, можно сбрасывать след, покупать и брать контракты.</NR_FixerCallTip>
+  <NR_FixerScrubTip>Передать cyberdata со склада, чтобы снизить цифровой след.</NR_FixerScrubTip>
+  <NR_FixerShopTip>Купить снаряжение для взлома. Товар прилетает дроп-подом.</NR_FixerShopTip>
+  <NR_ShopRestock>Новый ассортимент придёт со следующей сменой фиксеров, через {0}.</NR_ShopRestock>
 
 </LanguageData>

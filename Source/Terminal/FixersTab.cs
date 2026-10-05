@@ -5,13 +5,18 @@ using Verse;
 
 namespace Netrun;
 
+[StaticConstructorOnStartup]
 public static class FixersTab
 {
-    private const float HeaderHeight = 52f;
-    private const float RowHeight = 118f;
+    private const float HeaderHeight = 56f;
+    private const float RowHeight = 132f;
     private const float RowGap = 8f;
-    private const float ButtonWidth = 200f;
-    private const float ButtonHeight = 30f;
+    private const float PortraitSize = 96f;
+    private const float ButtonWidth = 210f;
+    private const float ButtonHeight = 32f;
+
+    private static readonly Color ReputationColor = new(0.85f, 0.70f, 0.25f);
+    private static readonly Texture2D ReputationTex = SolidColorMaterials.NewSolidColorTexture(ReputationColor);
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -43,8 +48,8 @@ public static class FixersTab
 
         Widgets.Label(new Rect(rect.x, rect.y, rect.width, 24f),
             "NR_FixersResources".Translate(silver, data, advanced));
-        GUI.color = Color.gray;
-        Widgets.Label(new Rect(rect.x, rect.y + 24f, rect.width, 24f),
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(rect.x, rect.y + 26f, rect.width, 24f),
             "NR_FixersRotation".Translate(manager.TicksUntilRotation.ToStringTicksToPeriod()));
         GUI.color = Color.white;
     }
@@ -52,39 +57,47 @@ public static class FixersTab
     private static void DrawFixer(Rect rect, Fixer fixer, Map map)
     {
         Widgets.DrawOptionBackground(rect, selected: false);
-        Rect inner = rect.ContractedBy(8f);
-        float textWidth = inner.width - ButtonWidth - 12f;
+        Rect inner = rect.ContractedBy(10f);
+
+        // Portrait by specialty.
+        var portraitRect = new Rect(inner.x, inner.y + (inner.height - PortraitSize) / 2f, PortraitSize, PortraitSize);
+        GUI.DrawTexture(portraitRect, NetrunTex.Portrait(fixer.Specialty));
+
+        float textX = portraitRect.xMax + 12f;
+        float textWidth = inner.xMax - ButtonWidth - 12f - textX;
 
         // Name and pin.
         Text.Font = GameFont.Medium;
         string name = fixer.Name;
         if (fixer.Pinned)
             name += " " + "NR_FixerPinnedTag".Translate().Colorize(ColorLibrary.Gold);
-        Widgets.Label(new Rect(inner.x, inner.y, textWidth, 30f), name);
+        Widgets.Label(new Rect(textX, inner.y, textWidth, 32f), name);
         Text.Font = GameFont.Small;
 
         // Specialty and trait with tooltips.
-        var specialtyRect = new Rect(inner.x, inner.y + 30f, textWidth / 2f, 22f);
+        var specialtyRect = new Rect(textX, inner.y + 32f, textWidth, 22f);
         Widgets.Label(specialtyRect, "NR_FixerSpecialtyLine".Translate(fixer.SpecialtyLabel));
+        Widgets.DrawHighlightIfMouseover(specialtyRect);
         TooltipHandler.TipRegion(specialtyRect, fixer.SpecialtyDescription);
 
-        var traitRect = new Rect(inner.x + textWidth / 2f, inner.y + 30f, textWidth / 2f, 22f);
+        var traitRect = new Rect(textX, inner.y + 54f, textWidth, 22f);
         Widgets.Label(traitRect, "NR_FixerTraitLine".Translate(fixer.TraitLabel));
+        Widgets.DrawHighlightIfMouseover(traitRect);
         TooltipHandler.TipRegion(traitRect, fixer.TraitDescription);
 
-        // Reputation bar.
-        var barRect = new Rect(inner.x, inner.y + 56f, textWidth, 18f);
-        Widgets.FillableBar(barRect, fixer.Reputation / 100f, BaseContent.WhiteTex, BaseContent.BlackTex, doBorder: true);
-        Text.Anchor = TextAnchor.MiddleCenter;
-        GUI.color = Color.black;
-        Widgets.Label(barRect, "NR_FixerReputation".Translate(fixer.Reputation.ToString("0")));
-        GUI.color = Color.white;
-        Text.Anchor = TextAnchor.UpperLeft;
-        TooltipHandler.TipRegion(barRect, "NR_FixerReputationTip".Translate(NetrunDefOf.NR_Fixers.pinnedReputation.ToString("0")));
+        // Reputation: readable label next to the bar, the bar marks the pin threshold.
+        var repLabelRect = new Rect(textX, inner.y + 78f, 170f, 22f);
+        Widgets.Label(repLabelRect, "NR_FixerReputation".Translate(fixer.Reputation.ToString("0")));
+        var barRect = new Rect(repLabelRect.xMax + 6f, inner.y + 82f, textWidth - repLabelRect.width - 6f, 14f);
+        Widgets.FillableBar(barRect, fixer.Reputation / 100f, ReputationTex, BaseContent.BlackTex, doBorder: true);
+        float pinX = barRect.x + barRect.width * NetrunDefOf.NR_Fixers.pinnedReputation / 100f;
+        Widgets.DrawLineVertical(pinX, barRect.y - 3f, barRect.height + 6f);
+        var repTipRect = new Rect(repLabelRect.x, repLabelRect.y, textWidth, 22f);
+        TooltipHandler.TipRegion(repTipRect, "NR_FixerReputationTip".Translate(NetrunDefOf.NR_Fixers.pinnedReputation.ToString("0")));
 
         // Status line.
-        GUI.color = Color.gray;
-        Widgets.Label(new Rect(inner.x, inner.y + 78f, textWidth, 22f), StatusText(fixer));
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(textX, inner.y + 100f, textWidth, 22f), StatusText(fixer));
         GUI.color = Color.white;
 
         DrawButtons(new Rect(inner.xMax - ButtonWidth, inner.y, ButtonWidth, inner.height), fixer, map);
@@ -108,16 +121,25 @@ public static class FixersTab
 
         if (!fixer.ChannelOpen)
         {
-            if (Widgets.ButtonText(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_FixerCall".Translate(fixer.EffectiveCallCost)))
+            var callRect = new Rect(rect.x, y, rect.width, ButtonHeight);
+            if (Widgets.ButtonText(callRect, "NR_FixerCall".Translate(fixer.EffectiveCallCost)))
                 FixerDeals.Call(fixer, map);
+            TooltipHandler.TipRegion(callRect, "NR_FixerCallTip".Translate(NetrunDefOf.NR_Fixers.channelHours));
             return;
         }
 
-        if (Widgets.ButtonText(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_FixerScrub".Translate()))
+        var scrubRect = new Rect(rect.x, y, rect.width, ButtonHeight);
+        if (Widgets.ButtonText(scrubRect, "NR_FixerScrub".Translate()))
             Find.WindowStack.Add(new Dialog_FixerScrub(fixer, map));
+        TooltipHandler.TipRegion(scrubRect, "NR_FixerScrubTip".Translate());
         y += ButtonHeight + 6f;
 
-        if (fixer.HasShop && Widgets.ButtonText(new Rect(rect.x, y, rect.width, ButtonHeight), "NR_FixerShop".Translate()))
-            Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
+        if (fixer.HasShop)
+        {
+            var shopRect = new Rect(rect.x, y, rect.width, ButtonHeight);
+            if (Widgets.ButtonText(shopRect, "NR_FixerShop".Translate()))
+                Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
+            TooltipHandler.TipRegion(shopRect, "NR_FixerShopTip".Translate());
+        }
     }
 }

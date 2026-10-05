@@ -1,4 +1,5 @@
 using LudeonTK;
+using RimWorld;
 using Verse;
 
 namespace Netrun;
@@ -18,6 +19,35 @@ public static class NetrunDebugActions
 
     [DebugAction(Category, "Open network terminal", allowedGameStates = AllowedGameStates.Playing)]
     private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
+
+    /// <summary>Click on the map: an encrypted crate to hack, a cyberlink to install and some cyberdata.</summary>
+    [DebugAction(Category, "Spawn hacking test kit", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void SpawnHackingTestKit()
+    {
+        Map map = Find.CurrentMap;
+        IntVec3 cell = UI.MouseCell();
+        if (!cell.InBounds(map))
+            return;
+
+        Spawn("USH_EncryptedCrate", 1);
+        Spawn("USH_Cyberlink", 1);
+        Spawn("USH_Cyberdata", 10);
+
+        void Spawn(string defName, int count)
+        {
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+            if (def == null)
+                return;
+
+            Thing thing = ThingMaker.MakeThing(def, GenStuff.DefaultStuffFor(def));
+            thing.stackCount = count;
+
+            if (def.category == ThingCategory.Building)
+                GenSpawn.Spawn(thing, CellFinder.StandableCellNear(cell, map, 5f), map);
+            else
+                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
+        }
+    }
 
     [DebugAction(Category, "Rotate fixers", allowedGameStates = AllowedGameStates.Playing)]
     private static void RotateFixers() => FixerManager.Get()?.Rotate(notify: true);

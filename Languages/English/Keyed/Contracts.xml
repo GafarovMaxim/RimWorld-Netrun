@@ -36,5 +36,8 @@
   <NR_ContractFailedExpired>the deadline passed</NR_ContractFailedExpired>
   <NR_ContractFailedLoud>your trace rose too high</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>you walked away from the job</NR_ContractFailedAbandoned>
+  <!-- Progress -->
+  <NR_ContractProgress>Done: {0} of {1} (left: {2})</NR_ContractProgress>
+  <NR_ContractDeliverTip>Hands over cyberdata from storage. One advanced cyberdata counts as {0}.</NR_ContractDeliverTip>
 
 </LanguageData>

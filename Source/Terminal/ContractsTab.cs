@@ -6,13 +6,17 @@ using Verse;
 
 namespace Netrun;
 
+[StaticConstructorOnStartup]
 public static class ContractsTab
 {
-    private const float SectionHeight = 28f;
-    private const float RowHeight = 76f;
-    private const float RowGap = 6f;
-    private const float ButtonWidth = 160f;
-    private const float ButtonHeight = 28f;
+    private const float SectionHeight = 32f;
+    private const float RowGap = 8f;
+    private const float Padding = 8f;
+    private const float LineHeight = 24f;
+    private const float ButtonWidth = 170f;
+    private const float ButtonHeight = 30f;
+
+    private static readonly Texture2D ProgressTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.25f, 0.75f, 0.85f));
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -24,83 +28,106 @@ public static class ContractsTab
         List<Contract> active = contracts.Active.ToList();
         var offers = fixers.Fixers.SelectMany(f => contracts.OffersOf(f).Select(c => (contract: c, fixer: f))).ToList();
 
-        float height = 2 * SectionHeight + (Mathf.Max(1, active.Count) + Mathf.Max(1, offers.Count)) * (RowHeight + RowGap);
-        var viewRect = new Rect(0f, 0f, rect.width - 16f, height);
+        float width = rect.width - 16f;
+        float height = 2 * SectionHeight
+            + (active.Count == 0 ? LineHeight + RowGap : active.Sum(c => CardHeight(c, width, isActive: true) + RowGap))
+            + (offers.Count == 0 ? LineHeight + RowGap : offers.Sum(o => CardHeight(o.contract, width, isActive: false) + RowGap));
+        var viewRect = new Rect(0f, 0f, width, height);
 
         Widgets.BeginScrollView(rect, ref scroll, viewRect);
         float y = 0f;
 
-        y = DrawSectionHeader(viewRect, y, "NR_ContractsActive".Translate());
+        y = DrawSectionHeader(width, y, "NR_ContractsActive".Translate());
         if (active.Count == 0)
-            y = DrawEmpty(viewRect, y, "NR_ContractsNoActive".Translate());
+            y = DrawEmpty(width, y, "NR_ContractsNoActive".Translate());
         foreach (Contract contract in active)
         {
-            DrawActive(new Rect(0f, y, viewRect.width, RowHeight), contract, fixers.ById(contract.FixerId), map, contracts);
-            y += RowHeight + RowGap;
+            float h = CardHeight(contract, width, isActive: true);
+            DrawActive(new Rect(0f, y, width, h), contract, fixers.ById(contract.FixerId), map, contracts);
+            y += h + RowGap;
         }
 
-        y = DrawSectionHeader(viewRect, y, "NR_ContractsOffers".Translate());
+        y = DrawSectionHeader(width, y, "NR_ContractsOffers".Translate());
         if (offers.Count == 0)
-            DrawEmpty(viewRect, y, "NR_ContractsNoOffers".Translate());
+            DrawEmpty(width, y, "NR_ContractsNoOffers".Translate());
         foreach ((Contract contract, Fixer fixer) in offers)
         {
-            DrawOffer(new Rect(0f, y, viewRect.width, RowHeight), contract, fixer, contracts);
-            y += RowHeight + RowGap;
+            float h = CardHeight(contract, width, isActive: false);
+            DrawOffer(new Rect(0f, y, width, h), contract, fixer, contracts);
+            y += h + RowGap;
         }
 
         Widgets.EndScrollView();
     }
 
-    private static float DrawSectionHeader(Rect viewRect, float y, string label)
+    /// <summary>Title line, wrapped description, one status line, never shorter than the buttons.</summary>
+    private static float CardHeight(Contract contract, float width, bool isActive)
+    {
+        float textWidth = width - 2 * Padding - ButtonWidth - 10f;
+        float description = Text.CalcHeight(contract.Description, textWidth);
+        float content = LineHeight + description + 4f + LineHeight;
+        float buttons = isActive ? 2 * ButtonHeight + 6f : ButtonHeight + 36f;
+        return Mathf.Max(content, buttons) + 2 * Padding;
+    }
+
+    private static float DrawSectionHeader(float width, float y, string label)
     {
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(0f, y, viewRect.width, SectionHeight), label);
+        Widgets.Label(new Rect(0f, y, width, SectionHeight), label);
         Text.Font = GameFont.Small;
         return y + SectionHeight;
     }
 
-    private static float DrawEmpty(Rect viewRect, float y, string label)
+    private static float DrawEmpty(float width, float y, string label)
     {
-        GUI.color = Color.gray;
-        Widgets.Label(new Rect(8f, y, viewRect.width, 24f), label);
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(8f, y, width, LineHeight), label);
         GUI.color = Color.white;
-        return y + RowHeight + RowGap;
+        return y + LineHeight + RowGap;
     }
 
-    private static Rect DrawCard(Rect rect, Contract contract, string fixerName, out float textWidth)
+    /// <summary>Draws title and description; returns the y below them and the text column width.</summary>
+    private static float DrawCard(Rect rect, Contract contract, string fixerName, out Rect inner, out float textWidth)
     {
         Widgets.DrawOptionBackground(rect, selected: false);
-        Rect inner = rect.ContractedBy(6f);
+        inner = rect.ContractedBy(Padding);
         textWidth = inner.width - ButtonWidth - 10f;
 
-        Widgets.Label(new Rect(inner.x, inner.y, textWidth, 22f),
+        Widgets.Label(new Rect(inner.x, inner.y, textWidth, LineHeight),
             "NR_ContractHeader".Translate(contract.Title, fixerName, contract.Reward));
-        GUI.color = Color.gray;
-        Widgets.Label(new Rect(inner.x, inner.y + 22f, textWidth, 22f), contract.Description);
+
+        float descHeight = Text.CalcHeight(contract.Description, textWidth);
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(inner.x, inner.y + LineHeight, textWidth, descHeight), contract.Description);
         GUI.color = Color.white;
-        return inner;
+
+        return inner.y + LineHeight + descHeight + 4f;
     }
 
     private static void DrawActive(Rect rect, Contract contract, Fixer fixer, Map map, ContractManager contracts)
     {
-        Rect inner = DrawCard(rect, contract, fixer?.Name ?? "?", out float textWidth);
+        float y = DrawCard(rect, contract, fixer?.Name ?? "?", out Rect inner, out float textWidth);
 
-        var barRect = new Rect(inner.x, inner.y + 46f, textWidth * 0.55f, 18f);
-        Widgets.FillableBar(barRect, (float)contract.Progress / contract.Goal, BaseContent.WhiteTex, BaseContent.BlackTex, doBorder: true);
-        Text.Anchor = TextAnchor.MiddleCenter;
-        GUI.color = Color.black;
-        Widgets.Label(barRect, $"{contract.Progress} / {contract.Goal}");
-        GUI.color = Color.white;
-        Text.Anchor = TextAnchor.UpperLeft;
+        // Readable progress text next to the bar, then the time left.
+        string progress = "NR_ContractProgress".Translate(contract.Progress, contract.Goal, contract.Goal - contract.Progress);
+        float progressWidth = Text.CalcSize(progress).x + 10f;
+        Widgets.Label(new Rect(inner.x, y, progressWidth, LineHeight), progress);
 
-        Widgets.Label(new Rect(barRect.xMax + 10f, barRect.y - 2f, textWidth - barRect.width - 10f, 22f),
+        var barRect = new Rect(inner.x + progressWidth, y + 5f, Mathf.Max(60f, textWidth * 0.3f), 14f);
+        Widgets.FillableBar(barRect, (float)contract.Progress / contract.Goal, ProgressTex, BaseContent.BlackTex, doBorder: true);
+
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(barRect.xMax + 12f, y, inner.x + textWidth - barRect.xMax - 12f, LineHeight),
             "NR_ContractTimeLeft".Translate(contract.TicksLeft.ToStringTicksToPeriod()));
+        GUI.color = Color.white;
 
         float x = inner.xMax - ButtonWidth;
-        if (contract.Type == ContractType.DataDelivery
-            && Widgets.ButtonText(new Rect(x, inner.y, ButtonWidth, ButtonHeight), "NR_ContractDeliver".Translate()))
+        if (contract.Type == ContractType.DataDelivery)
         {
-            contracts.Deliver(contract, map);
+            var deliverRect = new Rect(x, inner.y, ButtonWidth, ButtonHeight);
+            if (Widgets.ButtonText(deliverRect, "NR_ContractDeliver".Translate()))
+                contracts.Deliver(contract, map);
+            TooltipHandler.TipRegion(deliverRect, "NR_ContractDeliverTip".Translate(NetrunDefOf.NR_Fixers.advancedCyberdataWorth));
         }
 
         if (Widgets.ButtonText(new Rect(x, inner.y + ButtonHeight + 6f, ButtonWidth, ButtonHeight), "NR_ContractAbandon".Translate()))
@@ -114,10 +141,12 @@ public static class ContractsTab
 
     private static void DrawOffer(Rect rect, Contract contract, Fixer fixer, ContractManager contracts)
     {
-        Rect inner = DrawCard(rect, contract, fixer.Name, out float textWidth);
+        float y = DrawCard(rect, contract, fixer.Name, out Rect inner, out float textWidth);
 
-        Widgets.Label(new Rect(inner.x, inner.y + 46f, textWidth, 22f),
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(inner.x, y, textWidth, LineHeight),
             "NR_ContractDuration".Translate(contract.DurationTicks.ToStringTicksToPeriod()));
+        GUI.color = Color.white;
 
         var buttonRect = new Rect(inner.xMax - ButtonWidth, inner.y, ButtonWidth, ButtonHeight);
         AcceptanceReport report = contracts.CanAccept(contract, fixer);
@@ -125,6 +154,13 @@ public static class ContractsTab
         {
             Widgets.ButtonText(buttonRect, "NR_ContractAccept".Translate(), active: false);
             TooltipHandler.TipRegion(buttonRect, report.Reason);
+
+            // Say it inline as well: tooltips are easy to miss.
+            GUI.color = ColorLibrary.RedReadable;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(buttonRect.x, buttonRect.yMax + 2f, ButtonWidth, 32f), report.Reason);
+            Text.Font = GameFont.Small;
+            GUI.color = Color.white;
             return;
         }
 

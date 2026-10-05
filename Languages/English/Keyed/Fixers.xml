@@ -59,5 +59,10 @@
   <NR_ShopEmpty>Nothing left for sale.</NR_ShopEmpty>
   <NR_ShopPrice>{0} silver</NR_ShopPrice>
   <NR_ShopBuy>Buy</NR_ShopBuy>
+  <!-- Tooltips -->
+  <NR_FixerCallTip>Pay the fixer to open a channel for {0} hours. While it is open you can scrub your trace, shop and accept contracts.</NR_FixerCallTip>
+  <NR_FixerScrubTip>Hand over cyberdata from storage to lower your digital Heat.</NR_FixerScrubTip>
+  <NR_FixerShopTip>Buy hacking gear. Goods arrive by drop pod.</NR_FixerShopTip>
+  <NR_ShopRestock>New stock arrives with the next fixer rotation, in {0}.</NR_ShopRestock>
 
 </LanguageData>

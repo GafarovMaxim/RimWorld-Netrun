@@ -11,7 +11,7 @@ public class Dialog_FixerShop : Window
     private readonly Fixer _fixer;
     private readonly Map _map;
 
-    public override Vector2 InitialSize => new(560f, 420f);
+    public override Vector2 InitialSize => new(580f, 470f);
 
     public Dialog_FixerShop(Fixer fixer, Map map)
     {
@@ -31,8 +31,12 @@ public class Dialog_FixerShop : Window
 
         int silver = ColonyGoods.Count(_map, ThingDefOf.Silver);
         Widgets.Label(new Rect(inRect.x, inRect.y + 36f, inRect.width, 24f), "NR_ShopSilver".Translate(silver));
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(inRect.x, inRect.y + 60f, inRect.width, 24f),
+            "NR_ShopRestock".Translate(FixerManager.Get()?.TicksUntilRotation.ToStringTicksToPeriod() ?? "?"));
+        GUI.color = Color.white;
 
-        float y = inRect.y + 70f;
+        float y = inRect.y + 92f;
         if (_fixer.Stock.Count == 0)
         {
             Widgets.Label(new Rect(inRect.x, y, inRect.width, 24f), "NR_ShopEmpty".Translate());

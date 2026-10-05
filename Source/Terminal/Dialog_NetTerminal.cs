@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Netrun;
 
 public class Dialog_NetTerminal : Window
 {
+    // Order matches NetrunTex.TabIcon.
     private enum Tab
     {
         Overview,
@@ -18,7 +20,10 @@ public class Dialog_NetTerminal : Window
     }
 
     private const float TitleHeight = 40f;
-    private const float JournalRowHeight = 28f;
+    private const float TabStripHeight = 40f;
+    private const float TabIconSize = 24f;
+    private const float JournalRowHeight = 30f;
+    private const float LevelRowHeight = 36f;
 
     private readonly Map _map;
     private Tab _tab = Tab.Overview;
@@ -26,7 +31,7 @@ public class Dialog_NetTerminal : Window
     private Vector2 _fixersScroll;
     private Vector2 _contractsScroll;
 
-    public override Vector2 InitialSize => new(760f, 560f);
+    public override Vector2 InitialSize => new(820f, 640f);
 
     public Dialog_NetTerminal(Map map)
     {
@@ -46,10 +51,10 @@ public class Dialog_NetTerminal : Window
         Widgets.Label(new Rect(inRect.x, inRect.y, inRect.width, TitleHeight), "NR_TerminalTitle".Translate());
         Text.Font = GameFont.Small;
 
-        var body = new Rect(inRect.x, inRect.y + TitleHeight + TabDrawer.TabHeight,
-            inRect.width, inRect.height - TitleHeight - TabDrawer.TabHeight);
+        DrawTabStrip(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, TabStripHeight));
 
-        TabDrawer.DrawTabs(body, BuildTabs());
+        var body = new Rect(inRect.x, inRect.y + TitleHeight + TabStripHeight + 4f,
+            inRect.width, inRect.height - TitleHeight - TabStripHeight - 4f);
         Widgets.DrawMenuSection(body);
 
         Rect content = body.ContractedBy(12f);
@@ -77,55 +82,87 @@ public class Dialog_NetTerminal : Window
         }
     }
 
-    private List<TabRecord> BuildTabs()
+    /// <summary>Icon-and-label tabs; the selected one is highlighted.</summary>
+    private void DrawTabStrip(Rect rect)
     {
-        var tabs = new List<TabRecord>();
-        foreach (Tab tab in System.Enum.GetValues(typeof(Tab)))
+        var tabs = (Tab[])System.Enum.GetValues(typeof(Tab));
+        float width = rect.width / tabs.Length;
+
+        for (int i = 0; i < tabs.Length; i++)
         {
-            Tab captured = tab;
-            tabs.Add(new TabRecord(("NR_TerminalTab_" + tab).Translate(), () => _tab = captured, _tab == tab));
+            Tab tab = tabs[i];
+            var tabRect = new Rect(rect.x + i * width, rect.y, width - 4f, rect.height);
+            bool selected = _tab == tab;
+
+            Widgets.DrawOptionBackground(tabRect, selected);
+            if (selected)
+                Widgets.DrawBox(tabRect, 2);
+
+            var iconRect = new Rect(tabRect.x + 8f, tabRect.y + (tabRect.height - TabIconSize) / 2f, TabIconSize, TabIconSize);
+            GUI.DrawTexture(iconRect, NetrunTex.TabIcon(i));
+
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(iconRect.xMax + 6f, tabRect.y, tabRect.width - TabIconSize - 16f, tabRect.height),
+                ("NR_TerminalTab_" + tab).Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+
+            if (Widgets.ButtonInvisible(tabRect) && !selected)
+            {
+                _tab = tab;
+                SoundDefOf.Click.PlayOneShotOnCamera();
+            }
         }
-        return tabs;
     }
 
     private static void DrawOverview(Rect rect, HeatTracker tracker)
     {
-        var list = new Listing_Standard();
-        list.Begin(rect);
-
         HeatLevel level = tracker.Level;
+        float y = rect.y;
 
+        // Current level: big icon, value, colored level name.
+        GUI.DrawTexture(new Rect(rect.x, y, 48f, 48f), NetrunTex.HeatIcon(level));
         Text.Font = GameFont.Medium;
-        list.Label("NR_TerminalHeatValue".Translate(tracker.Heat.ToString("0"), level.Label().Colorize(level.Color())));
+        Widgets.Label(new Rect(rect.x + 58f, y + 8f, rect.width - 58f, 34f),
+            "NR_TerminalHeatValue".Translate(tracker.Heat.ToString("0"), level.Label().Colorize(level.Color())));
         Text.Font = GameFont.Small;
+        y += 56f;
 
-        Rect barRect = list.GetRect(24f);
-        Widgets.FillableBar(barRect, tracker.Heat / HeatTracker.MaxHeat, level.BarTexture(), BaseContent.BlackTex, doBorder: true);
-        list.Gap(6f);
+        Widgets.FillableBar(new Rect(rect.x, y, rect.width, 22f), tracker.Heat / HeatTracker.MaxHeat,
+            level.BarTexture(), BaseContent.BlackTex, doBorder: true);
+        y += 30f;
 
-        list.Label("NR_TerminalHeatDecay".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.0")));
-        list.GapLine();
+        GUI.color = NetrunTex.DimText;
+        Widgets.Label(new Rect(rect.x, y, rect.width, 24f),
+            "NR_TerminalHeatDecay".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.0")));
+        GUI.color = Color.white;
+        y += 30f;
 
-        list.Label("NR_TerminalLevelsHeader".Translate());
-        list.Gap(4f);
+        Widgets.DrawLineHorizontal(rect.x, y, rect.width);
+        y += 8f;
+        Widgets.Label(new Rect(rect.x, y, rect.width, 24f), "NR_TerminalLevelsHeader".Translate());
+        y += 28f;
 
         foreach (HeatLevel each in System.Enum.GetValues(typeof(HeatLevel)))
         {
+            var row = new Rect(rect.x, y, rect.width, LevelRowHeight);
+            if (each == level)
+                Widgets.DrawHighlight(row);
+
+            GUI.DrawTexture(new Rect(row.x + 4f, row.y + 4f, 28f, 28f), NetrunTex.HeatIcon(each));
+
             string range = each == HeatLevel.RedZone
                 ? $"{each.MinHeat():0}–100"
-                : $"{each.MinHeat():0}–{NextMin(each) - 1:0}";
+                : $"{each.MinHeat():0}–{(each + 1).MinHeat() - 1:0}";
 
-            string line = $"{each.Label().Colorize(each.Color())} ({range}): {each.Description()}";
-            if (each == level)
-                line = "> " + line;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(row.x + 40f, row.y, 220f, row.height),
+                $"{each.Label().Colorize(each.Color())} ({range})");
+            Widgets.Label(new Rect(row.x + 260f, row.y, row.width - 260f, row.height), each.Description());
+            Text.Anchor = TextAnchor.UpperLeft;
 
-            list.Label(line);
+            y += LevelRowHeight;
         }
-
-        list.End();
     }
-
-    private static float NextMin(HeatLevel level) => (level + 1).MinHeat();
 
     private void DrawJournal(Rect rect, HeatTracker tracker)
     {
@@ -157,8 +194,12 @@ public class Dialog_NetTerminal : Window
             };
 
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(row.x + 6f, row.y, 140f, row.height), ago.Colorize(ColorLibrary.Grey));
-            Widgets.Label(new Rect(row.x + 150f, row.y, row.width - 220f, row.height), entry.Text);
+            GUI.color = NetrunTex.DimText;
+            Widgets.Label(new Rect(row.x + 6f, row.y, 150f, row.height), ago);
+            GUI.color = Color.white;
+            var textRect = new Rect(row.x + 160f, row.y, row.width - 230f, row.height);
+            Widgets.Label(textRect, entry.Text.Truncate(textRect.width));
+            TooltipHandler.TipRegion(textRect, entry.Text);
             Widgets.Label(new Rect(row.xMax - 64f, row.y, 60f, row.height), amount);
             Text.Anchor = TextAnchor.UpperLeft;
 
@@ -171,7 +212,7 @@ public class Dialog_NetTerminal : Window
     private static void DrawComingSoon(Rect rect)
     {
         Text.Anchor = TextAnchor.MiddleCenter;
-        GUI.color = Color.gray;
+        GUI.color = NetrunTex.DimText;
         Widgets.Label(rect, "NR_TerminalComingSoon".Translate());
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;

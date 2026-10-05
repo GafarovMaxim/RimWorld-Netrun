@@ -55,6 +55,9 @@ public class FixerManager : GameComponent
         {
             if (contracts?.HasActive(fixer) == false && !fixer.IsSilent)
                 contracts.RegenerateOffers(fixer);
+
+            if (fixer.HasShop)
+                fixer.Stock = RollStock();
         }
 
         int newcomers = Math.Max(1, Settings.poolSize - _fixers.Count);
@@ -79,10 +82,13 @@ public class FixerManager : GameComponent
         };
 
         if (fixer.HasShop)
-            fixer.Stock = Settings.shopItems.InRandomOrder().Take(Settings.shopStockSize).ToList();
+            fixer.Stock = RollStock();
 
         return fixer;
     }
+
+    private static List<ThingDef> RollStock()
+        => Settings.shopItems.InRandomOrder().Take(Settings.shopStockSize).ToList();
 
     private string GenerateName()
     {

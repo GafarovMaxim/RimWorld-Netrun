@@ -36,5 +36,8 @@
   <NR_ContractFailedExpired>истёк срок</NR_ContractFailedExpired>
   <NR_ContractFailedLoud>след поднялся слишком высоко</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>вы отказались от работы</NR_ContractFailedAbandoned>
+  <!-- Прогресс -->
+  <NR_ContractProgress>Выполнено: {0} из {1} (осталось: {2})</NR_ContractProgress>
+  <NR_ContractDeliverTip>Передаёт cyberdata со склада. Одни продвинутые cyberdata засчитываются за {0}.</NR_ContractDeliverTip>
 
 </LanguageData>
