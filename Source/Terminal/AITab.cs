@@ -181,7 +181,7 @@ public static class AITab
         var portraitRect = new Rect(inner.x, inner.y, PortraitSize, PortraitSize);
         Widgets.DrawBoxSolid(portraitRect, IconBack);
         GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Portrait(ai.Personality));
-        GUI.color = color;
+        GUI.color = ai.Personality.Color();
         Widgets.DrawBox(portraitRect, 2);
         GUI.color = Color.white;
 
@@ -203,7 +203,13 @@ public static class AITab
         Text.Font = GameFont.Small;
         y += 34f;
 
-        Widgets.Label(new Rect(x, y, width, LineHeight), "NR_AIPersonalityLine".Translate(ai.Personality.Label().Colorize(ColorLibrary.Gold)));
+        // Archetype: its icon and its own color.
+        Color personalityColor = ai.Personality.Color();
+        var archetypeIcon = new Rect(x, y, LineHeight, LineHeight);
+        GUI.DrawTexture(archetypeIcon, NetrunTex.Portrait(ai.Personality));
+        Widgets.Label(new Rect(archetypeIcon.xMax + 6f, y, width - LineHeight - 6f, LineHeight),
+            "NR_AIPersonalityLine".Translate(ai.Personality.Label().Colorize(personalityColor)));
+        TooltipHandler.TipRegion(new Rect(x, y, width, LineHeight), ai.Personality.Description());
         y += LineHeight;
 
         float descHeight = Text.CalcHeight(ai.Personality.Description(), width);
