@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_NetAttack_NeuralNoise.label>нейрошум</NR_NetAttack_NeuralNoise.label>
+  <NR_NetAttack_DataTheft.label>кража данных</NR_NetAttack_DataTheft.label>
+  <NR_NetAttack_Breakdown.label>вирусная поломка</NR_NetAttack_Breakdown.label>
+  <NR_NetAttack_PowerSurge.label>скачок напряжения</NR_NetAttack_PowerSurge.label>
+  <NR_NetAttack_Ransom.label>вымогатель</NR_NetAttack_Ransom.label>
+</LanguageData>

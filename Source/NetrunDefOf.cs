@@ -23,6 +23,7 @@ public static class NetrunDefOf
     public static ThingDef NR_BlackBraindanceChip;
     public static ThoughtDef NR_BraindanceGoodRecording;
     public static JobDef NR_EditBraindance;
+    public static HediffDef NR_NeuralNoise;
     public static HediffDef NR_PredatorBoost;
     public static ThoughtDef NR_EchoPresence;
     public static HediffDef NR_AISocketInstalled;

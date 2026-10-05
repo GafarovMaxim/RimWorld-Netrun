@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AttackBlocked>Network attack stopped ({0}): {1} caught it in time.</NR_AttackBlocked>
+  <NR_AttackBreakdown>Malware got into the colony's machines and tripped their safety cut-outs. Broken down:\n{0}\n\nThe higher your digital trace, the more often this happens. A netrunner in a cyberpod or a Warden or Predator AI on the server can stop attacks.</NR_AttackBreakdown>
+  <NR_AttackNeuralNoise>Someone is pushing garbage signal through the colony's cyberlinks. Affected: {0}.\n\nThe noise will fade in about a day.</NR_AttackNeuralNoise>
+  <NR_AttackPowerSurge>A forged command from the grid controller dumped the charge of {0} batteries.</NR_AttackPowerSurge>
+  <NR_AttackDataTheft>Someone copied and wiped part of the colony's data: {0} cyberdata and {1} advanced cyberdata are gone.</NR_AttackDataTheft>
+  <NR_AttackRansom>Ransomware has taken over the colony's machine controllers. The message is short: pay {0} silver, or they shut down.</NR_AttackRansom>
+  <NR_AttackRansomPay>Pay {0} silver</NR_AttackRansomPay>
+  <NR_AttackRansomPaid>Paid {0} silver. The machines are back under your control.</NR_AttackRansomPaid>
+  <NR_AttackRansomNoSilver>not enough silver</NR_AttackRansomNoSilver>
+  <NR_AttackRansomRefuse>Refuse</NR_AttackRansomRefuse>
+</LanguageData>

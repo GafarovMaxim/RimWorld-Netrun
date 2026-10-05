@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AttackBlocked>Сетевая атака отбита ({0}): {1} вовремя заметил(а) её.</NR_AttackBlocked>
+  <NR_AttackBreakdown>Вирус пробрался в машины колонии и выбил их предохранители. Сломались:\n{0}\n\nЧем выше цифровой след, тем чаще такое бывает. Нетраннер в кибер-капсуле или ИИ Страж или Хищник на сервере могут отбивать атаки.</NR_AttackBreakdown>
+  <NR_AttackNeuralNoise>Кто-то гонит мусорный сигнал через кибер-линки колонии. Задело: {0}.\n\nШум пройдёт примерно через сутки.</NR_AttackNeuralNoise>
+  <NR_AttackPowerSurge>Поддельная команда контроллеру сети разрядила аккумуляторы: {0} шт.</NR_AttackPowerSurge>
+  <NR_AttackDataTheft>Кто-то скопировал и стёр часть данных колонии: пропало {0} cyberdata и {1} продвинутых cyberdata.</NR_AttackDataTheft>
+  <NR_AttackRansom>Вымогатель захватил контроллеры машин колонии. Сообщение короткое: {0} серебра, или всё встанет.</NR_AttackRansom>
+  <NR_AttackRansomPay>Заплатить {0} серебра</NR_AttackRansomPay>
+  <NR_AttackRansomPaid>Заплачено {0} серебра. Машины снова под вашим контролем.</NR_AttackRansomPaid>
+  <NR_AttackRansomNoSilver>не хватает серебра</NR_AttackRansomNoSilver>
+  <NR_AttackRansomRefuse>Отказаться</NR_AttackRansomRefuse>
+</LanguageData>

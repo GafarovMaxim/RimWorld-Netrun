@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Network attacks: the storyteller picks them only once Heat reaches minLevel (see IncidentWorker_NetAttack) -->
+
+  <IncidentDef>
+    <defName>NR_NetAttack_NeuralNoise</defName>
+    <label>neural noise</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_NetNeuralNoise</workerClass>
+    <baseChance>0.6</baseChance>
+    <minRefireDays>8</minRefireDays>
+    <modExtensions>
+      <li Class="Netrun.NetAttackExtension">
+        <minLevel>Noticed</minLevel>
+      </li>
+    </modExtensions>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_NetAttack_DataTheft</defName>
+    <label>data theft</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_NetDataTheft</workerClass>
+    <baseChance>0.6</baseChance>
+    <minRefireDays>10</minRefireDays>
+    <modExtensions>
+      <li Class="Netrun.NetAttackExtension">
+        <minLevel>Noticed</minLevel>
+      </li>
+    </modExtensions>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_NetAttack_Breakdown</defName>
+    <label>malware breakdown</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_NetBreakdown</workerClass>
+    <baseChance>0.7</baseChance>
+    <minRefireDays>8</minRefireDays>
+    <modExtensions>
+      <li Class="Netrun.NetAttackExtension">
+        <minLevel>Tracked</minLevel>
+      </li>
+    </modExtensions>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_NetAttack_PowerSurge</defName>
+    <label>power surge</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_NetPowerSurge</workerClass>
+    <baseChance>0.5</baseChance>
+    <minRefireDays>10</minRefireDays>
+    <modExtensions>
+      <li Class="Netrun.NetAttackExtension">
+        <minLevel>Tracked</minLevel>
+      </li>
+    </modExtensions>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_NetAttack_Ransom</defName>
+    <label>ransomware</label>
+    <category>Misc</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_NetRansom</workerClass>
+    <baseChance>0.5</baseChance>
+    <minRefireDays>15</minRefireDays>
+    <modExtensions>
+      <li Class="Netrun.NetAttackExtension">
+        <minLevel>Target</minLevel>
+      </li>
+    </modExtensions>
+  </IncidentDef>
+
+  <HediffDef>
+    <defName>NR_NeuralNoise</defName>
+    <label>neural noise</label>
+    <description>Garbage signal pushed through the cyberlink straight into the brain: headaches, flashes, a constant hiss.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.9, 0.5, 0.9)</defaultLabelColor>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.1</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.15</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
