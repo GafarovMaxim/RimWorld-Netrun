@@ -191,4 +191,32 @@
   <NR_Celebrity_5>Святой Раст</NR_Celebrity_5>
   <NR_Celebrity_6>Юки Курогане</NR_Celebrity_6>
   <NR_Celebrity_7>Последний пилот</NR_Celebrity_7>
+  <NR_DiveLogHoneypotFound>Глубокое сканирование: эта нода — приманка. Богатые файлы — ловушка.</NR_DiveLogHoneypotFound>
+  <NR_DiveLogHunterDown>Охотник ICE уничтожен.</NR_DiveLogHunterDown>
+  <NR_DiveLogHunterHolds>Охотник ICE выдержал атаку.</NR_DiveLogHunterHolds>
+  <NR_DiveLogHunterStrikes>Охотник ICE бьёт.</NR_DiveLogHunterStrikes>
+  <NR_DiveLogHunter>Охотник ICE вышел на ваш след.</NR_DiveLogHunter>
+  <NR_DiveLogRival>В ноде соперник: через {0} ходов файлов не станет.</NR_DiveLogRival>
+  <NR_DiveLogRivalTook>Соперник добрался до файлов первым.</NR_DiveLogRivalTook>
+  <NR_DiveLogHoneypot>Приманка! Файлы наполовину пусты, а след вспыхнул.</NR_DiveLogHoneypot>
+  <NR_WildAITitle>Дикий ИИ</NR_WildAITitle>
+  <NR_WildAI>В хранилище что-то живёт: дикий ИИ, полусформированный, любопытный и испуганный.</NR_WildAI>
+  <NR_WildAITame>Приручить (осколок ИИ, немного следа)</NR_WildAITame>
+  <NR_WildAIErase>Стереть ({0} продвинутых cyberdata)</NR_WildAIErase>
+  <NR_WildAISell>Продать ({0} серебра, покупатели болтливы)</NR_WildAISell>
+  <NR_WildAISoldLog>Продан дикий ИИ</NR_WildAISoldLog>
+  <NR_DiveLogWildTamed>Дикий ИИ ушёл за вами в осколок.</NR_DiveLogWildTamed>
+  <NR_DiveLogWildErased>Дикого ИИ больше нет, его память ваша.</NR_DiveLogWildErased>
+  <NR_DiveLogWildSold>Дикий ИИ продан.</NR_DiveLogWildSold>
+  <NR_HunterFollowedLog>Охотник ICE прошёл по следу домой</NR_HunterFollowedLog>
+  <NR_HunterFollowed>Охотник ICE прошёл по следу нетраннера. Скоро ждите проблем с машинами.</NR_HunterFollowed>
+  <NR_StormLabel>Шторм данных</NR_StormLabel>
+  <NR_Storm>Сеть накрыл шторм данных на {0}: все ноды сложнее, а добыча больше.</NR_Storm>
+  <NR_GatewayStorm>Шторм данных: ещё {0}</NR_GatewayStorm>
+  <NR_GatewayStormTip>Ворота и ICE на 1 сильнее, награда x1.5.</NR_GatewayStormTip>
+  <NR_GatewayRival>⚔ соперник</NR_GatewayRival>
+  <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой: у вас {0} ходов, потом файлов не станет.</NR_GatewayRivalTip>
+  <NR_DiveHunterActive>Охотник ICE на следу: бьёт каждый ход ноды. Взломайте его, когда путь свободен.</NR_DiveHunterActive>
+  <NR_DiveRivalActive>Соперник: осталось {0} ходов</NR_DiveRivalActive>
+  <NR_DiveStorm>Шторм данных: защита сильнее, добыча больше</NR_DiveStorm>
 </LanguageData>

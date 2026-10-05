@@ -50,6 +50,16 @@ public static class GatewayView
         else
             DrawCircles(mapRect, nodes);
 
+        if (gateway.StormActive)
+        {
+            var storm = new Rect(mapRect.x, mapRect.y, mapRect.width - 120f, 24f);
+            Widgets.DrawBoxSolid(storm, new Color(NetrunUI.Purple.r, NetrunUI.Purple.g, NetrunUI.Purple.b, 0.2f));
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(storm, "NR_GatewayStorm".Translate(gateway.StormTicksLeft.ToStringTicksToPeriod()).Colorize(NetrunUI.Purple));
+            Text.Anchor = TextAnchor.UpperLeft;
+            TooltipHandler.TipRegion(storm, "NR_GatewayStormTip".Translate());
+        }
+
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(rect.x, rect.yMax - 20f, mapRect.width, 20f), "NR_GatewayLegend".Translate().Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
@@ -177,6 +187,8 @@ public static class GatewayView
             string sub = node.BlackIce ? "NR_GatewayBlackIce".Translate(node.Defense) : "NR_GatewayDefense".Translate(node.Defense);
             if (node.Contract)
                 sub += " · ★";
+            if (node.Rival)
+                sub += " · ⚔";
             Widgets.Label(new Rect(rect.x - 10f, rect.center.y + 16f, rect.width + 20f, 18f), sub.Colorize(node.BlackIce ? NetrunUI.Bad : color));
         }
         Text.Font = GameFont.Small;
@@ -240,10 +252,14 @@ public static class GatewayView
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };
             y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk_" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
-            if (node.Contract)
+            if (node.Contract || node.Rival)
             {
                 y += 4f;
-                NetrunUI.Chip(inner.x, y, "NR_GatewayContract".Translate(), NetrunUI.Ok);
+                float cx = inner.x;
+                if (node.Contract)
+                    cx += NetrunUI.Chip(cx, y, "NR_GatewayContract".Translate(), NetrunUI.Ok) + 6f;
+                if (node.Rival)
+                    NetrunUI.Chip(cx, y, "NR_GatewayRival".Translate(), NetrunUI.Warn, "NR_GatewayRivalTip".Translate(NetrunDefOf.NR_Cyberspace.rivalTurns));
                 y += 24f;
             }
         }

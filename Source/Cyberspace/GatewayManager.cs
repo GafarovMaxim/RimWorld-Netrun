@@ -24,6 +24,17 @@ public class GatewayManager : GameComponent
     public int GroupFavor;
     private int _alliesReadyTick;
     private int _nextBossTick = -1;
+    private int _stormUntilTick = -1;
+
+    /// <summary>A data storm: gates and ICE are stronger, rewards bigger.</summary>
+    public bool StormActive => Find.TickManager.TicksGame < _stormUntilTick;
+    public int StormTicksLeft => System.Math.Max(0, _stormUntilTick - Find.TickManager.TicksGame);
+
+    public void StartStorm()
+    {
+        _stormUntilTick = Find.TickManager.TicksGame + (int)(Settings.stormDays.RandomInRange * GenDate.TicksPerDay);
+        Find.LetterStack.ReceiveLetter("NR_StormLabel".Translate(), "NR_Storm".Translate(StormTicksLeft.ToStringTicksToPeriod()), LetterDefOf.NeutralEvent);
+    }
     public DiveSession Session;
 
     public GatewayManager(Game game)
@@ -59,6 +70,8 @@ public class GatewayManager : GameComponent
             _nodes.Add(ExternalNode.Generate(_nextId++));
         foreach (ExternalNode node in _nodes.InRandomOrder().Take(Settings.hiddenNodes))
             node.Hidden = true;
+        if (!StormActive && Rand.Chance(Settings.stormChance))
+            StartStorm();
         if (ContractManager.Get()?.Active.Any(c => c.Type is ContractType.SystemTap or ContractType.QuietRun) == true
             && _nodes.Where(n => !n.Hidden).TryRandomElement(out ExternalNode marked))
             marked.Contract = true;
@@ -76,6 +89,27 @@ public class GatewayManager : GameComponent
         Find.LetterStack.ReceiveLetter("NR_BossNodeLabel".Translate(), "NR_BossNode".Translate(boss.Name, Settings.bossLifetimeDays.ToString("0")),
             LetterDefOf.PositiveEvent);
         return boss;
+    }
+
+    /// <summary>Dev: one node of each event kind (rival, honeypot, wild AI).</summary>
+    public void SpawnEventNodes()
+    {
+        ExternalNode rival = ExternalNode.Generate(_nextId++);
+        rival.Rival = true;
+        rival.Honeypot = false;
+        ExternalNode honeypot = ExternalNode.Generate(_nextId++);
+        honeypot.Honeypot = true;
+        honeypot.Rival = false;
+        ExternalNode wild = ExternalNode.Generate(_nextId++);
+        wild.Type = ExternalNodeType.Abandoned;
+        wild.WildAI = true;
+        foreach (ExternalNode node in new[] { rival, honeypot, wild })
+        {
+            node.Hidden = false;
+            if (_nodes.Count >= MaxNodes)
+                _nodes.RemoveAt(0);
+            _nodes.Add(node);
+        }
     }
 
     public bool AddDaemon(DiveDaemon daemon)
@@ -254,6 +288,7 @@ public class GatewayManager : GameComponent
         Scribe_Values.Look(ref GroupFavor, "groupFavor");
         Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
         Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
+        Scribe_Values.Look(ref _stormUntilTick, "stormUntilTick", -1);
         Daemons ??= [];
         _nodes ??= [];
         SelectedPrograms ??= [];

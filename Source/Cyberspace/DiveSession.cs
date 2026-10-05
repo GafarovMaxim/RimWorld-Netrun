@@ -81,6 +81,13 @@ public class DiveSession : IExposable
     /// <summary>Cyberdata paid to start the dive; the main files pay it back with a multiplier.</summary>
     public int CostPaid;
 
+    // Cyberspace events.
+    public bool HunterActive;
+    public bool HunterSpawned;
+    public bool HoneypotRevealed;
+    public bool RivalTook;
+    public bool Storm;
+
     public int ActionsPerTurn
     {
         get
@@ -104,6 +111,7 @@ public class DiveSession : IExposable
             session.ShieldCharges++;
         if (session.Daemons.Contains(DiveDaemon.Hound))
             session.KillerCharges++;
+        session.Storm = GatewayManager.Get()?.StormActive == true;
         session.Build();
         session.ActionsLeft = session.ActionsPerTurn;
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
@@ -116,11 +124,11 @@ public class DiveSession : IExposable
         Elements.Add(new DiveElement { Kind = DiveElementKind.Lobby, Cleared = true });
         int gates = Node.IsBoss ? 4 : 1 + Node.Defense / 2;
         for (int i = 0; i < gates; i++)
-            Elements.Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = Node.Defense + Rand.RangeInclusive(0, 2) });
+            Elements.Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = Node.Defense + Rand.RangeInclusive(0, 2) + (Storm ? 1 : 0) });
         if (Rand.Chance(0.6f))
             Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Hidden = !Daemons.Contains(DiveDaemon.Lens), Cache = true, Cleared = true });
         if (Node.BlackIce)
-            Elements.Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = Node.IceStrength });
+            Elements.Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = Node.IceStrength + (Storm ? 1 : 0) });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Cleared = true });
         if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true });
@@ -154,16 +162,34 @@ public class DiveSession : IExposable
         Spend(Settings.tracePerAction);
     }
 
-    public AcceptanceReport CanScan() => Next is { Hidden: true } ? true : "NR_DiveNothingToScan".Translate();
+    public AcceptanceReport CanScan()
+        => Next is { Hidden: true } || (Node.Honeypot && !HoneypotRevealed) ? true : "NR_DiveNothingToScan".Translate();
 
     public void Scan()
     {
-        Next.Hidden = false;
-        AddLog("NR_DiveLogScan".Translate(ElementLabel(Next)));
+        if (Next is { Hidden: true })
+        {
+            Next.Hidden = false;
+            AddLog("NR_DiveLogScan".Translate(ElementLabel(Next)));
+        }
+        else
+        {
+            // A deep scan: the only way to see a honeypot for what it is.
+            HoneypotRevealed = true;
+            AddLog("NR_DiveLogHoneypotFound".Translate().Colorize(NetrunUI.Warn));
+        }
         Spend(Settings.tracePerAction);
     }
 
-    public AcceptanceReport CanHack() => Next is { Blocks: true, Hidden: false } ? true : "NR_DiveNothingToHack".Translate();
+    public AcceptanceReport CanHack()
+        => Next is { Blocks: true, Hidden: false } || HunterActive ? true : "NR_DiveNothingToHack".Translate();
+
+    /// <summary>What a hack goes after: the gate or ICE ahead first, otherwise the hunter.</summary>
+    public bool HackTargetsHunter => HunterActive && Next is not { Blocks: true, Hidden: false };
+
+    public float CurrentHackChance => HackTargetsHunter
+        ? HackChance(new DiveElement { Kind = DiveElementKind.Ice, Strength = Settings.hunterStrength })
+        : Next == null ? 0f : HackChance(Next);
 
     public float HackChance(DiveElement target)
     {
@@ -176,6 +202,11 @@ public class DiveSession : IExposable
 
     public void Hack()
     {
+        if (HackTargetsHunter)
+        {
+            HackHunter();
+            return;
+        }
         DiveElement target = Next;
         bool sword = Programs.Contains(DiveProgram.Sword);
         if (KillerCharges > 0)
@@ -198,6 +229,24 @@ public class DiveSession : IExposable
         Spend(Settings.tracePerAction * (sword ? 2f : 1f));
     }
 
+    private void HackHunter()
+    {
+        var hunter = new DiveElement { Kind = DiveElementKind.Ice, Strength = Settings.hunterStrength };
+        if (KillerCharges > 0 || Rand.Chance(HackChance(hunter)))
+        {
+            if (KillerCharges > 0)
+                KillerCharges--;
+            HunterActive = false;
+            AddLog("NR_DiveLogHunterDown".Translate().Colorize(NetrunUI.Ok));
+        }
+        else
+        {
+            AddLog("NR_DiveLogHunterHolds".Translate().Colorize(NetrunUI.Bad));
+            IceAttack();
+        }
+        Spend(Settings.tracePerAction);
+    }
+
     public AcceptanceReport CanDownload()
     {
         if (Current.Kind is not (DiveElementKind.Files or DiveElementKind.Memory))
@@ -208,8 +257,12 @@ public class DiveSession : IExposable
     public void Download()
     {
         Current.Looted = true;
-        if (Current.Kind == DiveElementKind.Memory)
+        if (Current.Kind == DiveElementKind.Memory && Node.WildAI)
+            AskWildAI();
+        else if (Current.Kind == DiveElementKind.Memory)
             RollMemory();
+        else if (Node.Honeypot && !Current.Cache)
+            SpringHoneypot();
         else if (Current.Cache)
             LootCyberdata += Rand.RangeInclusive(1, 2);
         else
@@ -337,6 +390,41 @@ public class DiveSession : IExposable
         return true;
     }
 
+    /// <summary>The bait was real only in part: half the haul, a burst of trace, and the hunter comes at once.</summary>
+    private void SpringHoneypot()
+    {
+        RollFiles();
+        LootCyberdata = Mathf.RoundToInt(LootCyberdata * Settings.honeypotRewardShare);
+        Trace += Settings.honeypotTrace;
+        AddLog("NR_DiveLogHoneypot".Translate().Colorize(NetrunUI.Bad));
+        if (!HunterActive)
+            SpawnHunter();
+    }
+
+    /// <summary>A wild AI in the memory unit: tame it, erase it or sell it.</summary>
+    private void AskWildAI()
+    {
+        var node = new DiaNode("NR_WildAI".Translate());
+        node.options.Add(new DiaOption("NR_WildAITame".Translate()) { action = () =>
+        {
+            LootItems.Add(NetrunDefOf.NR_AIFragment);
+            Trace += Settings.wildAITameTrace;
+            AddLog("NR_DiveLogWildTamed".Translate().Colorize(NetrunUI.Ok));
+        }, resolveTree = true });
+        node.options.Add(new DiaOption("NR_WildAIErase".Translate(Settings.wildAIEraseAdvanced)) { action = () =>
+        {
+            LootAdvanced += Settings.wildAIEraseAdvanced;
+            AddLog("NR_DiveLogWildErased".Translate());
+        }, resolveTree = true });
+        node.options.Add(new DiaOption("NR_WildAISell".Translate(Settings.wildAISellSilver)) { action = () =>
+        {
+            LootSilver += Settings.wildAISellSilver;
+            HeatTracker.Get()?.AddHeat(Settings.wildAISellHeat, "NR_WildAISoldLog".Translate());
+            AddLog("NR_DiveLogWildSold".Translate());
+        }, resolveTree = true });
+        Find.WindowStack.Add(new Dialog_NodeTree(node, delayInteractivity: true, title: "NR_WildAITitle".Translate()));
+    }
+
     private void RollMemory()
     {
         if (Rand.Chance(Node.Type == ExternalNodeType.Abandoned ? 0.25f : 0.1f))
@@ -375,6 +463,13 @@ public class DiveSession : IExposable
         int ice = Elements.FindIndex(e => e.Kind == DiveElementKind.Ice && !e.Cleared);
         if (ice >= 0 && Position >= ice - 1 && Rand.Chance(Settings.iceAttackChance))
             IceAttack();
+        if (!Finished && HunterActive && Rand.Chance(Settings.hunterAttackChance))
+        {
+            AddLog("NR_DiveLogHunterStrikes".Translate().Colorize(NetrunUI.Bad));
+            IceAttack();
+        }
+        if (!Finished)
+            NodeEvents();
 
         if (Finished)
             return;
@@ -391,6 +486,37 @@ public class DiveSession : IExposable
         {
             AddLog("NR_DiveLogIceWatching".Translate().Colorize(NetrunUI.Bad));
         }
+    }
+
+    /// <summary>Per node turn: the rival's countdown and the ICE hunter appearing at high Heat.</summary>
+    private void NodeEvents()
+    {
+        if (Node.Rival && !RivalTook)
+        {
+            int left = Settings.rivalTurns - Turn;
+            if (left <= 0)
+            {
+                RivalTook = true;
+                foreach (DiveElement files in Elements.Where(e => e.Kind == DiveElementKind.Files && !e.Cache))
+                    files.Looted = true;
+                AddLog("NR_DiveLogRivalTook".Translate().Colorize(NetrunUI.Bad));
+            }
+            else
+            {
+                AddLog("NR_DiveLogRival".Translate(left).Colorize(NetrunUI.Warn));
+            }
+        }
+
+        if (!HunterSpawned && Turn >= Settings.hunterFromTurn && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Target
+            && Rand.Chance(Settings.hunterChance))
+            SpawnHunter();
+    }
+
+    private void SpawnHunter()
+    {
+        HunterSpawned = true;
+        HunterActive = true;
+        AddLog("NR_DiveLogHunter".Translate().Colorize(NetrunUI.Bad));
     }
 
     /// <summary>Black ICE strikes: a shield absorbs it, a decoy may draw it off, otherwise a Hacking Expansion outcome.</summary>
@@ -486,6 +612,16 @@ public class DiveSession : IExposable
             }
         }
 
+        if (HunterActive && map != null)
+        {
+            HeatTracker.Get()?.AddHeat(Settings.hunterEscapeHeat, "NR_HunterFollowedLog".Translate());
+            IncidentParms parms = StorytellerUtility.DefaultParmsNow(NetrunDefOf.NR_NetAttack_Breakdown.category, map);
+            parms.forced = true;
+            Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_NetAttack_Breakdown, null, parms),
+                Find.TickManager.TicksGame + Rand.RangeInclusive(6, 12) * GenDate.TicksPerHour));
+            Messages.Message("NR_HunterFollowed".Translate(), MessageTypeDefOf.ThreatSmall, historical: true);
+        }
+
         float heat = Trace * Node.HeatPerTrace * CyberpodUtility.HeatFactor(coprocessor);
         if (heat > 0f)
             HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name));
@@ -544,6 +680,11 @@ public class DiveSession : IExposable
         Scribe_Collections.Look(ref Log, "log", LookMode.Value);
         Scribe_Values.Look(ref Finished, "finished");
         Scribe_Values.Look(ref CostPaid, "costPaid");
+        Scribe_Values.Look(ref HunterActive, "hunterActive");
+        Scribe_Values.Look(ref HunterSpawned, "hunterSpawned");
+        Scribe_Values.Look(ref HoneypotRevealed, "honeypotRevealed");
+        Scribe_Values.Look(ref RivalTook, "rivalTook");
+        Scribe_Values.Look(ref Storm, "storm");
         Elements ??= [];
         Programs ??= [];
         Daemons ??= [];

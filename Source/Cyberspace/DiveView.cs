@@ -124,10 +124,18 @@ public static class DiveView
             Act("Scan", NetrunUI.Ok, session.CanScan(), session.Scan);
             AcceptanceReport hack = session.CanHack();
             Act("Hack", NetrunUI.Warn, hack, session.Hack,
-                hack.Accepted ? "NR_DiveActTip_HackChance".Translate(session.HackChance(session.Next).ToStringPercent()) : null);
+                hack.Accepted ? "NR_DiveActTip_HackChance".Translate(session.CurrentHackChance.ToStringPercent()) : null);
             Act("Download", NetrunUI.Accent, session.CanDownload(), session.Download);
             Act("Exit", NetrunUI.Ok, session.CanExit(), session.Exit);
             y = rowY + 44f;
+
+            // Events of this dive: the hunter, the rival, the storm.
+            if (session.HunterActive)
+                y = Warning(inner, y, "NR_DiveHunterActive".Translate(), NetrunUI.Bad);
+            if (session.Node.Rival && !session.RivalTook)
+                y = Warning(inner, y, "NR_DiveRivalActive".Translate(System.Math.Max(0, NetrunDefOf.NR_Cyberspace.rivalTurns - session.Turn)), NetrunUI.Warn);
+            if (session.Storm)
+                y = Warning(inner, y, "NR_DiveStorm".Translate(), NetrunUI.Purple);
 
             y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_DivePrograms".Translate());
             string programs = session.Programs.Count == 0
@@ -161,6 +169,16 @@ public static class DiveView
             y += h + 2f;
         }
         Text.Font = GameFont.Small;
+    }
+
+    private static float Warning(Rect inner, float y, string text, Color color)
+    {
+        float h = Text.CalcHeight(text, inner.width - 10f) + 6f;
+        var row = new Rect(inner.x, y, inner.width, h);
+        Widgets.DrawBoxSolid(row, NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), color);
+        Widgets.Label(new Rect(row.x + 8f, row.y + 3f, row.width - 10f, h), text.Colorize(color));
+        return y + h + 4f;
     }
 
     public static void HeaderChips(float xMax, float y, DiveSession session)

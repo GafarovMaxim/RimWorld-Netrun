@@ -191,4 +191,32 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_Celebrity_5>Saint Rust</NR_Celebrity_5>
   <NR_Celebrity_6>Yuki Kurogane</NR_Celebrity_6>
   <NR_Celebrity_7>The Last Pilot</NR_Celebrity_7>
+  <NR_DiveLogHoneypotFound>Deep scan: this node is bait. The rich files are a trap.</NR_DiveLogHoneypotFound>
+  <NR_DiveLogHunterDown>The ICE hunter is down.</NR_DiveLogHunterDown>
+  <NR_DiveLogHunterHolds>The ICE hunter shrugged off the attack.</NR_DiveLogHunterHolds>
+  <NR_DiveLogHunterStrikes>The ICE hunter strikes.</NR_DiveLogHunterStrikes>
+  <NR_DiveLogHunter>An ICE hunter has picked up your trail.</NR_DiveLogHunter>
+  <NR_DiveLogRival>A rival netrunner is in the node: {0} turns before the files are gone.</NR_DiveLogRival>
+  <NR_DiveLogRivalTook>The rival got to the files first.</NR_DiveLogRivalTook>
+  <NR_DiveLogHoneypot>Bait! The files were half empty and the trace flared up.</NR_DiveLogHoneypot>
+  <NR_WildAITitle>A wild AI</NR_WildAITitle>
+  <NR_WildAI>Something lives in the memory unit: a wild AI, half-formed, curious and afraid.</NR_WildAI>
+  <NR_WildAITame>Tame it (an AI fragment, a little trace)</NR_WildAITame>
+  <NR_WildAIErase>Erase it ({0} advanced cyberdata)</NR_WildAIErase>
+  <NR_WildAISell>Sell it ({0} silver, the buyers talk)</NR_WildAISell>
+  <NR_WildAISoldLog>Sold a wild AI</NR_WildAISoldLog>
+  <NR_DiveLogWildTamed>The wild AI followed you into a fragment.</NR_DiveLogWildTamed>
+  <NR_DiveLogWildErased>The wild AI is gone; its memory is yours.</NR_DiveLogWildErased>
+  <NR_DiveLogWildSold>The wild AI is sold.</NR_DiveLogWildSold>
+  <NR_HunterFollowedLog>An ICE hunter followed the trail home</NR_HunterFollowedLog>
+  <NR_HunterFollowed>The ICE hunter followed your netrunner back. Expect trouble with the machines soon.</NR_HunterFollowed>
+  <NR_StormLabel>Data storm</NR_StormLabel>
+  <NR_Storm>A data storm sweeps the net for {0}: every node is harder to crack, and every haul is bigger.</NR_Storm>
+  <NR_GatewayStorm>Data storm: {0} left</NR_GatewayStorm>
+  <NR_GatewayStormTip>Gates and ICE are one stronger, rewards are x1.5.</NR_GatewayStormTip>
+  <NR_GatewayRival>⚔ rival</NR_GatewayRival>
+  <NR_GatewayRivalTip>Another netrunner is after this node: you have {0} turns before the files are gone.</NR_GatewayRivalTip>
+  <NR_DiveHunterActive>ICE hunter on your trail: it strikes every node turn. Hack it when nothing blocks the way.</NR_DiveHunterActive>
+  <NR_DiveRivalActive>Rival netrunner: {0} turns left</NR_DiveRivalActive>
+  <NR_DiveStorm>Data storm: stronger defenses, bigger haul</NR_DiveStorm>
 </LanguageData>

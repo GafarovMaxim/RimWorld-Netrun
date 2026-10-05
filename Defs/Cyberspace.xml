@@ -63,6 +63,26 @@
     <bossIceStrength>8</bossIceStrength>
     <bossRewardMult>6</bossRewardMult>
     <bossCoreModuleChance>0.5</bossCoreModuleChance>
+    <!-- Cyberspace events (docs/PHASE5_CYBEREVENTS.md) -->
+    <hunterChance>0.35</hunterChance>
+    <hunterFromTurn>3</hunterFromTurn>
+    <hunterStrength>6</hunterStrength>
+    <hunterAttackChance>0.4</hunterAttackChance>
+    <hunterEscapeHeat>10</hunterEscapeHeat>
+    <rivalChance>0.15</rivalChance>
+    <rivalTurns>5</rivalTurns>
+    <honeypotChance>0.12</honeypotChance>
+    <honeypotTrace>8</honeypotTrace>
+    <honeypotRewardShare>0.5</honeypotRewardShare>
+    <honeypotShownReward>1.5</honeypotShownReward>
+    <stormChance>0.2</stormChance>
+    <stormDays>1~2</stormDays>
+    <stormRewardMult>1.5</stormRewardMult>
+    <wildAIChance>0.25</wildAIChance>
+    <wildAITameTrace>5</wildAITameTrace>
+    <wildAIEraseAdvanced>3</wildAIEraseAdvanced>
+    <wildAISellSilver>500</wildAISellSilver>
+    <wildAISellHeat>10</wildAISellHeat>
   </Netrun.CyberspaceSettingsDef>
 
 </Defs>

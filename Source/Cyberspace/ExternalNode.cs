@@ -80,6 +80,27 @@ public class CyberspaceSettingsDef : Def
     public int bossIceStrength = 8;
     public float bossRewardMult = 6f;
     public float bossCoreModuleChance = 0.5f;
+
+    // Cyberspace events (docs/PHASE5_CYBEREVENTS.md).
+    public float hunterChance = 0.35f;
+    public int hunterFromTurn = 3;
+    public int hunterStrength = 6;
+    public float hunterAttackChance = 0.4f;
+    public float hunterEscapeHeat = 10f;
+    public float rivalChance = 0.15f;
+    public int rivalTurns = 5;
+    public float honeypotChance = 0.12f;
+    public float honeypotTrace = 8f;
+    public float honeypotRewardShare = 0.5f;
+    public float honeypotShownReward = 1.5f;
+    public float stormChance = 0.2f;
+    public FloatRange stormDays = new(1f, 2f);
+    public float stormRewardMult = 1.5f;
+    public float wildAIChance = 0.25f;
+    public float wildAITameTrace = 5f;
+    public int wildAIEraseAdvanced = 3;
+    public int wildAISellSilver = 500;
+    public float wildAISellHeat = 10f;
 }
 
 /// <summary>A node outside the home cluster: something to dive into from a cyberpod.</summary>
@@ -95,6 +116,12 @@ public class ExternalNode : IExposable
     public bool Contract;
     /// <summary>Tick the node leaves the Gateway on its own (boss node only, -1 never).</summary>
     public int ExpireTick = -1;
+    /// <summary>Another netrunner is after the same files.</summary>
+    public bool Rival;
+    /// <summary>A trap that looks rich (hidden from the player until scanned in a dive).</summary>
+    public bool Honeypot;
+    /// <summary>A wild AI lives in this node's memory unit.</summary>
+    public bool WildAI;
 
     public bool IsBoss => Type == ExternalNodeType.CorpCore;
 
@@ -162,7 +189,11 @@ public class ExternalNode : IExposable
     }
 
     /// <summary>How many times the dive cost the main files pay back.</summary>
-    public float RewardMultiplier => IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
+    public float RewardMultiplier => BaseRewardMultiplier
+        * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
+        * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
+
+    private float BaseRewardMultiplier => IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
         : BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
         : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
 
@@ -185,6 +216,7 @@ public class ExternalNode : IExposable
         var type = (ExternalNodeType)Rand.Range(0, 5);
         int defense = Rand.RangeInclusive(1, 5);
         bool blackIce = type == ExternalNodeType.Corp || (defense >= 4 && Rand.Chance(0.5f));
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
         return new ExternalNode
         {
             Id = id,
@@ -193,6 +225,9 @@ public class ExternalNode : IExposable
             Defense = defense,
             BlackIce = blackIce,
             IceStrength = blackIce ? defense + Rand.RangeInclusive(1, 2) : 0,
+            Rival = Rand.Chance(s.rivalChance),
+            Honeypot = Rand.Chance(s.honeypotChance),
+            WildAI = type == ExternalNodeType.Abandoned && Rand.Chance(s.wildAIChance),
         };
     }
 
@@ -207,5 +242,8 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Hidden, "hidden");
         Scribe_Values.Look(ref Contract, "contract");
         Scribe_Values.Look(ref ExpireTick, "expireTick", -1);
+        Scribe_Values.Look(ref Rival, "rival");
+        Scribe_Values.Look(ref Honeypot, "honeypot");
+        Scribe_Values.Look(ref WildAI, "wildAI");
     }
 }

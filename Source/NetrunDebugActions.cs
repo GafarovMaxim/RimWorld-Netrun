@@ -59,6 +59,12 @@ public static class NetrunDebugActions
     [DebugAction(Category, "Spawn boss node", allowedGameStates = AllowedGameStates.Playing)]
     private static void SpawnBossNode() => GatewayManager.Get()?.SpawnBoss();
 
+    [DebugAction(Category, "Spawn event nodes", allowedGameStates = AllowedGameStates.Playing)]
+    private static void SpawnEventNodes() => GatewayManager.Get()?.SpawnEventNodes();
+
+    [DebugAction(Category, "Start data storm", allowedGameStates = AllowedGameStates.Playing)]
+    private static void StartStorm() => GatewayManager.Get()?.StartStorm();
+
     [DebugAction(Category, "Grant all daemons", allowedGameStates = AllowedGameStates.Playing)]
     private static void GrantDaemons()
     {

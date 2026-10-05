@@ -27,6 +27,7 @@ public static class NetrunDefOf
     public static LetterDef NR_AIEventLetter;
     public static JobDef NR_AIEventSession;
     public static CyberspaceSettingsDef NR_Cyberspace;
+    public static IncidentDef NR_NetAttack_Breakdown;
     public static ChemicalDef NR_Braindance;
     public static HediffDef NR_BraindanceTolerance;
     public static HediffDef NR_PredatorBoost;
