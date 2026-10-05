@@ -10,7 +10,7 @@ namespace Netrun;
 [StaticConstructorOnStartup]
 public static class FixersTab
 {
-    private const float CardHeight = 124f;
+    private const float CardHeight = 142f;
     private const float CardGap = 12f;
     private const float PortraitSize = 96f;
     private const float ButtonHeight = 34f;
@@ -112,18 +112,17 @@ public static class FixersTab
         var barRect = new Rect(x + repLabelWidth, Mathf.Round(y + (lineHeight - 12f) / 2f), Mathf.Min(200f, width - repLabelWidth - 160f), 12f);
         Color repColor = NetrunTex.Gauge(fixer.Reputation);
         NetrunUI.Bar(barRect, fixer.Reputation / 100f, repColor);
-        GUI.color = NetrunUI.Warn;
         Widgets.DrawBoxSolid(new Rect(Mathf.Round(barRect.x + barRect.width * pinAt / 100f) - 1f, barRect.y - 3f, 2f, barRect.height + 6f), NetrunUI.Warn);
-        GUI.color = Color.white;
         string repText = fixer.Reputation.ToString("0").Colorize(repColor);
         if (!fixer.Pinned)
             repText += "  " + "NR_FixerToPin".Translate(Mathf.CeilToInt(pinAt - fixer.Reputation)).Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(barRect.xMax + 8f, y, width - (barRect.xMax + 8f - x), lineHeight), repText);
         Text.Anchor = TextAnchor.UpperLeft;
         TooltipHandler.TipRegion(new Rect(x, y, width, 22f), "NR_FixerReputationTip".Translate(pinAt.ToString("0")));
-        y += 28f;
+        y += lineHeight + 8f;
 
-        DrawButtons(new Rect(x, inner.yMax - ButtonHeight, width, ButtonHeight), fixer, map);
+        // Buttons right under the reputation line, never overlapping it.
+        DrawButtons(new Rect(x, y, width, ButtonHeight), fixer, map);
     }
 
     private static string StatusText(Fixer fixer)
