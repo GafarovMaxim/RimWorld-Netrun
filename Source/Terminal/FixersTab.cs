@@ -69,9 +69,17 @@ public static class FixersTab
         // Name and pin.
         Text.Font = GameFont.Medium;
         string name = fixer.Name.Colorize(NetrunTex.Accent);
-        if (fixer.Pinned)
-            name += " " + "NR_FixerPinnedTag".Translate().Colorize(ColorLibrary.Gold);
         Widgets.Label(new Rect(textX, inner.y, textWidth, 32f), name);
+        if (fixer.Pinned)
+        {
+            // A gold pin right after the name instead of a [Pinned] tag.
+            float nameWidth = Mathf.Min(Text.CalcSize(fixer.Name).x, textWidth - 30f);
+            var pinRect = new Rect(textX + nameWidth + 6f, inner.y + 3f, 24f, 24f);
+            GUI.color = ColorLibrary.Gold;
+            GUI.DrawTexture(pinRect, NetrunTex.Pinned);
+            GUI.color = Color.white;
+            TooltipHandler.TipRegion(pinRect, "NR_FixerPinnedTag".Translate());
+        }
         Text.Font = GameFont.Small;
 
         // Specialty and trait with tooltips.

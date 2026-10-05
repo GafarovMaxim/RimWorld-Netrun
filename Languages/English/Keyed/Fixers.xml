@@ -22,7 +22,7 @@
   <!-- Fixers tab -->
   <NR_FixersResources>Silver: {0}   Cyberdata: {1}   Advanced cyberdata: {2}</NR_FixersResources>
   <NR_FixersRotation>Unpinned fixers move on in {0}.</NR_FixersRotation>
-  <NR_FixerPinnedTag>[pinned]</NR_FixerPinnedTag>
+  <NR_FixerPinnedTag>Pinned: this fixer stays when the others rotate, and the trait is known.</NR_FixerPinnedTag>
   <NR_FixerSpecialtyLine>Specialty: {0}</NR_FixerSpecialtyLine>
   <NR_FixerTraitLine>Trait: {0}</NR_FixerTraitLine>
   <NR_FixerReputation>Reputation {0} / 100</NR_FixerReputation>

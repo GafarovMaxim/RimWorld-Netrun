@@ -22,7 +22,7 @@
   <!-- Вкладка «Фиксеры» -->
   <NR_FixersResources>Серебро: {0}   Cyberdata: {1}   Продвинутые cyberdata: {2}</NR_FixersResources>
   <NR_FixersRotation>Незакреплённые фиксеры уйдут через {0}.</NR_FixersRotation>
-  <NR_FixerPinnedTag>[закреплён]</NR_FixerPinnedTag>
+  <NR_FixerPinnedTag>Закреплён: этот фиксер остаётся при смене остальных, его черта известна.</NR_FixerPinnedTag>
   <NR_FixerSpecialtyLine>Специализация: {0}</NR_FixerSpecialtyLine>
   <NR_FixerTraitLine>Черта: {0}</NR_FixerTraitLine>
   <NR_FixerReputation>Репутация {0} / 100</NR_FixerReputation>
