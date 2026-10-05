@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_BlackBraindanceChip.label>чёрный брейнданс-чип</NR_BlackBraindanceChip.label>
-  <NR_BlackBraindanceChip.description>Нелегальная запись: настоящая боль, настоящий страх, настоящая смерть, пережитые от первого лица. Приход намного сильнее обычного брейнданса, и тянет вернуться тоже намного сильнее.\n\nЗависимость общая с обычным брейндансом, но подсаживает гораздо быстрее.</NR_BlackBraindanceChip.description>
+  <NR_BlackBraindanceChip.description>Нелегальная запись: настоящая боль, настоящий страх, настоящая смерть, пережитые от первого лица. Нужны брейнданс-очки или кибер-линк. Приход намного сильнее обычного брейнданса, и тянет вернуться тоже намного сильнее.\n\nЗависимость общая с обычным брейндансом, но подсаживает гораздо быстрее.</NR_BlackBraindanceChip.description>
   <NR_BlackBraindanceChip.ingestible.ingestCommandString>Проиграть: {0}</NR_BlackBraindanceChip.ingestible.ingestCommandString>
   <NR_BlackBraindanceChip.ingestible.ingestReportString>Проигрывает: {0}.</NR_BlackBraindanceChip.ingestible.ingestReportString>
 </LanguageData>

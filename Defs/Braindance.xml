@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Braindance chip (temporary drug form until goggles and recording arrive) -->
+  <!-- Braindance chip: played with braindance goggles or a cyberlink (see BraindanceUtility) -->
 
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_BraindanceChip</defName>
     <label>braindance chip</label>
-    <description>A recorded sensory experience compressed onto a neural chip. Playing it hijacks the user's senses: for a while, someone else's memory feels like your own.\n\nIt is pleasant and dangerously easy to come back to. Regular use builds tolerance and can turn into an addiction.</description>
+    <description>A recorded sensory experience compressed onto a neural chip. Playing it hijacks the user's senses: for a while, someone else's memory feels like your own.\n\nIt is pleasant and dangerously easy to come back to. Playing it needs braindance goggles or a cyberlink.\n\nRegular use builds tolerance and can turn into an addiction.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_BraindanceHigh</HediffDef>
       <HediffDef>NR_BraindanceAddiction</HediffDef>
@@ -73,6 +73,9 @@
         <listOrder>1000</listOrder>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
   </ThingDef>
 
   <!-- Black braindance: illegal recordings, a much stronger hit and a much stronger hook -->
@@ -80,7 +83,7 @@
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_BlackBraindanceChip</defName>
     <label>black braindance chip</label>
-    <description>An illegal recording: real pain, real fear, real death, experienced first-hand. The rush is far stronger than any ordinary braindance, and so is the pull to come back.\n\nShares the braindance addiction, but hooks users much faster.</description>
+    <description>An illegal recording: real pain, real fear, real death, experienced first-hand. Needs braindance goggles or a cyberlink. The rush is far stronger than any ordinary braindance, and so is the pull to come back.\n\nShares the braindance addiction, but hooks users much faster.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_BlackBraindanceHigh</HediffDef>
       <HediffDef>NR_BraindanceAddiction</HediffDef>
@@ -147,6 +150,9 @@
         <listOrder>1001</listOrder>
       </li>
     </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
   </ThingDef>
 
   <HediffDef>

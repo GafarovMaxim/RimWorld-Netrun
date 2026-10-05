@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_BraindanceChip.label>брейнданс-чип</NR_BraindanceChip.label>
-  <NR_BraindanceChip.description>Записанное чувственное переживание, сжатое на нейрочип. Проигрывание захватывает органы чувств: на время чужое воспоминание ощущается как своё.\n\nЭто приятно, и к этому опасно легко возвращаться. Регулярное использование вызывает толерантность и может перерасти в зависимость.</NR_BraindanceChip.description>
+  <NR_BraindanceChip.description>Записанное чувственное переживание, сжатое на нейрочип. Проигрывание захватывает органы чувств: на время чужое воспоминание ощущается как своё. Для проигрывания нужны брейнданс-очки или кибер-линк.\n\nЭто приятно, и к этому опасно легко возвращаться. Регулярное использование вызывает толерантность и может перерасти в зависимость.</NR_BraindanceChip.description>
   <NR_BraindanceChip.ingestible.ingestCommandString>Проиграть: {0}</NR_BraindanceChip.ingestible.ingestCommandString>
   <NR_BraindanceChip.ingestible.ingestReportString>Проигрывает: {0}.</NR_BraindanceChip.ingestible.ingestReportString>
 </LanguageData>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Braindance goggles: needed to play a braindance chip (a cyberlink works too) -->
+
+  <ThingDef ParentName="ApparelMakeableBase">
+    <defName>NR_BraindanceGoggles</defName>
+    <label>braindance goggles</label>
+    <description>A visor wired straight into the senses. Lets the wearer play braindance chips: sight, sound, touch and feelings of a recorded experience, as if they were their own.\n\nColonists with a cyberlink can play chips without goggles.</description>
+    <techLevel>Spacer</techLevel>
+    <graphicData>
+      <texPath>Things/Item/Equipment/NR_BraindanceGoggles</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.8, 0.8)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToMake>6000</WorkToMake>
+      <Mass>0.3</Mass>
+      <Flammability>0.4</Flammability>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <costList>
+      <Plasteel>15</Plasteel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <USH_Cyberdata>1</USH_Cyberdata>
+    </costList>
+    <recipeMaker>
+      <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
+      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <effectWorking>Smith</effectWorking>
+      <soundWorking>Recipe_Machining</soundWorking>
+      <recipeUsers Inherit="False">
+        <li>FabricationBench</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <apparel>
+      <countsAsClothingForNudity>false</countsAsClothingForNudity>
+      <bodyPartGroups>
+        <li>Eyes</li>
+      </bodyPartGroups>
+      <wornGraphicPath>Things/Pawn/Humanlike/Apparel/NR_BraindanceGoggles/NR_BraindanceGoggles</wornGraphicPath>
+      <layers>
+        <li>EyeCover</li>
+      </layers>
+      <drawData>
+        <defaultData>
+          <layer>61</layer>
+        </defaultData>
+      </drawData>
+      <renderSkipFlags>
+        <li>None</li>
+      </renderSkipFlags>
+      <canBeGeneratedToSatisfyWarmth>false</canBeGeneratedToSatisfyWarmth>
+      <canBeGeneratedToSatisfyToxicEnvironmentResistance>false</canBeGeneratedToSatisfyToxicEnvironmentResistance>
+      <tags Inherit="False" />
+      <defaultOutfitTags Inherit="False" />
+    </apparel>
+    <thingCategories Inherit="False">
+      <li>ApparelUtility</li>
+    </thingCategories>
+    <tradeTags>
+      <li>Clothing</li>
+    </tradeTags>
+  </ThingDef>
+
+</Defs>
