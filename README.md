@@ -1,6 +1,6 @@
 # Hacking Expansion: Netrun
 
-A cyberpunk layer for RimWorld 1.6, built on top of [Ushankas Hacking Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880).
+A cyberpunk layer for RimWorld 1.6, built on top of [Ushanka's Hacking Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880).
 
 Every successful intrusion leaves a digital trace. Keep your Heat low, deal with fixers, bring rogue AIs home, dive into cyberspace and record braindances, but remember that the network always answers.
 
