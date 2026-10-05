@@ -232,7 +232,7 @@ public static class GatewayView
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_Heat"), "NR_GatewayRowTrace".Translate(),
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };
-            y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
+            y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk_" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
             if (node.Contract)
             {
                 y += 4f;

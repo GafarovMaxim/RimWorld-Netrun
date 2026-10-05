@@ -134,9 +134,9 @@
   <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Итого: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
-  <NR_GatewayRisk0>низкий</NR_GatewayRisk0>
-  <NR_GatewayRisk1>средний: сильные ворота, нырок дольше</NR_GatewayRisk1>
-  <NR_GatewayRisk2>высокий: тошнота, блокировка, кома</NR_GatewayRisk2>
+  <NR_GatewayRisk_0>низкий</NR_GatewayRisk_0>
+  <NR_GatewayRisk_1>средний: сильные ворота, нырок дольше</NR_GatewayRisk_1>
+  <NR_GatewayRisk_2>высокий: тошнота, блокировка, кома</NR_GatewayRisk_2>
   <NR_GatewayTipType>Тип ноды: от него зависят добыча и шум нырка.</NR_GatewayTipType>
   <NR_GatewayTipDefense>Кодовые ворота на пути внутрь; уровень делает каждые сложнее.</NR_GatewayTipDefense>
   <NR_GatewayTipIce>Белый лёд только мешает. Black ICE бьёт нетраннера, если подойти близко или провалить взлом.</NR_GatewayTipIce>
