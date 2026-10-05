@@ -214,4 +214,8 @@
   <NR_AISectionCoprocessor>В сопроцессорах</NR_AISectionCoprocessor>
   <NR_AISectionHost>В носителях</NR_AISectionHost>
   <NR_AISectionOther>В другом месте</NR_AISectionOther>
+  <NR_AIStatusActive>АКТИВЕН</NR_AIStatusActive>
+  <NR_AIStatusAsleep>СПИТ</NR_AIStatusAsleep>
+  <NR_AIStatusIsolated>ИЗОЛЯЦИЯ</NR_AIStatusIsolated>
+  <NR_AIStatusEscaping>СБЕГАЕТ</NR_AIStatusEscaping>
 </LanguageData>

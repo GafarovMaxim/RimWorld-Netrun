@@ -214,4 +214,8 @@
   <NR_AISectionCoprocessor>In coprocessors</NR_AISectionCoprocessor>
   <NR_AISectionHost>In hosts</NR_AISectionHost>
   <NR_AISectionOther>Elsewhere</NR_AISectionOther>
+  <NR_AIStatusActive>ACTIVE</NR_AIStatusActive>
+  <NR_AIStatusAsleep>ASLEEP</NR_AIStatusAsleep>
+  <NR_AIStatusIsolated>ISOLATED</NR_AIStatusIsolated>
+  <NR_AIStatusEscaping>ESCAPING</NR_AIStatusEscaping>
 </LanguageData>

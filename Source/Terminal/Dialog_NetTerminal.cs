@@ -32,7 +32,7 @@ public class Dialog_NetTerminal : Window
     private Vector2 _contractsScroll;
     private Vector2 _aiScroll;
 
-    public override Vector2 InitialSize => new(820f, 640f);
+    public override Vector2 InitialSize => new(900f, 720f);
 
     public Dialog_NetTerminal(Map map)
     {
