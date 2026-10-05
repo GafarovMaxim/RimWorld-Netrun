@@ -50,4 +50,15 @@
   <NR_LogRip>{0} ripped {1} from {2}</NR_LogRip>
   <NR_CyberpodBonusData>{0} pulled an extra cyberdata through the cyberpod.</NR_CyberpodBonusData>
 
+  <NR_EconomySummary>Last {0} days:
+
+Cyberdata gained (dives): {1}
+Cyberdata spent (dives, discover, scrub, deliveries): {2}
+Heat gained: {3}, lowered: {4} (passive cooling not counted)
+Dives: {5}, clean exits: {6}
+AI events: {7}
+
+Heat now: {8}</NR_EconomySummary>
+  <NR_SettingsAIEventFrequency>AI event frequency:</NR_SettingsAIEventFrequency>
+  <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
 </LanguageData>

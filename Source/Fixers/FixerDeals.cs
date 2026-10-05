@@ -48,6 +48,7 @@ public static class FixerDeals
 
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cyberdata);
         ColonyGoods.TryTake(map, NetrunDefOf.USH_AdvancedCyberdata, advanced);
+        EconomyTracker.Get()?.Note(spent: cyberdata + advanced * Settings.advancedCyberdataWorth);
 
         float amount = ScrubAmount(fixer, cyberdata, advanced);
         HeatTracker.Get()?.ReduceHeat(amount, "NR_LogScrub".Translate(fixer.Name));

@@ -32,6 +32,8 @@ public class DiveElement : IExposable
     public DiveElementKind Kind;
     public int Strength;
     public bool Hidden;
+    /// <summary>A small hidden cache rather than the node's main files.</summary>
+    public bool Cache;
     public bool Cleared;
     public bool Looted;
 
@@ -43,6 +45,7 @@ public class DiveElement : IExposable
         Scribe_Values.Look(ref Kind, "kind");
         Scribe_Values.Look(ref Strength, "strength");
         Scribe_Values.Look(ref Hidden, "hidden");
+        Scribe_Values.Look(ref Cache, "cache");
         Scribe_Values.Look(ref Cleared, "cleared");
         Scribe_Values.Look(ref Looted, "looted");
     }
@@ -74,6 +77,8 @@ public class DiveSession : IExposable
     public List<ThingDef> LootItems = [];
     public List<string> Log = [];
     public bool Finished;
+    /// <summary>Cyberdata paid to start the dive; the main files pay it back with a multiplier.</summary>
+    public int CostPaid;
 
     public int ActionsPerTurn
     {
@@ -87,9 +92,9 @@ public class DiveSession : IExposable
     public DiveElement Current => Elements[Position];
     public DiveElement Next => Position + 1 < Elements.Count ? Elements[Position + 1] : null;
 
-    public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs)
+    public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid)
     {
-        var session = new DiveSession { Node = node, Runner = runner, Programs = programs.ToList() };
+        var session = new DiveSession { Node = node, Runner = runner, Programs = programs.ToList(), CostPaid = costPaid };
         session.ShieldCharges = programs.Count(p => p == DiveProgram.Shield);
         session.DecoyCharges = programs.Count(p => p == DiveProgram.Decoy);
         session.KillerCharges = programs.Count(p => p == DiveProgram.Killer);
@@ -107,7 +112,7 @@ public class DiveSession : IExposable
         for (int i = 0; i < gates; i++)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = Node.Defense + Rand.RangeInclusive(0, 2) });
         if (Rand.Chance(0.6f))
-            Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Hidden = true, Cleared = true });
+            Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Hidden = true, Cache = true, Cleared = true });
         if (Node.BlackIce)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = Node.IceStrength });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Cleared = true });
@@ -199,34 +204,40 @@ public class DiveSession : IExposable
         Current.Looted = true;
         if (Current.Kind == DiveElementKind.Memory)
             RollMemory();
+        else if (Current.Cache)
+            LootCyberdata += Rand.RangeInclusive(1, 2);
         else
             RollFiles();
         AddLog("NR_DiveLogDownload".Translate(LootText()));
         Spend(Settings.tracePerAction);
     }
 
+    /// <summary>Main files pay the dive back: cost (at least the node's entry) times 1.5 / 2 / 3, plus the type's extras.</summary>
+    public float RewardMultiplier => Node.RewardMultiplier;
+
     private void RollFiles()
     {
-        switch (Node.Type)
-        {
-            case ExternalNodeType.Market:
-                LootCyberdata += Rand.RangeInclusive(3, 5);
-                break;
-            case ExternalNodeType.Archive:
-                LootCyberdata += Rand.RangeInclusive(2, 4);
-                break;
-            case ExternalNodeType.Corp:
-                LootCyberdata += Rand.RangeInclusive(4, 6);
-                LootAdvanced += Rand.RangeInclusive(1, 2);
-                break;
-            case ExternalNodeType.DarkExchange:
-                LootSilver += Rand.RangeInclusive(200, 400);
-                LootCyberdata += Rand.RangeInclusive(1, 3);
-                break;
-            default:
-                LootCyberdata += Rand.RangeInclusive(2, 3);
-                break;
-        }
+        int basis = Mathf.Max(CostPaid, Settings.diveBaseCost + Node.Defense / 2);
+        LootCyberdata += Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier * Rand.Range(0.85f, 1.15f)));
+        if (Node.Type == ExternalNodeType.Corp)
+            LootAdvanced += Rand.RangeInclusive(1, 2);
+        else if (Node.Type == ExternalNodeType.DarkExchange)
+            LootSilver += Rand.RangeInclusive(200, 400);
+    }
+
+    /// <summary>On a clean exit, sometimes something special: an AI fragment, rarely a core module, otherwise advanced data.</summary>
+    private void RollSpecial()
+    {
+        if (!Rand.Chance(Node.BlackIce ? Settings.specialItemChanceBlackIce : Settings.specialItemChance))
+            return;
+        float roll = Rand.Value;
+        if (roll < 0.15f)
+            LootItems.Add(NetrunDefOf.NR_AICoreModule);
+        else if (roll < 0.6f)
+            LootItems.Add(NetrunDefOf.NR_AIFragment);
+        else
+            LootAdvanced += 3;
+        AddLog("NR_DiveLogSpecial".Translate().Colorize(NetrunUI.Ok));
     }
 
     private void RollMemory()
@@ -343,6 +354,7 @@ public class DiveSession : IExposable
     public void Exit()
     {
         AddLog("NR_DiveLogExit".Translate());
+        RollSpecial();
         End(success: true, keepShare: 1f);
     }
 
@@ -380,6 +392,9 @@ public class DiveSession : IExposable
         if (heat > 0f)
             HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name));
         AddNetsick(Settings.netsickPerDive);
+
+        int kept = Mathf.RoundToInt(LootCyberdata * keepShare) + Mathf.RoundToInt(LootAdvanced * keepShare) * NetrunDefOf.NR_Fixers.advancedCyberdataWorth;
+        EconomyTracker.Get()?.Note(gained: kept, diveWon: success);
 
         if (success)
         {
@@ -429,6 +444,7 @@ public class DiveSession : IExposable
         Scribe_Collections.Look(ref LootItems, "lootItems", LookMode.Def);
         Scribe_Collections.Look(ref Log, "log", LookMode.Value);
         Scribe_Values.Look(ref Finished, "finished");
+        Scribe_Values.Look(ref CostPaid, "costPaid");
         Elements ??= [];
         Programs ??= [];
         LootItems ??= [];

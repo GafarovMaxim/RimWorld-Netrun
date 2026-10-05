@@ -42,6 +42,11 @@ public class CyberspaceSettingsDef : Def
     public float netsickPerDive = 0.03f;
     public float netsickPerIceHit = 0.1f;
     public float successXp = 400f;
+    public float rewardMultLow = 1.5f;
+    public float rewardMultMid = 2f;
+    public float rewardMultBlackIce = 3f;
+    public float specialItemChance = 0.1f;
+    public float specialItemChanceBlackIce = 0.25f;
 }
 
 /// <summary>A node outside the home cluster: something to dive into from a cyberpod.</summary>
@@ -113,6 +118,10 @@ public class ExternalNode : IExposable
                 yield return NetrunTex.CyberIcon("Reward_Valuables");
         }
     }
+
+    /// <summary>How many times the dive cost the main files pay back.</summary>
+    public float RewardMultiplier => BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
+        : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
 
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 

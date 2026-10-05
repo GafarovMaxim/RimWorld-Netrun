@@ -162,6 +162,7 @@ public class ContractManager : GameComponent
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, regular);
 
         int delivered = advanced * worth + regular;
+        EconomyTracker.Get()?.Note(spent: delivered);
         if (delivered <= 0)
         {
             Messages.Message("NR_NotEnoughCyberdata".Translate(), MessageTypeDefOf.RejectInput, historical: false);

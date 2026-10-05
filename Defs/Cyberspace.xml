@@ -38,6 +38,12 @@
     <netsickPerDive>0.03</netsickPerDive>
     <netsickPerIceHit>0.1</netsickPerIceHit>
     <successXp>400</successXp>
+    <!-- Main files pay the dive cost back times this: defense up to 2, up to 4, Black ICE. Plus a chance of something special on a clean exit. -->
+    <rewardMultLow>1.5</rewardMultLow>
+    <rewardMultMid>2</rewardMultMid>
+    <rewardMultBlackIce>3</rewardMultBlackIce>
+    <specialItemChance>0.1</specialItemChance>
+    <specialItemChanceBlackIce>0.25</specialItemChanceBlackIce>
   </Netrun.CyberspaceSettingsDef>
 
 </Defs>

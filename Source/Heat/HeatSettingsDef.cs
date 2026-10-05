@@ -32,4 +32,6 @@ public class HeatSettingsDef : Def
 
     // ICE outcome "Trace lock".
     public float traceLockHeat = 8f;
+    /// <summary>Passive cooling is multiplied by this at Target and above.</summary>
+    public float highHeatDecayFactor = 0.5f;
 }

@@ -79,6 +79,8 @@ public class AISettingsDef : Def
     public float eventGoodTrust = 50f;
     public float eventBadTrust = 30f;
     public float eventBadHeat = 6f;
+    public float colonyEventGapHours = 36f;
+    public float eventAnswerDays = 2f;
 
     // Echo: chance that a colonist dying with a cyberlink leaves a digital imprint.
     public float echoChance = 0.35f;

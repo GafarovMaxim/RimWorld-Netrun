@@ -50,4 +50,15 @@
   <NR_LogRip>{0} вытянул(а) {1} из: {2}</NR_LogRip>
   <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишний cyberdata.</NR_CyberpodBonusData>
 
+  <NR_EconomySummary>Последние {0} дней:
+
+Добыто cyberdata (нырки): {1}
+Потрачено cyberdata (нырки, поиск, сброс, доставки): {2}
+Heat поднят на {3}, снижен на {4} (без пассивного остывания)
+Нырков: {5}, чистых выходов: {6}
+Событий ИИ: {7}
+
+Heat сейчас: {8}</NR_EconomySummary>
+  <NR_SettingsAIEventFrequency>Частота событий ИИ:</NR_SettingsAIEventFrequency>
+  <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
 </LanguageData>

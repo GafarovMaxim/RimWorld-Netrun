@@ -139,7 +139,7 @@ public partial class Dialog_NetTerminal
     {
         int since = Find.TickManager.TicksGame - GenDate.TicksPerDay;
         float logged = tracker.Log.Where(e => e.Tick >= since).Sum(e => e.Amount);
-        float decay = tracker.Heat > 0f ? NetrunMod.Settings.HeatDecayPerDay : 0f;
+        float decay = tracker.Heat > 0f ? tracker.DecayPerDay : 0f;
         return logged - decay;
     }
 
@@ -284,7 +284,7 @@ public partial class Dialog_NetTerminal
             y = SummaryRow(inner, y, "NR_CoreToNext".Translate(next.Label()),
                 "NR_CoreToNextValue".Translate((next.MinHeat() - tracker.Heat).ToString("0")), next.Color());
         }
-        y = SummaryRow(inner, y, "NR_CoreDecay".Translate(), "NR_CoreDecayValue".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.#")), NetrunUI.Ok);
+        y = SummaryRow(inner, y, "NR_CoreDecay".Translate(), "NR_CoreDecayValue".Translate(tracker.DecayPerDay.ToString("0.#")), NetrunUI.Ok);
         y += 4f;
         if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_CoreScrubButton".Translate(), NetrunUI.Ok, true, "NR_CoreScrubTip".Translate()))
             OpenNode(View.Club);

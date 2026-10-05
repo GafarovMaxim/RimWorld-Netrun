@@ -9,8 +9,8 @@
          reputation that reveals the fixer's trait -->
     <poolSize>3</poolSize>
     <rotationDays>7~10</rotationDays>
-    <pinnedReputation>60</pinnedReputation>
-    <traitRevealReputation>25</traitRevealReputation>
+    <pinnedReputation>45</pinnedReputation>
+    <traitRevealReputation>20</traitRevealReputation>
 
     <!-- Contacting a fixer: cost in silver and how long the channel stays open -->
     <callCost>50~150</callCost>
@@ -25,6 +25,14 @@
     <!-- Heat removed per data item before discounts -->
     <heatPerCyberdata>5</heatPerCyberdata>
     <heatPerAdvancedCyberdata>15</heatPerAdvancedCyberdata>
+    <!-- Scrub gets dearer as the trace grows: factor by Heat level (Shadow, Noticed, Tracked, Target, Red zone). 5 Heat per cyberdata x 1/1/0.8/0.6/0.4 = 5/5/4/3/2. -->
+    <scrubFactorByLevel>
+      <li>1</li>
+      <li>1</li>
+      <li>0.8</li>
+      <li>0.6</li>
+      <li>0.4</li>
+    </scrubFactorByLevel>
 
     <!-- Rat trait: chance to leak after a deal, and the Heat it adds -->
     <ratLeakChance>0.1</ratLeakChance>
@@ -59,7 +67,7 @@
     <offersPerFixer>1~2</offersPerFixer>
     <contractDays>3~7</contractDays>
     <contractReputation>10</contractReputation>
-    <failReputationLoss>10</failReputationLoss>
+    <failReputationLoss>7</failReputationLoss>
     <failSilentDays>3</failSilentDays>
     <ratFailLeakChance>0.5</ratFailLeakChance>
 
@@ -76,7 +84,7 @@
 
     <!-- Quiet run: hacks wanted while Heat stays at Tracked or lower, silver per hack -->
     <quietRunGoal>2~4</quietRunGoal>
-    <quietRunRewardPerHack>180</quietRunRewardPerHack>
+    <quietRunRewardPerHack>220</quietRunRewardPerHack>
   </Netrun.FixerSettingsDef>
 
   <!-- Fixer handles -->

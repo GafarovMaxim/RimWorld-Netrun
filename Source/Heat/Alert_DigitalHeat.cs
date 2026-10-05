@@ -28,7 +28,7 @@ public class Alert_DigitalHeat : Alert
         return "NR_AlertHeatDesc".Translate(
             tracker.Heat.ToString("0"),
             tracker.Level.Label(),
-            NetrunMod.Settings.HeatDecayPerDay.ToString("0.0"));
+            (HeatTracker.Get()?.DecayPerDay ?? NetrunMod.Settings.HeatDecayPerDay).ToString("0.0"));
     }
 
     public override AlertReport GetReport()

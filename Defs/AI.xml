@@ -63,6 +63,9 @@
     <eventGoodTrust>50</eventGoodTrust>
     <eventBadTrust>30</eventBadTrust>
     <eventBadHeat>6</eventBadHeat>
+    <!-- AI event letters: at most one per colony per this many hours, and this many days to answer. The mod setting scales the frequency. -->
+    <colonyEventGapHours>36</colonyEventGapHours>
+    <eventAnswerDays>2</eventAnswerDays>
   </Netrun.AISettingsDef>
 
   <!-- Predator service: a temporary edge for every hacker with a cyberlink -->

@@ -235,7 +235,7 @@ public static class GatewayView
             y = Row(inner, y, NetrunTex.CyberIcon(node.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"), "NR_GatewayRowIce".Translate(),
                 node.BlackIce ? "NR_GatewayIceBlack".Translate(node.IceStrength) : "NR_GatewayIceWhite".Translate(),
                 node.BlackIce ? NetrunUI.Bad : NetrunUI.TextColor, "NR_GatewayTipIce".Translate());
-            y = Row(inner, y, null, "NR_GatewayRowReward".Translate(), node.RewardText, NetrunUI.Ok, "NR_GatewayTipReward".Translate(), node.RewardIcons);
+            y = Row(inner, y, null, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardValue".Translate(node.RewardMultiplier.ToString("0.#"), node.RewardText), NetrunUI.Ok, "NR_GatewayTipReward".Translate(), node.RewardIcons);
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_Heat"), "NR_GatewayRowTrace".Translate(),
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };

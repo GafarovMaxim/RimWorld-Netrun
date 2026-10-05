@@ -2,19 +2,19 @@
 <LanguageData>
   <NR_ExtNodeName_Market>Рынок-{0}</NR_ExtNodeName_Market>
   <NR_ExtNodeType_Market>рынок данных</NR_ExtNodeType_Market>
-  <NR_ExtNodeReward_Market>3–5 cyberdata</NR_ExtNodeReward_Market>
+  <NR_ExtNodeReward_Market>cyberdata</NR_ExtNodeReward_Market>
   <NR_ExtNodeName_Archive>Архив-{0}</NR_ExtNodeName_Archive>
   <NR_ExtNodeType_Archive>архив</NR_ExtNodeType_Archive>
-  <NR_ExtNodeReward_Archive>2–4 cyberdata</NR_ExtNodeReward_Archive>
+  <NR_ExtNodeReward_Archive>cyberdata</NR_ExtNodeReward_Archive>
   <NR_ExtNodeName_Corp>Корп-хранилище-{0}</NR_ExtNodeName_Corp>
   <NR_ExtNodeType_Corp>корпоративное хранилище</NR_ExtNodeType_Corp>
-  <NR_ExtNodeReward_Corp>4–6 cyberdata, 1–2 продвинутых, ценности</NR_ExtNodeReward_Corp>
+  <NR_ExtNodeReward_Corp>cyberdata, 1–2 продвинутых, ценности</NR_ExtNodeReward_Corp>
   <NR_ExtNodeName_Abandoned>Заброш. сервер-{0}</NR_ExtNodeName_Abandoned>
   <NR_ExtNodeType_Abandoned>заброшенный сервер</NR_ExtNodeType_Abandoned>
-  <NR_ExtNodeReward_Abandoned>2–3 cyberdata, шанс осколка ИИ</NR_ExtNodeReward_Abandoned>
+  <NR_ExtNodeReward_Abandoned>cyberdata, осколок ИИ в хранилище</NR_ExtNodeReward_Abandoned>
   <NR_ExtNodeName_DarkExchange>Тёмная биржа-{0}</NR_ExtNodeName_DarkExchange>
   <NR_ExtNodeType_DarkExchange>тёмная биржа</NR_ExtNodeType_DarkExchange>
-  <NR_ExtNodeReward_DarkExchange>200–400 серебра, cyberdata, ценности</NR_ExtNodeReward_DarkExchange>
+  <NR_ExtNodeReward_DarkExchange>cyberdata, 200–400 серебра, ценности</NR_ExtNodeReward_DarkExchange>
   <NR_DiveElement_Hidden>?</NR_DiveElement_Hidden>
   <NR_DiveElement_Lobby>Вход</NR_DiveElement_Lobby>
   <NR_DiveElement_Gate>Кодовые ворота</NR_DiveElement_Gate>
@@ -146,4 +146,6 @@
   <NR_GatewayZoomIn>Приблизить (колесо мыши)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Отдалить (колесо мыши)</NR_GatewayZoomOut>
   <NR_GatewayZoomReset>Сбросить масштаб и положение. Поле можно таскать мышью.</NR_GatewayZoomReset>
+  <NR_GatewayRewardValue>x{0} от стоимости нырка: {1}</NR_GatewayRewardValue>
+  <NR_DiveLogSpecial>У выхода ждало что-то особенное.</NR_DiveLogSpecial>
 </LanguageData>

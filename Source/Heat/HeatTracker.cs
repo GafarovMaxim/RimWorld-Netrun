@@ -29,6 +29,10 @@ public class HeatTracker : GameComponent
     /// <summary>Newest entries last.</summary>
     public IReadOnlyList<HeatLogEntry> Log => _log;
 
+    /// <summary>Passive cooling per day right now: the mod setting, halved (by Defs) at Target and above.</summary>
+    public float DecayPerDay => NetrunMod.Settings.HeatDecayPerDay
+        * (Level >= HeatLevel.Target ? NetrunDefOf.NR_Heat.highHeatDecayFactor : 1f);
+
     /// <summary>Hourly Heat samples, oldest first, up to 7 days.</summary>
     public IReadOnlyList<float> History => _history;
 
@@ -42,6 +46,7 @@ public class HeatTracker : GameComponent
         float old = _heat;
         _heat = Mathf.Min(MaxHeat, _heat + amount * NetrunMod.Settings.HeatGainMultiplier);
         AddLog(_heat - old, reason);
+        EconomyTracker.Get()?.Note(heatUp: _heat - old);
 
         if (Level > before)
             NotifyLevelUp();
@@ -53,7 +58,10 @@ public class HeatTracker : GameComponent
         ReduceHeatSilently(amount);
 
         if (old != _heat)
+        {
             AddLog(_heat - old, reason);
+            EconomyTracker.Get()?.Note(heatDown: old - _heat);
+        }
     }
 
     private void ReduceHeatSilently(float amount)
@@ -76,7 +84,7 @@ public class HeatTracker : GameComponent
         if (_heat <= 0f || Find.TickManager.TicksGame % TickInterval != 0)
             return;
 
-        float decay = NetrunMod.Settings.HeatDecayPerDay * TickInterval / GenDate.TicksPerDay;
+        float decay = DecayPerDay * TickInterval / GenDate.TicksPerDay;
         ReduceHeatSilently(decay);
     }
 

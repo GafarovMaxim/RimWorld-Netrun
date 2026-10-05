@@ -51,6 +51,11 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
+    /// <summary>Balance protocol (docs/BALANCE.md): what the last 10 days brought and cost.</summary>
+    [DebugAction(Category, "Economy summary (10 days)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void EconomySummary()
+        => Find.WindowStack.Add(new Dialog_MessageBox(EconomyTracker.Get()?.Summary(10) ?? "-"));
+
     [DebugAction(Category, "Open network terminal", allowedGameStates = AllowedGameStates.Playing)]
     private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
 

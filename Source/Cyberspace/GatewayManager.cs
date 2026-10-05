@@ -94,8 +94,10 @@ public class GatewayManager : GameComponent
         Pawn runner = Runner(map, out _);
         if (runner == null)
             return;
-        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, DiveCost(map, node, out _));
-        Session = DiveSession.Start(node, runner, SelectedPrograms);
+        int cost = DiveCost(map, node, out _);
+        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
+        Session = DiveSession.Start(node, runner, SelectedPrograms, cost);
+        EconomyTracker.Get()?.Note(spent: cost, dive: true);
         SelectedPrograms = [];
     }
 
@@ -159,6 +161,7 @@ public class GatewayManager : GameComponent
         if (!CanSearch(map).Accepted)
             return null;
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, Settings.searchCost);
+        EconomyTracker.Get()?.Note(spent: Settings.searchCost);
         ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
         if (found == null)
         {

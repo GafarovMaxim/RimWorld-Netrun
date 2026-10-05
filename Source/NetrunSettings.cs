@@ -14,6 +14,10 @@ public class NetrunSettings : ModSettings
     /// <summary>Index into NetrunTex.Accents: the terminal's highlight color.</summary>
     public int TerminalAccent;
 
+    /// <summary>Scales how often AI events come: 0.5x, 1x or 2x.</summary>
+    public float AIEventFrequency = 1f;
+    private static readonly float[] Frequencies = [0.5f, 1f, 2f];
+
     public void DoWindowContents(Rect inRect)
     {
         var list = new Listing_Standard();
@@ -35,8 +39,17 @@ public class NetrunSettings : ModSettings
         }
         list.Gap();
 
+        list.Label("NR_SettingsAIEventFrequency".Translate());
+        foreach (float f in Frequencies)
+        {
+            if (list.RadioButton("NR_SettingsAIEventFrequencyValue".Translate(f.ToString("0.#")), Mathf.Approximately(AIEventFrequency, f)))
+                AIEventFrequency = f;
+        }
+        list.Gap();
+
         if (list.ButtonText("NR_SettingsReset".Translate()))
         {
+            AIEventFrequency = 1f;
             TerminalAccent = 0;
             HeatGainMultiplier = DefaultHeatGainMultiplier;
             HeatDecayPerDay = DefaultHeatDecayPerDay;
@@ -51,5 +64,8 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref HeatGainMultiplier, "heatGainMultiplier", DefaultHeatGainMultiplier);
         Scribe_Values.Look(ref HeatDecayPerDay, "heatDecayPerDay", DefaultHeatDecayPerDay);
         Scribe_Values.Look(ref TerminalAccent, "terminalAccent");
+        Scribe_Values.Look(ref AIEventFrequency, "aiEventFrequency", 1f);
+        if (AIEventFrequency <= 0f)
+            AIEventFrequency = 1f;
     }
 }

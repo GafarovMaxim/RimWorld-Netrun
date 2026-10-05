@@ -155,7 +155,7 @@ public static class HeatScreen
         y = Line(rect, y, best != null
             ? "NR_HeatScreenScrub".Translate(best.Name, best.HeatPerCyberdata.ToString("0.#"), best.HeatPerAdvancedCyberdata.ToString("0.#"))
             : "NR_HeatScreenNoFixer".Translate());
-        y = Line(rect, y, "NR_HeatScreenDecay".Translate(NetrunMod.Settings.HeatDecayPerDay.ToString("0.#")));
+        y = Line(rect, y, "NR_HeatScreenDecay".Translate(tracker.DecayPerDay.ToString("0.#")));
         y = Line(rect, y, "NR_HeatScreenGhost".Translate());
         Text.Font = GameFont.Small;
 

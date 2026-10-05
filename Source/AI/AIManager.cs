@@ -123,17 +123,21 @@ public class AIManager : GameComponent
     }
 
     /// <summary>Now and then an AI acts on its own: helps when it trusts you, makes trouble when it does not.</summary>
+    /// <summary>Days between one AI's events, scaled by the "AI event frequency" mod setting.</summary>
+    private static int NextEventDelay()
+        => (int)(Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay / NetrunMod.Settings.AIEventFrequency);
+
     private void UpdateRandomEvent(NetAI ai, int now)
     {
         if (ai.NextEventTick <= 0)
         {
-            ai.NextEventTick = now + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
+            ai.NextEventTick = now + NextEventDelay();
             return;
         }
         if (now < ai.NextEventTick)
             return;
 
-        ai.NextEventTick = now + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
+        ai.NextEventTick = now + NextEventDelay();
 
         // Catalog events (Defs/AIEvents.xml) first; the old free-service and prank events are the fallback.
         if (AIEventManager.Get()?.TryFire(ai) == true || !ai.InMainServer)

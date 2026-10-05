@@ -24,6 +24,8 @@
 
     <!-- Heat from the "trace lock" ICE outcome -->
     <traceLockHeat>8</traceLockHeat>
+    <!-- At Target and above the trace cools this much slower. -->
+    <highHeatDecayFactor>0.5</highHeatDecayFactor>
 
     <!-- An AI in a Netrun coprocessor linked to the cyberpod: Heat factor (Ghost hides better),
          extra cyberdata chance (Data Hunter finds more), Netsick factor (Doc and Warden protect the diver) -->

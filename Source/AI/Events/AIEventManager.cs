@@ -72,7 +72,8 @@ public class AIEventManager : GameComponent
     public bool TryFire(NetAI ai)
     {
         int now = Find.TickManager.TicksGame;
-        if (ai.Isolated || now - _lastEventTick < GenDate.TicksPerDay)
+        float gapHours = NetrunDefOf.NR_AI.colonyEventGapHours / NetrunMod.Settings.AIEventFrequency;
+        if (ai.Isolated || now - _lastEventTick < gapHours * GenDate.TicksPerHour)
             return false;
 
         Map map = ai.Anchor?.MapHeld ?? Find.AnyPlayerHomeMap;
@@ -86,6 +87,7 @@ public class AIEventManager : GameComponent
         // Own events first: a personality event wins over a general one twice as often.
         AIEventDef def = candidates.RandomElementByWeight(d => d.weight * (d.General ? 1f : 2f));
         _lastEventTick = now;
+        EconomyTracker.Get()?.Note(aiEvent: true);
         Fire(def, AIEventContext.Make(ai, map, def));
         return true;
     }
@@ -110,7 +112,7 @@ public class AIEventManager : GameComponent
         letter.Text = text;
         letter.lookTargets = look;
         letter.Setup(def, context);
-        letter.StartTimeout(GenDate.TicksPerDay);
+        letter.StartTimeout((int)(NetrunDefOf.NR_AI.eventAnswerDays * GenDate.TicksPerDay));
         Find.LetterStack.ReceiveLetter(letter);
     }
 
