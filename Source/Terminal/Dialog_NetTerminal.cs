@@ -40,7 +40,7 @@ public class Dialog_NetTerminal : Window
         doCloseX = true;
         doCloseButton = false;
         draggable = true;
-        forcePause = false;
+        forcePause = true;
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
         preventCameraMotion = false;
