@@ -135,5 +135,5 @@
   <NR_DiveCostCoprocessor>ИИ в сопроцессоре: −{0}</NR_DiveCostCoprocessor>
   <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Итого: {0} cyberdata</NR_DiveCostTotal>
-  <NR_GatewayDiveCost>⇩ НЫРНУТЬ ({0})</NR_GatewayDiveCost>
+  <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
 </LanguageData>

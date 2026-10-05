@@ -135,5 +135,5 @@
   <NR_DiveCostCoprocessor>AI in the coprocessor: −{0}</NR_DiveCostCoprocessor>
   <NR_DiveCostPassenger>AI passenger in the netrunner: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
-  <NR_GatewayDiveCost>⇩ DIVE ({0})</NR_GatewayDiveCost>
+  <NR_GatewayDive>DIVE</NR_GatewayDive>
 </LanguageData>

@@ -29,6 +29,7 @@ public static class GatewayView
 
     private static int _selectedId = -1;
     private static bool _listMode;
+    private static Vector2 _pan;
     private static Vector2 _listScroll;
 
     private static Texture2D MakeCircle(bool filled)
@@ -73,9 +74,19 @@ public static class GatewayView
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), map, gateway, selected);
     }
 
+    /// <summary>
+    /// The node field: a grid that can be dragged with the mouse, links from a hub, and the circles.
+    /// Drawn in a clipped group so dragged circles never spill over the panel.
+    /// </summary>
     private static void DrawCircles(Rect rect, IReadOnlyList<ExternalNode> nodes)
     {
-        Vector2 hub = new(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.55f);
+        HandleDrag(rect);
+
+        Widgets.BeginGroup(rect);
+        var local = new Rect(0f, 0f, rect.width, rect.height);
+        DrawGrid(local);
+
+        Vector2 hub = new Vector2(local.width * 0.5f, local.height * 0.55f) + _pan;
         float time = Time.realtimeSinceStartup;
 
         var placed = new List<(ExternalNode node, Vector2 pos, float radius)>();
@@ -84,8 +95,8 @@ public static class GatewayView
             ExternalNode node = nodes[i];
             Vector2 slot = Slots[i];
             float bob = Mathf.Sin(time * 0.8f + node.Id) * 4f;
-            var pos = new Vector2(rect.x + rect.width * slot.x, rect.y + rect.height * slot.y + bob);
-            float radius = node.Hidden ? 30f : Mathf.Lerp(38f, 62f, Mathf.Clamp01(node.RewardScore));
+            var pos = new Vector2(local.width * slot.x, local.height * slot.y + bob) + _pan;
+            float radius = node.Hidden ? 36f : Mathf.Lerp(46f, 68f, Mathf.Clamp01(node.RewardScore));
             placed.Add((node, pos, radius));
         }
 
@@ -94,6 +105,33 @@ public static class GatewayView
 
         foreach (var (node, pos, radius) in placed)
             DrawCircle(node, pos, radius);
+        Widgets.EndGroup();
+    }
+
+    /// <summary>Left-drag on the field pans it; the offset is kept within one field size.</summary>
+    private static void HandleDrag(Rect rect)
+    {
+        Event e = Event.current;
+        if (e.type == EventType.MouseDrag && e.button == 0 && Mouse.IsOver(rect))
+        {
+            _pan += e.delta;
+            _pan.x = Mathf.Clamp(_pan.x, -rect.width * 0.6f, rect.width * 0.6f);
+            _pan.y = Mathf.Clamp(_pan.y, -rect.height * 0.6f, rect.height * 0.6f);
+            e.Use();
+        }
+    }
+
+    /// <summary>The "space" behind the nodes: a faint grid that moves with the pan.</summary>
+    private static void DrawGrid(Rect rect)
+    {
+        const float step = 40f;
+        var color = new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.12f);
+        float ox = Mathf.Repeat(_pan.x, step);
+        float oy = Mathf.Repeat(_pan.y, step);
+        for (float x = ox; x < rect.width; x += step)
+            Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), color);
+        for (float y = oy; y < rect.height; y += step)
+            Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), color);
     }
 
     private static void DrawCircle(ExternalNode node, Vector2 pos, float radius)
@@ -107,9 +145,9 @@ public static class GatewayView
         {
             GUI.color = new Color(color.r, color.g, color.b, selected || hover ? 0.22f : 0.1f);
             GUI.DrawTexture(rect.ExpandedBy(selected ? 8f : 4f), Disc);
-            GUI.color = new Color(0.07f, 0.08f, 0.07f, 1f);
-            GUI.DrawTexture(rect, Disc);
         }
+        GUI.color = new Color(0.07f, 0.08f, 0.07f, 1f);
+        GUI.DrawTexture(rect, Disc);
         GUI.color = new Color(color.r, color.g, color.b, node.Hidden ? 0.5f : 1f);
         GUI.DrawTexture(rect, Ring);
         GUI.color = Color.white;
@@ -117,22 +155,22 @@ public static class GatewayView
         Text.Anchor = TextAnchor.MiddleCenter;
         if (node.Hidden)
         {
-            GUI.color = new Color(1f, 1f, 1f, 0.4f);
-            GUI.DrawTexture(new Rect(rect.center.x - 12f, rect.center.y - 22f, 24f, 24f), NetrunTex.HiddenNode);
+            GUI.color = new Color(1f, 1f, 1f, 0.45f);
+            GUI.DrawTexture(new Rect(rect.center.x - 18f, rect.center.y - 26f, 36f, 36f), NetrunTex.HiddenNode);
             GUI.color = Color.white;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(rect.x, rect.center.y + 2f, rect.width, 18f), "NR_GatewayHidden".Translate().Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(rect.x, rect.center.y + 10f, rect.width, 18f), "NR_GatewayHidden".Translate().Colorize(NetrunUI.Muted));
         }
         else
         {
             if (node.Icon != null)
-                GUI.DrawTexture(new Rect(rect.center.x - 14f, rect.center.y - 46f, 28f, 28f), node.Icon);
-            Widgets.Label(new Rect(rect.x, rect.center.y - 18f, rect.width, 22f), node.Name.Colorize(color));
+                GUI.DrawTexture(new Rect(rect.center.x - 20f, rect.center.y - 44f, 40f, 40f), node.Icon);
+            Widgets.Label(new Rect(rect.x - 6f, rect.center.y - 4f, rect.width + 12f, 22f), node.Name.Colorize(color));
             Text.Font = GameFont.Tiny;
             string sub = node.BlackIce ? "NR_GatewayBlackIce".Translate(node.Defense) : "NR_GatewayDefense".Translate(node.Defense);
             if (node.Contract)
                 sub += " · ★";
-            Widgets.Label(new Rect(rect.x - 10f, rect.center.y + 2f, rect.width + 20f, 18f), sub.Colorize(node.BlackIce ? NetrunUI.Bad : color));
+            Widgets.Label(new Rect(rect.x - 10f, rect.center.y + 16f, rect.width + 20f, 18f), sub.Colorize(node.BlackIce ? NetrunUI.Bad : color));
         }
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
@@ -143,7 +181,6 @@ public static class GatewayView
             _selectedId = node.Id;
         }
     }
-
     private static void DrawList(Rect rect, IReadOnlyList<ExternalNode> nodes)
     {
         const float rowHeight = 40f;
@@ -241,7 +278,7 @@ public static class GatewayView
 
         AcceptanceReport dive = gateway.CanDive(map, node);
         string diveTip = (runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) + "\n\n" : string.Empty) + breakdown;
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 44f), "NR_GatewayDiveCost".Translate(cost), NetrunUI.Accent, dive, diveTip))
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 48f), "NR_GatewayDive".Translate(), NetrunUI.Accent, dive, diveTip, NetrunTex.Dive))
             gateway.Dive(map, node);
         y += 52f;
 
