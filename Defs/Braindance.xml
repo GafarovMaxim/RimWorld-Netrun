@@ -3,7 +3,7 @@
 
   <!-- Braindance chip: played with braindance goggles or a cyberlink (see BraindanceUtility) -->
 
-  <ThingDef ParentName="MakeableDrugBase">
+  <ThingDef ParentName="DrugBase">
     <defName>NR_BraindanceChip</defName>
     <label>braindance chip</label>
     <description>A recorded sensory experience compressed onto a neural chip. Playing it hijacks the user's senses: for a while, someone else's memory feels like your own.\n\nIt is pleasant and dangerously easy to come back to. Playing it needs braindance goggles or a cyberlink.\n\nRegular use builds tolerance and can turn into an addiction.</description>
@@ -18,7 +18,6 @@
     </graphicData>
     <rotatable>false</rotatable>
     <statBases>
-      <WorkToMake>900</WorkToMake>
       <MarketValue>60</MarketValue>
       <Mass>0.05</Mass>
       <Flammability>0.5</Flammability>
@@ -51,18 +50,6 @@
         </li>
       </outcomeDoers>
     </ingestible>
-    <recipeMaker>
-      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
-      <recipeUsers>
-        <li>DrugLab</li>
-      </recipeUsers>
-      <soundWorking>Recipe_Drug</soundWorking>
-      <displayPriority>1600</displayPriority>
-    </recipeMaker>
-    <costList>
-      <USH_Cyberdata>1</USH_Cyberdata>
-      <Neutroamine>1</Neutroamine>
-    </costList>
     <comps>
       <li Class="CompProperties_Drug">
         <chemical>NR_Braindance</chemical>
@@ -81,7 +68,7 @@
 
   <!-- Black braindance: illegal recordings, a much stronger hit and a much stronger hook -->
 
-  <ThingDef ParentName="MakeableDrugBase">
+  <ThingDef ParentName="DrugBase">
     <defName>NR_BlackBraindanceChip</defName>
     <label>black braindance chip</label>
     <description>An illegal recording: real pain, real fear, real death, experienced first-hand. Needs braindance goggles or a cyberlink. The rush is far stronger than any ordinary braindance, and so is the pull to come back.\n\nShares the braindance addiction, but hooks users much faster.</description>
@@ -96,7 +83,6 @@
     </graphicData>
     <rotatable>false</rotatable>
     <statBases>
-      <WorkToMake>1500</WorkToMake>
       <MarketValue>140</MarketValue>
       <Mass>0.05</Mass>
       <Flammability>0.5</Flammability>
@@ -129,18 +115,6 @@
         </li>
       </outcomeDoers>
     </ingestible>
-    <recipeMaker>
-      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
-      <recipeUsers>
-        <li>DrugLab</li>
-      </recipeUsers>
-      <soundWorking>Recipe_Drug</soundWorking>
-      <displayPriority>1601</displayPriority>
-    </recipeMaker>
-    <costList>
-      <USH_AdvancedCyberdata>1</USH_AdvancedCyberdata>
-      <Neutroamine>2</Neutroamine>
-    </costList>
     <comps>
       <li Class="CompProperties_Drug">
         <chemical>NR_Braindance</chemical>

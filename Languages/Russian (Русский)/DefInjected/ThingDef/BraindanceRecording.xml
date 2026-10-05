@@ -2,12 +2,4 @@
 <LanguageData>
   <NR_BraindanceRaw.label>сырая брейнданс-запись</NR_BraindanceRaw.label>
   <NR_BraindanceRaw.description>Несмонтированные чувственные данные с брейнданс-очков: всё, что носитель видел и чувствовал в сильный момент. Отнесите к консоли связи, чтобы смонтировать из неё чип.</NR_BraindanceRaw.description>
-  <NR_BraindanceChipSkill.label>брейнданс-чип навыка</NR_BraindanceChipSkill.label>
-  <NR_BraindanceChipSkill.description>Запись человека, который сосредоточен и хорош в своём деле. Сам просмотр почти ничего не даёт, но сутки после него всё изученное усваивается лучше.\n\nНужны брейнданс-очки или кибер-линк. Зависимость общая с брейндансом.</NR_BraindanceChipSkill.description>
-  <NR_BraindanceChipSkill.ingestible.ingestCommandString>Проиграть: {0}</NR_BraindanceChipSkill.ingestible.ingestCommandString>
-  <NR_BraindanceChipSkill.ingestible.ingestReportString>Проигрывает: {0}.</NR_BraindanceChipSkill.ingestible.ingestReportString>
-  <NR_BraindanceChipThrill.label>брейнданс-чип адреналина</NR_BraindanceChipThrill.label>
-  <NR_BraindanceChipThrill.description>Запись боя, погони или падения: чистый адреналин без риска. Пока длится, это огромное удовольствие.\n\nНужны брейнданс-очки или кибер-линк. Зависимость общая с брейндансом.</NR_BraindanceChipThrill.description>
-  <NR_BraindanceChipThrill.ingestible.ingestCommandString>Проиграть: {0}</NR_BraindanceChipThrill.ingestible.ingestCommandString>
-  <NR_BraindanceChipThrill.ingestible.ingestReportString>Проигрывает: {0}.</NR_BraindanceChipThrill.ingestible.ingestReportString>
 </LanguageData>

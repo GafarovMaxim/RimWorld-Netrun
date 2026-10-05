@@ -18,8 +18,6 @@ public static class NetrunDefOf
     public static ThingDef NR_BraindanceChip;
     public static ThingDef NR_BraindanceGoggles;
     public static ThingDef NR_BraindanceRaw;
-    public static ThingDef NR_BraindanceChipSkill;
-    public static ThingDef NR_BraindanceChipThrill;
     public static ThingDef NR_BlackBraindanceChip;
     public static ThoughtDef NR_BraindanceGoodRecording;
     public static JobDef NR_EditBraindance;

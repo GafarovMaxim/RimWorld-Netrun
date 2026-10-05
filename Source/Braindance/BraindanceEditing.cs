@@ -12,18 +12,15 @@ public static class BraindanceEditing
 {
     public const int EditWorkTicks = 2500;
 
-    /// <summary>Which chips a recording can become: a bright memory cannot make a black chip, a kill cannot calm.</summary>
+    /// <summary>Which chip a recording becomes: a bright memory makes an ordinary chip, a dark one or a kill a black chip.</summary>
     public static IEnumerable<ThingDef> ChipsFor(BraindanceMood mood)
     {
         switch (mood)
         {
             case BraindanceMood.Bright:
                 yield return NetrunDefOf.NR_BraindanceChip;
-                yield return NetrunDefOf.NR_BraindanceChipSkill;
-                yield return NetrunDefOf.NR_BraindanceChipThrill;
                 break;
             default:
-                yield return NetrunDefOf.NR_BraindanceChipThrill;
                 yield return NetrunDefOf.NR_BlackBraindanceChip;
                 break;
         }
