@@ -56,6 +56,8 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
 {
     protected override bool CanFireNowSub(IncidentParms parms)
     {
+        if (AIEventManager.Get()?.MercsBlocked == true)
+            return false;
         if (!parms.forced && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) < HeatLevel.Target)
             return false;
         return base.CanFireNowSub(parms);

@@ -77,6 +77,13 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
             }
         }
 
+        float eventBonus = AIEventManager.Get()?.DefenseBonus ?? 0f;
+        if (eventBonus > 0f)
+        {
+            chance += eventBonus;
+            names.Add("NR_AIEventDefenseName".Translate());
+        }
+
         defender = names.ToCommaList();
         return System.Math.Min(chance, MaxDefense);
     }

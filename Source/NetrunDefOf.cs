@@ -24,6 +24,8 @@ public static class NetrunDefOf
     public static HediffDef NR_NeuralNoise;
     public static FactionDef NR_Mercenaries;
     public static IncidentDef NR_MercRaid;
+    public static LetterDef NR_AIEventLetter;
+    public static JobDef NR_AIEventSession;
     public static HediffDef NR_PredatorBoost;
     public static ThoughtDef NR_EchoPresence;
     public static HediffDef NR_AISocketInstalled;

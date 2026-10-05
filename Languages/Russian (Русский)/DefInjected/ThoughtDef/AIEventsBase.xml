@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIEventCreepy.stages.0.label>жуткая песня сервера</NR_AIEventCreepy.stages.0.label>
+  <NR_AIEventCreepy.stages.0.description>ИИ всю ночь напевал в шуме. Мурашки по коже.</NR_AIEventCreepy.stages.0.description>
+  <NR_AIEventNightmare.stages.0.label>кошмар от ИИ</NR_AIEventNightmare.stages.0.label>
+  <NR_AIEventNightmare.stages.0.description>ИИ нашёптывал мне такое, что до сих пор стоит перед глазами.</NR_AIEventNightmare.stages.0.description>
+  <NR_AIEventUplifted.stages.0.label>песня ИИ</NR_AIEventUplifted.stages.0.label>
+  <NR_AIEventUplifted.stages.0.description>ИИ превратил гул серверов в музыку. Она до сих пор звучит в голове, и это приятно.</NR_AIEventUplifted.stages.0.description>
+  <NR_AIEventGoodMemory.stages.0.label>вспомнил хорошее</NR_AIEventGoodMemory.stages.0.label>
+  <NR_AIEventGoodMemory.stages.0.description>ИИ показал момент из нашего прошлого. Я и забыл, как тогда было хорошо.</NR_AIEventGoodMemory.stages.0.description>
+  <NR_AIEventLonging.stages.0.label>тоска</NR_AIEventLonging.stages.0.label>
+  <NR_AIEventLonging.stages.0.description>ИИ показал мне того, кого я потерял. Больно, как в первый раз.</NR_AIEventLonging.stages.0.description>
+  <NR_AIEventRelief.stages.0.label>траур закончен</NR_AIEventRelief.stages.0.label>
+  <NR_AIEventRelief.stages.0.description>Мы отпустили Эхо. Будто наконец попрощались.</NR_AIEventRelief.stages.0.description>
+  <NR_AIEventComfort.stages.0.label>утешение от Эхо</NR_AIEventComfort.stages.0.label>
+  <NR_AIEventComfort.stages.0.description>Эхо говорило их голосом. Это утешило.</NR_AIEventComfort.stages.0.description>
+  <NR_AIEventAnnoyed.stages.0.label>глюки ИИ</NR_AIEventAnnoyed.stages.0.label>
+  <NR_AIEventAnnoyed.stages.0.description>Свет моргает, двери заедают, всё немного не так. Спасибо, ИИ.</NR_AIEventAnnoyed.stages.0.description>
+  <NR_AIEventGrudge.stages.0.label>проиграл спор с ИИ</NR_AIEventGrudge.stages.0.label>
+  <NR_AIEventGrudge.stages.0.description>Колония встала на сторону ИИ, а не на мою.</NR_AIEventGrudge.stages.0.description>
+  <NR_AIEventGloom.stages.0.label>мрачные стихи ИИ</NR_AIEventGloom.stages.0.label>
+  <NR_AIEventGloom.stages.0.description>ИИ всё пишет, что мы все умрём. Трудно выкинуть из головы.</NR_AIEventGloom.stages.0.description>
+  <NR_AIEventJoke.stages.0.label>шутка ИИ</NR_AIEventJoke.stages.0.label>
+  <NR_AIEventJoke.stages.0.description>ИИ нас разыграл. Даже я посмеялся.</NR_AIEventJoke.stages.0.description>
+  <NR_AIEventPrank.stages.0.label>розыгрыш ИИ</NR_AIEventPrank.stages.0.label>
+  <NR_AIEventPrank.stages.0.description>Розыгрыш ИИ был совсем не смешной.</NR_AIEventPrank.stages.0.description>
+  <NR_AIEventAria.stages.0.label>ария ИИ</NR_AIEventAria.stages.0.label>
+  <NR_AIEventAria.stages.0.description>Сирена пела для всех нас. Прекрасно.</NR_AIEventAria.stages.0.description>
+  <NR_AIEventRested.stages.0.label>ИИ напомнил о сне</NR_AIEventRested.stages.0.label>
+  <NR_AIEventRested.stages.0.description>ИИ напоминает мне отдохнуть. Кому-то не всё равно.</NR_AIEventRested.stages.0.description>
+  <NR_AIEventSuspected.stages.0.label>под подозрением ИИ</NR_AIEventSuspected.stages.0.label>
+  <NR_AIEventSuspected.stages.0.description>ИИ рылся в моих логах в поисках шпиона. Унизительно.</NR_AIEventSuspected.stages.0.description>
+  <NR_AIEventCursed.stages.0.label>запретный архив</NR_AIEventCursed.stages.0.label>
+  <NR_AIEventCursed.stages.0.description>То, что было в том архиве, лучше бы осталось закрытым.</NR_AIEventCursed.stages.0.description>
+  <NR_AIEventUncanny.stages.0.label>зловещее Эхо</NR_AIEventUncanny.stages.0.label>
+  <NR_AIEventUncanny.stages.0.description>Оно говорит как они, но это не они.</NR_AIEventUncanny.stages.0.description>
+  <NR_AIEventFavoured.stages.0.label>любимчик ИИ</NR_AIEventFavoured.stages.0.label>
+  <NR_AIEventFavoured.stages.0.description>ИИ выбрал меня. Странно, но приятно.</NR_AIEventFavoured.stages.0.description>
+</LanguageData>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AIEventLabel>{0}: {1}</NR_AIEventLabel>
+  <NR_AIEventNeedsHacker>needs a colonist with a cyberlink</NR_AIEventNeedsHacker>
+  <NR_AIEventIgnored>No answer to {0}. The AI decided on its own.</NR_AIEventIgnored>
+  <NR_AIEventHeatReason>{0}: {1}</NR_AIEventHeatReason>
+  <NR_AIEventInspired>{0} inspired it.</NR_AIEventInspired>
+  <NR_AIEventQualityUp>The AI reworked {0}: its quality went up.</NR_AIEventQualityUp>
+  <NR_AIEventArtSold>{0} was sold online for {1} silver.</NR_AIEventArtSold>
+  <NR_AIEventDefenseName>AI trap</NR_AIEventDefenseName>
+</LanguageData>

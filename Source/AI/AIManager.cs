@@ -108,7 +108,7 @@ public class AIManager : GameComponent
             if (ai.Active)
                 UpdateRequest(ai, now);
 
-            if (ai.Active && ai.InMainServer)
+            if (ai.Active)
                 UpdateRandomEvent(ai, now);
 
             // A Seed left in silence for a whole day leans toward Ghost.
@@ -134,6 +134,10 @@ public class AIManager : GameComponent
             return;
 
         ai.NextEventTick = now + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
+
+        // Catalog events (Defs/AIEvents.xml) first; the old free-service and prank events are the fallback.
+        if (AIEventManager.Get()?.TryFire(ai) == true || !ai.InMainServer)
+            return;
 
         if (ai.Trust >= Settings.eventGoodTrust)
         {
