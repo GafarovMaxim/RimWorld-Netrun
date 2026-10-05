@@ -3,7 +3,7 @@
   <name>Hacking Expansion: Netrun</name>
   <author>GafarovMaxim</author>
   <packageId>GafarovMaxim.HackingExpansionNetrun</packageId>
-  <modVersion>0.2.0</modVersion>
+  <modVersion>0.3.0</modVersion>
   <url>https://github.com/GafarovMaxim/RimWorld-Netrun</url>
   <supportedVersions>
     <li>1.6</li>
@@ -36,5 +36,5 @@
 
 Every successful intrusion leaves a digital trace. Keep your Heat low, deal with fixers, bring rogue AIs home, dive into cyberspace and record braindances, but remember that the network always answers.
 
-Work in progress. Current version: digital Heat tracking and braindance.</description>
+Work in progress. Current version: digital Heat, network terminal, fixers and contracts, networked AIs with an AI server and AI socket, cyberspace dependency, braindance.</description>
 </ModMetaData>

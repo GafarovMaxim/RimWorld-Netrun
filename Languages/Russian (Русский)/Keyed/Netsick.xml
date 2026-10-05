@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_NetsickWithdrawalTag>ломка</NR_NetsickWithdrawalTag>
+
+  <!-- Нырок на эмоциях -->
+  <NR_DiveStarted>{0} нырнул(а) в сеть на голых эмоциях.</NR_DiveStarted>
+  <NR_DiveJackpotLabel>Легендарный нырок: {0}</NR_DiveJackpotLabel>
+  <NR_DiveJackpot>{0} нырнул(а) на чистых эмоциях и вернулся(ась) с тем, чего никто не ждал: {1} продвинутых cyberdata из мест, куда не полезет ни один здравомыслящий нетраннер.</NR_DiveJackpot>
+  <NR_DiveJackpotFragment>С собой прихватилось ещё кое-что: осколок ИИ, который всё ещё думает.</NR_DiveJackpotFragment>
+  <NR_DiveFailLabel>Неудачный нырок: {0}</NR_DiveFailLabel>
+  <NR_DiveFail>{0} нырнул(а) на эмоциях и с разгона врезался(ась) в ICE: {1}. Зависимость только усилилась.</NR_DiveFail>
+  <NR_DiveNeutral>{0} вынырнул(а) после эмоционального нырка. Ничего не нашёл(ла), ничего не потерял(а).</NR_DiveNeutral>
+
+</LanguageData>

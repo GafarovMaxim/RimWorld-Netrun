@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Netsick.label>сетевая зависимость</NR_Netsick.label>
+  <NR_Netsick.description>Зависимость от киберпространства. Долгие сессии в кибер-капсуле и дистанционные взломы через кибер-линк делают физический мир медленным и плоским. Вне сети она проходит, но сильная зависимость болезненно отзывается на отключение и может загнать нетраннера обратно в капсулу вопреки здравому смыслу.</NR_Netsick.description>
+  <NR_Netsick.stages.0.label>лёгкая</NR_Netsick.stages.0.label>
+  <NR_Netsick.stages.1.label>заметная</NR_Netsick.stages.1.label>
+  <NR_Netsick.stages.2.label>сильная</NR_Netsick.stages.2.label>
+  <NR_Netsick.stages.3.label>тяжёлая</NR_Netsick.stages.3.label>
+</LanguageData>

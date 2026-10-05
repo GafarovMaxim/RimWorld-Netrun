@@ -25,6 +25,7 @@ public static class Patch_CompHackable_ProcessHacked
             HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason);
             ContractManager.Get()?.NotifyHackCompleted();
             AIManager.Get()?.NotifyHack();
+            NetsickManager.Get()?.NotifyHack(hacker);
             TryGiveCyberpodBonusData(hacker);
             TryDropAIFinds(__instance, hacker);
         }

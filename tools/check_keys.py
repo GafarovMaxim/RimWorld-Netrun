@@ -42,7 +42,12 @@ def main() -> int:
     for path in glob.glob("Source/**/*.cs", recursive=True):
         with open(path, encoding="utf-8") as f:
             used |= set(re.findall(r'"(NR_[A-Za-z_]+)"', f.read()))
-    used = {k for k in used if not k.endswith("_") and k not in NOT_KEYS and not k.startswith("NR_Netrun")}
+    # Strings that name our own defs (DefDatabase lookups) are not translation keys.
+    def_names = set()
+    for path in glob.glob("Defs/**/*.xml", recursive=True):
+        def_names |= {e.text for e in ET.parse(path).iter("defName") if e.text}
+
+    used = {k for k in used if not k.endswith("_") and k not in NOT_KEYS and k not in def_names}
     for prefix, suffixes in DYNAMIC.items():
         used |= {prefix + s for s in suffixes}
 

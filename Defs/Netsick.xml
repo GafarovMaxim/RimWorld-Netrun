@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Cyberspace dependency balance numbers. Tweak here, no code changes needed. -->
+  <Netrun.NetsickSettingsDef>
+    <defName>NR_NetsickSettings</defName>
+
+    <!-- Growth: per day in a cyberpod, per hack from a pod, per remote hack through a cyberlink.
+         A Netrun coprocessor multiplies pod growth by coprocessorNetsickFactor (Defs/Heat.xml). -->
+    <podGainPerDay>0.15</podGainPerDay>
+    <podHackGain>0.02</podHackGain>
+    <remoteHackGain>0.05</remoteHackGain>
+
+    <!-- Recovery per day while disconnected -->
+    <decayPerDay>0.04</decayPerDay>
+
+    <!-- Withdrawal: offline for this many days while at least this severe -->
+    <withdrawalAfterDays>1</withdrawalAfterDays>
+    <withdrawalMinSeverity>0.3</withdrawalMinSeverity>
+
+    <!-- "Net craving" break: dive length, chance it goes wrong, chance of a legendary dive,
+         advanced cyberdata found, chance of an AI fragment on top, extra Netsick on failure -->
+    <emotionalDiveHours>2</emotionalDiveHours>
+    <emotionalFailChance>0.65</emotionalFailChance>
+    <emotionalJackpotChance>0.12</emotionalJackpotChance>
+    <jackpotAdvancedData>3~5</jackpotAdvancedData>
+    <jackpotFragmentChance>0.3</jackpotFragmentChance>
+    <failNetsickGain>0.1</failNetsickGain>
+  </Netrun.NetsickSettingsDef>
+
+  <HediffDef>
+    <defName>NR_Netsick</defName>
+    <hediffClass>Netrun.Hediff_Netsick</hediffClass>
+    <label>netsick</label>
+    <description>Dependency on cyberspace. Long sessions in a cyberpod and remote hacking through a cyberlink make the physical world feel slow and flat. It fades with time spent offline, but a strong dependency hurts when cut off and can drive the netrunner back into the pod against all reason.</description>
+    <defaultLabelColor>(0.4, 0.9, 1)</defaultLabelColor>
+    <isBad>true</isBad>
+    <maxSeverity>1</maxSeverity>
+    <initialSeverity>0.01</initialSeverity>
+    <stages>
+      <li>
+        <label>mild</label>
+      </li>
+      <li>
+        <minSeverity>0.3</minSeverity>
+        <label>noticeable</label>
+      </li>
+      <li>
+        <minSeverity>0.6</minSeverity>
+        <label>strong</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>NR_NetCraving</mentalState>
+            <mtbDays>8</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+      <li>
+        <minSeverity>0.85</minSeverity>
+        <label>severe</label>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+        <mentalStateGivers>
+          <li>
+            <mentalState>NR_NetCraving</mentalState>
+            <mtbDays>3</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_NetsickWithdrawal</defName>
+    <workerClass>Netrun.ThoughtWorker_NetsickWithdrawal</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>reality feels flat</label>
+        <description>Everything out here is so slow. I keep reaching for an interface that isn't there.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+      <li>
+        <label>cut off from the net</label>
+        <description>The world is grey and muffled. I need to jack in. Just for a little while.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+      <li>
+        <label>starving for the net</label>
+        <description>Every second offline is wasted. My body is a cage. The pod is right there.</description>
+        <baseMoodEffect>-16</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <MentalStateDef ParentName="BaseMentalState">
+    <defName>NR_NetCraving</defName>
+    <stateClass>Netrun.MentalState_NetCraving</stateClass>
+    <workerClass>Netrun.MentalStateWorker_NetCraving</workerClass>
+    <label>net craving</label>
+    <category>Misc</category>
+    <colonistsOnly>true</colonistsOnly>
+    <minTicksBeforeRecovery>2500</minTicksBeforeRecovery>
+    <maxTicksBeforeRecovery>15000</maxTicksBeforeRecovery>
+    <recoveryMtbDays>1</recoveryMtbDays>
+    <nameColor>(0.4, 0.9, 1)</nameColor>
+    <recoveryMessage>{0} no longer craves the net.</recoveryMessage>
+    <beginLetterLabel>net craving</beginLetterLabel>
+    <beginLetter>{0} can't stand being offline any longer and is heading for a cyberpod to dive on raw emotion.\n\nDives like this usually end badly. Sometimes they turn out legendary.</beginLetter>
+    <beginLetterDef>NegativeEvent</beginLetterDef>
+    <baseInspectLine>Mental state: Net craving</baseInspectLine>
+    <escapingPrisonersIgnore>true</escapingPrisonersIgnore>
+  </MentalStateDef>
+
+</Defs>

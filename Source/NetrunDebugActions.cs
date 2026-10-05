@@ -8,6 +8,18 @@ public static class NetrunDebugActions
 {
     private const string Category = "Netrun";
 
+    [DebugAction(Category, "+0.3 Netsick", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void AddNetsick(Pawn pawn)
+    {
+        Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
+            ?? pawn.health.AddHediff(NetrunDefOf.NR_Netsick);
+        hediff.Severity += 0.3f;
+    }
+
+    [DebugAction(Category, "Start net craving", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void StartNetCraving(Pawn pawn)
+        => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);
+
     [DebugAction(Category, "+10 Heat", allowedGameStates = AllowedGameStates.Playing)]
     private static void AddHeat() => HeatTracker.Get()?.AddHeat(10f, "NR_LogDev".Translate());
 

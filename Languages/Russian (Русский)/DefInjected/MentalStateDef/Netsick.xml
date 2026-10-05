@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_NetCraving.label>сетевая ломка</NR_NetCraving.label>
+  <NR_NetCraving.recoveryMessage>{0} больше не рвётся в сеть.</NR_NetCraving.recoveryMessage>
+  <NR_NetCraving.beginLetterLabel>сетевая ломка</NR_NetCraving.beginLetterLabel>
+  <NR_NetCraving.beginLetter>{0} больше не может оставаться вне сети и идёт к кибер-капсуле, чтобы нырнуть на голых эмоциях.\n\nТакие нырки обычно кончаются плохо. Но иногда становятся легендарными.</NR_NetCraving.beginLetter>
+  <NR_NetCraving.baseInspectLine>Психическое состояние: сетевая ломка</NR_NetCraving.baseInspectLine>
+</LanguageData>

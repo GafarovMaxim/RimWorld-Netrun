@@ -19,6 +19,8 @@ public static class NetrunDefOf
     public static HediffDef NR_PredatorBoost;
     public static ThoughtDef NR_EchoPresence;
     public static HediffDef NR_AISocketInstalled;
+    public static NetsickSettingsDef NR_NetsickSettings;
+    public static HediffDef NR_Netsick;
     public static ThingDef NR_NetrunCoprocessor;
     public static RulePackDef NR_NamerFixer;
 
