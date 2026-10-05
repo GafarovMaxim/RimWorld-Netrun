@@ -44,6 +44,12 @@ public class AISettingsDef : Def
     public float sirenReputation = 10f;
     public float tricksterBadChance = 0.35f;
     public float tricksterHeat = 10f;
+    public float docNetsickRelief = 0.2f;
+    public float archivistXp = 4000f;
+    public float seedHeatScrub = 3f;
+
+    // Seed: feedings (or quiet days for Ghost) needed before it settles into a personality.
+    public int seedGrowthToEvolve = 5;
 
     // Requests.
     public IntRange requestIntervalDays = new(6, 10);

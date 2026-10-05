@@ -15,7 +15,7 @@ LANGUAGES = ["English", "Russian (Русский)"]
 NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
-PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Echo"]
+PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 DYNAMIC = {
     "NR_HeatLevel_": HEAT,
     "NR_HeatLevelDesc_": HEAT,
@@ -30,7 +30,7 @@ DYNAMIC = {
     "NR_AIPersonalityDesc_": PERSONALITIES,
     "NR_AIService_": PERSONALITIES,
     "NR_AIServiceDesc_": PERSONALITIES,
-    "NR_AIFoodSpecial_": ["Ghost", "Trickster"],
+    "NR_AIFoodSpecial_": ["Ghost", "Trickster", "Seed"],
 }
 
 

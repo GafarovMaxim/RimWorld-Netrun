@@ -21,9 +21,19 @@ public static class AIBehavior
         AIPersonality.Oracle => (NetrunDefOf.USH_AdvancedCyberdata, 1),
         AIPersonality.Forge => (ThingDefOf.ComponentIndustrial, 3),
         AIPersonality.Siren => (ThingDefOf.Silver, 100),
+        AIPersonality.Doc => (ThingDefOf.MedicineIndustrial, 1),
+        AIPersonality.Archivist => (NetrunDefOf.USH_Cyberdata, 2),
         AIPersonality.Echo => (NetrunDefOf.NR_BraindanceChip, 1),
         _ => null,
     };
+
+    /// <summary>What a Seed can be fed, and what each kind of food grows it into. Silence grows a Ghost.</summary>
+    public static List<(ThingDef thing, int count, AIPersonality grows)> SeedFoods =>
+    [
+        (NetrunDefOf.USH_Cyberdata, 2, AIPersonality.DataHunter),
+        (NetrunDefOf.NR_BraindanceChip, 1, AIPersonality.Muse),
+        (ThingDefOf.ComponentSpacer, 1, AIPersonality.Predator),
+    ];
 
     public static string FoodText(AIPersonality personality)
     {
@@ -52,6 +62,8 @@ public static class AIBehavior
     {
         if (!ai.Housed)
             return "NR_AIAsleep".Translate();
+        if (ai.Personality == AIPersonality.Seed)
+            return SeedFoods.Any(f => ColonyGoods.Count(map, f.thing) >= f.count) ? true : "NR_AISeedNoFood".Translate();
         if (Food(ai.Personality) is not { } food)
             return ("NR_AIFoodSpecial_" + ai.Personality).Translate();
         if (ColonyGoods.Count(map, food.thing) < food.count)
@@ -61,6 +73,12 @@ public static class AIBehavior
 
     public static void Feed(NetAI ai, Map map)
     {
+        if (ai.Personality == AIPersonality.Seed)
+        {
+            OpenSeedMenu(ai, map);
+            return;
+        }
+
         if (!CanFeed(ai, map).Accepted || Food(ai.Personality) is not { } food)
             return;
 
@@ -68,6 +86,32 @@ public static class AIBehavior
         ai.AddHunger(-Settings.feedHungerRelief);
         ai.AddTrust(Settings.feedTrust);
         Messages.Message("NR_AIFed".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: false);
+    }
+
+    /// <summary>A Seed is fed by choice: what it eats decides what it grows into.</summary>
+    private static void OpenSeedMenu(NetAI ai, Map map)
+    {
+        var options = new List<FloatMenuOption>();
+        foreach (var food in SeedFoods)
+        {
+            string label = "NR_AISeedFeedOption".Translate(food.count, food.thing.label, food.grows.Label());
+            if (ColonyGoods.Count(map, food.thing) < food.count)
+            {
+                options.Add(new FloatMenuOption(label + " (" + "NR_AINoFood".Translate(food.count, food.thing.label) + ")", null));
+                continue;
+            }
+
+            var captured = food;
+            options.Add(new FloatMenuOption(label, () =>
+            {
+                if (!ColonyGoods.TryTake(map, captured.thing, captured.count))
+                    return;
+                ai.AddHunger(-Settings.feedHungerRelief);
+                ai.AddTrust(Settings.feedTrust);
+                AIManager.Get()?.GrowSeed(ai, captured.grows);
+            }));
+        }
+        Find.WindowStack.Add(new FloatMenu(options));
     }
 
     public static void UseService(NetAI ai, Map map)
@@ -167,9 +211,45 @@ public static class AIBehavior
                 }
                 else
                 {
-                    AIPersonality borrowed = (AIPersonality)Rand.Range(0, (int)AIPersonality.Trickster);
-                    Perform(ai, borrowed, map);
+                    Perform(ai, AIPersonalityUtility.Borrowable.RandomElement(), map);
                 }
+                break;
+            case AIPersonality.Doc:
+            {
+                int healed = 0;
+                HediffDef[] iceHarm = [USH_HE.USH_DefOf.USH_CyberspaceNausea, USH_HE.USH_DefOf.USH_CyberspaceLockOut, USH_HE.USH_DefOf.USH_CyberspaceComa];
+                foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
+                {
+                    foreach (Hediff hediff in pawn.health.hediffSet.hediffs.Where(h => iceHarm.Contains(h.def)).ToList())
+                    {
+                        pawn.health.RemoveHediff(hediff);
+                        healed++;
+                    }
+                    Hediff netsick = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
+                    if (netsick != null)
+                        netsick.Severity -= Settings.docNetsickRelief;
+                }
+                Report("NR_AIDidDoc", ai, healed);
+                break;
+            }
+            case AIPersonality.Archivist:
+            {
+                Pawn pawn = map.mapPawns.FreeColonistsSpawned.Where(p => p.skills != null).RandomElementWithFallback();
+                SkillRecord skill = pawn?.skills.skills.Where(s => !s.TotallyDisabled).MaxByWithFallback(s => s.Level);
+                if (skill != null)
+                {
+                    skill.Learn(Settings.archivistXp, direct: true);
+                    Report("NR_AIDidArchivist", ai, $"{pawn.LabelShort}, {skill.def.label}");
+                }
+                else
+                {
+                    Report("NR_AIDidMuseNoOne", ai, "");
+                }
+                break;
+            }
+            case AIPersonality.Seed:
+                HeatTracker.Get()?.ReduceHeat(Settings.seedHeatScrub, "NR_LogAIService".Translate(ai.Name));
+                Report("NR_AIDidSeed", ai, Settings.seedHeatScrub.ToString("0"));
                 break;
             case AIPersonality.Echo:
                 foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)

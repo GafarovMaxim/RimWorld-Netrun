@@ -178,6 +178,47 @@
   </HediffDef>
 
   <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Doc</defName>
+    <label>AI passenger: Doc</label>
+    <description>A Doc AI watches over its host's body and mind. Faster immunity, better tending.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <ImmunityGainSpeed>0.15</ImmunityGainSpeed>
+          <MedicalTendQuality>0.1</MedicalTendQuality>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Archivist</defName>
+    <label>AI passenger: Archivist</label>
+    <description>An Archivist AI files away everything its host learns. Faster learning and research.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.15</GlobalLearningFactor>
+          <ResearchSpeed>0.05</ResearchSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
+    <defName>NR_HostedAI_Seed</defName>
+    <label>AI passenger: Seed</label>
+    <description>A young Seed AI is still growing in this socket. It learns from its host and the host learns a little from it.</description>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.05</GlobalLearningFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef ParentName="NR_HostedAIBase">
     <defName>NR_HostedAI_Echo</defName>
     <label>AI passenger: Echo</label>
     <description>The echo of a lost colonist lives in this socket. Its host is calmer and warmer with people.</description>

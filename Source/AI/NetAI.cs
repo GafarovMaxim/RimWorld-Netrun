@@ -39,6 +39,13 @@ public class NetAI : IExposable
     public int UnpoweredSinceTick = -1;
     public int EscapeAtTick = -1;
 
+    // Seed growth: how often it was fed toward each personality.
+    public int SeedTowardDataHunter;
+    public int SeedTowardMuse;
+    public int SeedTowardPredator;
+    public int SeedTowardGhost;
+    public int SeedLastQuietDayTick;
+
     public bool InServer => Server != null && !Server.Destroyed;
     public bool InHost => Host != null && !Host.Dead;
     public bool Housed => InServer || InHost;
@@ -56,6 +63,7 @@ public class NetAI : IExposable
     public bool ServiceReady => Find.TickManager.TicksGame >= ServiceReadyTick;
     public int ServiceTicksLeft => Mathf.Max(0, ServiceReadyTick - Find.TickManager.TicksGame);
     public bool HasRequest => Request != AIRequestKind.None;
+    public int SeedGrowth => SeedTowardDataHunter + SeedTowardMuse + SeedTowardPredator + SeedTowardGhost;
 
     public void AddTrust(float amount) => Trust = Mathf.Clamp(Trust + amount, 0f, 100f);
     public void AddHunger(float amount) => Hunger = Mathf.Clamp(Hunger + amount, 0f, 100f);
@@ -95,5 +103,10 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref NextRequestTick, "nextRequestTick");
         Scribe_Values.Look(ref UnpoweredSinceTick, "unpoweredSinceTick", -1);
         Scribe_Values.Look(ref EscapeAtTick, "escapeAtTick", -1);
+        Scribe_Values.Look(ref SeedTowardDataHunter, "seedTowardDataHunter");
+        Scribe_Values.Look(ref SeedTowardMuse, "seedTowardMuse");
+        Scribe_Values.Look(ref SeedTowardPredator, "seedTowardPredator");
+        Scribe_Values.Look(ref SeedTowardGhost, "seedTowardGhost");
+        Scribe_Values.Look(ref SeedLastQuietDayTick, "seedLastQuietDayTick");
     }
 }

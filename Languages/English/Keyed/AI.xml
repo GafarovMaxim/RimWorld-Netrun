@@ -170,6 +170,29 @@
   <NR_AIErasedLabel>AI erased: {0}</NR_AIErasedLabel>
   <NR_AIErased>{0} has been erased. Only raw data is left of it.</NR_AIErased>
 
+  <!-- Doc, Archivist, Seed -->
+  <NR_AIPersonality_Doc>Doc</NR_AIPersonality_Doc>
+  <NR_AIPersonality_Archivist>Archivist</NR_AIPersonality_Archivist>
+  <NR_AIPersonality_Seed>Seed</NR_AIPersonality_Seed>
+  <NR_AIPersonalityDesc_Doc>A medical intelligence that treats minds, not bodies. Heals the damage ICE does to netrunners and eases cyberspace dependency. Wants medicine to study.</NR_AIPersonalityDesc_Doc>
+  <NR_AIPersonalityDesc_Archivist>Keeps everything it has ever seen. Pours old knowledge straight into a colonist's head. Hungry for data to file away.</NR_AIPersonalityDesc_Archivist>
+  <NR_AIPersonalityDesc_Seed>A newborn mind with no shape yet. It becomes what you feed it: data grows a Data Hunter, braindances a Muse, raw power a Predator, silence a Ghost.</NR_AIPersonalityDesc_Seed>
+  <NR_AIService_Doc>Treat the netrunners</NR_AIService_Doc>
+  <NR_AIService_Archivist>Share the archive</NR_AIService_Archivist>
+  <NR_AIService_Seed>Learn</NR_AIService_Seed>
+  <NR_AIServiceDesc_Doc>Removes cyberspace nausea, lockout and coma from every colonist and eases everyone's cyberspace dependency.</NR_AIServiceDesc_Doc>
+  <NR_AIServiceDesc_Archivist>A random colonist gains a lot of experience in their best skill.</NR_AIServiceDesc_Archivist>
+  <NR_AIServiceDesc_Seed>Practises hiding the colony: erases a little Heat.</NR_AIServiceDesc_Seed>
+  <NR_AIDidDoc>{0} treated the netrunners: {1} ICE injuries healed, dependency eased.</NR_AIDidDoc>
+  <NR_AIDidArchivist>{0} shared its archive: {1}.</NR_AIDidArchivist>
+  <NR_AIDidSeed>{0} practised and erased {1} points of your trace.</NR_AIDidSeed>
+  <NR_AIFoodSpecial_Seed>Whatever you choose: what it eats decides what it becomes.</NR_AIFoodSpecial_Seed>
+  <NR_AISeedNoFood>Nothing in storage a Seed can eat: cyberdata, a braindance chip or an advanced component.</NR_AISeedNoFood>
+  <NR_AISeedFeedOption>{0} × {1}: grows toward {2}</NR_AISeedFeedOption>
+  <NR_AISeedGrew>{0} grew toward {1} ({2} / {3}).</NR_AISeedGrew>
+  <NR_AISeedEvolvedLabel>{0} found itself</NR_AISeedEvolvedLabel>
+  <NR_AISeedEvolved>The Seed {0} has settled into a personality.\n\nIt is now: {1}.\n{2}</NR_AISeedEvolved>
+
   <!-- Echo -->
   <NR_EchoName>Echo of {0}</NR_EchoName>
   <NR_EchoBornLabel>An echo of {0}</NR_EchoBornLabel>

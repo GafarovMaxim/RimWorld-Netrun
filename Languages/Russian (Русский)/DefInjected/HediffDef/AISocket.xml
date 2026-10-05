@@ -22,6 +22,12 @@
   <NR_HostedAI_Siren.description>ИИ-сирена одалживает колонисту свой голос. Лучше общается, торгуется и договаривается.</NR_HostedAI_Siren.description>
   <NR_HostedAI_Trickster.label>ИИ-пассажир: Трикстер</NR_HostedAI_Trickster.label>
   <NR_HostedAI_Trickster.description>ИИ-трикстер превращает всё в игру. Этот колонист быстрее учится, но чуть менее устойчив.</NR_HostedAI_Trickster.description>
+  <NR_HostedAI_Doc.label>ИИ-пассажир: Врач</NR_HostedAI_Doc.label>
+  <NR_HostedAI_Doc.description>ИИ-врач следит за телом и разумом носителя. Иммунитет быстрее, лечение лучше.</NR_HostedAI_Doc.description>
+  <NR_HostedAI_Archivist.label>ИИ-пассажир: Архивариус</NR_HostedAI_Archivist.label>
+  <NR_HostedAI_Archivist.description>ИИ-архивариус записывает всё, что узнаёт носитель. Обучение и исследования быстрее.</NR_HostedAI_Archivist.description>
+  <NR_HostedAI_Seed.label>ИИ-пассажир: Зерно</NR_HostedAI_Seed.label>
+  <NR_HostedAI_Seed.description>В этом сокете растёт юное Зерно. Оно учится у носителя, а носитель немного учится у него.</NR_HostedAI_Seed.description>
   <NR_HostedAI_Echo.label>ИИ-пассажир: Эхо</NR_HostedAI_Echo.label>
   <NR_HostedAI_Echo.description>В этом сокете живёт эхо погибшего колониста. Носитель спокойнее и теплее с людьми.</NR_HostedAI_Echo.description>
 </LanguageData>

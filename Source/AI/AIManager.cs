@@ -106,6 +106,13 @@ public class AIManager : GameComponent
             if (ai.Active)
                 UpdateRequest(ai, now);
 
+            // A Seed left in silence for a whole day leans toward Ghost.
+            if (ai.Personality == AIPersonality.Seed && ai.Active && quiet && now - ai.SeedLastQuietDayTick >= GenDate.TicksPerDay)
+            {
+                ai.SeedLastQuietDayTick = now;
+                GrowSeed(ai, AIPersonality.Ghost);
+            }
+
             UpdateLoyalty(ai, now);
         }
     }
@@ -263,6 +270,50 @@ public class AIManager : GameComponent
         return fragment;
     }
 
+    /// <summary>
+    /// One step of Seed growth toward a personality. After enough steps the Seed settles into
+    /// whatever it was fed most.
+    /// </summary>
+    public void GrowSeed(NetAI ai, AIPersonality toward)
+    {
+        if (ai.Personality != AIPersonality.Seed)
+            return;
+
+        switch (toward)
+        {
+            case AIPersonality.DataHunter: ai.SeedTowardDataHunter++; break;
+            case AIPersonality.Muse: ai.SeedTowardMuse++; break;
+            case AIPersonality.Predator: ai.SeedTowardPredator++; break;
+            case AIPersonality.Ghost: ai.SeedTowardGhost++; break;
+        }
+
+        Messages.Message("NR_AISeedGrew".Translate(ai.Name, toward.Label(), ai.SeedGrowth, Settings.seedGrowthToEvolve),
+            MessageTypeDefOf.NeutralEvent, historical: false);
+
+        if (ai.SeedGrowth < Settings.seedGrowthToEvolve)
+            return;
+
+        var counts = new List<(AIPersonality personality, int count)>
+        {
+            (AIPersonality.DataHunter, ai.SeedTowardDataHunter),
+            (AIPersonality.Muse, ai.SeedTowardMuse),
+            (AIPersonality.Predator, ai.SeedTowardPredator),
+            (AIPersonality.Ghost, ai.SeedTowardGhost),
+        };
+        int best = counts.Max(c => c.count);
+        AIPersonality grown = counts.Where(c => c.count == best).RandomElement().personality;
+
+        if (ai.InHost)
+            AIHosting.RemovePassengerHediff(ai, ai.Host);
+        ai.Personality = grown;
+        if (ai.InHost)
+            AIHosting.AddPassengerHediff(ai, ai.Host);
+
+        Find.LetterStack.ReceiveLetter("NR_AISeedEvolvedLabel".Translate(ai.Name),
+            "NR_AISeedEvolved".Translate(ai.Name, grown.Label(), grown.Description()),
+            LetterDefOf.PositiveEvent, ai.Anchor != null ? new LookTargets(ai.Anchor) : LookTargets.Invalid);
+    }
+
     /// <summary>Called once per hack completed by a colonist.</summary>
     public void NotifyHack()
     {
@@ -296,6 +347,7 @@ public class AIManager : GameComponent
         {
             AIPersonality.Ghost => AIRequestKind.Silence,
             AIPersonality.Trickster => AIRequestKind.Attention,
+            AIPersonality.Seed => AIRequestKind.Attention,
             _ => AIRequestKind.Deliver,
         };
         ai.RequestAmount = (AIBehavior.Food(ai.Personality)?.count ?? 0) * Settings.requestFeedMultiplier;

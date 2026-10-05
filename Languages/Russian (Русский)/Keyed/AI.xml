@@ -170,6 +170,29 @@
   <NR_AIErasedLabel>ИИ стёрт: {0}</NR_AIErasedLabel>
   <NR_AIErased>{0} стёрт. От него остались только сырые данные.</NR_AIErased>
 
+  <!-- Врач, Архивариус, Зерно -->
+  <NR_AIPersonality_Doc>Врач</NR_AIPersonality_Doc>
+  <NR_AIPersonality_Archivist>Архивариус</NR_AIPersonality_Archivist>
+  <NR_AIPersonality_Seed>Зерно</NR_AIPersonality_Seed>
+  <NR_AIPersonalityDesc_Doc>Медицинский интеллект, который лечит разум, а не тело. Снимает вред от ICE у нетраннеров и ослабляет сетевую зависимость. Хочет медикаменты для изучения.</NR_AIPersonalityDesc_Doc>
+  <NR_AIPersonalityDesc_Archivist>Хранит всё, что когда-либо видел. Вливает старые знания прямо в голову колонисту. Жаждет данных для своей картотеки.</NR_AIPersonalityDesc_Archivist>
+  <NR_AIPersonalityDesc_Seed>Новорождённый разум без формы. Он станет тем, чем вы его кормите: данные вырастят Охотника за данными, брейндансы — Музу, мощность — Хищника, тишина — Призрака.</NR_AIPersonalityDesc_Seed>
+  <NR_AIService_Doc>Подлечить нетраннеров</NR_AIService_Doc>
+  <NR_AIService_Archivist>Открыть архив</NR_AIService_Archivist>
+  <NR_AIService_Seed>Учиться</NR_AIService_Seed>
+  <NR_AIServiceDesc_Doc>Снимает у всех колонистов кибер-тошноту, блокировку и кому и ослабляет у всех сетевую зависимость.</NR_AIServiceDesc_Doc>
+  <NR_AIServiceDesc_Archivist>Случайный колонист получает много опыта в своём лучшем навыке.</NR_AIServiceDesc_Archivist>
+  <NR_AIServiceDesc_Seed>Тренируется прятать колонию: немного стирает Heat.</NR_AIServiceDesc_Seed>
+  <NR_AIDidDoc>{0} подлечил нетраннеров: снято последствий ICE — {1}, зависимость ослаблена.</NR_AIDidDoc>
+  <NR_AIDidArchivist>{0} открыл архив: {1}.</NR_AIDidArchivist>
+  <NR_AIDidSeed>{0} потренировалось и стёрло {1} очков вашего следа.</NR_AIDidSeed>
+  <NR_AIFoodSpecial_Seed>Что выберете: от еды зависит, кем оно станет.</NR_AIFoodSpecial_Seed>
+  <NR_AISeedNoFood>На складе нет ничего, что ест Зерно: cyberdata, брейнданс-чип или продвинутый компонент.</NR_AISeedNoFood>
+  <NR_AISeedFeedOption>{0} × {1}: растёт в сторону «{2}»</NR_AISeedFeedOption>
+  <NR_AISeedGrew>{0} растёт в сторону «{1}» ({2} / {3}).</NR_AISeedGrew>
+  <NR_AISeedEvolvedLabel>{0} нашло себя</NR_AISeedEvolvedLabel>
+  <NR_AISeedEvolved>Зерно {0} обрело личность.\n\nТеперь это: {1}.\n{2}</NR_AISeedEvolved>
+
   <!-- Эхо -->
   <NR_EchoName>Эхо: {0}</NR_EchoName>
   <NR_EchoBornLabel>Эхо: {0}</NR_EchoBornLabel>
