@@ -30,6 +30,9 @@ public static class GatewayView
     private static int _selectedId = -1;
     private static bool _listMode;
     private static Vector2 _pan;
+    private static float _zoom = 1f;
+    private const float MinZoom = 0.6f;
+    private const float MaxZoom = 1.8f;
     private static Vector2 _listScroll;
 
     private static Texture2D MakeCircle(bool filled)
@@ -86,7 +89,8 @@ public static class GatewayView
         var local = new Rect(0f, 0f, rect.width, rect.height);
         DrawGrid(local);
 
-        Vector2 hub = new Vector2(local.width * 0.5f, local.height * 0.55f) + _pan;
+        Vector2 center = new(local.width * 0.5f, local.height * 0.55f);
+        Vector2 hub = center + _pan;
         float time = Time.realtimeSinceStartup;
 
         var placed = new List<(ExternalNode node, Vector2 pos, float radius)>();
@@ -95,8 +99,10 @@ public static class GatewayView
             ExternalNode node = nodes[i];
             Vector2 slot = Slots[i];
             float bob = Mathf.Sin(time * 0.8f + node.Id) * 4f;
-            var pos = new Vector2(local.width * slot.x, local.height * slot.y + bob) + _pan;
-            float radius = node.Hidden ? 36f : Mathf.Lerp(46f, 68f, Mathf.Clamp01(node.RewardScore));
+            // Zoom spreads the slots around the field centre; circles grow with it.
+            var slotPos = new Vector2(local.width * slot.x, local.height * slot.y + bob);
+            var pos = center + (slotPos - center) * _zoom + _pan;
+            float radius = (node.Hidden ? 36f : Mathf.Lerp(46f, 68f, Mathf.Clamp01(node.RewardScore))) * Mathf.Sqrt(_zoom);
             placed.Add((node, pos, radius));
         }
 
@@ -106,9 +112,25 @@ public static class GatewayView
         foreach (var (node, pos, radius) in placed)
             DrawCircle(node, pos, radius);
         Widgets.EndGroup();
+
+        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f - 4f, rect.y + 4f, 3 * 34f, 30f));
     }
 
-    /// <summary>Left-drag on the field pans it; the offset is kept within one field size.</summary>
+    /// <summary>Zoom in, zoom out and reset (also resets the pan).</summary>
+    private static void DrawZoomButtons(Rect rect)
+    {
+        if (NetrunUI.Button(new Rect(rect.x, rect.y, 30f, 30f), "+", NetrunUI.Accent, _zoom < MaxZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomIn".Translate()))
+            _zoom = Mathf.Min(MaxZoom, _zoom + 0.2f);
+        if (NetrunUI.Button(new Rect(rect.x + 34f, rect.y, 30f, 30f), "−", NetrunUI.Accent, _zoom > MinZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomOut".Translate()))
+            _zoom = Mathf.Max(MinZoom, _zoom - 0.2f);
+        if (NetrunUI.Button(new Rect(rect.x + 68f, rect.y, 30f, 30f), "◎", NetrunUI.Muted, true, "NR_GatewayZoomReset".Translate()))
+        {
+            _zoom = 1f;
+            _pan = Vector2.zero;
+        }
+    }
+
+    /// <summary>Left-drag on the field pans it (kept within one field size); the mouse wheel zooms.</summary>
     private static void HandleDrag(Rect rect)
     {
         Event e = Event.current;
@@ -119,12 +141,17 @@ public static class GatewayView
             _pan.y = Mathf.Clamp(_pan.y, -rect.height * 0.6f, rect.height * 0.6f);
             e.Use();
         }
+        else if (e.type == EventType.ScrollWheel && Mouse.IsOver(rect))
+        {
+            _zoom = Mathf.Clamp(_zoom - e.delta.y * 0.05f, MinZoom, MaxZoom);
+            e.Use();
+        }
     }
 
     /// <summary>The "space" behind the nodes: a faint grid that moves with the pan.</summary>
     private static void DrawGrid(Rect rect)
     {
-        const float step = 40f;
+        float step = 40f * _zoom;
         var color = new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.12f);
         float ox = Mathf.Repeat(_pan.x, step);
         float oy = Mathf.Repeat(_pan.y, step);

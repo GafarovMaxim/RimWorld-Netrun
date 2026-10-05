@@ -143,4 +143,7 @@
   <NR_GatewayTipReward>Что можно скачать из файлов и хранилища.</NR_GatewayTipReward>
   <NR_GatewayTipTrace>Сколько Heat добавляет каждое сетевое действие до модификаторов программ и сопроцессора.</NR_GatewayTipTrace>
   <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний. Красный: Black ICE и исходы Hacking Expansion.</NR_GatewayTipRisk>
+  <NR_GatewayZoomIn>Приблизить (колесо мыши)</NR_GatewayZoomIn>
+  <NR_GatewayZoomOut>Отдалить (колесо мыши)</NR_GatewayZoomOut>
+  <NR_GatewayZoomReset>Сбросить масштаб и положение. Поле можно таскать мышью.</NR_GatewayZoomReset>
 </LanguageData>

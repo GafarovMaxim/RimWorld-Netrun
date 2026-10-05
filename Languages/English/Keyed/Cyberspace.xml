@@ -143,4 +143,7 @@
   <NR_GatewayTipReward>What downloading the files and the memory unit can give.</NR_GatewayTipReward>
   <NR_GatewayTipTrace>Heat added per network action, before program and coprocessor modifiers.</NR_GatewayTipTrace>
   <NR_GatewayTipRisk>Grey: low. Yellow: medium. Red: Black ICE and Hacking Expansion outcomes.</NR_GatewayTipRisk>
+  <NR_GatewayZoomIn>Zoom in (mouse wheel)</NR_GatewayZoomIn>
+  <NR_GatewayZoomOut>Zoom out (mouse wheel)</NR_GatewayZoomOut>
+  <NR_GatewayZoomReset>Reset zoom and position. Drag the field with the mouse to move it.</NR_GatewayZoomReset>
 </LanguageData>
