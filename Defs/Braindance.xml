@@ -72,6 +72,7 @@
         <needLevelOffset>1</needLevelOffset>
         <listOrder>1000</listOrder>
       </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
     </comps>
     <modExtensions>
       <li Class="Netrun.BraindanceChipExtension" />
@@ -149,6 +150,7 @@
         <needLevelOffset>1</needLevelOffset>
         <listOrder>1001</listOrder>
       </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
     </comps>
     <modExtensions>
       <li Class="Netrun.BraindanceChipExtension" />

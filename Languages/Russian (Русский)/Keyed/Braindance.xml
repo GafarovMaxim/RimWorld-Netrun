@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_BDRecordInspect>Записал(а) {0}: {1}. Настрой: {2}. Качество: {3}.</NR_BDRecordInspect>
+  <NR_BDMood_Bright>светлый</NR_BDMood_Bright>
+  <NR_BDMood_Dark>тёмный</NR_BDMood_Dark>
+  <NR_BDMood_Combat>боевой</NR_BDMood_Combat>
+  <NR_BDQuality_0>обычное</NR_BDQuality_0>
+  <NR_BDQuality_1>отличное</NR_BDQuality_1>
+  <NR_BDQuality_2>мастерское</NR_BDQuality_2>
+  <NR_BDRecorded>Брейнданс-очки {0} записали: {1}.</NR_BDRecorded>
+  <NR_BDEventKill>убийство: {0}</NR_BDEventKill>
+  <NR_BDEditCommand>Смонтировать брейнданс</NR_BDEditCommand>
+  <NR_BDEditOption>Смонтировать запись {0} ({1}) в: {2}</NR_BDEditOption>
+  <NR_BDEdited>{0} закончил(а) монтаж: {1}.</NR_BDEdited>
+</LanguageData>

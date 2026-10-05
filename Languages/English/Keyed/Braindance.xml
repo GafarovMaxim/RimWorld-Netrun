@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_BDRecordInspect>Recorded by {0}: {1}. Mood: {2}. Quality: {3}.</NR_BDRecordInspect>
+  <NR_BDMood_Bright>bright</NR_BDMood_Bright>
+  <NR_BDMood_Dark>dark</NR_BDMood_Dark>
+  <NR_BDMood_Combat>combat</NR_BDMood_Combat>
+  <NR_BDQuality_0>ordinary</NR_BDQuality_0>
+  <NR_BDQuality_1>great</NR_BDQuality_1>
+  <NR_BDQuality_2>masterful</NR_BDQuality_2>
+  <NR_BDRecorded>{0}'s braindance goggles recorded: {1}.</NR_BDRecorded>
+  <NR_BDEventKill>killed {0}</NR_BDEventKill>
+  <NR_BDEditCommand>Edit braindance</NR_BDEditCommand>
+  <NR_BDEditOption>Edit {0}'s recording ({1}) into: {2}</NR_BDEditOption>
+  <NR_BDEdited>{0} finished editing: {1}.</NR_BDEdited>
+</LanguageData>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_BraindanceSkill.label>брейнданс-сосредоточенность</NR_BraindanceSkill.label>
+  <NR_BraindanceSkill.description>Чужая практика ещё живёт в мышцах и голове. Учиться легче.</NR_BraindanceSkill.description>
+  <NR_BraindanceThrill.label>брейнданс-адреналин</NR_BraindanceThrill.label>
+  <NR_BraindanceThrill.labelNoun>брейнданс-адреналин</NR_BraindanceThrill.labelNoun>
+  <NR_BraindanceThrill.description>Сердце всё ещё колотится после боя, которого с носителем не было.</NR_BraindanceThrill.description>
+</LanguageData>

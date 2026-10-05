@@ -52,5 +52,8 @@ public class CompNetTerminal : ThingComp
 
         foreach (FloatMenuOption option in AIAwakening.FloatOptions(selPawn, (Building)parent))
             yield return option;
+
+        foreach (FloatMenuOption option in BraindanceEditing.FloatOptions(selPawn, (Building)parent))
+            yield return option;
     }
 }

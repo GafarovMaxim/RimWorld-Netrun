@@ -31,6 +31,8 @@ DYNAMIC = {
     "NR_AIService_": PERSONALITIES,
     "NR_AIServiceDesc_": PERSONALITIES,
     "NR_AIFoodSpecial_": ["Ghost", "Trickster", "Seed"],
+    "NR_BDMood_": ["Bright", "Dark", "Combat"],
+    "NR_BDQuality_": ["0", "1", "2"],
     "NR_SettingsAccent_": ["0", "1", "2", "3", "4"],
 }
 

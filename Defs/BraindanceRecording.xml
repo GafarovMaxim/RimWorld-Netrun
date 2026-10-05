@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Raw recording: made by braindance goggles, edited into a chip at the comms console -->
+
+  <ThingDef ParentName="ResourceBase">
+    <defName>NR_BraindanceRaw</defName>
+    <label>raw braindance recording</label>
+    <description>Unedited sensory data captured by braindance goggles: everything the wearer saw and felt in a strong moment. Carry it to a comms console to edit it into a playable chip.</description>
+    <graphicData>
+      <texPath>Things/Item/NR_BraindanceRaw</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <stackLimit>1</stackLimit>
+    <techLevel>Spacer</techLevel>
+    <statBases>
+      <MarketValue>25</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <thingCategories>
+      <li>Manufactured</li>
+    </thingCategories>
+    <tradeability>Sellable</tradeability>
+    <comps>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
+    </comps>
+  </ThingDef>
+
+  <!-- Skill chip: somebody else's practice, felt from the inside -->
+
+  <ThingDef ParentName="DrugBase">
+    <defName>NR_BraindanceChipSkill</defName>
+    <label>skill braindance chip</label>
+    <description>A recording of someone focused and good at what they do. Playing it does not feel like much, but for a day afterwards everything learned sticks better.\n\nNeeds braindance goggles or a cyberlink. Shares the braindance addiction.</description>
+    <descriptionHyperlinks>
+      <HediffDef>NR_BraindanceSkill</HediffDef>
+      <HediffDef>NR_BraindanceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_BraindanceChip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+      <color>(0.55, 1, 0.6)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>80</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.3</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceSkill</hediffDef>
+          <severity>1</severity>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceTolerance</hediffDef>
+          <severity>0.03</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <addictiveness>0.02</addictiveness>
+        <minToleranceToAddict>0.05</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.1</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1002</listOrder>
+      </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <!-- Thrill chip: a rush, all fun and little afterglow -->
+
+  <ThingDef ParentName="DrugBase">
+    <defName>NR_BraindanceChipThrill</defName>
+    <label>thrill braindance chip</label>
+    <description>A recording of a fight, a chase or a fall: pure adrenaline with no risk. Huge fun while it lasts.\n\nNeeds braindance goggles or a cyberlink. Shares the braindance addiction.</description>
+    <descriptionHyperlinks>
+      <HediffDef>NR_BraindanceThrill</HediffDef>
+      <HediffDef>NR_BraindanceAddiction</HediffDef>
+    </descriptionHyperlinks>
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_BraindanceChip</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+      <color>(1, 0.7, 0.3)</color>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <statBases>
+      <MarketValue>80</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.9</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceThrill</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+        </li>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceTolerance</hediffDef>
+          <severity>0.05</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+          <divideByBodySize>true</divideByBodySize>
+          <multiplyByGeneToleranceFactors>true</multiplyByGeneToleranceFactors>
+        </li>
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <addictiveness>0.06</addictiveness>
+        <minToleranceToAddict>0.04</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.15</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1003</listOrder>
+      </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>NR_BraindanceSkill</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>braindance focus</label>
+    <description>Someone else's practice still lingers in the muscles and the mind. Learning comes easier.</description>
+    <defaultLabelColor>(0.55, 1, 0.6)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-1</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.5</GlobalLearningFactor>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_BraindanceThrill</defName>
+    <hediffClass>Hediff_High</hediffClass>
+    <label>braindance thrill</label>
+    <labelNoun>a braindance thrill</labelNoun>
+    <description>The heart still races from a fight that never happened to the user.</description>
+    <defaultLabelColor>(1, 0.7, 0.3)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-2</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.05</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_BraindanceThrill</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>NR_BraindanceThrill</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>braindance thrill</label>
+        <description>What a ride. My heart is still pounding.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Bonus from a good recording (by CompBraindanceRecord, stage = quality - 1) -->
+
+  <ThoughtDef>
+    <defName>NR_BraindanceGoodRecording</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>1</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>great braindance</label>
+        <description>That recording was so real. I keep thinking about it.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+      <li>
+        <label>masterful braindance</label>
+        <description>The best recording I have ever played. For a while I really was someone else.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <JobDef>
+    <defName>NR_EditBraindance</defName>
+    <driverClass>Netrun.JobDriver_EditBraindance</driverClass>
+    <reportString>editing a braindance recording.</reportString>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>
