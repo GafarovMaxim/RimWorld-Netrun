@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <name>Hacking Expansion: Netrun</name>
-  <author>GafarovMaxim</author>
+  <author>Raul Moreau</author>
   <packageId>GafarovMaxim.HackingExpansionNetrun</packageId>
-  <modVersion>0.4.0</modVersion>
+  <modVersion>0.5.0</modVersion>
   <url>https://github.com/GafarovMaxim/RimWorld-Netrun</url>
   <supportedVersions>
     <li>1.6</li>
@@ -32,9 +32,16 @@
     <li>OskarPotocki.VanillaFactionsExpanded.Core</li>
     <li>Ushanka.HackingExpansion</li>
   </loadAfter>
-  <description>A cyberpunk layer for Ushankas Hacking Expansion.
+  <description>A cyberpunk layer for Ushanka's Hacking Expansion. Every intrusion leaves a digital trace, and the net always answers.
 
-Every successful intrusion leaves a digital trace. Keep your Heat low, deal with fixers, bring rogue AIs home, dive into cyberspace and record braindances, but remember that the network always answers.
+• Network terminal: a node map on the comms console (renamed to network console) and in the cyberpod: Core, Club, Board, Archive, Server room, Studio, Gateway.
+• Digital Heat: five levels from Shadow to Red Zone, network attacks and a hidden mercenary faction that follows your trace.
+• Fixers and contracts: calls, trace scrubbing, a shop, reputation, data deliveries and system taps.
+• Networked AIs: awaken fragments, keep them on the AI server, in a cyberpod coprocessor or in a colonist's AI socket. 13 personalities with services, hunger, trust, requests and 75 events.
+• Cyberspace: dive into external nodes from a cyberpod, turn by turn, with programs, code gates and Black ICE.
+• Braindance: goggles record strong moments, edit them into chips, mind the addiction.
 
-Work in progress. Current version: digital Heat, network terminal, fixers and contracts, networked AIs with an AI server and AI socket, cyberspace dependency, braindance.</description>
+Requires Hacking Expansion, Harmony and Vanilla Expanded Framework. Russian and English.
+
+Киберпанк-дополнение к Hacking Expansion: сетевой терминал, цифровой след, фиксеры и контракты, сетевые ИИ, нырки в киберпространство и брейнданс. Перевод на русский язык включён.</description>
 </ModMetaData>
