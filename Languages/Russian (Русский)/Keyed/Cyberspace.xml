@@ -101,8 +101,6 @@
   <NR_GatewayRowTrace>След</NR_GatewayRowTrace>
   <NR_GatewayTraceValue>x{0} Heat за действие</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
-  <NR_GatewayRiskIce>тошнота, блокировка, кома</NR_GatewayRiskIce>
-  <NR_GatewayRiskLow>низкий</NR_GatewayRiskLow>
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
   <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
@@ -136,4 +134,13 @@
   <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Итого: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
+  <NR_GatewayRisk0>низкий</NR_GatewayRisk0>
+  <NR_GatewayRisk1>средний: сильные ворота, нырок дольше</NR_GatewayRisk1>
+  <NR_GatewayRisk2>высокий: тошнота, блокировка, кома</NR_GatewayRisk2>
+  <NR_GatewayTipType>Тип ноды: от него зависят добыча и шум нырка.</NR_GatewayTipType>
+  <NR_GatewayTipDefense>Кодовые ворота на пути внутрь; уровень делает каждые сложнее.</NR_GatewayTipDefense>
+  <NR_GatewayTipIce>Белый лёд только мешает. Black ICE бьёт нетраннера, если подойти близко или провалить взлом.</NR_GatewayTipIce>
+  <NR_GatewayTipReward>Что можно скачать из файлов и хранилища.</NR_GatewayTipReward>
+  <NR_GatewayTipTrace>Сколько Heat добавляет каждое сетевое действие до модификаторов программ и сопроцессора.</NR_GatewayTipTrace>
+  <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний. Красный: Black ICE и исходы Hacking Expansion.</NR_GatewayTipRisk>
 </LanguageData>

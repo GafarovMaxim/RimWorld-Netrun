@@ -87,7 +87,10 @@ public static class NetrunUI
             GUI.color = active ? Color.white : new Color(1f, 1f, 1f, 0.4f);
             GUI.DrawTexture(new Rect(rect.x + 5f, rect.y + 4f, size, size), icon);
             GUI.color = Color.white;
-            textRect.xMin += size + 6f;
+            // Keep the label centred on the whole button when the icon fits beside it.
+            float labelWidth = Text.CalcSize(label).x;
+            if ((rect.width - labelWidth) / 2f < size + 10f)
+                textRect.xMin += size + 6f;
         }
         Text.Anchor = TextAnchor.MiddleCenter;
         Widgets.Label(textRect, label.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));

@@ -92,6 +92,28 @@ public class ExternalNode : IExposable
         _ => Type.ToString(),
     });
 
+    /// <summary>0 low (white ICE, light gates), 1 medium (strong gates), 2 high (Black ICE).</summary>
+    public int Risk => BlackIce ? 2 : Defense >= 3 ? 1 : 0;
+
+    public Texture2D RiskIcon => NetrunTex.CyberIcon(Risk switch { 2 => "Dive_Lightning_Red", 1 => "Dive_Lightning_Yellow", _ => "Dive_Lightning_Grey" });
+
+    /// <summary>Icons of what the node pays out, for the reward row.</summary>
+    public System.Collections.Generic.IEnumerable<Texture2D> RewardIcons
+    {
+        get
+        {
+            if (Type == ExternalNodeType.DarkExchange)
+                yield return ThingDefOf.Silver.uiIcon;
+            yield return NetrunDefOf.USH_Cyberdata.uiIcon;
+            if (Type == ExternalNodeType.Corp)
+                yield return NetrunDefOf.USH_AdvancedCyberdata.uiIcon;
+            if (Type == ExternalNodeType.Abandoned)
+                yield return NetrunDefOf.NR_AIFragment.uiIcon;
+            if (Type is ExternalNodeType.Corp or ExternalNodeType.DarkExchange)
+                yield return NetrunTex.CyberIcon("Reward_Valuables");
+        }
+    }
+
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
     public static ExternalNode Generate(int id)

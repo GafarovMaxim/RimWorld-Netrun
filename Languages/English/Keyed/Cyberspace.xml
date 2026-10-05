@@ -101,8 +101,6 @@
   <NR_GatewayRowTrace>Trace</NR_GatewayRowTrace>
   <NR_GatewayTraceValue>x{0} Heat per action</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Risk</NR_GatewayRowRisk>
-  <NR_GatewayRiskIce>nausea, lockout, coma</NR_GatewayRiskIce>
-  <NR_GatewayRiskLow>low</NR_GatewayRiskLow>
   <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
   <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>no free slots</NR_GatewayNoSlots>
@@ -136,4 +134,13 @@
   <NR_DiveCostPassenger>AI passenger in the netrunner: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>DIVE</NR_GatewayDive>
+  <NR_GatewayRisk0>low</NR_GatewayRisk0>
+  <NR_GatewayRisk1>medium: strong gates, longer dive</NR_GatewayRisk1>
+  <NR_GatewayRisk2>high: nausea, lockout, coma</NR_GatewayRisk2>
+  <NR_GatewayTipType>What kind of node it is: it decides the haul and how loud a dive is.</NR_GatewayTipType>
+  <NR_GatewayTipDefense>Code gates to break on the way in; the level makes each one harder.</NR_GatewayTipDefense>
+  <NR_GatewayTipIce>White ICE only blocks. Black ICE strikes the netrunner when you get close and fail.</NR_GatewayTipIce>
+  <NR_GatewayTipReward>What downloading the files and the memory unit can give.</NR_GatewayTipReward>
+  <NR_GatewayTipTrace>Heat added per network action, before program and coprocessor modifiers.</NR_GatewayTipTrace>
+  <NR_GatewayTipRisk>Grey: low. Yellow: medium. Red: Black ICE and Hacking Expansion outcomes.</NR_GatewayTipRisk>
 </LanguageData>

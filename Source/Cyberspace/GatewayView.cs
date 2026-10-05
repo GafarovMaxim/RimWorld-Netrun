@@ -222,15 +222,17 @@ public static class GatewayView
         else
         {
             y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), node.Name);
-            y = Row(inner, y, "NR_GatewayRowType".Translate(), node.TypeLabel, NetrunUI.TextColor);
-            y = Row(inner, y, "NR_GatewayRowDefense".Translate(), "NR_GatewayDefenseValue".Translate(1 + node.Defense / 2, node.Defense), NetrunUI.Warn);
-            y = Row(inner, y, "NR_GatewayRowIce".Translate(),
+            y = Row(inner, y, node.Icon, "NR_GatewayRowType".Translate(), node.TypeLabel, NetrunUI.TextColor, "NR_GatewayTipType".Translate());
+            y = Row(inner, y, NetrunTex.CyberIcon("Dive_GATE"), "NR_GatewayRowDefense".Translate(),
+                "NR_GatewayDefenseValue".Translate(1 + node.Defense / 2, node.Defense), NetrunUI.Warn, "NR_GatewayTipDefense".Translate());
+            y = Row(inner, y, NetrunTex.CyberIcon(node.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"), "NR_GatewayRowIce".Translate(),
                 node.BlackIce ? "NR_GatewayIceBlack".Translate(node.IceStrength) : "NR_GatewayIceWhite".Translate(),
-                node.BlackIce ? NetrunUI.Bad : NetrunUI.TextColor);
-            y = Row(inner, y, "NR_GatewayRowReward".Translate(), node.RewardText, NetrunUI.Ok);
-            y = Row(inner, y, "NR_GatewayRowTrace".Translate(), "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn);
-            y = Row(inner, y, "NR_GatewayRowRisk".Translate(), node.BlackIce ? "NR_GatewayRiskIce".Translate() : "NR_GatewayRiskLow".Translate(),
-                node.BlackIce ? NetrunUI.Bad : NetrunUI.Muted);
+                node.BlackIce ? NetrunUI.Bad : NetrunUI.TextColor, "NR_GatewayTipIce".Translate());
+            y = Row(inner, y, null, "NR_GatewayRowReward".Translate(), node.RewardText, NetrunUI.Ok, "NR_GatewayTipReward".Translate(), node.RewardIcons);
+            y = Row(inner, y, NetrunTex.CyberIcon("Dive_Heat"), "NR_GatewayRowTrace".Translate(),
+                "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
+            Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };
+            y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
             if (node.Contract)
             {
                 y += 4f;
@@ -302,11 +304,27 @@ public static class GatewayView
         Text.Font = GameFont.Small;
     }
 
-    private static float Row(Rect inner, float y, string label, string value, Color color)
+    /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>
+    private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,
+        IEnumerable<Texture2D> valueIcons = null)
     {
-        Widgets.Label(new Rect(inner.x, y, 80f, 22f), label.Colorize(NetrunUI.Muted));
-        float h = Mathf.Max(22f, Text.CalcHeight(value, inner.width - 84f));
-        Widgets.Label(new Rect(inner.x + 84f, y, inner.width - 84f, h), value.Colorize(color));
+        const float labelWidth = 102f;
+        if (icon != null)
+            GUI.DrawTexture(new Rect(inner.x, y + 1f, 20f, 20f), icon);
+        Widgets.Label(new Rect(inner.x + 24f, y, labelWidth - 24f, 22f), label.Colorize(NetrunUI.Muted));
+        float vx = inner.x + labelWidth;
+        if (valueIcons != null)
+        {
+            foreach (Texture2D tex in valueIcons.Where(t => t != null))
+            {
+                GUI.DrawTexture(new Rect(vx, y + 1f, 20f, 20f), tex);
+                vx += 22f;
+            }
+            vx += 2f;
+        }
+        float h = Mathf.Max(22f, Text.CalcHeight(value, inner.xMax - vx));
+        Widgets.Label(new Rect(vx, y, inner.xMax - vx, h), value.Colorize(color));
+        TooltipHandler.TipRegion(new Rect(inner.x, y, inner.width, h), tip);
         GUI.color = new Color(1f, 1f, 1f, 0.08f);
         Widgets.DrawLineHorizontal(inner.x, y + h + 1f, inner.width);
         GUI.color = Color.white;
