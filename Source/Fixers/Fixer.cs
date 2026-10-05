@@ -1,0 +1,117 @@
+using System.Collections.Generic;
+using RimWorld;
+using UnityEngine;
+using Verse;
+
+namespace Netrun;
+
+public enum FixerSpecialty
+{
+    Broker,
+    Cleaner,
+    Fence,
+}
+
+public enum FixerTrait
+{
+    Greedy,
+    Reliable,
+    Rat,
+}
+
+public class Fixer : IExposable
+{
+    private const float MaxReputation = 100f;
+
+    public int Id;
+    public string Name;
+    public FixerSpecialty Specialty;
+    public FixerTrait Trait;
+    public float Reputation;
+    public int CallCost;
+    public int ChannelOpenUntilTick;
+    public int SilentUntilTick;
+    public bool TraitRevealed;
+    public List<ThingDef> Stock = [];
+
+    private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
+
+    public bool Pinned => Reputation >= Settings.pinnedReputation;
+    public bool TraitKnown => TraitRevealed || Reputation >= Settings.traitRevealReputation;
+    public bool HasShop => Specialty == FixerSpecialty.Fence;
+
+    public bool IsSilent => Find.TickManager.TicksGame < SilentUntilTick;
+    public bool ChannelOpen => Find.TickManager.TicksGame < ChannelOpenUntilTick;
+    public int ChannelTicksLeft => Mathf.Max(0, ChannelOpenUntilTick - Find.TickManager.TicksGame);
+
+    /// <summary>Multiplier applied to everything the fixer charges.</summary>
+    public float PriceFactor
+    {
+        get
+        {
+            float discount = Reputation / MaxReputation * Settings.maxReputationDiscount;
+            if (Specialty == FixerSpecialty.Cleaner)
+                discount += Settings.cleanerDiscount;
+
+            float factor = 1f - Mathf.Min(discount, Settings.maxDiscount);
+            if (Trait == FixerTrait.Greedy)
+                factor *= Settings.greedyPriceFactor;
+
+            return factor;
+        }
+    }
+
+    /// <summary>Calls never get the Cleaner discount.</summary>
+    public int EffectiveCallCost => Mathf.CeilToInt(CallCost * (Trait == FixerTrait.Greedy ? Settings.greedyPriceFactor : 1f));
+
+    public float HeatPerCyberdata => Settings.heatPerCyberdata / PriceFactor;
+    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata / PriceFactor;
+
+    public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor);
+
+    public void GainReputation(float amount)
+    {
+        bool wasPinned = Pinned;
+        Reputation = Mathf.Clamp(Reputation + amount, 0f, MaxReputation);
+
+        if (!wasPinned && Pinned)
+            Messages.Message("NR_FixerPinned".Translate(Name), MessageTypeDefOf.PositiveEvent, historical: false);
+    }
+
+    /// <summary>Called after every deal. A rat sometimes sells the colony out.</summary>
+    public void AfterDeal()
+    {
+        if (Trait != FixerTrait.Rat || !Rand.Chance(Settings.ratLeakChance))
+            return;
+
+        TraitRevealed = true;
+        string text = "NR_FixerRatLeak".Translate(Name);
+        HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, text);
+        Messages.Message(text, MessageTypeDefOf.NegativeEvent, historical: true);
+    }
+
+    public string SpecialtyLabel => ("NR_FixerSpecialty_" + Specialty).Translate();
+    public string SpecialtyDescription => ("NR_FixerSpecialtyDesc_" + Specialty).Translate();
+    public string TraitLabel => TraitKnown ? ("NR_FixerTrait_" + Trait).Translate() : "NR_FixerTraitUnknown".Translate();
+    public string TraitDescription => TraitKnown ? ("NR_FixerTraitDesc_" + Trait).Translate() : "NR_FixerTraitUnknownDesc".Translate(Settings.traitRevealReputation.ToString("0"));
+
+    public void ExposeData()
+    {
+        Scribe_Values.Look(ref Id, "id");
+        Scribe_Values.Look(ref Name, "name");
+        Scribe_Values.Look(ref Specialty, "specialty");
+        Scribe_Values.Look(ref Trait, "trait");
+        Scribe_Values.Look(ref Reputation, "reputation");
+        Scribe_Values.Look(ref CallCost, "callCost");
+        Scribe_Values.Look(ref ChannelOpenUntilTick, "channelOpenUntilTick");
+        Scribe_Values.Look(ref SilentUntilTick, "silentUntilTick");
+        Scribe_Values.Look(ref TraitRevealed, "traitRevealed");
+        Scribe_Collections.Look(ref Stock, "stock", LookMode.Def);
+
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
+            Stock ??= [];
+            Stock.RemoveAll(d => d == null);
+        }
+    }
+}

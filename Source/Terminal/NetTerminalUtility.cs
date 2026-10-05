@@ -10,14 +10,14 @@ public static class NetTerminalUtility
     // Placeholder until the dedicated icon arrives: Hacking Expansion's hack target icon.
     private static readonly Texture2D Icon = ContentFinder<Texture2D>.Get("UI/Gizmos/HackTarget");
 
-    public static Command_Action MakeGizmo(bool powered)
+    public static Command_Action MakeGizmo(Map map, bool powered)
     {
         var command = new Command_Action
         {
             defaultLabel = "NR_CommandNetTerminal".Translate(),
             defaultDesc = "NR_CommandNetTerminalDesc".Translate(),
             icon = Icon,
-            action = OpenTerminal,
+            action = () => OpenTerminal(map),
         };
 
         if (!powered)
@@ -26,11 +26,11 @@ public static class NetTerminalUtility
         return command;
     }
 
-    public static void OpenTerminal()
+    public static void OpenTerminal(Map map)
     {
         if (Find.WindowStack.IsOpen<Dialog_NetTerminal>())
             return;
 
-        Find.WindowStack.Add(new Dialog_NetTerminal());
+        Find.WindowStack.Add(new Dialog_NetTerminal(map));
     }
 }

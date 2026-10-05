@@ -22,7 +22,7 @@ public static class Patch_Cyberpod_GetGizmos
             if (__instance.Faction == Faction.OfPlayer && __instance.ContainedThing is Pawn)
             {
                 CompPowerTrader power = __instance.GetComp<CompPowerTrader>();
-                terminal = NetTerminalUtility.MakeGizmo(power == null || power.PowerOn);
+                terminal = NetTerminalUtility.MakeGizmo(__instance.Map, power == null || power.PowerOn);
             }
         }
         catch (Exception ex)

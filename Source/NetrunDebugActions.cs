@@ -17,5 +17,15 @@ public static class NetrunDebugActions
     private static void ResetHeat() => HeatTracker.Get()?.ReduceHeat(HeatTracker.MaxHeat, "NR_LogDev".Translate());
 
     [DebugAction(Category, "Open network terminal", allowedGameStates = AllowedGameStates.Playing)]
-    private static void OpenTerminal() => NetTerminalUtility.OpenTerminal();
+    private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
+
+    [DebugAction(Category, "Rotate fixers", allowedGameStates = AllowedGameStates.Playing)]
+    private static void RotateFixers() => FixerManager.Get()?.Rotate(notify: true);
+
+    [DebugAction(Category, "+20 reputation (all fixers)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void AddReputation()
+    {
+        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
+            fixer.GainReputation(20f);
+    }
 }

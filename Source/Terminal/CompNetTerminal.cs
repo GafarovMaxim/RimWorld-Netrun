@@ -28,6 +28,6 @@ public class CompNetTerminal : ThingComp
         if (parent.Faction != Faction.OfPlayer)
             yield break;
 
-        yield return NetTerminalUtility.MakeGizmo(_power == null || _power.PowerOn);
+        yield return NetTerminalUtility.MakeGizmo(parent.Map, _power == null || _power.PowerOn);
     }
 }

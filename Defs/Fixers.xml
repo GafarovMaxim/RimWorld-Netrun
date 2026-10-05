@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- All fixer balance numbers. Tweak here, no code changes needed. -->
+  <Netrun.FixerSettingsDef>
+    <defName>NR_Fixers</defName>
+
+    <!-- Pool: size, rotation period in days, reputation that pins a fixer for good,
+         reputation that reveals the fixer's trait -->
+    <poolSize>3</poolSize>
+    <rotationDays>7~10</rotationDays>
+    <pinnedReputation>60</pinnedReputation>
+    <traitRevealReputation>25</traitRevealReputation>
+
+    <!-- Contacting a fixer: cost in silver and how long the channel stays open -->
+    <callCost>50~150</callCost>
+    <channelHours>24</channelHours>
+
+    <!-- Prices: Greedy multiplier; discount from reputation (at 100), Cleaner bonus, total cap -->
+    <greedyPriceFactor>1.25</greedyPriceFactor>
+    <maxReputationDiscount>0.5</maxReputationDiscount>
+    <cleanerDiscount>0.25</cleanerDiscount>
+    <maxDiscount>0.75</maxDiscount>
+
+    <!-- Heat removed per data item before discounts -->
+    <heatPerCyberdata>5</heatPerCyberdata>
+    <heatPerAdvancedCyberdata>15</heatPerAdvancedCyberdata>
+
+    <!-- Rat trait: chance to leak after a deal, and the Heat it adds -->
+    <ratLeakChance>0.1</ratLeakChance>
+    <ratLeakHeat>10</ratLeakHeat>
+
+    <!-- Reputation gained per deal -->
+    <reputationPerCall>2</reputationPerCall>
+    <reputationPerScrub>5</reputationPerScrub>
+    <reputationPerPurchase>5</reputationPerPurchase>
+
+    <!-- Shop (Fence fixers): markup over market value, items per fixer, what can show up -->
+    <shopMarkup>1.3</shopMarkup>
+    <shopStockSize>4</shopStockSize>
+    <shopItems>
+      <li>USH_Cyberlink</li>
+      <li>USH_JammerKit</li>
+      <li>USH_OptimizationModule</li>
+      <li>USH_RemoteAccessPort</li>
+      <li>USH_ExecDataCase</li>
+      <li>USH_ICEBreaker</li>
+      <li>USH_BrokenExecData</li>
+      <li>USH_AdvancedCyberdata</li>
+    </shopItems>
+  </Netrun.FixerSettingsDef>
+
+  <!-- Fixer handles -->
+  <RulePackDef>
+    <defName>NR_NamerFixer</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->[adj] [noun]</li>
+        <li>r_name->[noun]</li>
+        <li>r_name->[adj][noun]</li>
+
+        <li>adj->Silent</li>
+        <li>adj->Rogue</li>
+        <li>adj->Cold</li>
+        <li>adj->Black</li>
+        <li>adj->Chrome</li>
+        <li>adj->Neon</li>
+        <li>adj->Dead</li>
+        <li>adj->Iron</li>
+        <li>adj->Velvet</li>
+        <li>adj->Static</li>
+        <li>adj->Lucky</li>
+        <li>adj->Grey</li>
+
+        <li>noun->Wire</li>
+        <li>noun->Byte</li>
+        <li>noun->Ghost</li>
+        <li>noun->Fox</li>
+        <li>noun->Saint</li>
+        <li>noun->Jack</li>
+        <li>noun->Moth</li>
+        <li>noun->Raven</li>
+        <li>noun->Dealer</li>
+        <li>noun->Proxy</li>
+        <li>noun->Echo</li>
+        <li>noun->Vex</li>
+        <li>noun->Rook</li>
+        <li>noun->Kestrel</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+</Defs>

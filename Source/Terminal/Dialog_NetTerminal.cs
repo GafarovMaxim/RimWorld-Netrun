@@ -20,13 +20,16 @@ public class Dialog_NetTerminal : Window
     private const float TitleHeight = 40f;
     private const float JournalRowHeight = 28f;
 
+    private readonly Map _map;
     private Tab _tab = Tab.Overview;
     private Vector2 _journalScroll;
+    private Vector2 _fixersScroll;
 
     public override Vector2 InitialSize => new(760f, 560f);
 
-    public Dialog_NetTerminal()
+    public Dialog_NetTerminal(Map map)
     {
+        _map = map;
         doCloseX = true;
         doCloseButton = false;
         draggable = true;
@@ -57,6 +60,9 @@ public class Dialog_NetTerminal : Window
         {
             case Tab.Overview:
                 DrawOverview(content, tracker);
+                break;
+            case Tab.Fixers:
+                FixersTab.Draw(content, _map, ref _fixersScroll);
                 break;
             case Tab.Journal:
                 DrawJournal(content, tracker);
