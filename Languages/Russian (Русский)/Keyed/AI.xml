@@ -137,7 +137,7 @@
   <NR_AILocationHost>Живёт в ИИ-сокете: {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>В изоляции в ИИ-сокете: {0}. Не работает, сбежать не может.</NR_AILocationHostIsolated>
   <NR_AIUpload>Загрузить в носителя</NR_AIUpload>
-  <NR_AIUploadTip>Перенести ИИ в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, но услуги ИИ больше не оказывает: для них нужен сервер.</NR_AIUploadTip>
+  <NR_AIUploadTip>Перенести ИИ в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, но ИИ перестаёт оказывать услуги, его нельзя накормить и выполнить его просьбу, пока он не вернётся на сервер. Голод при этом растёт.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Загрузить можно только бодрствующий ИИ из запитанного сервера.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>Нет колониста с кибер-линком и пустым ИИ-сокетом.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} переселился в ИИ-сокет: {1}.</NR_AIUploaded>
@@ -197,6 +197,7 @@
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
   <NR_OnlyOneAIServer>В колонии может быть только один ИИ-сервер. Для новых слотов стройте рядом серверные стойки.</NR_OnlyOneAIServer>
   <NR_AILocationCoprocessor>Работает на кибер-капсулу из: {0}.</NR_AILocationCoprocessor>
+  <NR_AIHostNoFeed>ИИ в носителе. Есть и принимать просьбы он может только на сервере или в сопроцессоре: сначала верните его.</NR_AIHostNoFeed>
   <NR_AIServiceOnlyInServer>Услугам нужен канал ИИ-сервера. В носителе или сопроцессоре ИИ помогает по-своему.</NR_AIServiceOnlyInServer>
   <NR_AINoCoprocessor>Нужен запитанный сопроцессор Netrun со свободным слотом.</NR_AINoCoprocessor>
   <NR_AIMovedToCoprocessor>{0} переселился в сопроцессор и теперь работает на кибер-капсулу.</NR_AIMovedToCoprocessor>

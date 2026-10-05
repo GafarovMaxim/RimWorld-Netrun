@@ -65,6 +65,9 @@ public static class AIBehavior
     {
         if (!ai.Housed)
             return "NR_AIAsleep".Translate();
+        // Either-or: a host gets the passenger hediff, but feeding needs the AI back in a server.
+        if (ai.InHost)
+            return "NR_AIHostNoFeed".Translate();
         if (ai.Personality == AIPersonality.Seed)
             return SeedFoods.Any(f => ColonyGoods.Count(map, f.thing) >= f.count) ? true : "NR_AISeedNoFood".Translate();
         if (Food(ai.Personality) is not { } food)

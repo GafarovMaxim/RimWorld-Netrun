@@ -137,7 +137,7 @@
   <NR_AILocationHost>Rides in the AI socket of {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>Isolated in the AI socket of {0}. Not working, cannot escape.</NR_AILocationHostIsolated>
   <NR_AIUpload>Upload into a host</NR_AIUpload>
-  <NR_AIUploadTip>Move the AI into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents, but the AI stops offering services: those need the server.</NR_AIUploadTip>
+  <NR_AIUploadTip>Move the AI into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents, but the AI stops offering services and cannot be fed or asked for anything until it is back in the server. Its hunger keeps growing.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Only an awake AI in a powered server can be uploaded.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>No colonist with a cyberlink and an empty AI socket.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} moved into the AI socket of {1}.</NR_AIUploaded>
@@ -197,6 +197,7 @@
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
   <NR_OnlyOneAIServer>The colony can have only one AI server. Build server racks next to it for more slots.</NR_OnlyOneAIServer>
   <NR_AILocationCoprocessor>Works for the cyberpod from: {0}.</NR_AILocationCoprocessor>
+  <NR_AIHostNoFeed>The AI is in a host. It eats and takes requests only in a server or coprocessor: move it back first.</NR_AIHostNoFeed>
   <NR_AIServiceOnlyInServer>Services need the AI server's uplink. In a host or a coprocessor the AI helps in its own way.</NR_AIServiceOnlyInServer>
   <NR_AINoCoprocessor>Needs a powered netrun coprocessor with a free slot.</NR_AINoCoprocessor>
   <NR_AIMovedToCoprocessor>{0} moved into the coprocessor and now works for the cyberpod.</NR_AIMovedToCoprocessor>

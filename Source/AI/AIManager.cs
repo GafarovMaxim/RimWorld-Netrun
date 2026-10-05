@@ -363,7 +363,8 @@ public class AIManager : GameComponent
     {
         if (!ai.HasRequest)
         {
-            if (now >= ai.NextRequestTick)
+            // A host has no uplink to ask through: new requests wait until the AI is back in a server.
+            if (now >= ai.NextRequestTick && !ai.InHost)
                 IssueRequest(ai, now);
             return;
         }
@@ -409,6 +410,8 @@ public class AIManager : GameComponent
     {
         if (ai.Request != AIRequestKind.Deliver || AIBehavior.Food(ai.Personality) is not { } food)
             return "NR_AIRequestNotDeliverable".Translate();
+        if (ai.InHost)
+            return "NR_AIHostNoFeed".Translate();
         if (ColonyGoods.Count(map, food.thing) < ai.RequestAmount)
             return "NR_AINoFood".Translate(ai.RequestAmount, food.thing.label);
         return true;
