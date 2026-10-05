@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -45,16 +47,17 @@ public class Dialog_FixerShop : Window
         y += 30f;
 
         var listRect = new Rect(r.x, y, r.width, r.yMax - y - 44f);
-        if (_fixer.Stock.Count == 0)
+        List<ThingDef> stock = _fixer.Stock.Concat(MapEventsManager.Get()?.BlackMarketStock(_fixer) ?? Enumerable.Empty<ThingDef>()).ToList();
+        if (stock.Count == 0)
         {
             Widgets.Label(listRect, "NR_ShopEmpty".Translate().Colorize(NetrunUI.Muted));
         }
         else
         {
-            var view = new Rect(0f, 0f, listRect.width - 16f, _fixer.Stock.Count * (RowHeight + RowGap));
+            var view = new Rect(0f, 0f, listRect.width - 16f, stock.Count * (RowHeight + RowGap));
             Widgets.BeginScrollView(listRect, ref _scroll, view);
             float ry = 0f;
-            foreach (ThingDef def in _fixer.Stock.ToArray())
+            foreach (ThingDef def in stock)
             {
                 if (DrawRow(new Rect(0f, ry, view.width, RowHeight), def, silver))
                     break;

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_CourierLabel>Курьер данных</NR_CourierLabel>
+  <NR_Courier>Курьер фиксера, {0}, везёт горячие данные и пробудет у вас сутки. Наёмники уже идут за ними. Сберегите курьера: если он уйдёт целым, заплатят {1} серебра, и фиксер это запомнит.</NR_Courier>
+  <NR_CourierDoneLabel>Курьер в безопасности</NR_CourierDoneLabel>
+  <NR_CourierDone>{0} ушёл с данными. {1} серебра уже в пути, {2} благодарен (+{3} репутации).</NR_CourierDone>
+  <NR_CourierLostLabel>Курьер потерян</NR_CourierLostLabel>
+  <NR_CourierLost>{0} не дошёл. Данные пропали, а след ведёт к вашей колонии.</NR_CourierLost>
+  <NR_CourierLostLog>Курьер данных пал</NR_CourierLostLog>
+  <NR_CorpHuntIntro>Корпоративная группа пришла за вашим ИИ-сервером. Защищайте его: помогут тросы ICE.</NR_CorpHuntIntro>
+  <NR_BlackMarketLabel>Чёрный рынок</NR_BlackMarketLabel>
+  <NR_BlackMarket>На {0} дня открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarket>
+  <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
+  <NR_FixerShopBlack>Чёрный рынок</NR_FixerShopBlack>
+  <NR_DistressLabel>Сигнал бедствия</NR_DistressLabel>
+  <NR_Distress>Брошенный сервер на вашей земле подаёт слабый сигнал бедствия. Колонист может подключиться (правый щелчок): внутри может быть ИИ, а может и ICE.</NR_Distress>
+  <NR_DistressConnect>Подключиться к серверу</NR_DistressConnect>
+  <NR_DistressFragment>{0} вытащил(а) из старого сервера осколок ИИ.</NR_DistressFragment>
+  <NR_DistressBacklash>Старый сервер ударил {0} ICE-отдачей.</NR_DistressBacklash>
+  <NR_MapHackLabel>Турели захвачены</NR_MapHackLabel>
+  <NR_MapHack>Хакеры захватили и выключили турели: {0}. В Шлюзе на {1} часов появилась нода «Контрвзлом»: нырните и выйдите чисто, чтобы вернуть их.</NR_MapHack>
+  <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
+  <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
+  <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>
+  <NR_IceTrapReady>Заряжен</NR_IceTrapReady>
+  <NR_IceTrapCharging>Перезарядка: {0}</NR_IceTrapCharging>
+</LanguageData>

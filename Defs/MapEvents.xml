@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Map events (docs/PHASE5_MAPEVENTS.md) -->
+  <Netrun.MapEventsSettingsDef>
+    <defName>NR_MapEvents</defName>
+    <courierDays>1</courierDays>
+    <courierHuntersHours>4~8</courierHuntersHours>
+    <courierHuntersPoints>0.5</courierHuntersPoints>
+    <courierSilver>250</courierSilver>
+    <courierReputation>10</courierReputation>
+    <courierFailHeat>10</courierFailHeat>
+    <courierFailReputation>5</courierFailReputation>
+    <blackMarketDays>2</blackMarketDays>
+    <blackMarketReputation>30</blackMarketReputation>
+    <blackMarketCoreChance>0.3</blackMarketCoreChance>
+    <distressWorkHours>2</distressWorkHours>
+    <distressFragmentChance>0.7</distressFragmentChance>
+    <distressSteel>30</distressSteel>
+    <mapHackTurrets>3</mapHackTurrets>
+    <mapHackHours>12</mapHackHours>
+    <mapHackWinHeat>5</mapHackWinHeat>
+    <mapHackLoseBreakdowns>2</mapHackLoseBreakdowns>
+    <iceTrapRadius>4</iceTrapRadius>
+    <iceTrapCooldownTicks>5000</iceTrapCooldownTicks>
+    <iceTrapStunTicks>180</iceTrapStunTicks>
+    <iceTrapDamage>4</iceTrapDamage>
+  </Netrun.MapEventsSettingsDef>
+
+  <IncidentDef>
+    <defName>NR_DataCourier</defName>
+    <label>data courier</label>
+    <category>Misc</category>
+    <targetTags><li>Map_PlayerHome</li></targetTags>
+    <workerClass>Netrun.IncidentWorker_DataCourier</workerClass>
+    <baseChance>0.4</baseChance>
+    <minRefireDays>12</minRefireDays>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_CorpHunt</defName>
+    <label>corporate hunt</label>
+    <category>ThreatBig</category>
+    <targetTags><li>Map_PlayerHome</li></targetTags>
+    <workerClass>Netrun.IncidentWorker_CorpHunt</workerClass>
+    <baseChance>0.4</baseChance>
+    <minRefireDays>15</minRefireDays>
+    <pointsScaleable>true</pointsScaleable>
+    <tale>Raid</tale>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_BlackMarket</defName>
+    <label>black market</label>
+    <category>Misc</category>
+    <targetTags><li>Map_PlayerHome</li></targetTags>
+    <workerClass>Netrun.IncidentWorker_BlackMarket</workerClass>
+    <baseChance>0.3</baseChance>
+    <minRefireDays>15</minRefireDays>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_DistressSignal</defName>
+    <label>distress signal</label>
+    <category>Misc</category>
+    <targetTags><li>Map_PlayerHome</li></targetTags>
+    <workerClass>Netrun.IncidentWorker_DistressSignal</workerClass>
+    <baseChance>0.3</baseChance>
+    <minRefireDays>20</minRefireDays>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_MapHack</defName>
+    <label>turret hijack</label>
+    <category>Misc</category>
+    <targetTags><li>Map_PlayerHome</li></targetTags>
+    <workerClass>Netrun.IncidentWorker_MapHack</workerClass>
+    <baseChance>0.4</baseChance>
+    <minRefireDays>12</minRefireDays>
+  </IncidentDef>
+
+  <!-- ICE cables: a powered shock trap (vanilla EMP IED art until our own sprite) -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_IceTrap</defName>
+    <label>ICE cables</label>
+    <description>A coil of hardened network cable charged by a corporate countermeasure routine. When hostiles come close it discharges: a stunning shock and burns. Recharges in about two hours. Needs power.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Security/IEDEMP</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(0.35, 0.9, 1)</color>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <tickerType>Rare</tickerType>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <designationCategory>NR_Cyberspace</designationCategory>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <WorkToBuild>2000</WorkToBuild>
+      <Flammability>0.2</Flammability>
+      <Mass>8</Mass>
+    </statBases>
+    <costList>
+      <Steel>30</Steel>
+      <ComponentIndustrial>2</ComponentIndustrial>
+      <USH_Cyberdata>1</USH_Cyberdata>
+    </costList>
+    <researchPrerequisites>
+      <li>USH_AdvancedCybertech</li>
+    </researchPrerequisites>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>100</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="Netrun.CompProperties_IceTrap" />
+    </comps>
+  </ThingDef>
+
+  <!-- The abandoned server from a distress signal -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_DistressServer</defName>
+    <label>abandoned server</label>
+    <description>An old server, still sending a weak distress signal. Something may be alive inside. A colonist can connect to it.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Misc/NR_AIServer</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.6,1.6)</drawSize>
+      <color>(0.6, 0.6, 0.6)</color>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+    </statBases>
+    <comps>
+      <li Class="Netrun.CompProperties_DistressServer" />
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>NR_ConnectDistressServer</defName>
+    <driverClass>Netrun.JobDriver_ConnectDistressServer</driverClass>
+    <reportString>connecting to the abandoned server.</reportString>
+  </JobDef>
+
+</Defs>

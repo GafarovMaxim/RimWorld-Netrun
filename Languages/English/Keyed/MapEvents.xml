@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_CourierLabel>Data courier</NR_CourierLabel>
+  <NR_Courier>A fixer's courier, {0}, is passing through with hot data and will stay for a day. Mercenaries are already on the way for it. Keep {0} on their feet: a safe courier pays {1} silver and the fixer's goodwill.</NR_Courier>
+  <NR_CourierDoneLabel>Courier safe</NR_CourierDoneLabel>
+  <NR_CourierDone>{0} left with the data. {1} silver is on its way; {2} is grateful (+{3} reputation).</NR_CourierDone>
+  <NR_CourierLostLabel>Courier lost</NR_CourierLostLabel>
+  <NR_CourierLost>{0} did not make it. The data is gone, and the trail leads to your colony.</NR_CourierLost>
+  <NR_CourierLostLog>A data courier fell</NR_CourierLostLog>
+  <NR_CorpHuntIntro>A corporate team has come for your AI server. Defend it: ICE cables help.</NR_CorpHuntIntro>
+  <NR_BlackMarketLabel>Black market</NR_BlackMarketLabel>
+  <NR_BlackMarket>For {0} days the black market is open to those fixers trust: black braindance, AI fragments, sometimes more. Open: {1}.</NR_BlackMarket>
+  <NR_BlackMarketNobody>nobody yet (needs {0} reputation)</NR_BlackMarketNobody>
+  <NR_FixerShopBlack>Black market</NR_FixerShopBlack>
+  <NR_DistressLabel>Distress signal</NR_DistressLabel>
+  <NR_Distress>An abandoned server on your land is sending a weak distress signal. A colonist can connect to it (right-click): maybe there is an AI inside, maybe ICE.</NR_Distress>
+  <NR_DistressConnect>Connect to the server</NR_DistressConnect>
+  <NR_DistressFragment>{0} pulled an AI fragment out of the old server.</NR_DistressFragment>
+  <NR_DistressBacklash>The old server hit {0} with ICE backlash.</NR_DistressBacklash>
+  <NR_MapHackLabel>Turrets hijacked</NR_MapHackLabel>
+  <NR_MapHack>Hackers have taken over {0} turrets and switched them off. A counter-hack node is in the Gateway for {1} hours: dive and exit cleanly to take them back.</NR_MapHack>
+  <NR_CounterHackWonLabel>Turrets back</NR_CounterHackWonLabel>
+  <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
+  <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
+  <NR_IceTrapReady>Charged</NR_IceTrapReady>
+  <NR_IceTrapCharging>Recharging: {0}</NR_IceTrapCharging>
+</LanguageData>

@@ -219,4 +219,5 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHunterActive>ICE hunter on your trail: it strikes every node turn. Hack it when nothing blocks the way.</NR_DiveHunterActive>
   <NR_DiveRivalActive>Rival netrunner: {0} turns left</NR_DiveRivalActive>
   <NR_DiveStorm>Data storm: stronger defenses, bigger haul</NR_DiveStorm>
+  <NR_ExtNodeName_CounterHack>Counter-hack</NR_ExtNodeName_CounterHack>
 </LanguageData>

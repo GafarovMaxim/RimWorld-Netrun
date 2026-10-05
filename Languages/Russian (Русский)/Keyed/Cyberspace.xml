@@ -219,4 +219,5 @@
   <NR_DiveHunterActive>Охотник ICE на следу: бьёт каждый ход ноды. Взломайте его, когда путь свободен.</NR_DiveHunterActive>
   <NR_DiveRivalActive>Соперник: осталось {0} ходов</NR_DiveRivalActive>
   <NR_DiveStorm>Шторм данных: защита сильнее, добыча больше</NR_DiveStorm>
+  <NR_ExtNodeName_CounterHack>Контрвзлом</NR_ExtNodeName_CounterHack>
 </LanguageData>

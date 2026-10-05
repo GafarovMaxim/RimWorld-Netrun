@@ -91,6 +91,25 @@ public class GatewayManager : GameComponent
         return boss;
     }
 
+    /// <summary>A light node to take the turrets back; gone after the given hours.</summary>
+    public void AddCounterHackNode(float hours)
+    {
+        RemoveCounterHackNodes();
+        ExternalNode node = ExternalNode.Generate(_nextId++);
+        node.Type = ExternalNodeType.Market;
+        node.Defense = 2;
+        node.BlackIce = false;
+        node.IceStrength = 0;
+        node.Hidden = node.Rival = node.Honeypot = node.WildAI = false;
+        node.CounterHack = true;
+        node.ExpireTick = Find.TickManager.TicksGame + (int)(hours * GenDate.TicksPerHour);
+        if (_nodes.Count >= MaxNodes)
+            _nodes.RemoveAt(0);
+        _nodes.Add(node);
+    }
+
+    public void RemoveCounterHackNodes() => _nodes.RemoveAll(n => n.CounterHack && (Session == null || n.Id != Session.Node.Id));
+
     /// <summary>Dev: one node of each event kind (rival, honeypot, wild AI).</summary>
     public void SpawnEventNodes()
     {

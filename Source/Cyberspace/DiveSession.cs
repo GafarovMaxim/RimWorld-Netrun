@@ -637,6 +637,8 @@ public class DiveSession : IExposable
             for (int i = 0; i < (Node.Contract ? 2 : 1); i++)
                 contracts?.NotifyHackCompleted();
             GatewayManager.Get()?.RemoveNode(Node);
+            if (Node.CounterHack)
+                MapEventsManager.Get()?.CounterHackWon();
         }
 
         Messages.Message(success

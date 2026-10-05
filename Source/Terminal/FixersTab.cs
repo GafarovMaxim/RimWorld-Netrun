@@ -176,7 +176,8 @@ public static class FixersTab
         if (Add("NR_FixerScrub".Translate(), NetrunUI.Accent, needsChannel, "NR_FixerScrubTip".Translate()))
             Find.WindowStack.Add(new Dialog_FixerScrub(fixer, map));
 
-        if (fixer.HasShop && Add("NR_FixerShop".Translate(), NetrunUI.Ok, needsChannel, "NR_FixerShopTip".Translate()))
+        bool blackMarket = MapEventsManager.Get()?.BlackMarketStock(fixer).Any() == true;
+        if ((fixer.HasShop || blackMarket) && Add(blackMarket ? "NR_FixerShopBlack".Translate() : "NR_FixerShop".Translate(), NetrunUI.Ok, needsChannel, "NR_FixerShopTip".Translate()))
             Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
 
         // A favor the fixer owes from a cyberspace find: a free scrub, no channel needed.

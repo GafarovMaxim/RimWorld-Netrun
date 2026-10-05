@@ -122,10 +122,12 @@ public class ExternalNode : IExposable
     public bool Honeypot;
     /// <summary>A wild AI lives in this node's memory unit.</summary>
     public bool WildAI;
+    /// <summary>The counter-hack against hackers holding the colony's turrets.</summary>
+    public bool CounterHack;
 
     public bool IsBoss => Type == ExternalNodeType.CorpCore;
 
-    public string Name => ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
+    public string Name => CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
 
     public Color Color => Type switch
@@ -245,5 +247,6 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Rival, "rival");
         Scribe_Values.Look(ref Honeypot, "honeypot");
         Scribe_Values.Look(ref WildAI, "wildAI");
+        Scribe_Values.Look(ref CounterHack, "counterHack");
     }
 }

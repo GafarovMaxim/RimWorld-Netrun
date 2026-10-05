@@ -28,6 +28,10 @@ public static class NetrunDefOf
     public static JobDef NR_AIEventSession;
     public static CyberspaceSettingsDef NR_Cyberspace;
     public static IncidentDef NR_NetAttack_Breakdown;
+    public static MapEventsSettingsDef NR_MapEvents;
+    public static IncidentDef NR_MapHack;
+    public static ThingDef NR_DistressServer;
+    public static JobDef NR_ConnectDistressServer;
     public static ChemicalDef NR_Braindance;
     public static HediffDef NR_BraindanceTolerance;
     public static HediffDef NR_PredatorBoost;
