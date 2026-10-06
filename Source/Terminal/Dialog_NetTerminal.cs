@@ -355,6 +355,11 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(titleRect.x + 3f * k, titleRect.y, titleRect.width, titleRect.height), title.Colorize(new Color(0.2f, 0.9f, 1f, 0.6f * k)));
         }
         Widgets.Label(titleRect, title.Colorize(NetrunUI.Accent));
+        if (NetrunMod.Settings.Animations && Time.realtimeSinceStartup % 1.1f < 0.55f)
+        {
+            float cw = Text.CalcSize(title).x;
+            Widgets.DrawBoxSolid(new Rect(titleRect.x + cw + 4f, titleRect.center.y - 8f, 9f, 16f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.8f));
+        }
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 
@@ -571,7 +576,7 @@ public partial class Dialog_NetTerminal : Window
     private static void DrawCentered(Rect rect, string text)
     {
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, text.Colorize(NetrunUI.Muted));
+        Widgets.Label(rect, NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
     }
 }

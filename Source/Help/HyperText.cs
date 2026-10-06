@@ -52,6 +52,8 @@ public static class HyperText
     /// </summary>
     public static List<Segment> Split(string line, HashSet<HelpPageDef> used)
     {
+        // Rich-text tags would be laid out word by word and show up as text: drop them (and a trailing mod name).
+        line = HelpPageDef.StripModName(line).StripTags();
         var parts = new List<Segment>();
         int last = 0;
         foreach (Match m in ExplicitLink.Matches(line))

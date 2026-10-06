@@ -197,7 +197,7 @@ public static class ContractsTab
 
     private static float Empty(float width, float y, string text)
     {
-        Widgets.Label(new Rect(0f, y, width, 26f), text.Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(0f, y, width, 26f), NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
         return y + 30f;
     }
 

@@ -310,6 +310,13 @@ public static class NetrunUI
         GUI.color = Color.white;
     }
 
+    /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
+    public static string Prompt(string text)
+    {
+        bool cursor = NetrunMod.Settings.Animations && Time.realtimeSinceStartup % 1.1f < 0.55f;
+        return "> " + text + (cursor ? " _" : "  ");
+    }
+
     /// <summary>A small status light: steady, or blinking once every 1.5 s when <paramref name="blink"/>.</summary>
     public static void Led(Rect r, Color color, bool blink = false)
     {
@@ -465,11 +472,20 @@ public static class NetrunUI
     /// <summary>A section title with a count and an accent line under it.</summary>
     public static float Section(Rect rect, string label)
     {
+        // Terminal look with the game's own font: a block marker, the title in capitals, a "//" tail,
+        // and a bright tick where the line ends.
+        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + 6f, 3f, 15f), Accent);
         Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(rect.x, rect.y, rect.width, 26f), label.ToUpper().Colorize(Accent));
+        string text = label.ToUpper();
+        Widgets.Label(new Rect(rect.x + 10f, rect.y, rect.width - 10f, 26f), text.Colorize(Accent));
+        float tw = Text.CalcSize(text).x;
+        if (rect.x + 10f + tw + 30f < rect.xMax)
+            Widgets.Label(new Rect(rect.x + 10f + tw + 8f, rect.y, 30f, 26f), "//".Colorize(new Color(Accent.r, Accent.g, Accent.b, 0.35f)));
         Text.Anchor = TextAnchor.UpperLeft;
-        GUI.color = Accent;
+        GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.55f);
         Widgets.DrawLineHorizontal(rect.x, rect.y + 28f, rect.width);
+        GUI.color = Accent;
+        GUI.DrawTexture(new Rect(rect.xMax - 10f, rect.y + 27f, 10f, 3f), BaseContent.WhiteTex);
         // Now and then a bright spark runs along the line.
         if (NetrunMod.Settings.Animations)
         {

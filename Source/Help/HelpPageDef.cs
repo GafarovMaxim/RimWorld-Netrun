@@ -110,11 +110,15 @@ public class HelpPageDef : Def
                 "Service" => AIBehavior.ServiceLabel(p),
                 "ServiceDesc" => (string)("NR_AIServiceDesc_" + p).Translate(),
                 "Food" => AIBehavior.FoodText(p),
-                _ => DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-",
+                _ => StripModName(DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-"),
             };
         });
         return text;
     }
+
+    /// <summary>The game adds the mod's name in italics to the end of def descriptions; the Cyberpedia does not need it.</summary>
+    public static string StripModName(string text) =>
+        System.Text.RegularExpressions.Regex.Replace(text ?? string.Empty, @"\s*<i>.*?</i>\s*$", string.Empty, System.Text.RegularExpressions.RegexOptions.Singleline);
 }
 
 /// <summary>What the player has met in the game (unlocks spoiler pages) and which pages they have read.</summary>

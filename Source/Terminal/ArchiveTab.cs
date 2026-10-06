@@ -663,7 +663,7 @@ public static class ArchiveTab
     private static void Empty(Rect rect, string text)
     {
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, text.Colorize(NetrunUI.Muted));
+        Widgets.Label(rect, NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
     }
 }
