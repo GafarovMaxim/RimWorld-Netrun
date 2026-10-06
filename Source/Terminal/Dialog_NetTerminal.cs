@@ -189,8 +189,11 @@ public partial class Dialog_NetTerminal : Window
         float y = rect.y + 10f;
         if (_view == View.Map)
         {
-            // Core: who would dive and whether the pod is ready, next to the window title.
-            GatewayView.HeaderChips(x, y, _map);
+            // Core: who would dive and whether the pod is ready; before the onboarding is done, "network not active".
+            if (NetworkGate.Get()?.OnboardingDone == false)
+                NetrunUI.HeaderChip(x, y, "NR_ChipNetInactive".Translate().Colorize(NetrunUI.Muted));
+            else
+                GatewayView.HeaderChips(x, y, _map);
         }
         else if (dive != null)
         {

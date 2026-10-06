@@ -49,17 +49,13 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreSummaryAlerts>Alerts</NR_CoreSummaryAlerts>
   <NR_CoreNoAlerts>Nothing urgent.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Click to open: {0}</NR_CoreAlertGo>
-  <NR_CoreSummaryResources>Resources</NR_CoreSummaryResources>
-  <NR_CoreAISlots>AI slots</NR_CoreAISlots>
   <NR_CoreNoServer>no server</NR_CoreNoServer>
-  <NR_CoreChips>Braindance chips</NR_CoreChips>
   <NR_CoreAlertEscape>{0} is escaping in {1}</NR_CoreAlertEscape>
   <NR_CoreAlertContract>Contract "{0}" ends in {1}</NR_CoreAlertContract>
   <NR_CoreAlertMercs>Trace at Target: mercenary raids possible</NR_CoreAlertMercs>
   <NR_CoreAlertRequest>{0} asks: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} is starving</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
-  <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
   <NR_HeatScreenNow>Now: {0} ({1})</NR_HeatScreenNow>
   <NR_HeatScreenNoHistory>The graph fills in as time passes (one point an hour).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat over 7 days</NR_HeatScreenGraph>
@@ -90,11 +86,60 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_StatusNetOnline>NET ONLINE</NR_StatusNetOnline>
   <NR_StatusNetOffline>NET OFFLINE</NR_StatusNetOffline>
   <NR_StatusTraceClick>Click: Heat and trace screen.</NR_StatusTraceClick>
-  <NR_CoreGroupFavor>Hacker group favor</NR_CoreGroupFavor>
-  <NR_CoreSummaryGateway>Gateway</NR_CoreSummaryGateway>
   <NR_CoreGatewayRefresh>New nodes in</NR_CoreGatewayRefresh>
   <NR_CoreBossActive>Corporate core: open for</NR_CoreBossActive>
   <NR_CoreBossNext>Corporate core in</NR_CoreBossNext>
   <NR_CoreAlertCounterHack>Turrets hijacked: counter-hack node in the Gateway</NR_CoreAlertCounterHack>
   <NR_CoreAlertBlackMarket>Black market open: {0} left</NR_CoreAlertBlackMarket>
+  <NR_CoreSummaryNow>Now</NR_CoreSummaryNow>
+  <NR_CoreSummaryColony>Colony online</NR_CoreSummaryColony>
+  <NR_AdviceButton_Scrub>✂ Scrub the trace</NR_AdviceButton_Scrub>
+  <NR_AdviceButton_Club>Club</NR_AdviceButton_Club>
+  <NR_AdviceButton_Board>To the Board</NR_AdviceButton_Board>
+  <NR_AdviceButton_Server>Server room</NR_AdviceButton_Server>
+  <NR_AdviceButton_Studio>Studio</NR_AdviceButton_Studio>
+  <NR_AdviceButton_Gateway>Dive</NR_AdviceButton_Gateway>
+  <NR_AdviceButton_HeatScreen>Heat and trace</NR_AdviceButton_HeatScreen>
+  <NR_CoreTileCyberdata>Cyberdata</NR_CoreTileCyberdata>
+  <NR_CoreTileAdvanced>+{0} adv.</NR_CoreTileAdvanced>
+  <NR_CoreTileCyberdataTip>Cyberdata in the colony: dives, scrubs, programs. The small number is advanced cyberdata.</NR_CoreTileCyberdataTip>
+  <NR_CoreTileAI>AI</NR_CoreTileAI>
+  <NR_CoreTileSlots>{0}/{1} slots</NR_CoreTileSlots>
+  <NR_CoreTileAITip>Awakened AIs and the main AI server's slots.</NR_CoreTileAITip>
+  <NR_CoreTileChips>Chips</NR_CoreTileChips>
+  <NR_CoreTileBlack>{0} black</NR_CoreTileBlack>
+  <NR_CoreTileChipsTip>Braindance chips in the colony; the small number is black chips.</NR_CoreTileChipsTip>
+  <NR_CoreTileGroup>Group</NR_CoreTileGroup>
+  <NR_CoreTileFavor>favor</NR_CoreTileFavor>
+  <NR_CoreRowNet>Network</NR_CoreRowNet>
+  <NR_CoreRowNetValue>{0} W · {1}</NR_CoreRowNetValue>
+  <NR_CoreRowNetTip>Power drawn by the network: console, cyberpods, coprocessors, servers. Online = a powered network console.</NR_CoreRowNetTip>
+  <NR_CoreOnline>online</NR_CoreOnline>
+  <NR_CoreOffline>offline</NR_CoreOffline>
+  <NR_CoreIn>in {0}</NR_CoreIn>
+  <NR_ChipNetInactive>Network not active</NR_ChipNetInactive>
+  <NR_OnboardingTitle>WELCOME TO THE NET</NR_OnboardingTitle>
+  <NR_OnboardingIntro>The node map, Heat and alerts will appear here. Go through these steps to start; the rest opens by itself.</NR_OnboardingIntro>
+  <NR_OnboardingStep_Console>Build a comms console: it becomes the network console</NR_OnboardingStep_Console>
+  <NR_OnboardingStep_Cyberpod>Build a cyberpod ("Cyberspace" tab, research: {0})</NR_OnboardingStep_Cyberpod>
+  <NR_OnboardingStep_Cyberlink>Give a colonist a cyberlink (research: {1})</NR_OnboardingStep_Cyberlink>
+  <NR_OnboardingStep_FirstHack>Hack any target on the map and get your first cyberdata</NR_OnboardingStep_FirstHack>
+  <NR_OnboardingDone_Console>Comms console in place: {0}</NR_OnboardingDone_Console>
+  <NR_OnboardingDone_Cyberpod>Cyberpod built</NR_OnboardingDone_Cyberpod>
+  <NR_OnboardingDone_Cyberlink>A colonist has a cyberlink</NR_OnboardingDone_Cyberlink>
+  <NR_OnboardingDone_FirstHack>First hack done</NR_OnboardingDone_FirstHack>
+  <NR_OnboardingContact>First contact: the Club opens as soon as there is Heat</NR_OnboardingContact>
+  <NR_OnboardingLocked>locked</NR_OnboardingLocked>
+  <NR_OnboardingNoteProtected>Until the colony is online, Netrun events do not come (newcomer protection).</NR_OnboardingNoteProtected>
+  <NR_OnboardingNoteOpen>The colony is already online: Netrun events can come.</NR_OnboardingNoteOpen>
+  <NR_OnboardingSkip>Skip</NR_OnboardingSkip>
+  <NR_OnboardingSkipTip>Show the full Core right away with every node open.</NR_OnboardingSkipTip>
+  <NR_OnboardingDone>Netrun: the colony is online. The Core opens node by node.</NR_OnboardingDone>
+  <NR_NodeLockedSub>locked</NR_NodeLockedSub>
+  <NR_NodeLocked_Club>Opens with the first Heat (the first hack).</NR_NodeLocked_Club>
+  <NR_NodeLocked_Board>Opens after the first call to a fixer in the Club.</NR_NodeLocked_Board>
+  <NR_NodeLocked_Archive>Opens with the first trace event.</NR_NodeLocked_Archive>
+  <NR_NodeLocked_Server>Opens when you have an AI fragment, an AI server or an AI.</NR_NodeLocked_Server>
+  <NR_NodeLocked_Studio>Opens when you have braindance goggles, a recording or a chip.</NR_NodeLocked_Studio>
+  <NR_NodeLocked_Gateway>Opens with the cyberpod.</NR_NodeLocked_Gateway>
 </LanguageData>

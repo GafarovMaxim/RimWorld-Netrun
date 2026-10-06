@@ -49,17 +49,13 @@
   <NR_CoreSummaryAlerts>Тревоги</NR_CoreSummaryAlerts>
   <NR_CoreNoAlerts>Ничего срочного.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Клик — открыть: {0}</NR_CoreAlertGo>
-  <NR_CoreSummaryResources>Ресурсы</NR_CoreSummaryResources>
-  <NR_CoreAISlots>Слоты ИИ</NR_CoreAISlots>
   <NR_CoreNoServer>нет сервера</NR_CoreNoServer>
-  <NR_CoreChips>Брейнданс-чипы</NR_CoreChips>
   <NR_CoreAlertEscape>{0} сбегает через {1}</NR_CoreAlertEscape>
   <NR_CoreAlertContract>Контракт «{0}» истекает через {1}</NR_CoreAlertContract>
   <NR_CoreAlertMercs>След на уровне «Цель»: возможны рейды наёмников</NR_CoreAlertMercs>
   <NR_CoreAlertRequest>{0} просит: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
-  <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
   <NR_HeatScreenNow>Сейчас: {0} ({1})</NR_HeatScreenNow>
   <NR_HeatScreenNoHistory>График заполнится со временем (точка раз в час).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
@@ -90,11 +86,60 @@
   <NR_StatusNetOnline>СЕТЬ В ЭФИРЕ</NR_StatusNetOnline>
   <NR_StatusNetOffline>СЕТЬ ОФФЛАЙН</NR_StatusNetOffline>
   <NR_StatusTraceClick>Клик: экран «Heat и след».</NR_StatusTraceClick>
-  <NR_CoreGroupFavor>Благосклонность группы</NR_CoreGroupFavor>
-  <NR_CoreSummaryGateway>Шлюз</NR_CoreSummaryGateway>
   <NR_CoreGatewayRefresh>Новые ноды через</NR_CoreGatewayRefresh>
   <NR_CoreBossActive>Корп-ядро: открыто ещё</NR_CoreBossActive>
   <NR_CoreBossNext>Корп-ядро через</NR_CoreBossNext>
   <NR_CoreAlertCounterHack>Турели захвачены: нода «Контрвзлом» в Шлюзе</NR_CoreAlertCounterHack>
   <NR_CoreAlertBlackMarket>Открыт чёрный рынок: ещё {0}</NR_CoreAlertBlackMarket>
+  <NR_CoreSummaryNow>Сейчас</NR_CoreSummaryNow>
+  <NR_CoreSummaryColony>Колония в сети</NR_CoreSummaryColony>
+  <NR_AdviceButton_Scrub>✂ Сбросить след</NR_AdviceButton_Scrub>
+  <NR_AdviceButton_Club>В Клуб</NR_AdviceButton_Club>
+  <NR_AdviceButton_Board>К доске</NR_AdviceButton_Board>
+  <NR_AdviceButton_Server>В серверную</NR_AdviceButton_Server>
+  <NR_AdviceButton_Studio>В студию</NR_AdviceButton_Studio>
+  <NR_AdviceButton_Gateway>Нырнуть</NR_AdviceButton_Gateway>
+  <NR_AdviceButton_HeatScreen>Heat и след</NR_AdviceButton_HeatScreen>
+  <NR_CoreTileCyberdata>Cyberdata</NR_CoreTileCyberdata>
+  <NR_CoreTileAdvanced>+{0} прод.</NR_CoreTileAdvanced>
+  <NR_CoreTileCyberdataTip>Cyberdata в колонии: нырки, сброс следа, программы. Малое число — продвинутые.</NR_CoreTileCyberdataTip>
+  <NR_CoreTileAI>ИИ</NR_CoreTileAI>
+  <NR_CoreTileSlots>{0}/{1} слота</NR_CoreTileSlots>
+  <NR_CoreTileAITip>Пробуждённые ИИ и слоты главного ИИ-сервера.</NR_CoreTileAITip>
+  <NR_CoreTileChips>Чипы</NR_CoreTileChips>
+  <NR_CoreTileBlack>{0} чёрн.</NR_CoreTileBlack>
+  <NR_CoreTileChipsTip>Брейнданс-чипы в колонии; малое число — чёрные.</NR_CoreTileChipsTip>
+  <NR_CoreTileGroup>Группа</NR_CoreTileGroup>
+  <NR_CoreTileFavor>благоскл.</NR_CoreTileFavor>
+  <NR_CoreRowNet>Сеть</NR_CoreRowNet>
+  <NR_CoreRowNetValue>{0} Вт · {1}</NR_CoreRowNetValue>
+  <NR_CoreRowNetTip>Сколько тянет сеть: консоль, капсулы, сопроцессоры, серверы. Онлайн — консоль с питанием.</NR_CoreRowNetTip>
+  <NR_CoreOnline>онлайн</NR_CoreOnline>
+  <NR_CoreOffline>оффлайн</NR_CoreOffline>
+  <NR_CoreIn>через {0}</NR_CoreIn>
+  <NR_ChipNetInactive>Сеть не активна</NR_ChipNetInactive>
+  <NR_OnboardingTitle>ДОБРО ПОЖАЛОВАТЬ В СЕТЬ</NR_OnboardingTitle>
+  <NR_OnboardingIntro>Здесь появится карта узлов, Heat и тревоги. Чтобы начать, пройди эти шаги. Остальное откроется само.</NR_OnboardingIntro>
+  <NR_OnboardingStep_Console>Построить консоль связи: она станет сетевой консолью</NR_OnboardingStep_Console>
+  <NR_OnboardingStep_Cyberpod>Построить кибер-капсулу (меню «Киберпространство», исследование: {0})</NR_OnboardingStep_Cyberpod>
+  <NR_OnboardingStep_Cyberlink>Поставить колонисту кибер-линк (исследование: {1})</NR_OnboardingStep_Cyberlink>
+  <NR_OnboardingStep_FirstHack>Взломать любую цель на карте и получить первую cyberdata</NR_OnboardingStep_FirstHack>
+  <NR_OnboardingDone_Console>Консоль связи есть: {0}</NR_OnboardingDone_Console>
+  <NR_OnboardingDone_Cyberpod>Кибер-капсула построена</NR_OnboardingDone_Cyberpod>
+  <NR_OnboardingDone_Cyberlink>У колониста есть кибер-линк</NR_OnboardingDone_Cyberlink>
+  <NR_OnboardingDone_FirstHack>Первый взлом сделан</NR_OnboardingDone_FirstHack>
+  <NR_OnboardingContact>Первый контакт: Клуб откроется, как только появится Heat</NR_OnboardingContact>
+  <NR_OnboardingLocked>закрыто</NR_OnboardingLocked>
+  <NR_OnboardingNoteProtected>Пока колония не в сети, события Netrun не приходят (защита новичка).</NR_OnboardingNoteProtected>
+  <NR_OnboardingNoteOpen>Колония уже в сети: события Netrun могут приходить.</NR_OnboardingNoteOpen>
+  <NR_OnboardingSkip>Пропустить</NR_OnboardingSkip>
+  <NR_OnboardingSkipTip>Сразу показать полный Core со всеми узлами.</NR_OnboardingSkipTip>
+  <NR_OnboardingDone>Netrun: колония в сети. Узлы Core открываются по одному.</NR_OnboardingDone>
+  <NR_NodeLockedSub>закрыто</NR_NodeLockedSub>
+  <NR_NodeLocked_Club>Откроется с первым Heat (первым взломом).</NR_NodeLocked_Club>
+  <NR_NodeLocked_Board>Откроется после первого звонка фиксеру в Клубе.</NR_NodeLocked_Board>
+  <NR_NodeLocked_Archive>Откроется с первым событием следа.</NR_NodeLocked_Archive>
+  <NR_NodeLocked_Server>Откроется, когда появится осколок ИИ, ИИ-сервер или ИИ.</NR_NodeLocked_Server>
+  <NR_NodeLocked_Studio>Откроется, когда появятся брейнданс-очки, запись или чип.</NR_NodeLocked_Studio>
+  <NR_NodeLocked_Gateway>Откроется вместе с кибер-капсулой.</NR_NodeLocked_Gateway>
 </LanguageData>

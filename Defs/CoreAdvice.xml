@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The Core's "Now" block (docs/CORE_V3.md): the highest-priority rule that applies is shown.
+       label = title, description = text; {0}, {1}, {2} are filled by the condition (see CoreAdvice.cs).
+       threshold: ContractDue = hours left, HeatNearNext = Heat points to the next level.
+       buttons: Scrub, Club, Board, Server, Studio, Gateway, HeatScreen (up to two). -->
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_AIEscape</defName>
+    <label>AI {0} is escaping: {1} left</label>
+    <description>Feed it, raise its trust, or cut the server's power before it slips into the net.</description>
+    <condition>AIEscape</condition>
+    <priority>100</priority>
+    <color>Bad</color>
+    <buttons><li>Server</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_CounterHack</defName>
+    <label>Your turrets are hijacked</label>
+    <description>A counter-hack node is waiting in the Gateway. Dive and exit cleanly to take the turrets back.</description>
+    <condition>CounterHack</condition>
+    <priority>90</priority>
+    <color>Bad</color>
+    <buttons><li>Gateway</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_ContractDue</defName>
+    <label>Contract "{0}" expires in {1}</label>
+    <description>Finish it or the fixer will remember. Check what is left on the Board.</description>
+    <condition>ContractDue</condition>
+    <priority>80</priority>
+    <threshold>24</threshold>
+    <color>Bad</color>
+    <buttons><li>Board</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_HeatHigh</defName>
+    <label>Heat {0}: {1}</label>
+    <description>Mercenaries and corporate hunters are looking for you. Scrub the trace with a fixer or lie low.</description>
+    <condition>HeatHigh</condition>
+    <priority>70</priority>
+    <color>Bad</color>
+    <buttons><li>Scrub</li><li>HeatScreen</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_HeatNearNext</defName>
+    <label>Heat {0}, {2} to "{1}"</label>
+    <description>Better scrub the trace or wait it out before the next hack.</description>
+    <condition>HeatNearNext</condition>
+    <priority>60</priority>
+    <threshold>10</threshold>
+    <color>Warn</color>
+    <buttons><li>Scrub</li><li>Board</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_AIRequest</defName>
+    <label>AI {0} asks: {1}</label>
+    <description>Answer in time and its trust grows; ignore it and it may sulk.</description>
+    <condition>AIRequest</condition>
+    <priority>50</priority>
+    <color>Purple</color>
+    <buttons><li>Server</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_RawRecordings</defName>
+    <label>Raw recordings: {0}</label>
+    <description>Edit them in the Studio into braindance chips.</description>
+    <condition>RawRecordings</condition>
+    <priority>30</priority>
+    <color>Accent</color>
+    <buttons><li>Studio</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_FreeNode</defName>
+    <label>{0} nodes in the Gateway</label>
+    <description>{1} is in the pod and ready to dive.</description>
+    <condition>FreeNode</condition>
+    <priority>20</priority>
+    <color>Ok</color>
+    <buttons><li>Gateway</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+  <Netrun.CoreAdviceDef>
+    <defName>NR_Advice_Nothing</defName>
+    <label>Nothing urgent</label>
+    <description>A good time to take a contract or call a fixer.</description>
+    <condition>Nothing</condition>
+    <priority>0</priority>
+    <color>Ok</color>
+    <buttons><li>Board</li><li>Club</li></buttons>
+  </Netrun.CoreAdviceDef>
+
+</Defs>

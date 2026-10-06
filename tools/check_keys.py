@@ -48,6 +48,15 @@ DYNAMIC = {
     "NR_BDMood_": ["Bright", "Dark", "Combat"],
     "NR_BDQuality_": ["0", "1", "2"],
     "NR_SettingsAccent_": ["0", "1", "2", "3", "4"],
+    "NR_SettingsDifficulty_": ["Easy", "Normal", "Hard", "Custom"],
+    "NR_AdviceButton_": ["Scrub", "Club", "Board", "Server", "Studio", "Gateway", "HeatScreen"],
+    "NR_NodeLocked_": ["Club", "Board", "Archive", "Server", "Studio", "Gateway"],
+    "NR_OnboardingStep_": ["Console", "Cyberpod", "Cyberlink", "FirstHack"],
+    "NR_OnboardingDone_": ["Console", "Cyberpod", "Cyberlink", "FirstHack"],
+    "NR_SettingsFreqAttacks": ["Tip"],
+    "NR_SettingsFreqMap": ["Tip"],
+    "NR_SettingsFreqCyber": ["Tip"],
+    "NR_SettingsAIEventFrequency": ["Tip"],
 }
 
 

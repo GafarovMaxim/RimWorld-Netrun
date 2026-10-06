@@ -8,12 +8,12 @@ using Verse.Sound;
 namespace Netrun;
 
 /// <summary>
-/// The Core screen (docs/CORE_V2.md): the node map with a Heat ring in the middle and counters on the nodes,
+/// The Core screen (docs/CORE_V3.md; map from docs/CORE_V2.md): the node map with a Heat ring in the middle and counters on the nodes,
 /// and a Summary panel with Heat, alerts and resources. Answers "how loud am I, what is burning, where next".
 /// </summary>
 public partial class Dialog_NetTerminal
 {
-    private const float SummaryWidth = 250f;
+    private const float SummaryWidth = 300f;
     private const float RingRadius = 62f;
 
     private static readonly Color StudioColor = new(1f, 0.45f, 0.35f);
@@ -38,6 +38,13 @@ public partial class Dialog_NetTerminal
 
     private void DrawCoreScreen(Rect rect, HeatTracker tracker)
     {
+        NetworkGate gate = NetworkGate.Get();
+        NetrunUI.Cached("core.gate." + _map.uniqueID, () => { gate?.Refresh(_map); return true; }, 1f);
+        if (gate != null && !gate.OnboardingDone)
+        {
+            DrawOnboarding(rect);
+            return;
+        }
         DrawMap(new Rect(rect.x, rect.y, rect.width - SummaryWidth - 12f, rect.height), tracker);
         DrawSummary(new Rect(rect.xMax - SummaryWidth, rect.y, SummaryWidth, rect.height), tracker);
     }
@@ -70,10 +77,17 @@ public partial class Dialog_NetTerminal
                 "NR_NodeSub_Gateway".Translate(), NetrunUI.Cached("core.badge.gateway", GatewayBadge)),
         };
 
+        NetworkGate gate = NetworkGate.Get();
+        bool Open(View v) => gate == null || gate.IsUnlocked(v.ToString());
         foreach (var node in nodes)
-            Widgets.DrawLine(center, node.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.8f), 2f);
+            Widgets.DrawLine(center, node.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, Open(node.view) ? 0.8f : 0.25f), 2f);
         foreach (var node in nodes)
-            DrawNode(node.view, node.pos, NodeSize, node.icon, node.color, node.sub, node.badge);
+        {
+            if (Open(node.view))
+                DrawNode(node.view, node.pos, NodeSize, node.icon, node.color, node.sub, node.badge);
+            else
+                DrawLockedNode(node.view, node.pos, NodeSize, node.icon);
+        }
 
         DrawHeatRing(center, tracker);
     }
@@ -83,6 +97,13 @@ public partial class Dialog_NetTerminal
         var box = new Rect(pos.x - size / 2f, pos.y - size / 2f - 14f, size, size);
         bool hover = Mouse.IsOver(box);
         // Opaque tile first, so the links never show through, then the hover tint on top.
+        if (NetrunMod.Settings.Animations && !badge.Text.NullOrEmpty())
+        {
+            float pulse = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 2.2f);
+            GUI.color = new Color(color.r, color.g, color.b, 0.10f + 0.12f * pulse);
+            GUI.DrawTexture(box.ExpandedBy(8f), BaseContent.WhiteTex);
+            GUI.color = Color.white;
+        }
         Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
         NetrunUI.Box(box, hover ? new Color(color.r, color.g, color.b, 0.15f) : NetrunUI.BgWindow, color, hover ? 3 : 2);
         GUI.DrawTexture(box.ContractedBy(size * 0.18f), icon);
@@ -93,6 +114,25 @@ public partial class Dialog_NetTerminal
         TooltipHandler.TipRegion(box, ("NR_NodeTip_" + view).Translate() + "\n\n" + sub);
         if (Widgets.ButtonInvisible(box))
             OpenNode(view);
+    }
+
+    /// <summary>A node not open yet: dim, a lock mark, and how it opens.</summary>
+    private static void DrawLockedNode(View view, Vector2 pos, float size, Texture2D icon)
+    {
+        var box = new Rect(pos.x - size / 2f, pos.y - size / 2f - 14f, size, size);
+        Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
+        NetrunUI.Box(box, NetrunUI.BgWindow, new Color(1f, 1f, 1f, 0.15f), 2);
+        GUI.color = new Color(1f, 1f, 1f, 0.15f);
+        GUI.DrawTexture(box.ContractedBy(size * 0.18f), icon);
+        GUI.color = Color.white;
+        Text.Font = GameFont.Medium;
+        Text.Anchor = TextAnchor.MiddleCenter;
+        Widgets.Label(box, "?".Colorize(NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        string how = ("NR_NodeLocked_" + view).Translate();
+        DrawNodeLabel(pos, box.yMax + 4f, NodeLabel(view).ToUpper(), NetrunUI.Muted, "NR_NodeLockedSub".Translate());
+        TooltipHandler.TipRegion(box, how);
     }
 
     private static void DrawBadge(Vector2 corner, NodeBadge badge)
@@ -262,7 +302,7 @@ public partial class Dialog_NetTerminal
         return new NodeBadge { Text = fresh > 0 ? fresh.ToString() : null, Tip = "NR_BadgeGateway".Translate(fresh) };
     }
 
-    // ---- Summary panel ----
+    // ---- Summary panel (Core v3): Now, Alerts, Colony online ----
 
     private void DrawSummary(Rect rect, HeatTracker tracker)
     {
@@ -270,93 +310,295 @@ public partial class Dialog_NetTerminal
         Rect inner = rect.ContractedBy(10f);
         float y = inner.y;
 
-        // Heat: only the level and the way down; what the level means, the next threshold and cooling are on the Heat screen (click the ring).
-        HeatLevel level = tracker.Level;
-        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryHeatLevel".Translate(level.Label().ToUpper()));
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_CoreScrubButton".Translate(), NetrunUI.Ok, true,
-                "NR_CoreScrubTip".Translate() + "\n\n" + level.Description()))
-            OpenNode(View.Club);
-        y += 38f;
+        y = DrawNow(inner, y, tracker);
+        y = DrawAlerts(inner, y + 4f, tracker);
+        DrawColony(inner, y + 4f);
+    }
 
-        // Alerts: the most urgent first, striped by severity, the node on the right; a click leads there.
-        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryAlerts".Translate());
+    /// <summary>"Now": the one thing worth doing, from the CoreAdviceDef rules, with up to two quick buttons.</summary>
+    private float DrawNow(Rect inner, float y, HeatTracker tracker)
+    {
+        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryNow".Translate());
+        (CoreAdviceDef advice, NamedArgument[] args) = NetrunUI.Cached("core.advice." + _map.uniqueID, () => CoreAdviceDef.Pick(_map, tracker));
+        if (advice == null)
+            return y;
+
+        string title = advice.label.Formatted(args).Resolve();
+        string body = advice.description.Formatted(args).Resolve();
+        Text.Font = GameFont.Tiny;
+        float bodyH = Text.CalcHeight(body, inner.width - 16f);
+        Text.Font = GameFont.Small;
+        float titleH = Text.CalcHeight(title, inner.width - 16f);
+        int buttons = Mathf.Min(2, advice.buttons.Count);
+        float h = 8f + titleH + 2f + bodyH + (buttons > 0 ? 8f + 30f : 0f) + 8f;
+        var box = new Rect(inner.x, y, inner.width, h);
+        Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), advice.Color);
+
+        float ty = box.y + 8f;
+        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, titleH), title.Colorize(advice.Color));
+        ty += titleH + 2f;
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, bodyH), body.Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        ty += bodyH + 8f;
+
+        if (buttons > 0)
+        {
+            float bw = (box.width - 20f - (buttons - 1) * 6f) / buttons;
+            for (int i = 0; i < buttons; i++)
+            {
+                CoreAdviceButton b = advice.buttons[i];
+                Color c = i == 0 ? NetrunUI.Ok : NetrunUI.Accent;
+                if (NetrunUI.Button(new Rect(box.x + 12f + i * (bw + 6f), ty, bw, 30f), CoreAdviceDef.ButtonLabel(b), c, true))
+                    OpenNode(b switch
+                    {
+                        CoreAdviceButton.Scrub or CoreAdviceButton.Club => View.Club,
+                        CoreAdviceButton.Board => View.Board,
+                        CoreAdviceButton.Server => View.Server,
+                        CoreAdviceButton.Studio => View.Studio,
+                        CoreAdviceButton.Gateway => View.Gateway,
+                        _ => View.Core,
+                    });
+            }
+        }
+        return box.yMax + 6f;
+    }
+
+    /// <summary>Alerts: up to four rows, a colored stripe and mark, the node on the right; a click leads there.</summary>
+    private float DrawAlerts(Rect inner, float y, HeatTracker tracker)
+    {
         List<(string text, Color color, View? target)> alerts = NetrunUI.Cached("core.alerts." + _map.uniqueID, () => Alerts(tracker));
+        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryAlerts".Translate());
+        if (alerts.Count > 0)
+        {
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(new Rect(inner.xMax - 40f, y - 30f, 40f, 22f), alerts.Count.ToString().Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
         if (alerts.Count == 0)
         {
             Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "NR_CoreNoAlerts".Translate().Colorize(NetrunUI.Muted));
-            y += 26f;
+            return y + 26f;
         }
         Text.Font = GameFont.Tiny;
         foreach ((string text, Color color, View? target) in alerts.Take(4))
         {
             string where = target == null ? string.Empty : NodeLabel(target.Value);
             float whereWidth = target == null ? 0f : Text.CalcSize(where).x + 8f;
-            float h = Mathf.Max(24f, Text.CalcHeight(text, inner.width - 14f - whereWidth) + 6f);
+            float h = Mathf.Max(26f, Text.CalcHeight(text, inner.width - 30f - whereWidth) + 8f);
             var row = new Rect(inner.x, y, inner.width, h);
             Widgets.DrawBoxSolid(row, Mouse.IsOver(row) && target != null ? NetrunUI.BgCardAlt : NetrunUI.BgWindow);
             Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), color);
-            Widgets.Label(new Rect(row.x + 8f, row.y + 3f, row.width - 14f - whereWidth, h), text);
+            string mark = color == NetrunUI.Bad ? "!" : color == NetrunUI.Warn ? "▲" : "●";
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(row.x + 8f, row.y, 14f, h), mark.Colorize(color));
+            Widgets.Label(new Rect(row.x + 22f, row.y, row.width - 28f - whereWidth, h), text);
             if (target != null)
             {
                 Text.Anchor = TextAnchor.MiddleRight;
                 Widgets.Label(new Rect(row.xMax - whereWidth - 4f, row.y, whereWidth, h), where.Colorize(NetrunUI.Muted));
-                Text.Anchor = TextAnchor.UpperLeft;
                 TooltipHandler.TipRegion(row, "NR_CoreAlertGo".Translate(where));
                 if (Widgets.ButtonInvisible(row))
                     OpenNode(target.Value);
             }
+            Text.Anchor = TextAnchor.UpperLeft;
             y += h + 3f;
         }
         Text.Font = GameFont.Small;
-        y += 6f;
-        // Resources.
-        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryResources".Translate());
-        y = ResourceRow(inner, y, NetrunDefOf.USH_Cyberdata.uiIcon, NetrunDefOf.USH_Cyberdata.LabelCap, ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata).ToString());
-        y = ResourceRow(inner, y, NetrunDefOf.USH_AdvancedCyberdata.uiIcon, NetrunDefOf.USH_AdvancedCyberdata.LabelCap,
-            ColonyGoods.Count(_map, NetrunDefOf.USH_AdvancedCyberdata).ToString());
-        CompAIServer server = _map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault(s => s != null);
-        y = ResourceRow(inner, y, NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), "NR_CoreAISlots".Translate(),
-            server == null ? "NR_CoreNoServer".Translate() : (string)$"{server.Used}/{server.Slots}");
-        int chips = ColonyGoods.Count(_map, NetrunDefOf.NR_BraindanceChip) + ColonyGoods.Count(_map, NetrunDefOf.NR_BlackBraindanceChip);
-        y = ResourceRow(inner, y, NetrunDefOf.NR_BraindanceChip.uiIcon, "NR_CoreChips".Translate(), chips.ToString());
-        GatewayManager gateway = GatewayManager.Get();
-        if (gateway == null)
-            return;
-        y = ResourceRow(inner, y, NetrunTex.GroupFavor ?? NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), "NR_CoreGroupFavor".Translate(),
-            $"{gateway.GroupFavor}/{NetrunDefOf.NR_Cyberspace.groupFavorForAllies}");
-        TooltipHandler.TipRegion(new Rect(inner.x, y - 24f, inner.width, 24f),
-            "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
-
-        // Gateway timers: the next node refresh and the boss node.
-        y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), "NR_CoreSummaryGateway".Translate());
-        y = SummaryRow(inner, y, "NR_CoreGatewayRefresh".Translate(), gateway.TicksUntilRefresh.ToStringTicksToPeriod(), NetrunUI.Accent);
-        ExternalNode boss = gateway.Boss;
-        if (boss != null)
-            y = SummaryRow(inner, y, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓", NetrunUI.Bad);
-        else if (gateway.TicksUntilBoss >= 0)
-            SummaryRow(inner, y, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(), NetrunUI.Muted);
+        return y + 3f;
     }
 
-    private static float SummaryRow(Rect inner, float y, string label, string value, Color color)
+    /// <summary>"Colony online": four tiles (cyberdata, AIs, chips, group) and the network, Gateway and boss rows.</summary>
+    private void DrawColony(Rect inner, float y)
     {
-        Widgets.Label(new Rect(inner.x, y, inner.width - 100f, 22f), label);
-        Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(new Rect(inner.xMax - 100f, y, 100f, 22f), value.Colorize(color));
+        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryColony".Translate());
+        ColonyStats s = NetrunUI.Cached("core.colony." + _map.uniqueID, () => ColonyStats.Of(_map), 1f);
+
+        float tw = (inner.width - 6f) / 2f;
+        const float th = 52f;
+        Tile(new Rect(inner.x, y, tw, th), "NR_CoreTileCyberdata".Translate(), s.Cyberdata.ToString(), "NR_CoreTileAdvanced".Translate(s.Advanced), NetrunUI.Accent,
+            "NR_CoreTileCyberdataTip".Translate());
+        Tile(new Rect(inner.x + tw + 6f, y, tw, th), "NR_CoreTileAI".Translate(), s.AIs.ToString(),
+            s.Slots > 0 ? (string)"NR_CoreTileSlots".Translate(s.Used, s.Slots) : (string)"NR_CoreNoServer".Translate(), NetrunUI.Purple, "NR_CoreTileAITip".Translate());
+        y += th + 6f;
+        Tile(new Rect(inner.x, y, tw, th), "NR_CoreTileChips".Translate(), s.Chips.ToString(), "NR_CoreTileBlack".Translate(s.BlackChips), StudioColor,
+            "NR_CoreTileChipsTip".Translate());
+        GatewayManager gateway = GatewayManager.Get();
+        int favor = gateway?.GroupFavor ?? 0;
+        Tile(new Rect(inner.x + tw + 6f, y, tw, th), "NR_CoreTileGroup".Translate(), $"{favor}/{NetrunDefOf.NR_Cyberspace.groupFavorForAllies}",
+            "NR_CoreTileFavor".Translate(), NetrunUI.Warn,
+            "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays), NetrunTex.GroupFavor);
+        y += th + 8f;
+
+        bool online = AIAwakening.Console(_map) != null;
+        y = SummaryRow(inner, y, "NR_CoreRowNet".Translate(),
+            "NR_CoreRowNetValue".Translate(s.Watts.ToString("0"), (online ? "NR_CoreOnline" : "NR_CoreOffline").Translate()), online ? NetrunUI.Ok : NetrunUI.Bad,
+            "NR_CoreRowNetTip".Translate());
+        if (gateway == null)
+            return;
+        y = SummaryRow(inner, y, "NR_CoreGatewayRefresh".Translate(), "NR_CoreIn".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.TextColor);
+        ExternalNode boss = gateway.Boss;
+        if (boss != null)
+            SummaryRow(inner, y, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓", NetrunUI.Bad);
+        else if (gateway.TicksUntilBoss >= 0)
+            SummaryRow(inner, y, "NR_CoreBossNext".Translate(), "NR_CoreIn".Translate(gateway.TicksUntilBoss.ToStringTicksToPeriod()), NetrunUI.TextColor);
+    }
+
+    private static void Tile(Rect rect, string label, string big, string small, Color color, string tip, Texture2D icon = null)
+    {
+        Widgets.DrawBoxSolid(rect, NetrunUI.BgWindow);
+        if (Mouse.IsOver(rect))
+            Widgets.DrawHighlight(rect);
+        float x = rect.x + 8f;
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(x, rect.y + 4f, rect.width - 12f, 16f), label.ToUpper().Colorize(NetrunUI.Muted));
+        if (icon != null)
+            GUI.DrawTexture(new Rect(rect.xMax - 22f, rect.y + 4f, 16f, 16f), icon);
+        Text.Font = GameFont.Medium;
+        float bw = Text.CalcSize(big).x;
+        Widgets.Label(new Rect(x, rect.y + 18f, bw + 4f, 30f), big.Colorize(color));
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(x + bw + 6f, rect.y + 22f, rect.xMax - x - bw - 10f, 22f), small.Truncate(rect.xMax - x - bw - 10f).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        TooltipHandler.TipRegion(rect, tip);
+    }
+
+    private static float SummaryRow(Rect inner, float y, string label, string value, Color color, string tip = null)
+    {
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(inner.x, y, inner.width - 130f, 22f), label);
+        Text.Anchor = TextAnchor.MiddleRight;
+        Widgets.Label(new Rect(inner.xMax - 130f, y, 130f, 22f), value.Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
         GUI.color = new Color(1f, 1f, 1f, 0.08f);
         Widgets.DrawLineHorizontal(inner.x, y + 23f, inner.width);
         GUI.color = Color.white;
-        return y + 26f;
+        if (tip != null)
+            TooltipHandler.TipRegion(new Rect(inner.x, y, inner.width, 22f), tip);
+        return y + 25f;
     }
 
-    private static float ResourceRow(Rect inner, float y, Texture2D icon, string label, string value)
+    /// <summary>The colony's network at a glance, recomputed about once a second.</summary>
+    private struct ColonyStats
     {
-        GUI.DrawTexture(new Rect(inner.x, y + 1f, 20f, 20f), icon);
-        Widgets.Label(new Rect(inner.x + 26f, y, inner.width - 90f, 22f), label.Truncate(inner.width - 90f));
-        Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(new Rect(inner.xMax - 70f, y, 70f, 22f), value);
+        public int Cyberdata, Advanced, AIs, Used, Slots, Chips, BlackChips;
+        public float Watts;
+
+        private static readonly string[] PoweredNet = ["USH_Cyberpod", "USH_DataServer", "USH_OptimizationCoprocessor", "USH_JammerCoprocessor",
+            "USH_VitalityCoprocessor", "NR_AIServer", "NR_AIServerRack", "NR_NetrunCoprocessor"];
+
+        public static ColonyStats Of(Map map)
+        {
+            CompAIServer server = map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault(c => c != null);
+            int black = ColonyGoods.Count(map, NetrunDefOf.NR_BlackBraindanceChip);
+            float watts = 0f;
+            foreach (string defName in PoweredNet)
+            {
+                ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+                if (def == null)
+                    continue;
+                foreach (Building b in map.listerBuildings.AllBuildingsColonistOfDef(def))
+                    watts += Mathf.Max(0f, -(b.GetComp<CompPowerTrader>()?.PowerOutput ?? 0f));
+            }
+            if (AIAwakening.Console(map) is { } console)
+                watts += Mathf.Max(0f, -(console.GetComp<CompPowerTrader>()?.PowerOutput ?? 0f));
+            return new ColonyStats
+            {
+                Cyberdata = ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata),
+                Advanced = ColonyGoods.Count(map, NetrunDefOf.USH_AdvancedCyberdata),
+                AIs = AIManager.Get()?.AIs.Count ?? 0,
+                Used = server?.Used ?? 0,
+                Slots = server?.Slots ?? 0,
+                Chips = ColonyGoods.Count(map, NetrunDefOf.NR_BraindanceChip) + black,
+                BlackChips = black,
+                Watts = watts,
+            };
+        }
+    }
+
+    // ---- Onboarding (before the colony is online) ----
+
+    private void DrawOnboarding(Rect rect)
+    {
+        Rect r = rect.ContractedBy(Mathf.Min(48f, rect.width * 0.05f));
+        float y = r.y + 8f;
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(r.x, y, r.width, 34f), "NR_OnboardingTitle".Translate().Colorize(NetrunUI.Accent));
+        Text.Font = GameFont.Small;
+        y += 40f;
+        string intro = "NR_OnboardingIntro".Translate();
+        float ih = Text.CalcHeight(intro, r.width);
+        Widgets.Label(new Rect(r.x, y, r.width, ih), intro.Colorize(NetrunUI.Muted));
+        y += ih + 12f;
+
+        bool currentFound = false;
+        int number = 1;
+        foreach (OnboardingStep step in System.Enum.GetValues(typeof(OnboardingStep)))
+        {
+            bool done = NetworkGate.StepDone(step, _map);
+            bool current = !done && !currentFound;
+            if (current)
+                currentFound = true;
+            Color color = done ? NetrunUI.Ok : current ? NetrunUI.Warn : NetrunUI.Muted;
+            string text = done ? OnboardingDoneText(step) : ("NR_OnboardingStep_" + step).Translate(ResearchLabel("USH_CybertechMachinery"), ResearchLabel("USH_Cyberlink"));
+            y = OnboardingRow(r, y, done ? "✔" : number.ToString(), text, color, done ? null : "0 / 1", current || done);
+            if (!done)
+                number++;
+        }
+        // The first contact opens by itself with the first Heat.
+        y = OnboardingRow(r, y, number.ToString(), "NR_OnboardingContact".Translate(), NetrunUI.Muted, "NR_OnboardingLocked".Translate(), false);
+
+        Text.Font = GameFont.Tiny;
+        string note = NetworkGate.IsOpen ? "NR_OnboardingNoteOpen".Translate() : "NR_OnboardingNoteProtected".Translate();
+        Widgets.Label(new Rect(r.x, y + 4f, r.width, 34f), note.Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+
+        string skip = "NR_OnboardingSkip".Translate();
+        float sw = NetrunUI.ButtonWidth(skip);
+        if (NetrunUI.Button(new Rect(r.xMax - sw, r.yMax - 32f, sw, 30f), skip, NetrunUI.Muted, true, "NR_OnboardingSkipTip".Translate()))
+            NetworkGate.Get()?.SkipOnboarding();
+    }
+
+    private string OnboardingDoneText(OnboardingStep step)
+    {
+        if (step == OnboardingStep.Console)
+        {
+            Building console = _map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.CommsConsole).FirstOrDefault(b => b.TryGetComp<CompNetTerminal>() != null);
+            return "NR_OnboardingDone_Console".Translate(console?.LabelCap ?? ThingDefOf.CommsConsole.LabelCap);
+        }
+        return ("NR_OnboardingDone_" + step).Translate();
+    }
+
+    private static string ResearchLabel(string defName) => DefDatabase<ResearchProjectDef>.GetNamedSilentFail(defName)?.LabelCap ?? defName;
+
+    private static float OnboardingRow(Rect r, float y, string mark, string text, Color color, string right, bool bright)
+    {
+        const float h = 42f;
+        var row = new Rect(r.x, y, r.width, h);
+        Widgets.DrawBoxSolid(row, NetrunUI.BgCard);
+        Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), color);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(row.x + 16f, row.y, 20f, h), mark.Colorize(color));
+        float rw = 0f;
+        if (right != null)
+        {
+            Text.Font = GameFont.Tiny;
+            rw = Text.CalcSize(right).x + 12f;
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(new Rect(row.xMax - rw - 8f, row.y, rw, h), right.Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+        }
+        Widgets.Label(new Rect(row.x + 40f, row.y, row.width - 56f - rw, h), bright ? text : text.Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
-        return y + 24f;
+        return y + h + 4f;
     }
 
     private List<(string text, Color color, View? target)> Alerts(HeatTracker tracker)
@@ -366,22 +608,22 @@ public partial class Dialog_NetTerminal
 
         foreach (NetAI ai in ais.Where(a => a.Escaping))
             list.Add(("NR_CoreAlertEscape".Translate(ai.Name, (ai.EscapeAtTick - Find.TickManager.TicksGame).ToStringTicksToPeriod()), NetrunUI.Bad, View.Server));
+        MapEventsManager events = MapEventsManager.Get();
+        if (events?.CounterHackRunning == true)
+            list.Add(("NR_CoreAlertCounterHack".Translate(), NetrunUI.Bad, View.Gateway));
         foreach (Contract c in ContractManager.Get()?.Active.Where(c => c.TicksLeft < GenDate.TicksPerDay) ?? Enumerable.Empty<Contract>())
             list.Add(("NR_CoreAlertContract".Translate(c.Title, c.TicksLeft.ToStringTicksToPeriod()), NetrunUI.Bad, View.Board));
         if (tracker.Level >= HeatLevel.Target)
             list.Add(("NR_CoreAlertMercs".Translate(), NetrunUI.Bad, (View?)View.Club));
         foreach (NetAI ai in ais.Where(a => a.HasRequest))
-            list.Add(("NR_CoreAlertRequest".Translate(ai.Name, AIManager.RequestText(ai)), NetrunUI.Warn, View.Server));
+            list.Add(("NR_CoreAlertRequest".Translate(ai.Name, AIManager.RequestText(ai)), NetrunUI.Purple, View.Server));
         foreach (NetAI ai in ais.Where(a => !a.HasRequest && a.Hunger >= 70f))
             list.Add(("NR_CoreAlertHungry".Translate(ai.Name), NetrunUI.Warn, View.Server));
         int netsick = _map.mapPawns.FreeColonistsSpawned.Count(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick));
         if (netsick > 0)
             list.Add(("NR_CoreAlertNetsick".Translate(netsick), NetrunUI.Warn, null));
-        MapEventsManager events = MapEventsManager.Get();
-        if (events?.CounterHackRunning == true)
-            list.Insert(0, ("NR_CoreAlertCounterHack".Translate(), NetrunUI.Bad, View.Gateway));
         if (events?.BlackMarketOpen == true)
-            list.Add(("NR_CoreAlertBlackMarket".Translate(events.BlackMarketTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple, View.Club));
+            list.Add(("NR_CoreAlertBlackMarket".Translate(events.BlackMarketTicksLeft.ToStringTicksToPeriod()), NetrunUI.Accent, View.Club));
         return list;
     }
 }
