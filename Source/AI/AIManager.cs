@@ -125,7 +125,7 @@ public class AIManager : GameComponent
     /// <summary>Now and then an AI acts on its own: helps when it trusts you, makes trouble when it does not.</summary>
     /// <summary>Days between one AI's events, scaled by the "AI event frequency" mod setting.</summary>
     private static int NextEventDelay()
-        => (int)(Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay / NetrunMod.Settings.AIEventFrequency);
+        => (int)(Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay / NetrunSettings.Divisor(NetrunMod.Settings.AIEventFrequency));
 
     private void UpdateRandomEvent(NetAI ai, int now)
     {

@@ -59,10 +59,36 @@ Dives: {5}, clean exits: {6}
 AI events: {7}
 
 Heat now: {8}</NR_EconomySummary>
-  <NR_SettingsAIEventFrequency>AI event frequency:</NR_SettingsAIEventFrequency>
+  <NR_SettingsAIEventFrequency>AI events:</NR_SettingsAIEventFrequency>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
   <NR_SettingsDiveReport>Show the dive summary</NR_SettingsDiveReport>
   <NR_SettingsDiveReportTip>After leaving a dive, open a window with the haul, costs, Heat and Netsick.</NR_SettingsDiveReportTip>
   <NR_SettingsNewcomer>Network events only after the colony goes online</NR_SettingsNewcomer>
   <NR_SettingsNewcomerTip>Netrun threats (net attacks, corporate hunts, mercenaries, AI and fixer events) wait until the colony has touched the net: any Heat, a cyberpod, console or AI server built, a colonist with a cyberlink, or a dive. Black market and distress signal come anyway.</NR_SettingsNewcomerTip>
+  <NR_SettingsGroupGameplay>Gameplay</NR_SettingsGroupGameplay>
+  <NR_SettingsGroupInterface>Interface</NR_SettingsGroupInterface>
+  <NR_SettingsGroupSupport>Bug reports</NR_SettingsGroupSupport>
+  <NR_SettingsDifficulty>Heat difficulty:</NR_SettingsDifficulty>
+  <NR_SettingsDifficultyTip>A preset for how fast Heat grows, how fast it cools and how much a fixer scrubs. Fine-tune under "Advanced".</NR_SettingsDifficultyTip>
+  <NR_SettingsDifficulty_Easy>Easy: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Easy>
+  <NR_SettingsDifficulty_Normal>Normal: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Normal>
+  <NR_SettingsDifficulty_Hard>Hard: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Hard>
+  <NR_SettingsDifficulty_Custom>Custom (changed under Advanced)</NR_SettingsDifficulty_Custom>
+  <NR_SettingsAdvanced>Advanced</NR_SettingsAdvanced>
+  <NR_SettingsScrub>Fixer scrub efficiency: {0}</NR_SettingsScrub>
+  <NR_SettingsOff>Off</NR_SettingsOff>
+  <NR_SettingsFreqAttacks>Net attacks and mercenaries:</NR_SettingsFreqAttacks>
+  <NR_SettingsFreqAttacksTip>Net attacks, mercenary raids and the corporate hunt.</NR_SettingsFreqAttacksTip>
+  <NR_SettingsFreqMap>Map events:</NR_SettingsFreqMap>
+  <NR_SettingsFreqMapTip>Data courier, black market, distress signal, turret hijack.</NR_SettingsFreqMapTip>
+  <NR_SettingsFreqCyber>Cyberspace events:</NR_SettingsFreqCyber>
+  <NR_SettingsFreqCyberTip>ICE hunter, rival netrunners, honeypots, data storms, wild AIs.</NR_SettingsFreqCyberTip>
+  <NR_SettingsAIEventFrequencyTip>AI events: requests, favors and tricks of your AIs.</NR_SettingsAIEventFrequencyTip>
+  <NR_SettingsPause>Pause when the terminal opens</NR_SettingsPause>
+  <NR_SettingsPauseTip>The game pauses once when the terminal opens; you can unpause it while it is open.</NR_SettingsPauseTip>
+  <NR_SettingsAnimations>Terminal animations</NR_SettingsAnimations>
+  <NR_SettingsAnimationsTip>Floating Gateway nodes and glowing Core nodes. Turn off if the terminal feels slow.</NR_SettingsAnimationsTip>
+  <NR_SettingsReportInfoDesc>Found a bug? Copy the info below and paste it into the bug report on GitHub with your Player.log.</NR_SettingsReportInfoDesc>
+  <NR_SettingsReportInfo>Copy info for a bug report</NR_SettingsReportInfo>
+  <NR_SettingsReportCopied>Copied to the clipboard.</NR_SettingsReportCopied>
 </LanguageData>

@@ -158,7 +158,7 @@ public partial class Dialog_NetTerminal : Window
     {
         base.PreOpen();
         ResizerRef(this) = new WindowResizer { minWindowSize = new Vector2(Mathf.Min(MinSize.x, UI.screenWidth - 20f), Mathf.Min(MinSize.y, UI.screenHeight - 20f)) };
-        if (Find.TickManager is { Paused: false } ticks)
+        if (NetrunMod.Settings.PauseOnOpen && Find.TickManager is { Paused: false } ticks)
             ticks.TogglePaused();
     }
 

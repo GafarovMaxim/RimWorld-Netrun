@@ -82,13 +82,37 @@ public class NetworkGate : GameComponent
     }
 }
 
-/// <summary>Netrun incidents stay quiet until the colony is online (dev "Execute incident" still works).</summary>
+/// <summary>Which settings group a Netrun incident belongs to.</summary>
+public static class EventGroups
+{
+    private static readonly HashSet<string> MapEvents = ["NR_DataCourier", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
+
+    /// <summary>The frequency setting for this incident: net attacks (attacks, mercenaries, corporate hunt) or map events; 1 for others.</summary>
+    public static float Frequency(IncidentDef def)
+    {
+        if (def == null || !def.defName.StartsWith("NR_"))
+            return 1f;
+        if (MapEvents.Contains(def.defName))
+            return NetrunMod.Settings.MapEventFrequency;
+        if (def.defName.StartsWith("NR_NetAttack_") || def.defName == "NR_MercRaid" || def.defName == "NR_CorpHunt")
+            return NetrunMod.Settings.NetAttackFrequency;
+        return 1f;
+    }
+}
+
+[HarmonyPatch(typeof(IncidentWorker), nameof(IncidentWorker.BaseChanceThisGame), MethodType.Getter)]
+public static class Patch_IncidentWorker_BaseChance
+{
+    public static void Postfix(IncidentWorker __instance, ref float __result) => __result *= EventGroups.Frequency(__instance.def);
+}
+
+/// <summary>Netrun incidents stay quiet until the colony is online, or when their group is off (dev "Execute incident" still works).</summary>
 [HarmonyPatch(typeof(IncidentWorker), nameof(IncidentWorker.CanFireNow))]
 public static class Patch_IncidentWorker_CanFireNow
 {
     public static void Postfix(IncidentWorker __instance, ref bool __result)
     {
-        if (__result && !NetworkGate.Allows(__instance.def))
+        if (__result && (!NetworkGate.Allows(__instance.def) || EventGroups.Frequency(__instance.def) <= 0f))
             __result = false;
     }
 }

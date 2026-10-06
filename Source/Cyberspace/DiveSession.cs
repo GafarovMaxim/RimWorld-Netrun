@@ -519,7 +519,7 @@ public class DiveSession : IExposable
         }
 
         if (!HunterSpawned && Turn >= Settings.hunterFromTurn && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Target
-            && Rand.Chance(Settings.hunterChance))
+            && Rand.Chance(Settings.hunterChance * NetrunMod.Settings.CyberEventFrequency))
             SpawnHunter();
     }
 

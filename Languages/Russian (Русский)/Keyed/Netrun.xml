@@ -59,10 +59,36 @@ Heat поднят на {3}, снижен на {4} (без пассивного �
 Событий ИИ: {7}
 
 Heat сейчас: {8}</NR_EconomySummary>
-  <NR_SettingsAIEventFrequency>Частота событий ИИ:</NR_SettingsAIEventFrequency>
+  <NR_SettingsAIEventFrequency>События ИИ:</NR_SettingsAIEventFrequency>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
   <NR_SettingsDiveReport>Показывать итоги вылазки</NR_SettingsDiveReport>
   <NR_SettingsDiveReportTip>После выхода из нырка открывать окно с добычей, затратами, Heat и Netsick.</NR_SettingsDiveReportTip>
   <NR_SettingsNewcomer>Сетевые события только после начала игры с сетью</NR_SettingsNewcomer>
   <NR_SettingsNewcomerTip>Угрозы Netrun (сетевые атаки, охота корпов, наёмники, события ИИ и фиксеров) не приходят, пока колония не вошла в сеть: любой Heat, построена капсула, консоль или ИИ-сервер, колонист с кибер-линком или нырок. Чёрный рынок и сигнал бедствия приходят всегда.</NR_SettingsNewcomerTip>
+  <NR_SettingsGroupGameplay>Геймплей</NR_SettingsGroupGameplay>
+  <NR_SettingsGroupInterface>Интерфейс</NR_SettingsGroupInterface>
+  <NR_SettingsGroupSupport>Отчёты об ошибках</NR_SettingsGroupSupport>
+  <NR_SettingsDifficulty>Сложность Heat:</NR_SettingsDifficulty>
+  <NR_SettingsDifficultyTip>Пресет: как быстро растёт Heat, как быстро остывает и сколько снимает фиксер. Точная подстройка в «Расширенных».</NR_SettingsDifficultyTip>
+  <NR_SettingsDifficulty_Easy>Лёгкий: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Easy>
+  <NR_SettingsDifficulty_Normal>Обычный: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Normal>
+  <NR_SettingsDifficulty_Hard>Жёсткий: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Hard>
+  <NR_SettingsDifficulty_Custom>Свой (изменено в «Расширенных»)</NR_SettingsDifficulty_Custom>
+  <NR_SettingsAdvanced>Расширенные</NR_SettingsAdvanced>
+  <NR_SettingsScrub>Эффективность сброса у фиксера: {0}</NR_SettingsScrub>
+  <NR_SettingsOff>Выкл</NR_SettingsOff>
+  <NR_SettingsFreqAttacks>Сетевые атаки и наёмники:</NR_SettingsFreqAttacks>
+  <NR_SettingsFreqAttacksTip>Сетевые атаки, рейды наёмников и охота корпов.</NR_SettingsFreqAttacksTip>
+  <NR_SettingsFreqMap>События на карте:</NR_SettingsFreqMap>
+  <NR_SettingsFreqMapTip>Курьер данных, чёрный рынок, сигнал бедствия, взлом турелей.</NR_SettingsFreqMapTip>
+  <NR_SettingsFreqCyber>События киберпространства:</NR_SettingsFreqCyber>
+  <NR_SettingsFreqCyberTip>Охотник ICE, соперники, приманки, шторм данных, дикий ИИ.</NR_SettingsFreqCyberTip>
+  <NR_SettingsAIEventFrequencyTip>События ИИ: просьбы, услуги и выходки ваших ИИ.</NR_SettingsAIEventFrequencyTip>
+  <NR_SettingsPause>Пауза при открытии терминала</NR_SettingsPause>
+  <NR_SettingsPauseTip>Игра встаёт на паузу при открытии терминала; снять паузу можно и при открытом окне.</NR_SettingsPauseTip>
+  <NR_SettingsAnimations>Анимации терминала</NR_SettingsAnimations>
+  <NR_SettingsAnimationsTip>Плавающие ноды Шлюза и свечение узлов Core. Выключите, если терминал тормозит.</NR_SettingsAnimationsTip>
+  <NR_SettingsReportInfoDesc>Нашли ошибку? Скопируйте сведения и вставьте в баг-репорт на GitHub вместе с Player.log.</NR_SettingsReportInfoDesc>
+  <NR_SettingsReportInfo>Скопировать сведения для отчёта</NR_SettingsReportInfo>
+  <NR_SettingsReportCopied>Скопировано в буфер обмена.</NR_SettingsReportCopied>
 </LanguageData>

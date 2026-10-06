@@ -231,9 +231,9 @@ public class ExternalNode : IExposable
             Defense = defense,
             BlackIce = blackIce,
             IceStrength = blackIce ? defense + Rand.RangeInclusive(1, 2) : 0,
-            Rival = Rand.Chance(s.rivalChance),
-            Honeypot = Rand.Chance(s.honeypotChance),
-            WildAI = type == ExternalNodeType.Abandoned && Rand.Chance(s.wildAIChance),
+            Rival = Rand.Chance(s.rivalChance * NetrunMod.Settings.CyberEventFrequency),
+            Honeypot = Rand.Chance(s.honeypotChance * NetrunMod.Settings.CyberEventFrequency),
+            WildAI = type == ExternalNodeType.Abandoned && Rand.Chance(s.wildAIChance * NetrunMod.Settings.CyberEventFrequency),
         };
     }
 

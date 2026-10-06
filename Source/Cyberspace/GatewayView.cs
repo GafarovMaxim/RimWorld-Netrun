@@ -90,7 +90,7 @@ public static class GatewayView
         {
             ExternalNode node = nodes[i];
             Vector2 slot = Slots[i];
-            float bob = Mathf.Sin(time * 0.8f + node.Id) * 4f;
+            float bob = NetrunMod.Settings.Animations ? Mathf.Sin(time * 0.8f + node.Id) * 4f : 0f;
             // Zoom spreads the slots around the field centre; circles grow with it.
             var slotPos = new Vector2(local.width * slot.x, local.height * slot.y + bob);
             var pos = center + (slotPos - center) * _zoom + _pan;

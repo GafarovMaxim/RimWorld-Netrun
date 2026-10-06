@@ -70,8 +70,8 @@ public class Fixer : IExposable
     /// <summary>Calls never get the Cleaner discount.</summary>
     public int EffectiveCallCost => Mathf.CeilToInt(CallCost * (Trait == FixerTrait.Greedy ? Settings.greedyPriceFactor : 1f));
 
-    public float HeatPerCyberdata => Settings.heatPerCyberdata * ScrubLevelFactor / PriceFactor;
-    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor / PriceFactor;
+    public float HeatPerCyberdata => Settings.heatPerCyberdata * ScrubLevelFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
     /// <summary>The scrub gets less effective as the colony's trace grows.</summary>
     private static float ScrubLevelFactor

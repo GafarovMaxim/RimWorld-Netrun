@@ -75,6 +75,8 @@ public class AIEventManager : GameComponent
     public bool TryFire(NetAI ai)
     {
         int now = Find.TickManager.TicksGame;
+        if (NetrunMod.Settings.AIEventFrequency <= 0f)
+            return false;
         float gapHours = NetrunDefOf.NR_AI.colonyEventGapHours / NetrunMod.Settings.AIEventFrequency;
         if (ai.Isolated || now - _lastEventTick < gapHours * GenDate.TicksPerHour)
             return false;

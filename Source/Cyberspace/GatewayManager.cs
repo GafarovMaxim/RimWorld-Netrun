@@ -72,7 +72,7 @@ public class GatewayManager : GameComponent
             _nodes.Add(ExternalNode.Generate(_nextId++));
         foreach (ExternalNode node in _nodes.InRandomOrder().Take(Settings.hiddenNodes))
             node.Hidden = true;
-        if (!StormActive && Rand.Chance(Settings.stormChance))
+        if (!StormActive && Rand.Chance(Settings.stormChance * NetrunMod.Settings.CyberEventFrequency))
             StartStorm();
         if (ContractManager.Get()?.Active.Any(c => c.Type is ContractType.SystemTap or ContractType.QuietRun) == true
             && _nodes.Where(n => !n.Hidden).TryRandomElement(out ExternalNode marked))
