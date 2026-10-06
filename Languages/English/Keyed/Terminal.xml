@@ -262,4 +262,19 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_ArchiveArticle>Article: {0} ↗</NR_ArchiveArticle>
   <NR_ChipArchiveEvents>Events: {0}</NR_ChipArchiveEvents>
   <NR_BackToGateway>◄ Gateway</NR_BackToGateway>
+  <NR_HelpDiveStep_LOBBY>Lobby</NR_HelpDiveStep_LOBBY>
+  <NR_HelpDiveStep_GATE>Gate</NR_HelpDiveStep_GATE>
+  <NR_HelpDiveStep_FILES>Files</NR_HelpDiveStep_FILES>
+  <NR_HelpDiveStep_HIDDEN>Hidden</NR_HelpDiveStep_HIDDEN>
+  <NR_HelpDiveStep_BLACKICE>Black ICE</NR_HelpDiveStep_BLACKICE>
+  <NR_HelpDiveStep_MEMORY>Memory</NR_HelpDiveStep_MEMORY>
+  <NR_HelpDiveStep_EXIT>Exit</NR_HelpDiveStep_EXIT>
+  <NR_HelpDiveStepDesc_LOBBY>The lobby: where every dive starts. Leaving from here is free.</NR_HelpDiveStepDesc_LOBBY>
+  <NR_HelpDiveStepDesc_GATE>A code gate: a wall to hack before you can go on. Stronger nodes have stronger gates.</NR_HelpDiveStepDesc_GATE>
+  <NR_HelpDiveStepDesc_FILES>Files: download them for the haul. They pay back the dive with a multiplier.</NR_HelpDiveStepDesc_FILES>
+  <NR_HelpDiveStepDesc_HIDDEN>A hidden step: invisible until scanned. Not everything hidden is good to take.</NR_HelpDiveStepDesc_HIDDEN>
+  <NR_HelpDiveStepDesc_BLACKICE>Black ICE: strikes on every node turn while you are in the node. Shields, decoys and killers help.</NR_HelpDiveStepDesc_BLACKICE>
+  <NR_HelpDiveStepDesc_MEMORY>Memory units: may hold AI fragments or core modules.</NR_HelpDiveStepDesc_MEMORY>
+  <NR_HelpDiveStepDesc_EXIT>The I/O port: leave with everything you found. A clean exit can bring a special find.</NR_HelpDiveStepDesc_EXIT>
+  <NR_HelpDiveSchemaHint>A node is a path of steps. Hover a step to see what it is, click to pin the text here.</NR_HelpDiveSchemaHint>
 </LanguageData>

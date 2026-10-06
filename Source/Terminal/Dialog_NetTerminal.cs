@@ -281,6 +281,13 @@ public partial class Dialog_NetTerminal : Window
             _view = _viewBeforeHelp;
     }
 
+    /// <summary>A link in the terminal's text: the Cyberpedia on that page (in the open terminal).</summary>
+    public static void OpenPage(HelpPageDef page)
+    {
+        if (page != null)
+            Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenHelp(page);
+    }
+
     /// <summary>From outside the terminal (the dive summary): open it on a Cyberpedia page.</summary>
     public static void OpenCyberpedia(Map map, string context)
     {

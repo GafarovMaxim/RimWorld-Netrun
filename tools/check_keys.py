@@ -17,6 +17,8 @@ NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 DYNAMIC = {
+    "NR_HelpDiveStep_": ["LOBBY", "GATE", "FILES", "HIDDEN", "BLACKICE", "MEMORY", "EXIT"],
+    "NR_HelpDiveStepDesc_": ["LOBBY", "GATE", "FILES", "HIDDEN", "BLACKICE", "MEMORY", "EXIT"],
     "NR_ArchiveTab_": ["Journal", "Reports", "Raids"],
     "NR_ArchiveFilter_": ["All", "Hack", "Dive", "Scrub", "AI", "Events"],
     "NR_ArchiveType_": ["Other", "Hack", "Dive", "Scrub", "AI", "Raid", "Event"],

@@ -346,7 +346,7 @@ public static class ContractsTab
     private static float OfferHeight(Contract contract, float width)
     {
         Text.Font = GameFont.Tiny;
-        float desc = Text.CalcHeight(contract.Description, TextWidth(width));
+        float desc = HyperText.Height(contract.Description, TextWidth(width), "board." + contract.Id);
         Text.Font = GameFont.Small;
         float content = 28f + desc + 6f + 22f + 4f + 18f;
         return Mathf.Max(Mathf.Max(IconSize, content), 30f + 20f + ButtonHeight + 8f) + 2 * Pad;
@@ -370,8 +370,8 @@ public static class ContractsTab
         Text.Font = GameFont.Small;
         y += 28f;
         Text.Font = GameFont.Tiny;
-        float desc = Text.CalcHeight(contract.Description, width);
-        Widgets.Label(new Rect(x, y, width, desc), contract.Description.Colorize(NetrunUI.Muted));
+        float desc = HyperText.Height(contract.Description, width, "board." + contract.Id);
+        HyperText.Label(new Rect(x, y, width, desc), contract.Description, NetrunUI.Muted, "board." + contract.Id);
         Text.Font = GameFont.Small;
         y += desc + 6f;
 

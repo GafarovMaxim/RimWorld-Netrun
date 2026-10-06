@@ -250,7 +250,7 @@ public static class HeatScreen
         y += dh + 4f;
 
         foreach (HeatEffect e in HeatLevelInfoDef.For(level)?.effects ?? [])
-            y = EffectLine(r.width, y, e.severity, e.text);
+            y = EffectLine(r.width, y, e.severity, e.text, "heat.fx." + level);
 
         // Live numbers: the best scrub rate and the cooling.
         Fixer best = BestFixer();
@@ -267,7 +267,7 @@ public static class HeatScreen
         GUI.EndGroup();
     }
 
-    private static float EffectLine(float width, float y, HeatEffectSeverity severity, string text)
+    private static float EffectLine(float width, float y, HeatEffectSeverity severity, string text, string linkGroup = null)
     {
         (string mark, Color color) = severity switch
         {
@@ -275,9 +275,12 @@ public static class HeatScreen
             HeatEffectSeverity.Warn => ("▲", NetrunUI.Warn),
             _ => ("●", NetrunUI.Muted),
         };
-        float h = Mathf.Max(18f, Text.CalcHeight(text, width - 18f));
+        float h = Mathf.Max(18f, linkGroup != null ? HyperText.Height(text, width - 18f, linkGroup) : Text.CalcHeight(text, width - 18f));
         Widgets.Label(new Rect(0f, y, 14f, 18f), mark.Colorize(color));
-        Widgets.Label(new Rect(16f, y, width - 18f, h), text);
+        if (linkGroup != null)
+            HyperText.Label(new Rect(16f, y, width - 18f, h), text, null, linkGroup);
+        else
+            Widgets.Label(new Rect(16f, y, width - 18f, h), text);
         GUI.color = new Color(1f, 1f, 1f, 0.06f);
         Widgets.DrawLineHorizontal(0f, y + h + 1f, width);
         GUI.color = Color.white;

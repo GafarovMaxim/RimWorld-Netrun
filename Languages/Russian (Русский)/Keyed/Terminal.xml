@@ -262,4 +262,19 @@
   <NR_ArchiveArticle>Статья: {0} ↗</NR_ArchiveArticle>
   <NR_ChipArchiveEvents>Событий: {0}</NR_ChipArchiveEvents>
   <NR_BackToGateway>◄ Шлюз</NR_BackToGateway>
+  <NR_HelpDiveStep_LOBBY>Лобби</NR_HelpDiveStep_LOBBY>
+  <NR_HelpDiveStep_GATE>Ворота</NR_HelpDiveStep_GATE>
+  <NR_HelpDiveStep_FILES>Файлы</NR_HelpDiveStep_FILES>
+  <NR_HelpDiveStep_HIDDEN>Скрытое</NR_HelpDiveStep_HIDDEN>
+  <NR_HelpDiveStep_BLACKICE>Black ICE</NR_HelpDiveStep_BLACKICE>
+  <NR_HelpDiveStep_MEMORY>Память</NR_HelpDiveStep_MEMORY>
+  <NR_HelpDiveStep_EXIT>Выход</NR_HelpDiveStep_EXIT>
+  <NR_HelpDiveStepDesc_LOBBY>Лобби: здесь начинается каждый нырок. Уйти отсюда можно бесплатно.</NR_HelpDiveStepDesc_LOBBY>
+  <NR_HelpDiveStepDesc_GATE>Кодовые ворота: стена, которую надо взломать, чтобы идти дальше. У сильных нод ворота крепче.</NR_HelpDiveStepDesc_GATE>
+  <NR_HelpDiveStepDesc_FILES>Файлы: загрузите их ради добычи. Они окупают нырок с множителем.</NR_HelpDiveStepDesc_FILES>
+  <NR_HelpDiveStepDesc_HIDDEN>Скрытая ступень: не видна до скана. Не всё скрытое стоит брать.</NR_HelpDiveStepDesc_HIDDEN>
+  <NR_HelpDiveStepDesc_BLACKICE>Black ICE: бьёт каждый ход ноды, пока вы в ней. Помогают щиты, фальшивки и убийцы.</NR_HelpDiveStepDesc_BLACKICE>
+  <NR_HelpDiveStepDesc_MEMORY>Блоки памяти: в них бывают осколки ИИ и модули ядра.</NR_HelpDiveStepDesc_MEMORY>
+  <NR_HelpDiveStepDesc_EXIT>Порт ввода-вывода: уходите со всем найденным. Чистый выход может принести особую находку.</NR_HelpDiveStepDesc_EXIT>
+  <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
 </LanguageData>

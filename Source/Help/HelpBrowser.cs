@@ -295,13 +295,12 @@ public class HelpBrowser
         {
             string heading = line.Substring(3);
             Texture2D icon = HelpIcons.TakeLeading(ref heading);
-            if (icon == null)
-                return NetrunUI.Section(new Rect(0f, y + 4f, w, 32f), heading);
-            GUI.DrawTexture(new Rect(0f, y + 2f, 32f, 32f), icon);
-            return NetrunUI.Section(new Rect(40f, y + 4f, w - 40f, 32f), heading);
+            return Heading(heading, icon, y + 8f, w);
         }
         if (line == "[[levels]]")
             return LevelTiles(y, w);
+        if (line == "[[dive]]")
+            return DiveSchema(y, w);
         if (line.StartsWith("> page:"))
         {
             (string target, string text) = SplitLink(line.Substring(7));
@@ -320,137 +319,41 @@ public class HelpBrowser
         bool bullet = line.StartsWith("- ");
         string textLine = bullet ? line.Substring(2) : line;
         Texture2D lineIcon = HelpIcons.TakeLeading(ref textLine);
-        float indent = (bullet ? 16f : 0f) + (lineIcon != null ? 40f : 0f);
+        const float iconSize = 40f;
+        float indent = (bullet ? 16f : 0f) + (lineIcon != null ? iconSize + 10f : 0f);
         if (bullet && lineIcon == null)
             Widgets.Label(new Rect(0f, y, 14f, 22f), "•".Colorize(NetrunUI.Accent));
         if (lineIcon != null)
-            GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, 32f, 32f), lineIcon);
-        float h = FlowText(textLine, indent, y + (lineIcon != null ? 6f : 0f), w - indent);
-        h = Mathf.Max(lineIcon != null ? 34f : 0f, h + (lineIcon != null ? 6f : 0f));
-        return y + h + (bullet ? 4f : 6f);
+            GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, iconSize, iconSize), lineIcon);
+        float pad = lineIcon != null ? (iconSize - Text.LineHeight) / 2f : 0f;
+        float h = FlowText(textLine, indent, y + pad, w - indent);
+        h = Mathf.Max(lineIcon != null ? iconSize + 2f : 0f, h + pad);
+        return y + h + (bullet ? 5f : 8f);
     }
 
-    // ---- Hyperlinks: "[[Def|text]]" in the text, and key words of other pages, coloured and clickable ----
+    // ---- Hyperlinks (HyperText): each page is linked once per article, at its first mention ----
 
-    private struct Segment
-    {
-        public string Text;
-        public HelpPageDef Link;
-    }
-
-    private static readonly System.Text.RegularExpressions.Regex ExplicitLink = new(@"\[\[(\w+)\|([^\]]+)\]\]");
-    private readonly Dictionary<string, List<Segment>> _segments = [];
+    private readonly Dictionary<string, List<HyperText.Segment>> _segments = [];
+    private readonly HashSet<HelpPageDef> _used = [];
     private HelpPageDef _segmentsFor;
 
-    /// <summary>Splits a line into plain text and links (explicit ones, then the first mention of each other page's key words).</summary>
-    private List<Segment> Segments(string line)
+    private List<HyperText.Segment> Segments(string line)
     {
         if (_segmentsFor != _page)
         {
             _segments.Clear();
+            _used.Clear();
+            _used.Add(_page);
             _segmentsFor = _page;
         }
-        if (_segments.TryGetValue(line, out List<Segment> cached))
-            return cached;
-
-        // Explicit links first.
-        var parts = new List<Segment>();
-        int last = 0;
-        foreach (System.Text.RegularExpressions.Match m in ExplicitLink.Matches(line))
-        {
-            if (m.Index > last)
-                parts.Add(new Segment { Text = line.Substring(last, m.Index - last) });
-            parts.Add(new Segment { Text = m.Groups[2].Value, Link = DefDatabase<HelpPageDef>.GetNamedSilentFail(m.Groups[1].Value) });
-            last = m.Index + m.Length;
-        }
-        if (last < line.Length)
-            parts.Add(new Segment { Text = line.Substring(last) });
-
-        // Then key words of other unlocked pages, longest first, once per line.
-        HelpProgress progress = HelpProgress.Get();
-        var words = DefDatabase<HelpPageDef>.AllDefs
-            .Where(p => p != _page && p.keywords.Count > 0 && progress?.Unlocked(p) != false)
-            .SelectMany(p => p.keywords.Select(k => (k, p)))
-            .OrderByDescending(x => x.k.Length).ToList();
-        var used = new HashSet<HelpPageDef>();
-        foreach ((string word, HelpPageDef target) in words)
-        {
-            if (used.Contains(target))
-                continue;
-            var pattern = new System.Text.RegularExpressions.Regex(@"(?<![\w])" + System.Text.RegularExpressions.Regex.Escape(word) + @"(?![\w])",
-                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-            for (int i = 0; i < parts.Count; i++)
-            {
-                if (parts[i].Link != null)
-                    continue;
-                System.Text.RegularExpressions.Match m = pattern.Match(parts[i].Text);
-                if (!m.Success)
-                    continue;
-                string text = parts[i].Text;
-                parts.RemoveAt(i);
-                parts.Insert(i, new Segment { Text = text.Substring(m.Index + m.Length) });
-                parts.Insert(i, new Segment { Text = m.Value, Link = target });
-                parts.Insert(i, new Segment { Text = text.Substring(0, m.Index) });
-                used.Add(target);
-                break;
-            }
-        }
-        parts.RemoveAll(s => s.Text.Length == 0);
-        _segments[line] = parts;
-        return parts;
+        if (!_segments.TryGetValue(line, out List<HyperText.Segment> segs))
+            _segments[line] = segs = HyperText.Split(line, _used);
+        return segs;
     }
 
-    private float FlowHeight(string line, float width) => Flow(line, 0f, 0f, width, draw: false);
+    private float FlowHeight(string line, float width) => HyperText.Flow(Segments(line), 0f, 0f, width, false, Go);
 
-    private float FlowText(string line, float x, float y, float width) => Flow(line, x, y, width, draw: true);
-
-    /// <summary>Lays the line out word by word (links coloured, underlined and clickable); returns its height.</summary>
-    private float Flow(string line, float x, float y, float width, bool draw)
-    {
-        float lineH = Text.LineHeight;
-        float cx = 0f, cy = 0f;
-        float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
-        foreach (Segment seg in Segments(line))
-        {
-            string[] words = seg.Text.Split(' ');
-            for (int i = 0; i < words.Length; i++)
-            {
-                string word = words[i];
-                if (i > 0)
-                    cx += space;
-                if (word.Length == 0)
-                    continue;
-                float ww = Text.CalcSize(word).x;
-                if (cx > 0f && cx + ww > width)
-                {
-                    cx = 0f;
-                    cy += lineH;
-                }
-                if (draw)
-                {
-                    var r = new Rect(x + cx, y + cy, ww + 1f, lineH);
-                    if (seg.Link == null)
-                    {
-                        Widgets.Label(r, word);
-                    }
-                    else
-                    {
-                        bool hover = Mouse.IsOver(r);
-                        Color c = hover ? Color.white : NetrunUI.Accent;
-                        Widgets.Label(r, word.Colorize(c));
-                        GUI.color = new Color(c.r, c.g, c.b, 0.5f);
-                        Widgets.DrawLineHorizontal(r.x, r.yMax - 3f, ww);
-                        GUI.color = Color.white;
-                        NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(seg.Link.LabelCap));
-                        if (Widgets.ButtonInvisible(r))
-                            Go(seg.Link);
-                    }
-                }
-                cx += ww;
-            }
-        }
-        return cy + lineH;
-    }
+    private float FlowText(string line, float x, float y, float width) => HyperText.Flow(Segments(line), x, y, width, true, Go);
 
     private static (string target, string text) SplitLink(string s)
     {
@@ -465,6 +368,100 @@ public class HelpBrowser
         if (NetrunUI.Button(new Rect(0f, y, w, 30f), label, NetrunUI.Ok, true, null, locked ? HelpIcons.Lock : HelpIcons.For(page)))
             Go(page);
         return y + 36f;
+    }
+
+    /// <summary>A section heading: a dark band with the topic's colour bar, the icon and the title in capitals.</summary>
+    private float Heading(string heading, Texture2D icon, float y, float w)
+    {
+        Color c = _page.Topic.Color;
+        var band = new Rect(0f, y, w, 36f);
+        Widgets.DrawBoxSolid(band, NetrunUI.BgCard);
+        Widgets.DrawBoxSolid(new Rect(band.x, band.y, 4f, band.height), c);
+        GUI.color = new Color(c.r, c.g, c.b, 0.35f);
+        Widgets.DrawLineHorizontal(band.x, band.yMax - 1f, band.width);
+        GUI.color = Color.white;
+        float x = 14f;
+        if (icon != null)
+        {
+            GUI.DrawTexture(new Rect(x, band.y + 4f, 28f, 28f), icon);
+            x += 38f;
+        }
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(x, band.y, w - x - 8f, band.height), heading.ToUpper().Colorize(c));
+        Text.Anchor = TextAnchor.UpperLeft;
+        return band.yMax + 8f;
+    }
+
+    // ---- [[dive]]: the steps of a node, a runner moving along them; hover explains, a click pins the text ----
+
+    private static readonly string[] DiveSteps = ["LOBBY", "GATE", "FILES", "HIDDEN", "BLACKICE", "MEMORY", "EXIT"];
+    private int _diveStep = -1;
+
+    private float DiveSchema(float y, float w)
+    {
+        const float tile = 58f;
+        int n = DiveSteps.Length;
+        int perRow = Mathf.Clamp(Mathf.FloorToInt((w + 24f) / (tile + 30f)), 3, n);
+        int rows = Mathf.CeilToInt(n / (float)perRow);
+        float gap = perRow > 1 ? (w - perRow * tile) / (perRow - 1) : 0f;
+        float rowH = tile + 34f;
+        var centers = new Vector2[n];
+        for (int i = 0; i < n; i++)
+        {
+            int row = i / perRow;
+            int col = i % perRow;
+            if (row % 2 == 1)
+                col = perRow - 1 - col; // a snake, so the path never jumps back across
+            centers[i] = new Vector2(col * (tile + gap) + tile / 2f, y + row * rowH + tile / 2f + 4f);
+        }
+
+        // Links between steps, then a packet running the whole path.
+        for (int i = 0; i + 1 < n; i++)
+            Widgets.DrawLine(centers[i], centers[i + 1], new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.8f), 2f);
+        float t = NetrunUI.AnimTime / 1.1f % (n - 1);
+        int seg = Mathf.Min(n - 2, Mathf.FloorToInt(t));
+        int active = NetrunMod.Settings.Animations ? Mathf.RoundToInt(t) : -1;
+
+        for (int i = 0; i < n; i++)
+        {
+            var r = new Rect(centers[i].x - tile / 2f, centers[i].y - tile / 2f, tile, tile);
+            bool hover = Mouse.IsOver(r);
+            bool on = hover || _diveStep == i || active == i;
+            Color c = DiveSteps[i] == "BLACKICE" ? NetrunUI.Bad : DiveSteps[i] == "EXIT" ? NetrunUI.Ok : NetrunUI.Accent;
+            if (on)
+                NetrunUI.Glow(r, c, hover || _diveStep == i ? 0.9f : 0.5f, 10f);
+            Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
+            NetrunUI.Brackets(r, new Color(c.r, c.g, c.b, on ? 1f : 0.55f), 2f, 12f);
+            if (NetrunTex.CyberIcon("Dive_" + DiveSteps[i]) is { } icon)
+                GUI.DrawTexture(r.ContractedBy(9f), icon);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.UpperCenter;
+            Widgets.Label(new Rect(r.x - 20f, r.yMax + 3f, r.width + 40f, 18f), ((string)("NR_HelpDiveStep_" + DiveSteps[i]).Translate()).ToUpper().Colorize(on ? c : NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            NetrunUI.Tip(r, ("NR_HelpDiveStepDesc_" + DiveSteps[i]).Translate());
+            if (Widgets.ButtonInvisible(r))
+                _diveStep = _diveStep == i ? -1 : i;
+        }
+        if (NetrunMod.Settings.Animations)
+        {
+            Vector2 p = Vector2.Lerp(centers[seg], centers[seg + 1], t - seg);
+            GUI.color = new Color(1f, 1f, 1f, 0.9f);
+            GUI.DrawTexture(new Rect(p.x - 4f, p.y - 4f, 8f, 8f), NetrunUI.Disc);
+            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f);
+            GUI.DrawTexture(new Rect(p.x - 10f, p.y - 10f, 20f, 20f), NetrunUI.GlowTex);
+            GUI.color = Color.white;
+        }
+        y += rows * rowH + 4f;
+
+        // The pinned (or the hint) text under the schema.
+        string text = _diveStep >= 0 ? ("NR_HelpDiveStepDesc_" + DiveSteps[_diveStep]).Translate() : "NR_HelpDiveSchemaHint".Translate();
+        float th = Text.CalcHeight(text, w - 24f) + 14f;
+        var box = new Rect(0f, y, w, th);
+        Widgets.DrawBoxSolid(box, NetrunUI.BgCard);
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), _diveStep >= 0 ? NetrunUI.Accent : NetrunUI.Muted);
+        Widgets.Label(new Rect(box.x + 12f, box.y + 7f, w - 24f, th), _diveStep >= 0 ? text : text.Colorize(NetrunUI.Muted));
+        return box.yMax + 10f;
     }
 
     /// <summary>Five tiles: each Heat level with its icon, range and one line.</summary>
@@ -504,6 +501,7 @@ public class HelpBrowser
         _openStamp++;
         _articleScroll = Vector2.zero;
         _search = string.Empty;
+        _diveStep = -1;
     }
 
     private void Step(List<HelpPageDef> from, List<HelpPageDef> to)
@@ -530,7 +528,8 @@ public static class HelpIcons
 
     /// <summary>
     /// "Name" (Textures/UI/Netrun/Cyberspace/Name), "Folder/Name" (Textures/UI/Netrun/Folder/Name),
-    /// "thing:DefName" (a ThingDef's icon), "heat:Level" (the Heat level icon), "ai:Personality" (portrait).
+    /// "thing:DefName" (a ThingDef's icon), "heat:Level" (the Heat level icon), "ai:Personality" (portrait),
+    /// "tex:Path" (any texture path, e.g. Hacking Expansion's "UI/Gizmos/HackTarget").
     /// </summary>
     public static Texture2D Resolve(string id)
     {
@@ -540,6 +539,8 @@ public static class HelpIcons
             return tex;
         if (id.StartsWith("thing:"))
             tex = DefDatabase<ThingDef>.GetNamedSilentFail(id.Substring(6))?.uiIcon;
+        else if (id.StartsWith("tex:"))
+            tex = ContentFinder<Texture2D>.Get(id.Substring(4), reportFailure: false);
         else if (id.StartsWith("heat:") && System.Enum.TryParse(id.Substring(5), out HeatLevel level))
             tex = NetrunTex.HeatIcon(level);
         else if (id.StartsWith("ai:") && System.Enum.TryParse(id.Substring(3), out AIPersonality personality))

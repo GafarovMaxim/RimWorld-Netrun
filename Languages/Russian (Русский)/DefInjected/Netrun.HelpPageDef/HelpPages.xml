@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_Help_Start.label>Начало работы</NR_Help_Start.label>
-  <NR_Help_Start.body>Netrun превращает Hacking Expansion в полноценную сетевую игру: взломы оставляют цифровой след (Heat), фиксеры продают услуги и контракты, на ваших серверах живут пробуждённые ИИ, а нетраннеры ныряют в киберпространство за добычей.\n## Как войти в сеть\n- !Gizmo_NetTerminal Постройте консоль связи: она станет сетевой консолью и откроет терминал.\n- !Gizmo_NetrunDive Постройте кибер-капсулу (меню «Киберпространство»).\n- !Tabs/Tab_AI Поставьте колонисту кибер-линк.\n- !heat:Noticed Взломайте любую цель на карте: появится первый Heat, и откроется Core.\nДо этого угрозы Netrun не приходят (защита новичка).</NR_Help_Start.body>
+  <NR_Help_Start.body>Netrun превращает Hacking Expansion в полноценную сетевую игру: взломы оставляют цифровой след (Heat), фиксеры продают услуги и контракты, на ваших серверах живут пробуждённые ИИ, а нетраннеры ныряют в киберпространство за добычей.\n## Как войти в сеть\n- !thing:CommsConsole Постройте консоль связи: она станет сетевой консолью и откроет терминал.\n- !thing:USH_Cyberpod Постройте кибер-капсулу (меню «Киберпространство»).\n- !thing:USH_Cyberlink Поставьте колонисту кибер-линк.\n- !tex:UI/Gizmos/HackTarget Взломайте любую цель на карте: появится первый Heat, и откроется Core.\nДо этого угрозы Netrun не приходят (защита новичка).</NR_Help_Start.body>
   <NR_Help_Start.tips.0>F1 в терминале открывает Киберпедию по текущему экрану.</NR_Help_Start.tips.0>
   <NR_Help_Start.tips.1>Кнопка-книжка в заголовке терминала — гайд: подсвечивает области экрана и объясняет каждую.</NR_Help_Start.tips.1>
   <NR_Help_Start_Terminal.label>Терминал</NR_Help_Start_Terminal.label>
@@ -46,7 +46,7 @@
   <NR_Help_Fixers.tips.0>Удержите полюбившегося фиксера, чтобы он не ушёл при смене пула.</NR_Help_Fixers.tips.0>
   <NR_Help_Fixers.tips.1>Фиксер-«крыса» может слить ваши сделки: следите за чертой.</NR_Help_Fixers.tips.1>
   <NR_Help_Fixers_Pool.label>Пул и репутация</NR_Help_Fixers_Pool.label>
-  <NR_Help_Fixers_Pool.body>В пуле {fixers.pool} фиксера, он меняется раз в {fixers.rotation} дней. Незакреплённые уходят, если с ними нет контракта и вы их не удержали (до {fixers.held}). После смены в пуле всегда минимум две специальности; новички помечены «новый».\nРепутация растёт от звонков, сброса следа, покупок и контрактов. На {fixers.pin} фиксер закрепляется навсегда, открывает черту и даёт лучшие цены.\n## !Icon_Pinned Разрыв связи\n«Разорвать связь» убирает фиксера: контракт с ним снимается без штрафа, на его место приходит новый, а он не возвращается {fixers.ban} дней.</NR_Help_Fixers_Pool.body>
+  <NR_Help_Fixers_Pool.body>В пуле {fixers.pool} фиксера, он меняется раз в {fixers.rotation} дней. Незакреплённые уходят, если с ними нет контракта и вы их не удержали (до {fixers.held}). После смены в пуле всегда минимум две специальности; новички помечены «новый».\nРепутация растёт от звонков, сброса следа, покупок и контрактов. На {fixers.pin} фиксер закрепляется навсегда, открывает черту и даёт лучшие цены.\n## !Fixers/Disconnect Разрыв связи\n«Разорвать связь» убирает фиксера: контракт с ним снимается без штрафа, на его место приходит новый, а он не возвращается {fixers.ban} дней.</NR_Help_Fixers_Pool.body>
   <NR_Help_Fixers_Types.label>Специальности и черты</NR_Help_Fixers_Types.label>
   <NR_Help_Fixers_Types.body>## !Fixers/Fixer_ShadowBroker Брокер\nЖивёт контрактами: больше предложений и лучше оплата.\n## !Fixers/Fixer_Corp Чистильщик\nСтирает след дешевле всех.\n## !Fixers/Fixer_Street Скупщик\nДержит магазин: товары за серебро, редкое — для закреплённых контактов.\n## Черты\n- Надёжный: честные цены, без сюрпризов.\n- Жадный: всё дороже.\n- Крыса: может слить сделку и добавить Heat.\nЧерта скрыта до репутации {fixers.pin} или пока фиксер сам себя не выдаст.</NR_Help_Fixers_Types.body>
   <NR_Help_Fixers_Contracts.label>Контракты</NR_Help_Fixers_Contracts.label>
@@ -74,7 +74,7 @@
     <li>ИИ-сервере</li>
   </NR_Help_AI.keywords>
   <NR_Help_AI_Basics.label>Дом, доверие и голод</NR_Help_AI_Basics.label>
-  <NR_Help_AI_Basics.body>## !thing:NR_AIServer Сервер\nГлавный дом; услуги работают только оттуда. Стойки добавляют слоты.\n## !Gizmo_AI_CoprocessorUpload Сопроцессор\nИИ, связанный с капсулой, помогает нетраннеру в нырках.\n## !Gizmo_AI_Embody Носитель\nКолонист с ИИ-гнездом носит ИИ и получает его пассивный бонус. ИИ питается от носителя: пока он внутри, голод понемногу спадает.\n## !Gizmo_AI_Use Доверие и услуги\nУслуга требует {ai.minTrust} доверия, стоит {ai.serviceTrust} доверия и {ai.serviceHunger} голода и отдыхает {ai.cooldown} дн. Голодный или обиженный ИИ пакостит и может сбежать в сеть.</NR_Help_AI_Basics.body>
+  <NR_Help_AI_Basics.body>## !thing:NR_AIServer Сервер\nГлавный дом; услуги работают только оттуда. Стойки добавляют слоты.\n## !thing:NR_NetrunCoprocessor Сопроцессор\nИИ, связанный с капсулой, помогает нетраннеру в нырках.\n## !Gizmo_AI_Embody Носитель\nКолонист с ИИ-гнездом носит ИИ и получает его пассивный бонус. ИИ питается от носителя: пока он внутри, голод понемногу спадает.\n## !Gizmo_AI_Use Доверие и услуги\nУслуга требует {ai.minTrust} доверия, стоит {ai.serviceTrust} доверия и {ai.serviceHunger} голода и отдыхает {ai.cooldown} дн. Голодный или обиженный ИИ пакостит и может сбежать в сеть.</NR_Help_AI_Basics.body>
   <NR_Help_AI_Feeding.label>Кормление и просьбы</NR_Help_AI_Feeding.label>
   <NR_Help_AI_Feeding.body>## !Gizmo_AI_Feed Кормление\nКаждый архетип ест своё: предметы со склада (колонист относит их к серверу) или особым образом («Призрак» успокаивается в тихие дни без взломов, «Зерно» выбирает, во что вырасти). Голод растёт каждый день; кормёжка снижает его и чуть поднимает доверие. Выше 70 голода ИИ голодает и каждый день теряет доверие.\nКарточка ИИ в серверной показывает, что он ест, насколько голоден, и кнопку «Накормить».\n## !Icon_AIRequest Просьбы\nВремя от времени ИИ что-то просит: двойную порцию, внимание, взлом. Карточка показывает просьбу, срок, награду и цену отказа. Выполните вовремя ради доверия; проигнорируете — доверие упадёт.\n&gt; open:Server|Открыть серверную</NR_Help_AI_Feeding.body>
   <NR_Help_AI_Feeding.keywords>
@@ -84,7 +84,7 @@
     <li>голода</li>
   </NR_Help_AI_Feeding.keywords>
   <NR_Help_AI_Awaken.label>Осколки и пробуждение</NR_Help_AI_Awaken.label>
-  <NR_Help_AI_Awaken.body>!thing:NR_AIFragment Осколки ИИ дают находки в киберпространстве, блоки памяти в нырках, дикие ИИ, сигнал бедствия и чёрный рынок. Колонист с хорошим Интеллектом пробуждает осколок на запитанном ИИ-сервере со свободным слотом; архетип раскрывается при пробуждении.\n!Gizmo_AI_Erase ИИ можно стереть за продвинутые cyberdata.</NR_Help_AI_Awaken.body>
+  <NR_Help_AI_Awaken.body>Осколки ИИ дают находки в киберпространстве, блоки памяти в нырках, дикие ИИ, сигнал бедствия и чёрный рынок. Колонист с хорошим Интеллектом пробуждает осколок на запитанном ИИ-сервере со свободным слотом; архетип раскрывается при пробуждении.\n!Gizmo_AI_Erase ИИ можно стереть за продвинутые cyberdata.</NR_Help_AI_Awaken.body>
   <NR_Help_AI_Awaken.keywords>
     <li>осколок ИИ</li>
     <li>осколки ИИ</li>
@@ -128,7 +128,7 @@
   <NR_Help_AI_Seed.label>Архетип: Зерно</NR_Help_AI_Seed.label>
   <NR_Help_AI_Seed.body>{aiDesc:Seed}\n## !Gizmo_AI_Use Услуга: {aiService:Seed}\n{aiServiceDesc:Seed}\n## !Gizmo_AI_Feed Еда\n{aiFood:Seed}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Seed}</NR_Help_AI_Seed.body>
   <NR_Help_AI_Seed.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Seed.lockHint>
-  <NR_Help_Gateway.label>Шлюз и нырки</NR_Help_Gateway.label>
+  <NR_Help_Gateway.label>Киберпространство</NR_Help_Gateway.label>
   <NR_Help_Gateway.body>Шлюз — карта внешних нод киберпространства. Нетраннер в кибер-капсуле ныряет в ноду, чтобы украсть файлы. Новые ноды приходят раз в {dive.refresh} дн.; скрытые можно найти за {dive.search} cyberdata.\n&gt; open:Gateway|Открыть Шлюз</NR_Help_Gateway.body>
   <NR_Help_Gateway.keywords>
     <li>Шлюз</li>
@@ -138,9 +138,12 @@
   <NR_Help_Gateway.tips.0>Средняя кнопка мыши на поле Шлюза сбрасывает камеру.</NR_Help_Gateway.tips.0>
   <NR_Help_Gateway.tips.1>Чистый выход даёт всю добычу и шанс особой находки.</NR_Help_Gateway.tips.1>
   <NR_Help_Gateway_Nodes.label>Типы нод</NR_Help_Gateway_Nodes.label>
-  <NR_Help_Gateway_Nodes.body>## !Node_Market Рынок\nЛегко и быстро: немного cyberdata.\n## !Node_Archive Архив\nФайлы и память с данными.\n## !Node_CorpVault Корп-хранилище\nКрепкие ворота, продвинутые cyberdata, часто Black ICE.\n## !Node_AbandonedServer Заброшенный сервер\nСлабая защита, блоки памяти с осколками ИИ; иногда дикий ИИ.\n## !Node_DarkExchange Тёмная биржа\nСеребро вдобавок к данным.\nКрупные круги платят больше. ★ — нода, нужная контракту.</NR_Help_Gateway_Nodes.body>
+  <NR_Help_Gateway_Nodes.body>## !Node_Market Рынок\nЛегко и быстро: немного cyberdata.\n## !Node_Archive Архив\nФайлы и память с данными.\n## !Node_CorpVault Корп-хранилище\nКрепкие ворота, продвинутые cyberdata, часто Black ICE.\n## !Node_AbandonedServer Заброшенный сервер\nСлабая защита, блоки памяти с осколками ИИ; иногда дикий ИИ.\n## !Node_DarkExchange Тёмная биржа\nСеребро вдобавок к данным.\nКрупные круги платят больше. ★ — нода, нужная контракту.\n## !Node_CorpCore Корп-ядро\nРаз в {dive.boss} дней на несколько дней появляется босс-нода: четыре ворот и сильный Black ICE. Взлом даёт демона (или чип знаменитости), иногда модуль ядра и большую добычу.</NR_Help_Gateway_Nodes.body>
+  <NR_Help_Gateway_Nodes.keywords>
+    <li>корп-ядро</li>
+  </NR_Help_Gateway_Nodes.keywords>
   <NR_Help_Gateway_Dive.label>Как идёт нырок</NR_Help_Gateway_Dive.label>
-  <NR_Help_Gateway_Dive.body>Нырок — лестница от лобби к выходу. Каждый ход у вас несколько действий:\n- !Action_Move Шаг на следующую ступень.\n- !Action_Scan Скан: открыть скрытые ступени (тайники, приманки).\n- !Action_Hack Взлом ворот или ICE.\n- !Action_Download Загрузка файлов или памяти.\n- !Action_Exit Выход через порт со всем найденным.\nКаждое действие поднимает след нырка; после ваших действий ходит нода, и Black ICE может ударить. На нырок {dive.turns} ходов. Отступить из лобби бесплатно; глубже — теряется часть добычи. Выход из капсулы занимает {dive.wake} ч.</NR_Help_Gateway_Dive.body>
+  <NR_Help_Gateway_Dive.body>Нырок — путь по ступеням от лобби к выходу:\n[[dive]]\nКаждый ход у вас несколько действий:\n- !Action_Move Шаг на следующую ступень.\n- !Action_Scan Скан: открыть скрытые ступени (тайники, приманки).\n- !Action_Hack Взлом ворот или ICE.\n- !Action_Download Загрузка файлов или памяти.\n- !Action_Exit Выход через порт со всем найденным.\nКаждое действие поднимает след нырка; после ваших действий ходит нода, и Black ICE может ударить. На нырок {dive.turns} ходов. Отступить из лобби бесплатно; глубже — теряется часть добычи. Выход из капсулы занимает {dive.wake} ч.</NR_Help_Gateway_Dive.body>
   <NR_Help_Gateway_Dive.keywords>
     <li>нырок</li>
     <li>нырка</li>
@@ -152,26 +155,16 @@
   <NR_Help_Gateway_Ice.keywords>
     <li>Black ICE</li>
   </NR_Help_Gateway_Ice.keywords>
-  <NR_Help_Gateway_Programs.label>Программы</NR_Help_Gateway_Programs.label>
-  <NR_Help_Gateway_Programs.body>Программы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.</NR_Help_Gateway_Programs.body>
+  <NR_Help_Gateway_Programs.label>Программы и демоны</NR_Help_Gateway_Programs.label>
+  <NR_Help_Gateway_Programs.body>Программы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.\n## Демоны\nДемоны — постоянные программы из киберпространства (часто из корп-ядра): всегда включены, бесплатны, без слота.\n- !Daemon_Blade Клинок: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Programs.body>
   <NR_Help_Gateway_Programs.keywords>
     <li>программы</li>
-  </NR_Help_Gateway_Programs.keywords>
-  <NR_Help_Gateway_Daemons.label>Демоны</NR_Help_Gateway_Daemons.label>
-  <NR_Help_Gateway_Daemons.body>Демоны — постоянные программы из киберпространства (часто из корп-ядра): всегда включены, бесплатны, без слота.\n- !Daemon_Blade Клинок: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Daemons.body>
-  <NR_Help_Gateway_Daemons.keywords>
     <li>демоны</li>
     <li>демона</li>
     <li>демон</li>
-  </NR_Help_Gateway_Daemons.keywords>
+  </NR_Help_Gateway_Programs.keywords>
   <NR_Help_Gateway_Rewards.label>Добыча и итоги</NR_Help_Gateway_Rewards.label>
   <NR_Help_Gateway_Rewards.body>!Reward_Valuables Файлы окупают цену нырка с множителем: больше у сильных нод, больше всего с Black ICE. Корп-хранилища добавляют продвинутые cyberdata, тёмные биржи — серебро, блоки памяти — осколки ИИ или модули ядра.\nПри чистом выходе есть шанс особой находки: осколок ИИ, исследование, услуга фиксера, благосклонность хакерской группы, брейнданс знаменитости, демон или модуль ядра.\n!Icon_DiveReport После нырка окно итогов показывает добычу, затраты, Heat и Netsick (отключается в настройках).</NR_Help_Gateway_Rewards.body>
-  <NR_Help_Gateway_Boss.label>Корп-ядро</NR_Help_Gateway_Boss.label>
-  <NR_Help_Gateway_Boss.body>Раз в {dive.boss} дней на несколько дней появляется босс-нода: четыре ворот и сильный Black ICE. Взлом даёт демона (или чип знаменитости), иногда модуль ядра и большую добычу.</NR_Help_Gateway_Boss.body>
-  <NR_Help_Gateway_Boss.lockHint>Откроется, когда корп-ядро появится в Шлюзе.</NR_Help_Gateway_Boss.lockHint>
-  <NR_Help_Gateway_Boss.keywords>
-    <li>корп-ядро</li>
-  </NR_Help_Gateway_Boss.keywords>
   <NR_Help_Gateway_Group.label>Хакерская группа</NR_Help_Gateway_Group.label>
   <NR_Help_Gateway_Group.body>!Icon_GroupFavor Иногда особая находка нырка — услуга хакерской группе. При {dive.favor} очках благосклонности «Позвать группу» в Клубе присылает союзных бойцов (или продвинутые cyberdata, если союзников нет); затем группа отдыхает {dive.allies} дн.</NR_Help_Gateway_Group.body>
   <NR_Help_Gateway_Group.lockHint>Откроется, когда впервые получите благосклонность группы.</NR_Help_Gateway_Group.lockHint>
@@ -186,24 +179,24 @@
     <li>брейнданса</li>
   </NR_Help_Braindance.keywords>
   <NR_Help_BD_Record.label>Очки и запись</NR_Help_BD_Record.label>
-  <NR_Help_BD_Record.body>!thing:NR_BraindanceGoggles Колонист в брейнданс-очках может записывать яркие моменты своей жизни: бои, радость, горе. Получается сырая запись.\n!Gizmo_BD_Record «Записать» на очках начинает запись; кибер-линк тоже подходит.</NR_Help_BD_Record.body>
+  <NR_Help_BD_Record.body>Колонист в брейнданс-очках может записывать яркие моменты своей жизни: бои, радость, горе. Получается сырая запись.\n!Gizmo_BD_Record «Записать» на очках начинает запись; кибер-линк тоже подходит.</NR_Help_BD_Record.body>
   <NR_Help_BD_Chips.label>Монтаж и чипы</NR_Help_BD_Chips.label>
   <NR_Help_BD_Chips.body>В Студии сырая запись монтируется в чип. У чипа есть настроение и качество:\n- Светлый: настроение и тёплое послевкусие.\n- Тёмный: мрачный, но сильный опыт.\n- Боевой: обостряет боевые навыки.\nКачество: обычное, отличное, мастерское.\n!Gizmo_BD_Watch Смотреть чип можно в очках или через кибер-линк.</NR_Help_BD_Chips.body>
   <NR_Help_BD_Black.label>Чёрный брейнданс и зависимость</NR_Help_BD_Black.label>
-  <NR_Help_BD_Black.body>!thing:NR_BlackBraindanceChip Чёрные чипы хранят настоящую боль, страх и смерть. Прилив гораздо сильнее обычной записи, как и риск зависимости: без регулярного брейнданса у зависимого ломка.</NR_Help_BD_Black.body>
+  <NR_Help_BD_Black.body>Чёрные чипы хранят настоящую боль, страх и смерть. Прилив гораздо сильнее обычной записи, как и риск зависимости: без регулярного брейнданса у зависимого ломка.</NR_Help_BD_Black.body>
   <NR_Help_BD_Black.lockHint>Откроется, когда у вас появится чёрный чип.</NR_Help_BD_Black.lockHint>
   <NR_Help_Events.label>События</NR_Help_Events.label>
   <NR_Help_Events.body>Netrun приносит четыре группы событий. Частоту каждой группы можно менять в настройках мода; всё, что касается следа, записывается в Архив.\n&gt; open:Archive|Открыть Архив</NR_Help_Events.body>
   <NR_Help_Events_Attacks.label>Сетевые атаки</NR_Help_Events_Attacks.label>
-  <NR_Help_Events_Attacks.body>Приходят от рассказчика по мере роста Heat.\n- !heat:Noticed Нейрошум («Замечен»+): разум хакера заливает мусорный сигнал. Снизьте Heat или переждите.\n- !heat:Noticed Кража данных («Замечен»+): cyberdata исчезает со склада.\n- !heat:Tracked Вирусная поломка («Отслеживается»+): ломаются машины; держите компоненты.\n- !heat:Tracked Скачок напряжения («Отслеживается»+): садятся батареи, искрят устройства.\n- !heat:Target Вымогатель («Цель»+): заплатите серебром или потеряете больше.\n- !Faction_Mercenaries Рейды наёмников («Цель»+ или как месть): приходит вооружённая «Чёрная книга».</NR_Help_Events_Attacks.body>
+  <NR_Help_Events_Attacks.body>Приходят от рассказчика по мере роста Heat.\n- !Event_Cyberspace_NeuralNoise Нейрошум («Замечен»+): разум хакера заливает мусорный сигнал. Снизьте Heat или переждите.\n- !Event_Cyberspace_DataTheft Кража данных («Замечен»+): cyberdata исчезает со склада.\n- !Event_Cyberspace_MalwareBreakdown Вирусная поломка («Отслеживается»+): ломаются машины; держите компоненты.\n- !Event_Cyberspace_PowerSurge Скачок напряжения («Отслеживается»+): садятся батареи, искрят устройства.\n- !Event_Cyberspace_Ransomware Вымогатель («Цель»+): заплатите серебром или потеряете больше.\n- !Faction_Mercenaries Рейды наёмников («Цель»+ или как месть): приходит вооружённая «Чёрная книга».</NR_Help_Events_Attacks.body>
   <NR_Help_Events_Map.label>События на карте</NR_Help_Events_Map.label>
   <NR_Help_Events_Map.body>- !Event_DataCourier Курьер данных: курьер фиксера на сутки; за данными придут наёмники. Сберегите его ради серебра и репутации.\n- !Event_CorpHunt Охота корпов («Цель»+, есть ИИ-сервер): корпоративная группа приходит за сервером.\n- !Event_BlackMarket Чёрный рынок: редкие товары у доверенных фиксеров на несколько дней.\n- !Event_DistressSignal Сигнал бедствия: брошенный сервер на вашей земле; подключитесь за осколком ИИ (или получите ICE-отдачу).\n- !Event_MapHack Взлом турелей («Отслеживается»+, нетраннер в капсуле): турели выключаются; нырните в ноду «Контрвзлом», чтобы вернуть их.</NR_Help_Events_Map.body>
   <NR_Help_Events_Cyber.label>События киберпространства</NR_Help_Events_Cyber.label>
-  <NR_Help_Events_Cyber.body>- !Event_HunterICE Охотник ICE («Цель»+): бьёт каждый ход ноды; взломайте его или уйдите, пока он не пошёл за вами домой.\n- !Event_Rival Соперник: через несколько ходов забирает файлы; будьте быстрее.\n- !Event_Honeypot Приманка: выглядит богато, платит половину и зовёт охотника; глубокий скан её выдаёт.\n- !Event_DataStorm Шторм данных: ворота сложнее, добыча больше на день-два.\n- !Event_WildAI Дикий ИИ: в заброшенном сервере; приручить, стереть или продать.\n- !Node_Counterhack Контрвзлом: нода, которая освобождает захваченные турели.</NR_Help_Events_Cyber.body>
+  <NR_Help_Events_Cyber.body>- !Event_HunterICE Охотник ICE («Цель»+): бьёт каждый ход ноды; взломайте его или уйдите, пока он не пошёл за вами домой.\n- !Event_Rival Соперник: через несколько ходов забирает файлы; будьте быстрее.\n- !Event_Honeypot Слишком хорошо, чтобы быть правдой: иногда нода выглядит богаче, чем должна. Доверяйте скану больше, чем жадности.\n- !Event_DataStorm Шторм данных: ворота сложнее, добыча больше на день-два.\n- !Event_WildAI Дикий ИИ: в заброшенном сервере; приручить, стереть или продать.\n- !Node_Counterhack Контрвзлом: нода, которая освобождает захваченные турели.</NR_Help_Events_Cyber.body>
   <NR_Help_Events_AI.label>События ИИ</NR_Help_Events_AI.label>
-  <NR_Help_Events_AI.body>!Gizmo_AI_Use Ваши ИИ действуют сами: просьбы (ответьте вовремя ради доверия), подарки и услуги, когда доверяют, выходки и неприятности, когда нет. У каждого архетипа свои события; письмо предлагает до трёх вариантов ответа.\n&gt; page:NR_Help_AI_Feeding|Кормление и просьбы</NR_Help_Events_AI.body>
+  <NR_Help_Events_AI.body>Пробуждённые ИИ — не инструменты: у них есть желания, и они действуют сами. Время от времени кто-то из них что-то делает, и что именно, зависит от того, кто он и как себя чувствует.\n## !Icon_AIRequest Что ими движет\n- Доверие: доверяющий ИИ приносит подарки, услуги и помощь; обиженный пакостит и создаёт проблемы.\n- Голод: голодный ИИ беспокоится, и его события мрачнеют.\n- Дом: на сервере, в сопроцессоре капсулы и в носителе ИИ ведёт себя по-разному.\n## !Gizmo_AI_Use Письма и выбор\nБольшинство событий приходит письмом. Одни просто случаются, другие предлагают до трёх ответов. Оставить письмо без ответа — тоже ответ.\n## Архетипы\nОбщие события бывают у любого ИИ, а у каждого архетипа есть несколько своих, под его характер. Новый архетип — новые сюрпризы.\n## Что может измениться\nДоверие и голод, Heat, ваши запасы, настроение, навыки и здоровье колонистов, работа машин, а иногда и отношения с фиксерами. Письмо всегда говорит, что на кону.\n&gt; page:NR_Help_AI_Feeding|Кормление и просьбы</NR_Help_Events_AI.body>
   <NR_Help_Settings.label>Настройки и отчёты</NR_Help_Settings.label>
-  <NR_Help_Settings.body>Настройки → Настройки модов → Hacking Expansion: Netrun.\n- !heat:Tracked Сложность Heat (Лёгкий, Обычный, Жёсткий) и точные ползунки.\n- !Event_DataStorm Частота каждой группы событий, от «выкл» до x2.\n- !Icon_Lock Защита новичка, итоги вылазки, пауза при открытии, анимации.\nНашли ошибку? «Скопировать сведения для отчёта» кладёт в буфер версии и список модов: вставьте их в баг-репорт на GitHub вместе с Player.log.</NR_Help_Settings.body>
+  <NR_Help_Settings.body>Настройки → Настройки модов → Hacking Expansion: Netrun.\n- !Dive_Heat Сложность Heat (Лёгкий, Обычный, Жёсткий) и точные ползунки.\n- !Tabs/Tab_Events_Blue Частота каждой группы событий, от «выкл» до x2.\n- !Icon_Lock Защита новичка, итоги вылазки, пауза при открытии, анимации.\nНашли ошибку? «Скопировать сведения для отчёта» кладёт в буфер версии и список модов: вставьте их в баг-репорт на GitHub вместе с Player.log.</NR_Help_Settings.body>
   <NR_Help_Settings.keywords>
     <li>настройки мода</li>
     <li>настройках мода</li>
