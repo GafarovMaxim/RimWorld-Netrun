@@ -41,7 +41,6 @@
   <NR_CommandNetTerminal>Network terminal</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Open the network terminal: your digital trace, fixers, contracts and the journal of recent events.</NR_CommandNetTerminalDesc>
   <NR_TerminalNoPower>No power.</NR_TerminalNoPower>
-  <NR_TerminalJournalEmpty>No events yet.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Coming soon.</NR_TerminalComingSoon>
 
   <!-- Cyberpod and ICE -->

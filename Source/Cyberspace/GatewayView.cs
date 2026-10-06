@@ -113,7 +113,7 @@ public static class GatewayView
         DrawReportsButton(new Rect(rect.xMax - 3 * 34f - 4f - 40f, rect.y + 4f, 30f, 30f));
     }
 
-    /// <summary>The dive summaries of recent runs: a menu, newest first.</summary>
+    /// <summary>The dive summaries of recent runs: opens the Archive on its dive reports tab.</summary>
     private static void DrawReportsButton(Rect rect)
     {
         GatewayManager gateway = GatewayManager.Get();
@@ -123,14 +123,7 @@ public static class GatewayView
             GUI.DrawTexture(rect.ContractedBy(4f), icon);
         if (!clicked || gateway == null)
             return;
-        int now = Find.TickManager.TicksGame;
-        var options = gateway.Reports.AsEnumerable().Reverse().Select(r =>
-        {
-            string result = (r.Success ? "NR_ReportSuccess" : r.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate();
-            string ago = r.EndTick > 0 ? "NR_TimeAgo".Translate((now - r.EndTick).ToStringTicksToPeriod()) : string.Empty;
-            return new FloatMenuOption($"{r.NodeName} · {result} · {ago}", () => Find.WindowStack.Add(new Dialog_DiveReport(r)));
-        }).ToList();
-        Find.WindowStack.Add(new FloatMenu(options));
+        Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenArchive(ArchiveTab.Tab.Reports);
     }
 
     /// <summary>Zoom in, zoom out and reset (also resets the pan).</summary>

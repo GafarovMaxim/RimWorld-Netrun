@@ -70,7 +70,7 @@ public class MapEventsManager : GameComponent
             return;
         if (_courier.Dead || _courier.Downed)
         {
-            HeatTracker.Get()?.AddHeat(Settings.courierFailHeat, "NR_CourierLostLog".Translate());
+            HeatTracker.Get()?.AddHeat(Settings.courierFailHeat, "NR_CourierLostLog".Translate(), HeatSource.Event);
             FixerManager.Get()?.Fixers.RandomElementWithFallback()?.GainReputation(-Settings.courierFailReputation);
             Find.LetterStack.ReceiveLetter("NR_CourierLostLabel".Translate(), "NR_CourierLost".Translate(_courier.LabelShort), LetterDefOf.NegativeEvent, _courier);
             _courier = null;
@@ -224,6 +224,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
         Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_MercRaid, null, raid),
             Find.TickManager.TicksGame + Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour));
 
+        HeatTracker.Get()?.Note("NR_CourierLabel".Translate(), HeatSource.Event);
         SendStandardLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver), LetterDefOf.NeutralEvent, parms, courier);
         return true;
     }
@@ -253,6 +254,7 @@ public class IncidentWorker_BlackMarket : IncidentWorker
         float rep = NetrunDefOf.NR_MapEvents.blackMarketReputation;
         List<Fixer> trusted = FixerManager.Get().Fixers.Where(f => f.Reputation >= rep).ToList();
         string who = trusted.Count == 0 ? "NR_BlackMarketNobody".Translate(rep.ToString("0")) : trusted.Select(f => f.Name).ToCommaList();
+        HeatTracker.Get()?.Note("NR_BlackMarketLabel".Translate(), HeatSource.Event);
         SendStandardLetter("NR_BlackMarketLabel".Translate(), "NR_BlackMarket".Translate(NetrunDefOf.NR_MapEvents.blackMarketDays.ToString("0"), who),
             LetterDefOf.PositiveEvent, parms, LookTargets.Invalid);
         return true;
@@ -268,6 +270,7 @@ public class IncidentWorker_DistressSignal : IncidentWorker
         if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => GenAdj.OccupiedRect(c, Rot4.North, NetrunDefOf.NR_DistressServer.size).All(x => x.InBounds(map) && x.Standable(map) && !x.Fogged(map) && x.GetFirstBuilding(map) == null), map, out IntVec3 cell))
             return false;
         Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
+        HeatTracker.Get()?.Note("NR_DistressLabel".Translate(), HeatSource.Event);
         SendStandardLetter("NR_DistressLabel".Translate(), "NR_Distress".Translate(), LetterDefOf.PositiveEvent, parms, server);
         return true;
     }
@@ -290,6 +293,7 @@ public class IncidentWorker_MapHack : IncidentWorker
         if (count == 0)
             return false;
         GatewayManager.Get()?.AddCounterHackNode(NetrunDefOf.NR_MapEvents.mapHackHours);
+        HeatTracker.Get()?.Note("NR_MapHackLabel".Translate(), HeatSource.Raid);
         SendStandardLetter("NR_MapHackLabel".Translate(), "NR_MapHack".Translate(count, NetrunDefOf.NR_MapEvents.mapHackHours.ToString("0")),
             LetterDefOf.ThreatSmall, parms, LookTargets.Invalid);
         return true;

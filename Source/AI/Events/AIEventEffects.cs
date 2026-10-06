@@ -73,9 +73,9 @@ public class AIEffect_Heat : AIEventEffect
         HeatTracker tracker = HeatTracker.Get();
         string reason = "NR_AIEventHeatReason".Translate(c.AI.Name, c.Def.label);
         if (amount > 0f)
-            tracker?.AddHeat(amount, reason);
+            tracker?.AddHeat(amount, reason, HeatSource.AI);
         else if (amount < 0f)
-            tracker?.ReduceHeat(-amount, reason);
+            tracker?.ReduceHeat(-amount, reason, HeatSource.AI);
     }
 }
 

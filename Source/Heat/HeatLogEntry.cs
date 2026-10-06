@@ -9,6 +9,10 @@ public enum HeatSource
     Other,
     Hack,
     Dive,
+    Scrub,
+    AI,
+    Raid,
+    Event,
 }
 
 public class HeatLogEntry : IExposable
@@ -17,6 +21,8 @@ public class HeatLogEntry : IExposable
     public float Amount;
     public string Text;
     public HeatSource Source;
+    /// <summary>Heat right after this entry; -1 for entries from older saves.</summary>
+    public float After = -1f;
 
     public HeatLogEntry() { }
 
@@ -33,5 +39,6 @@ public class HeatLogEntry : IExposable
         Scribe_Values.Look(ref Amount, "amount");
         Scribe_Values.Look(ref Text, "text");
         Scribe_Values.Look(ref Source, "source");
+        Scribe_Values.Look(ref After, "after", -1f);
     }
 }

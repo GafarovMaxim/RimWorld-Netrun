@@ -173,12 +173,12 @@ public static class AIBehavior
                 Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
                 data.stackCount = Settings.dataHunterData.RandomInRange;
                 Drop(map, ai, data);
-                HeatTracker.Get()?.AddHeat(Settings.dataHunterHeat, "NR_LogAIService".Translate(ai.Name));
+                HeatTracker.Get()?.AddHeat(Settings.dataHunterHeat, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
                 Report("NR_AIDidDataHunter", ai, data.stackCount);
                 break;
             }
             case AIPersonality.Ghost:
-                HeatTracker.Get()?.ReduceHeat(Settings.ghostHeatScrub, "NR_LogAIService".Translate(ai.Name));
+                HeatTracker.Get()?.ReduceHeat(Settings.ghostHeatScrub, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
                 Report("NR_AIDidGhost", ai, Settings.ghostHeatScrub.ToString("0"));
                 break;
             case AIPersonality.Muse:
@@ -240,7 +240,7 @@ public static class AIBehavior
             case AIPersonality.Trickster:
                 if (Rand.Chance(Settings.tricksterBadChance))
                 {
-                    HeatTracker.Get()?.AddHeat(Settings.tricksterHeat, "NR_LogAIService".Translate(ai.Name));
+                    HeatTracker.Get()?.AddHeat(Settings.tricksterHeat, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
                     Report("NR_AIDidTricksterBad", ai, Settings.tricksterHeat.ToString("0"));
                 }
                 else
@@ -282,7 +282,7 @@ public static class AIBehavior
                 break;
             }
             case AIPersonality.Seed:
-                HeatTracker.Get()?.ReduceHeat(Settings.seedHeatScrub, "NR_LogAIService".Translate(ai.Name));
+                HeatTracker.Get()?.ReduceHeat(Settings.seedHeatScrub, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
                 Report("NR_AIDidSeed", ai, Settings.seedHeatScrub.ToString("0"));
                 break;
             case AIPersonality.Echo:

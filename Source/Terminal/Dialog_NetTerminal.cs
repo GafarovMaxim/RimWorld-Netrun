@@ -28,13 +28,11 @@ public partial class Dialog_NetTerminal : Window
 
     private const float TitleHeight = 44f;
     private const float StatusHeight = 40f;
-    private const float JournalRowHeight = 30f;
     private const float LevelRowHeight = 36f;
     private const float NodeSize = 84f;
 
     private readonly Map _map;
     private View _view = View.Map;
-    private Vector2 _journalScroll;
     private Vector2 _fixersScroll;
     private Vector2 _contractsScroll;
     private Vector2 _aiScroll;
@@ -183,7 +181,7 @@ public partial class Dialog_NetTerminal : Window
                 ContractsTab.Draw(content, _map, ref _contractsScroll);
                 break;
             case View.Archive:
-                DrawJournal(content, tracker);
+                ArchiveTab.Draw(content, _map, tracker, page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)), () => OpenNode(View.Core));
                 break;
             case View.Server:
                 AITab.Draw(content, _map, ref _aiScroll);
@@ -359,6 +357,10 @@ public partial class Dialog_NetTerminal : Window
             x = NetrunUI.HeaderChip(x, y, "NR_ChipFragments".Translate(AIAwakening.Fragments(_map).Count())) - 8f;
             NetrunUI.HeaderChip(x, y, "NR_ChipAIs".Translate(AIManager.Get()?.AIs.Count ?? 0));
         }
+        else if (_view == View.Archive && tracker != null)
+        {
+            NetrunUI.HeaderChip(x, y, "NR_ChipArchiveEvents".Translate(tracker.Log.Count));
+        }
         else if (_view == View.Club)
         {
             x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata),
@@ -501,50 +503,11 @@ public partial class Dialog_NetTerminal : Window
         Text.Anchor = TextAnchor.UpperLeft;
     }
 
-    // ---- Archive: the Heat journal ----
-
-    private void DrawJournal(Rect rect, HeatTracker tracker)
+    /// <summary>From the Gateway's report button: the Archive on the dive reports tab.</summary>
+    public void OpenArchive(ArchiveTab.Tab tab)
     {
-        IReadOnlyList<HeatLogEntry> log = tracker.Log;
-        if (log.Count == 0)
-        {
-            DrawCentered(rect, "NR_TerminalJournalEmpty".Translate());
-            return;
-        }
-
-        var viewRect = new Rect(0f, 0f, rect.width - 16f, log.Count * JournalRowHeight);
-        Widgets.BeginScrollView(rect, ref _journalScroll, viewRect);
-
-        int now = Find.TickManager.TicksGame;
-        float y = 0f;
-        for (int i = log.Count - 1; i >= 0; i--)
-        {
-            HeatLogEntry entry = log[i];
-            var row = new Rect(0f, y, viewRect.width, JournalRowHeight);
-            Widgets.DrawBoxSolid(row, i % 2 == 0 ? NetrunUI.BgCard : NetrunUI.BgCardAlt);
-            if (Mouse.IsOver(row))
-                Widgets.DrawHighlight(row);
-
-            string ago = "NR_TimeAgo".Translate((now - entry.Tick).ToStringTicksToPeriod());
-            string amount = entry.Amount switch
-            {
-                > 0.05f => $"+{entry.Amount:0.0}".Colorize(NetrunUI.Bad),
-                < -0.05f => $"{entry.Amount:0.0}".Colorize(NetrunUI.Ok),
-                _ => string.Empty,
-            };
-
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(row.x + 6f, row.y, 150f, row.height), ago.Colorize(NetrunUI.Muted));
-            var textRect = new Rect(row.x + 160f, row.y, row.width - 230f, row.height);
-            Widgets.Label(textRect, entry.Text.Truncate(textRect.width));
-            NetrunUI.Tip(textRect, entry.Text);
-            Widgets.Label(new Rect(row.xMax - 64f, row.y, 60f, row.height), amount);
-            Text.Anchor = TextAnchor.UpperLeft;
-
-            y += JournalRowHeight;
-        }
-
-        Widgets.EndScrollView();
+        ArchiveTab.Open(tab);
+        OpenNode(View.Archive);
     }
 
     private static void DrawCentered(Rect rect, string text)

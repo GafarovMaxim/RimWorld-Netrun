@@ -10,4 +10,7 @@
   <NR_AttackRansomPaid>Paid {0} silver. The machines are back under your control.</NR_AttackRansomPaid>
   <NR_AttackRansomNoSilver>not enough silver</NR_AttackRansomNoSilver>
   <NR_AttackRansomRefuse>Refuse</NR_AttackRansomRefuse>
+  <NR_LogMercRaid>Raid: {0}</NR_LogMercRaid>
+  <NR_LogNetAttack>Net attack: {0}</NR_LogNetAttack>
+  <NR_LogNetAttackBlocked>Net attack repelled: {0} ({1})</NR_LogNetAttackBlocked>
 </LanguageData>

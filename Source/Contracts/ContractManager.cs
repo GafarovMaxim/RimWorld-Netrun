@@ -243,7 +243,7 @@ public class ContractManager : GameComponent
             if (fixer.Trait == FixerTrait.Rat && Rand.Chance(Settings.ratFailLeakChance))
             {
                 fixer.TraitRevealed = true;
-                HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, "NR_FixerRatLeak".Translate(fixer.Name));
+                HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, "NR_FixerRatLeak".Translate(fixer.Name), HeatSource.Event);
             }
         }
 

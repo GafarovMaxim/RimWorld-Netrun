@@ -52,7 +52,7 @@ public static class FixerDeals
         EconomyTracker.Get()?.Note(spent: cyberdata + advanced * Settings.advancedCyberdataWorth);
 
         float amount = ScrubAmount(fixer, cyberdata, advanced);
-        HeatTracker.Get()?.ReduceHeat(amount, "NR_LogScrub".Translate(fixer.Name));
+        HeatTracker.Get()?.ReduceHeat(amount, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
         fixer.GainReputation(Settings.reputationPerScrub);
         Messages.Message("NR_FixerScrubbed".Translate(fixer.Name, amount.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: false);
         fixer.AfterDeal();

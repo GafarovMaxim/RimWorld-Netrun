@@ -72,7 +72,7 @@ public class AIManager : GameComponent
             return;
 
         string text = "NR_AIAwakeningDetected".Translate(ai.Name);
-        heat.AddHeat(Settings.awakenDetectHeat, text);
+        heat.AddHeat(Settings.awakenDetectHeat, text, HeatSource.AI);
         Messages.Message(text, MessageTypeDefOf.NegativeEvent, historical: true);
     }
 
@@ -151,7 +151,7 @@ public class AIManager : GameComponent
         else if (ai.Trust < Settings.eventBadTrust)
         {
             string text = "NR_AIEventBad".Translate(ai.Name, Settings.eventBadHeat.ToString("0"));
-            HeatTracker.Get()?.AddHeat(Settings.eventBadHeat, text);
+            HeatTracker.Get()?.AddHeat(Settings.eventBadHeat, text, HeatSource.AI);
             Find.LetterStack.ReceiveLetter("NR_AIEventBadLabel".Translate(ai.Name), text, LetterDefOf.NegativeEvent, new LookTargets(ai.Anchor));
         }
     }
@@ -250,7 +250,7 @@ public class AIManager : GameComponent
 
         string text = textKey.Translate(ai.Name, heat.ToString("0"));
         if (heat > 0f)
-            HeatTracker.Get()?.AddHeat(heat, text);
+            HeatTracker.Get()?.AddHeat(heat, text, HeatSource.AI);
 
         Find.LetterStack.ReceiveLetter(labelKey.Translate(ai.Name), text, letter,
             anchor != null ? new LookTargets(anchor) : LookTargets.Invalid);

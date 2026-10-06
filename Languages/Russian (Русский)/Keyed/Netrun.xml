@@ -41,7 +41,6 @@
   <NR_CommandNetTerminal>Сетевой терминал</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Открыть сетевой терминал: цифровой след, фиксеры, контракты и журнал последних событий.</NR_CommandNetTerminalDesc>
   <NR_TerminalNoPower>Нет питания.</NR_TerminalNoPower>
-  <NR_TerminalJournalEmpty>Событий пока нет.</NR_TerminalJournalEmpty>
   <NR_TerminalComingSoon>Скоро.</NR_TerminalComingSoon>
 
   <!-- Кибер-капсула и ICE -->

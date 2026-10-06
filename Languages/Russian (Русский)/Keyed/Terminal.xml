@@ -221,4 +221,46 @@
   <NR_CoreRowEnergyValue>{0} Вт · {1}</NR_CoreRowEnergyValue>
   <NR_HelpLinkTip>Киберпедия: {0}</NR_HelpLinkTip>
   <NR_NodeLockedMark>ЗАБЛОКИРОВАНО</NR_NodeLockedMark>
+  <NR_ArchiveTab_Journal>Журнал следа</NR_ArchiveTab_Journal>
+  <NR_ArchiveTab_Reports>Отчёты о нырках</NR_ArchiveTab_Reports>
+  <NR_ArchiveTab_Raids>Рейды и месть</NR_ArchiveTab_Raids>
+  <NR_ArchiveFilter_All>Всё</NR_ArchiveFilter_All>
+  <NR_ArchiveFilter_Hack>Взломы</NR_ArchiveFilter_Hack>
+  <NR_ArchiveFilter_Dive>Нырки</NR_ArchiveFilter_Dive>
+  <NR_ArchiveFilter_Scrub>Сброс</NR_ArchiveFilter_Scrub>
+  <NR_ArchiveFilter_AI>ИИ</NR_ArchiveFilter_AI>
+  <NR_ArchiveFilter_Events>События</NR_ArchiveFilter_Events>
+  <NR_ArchiveType_Other>Heat</NR_ArchiveType_Other>
+  <NR_ArchiveType_Hack>Взлом</NR_ArchiveType_Hack>
+  <NR_ArchiveType_Dive>Нырок</NR_ArchiveType_Dive>
+  <NR_ArchiveType_Scrub>Сброс</NR_ArchiveType_Scrub>
+  <NR_ArchiveType_AI>ИИ</NR_ArchiveType_AI>
+  <NR_ArchiveType_Raid>Рейд</NR_ArchiveType_Raid>
+  <NR_ArchiveType_Event>Событие</NR_ArchiveType_Event>
+  <NR_ArchiveSearch>поиск…</NR_ArchiveSearch>
+  <NR_ArchiveInset>Heat за 7 дней. Клик по дню фильтрует журнал, колесо листает дни.</NR_ArchiveInset>
+  <NR_ArchiveToday>Сегодня</NR_ArchiveToday>
+  <NR_ArchiveYesterday>Вчера</NR_ArchiveYesterday>
+  <NR_ArchiveDaysAgo>{0} дн. назад</NR_ArchiveDaysAgo>
+  <NR_ArchiveDayChip>День: {0} ✕</NR_ArchiveDayChip>
+  <NR_ArchiveDayChipTip>Показать все дни.</NR_ArchiveDayChipTip>
+  <NR_ArchiveDaySum>{0} Heat за день</NR_ArchiveDaySum>
+  <NR_ArchiveEmpty>Ничего не найдено.</NR_ArchiveEmpty>
+  <NR_ArchiveNoReports>Нырков ещё не было.</NR_ArchiveNoReports>
+  <NR_ArchiveNoRaids>Рейдов и атак ещё не было.</NR_ArchiveNoRaids>
+  <NR_ArchivePick>Выбери строку, чтобы увидеть подробности.</NR_ArchivePick>
+  <NR_ArchiveDetail>Событие</NR_ArchiveDetail>
+  <NR_ArchiveDetailReport>Нырок</NR_ArchiveDetailReport>
+  <NR_ArchiveHeat>Heat</NR_ArchiveHeat>
+  <NR_ArchiveOutcome>Исход</NR_ArchiveOutcome>
+  <NR_ArchiveLoot>Добыча</NR_ArchiveLoot>
+  <NR_ArchiveLootNone>ничего</NR_ArchiveLootNone>
+  <NR_ArchiveTurns>Ходов</NR_ArchiveTurns>
+  <NR_ArchiveTurnsShort>ходов: {0}</NR_ArchiveTurnsShort>
+  <NR_ArchiveEvents>Событий в нырке</NR_ArchiveEvents>
+  <NR_ArchiveOpenReport>Открыть отчёт нырка</NR_ArchiveOpenReport>
+  <NR_ArchiveHeatThen>Экран Heat</NR_ArchiveHeatThen>
+  <NR_ArchiveHeatThenTip>График Heat и что на него влияет.</NR_ArchiveHeatThenTip>
+  <NR_ArchiveArticle>Статья: {0} ↗</NR_ArchiveArticle>
+  <NR_ChipArchiveEvents>Событий: {0}</NR_ChipArchiveEvents>
 </LanguageData>

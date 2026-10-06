@@ -72,6 +72,14 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
     public override bool FactionCanBeGroupSource(Faction f, IncidentParms parms, bool desperate = false)
         => f?.def == NetrunDefOf.NR_Mercenaries;
 
+    protected override bool TryExecuteWorker(IncidentParms parms)
+    {
+        if (!base.TryExecuteWorker(parms))
+            return false;
+        HeatTracker.Get()?.Note("NR_LogMercRaid".Translate(def.LabelCap), HeatSource.Raid);
+        return true;
+    }
+
     protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
         => "NR_MercRaidIntro".Translate() + "\n\n" + base.GetLetterText(parms, pawns);
 }

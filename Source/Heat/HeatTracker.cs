@@ -10,7 +10,7 @@ public class HeatTracker : GameComponent
 {
     public const float MaxHeat = 100f;
     private const int TickInterval = 250;
-    private const int MaxLogEntries = 30;
+    private const int MaxLogEntries = 200;
     /// <summary>Heat is sampled once an hour for the 7-day graph on the Heat screen.</summary>
     public const int HistoryInterval = GenDate.TicksPerHour;
     public const int HistorySize = 7 * 24;
@@ -89,14 +89,14 @@ public class HeatTracker : GameComponent
         return rate <= 0f ? float.PositiveInfinity : (_heat - min + 0.5f) / rate;
     }
 
-    public void ReduceHeat(float amount, string reason)
+    public void ReduceHeat(float amount, string reason, HeatSource source = HeatSource.Other)
     {
         float old = _heat;
         ReduceHeatSilently(amount);
 
         if (old != _heat)
         {
-            AddLog(_heat - old, reason);
+            AddLog(_heat - old, reason, source);
             EconomyTracker.Get()?.Note(heatDown: old - _heat);
         }
     }
@@ -136,9 +136,12 @@ public class HeatTracker : GameComponent
         AddLog(0f, text);
     }
 
+    /// <summary>A journal line with no Heat change (a raid, an attack, an event).</summary>
+    public void Note(string text, HeatSource source) => AddLog(0f, text, source);
+
     private void AddLog(float amount, string text, HeatSource source = HeatSource.Other)
     {
-        _log.Add(new HeatLogEntry(Find.TickManager.TicksGame, amount, text) { Source = source });
+        _log.Add(new HeatLogEntry(Find.TickManager.TicksGame, amount, text) { Source = source, After = _heat });
 
         if (_log.Count > MaxLogEntries)
             _log.RemoveRange(0, _log.Count - MaxLogEntries);

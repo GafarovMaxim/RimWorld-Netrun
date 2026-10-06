@@ -10,4 +10,7 @@
   <NR_AttackRansomPaid>Заплачено {0} серебра. Машины снова под вашим контролем.</NR_AttackRansomPaid>
   <NR_AttackRansomNoSilver>не хватает серебра</NR_AttackRansomNoSilver>
   <NR_AttackRansomRefuse>Отказаться</NR_AttackRansomRefuse>
+  <NR_LogMercRaid>Рейд: {0}</NR_LogMercRaid>
+  <NR_LogNetAttack>Сетевая атака: {0}</NR_LogNetAttack>
+  <NR_LogNetAttackBlocked>Сетевая атака отбита: {0} ({1})</NR_LogNetAttackBlocked>
 </LanguageData>

@@ -45,10 +45,14 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         if (Rand.Chance(defense))
         {
             Messages.Message("NR_AttackBlocked".Translate(def.label, defender), MessageTypeDefOf.PositiveEvent, historical: true);
+            HeatTracker.Get()?.Note("NR_LogNetAttackBlocked".Translate(def.LabelCap, defender), HeatSource.Raid);
             return true;
         }
 
-        return Hit(map);
+        bool hit = Hit(map);
+        if (hit)
+            HeatTracker.Get()?.Note("NR_LogNetAttack".Translate(def.LabelCap), HeatSource.Raid);
+        return hit;
     }
 
     protected abstract bool Hit(Map map);

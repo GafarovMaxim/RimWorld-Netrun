@@ -18,7 +18,7 @@ public class HackingOutcomeWorker_TraceLock(HackingOutcomeDef def) : HackingOutc
             return;
 
         string text = "NR_LogTraceLock".Translate(caster.LabelCap);
-        HeatTracker.Get()?.AddHeat(NetrunDefOf.NR_Heat.traceLockHeat, text);
+        HeatTracker.Get()?.AddHeat(NetrunDefOf.NR_Heat.traceLockHeat, text, HeatSource.Hack);
         Messages.Message(text, new LookTargets(hacker), MessageTypeDefOf.NegativeEvent, historical: true);
     }
 }

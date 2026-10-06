@@ -221,4 +221,46 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreRowEnergyValue>{0} W · {1}</NR_CoreRowEnergyValue>
   <NR_HelpLinkTip>Cyberpedia: {0}</NR_HelpLinkTip>
   <NR_NodeLockedMark>LOCKED</NR_NodeLockedMark>
+  <NR_ArchiveTab_Journal>Trace journal</NR_ArchiveTab_Journal>
+  <NR_ArchiveTab_Reports>Dive reports</NR_ArchiveTab_Reports>
+  <NR_ArchiveTab_Raids>Raids and revenge</NR_ArchiveTab_Raids>
+  <NR_ArchiveFilter_All>All</NR_ArchiveFilter_All>
+  <NR_ArchiveFilter_Hack>Hacks</NR_ArchiveFilter_Hack>
+  <NR_ArchiveFilter_Dive>Dives</NR_ArchiveFilter_Dive>
+  <NR_ArchiveFilter_Scrub>Scrub</NR_ArchiveFilter_Scrub>
+  <NR_ArchiveFilter_AI>AI</NR_ArchiveFilter_AI>
+  <NR_ArchiveFilter_Events>Events</NR_ArchiveFilter_Events>
+  <NR_ArchiveType_Other>Heat</NR_ArchiveType_Other>
+  <NR_ArchiveType_Hack>Hack</NR_ArchiveType_Hack>
+  <NR_ArchiveType_Dive>Dive</NR_ArchiveType_Dive>
+  <NR_ArchiveType_Scrub>Scrub</NR_ArchiveType_Scrub>
+  <NR_ArchiveType_AI>AI</NR_ArchiveType_AI>
+  <NR_ArchiveType_Raid>Raid</NR_ArchiveType_Raid>
+  <NR_ArchiveType_Event>Event</NR_ArchiveType_Event>
+  <NR_ArchiveSearch>search…</NR_ArchiveSearch>
+  <NR_ArchiveInset>Heat over 7 days. Click a day to filter the journal, the wheel steps through days.</NR_ArchiveInset>
+  <NR_ArchiveToday>Today</NR_ArchiveToday>
+  <NR_ArchiveYesterday>Yesterday</NR_ArchiveYesterday>
+  <NR_ArchiveDaysAgo>{0} days ago</NR_ArchiveDaysAgo>
+  <NR_ArchiveDayChip>Day: {0} ✕</NR_ArchiveDayChip>
+  <NR_ArchiveDayChipTip>Show all days.</NR_ArchiveDayChipTip>
+  <NR_ArchiveDaySum>{0} Heat for the day</NR_ArchiveDaySum>
+  <NR_ArchiveEmpty>Nothing matches.</NR_ArchiveEmpty>
+  <NR_ArchiveNoReports>No dives yet.</NR_ArchiveNoReports>
+  <NR_ArchiveNoRaids>No raids or attacks yet.</NR_ArchiveNoRaids>
+  <NR_ArchivePick>Pick a line to see the details.</NR_ArchivePick>
+  <NR_ArchiveDetail>Event</NR_ArchiveDetail>
+  <NR_ArchiveDetailReport>Dive</NR_ArchiveDetailReport>
+  <NR_ArchiveHeat>Heat</NR_ArchiveHeat>
+  <NR_ArchiveOutcome>Outcome</NR_ArchiveOutcome>
+  <NR_ArchiveLoot>Loot</NR_ArchiveLoot>
+  <NR_ArchiveLootNone>nothing</NR_ArchiveLootNone>
+  <NR_ArchiveTurns>Turns</NR_ArchiveTurns>
+  <NR_ArchiveTurnsShort>{0} turns</NR_ArchiveTurnsShort>
+  <NR_ArchiveEvents>Events in the dive</NR_ArchiveEvents>
+  <NR_ArchiveOpenReport>Open the dive report</NR_ArchiveOpenReport>
+  <NR_ArchiveHeatThen>Heat screen</NR_ArchiveHeatThen>
+  <NR_ArchiveHeatThenTip>The Heat graph and what changes it.</NR_ArchiveHeatThenTip>
+  <NR_ArchiveArticle>Article: {0} ↗</NR_ArchiveArticle>
+  <NR_ChipArchiveEvents>Events: {0}</NR_ChipArchiveEvents>
 </LanguageData>

@@ -103,7 +103,7 @@ public class Fixer : IExposable
 
         TraitRevealed = true;
         string text = "NR_FixerRatLeak".Translate(Name);
-        HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, text);
+        HeatTracker.Get()?.AddHeat(Settings.ratLeakHeat, text, HeatSource.Event);
         Messages.Message(text, MessageTypeDefOf.NegativeEvent, historical: true);
     }
 
