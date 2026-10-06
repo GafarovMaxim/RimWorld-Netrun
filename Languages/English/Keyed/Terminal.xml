@@ -209,4 +209,33 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpLeaveTip>Back to the screen you came from (Esc)</NR_HelpLeaveTip>
   <NR_GuideButtonLeaveTip>Leave the guide (Esc)</NR_GuideButtonLeaveTip>
   <NR_HelpCtx_Help>Cyberpedia</NR_HelpCtx_Help>
+  <NR_HelpTitle>NETRUN // HELP</NR_HelpTitle>
+  <NR_HelpClose>Close (Esc)</NR_HelpClose>
+  <NR_HelpSearch>Search the help…</NR_HelpSearch>
+  <NR_HelpTopics>Topics</NR_HelpTopics>
+  <NR_HelpResults>Search results</NR_HelpResults>
+  <NR_HelpNoResults>Nothing found.</NR_HelpNoResults>
+  <NR_HelpHere>you are here</NR_HelpHere>
+  <NR_HelpNew>new</NR_HelpNew>
+  <NR_HelpLocked>Opens when you meet it in the game.</NR_HelpLocked>
+  <NR_HelpCrumbRoot>Help</NR_HelpCrumbRoot>
+  <NR_HelpTips>Tips</NR_HelpTips>
+  <NR_HelpSeeAlso>See also</NR_HelpSeeAlso>
+  <NR_HelpInThisTopic>In this topic</NR_HelpInThisTopic>
+  <NR_HelpBack>◄ Back</NR_HelpBack>
+  <NR_HelpForward>Forward ►</NR_HelpForward>
+  <NR_HelpOpenedFrom>Help opened from "{0}" · articles open as you play</NR_HelpOpenedFrom>
+  <NR_HelpEsc>Esc: close</NR_HelpEsc>
+  <NR_HelpButtonTip>Help on this screen (F1)</NR_HelpButtonTip>
+  <NR_HelpCtx_Core>Core</NR_HelpCtx_Core>
+  <NR_HelpCtx_Onboarding>Welcome to the net</NR_HelpCtx_Onboarding>
+  <NR_HelpCtx_Heat>Heat and trace</NR_HelpCtx_Heat>
+  <NR_HelpCtx_Club>Club</NR_HelpCtx_Club>
+  <NR_HelpCtx_Board>Board</NR_HelpCtx_Board>
+  <NR_HelpCtx_Archive>Archive</NR_HelpCtx_Archive>
+  <NR_HelpCtx_Server>Server room</NR_HelpCtx_Server>
+  <NR_HelpCtx_Studio>Studio</NR_HelpCtx_Studio>
+  <NR_HelpCtx_Gateway>Gateway</NR_HelpCtx_Gateway>
+  <NR_HelpCtx_Dive>Dive</NR_HelpCtx_Dive>
+  <NR_HelpCtx_Settings>Mod settings</NR_HelpCtx_Settings>
 </LanguageData>
