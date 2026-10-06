@@ -220,4 +220,5 @@
   <NR_CoreRowEnergy>Энергопотребление</NR_CoreRowEnergy>
   <NR_CoreRowEnergyValue>{0} Вт · {1}</NR_CoreRowEnergyValue>
   <NR_HelpLinkTip>Киберпедия: {0}</NR_HelpLinkTip>
+  <NR_NodeLockedMark>ЗАБЛОКИРОВАНО</NR_NodeLockedMark>
 </LanguageData>

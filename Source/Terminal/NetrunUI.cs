@@ -67,6 +67,123 @@ public static class NetrunUI
         return tex;
     }
 
+    /// <summary>A thin circle line (about 1.5 px at 256 px) for outer rings drawn large.</summary>
+    public static readonly Texture2D ThinRing = MakeThinRing();
+
+    /// <summary>A soft square glow: opaque in the middle, fading to the edges. Stretch over a box, tint with GUI.color.</summary>
+    public static readonly Texture2D GlowTex = MakeGlow();
+
+    private static Texture2D MakeThinRing()
+    {
+        const int size = 256;
+        var tex = new Texture2D(size, size, TextureFormat.ARGB32, false) { filterMode = FilterMode.Bilinear };
+        float r = size / 2f - 2f;
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                float d = Vector2.Distance(new Vector2(x + 0.5f, y + 0.5f), new Vector2(size / 2f, size / 2f));
+                tex.SetPixel(x, y, new Color(1f, 1f, 1f, Mathf.Clamp01(1.2f - Mathf.Abs(d - r))));
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    private static Texture2D MakeGlow()
+    {
+        const int size = 64;
+        var tex = new Texture2D(size, size, TextureFormat.ARGB32, false) { filterMode = FilterMode.Bilinear, wrapMode = TextureWrapMode.Clamp };
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                // Distance outside the inner square (40% of the texture), fading over the rest.
+                float dx = Mathf.Max(0f, Mathf.Abs(x + 0.5f - size / 2f) - size * 0.2f);
+                float dy = Mathf.Max(0f, Mathf.Abs(y + 0.5f - size / 2f) - size * 0.2f);
+                float t = Mathf.Clamp01(Mathf.Sqrt(dx * dx + dy * dy) / (size * 0.3f));
+                tex.SetPixel(x, y, new Color(1f, 1f, 1f, (1f - t) * (1f - t)));
+            }
+        }
+        tex.Apply();
+        return tex;
+    }
+
+    /// <summary>Seconds since the game started, for animations; frozen at 0 when animations are off.</summary>
+    public static float AnimTime => NetrunMod.Settings.Animations ? Time.realtimeSinceStartup : 0f;
+
+    /// <summary>A soft glow around <paramref name="rect"/> in the color.</summary>
+    public static void Glow(Rect rect, Color color, float strength = 1f, float spread = 16f)
+    {
+        GUI.color = new Color(color.r, color.g, color.b, 0.55f * strength);
+        GUI.DrawTexture(rect.ExpandedBy(spread), GlowTex);
+        GUI.color = Color.white;
+    }
+
+    /// <summary>
+    /// Corner brackets, deliberately uneven: the top-left and bottom-right arms run long along one side and short along the
+    /// other, the other two corners are short, and a small notch sits on the top and the left edge off centre.
+    /// </summary>
+    public static void Brackets(Rect r, Color color, float thickness = 3f, float arm = 18f)
+    {
+        float t = thickness;
+        Widgets.DrawBoxSolid(new Rect(r.x, r.y, arm * 1.5f, t), color);
+        Widgets.DrawBoxSolid(new Rect(r.x, r.y, t, arm * 0.8f), color);
+        Widgets.DrawBoxSolid(new Rect(r.xMax - arm, r.y, arm, t), color);
+        Widgets.DrawBoxSolid(new Rect(r.xMax - t, r.y, t, arm), color);
+        Widgets.DrawBoxSolid(new Rect(r.x, r.yMax - t, arm, t), color);
+        Widgets.DrawBoxSolid(new Rect(r.x, r.yMax - arm, t, arm), color);
+        Widgets.DrawBoxSolid(new Rect(r.xMax - arm * 0.8f, r.yMax - t, arm * 0.8f, t), color);
+        Widgets.DrawBoxSolid(new Rect(r.xMax - t, r.yMax - arm * 1.5f, t, arm * 1.5f), color);
+        // Off-centre notches.
+        Widgets.DrawBoxSolid(new Rect(r.x + r.width * 0.62f, r.y - 3f, 2f, 5f), color);
+        Widgets.DrawBoxSolid(new Rect(r.x - 3f, r.y + r.height * 0.34f, 5f, 2f), color);
+    }
+
+    /// <summary>A dashed outline (the "current" mark).</summary>
+    public static void Dashed(Rect r, Color color, float dash = 5f, float gap = 4f)
+    {
+        GUI.color = color;
+        for (float x = r.x; x < r.xMax; x += dash + gap)
+        {
+            float w = Mathf.Min(dash, r.xMax - x);
+            GUI.DrawTexture(new Rect(x, r.y, w, 1f), BaseContent.WhiteTex);
+            GUI.DrawTexture(new Rect(x, r.yMax - 1f, w, 1f), BaseContent.WhiteTex);
+        }
+        for (float y = r.y; y < r.yMax; y += dash + gap)
+        {
+            float h = Mathf.Min(dash, r.yMax - y);
+            GUI.DrawTexture(new Rect(r.x, y, 1f, h), BaseContent.WhiteTex);
+            GUI.DrawTexture(new Rect(r.xMax - 1f, y, 1f, h), BaseContent.WhiteTex);
+        }
+        GUI.color = Color.white;
+    }
+
+    /// <summary>A bright line sweeping down the rect with a faint trail (hover effect).</summary>
+    public static void Scanline(Rect r, Color color, float period = 1.6f)
+    {
+        if (!NetrunMod.Settings.Animations)
+            return;
+        float f = Time.realtimeSinceStartup / period % 1f;
+        float y = r.y + r.height * f;
+        GUI.color = new Color(color.r, color.g, color.b, 0.10f);
+        GUI.DrawTexture(new Rect(r.x, Mathf.Max(r.y, y - 10f), r.width, Mathf.Min(10f, y - r.y)), BaseContent.WhiteTex);
+        GUI.color = new Color(color.r, color.g, color.b, 0.55f);
+        GUI.DrawTexture(new Rect(r.x, y, r.width, 1f), BaseContent.WhiteTex);
+        GUI.color = Color.white;
+    }
+
+    /// <summary>A small status light: steady, or blinking when <paramref name="blink"/>.</summary>
+    public static void Led(Rect r, Color color, bool blink = false)
+    {
+        float a = blink && NetrunMod.Settings.Animations ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(Time.realtimeSinceStartup * 3.2f)) : 1f;
+        GUI.color = new Color(color.r, color.g, color.b, 0.35f * a);
+        GUI.DrawTexture(r.ExpandedBy(3f), GlowTex);
+        GUI.color = new Color(color.r, color.g, color.b, a);
+        GUI.DrawTexture(r, BaseContent.WhiteTex);
+        GUI.color = Color.white;
+    }
+
     /// <summary>Filled rectangle with a 1 px border.</summary>
     public static void Box(Rect rect, Color fill, Color border, int thickness = 1)
     {
@@ -81,6 +198,8 @@ public static class NetrunUI
     {
         Box(rect, BgCard, new Color(stripe.r, stripe.g, stripe.b, 0.35f));
         Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, 4f, rect.height), stripe);
+        if (Mouse.IsOver(rect))
+            Scanline(rect, stripe, 2.4f);
     }
 
     /// <summary>A small bordered tag like "BROKER"; returns its width.</summary>
@@ -170,6 +289,17 @@ public static class NetrunUI
         Text.Anchor = TextAnchor.UpperLeft;
         GUI.color = Accent;
         Widgets.DrawLineHorizontal(rect.x, rect.y + 28f, rect.width);
+        // Now and then a bright spark runs along the line.
+        if (NetrunMod.Settings.Animations)
+        {
+            float f = (Time.realtimeSinceStartup + rect.y * 0.013f) / 5f % 1f;
+            if (f < 0.35f)
+            {
+                float x = rect.x + rect.width * (f / 0.35f);
+                GUI.color = new Color(1f, 1f, 1f, 0.8f * Mathf.Sin(f / 0.35f * Mathf.PI));
+                GUI.DrawTexture(new Rect(Mathf.Max(rect.x, x - 30f), rect.y + 27.5f, Mathf.Min(30f, x - rect.x), 2f), BaseContent.WhiteTex);
+            }
+        }
         GUI.color = Color.white;
         return rect.y + 36f;
     }
