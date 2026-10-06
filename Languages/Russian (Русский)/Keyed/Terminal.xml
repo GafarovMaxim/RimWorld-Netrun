@@ -99,12 +99,9 @@
   <NR_CoreTileChipsTip>Брейнданс-чипы в колонии; малое число — чёрные.</NR_CoreTileChipsTip>
   <NR_CoreTileGroup>Группа</NR_CoreTileGroup>
   <NR_CoreTileFavor>благоскл.</NR_CoreTileFavor>
-  <NR_CoreRowNet>Сеть</NR_CoreRowNet>
-  <NR_CoreRowNetValue>{0} Вт · {1}</NR_CoreRowNetValue>
   <NR_CoreRowNetTip>Сколько тянет сеть: консоль, капсулы, сопроцессоры, серверы. Онлайн — консоль с питанием.</NR_CoreRowNetTip>
   <NR_CoreOnline>онлайн</NR_CoreOnline>
   <NR_CoreOffline>оффлайн</NR_CoreOffline>
-  <NR_CoreIn>через {0}</NR_CoreIn>
   <NR_ChipNetInactive>Сеть не активна</NR_ChipNetInactive>
   <NR_OnboardingTitle>ДОБРО ПОЖАЛОВАТЬ В СЕТЬ</NR_OnboardingTitle>
   <NR_OnboardingIntro>Здесь появится карта узлов, Heat и тревоги. Чтобы начать, пройди эти шаги. Остальное откроется само.</NR_OnboardingIntro>
@@ -220,4 +217,6 @@
   <NR_HeatV2Wiki>Киберпедия ↗</NR_HeatV2Wiki>
   <NR_HeatV2WikiTip>Все уровни и их эффекты в Киберпедии.</NR_HeatV2WikiTip>
   <NR_HeatV2BackToCurrent>◄ сейчас</NR_HeatV2BackToCurrent>
+  <NR_CoreRowEnergy>Энергопотребление</NR_CoreRowEnergy>
+  <NR_CoreRowEnergyValue>{0} Вт · {1}</NR_CoreRowEnergyValue>
 </LanguageData>

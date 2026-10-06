@@ -452,17 +452,22 @@ public partial class Dialog_NetTerminal
         y += th + 8f;
 
         bool online = AIAwakening.Console(_map) != null;
-        y = SummaryRow(inner, y, "NR_CoreRowNet".Translate(),
-            "NR_CoreRowNetValue".Translate(s.Watts.ToString("0"), (online ? "NR_CoreOnline" : "NR_CoreOffline").Translate()), online ? NetrunUI.Ok : NetrunUI.Bad,
-            "NR_CoreRowNetTip".Translate());
+        y = GaugeRow(inner, y, NetrunTex.CyberIcon("Dive_Lightning_Yellow"), "NR_CoreRowEnergy".Translate(),
+            "NR_CoreRowEnergyValue".Translate(s.Watts.ToString("0"), (online ? "NR_CoreOnline" : "NR_CoreOffline").Translate()),
+            Mathf.Clamp01(s.Watts / 3000f), s.Watts > 2000f ? NetrunUI.Warn : online ? NetrunUI.Ok : NetrunUI.Bad, "NR_CoreRowNetTip".Translate());
         if (gateway == null)
             return;
-        y = SummaryRow(inner, y, "NR_CoreGatewayRefresh".Translate(), "NR_CoreIn".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.TextColor);
+        float refreshDays = NetrunDefOf.NR_Cyberspace.refreshDays;
+        y = GaugeRow(inner, y, NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), "NR_CoreGatewayRefresh".Translate(),
+            gateway.TicksUntilRefresh.ToStringTicksToPeriod(), 1f - gateway.TicksUntilRefresh / (refreshDays * GenDate.TicksPerDay), NetrunUI.Accent, null);
         ExternalNode boss = gateway.Boss;
+        Texture2D bossIcon = NetrunTex.CyberIcon("Node_CorpCore");
         if (boss != null)
-            SummaryRow(inner, y, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓", NetrunUI.Bad);
+            GaugeRow(inner, y, bossIcon, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓",
+                1f, NetrunUI.Bad, null);
         else if (gateway.TicksUntilBoss >= 0)
-            SummaryRow(inner, y, "NR_CoreBossNext".Translate(), "NR_CoreIn".Translate(gateway.TicksUntilBoss.ToStringTicksToPeriod()), NetrunUI.TextColor);
+            GaugeRow(inner, y, bossIcon, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(),
+                1f - gateway.TicksUntilBoss / (NetrunDefOf.NR_Cyberspace.bossIntervalDays * GenDate.TicksPerDay), NetrunUI.Purple, null);
     }
 
     private static void Tile(Rect rect, string label, string big, string small, Color color, string tip, Texture2D icon = null)
@@ -484,6 +489,26 @@ public partial class Dialog_NetTerminal
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         NetrunUI.Tip(rect, tip);
+    }
+
+    /// <summary>An icon, a label, the value on the right and a thin gauge under it.</summary>
+    private static float GaugeRow(Rect inner, float y, Texture2D icon, string label, string value, float fraction, Color color, string tip)
+    {
+        var row = new Rect(inner.x, y, inner.width, 34f);
+        Widgets.DrawBoxSolid(row, NetrunUI.BgWindow);
+        if (icon != null)
+            GUI.DrawTexture(new Rect(row.x + 4f, row.y + 5f, 24f, 24f), icon);
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperLeft;
+        Widgets.Label(new Rect(row.x + 34f, row.y + 3f, row.width - 130f, 18f), label.Colorize(NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperRight;
+        Widgets.Label(new Rect(row.xMax - 130f, row.y + 3f, 124f, 18f), value.Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        NetrunUI.Bar(new Rect(row.x + 34f, row.y + 23f, row.width - 40f, 5f), fraction, color);
+        if (tip != null)
+            NetrunUI.Tip(row, tip);
+        return y + 38f;
     }
 
     private static float SummaryRow(Rect inner, float y, string label, string value, Color color, string tip = null)

@@ -303,4 +303,19 @@ public static class NetrunDebugActions
 
     [DebugAction(Category, "Netsick: craving state", allowedGameStates = AllowedGameStates.Playing)]
     private static void CravingState() => Find.WindowStack.Add(new Dialog_MessageBox(NetsickManager.DebugState()));
+
+    [DebugAction(Category, "Map events...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void FireMapEvent()
+    {
+        string[] names = ["NR_DataCourier", "NR_CorpHunt", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
+        var options = names.Select(n => DefDatabase<IncidentDef>.GetNamedSilentFail(n)).Where(d => d != null)
+            .Select(d => new FloatMenuOption(d.LabelCap + " (" + d.defName + ")", () =>
+            {
+                IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
+                parms.forced = true;
+                if (!d.Worker.TryExecute(parms))
+                    Messages.Message(d.defName + ": could not fire here (conditions)", MessageTypeDefOf.RejectInput, historical: false);
+            })).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
 }

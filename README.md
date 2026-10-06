@@ -70,7 +70,7 @@ Dormant AI fragments can be salvaged from protected systems and awakened at the 
 * **Infrastructure:**
   * **AI Server (2×2):** Dedicated computing facility running core services (requires 300W power).
   * **Server Racks:** Modular server extensions expanding colony capacity up to 3 active AI cores.
-  * **Netrun Coprocessor:** Cyberpod attachment that houses an AI to dampen Heat buildup and slow Netsick.
+  * **AI Coprocessor:** Cyberpod attachment that houses an AI to dampen Heat buildup and slow Netsick.
   * **AI Socket:** Neural cranial implant allowing direct embodiment of an AI inside a colonist's brain.
 * **Personalities:**
   * *Ghost* — Dampens Heat and provides early warning telemetry.

@@ -27,7 +27,7 @@
     <!-- At Target and above the trace cools this much slower. -->
     <highHeatDecayFactor>0.5</highHeatDecayFactor>
 
-    <!-- An AI in a Netrun coprocessor linked to the cyberpod: Heat factor (Ghost hides better),
+    <!-- An AI in a AI coprocessor linked to the cyberpod: Heat factor (Ghost hides better),
          extra cyberdata chance (Data Hunter finds more), Netsick factor (Doc and Warden protect the diver) -->
     <coprocessorHeatFactor>0.8</coprocessorHeatFactor>
     <coprocessorGhostHeatFactor>0.5</coprocessorGhostHeatFactor>

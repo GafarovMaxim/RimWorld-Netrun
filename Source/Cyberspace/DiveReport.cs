@@ -219,13 +219,13 @@ public class Dialog_DiveReport : Window
         y = Row(r, y, NetrunDefOf.USH_Cyberdata.uiIcon, "NR_ReportCost".Translate(), "−" + d.CostPaid, NetrunUI.Warn);
         float heat = d.HeatAfter - d.HeatBefore;
         HeatLevel after = HeatLevelUtility.LevelOf(d.HeatAfter);
-        y = Row(r, y, NetrunTex.HeatIcon(after), "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0}  ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})",
+        y = Row(r, y, Icon("Dive_Heat") ?? NetrunTex.HeatIcon(after), "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0}  ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})",
             heat > 0.05f ? NetrunUI.Bad : NetrunUI.Ok);
         float sick = d.NetsickAfter - d.NetsickBefore;
-        y = Row(r, y, NetrunTex.AIUse, "NR_ReportNetsick".Translate(), $"{d.NetsickBefore.ToStringPercent()} → {d.NetsickAfter.ToStringPercent()}  (+{sick.ToStringPercent()})",
+        y = Row(r, y, Icon("Icon_Netsick") ?? NetrunTex.AIUse, "NR_ReportNetsick".Translate(), $"{d.NetsickBefore.ToStringPercent()} → {d.NetsickAfter.ToStringPercent()}  (+{sick.ToStringPercent()})",
             sick > 0.001f ? NetrunUI.Warn : NetrunUI.Muted);
         if (d.Xp > 0f)
-            y = Row(r, y, Icon("Action_Hack"), "NR_ReportXp".Translate(), "+" + d.Xp.ToString("0") + " " + SkillDefOf.Intellectual.label, NetrunUI.Ok);
+            y = Row(r, y, Icon("Icon_Xp") ?? Icon("Action_Hack"), "NR_ReportXp".Translate(), "+" + d.Xp.ToString("0") + " " + SkillDefOf.Intellectual.label, NetrunUI.Ok);
         if (d.HunterFollowed)
             Row(r, y, Icon("Event_HunterICE"), "NR_ReportHunter".Translate(), "NR_ReportHunterValue".Translate(), NetrunUI.Bad);
     }

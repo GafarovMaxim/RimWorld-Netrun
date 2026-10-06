@@ -437,8 +437,12 @@ public partial class Dialog_NetTerminal : Window
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
         Text.Font = GameFont.Tiny;
         float sickW = Text.CalcSize(sickText).x;
-        Rect sickSeg = Segment(10f + sickW + 10f, sickColor);
-        Widgets.Label(new Rect(sickSeg.x + 10f, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
+        Texture2D sickIcon = NetrunTex.CyberIcon("Icon_Netsick");
+        float sickPad = sickIcon != null ? 30f : 10f;
+        Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
+        if (sickIcon != null)
+            GUI.DrawTexture(new Rect(sickSeg.x + 6f, sickSeg.center.y - 10f, 20f, 20f), sickIcon);
+        Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
         Text.Font = GameFont.Small;
         string sickTip = "NR_HeatScreenNetsickTip".Translate();
         if (sick.Count > 0)

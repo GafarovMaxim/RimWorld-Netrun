@@ -84,7 +84,7 @@
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.6,1.6)</drawSize>
+      <drawSize>(2.4,2.4)</drawSize>
       <color>(0.6, 0.6, 0.6)</color>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>

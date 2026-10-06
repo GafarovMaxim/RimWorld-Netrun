@@ -193,10 +193,10 @@
   <NR_AILocationCoprocessor>Works for the cyberpod from: {0}.</NR_AILocationCoprocessor>
   <NR_AIHostNoFeed>The AI is in a host. It eats and takes requests only in a server or coprocessor: move it back first.</NR_AIHostNoFeed>
   <NR_AIServiceOnlyInServer>Services need the AI server's uplink. In a host or a coprocessor the AI helps in its own way.</NR_AIServiceOnlyInServer>
-  <NR_AINoCoprocessor>Needs a powered netrun coprocessor with a free slot.</NR_AINoCoprocessor>
+  <NR_AINoCoprocessor>Needs a powered AI coprocessor with a free slot.</NR_AINoCoprocessor>
   <NR_AIMovedToCoprocessor>{0} moved into the coprocessor and now works for the cyberpod.</NR_AIMovedToCoprocessor>
   <NR_AIToCoprocessor>Move to the coprocessor</NR_AIToCoprocessor>
-  <NR_AIToCoprocessorTip>Move the AI into a netrun coprocessor linked to a cyberpod. It stops offering services and boosts the pod instead.</NR_AIToCoprocessorTip>
+  <NR_AIToCoprocessorTip>Move the AI into a AI coprocessor linked to a cyberpod. It stops offering services and boosts the pod instead.</NR_AIToCoprocessorTip>
   <NR_FloatOpenTerminal>Open the network terminal</NR_FloatOpenTerminal>
   <NR_AINeedOneStack>Needs one stack of {0} × {1} in the colony.</NR_AINeedOneStack>
   <NR_AINoCarrier>No colonist can carry it there.</NR_AINoCarrier>
@@ -224,8 +224,7 @@
   <NR_AICardFoodTip>"Feed" lowers hunger by {0} and adds {1} trust. Above {2} hunger the AI starves and loses trust every day. In a host it cannot be fed: bring it back to the server.</NR_AICardFoodTip>
   <NR_AICardRequest>Asks: {0} · {1} left</NR_AICardRequest>
   <NR_AICardRequestStakes>done: +{0} trust · refused: −{0}</NR_AICardRequestStakes>
-  <NR_AICardNoRequest>No request · next in ~{0}</NR_AICardNoRequest>
-  <NR_AICardRequestSoon>No request · one may come soon</NR_AICardRequestSoon>
   <NR_AICardRequestTip>Requests come every few days. Do it in time for +{0} trust; if the deadline passes, trust drops by the same.</NR_AICardRequestTip>
   <NR_AICardHistory>Last:</NR_AICardHistory>
+  <NR_AICardNoRequestPlain>No requests right now</NR_AICardNoRequestPlain>
 </LanguageData>

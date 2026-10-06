@@ -193,10 +193,10 @@
   <NR_AILocationCoprocessor>Работает на кибер-капсулу из: {0}.</NR_AILocationCoprocessor>
   <NR_AIHostNoFeed>ИИ в носителе. Есть и принимать просьбы он может только на сервере или в сопроцессоре: сначала верните его.</NR_AIHostNoFeed>
   <NR_AIServiceOnlyInServer>Услугам нужен канал ИИ-сервера. В носителе или сопроцессоре ИИ помогает по-своему.</NR_AIServiceOnlyInServer>
-  <NR_AINoCoprocessor>Нужен запитанный сопроцессор Netrun со свободным слотом.</NR_AINoCoprocessor>
+  <NR_AINoCoprocessor>Нужен запитанный ИИ-сопроцессор со свободным слотом.</NR_AINoCoprocessor>
   <NR_AIMovedToCoprocessor>{0} переселился в сопроцессор и теперь работает на кибер-капсулу.</NR_AIMovedToCoprocessor>
   <NR_AIToCoprocessor>Перенести в сопроцессор</NR_AIToCoprocessor>
-  <NR_AIToCoprocessorTip>Перенести ИИ в сопроцессор Netrun, подключённый к кибер-капсуле. Услуги он больше не оказывает, зато усиливает капсулу.</NR_AIToCoprocessorTip>
+  <NR_AIToCoprocessorTip>Перенести ИИ в ИИ-сопроцессор, подключённый к кибер-капсуле. Услуги он больше не оказывает, зато усиливает капсулу.</NR_AIToCoprocessorTip>
   <NR_FloatOpenTerminal>Открыть сетевой терминал</NR_FloatOpenTerminal>
   <NR_AINeedOneStack>Нужна одна стопка: {0} × {1}.</NR_AINeedOneStack>
   <NR_AINoCarrier>Никто из колонистов не может это отнести.</NR_AINoCarrier>
@@ -224,8 +224,7 @@
   <NR_AICardFoodTip>«Накормить» снижает голод на {0} и даёт {1} доверия. Выше {2} голода ИИ голодает и каждый день теряет доверие. В носителе его не кормят: верните на сервер.</NR_AICardFoodTip>
   <NR_AICardRequest>Просит: {0} · осталось {1}</NR_AICardRequest>
   <NR_AICardRequestStakes>выполнено: +{0} доверия · отказ: −{0}</NR_AICardRequestStakes>
-  <NR_AICardNoRequest>Просьб нет · следующая через ~{0}</NR_AICardNoRequest>
-  <NR_AICardRequestSoon>Просьб нет · скоро может появиться</NR_AICardRequestSoon>
   <NR_AICardRequestTip>Просьбы приходят раз в несколько дней. Выполните вовремя — +{0} доверия; пропустите срок — столько же минус.</NR_AICardRequestTip>
   <NR_AICardHistory>Было:</NR_AICardHistory>
+  <NR_AICardNoRequestPlain>Сейчас просьб нет</NR_AICardNoRequestPlain>
 </LanguageData>

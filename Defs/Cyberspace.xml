@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Architect tab for the mod's buildings: AI server, server rack, netrun coprocessor -->
+  <!-- Architect tab for the mod's buildings: AI server, server rack, AI coprocessor -->
   <DesignationCategoryDef>
     <defName>NR_Cyberspace</defName>
     <label>cyberspace</label>

@@ -131,8 +131,7 @@ public static class AITab
         y += 30f;
 
         // Archetype tag (icon, personality color) and the request, if any.
-        GUI.DrawTexture(new Rect(x, y + 1f, 18f, 18f), NetrunTex.Portrait(ai.Personality));
-        float tagX = x + 22f;
+        float tagX = x;
         tagX += NetrunUI.Chip(tagX, y + 1f, ai.Personality.Label().ToUpper(), ai.Personality.Color(), ai.Personality.Description()) + 6f;
         if (ai.HasRequest)
         {
@@ -164,15 +163,15 @@ public static class AITab
         DrawButtons(new Rect(x, y + 8f, width, rect.yMax - y - 8f - Pad), Buttons(ai, map, manager));
     }
 
-    private const float InfoRow = 22f;
+    private const float InfoRow = 30f;
 
-    private static float InfoRowsHeight(NetAI ai) => InfoRow * 2f + (ai.RequestHistory.Count > 0 ? 18f : 0f) + 4f;
+    private static float InfoRowsHeight(NetAI ai) => InfoRow * 2f + (ai.RequestHistory.Count > 0 ? 22f : 0f) + 4f;
 
     /// <summary>What the AI eats and how hungry it is; its request (deadline, reward, refusal) or when the next one comes; the last requests.</summary>
     private static float DrawInfoRows(float x, float y, float width, NetAI ai)
     {
         AISettingsDef s = NetrunDefOf.NR_AI;
-        Text.Font = GameFont.Tiny;
+        Text.Font = GameFont.Small;
         // Food.
         var food = AIBehavior.Food(ai.Personality);
         Texture2D foodIcon = food?.thing.uiIcon ?? NetrunTex.AIFeed;
@@ -190,19 +189,24 @@ public static class AITab
         }
         else
         {
-            int next = ai.NextRequestTick - Find.TickManager.TicksGame;
-            reqLine = (next > 0 ? "NR_AICardNoRequest".Translate(next.ToStringTicksToPeriod()) : "NR_AICardRequestSoon".Translate()).Colorize(NetrunUI.Muted);
+            reqLine = "NR_AICardNoRequestPlain".Translate().Colorize(NetrunUI.Muted);
         }
-        InfoRowLine(new Rect(x, y, width, InfoRow), NetrunTex.CyberIcon("Icon_DiveReport") ?? NetrunTex.AIUse, reqLine, "NR_AICardRequestTip".Translate(s.requestTrust.ToString("0")));
+        var plate = new Rect(x, y + 1f, width, InfoRow - 2f);
+        Widgets.DrawBoxSolid(plate, ai.HasRequest ? new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.12f) : new Color(1f, 1f, 1f, 0.03f));
+        if (ai.HasRequest)
+            Widgets.DrawBoxSolid(new Rect(plate.x, plate.y, 3f, plate.height), NetrunUI.Warn);
+        InfoRowLine(new Rect(x + 4f, y, width - 4f, InfoRow), NetrunTex.CyberIcon("Icon_AIRequest") ?? NetrunTex.AIUse, reqLine, "NR_AICardRequestTip".Translate(s.requestTrust.ToString("0")));
         y += InfoRow;
         // History.
         if (ai.RequestHistory.Count > 0)
         {
             string history = "NR_AICardHistory".Translate() + " " + string.Join(" · ", ai.RequestHistory.Select(h => h.StartsWith("✓") ? h.Colorize(NetrunUI.Ok) : h.Colorize(NetrunUI.Bad)));
-            var hr = new Rect(x + 22f, y, width - 22f, 18f);
+            Text.Font = GameFont.Tiny;
+            var hr = new Rect(x + 30f, y + 2f, width - 30f, 18f);
             Widgets.Label(hr, history.Truncate(hr.width));
             NetrunUI.Tip(hr, string.Join("\n", ai.RequestHistory));
-            y += 18f;
+            Text.Font = GameFont.Small;
+            y += 22f;
         }
         Text.Font = GameFont.Small;
         return y + 4f;
@@ -211,9 +215,9 @@ public static class AITab
     private static void InfoRowLine(Rect row, Texture2D icon, string text, string tip)
     {
         if (icon != null)
-            GUI.DrawTexture(new Rect(row.x, row.y + 2f, 18f, 18f), icon);
+            GUI.DrawTexture(new Rect(row.x, row.y + (row.height - 24f) / 2f, 24f, 24f), icon);
         Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(row.x + 22f, row.y, row.width - 22f, row.height), text.Truncate(row.width - 22f));
+        Widgets.Label(new Rect(row.x + 30f, row.y, row.width - 30f, row.height), text.Truncate(row.width - 30f));
         Text.Anchor = TextAnchor.UpperLeft;
         NetrunUI.Tip(row, text + "\n\n" + tip);
     }

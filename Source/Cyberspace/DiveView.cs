@@ -214,7 +214,11 @@ public static class DiveView
             AcceptanceReport hack = session.CanHack();
             Act("Hack", NetrunUI.Warn, hack, session.Hack, hack.Accepted ? "NR_DiveActTip_HackChance".Translate(session.CurrentHackChance.ToStringPercent()) : null);
             Act("Download", NetrunUI.Accent, session.CanDownload(), session.Download);
-            Act("Exit", NetrunUI.Ok, session.CanExit(), session.Exit);
+            Act("Exit", NetrunUI.Ok, session.CanExit(), () =>
+            {
+                session.Exit();
+                GatewayManager.Get()?.ClearFinished();
+            });
             y = gridY + (index + 1) / 2 * 34f + 6f;
 
             // Threats of this dive.

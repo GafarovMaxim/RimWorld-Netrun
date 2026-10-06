@@ -143,7 +143,6 @@
   <NR_GatewayZoomIn>Zoom in (mouse wheel)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Zoom out (mouse wheel)</NR_GatewayZoomOut>
   <NR_GatewayZoomReset>Reset zoom and position (or click the middle mouse button on the field). Drag the field with the mouse to move it.</NR_GatewayZoomReset>
-  <NR_GatewayRewardValue>x{0} of the dive cost: {1}</NR_GatewayRewardValue>
   <NR_DiveLogSpecial>Something special was waiting at the exit.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Corp core-{0}</NR_ExtNodeName_CorpCore>
   <NR_ExtNodeType_CorpCore>corporate core (boss)</NR_ExtNodeType_CorpCore>
@@ -246,4 +245,5 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHudTraceTip>Every action raises the dive's trace; on leaving it becomes Heat. Stealth and the Wraith halve it.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Haul</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Nothing yet.</NR_DiveHudHaulEmpty>
+  <NR_GatewayRewardMult>x{0} of the dive cost</NR_GatewayRewardMult>
 </LanguageData>

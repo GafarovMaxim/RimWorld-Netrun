@@ -6,7 +6,7 @@
     <defName>NR_NetsickSettings</defName>
 
     <!-- Growth: per day in a cyberpod, per hack from a pod, per remote hack through a cyberlink.
-         A Netrun coprocessor multiplies pod growth by coprocessorNetsickFactor (Defs/Heat.xml). -->
+         A AI coprocessor multiplies pod growth by coprocessorNetsickFactor (Defs/Heat.xml). -->
     <podGainPerDay>0.15</podGainPerDay>
     <podHackGain>0.02</podHackGain>
     <remoteHackGain>0.05</remoteHackGain>

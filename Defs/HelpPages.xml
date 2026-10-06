@@ -97,7 +97,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Netsick</label>
-    <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure. A Doc AI eases it; an AI in a Netrun coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\nThe bottom bar of the terminal shows how many colonists have it.</body>
+    <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure. A Doc AI eases it; an AI in a AI coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\nThe bottom bar of the terminal shows how many colonists have it.</body>
     <icon>Gizmo_AI_CoprocessorUpload</icon>
   </Netrun.HelpPageDef>
 

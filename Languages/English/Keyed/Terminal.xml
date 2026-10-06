@@ -99,12 +99,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreTileChipsTip>Braindance chips in the colony; the small number is black chips.</NR_CoreTileChipsTip>
   <NR_CoreTileGroup>Group</NR_CoreTileGroup>
   <NR_CoreTileFavor>favor</NR_CoreTileFavor>
-  <NR_CoreRowNet>Network</NR_CoreRowNet>
-  <NR_CoreRowNetValue>{0} W · {1}</NR_CoreRowNetValue>
   <NR_CoreRowNetTip>Power drawn by the network: console, cyberpods, coprocessors, servers. Online = a powered network console.</NR_CoreRowNetTip>
   <NR_CoreOnline>online</NR_CoreOnline>
   <NR_CoreOffline>offline</NR_CoreOffline>
-  <NR_CoreIn>in {0}</NR_CoreIn>
   <NR_ChipNetInactive>Network not active</NR_ChipNetInactive>
   <NR_OnboardingTitle>WELCOME TO THE NET</NR_OnboardingTitle>
   <NR_OnboardingIntro>The node map, Heat and alerts will appear here. Go through these steps to start; the rest opens by itself.</NR_OnboardingIntro>
@@ -220,4 +217,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatV2Wiki>Cyberpedia ↗</NR_HeatV2Wiki>
   <NR_HeatV2WikiTip>All levels and their effects in the Cyberpedia.</NR_HeatV2WikiTip>
   <NR_HeatV2BackToCurrent>◄ now</NR_HeatV2BackToCurrent>
+  <NR_CoreRowEnergy>Energy consumption</NR_CoreRowEnergy>
+  <NR_CoreRowEnergyValue>{0} W · {1}</NR_CoreRowEnergyValue>
 </LanguageData>

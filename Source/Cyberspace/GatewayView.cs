@@ -266,7 +266,25 @@ public static class GatewayView
             y = Row(inner, y, NetrunTex.CyberIcon(node.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"), "NR_GatewayRowIce".Translate(),
                 node.BlackIce ? "NR_GatewayIceBlack".Translate(node.IceStrength) : "NR_GatewayIceWhite".Translate(),
                 node.BlackIce ? NetrunUI.Bad : NetrunUI.TextColor, "NR_GatewayTipIce".Translate());
-            y = Row(inner, y, RewardIcon, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardValue".Translate(node.RewardMultiplier.ToString("0.#"), node.RewardText), NetrunUI.Ok, "NR_GatewayTipReward".Translate(), node.RewardIcons);
+            y = Row(inner, y, RewardIcon, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardMult".Translate(node.RewardMultiplier.ToString("0.#")), NetrunUI.Ok,
+                "NR_GatewayTipReward".Translate() + "\n\n" + node.RewardText);
+            // Items in a column: icon, name, amount or chance.
+            int rewardCost = gateway.DiveCost(map, node, out _);
+            foreach ((ThingDef def, string amount) in node.RewardLines(rewardCost))
+            {
+                var line = new Rect(inner.x + 24f, y, inner.width - 24f, 22f);
+                Widgets.ThingIcon(new Rect(line.x, line.y + 1f, 20f, 20f), def);
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(new Rect(line.x + 26f, line.y, line.width - 90f, line.height), def.LabelCap.ToString().Truncate(line.width - 90f));
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(new Rect(line.xMax - 64f, line.y, 64f, line.height), amount.Colorize(NetrunUI.Ok));
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                NetrunUI.Tip(line, def.LabelCap + ": " + amount);
+                y += 22f;
+            }
+            y += 4f;
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_Heat"), "NR_GatewayRowTrace".Translate(),
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };

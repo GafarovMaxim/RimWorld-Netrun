@@ -205,6 +205,27 @@ public class ExternalNode : IExposable
 
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
+    /// <summary>What a clean dive can bring, item by item, with an amount or a chance (for the node panel).</summary>
+    public System.Collections.Generic.List<(ThingDef def, string amount)> RewardLines(int diveCost)
+    {
+        var s = NetrunDefOf.NR_Cyberspace;
+        int basis = Mathf.Max(diveCost, s.diveBaseCost + Defense / 2);
+        int data = Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier));
+        var lines = new System.Collections.Generic.List<(ThingDef, string)>
+        {
+            (NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(data * 0.85f))}–{Mathf.RoundToInt(data * 1.15f)}"),
+        };
+        if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
+            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, "1–2"));
+        if (Type == ExternalNodeType.DarkExchange)
+            lines.Add((ThingDefOf.Silver, "200–400"));
+        if (IsBoss)
+            lines.Add((NetrunDefOf.NR_AICoreModule, s.bossCoreModuleChance.ToStringPercent()));
+        if (Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
+            lines.Add((NetrunDefOf.NR_AIFragment, (Type == ExternalNodeType.Abandoned ? 0.25f : 0.1f).ToStringPercent()));
+        return lines;
+    }
+
     /// <summary>The corporate core: top defense, strong Black ICE, gone after a few days.</summary>
     public static ExternalNode GenerateBoss(int id) => new()
     {
