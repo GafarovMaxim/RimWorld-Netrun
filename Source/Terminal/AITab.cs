@@ -126,10 +126,7 @@ public static class AITab
         float y = rect.y + Pad - 2f;
 
         // Name and status badge.
-        Text.Font = GameFont.Medium;
-        float nameWidth = Mathf.Min(Text.CalcSize(ai.Name).x, width * 0.6f);
-        Widgets.Label(new Rect(x, y, nameWidth + 4f, 30f), ai.Name);
-        Text.Font = GameFont.Small;
+        float nameWidth = NetrunUI.NamePlate(x, y, ai.Name, NetrunTex.PersonalityColor(ai.Personality), GameFont.Medium, width * 0.6f);
         (string status, Color statusColor) = Status(ai);
         NetrunUI.Chip(x + nameWidth + 10f, y + 6f, status.ToUpper(), statusColor, ai.LocationText);
         y += 30f;

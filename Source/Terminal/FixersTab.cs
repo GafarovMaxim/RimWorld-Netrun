@@ -126,10 +126,7 @@ public static class FixersTab
         float y = inner.y;
 
         // Name, then specialty and trait as chips.
-        Text.Font = GameFont.Medium;
-        float nameWidth = Mathf.Min(Text.CalcSize(fixer.Name).x, width * 0.5f);
-        Widgets.Label(new Rect(x, y - 2f, nameWidth + 4f, 30f), fixer.Name);
-        Text.Font = GameFont.Small;
+        float nameWidth = NetrunUI.NamePlate(x, y - 3f, fixer.Name, stripe, GameFont.Medium, width * 0.5f);
         float chipX = x + nameWidth + 10f;
         chipX += NetrunUI.Chip(chipX, y + 4f, fixer.SpecialtyLabel.ToUpper(), SpecialtyColor(fixer.Specialty), fixer.SpecialtyDescription) + 6f;
         chipX += NetrunUI.Chip(chipX, y + 4f, fixer.TraitLabel.ToUpper(), TraitColor(fixer), fixer.TraitDescription) + 6f;

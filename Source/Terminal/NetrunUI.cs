@@ -218,8 +218,10 @@ public static class NetrunUI
     {
         long key = Key(r);
         float now = Time.realtimeSinceStartup;
-        bool running = Sweeps.TryGetValue(key, out float start) && now - start < duration;
-        if (!running && HoverTime(r) is >= 0f and < 0.05f)
+        bool known = Sweeps.TryGetValue(key, out float start);
+        bool running = known && now - start < duration;
+        // A new sweep only when the mouse comes in again and the last one has had a moment to rest.
+        if (!running && HoverTime(r) is >= 0f and < 0.05f && (!known || now - start > duration + 0.6f))
         {
             if (Sweeps.Count > 300)
                 Sweeps.Clear();
@@ -305,10 +307,13 @@ public static class NetrunUI
     {
         if (!NetrunMod.Settings.Animations || t < 0f || t > duration)
             return;
-        float y = r.y + r.height * (t / duration);
-        GUI.color = new Color(color.r, color.g, color.b, 0.12f);
-        GUI.DrawTexture(new Rect(r.x, Mathf.Max(r.y, y - 12f), r.width, Mathf.Min(12f, y - r.y)), BaseContent.WhiteTex);
-        GUI.color = new Color(color.r, color.g, color.b, 0.7f);
+        float k = t / duration;
+        float eased = k * k * (3f - 2f * k);
+        float env = Mathf.Sin(k * Mathf.PI);
+        float y = r.y + r.height * eased;
+        GUI.color = new Color(color.r, color.g, color.b, 0.12f * env);
+        GUI.DrawTexture(new Rect(r.x, Mathf.Max(r.y, y - 16f), r.width, Mathf.Min(16f, y - r.y)), BaseContent.WhiteTex);
+        GUI.color = new Color(color.r, color.g, color.b, 0.7f * env);
         GUI.DrawTexture(new Rect(r.x, y, r.width, 1f), BaseContent.WhiteTex);
         GUI.color = Color.white;
     }
@@ -501,11 +506,51 @@ public static class NetrunUI
 
     public static void Bar(Rect rect, float fraction, Color color)
     {
+        fraction = Mathf.Clamp01(fraction);
         Widgets.DrawBoxSolid(rect, BarBack);
-        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, rect.width * Mathf.Clamp01(fraction), rect.height), color);
-        GUI.color = new Color(1f, 1f, 1f, 0.2f);
+        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, rect.width, 1f), new Color(0f, 0f, 0f, 0.5f));
+        float w = Mathf.Round(rect.width * fraction);
+        if (w > 0f)
+        {
+            var fill = new Rect(rect.x, rect.y, w, rect.height);
+            Widgets.DrawBoxSolid(fill, new Color(color.r * 0.8f, color.g * 0.8f, color.b * 0.8f, color.a));
+            Widgets.DrawBoxSolid(new Rect(fill.x, fill.y, fill.width, Mathf.Ceil(fill.height / 2f)), color);
+            if (rect.height >= 6f)
+                Widgets.DrawBoxSolid(new Rect(fill.x, fill.y, fill.width, 1f), new Color(1f, 1f, 1f, 0.25f));
+            if (w > 3f && fraction < 1f)
+            {
+                GUI.color = new Color(color.r, color.g, color.b, 0.45f);
+                GUI.DrawTexture(new Rect(fill.xMax - 6f, fill.y - 4f, 12f, fill.height + 8f), GlowTex);
+                Widgets.DrawBoxSolid(new Rect(fill.xMax - 2f, fill.y, 2f, fill.height), new Color(1f, 1f, 1f, 0.6f));
+            }
+        }
+        // Segment ticks every tenth (every quarter on short bars).
+        int segments = rect.width >= 120f ? 10 : 4;
+        for (int i = 1; i < segments; i++)
+        {
+            float x = Mathf.Round(rect.x + rect.width * i / segments);
+            Widgets.DrawBoxSolid(new Rect(x, rect.y, 1f, rect.height), new Color(0f, 0f, 0f, 0.35f));
+        }
+        GUI.color = new Color(1f, 1f, 1f, 0.16f);
         Widgets.DrawBox(rect);
         GUI.color = Color.white;
+    }
+
+    /// <summary>A name on a plate: a dark box with a colored bar and corner ticks, the name in the given font.</summary>
+    public static float NamePlate(float x, float y, string name, Color color, GameFont font = GameFont.Medium, float maxWidth = 9999f)
+    {
+        Text.Font = font;
+        float w = Mathf.Min(Text.CalcSize(name).x + 22f, maxWidth);
+        float h = font == GameFont.Medium ? 30f : 24f;
+        var r = new Rect(x, y, w, h);
+        Widgets.DrawBoxSolid(r, new Color(color.r * 0.15f, color.g * 0.15f, color.b * 0.15f, 0.9f));
+        Widgets.DrawBoxSolid(new Rect(r.x, r.y, 3f, r.height), color);
+        Brackets(r, new Color(color.r, color.g, color.b, 0.7f), 1.5f, 7f);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(r.x + 10f, r.y, r.width - 12f, r.height), name.Truncate(r.width - 12f));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        return w;
     }
 
     /// <summary>A section title with a count and an accent line under it.</summary>

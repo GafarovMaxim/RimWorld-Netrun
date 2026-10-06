@@ -592,6 +592,9 @@ public partial class Dialog_NetTerminal : Window
         }
 
         Text.Anchor = TextAnchor.UpperLeft;
+        float since = Time.realtimeSinceStartup - _titleChangedAt;
+        if (NetrunMod.Settings.Animations && since < 0.3f)
+            NetrunUI.Glitch(rect, since / 0.3f, (int)_view * 31 + 7, 5);
     }
 
     /// <summary>From the Gateway's report button: the Archive on the dive reports tab.</summary>
