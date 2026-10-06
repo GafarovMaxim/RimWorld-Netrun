@@ -281,6 +281,13 @@ public partial class Dialog_NetTerminal : Window
             _view = _viewBeforeHelp;
     }
 
+    /// <summary>The Gateway's home node: back to the main screen.</summary>
+    public void GoHome()
+    {
+        _view = View.Map;
+        _archiveFromGateway = false;
+    }
+
     /// <summary>A link in the terminal's text: the Cyberpedia on that page (in the open terminal).</summary>
     public static void OpenPage(HelpPageDef page)
     {

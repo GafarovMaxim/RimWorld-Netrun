@@ -32,7 +32,7 @@
   <NR_DiveInfo_Memory>something valuable?</NR_DiveInfo_Memory>
   <NR_DiveInfo_Lobby>safe, you can leave</NR_DiveInfo_Lobby>
   <NR_DiveInfo_Exit>fast way out</NR_DiveInfo_Exit>
-  <NR_DiveInfo_Here>◉ you are here</NR_DiveInfo_Here>
+  <NR_DiveInfo_Here>▶ YOU ARE HERE</NR_DiveInfo_Here>
   <NR_DiveAct_Move>▶ Move</NR_DiveAct_Move>
   <NR_DiveActTip_Move>Move to the next element.</NR_DiveActTip_Move>
   <NR_DiveAct_Scan>◎ Scan</NR_DiveAct_Scan>
@@ -250,4 +250,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_GatewayNoReports>No dives yet.</NR_GatewayNoReports>
   <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>
   <NR_DiveLogBurns>Neural feedback burns {0}: {1} small burns.</NR_DiveLogBurns>
+  <NR_GatewayHome>Home</NR_GatewayHome>
+  <NR_GatewayHomeTip>Your home node: back to the terminal's main screen.</NR_GatewayHomeTip>
 </LanguageData>

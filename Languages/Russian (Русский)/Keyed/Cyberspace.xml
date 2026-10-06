@@ -24,7 +24,7 @@
   <NR_DiveElement_Exit>Выход</NR_DiveElement_Exit>
   <NR_DiveInfo_Hidden>скрыто (сканировать)</NR_DiveInfo_Hidden>
   <NR_DiveInfo_Open>открыты</NR_DiveInfo_Open>
-  <NR_DiveInfo_Gate>Wall, сила {0}</NR_DiveInfo_Gate>
+  <NR_DiveInfo_Gate>Стена, сила {0}</NR_DiveInfo_Gate>
   <NR_DiveInfo_Broken>сломан</NR_DiveInfo_Broken>
   <NR_DiveInfo_Ice>Убийца, сила {0}</NR_DiveInfo_Ice>
   <NR_DiveInfo_Looted>скачано</NR_DiveInfo_Looted>
@@ -32,7 +32,7 @@
   <NR_DiveInfo_Memory>что-то ценное?</NR_DiveInfo_Memory>
   <NR_DiveInfo_Lobby>безопасно, можно уйти</NR_DiveInfo_Lobby>
   <NR_DiveInfo_Exit>быстрый выход</NR_DiveInfo_Exit>
-  <NR_DiveInfo_Here>◉ вы здесь</NR_DiveInfo_Here>
+  <NR_DiveInfo_Here>▶ ВЫ ЗДЕСЬ</NR_DiveInfo_Here>
   <NR_DiveAct_Move>▶ Двигаться</NR_DiveAct_Move>
   <NR_DiveActTip_Move>Перейти к следующему элементу.</NR_DiveActTip_Move>
   <NR_DiveAct_Scan>◎ Сканировать</NR_DiveAct_Scan>
@@ -250,4 +250,6 @@
   <NR_GatewayNoReports>Нырков ещё не было.</NR_GatewayNoReports>
   <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>
   <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}: небольших ожогов: {1}.</NR_DiveLogBurns>
+  <NR_GatewayHome>Дом</NR_GatewayHome>
+  <NR_GatewayHomeTip>Ваша домашняя нода: назад, на главный экран терминала.</NR_GatewayHomeTip>
 </LanguageData>

@@ -103,7 +103,12 @@ public static class GatewayView
         }
 
         foreach (var p in placed.Where(p => !p.node.Hidden))
-            Widgets.DrawLine(hub, p.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.5f), 1f);
+        {
+            // The line leaves the home node's edge and stops at the circle's rim.
+            Vector2 dir = (p.pos - hub).normalized;
+            DrawLink(hub + dir * 34f, p.pos - dir * p.radius, p.node.Color, p.node.Id);
+        }
+        DrawHome(hub);
 
         foreach (var (node, pos, radius) in placed)
             DrawCircle(node, pos, radius);
@@ -170,16 +175,125 @@ public static class GatewayView
     }
 
     /// <summary>The "space" behind the nodes: a faint grid that moves with the pan.</summary>
+    private static readonly Color GridColor = new(0.22f, 0.78f, 0.38f);
+
+    /// <summary>
+    /// A green grid that pans and zooms with the field. Quietly alive: now and then a packet runs along a line,
+    /// and a soft ripple spreads from a random point.
+    /// </summary>
     private static void DrawGrid(Rect rect)
     {
         float step = 40f * _zoom;
-        var color = new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.12f);
         float ox = Mathf.Repeat(_pan.x, step);
         float oy = Mathf.Repeat(_pan.y, step);
-        for (float x = ox; x < rect.width; x += step)
-            Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), color);
-        for (float y = oy; y < rect.height; y += step)
-            Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), color);
+        int ix = Mathf.FloorToInt(_pan.x / step);
+        int iy = Mathf.FloorToInt(_pan.y / step);
+        int col = 0;
+        for (float x = ox; x < rect.width; x += step, col++)
+        {
+            bool major = (col - ix) % 5 == 0;
+            Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.16f : 0.08f));
+        }
+        int row = 0;
+        for (float y = oy; y < rect.height; y += step, row++)
+        {
+            bool major = (row - iy) % 5 == 0;
+            Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.16f : 0.08f));
+        }
+        if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
+            return;
+
+        float now = Time.realtimeSinceStartup;
+        // Packets: a few at a time, each on its own line; every time slot picks new lines.
+        for (int k = 0; k < 3; k++)
+        {
+            float period = 3.2f + k * 0.9f;
+            float f = (now + k * 1.7f) / period;
+            int slot = Mathf.FloorToInt(f);
+            float t = f - slot;
+            var rnd = new System.Random(slot * 31 + k * 977);
+            bool horizontal = rnd.Next(2) == 0;
+            bool forward = rnd.Next(2) == 0;
+            float a = 0.55f * Mathf.Sin(t * Mathf.PI);
+            GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a);
+            if (horizontal)
+            {
+                float y = oy + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.height / step)));
+                float x = Mathf.Lerp(-60f, rect.width, forward ? t : 1f - t);
+                GUI.DrawTexture(new Rect(x, y - 0.5f, 60f, 2f), BaseContent.WhiteTex);
+            }
+            else
+            {
+                float x = ox + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / step)));
+                float y = Mathf.Lerp(-60f, rect.height, forward ? t : 1f - t);
+                GUI.DrawTexture(new Rect(x - 0.5f, y, 2f, 60f), BaseContent.WhiteTex);
+            }
+        }
+        // Ripple: every ~7 s a faint double ring spreads over the grid.
+        {
+            const float period = 7f;
+            float f = now / period;
+            int slot = Mathf.FloorToInt(f);
+            float t = f - slot;
+            if (t < 0.45f)
+            {
+                var rnd = new System.Random(slot * 7919);
+                var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+                float r = Mathf.Lerp(10f, Mathf.Max(rect.width, rect.height) * 0.45f, t / 0.45f);
+                GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, 0.12f * (1f - t / 0.45f));
+                GUI.DrawTexture(new Rect(c.x - r, c.y - r, r * 2f, r * 2f), NetrunUI.ThinRing);
+                GUI.DrawTexture(new Rect(c.x - r * 0.96f, c.y - r * 0.96f, r * 1.92f, r * 1.92f), NetrunUI.ThinRing);
+            }
+        }
+        GUI.color = Color.white;
+    }
+
+    /// <summary>A link from the home node: a soft glow under a thin line, and data packets running out to the node.</summary>
+    private static void DrawLink(Vector2 from, Vector2 to, Color color, int seed)
+    {
+        Widgets.DrawLine(from, to, new Color(color.r, color.g, color.b, 0.10f), 6f);
+        Widgets.DrawLine(from, to, new Color(color.r, color.g, color.b, 0.45f), 1.5f);
+        if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
+            return;
+        float length = Vector2.Distance(from, to);
+        float period = Mathf.Max(1.2f, length / 90f);
+        for (int k = 0; k < 2; k++)
+        {
+            float t = (Time.realtimeSinceStartup / period + k * 0.5f + seed * 0.37f) % 1f;
+            Vector2 p = Vector2.Lerp(from, to, t);
+            float a = Mathf.Sin(t * Mathf.PI);
+            GUI.color = new Color(color.r, color.g, color.b, 0.4f * a);
+            GUI.DrawTexture(new Rect(p.x - 7f, p.y - 7f, 14f, 14f), NetrunUI.GlowTex);
+            GUI.color = new Color(1f, 1f, 1f, 0.85f * a);
+            GUI.DrawTexture(new Rect(p.x - 2.5f, p.y - 2.5f, 5f, 5f), Disc);
+        }
+        GUI.color = Color.white;
+    }
+
+    /// <summary>The home node at the hub: back to the terminal's main screen.</summary>
+    private static void DrawHome(Vector2 hub)
+    {
+        const float size = 54f;
+        var r = new Rect(hub.x - size / 2f, hub.y - size / 2f, size, size);
+        float lit = NetrunUI.HoverFade(r);
+        Color c = NetrunUI.Accent;
+        if (lit > 0f)
+            NetrunUI.Glow(r, c, 0.8f * lit, 12f);
+        Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
+        NetrunUI.Brackets(r, c, 2.5f, 14f);
+        GUI.DrawTexture(r.ContractedBy(10f), NetrunTex.NetTerminal);
+        NetrunUI.ScanlineOnce(r.ContractedBy(3f), c, NetrunUI.HoverTime(r));
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperCenter;
+        Widgets.Label(new Rect(r.x - 30f, r.yMax + 4f, r.width + 60f, 18f), "NR_GatewayHome".Translate().Colorize(c));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        NetrunUI.Tip(r, "NR_GatewayHomeTip".Translate());
+        if (Widgets.ButtonInvisible(r))
+        {
+            SoundDefOf.Click.PlayOneShotOnCamera();
+            Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.GoHome();
+        }
     }
 
     private static void DrawCircle(ExternalNode node, Vector2 pos, float radius)

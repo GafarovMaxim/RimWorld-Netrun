@@ -14,9 +14,9 @@ public static class DiveView
 {
     private const float PanelWidth = 290f;
     private const float MinBoxWidth = 116f;
-    private const float MaxBoxWidth = 168f;
+    private const float MaxBoxWidth = 190f;
     private const float MinBoxHeight = 70f;
-    private const float MaxBoxHeight = 116f;
+    private const float MaxBoxHeight = 132f;
     private const float TraceGaugeMax = 20f;
 
     private static Vector2 _panelScroll;
@@ -74,7 +74,7 @@ public static class DiveView
         Text.Font = GameFont.Tiny;
         float boxH = MinBoxHeight;
         for (int i = 0; i < n; i++)
-            boxH = Mathf.Max(boxH, 30f + Text.CalcHeight(ElementInfo(elements[i], i == session.Position), boxW - 12f));
+            boxH = Mathf.Max(boxH, HeaderHeight(elements[i], boxW) + 12f + (elements[i].Kind is DiveElementKind.Gate or DiveElementKind.Ice ? 10f : 0f) + Text.CalcHeight(ElementInfo(elements[i]), boxW - 16f));
         boxH = Mathf.Min(boxH, MaxBoxHeight);
         Text.Font = GameFont.Small;
 
@@ -107,47 +107,79 @@ public static class DiveView
             DrawStep(boxes[i], elements[i], i == session.Position, i < session.Position);
     }
 
+    /// <summary>Header height: the title wraps onto a second line instead of being cut.</summary>
+    private static float HeaderHeight(DiveElement e, float boxW)
+    {
+        Text.Font = GameFont.Tiny;
+        float h = Text.CalcHeight(DiveSession.ElementLabel(e).ToUpper(), boxW - 2f - 30f - 18f);
+        return Mathf.Clamp(h + 6f, 24f, 36f);
+    }
+
     private static void DrawStep(Rect box, DiveElement e, bool here, bool passed)
     {
         Color color = ElementColor(e);
         float pulse = here && NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f) : 0.5f;
         if (here)
-            Widgets.DrawBoxSolid(box.ExpandedBy(5f), new Color(color.r, color.g, color.b, 0.08f + 0.12f * pulse));
+            NetrunUI.Glow(box, color, 0.35f + 0.3f * pulse, 10f);
         Widgets.DrawBoxSolid(box, NetrunUI.BgWindow);
         if (here)
-            Widgets.DrawBoxSolid(box, new Color(color.r, color.g, color.b, 0.14f));
-        float alpha = passed ? 0.55f : 1f;
+            Widgets.DrawBoxSolid(box, new Color(color.r, color.g, color.b, 0.12f));
+        float alpha = passed ? 0.5f : 1f;
         Color edge = new(color.r, color.g, color.b, alpha * (e.Hidden ? 0.6f : 1f));
         GUI.color = edge;
         Widgets.DrawBox(box, here ? 2 : 1);
         GUI.color = Color.white;
         Corners(box, edge, here ? 10f : 7f);
 
-        // Header strip: icon and title.
-        var header = new Rect(box.x + 1f, box.y + 1f, box.width - 2f, 22f);
-        Widgets.DrawBoxSolid(header, new Color(color.r, color.g, color.b, 0.16f * alpha));
+        // Header strip: icon and title (wraps to two lines), the state mark on the right.
+        Text.Font = GameFont.Tiny;
+        float hh = HeaderHeight(e, box.width);
+        var header = new Rect(box.x + 1f, box.y + 1f, box.width - 2f, hh);
+        Widgets.DrawBoxSolid(header, new Color(color.r, color.g, color.b, 0.18f * alpha));
         (Texture2D icon, bool tint) = ElementIcon(e);
         float tx = header.x + 6f;
         if (icon != null)
         {
             GUI.color = tint ? edge : new Color(1f, 1f, 1f, alpha);
-            GUI.DrawTexture(new Rect(header.x + 4f, header.y + 3f, 16f, 16f), icon);
+            GUI.DrawTexture(new Rect(header.x + 4f, header.center.y - 10f, 20f, 20f), icon);
             GUI.color = Color.white;
-            tx += 18f;
+            tx += 24f;
         }
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleLeft;
         string title = DiveSession.ElementLabel(e).ToUpper();
-        Widgets.Label(new Rect(tx, header.y, header.xMax - tx - 18f, header.height), title.Truncate(header.xMax - tx - 18f).Colorize(edge));
+        Widgets.Label(new Rect(tx, header.y, header.xMax - tx - 18f, header.height), title.Colorize(edge));
         string state = e.Hidden ? "?" : passed || e.Cleared && e.Kind != DiveElementKind.Lobby ? "✓" : e.Blocks ? "■" : string.Empty;
         Text.Anchor = TextAnchor.MiddleRight;
         Widgets.Label(new Rect(header.xMax - 18f, header.y, 14f, header.height), state.Colorize(edge));
         Text.Anchor = TextAnchor.UpperLeft;
 
-        string info = ElementInfo(e, here);
-        Widgets.Label(new Rect(box.x + 6f, header.yMax + 3f, box.width - 12f, box.height - header.height - 6f),
-            info.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
+        // Body: the info, a little larger spacing; strength as pips under it.
+        string info = ElementInfo(e);
+        var body = new Rect(box.x + 8f, header.yMax + 6f, box.width - 16f, box.yMax - header.yMax - 10f);
+        Widgets.Label(body, info.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
+        if (!e.Hidden && !e.Cleared && e.Strength > 0 && e.Kind is DiveElementKind.Gate or DiveElementKind.Ice)
+        {
+            int pips = Mathf.Clamp(e.Strength, 1, 10);
+            float py = box.yMax - 11f;
+            for (int i = 0; i < pips; i++)
+                Widgets.DrawBoxSolid(new Rect(body.x + i * 9f, py, 6f, 5f), new Color(color.r, color.g, color.b, alpha));
+        }
         Text.Font = GameFont.Small;
+
+        // "You are here": a tag above the box instead of a line inside it.
+        if (here)
+        {
+            Text.Font = GameFont.Tiny;
+            string tag = "NR_DiveInfo_Here".Translate();
+            float tw = Text.CalcSize(tag).x + 12f;
+            var tagRect = new Rect(box.x, box.y - 22f, tw, 18f);
+            Widgets.DrawBoxSolid(tagRect, new Color(color.r, color.g, color.b, 0.25f + 0.2f * pulse));
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(tagRect, tag.Colorize(Color.white));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
         NetrunUI.Tip(box, title + "\n" + info);
     }
 
@@ -165,7 +197,7 @@ public static class DiveView
         Widgets.DrawBoxSolid(new Rect(r.xMax, r.yMax + 2f - len, t, len), color);
     }
 
-    private static string ElementInfo(DiveElement e, bool here)
+    private static string ElementInfo(DiveElement e)
     {
         string info = e.Hidden
             ? "NR_DiveInfo_Hidden".Translate()
@@ -176,7 +208,7 @@ public static class DiveView
                 DiveElementKind.Files or DiveElementKind.Memory => e.Looted ? "NR_DiveInfo_Looted".Translate() : ("NR_DiveInfo_" + e.Kind).Translate(),
                 _ => ("NR_DiveInfo_" + e.Kind).Translate(),
             };
-        return here ? info + "\n" + "NR_DiveInfo_Here".Translate() : info;
+        return info;
     }
 
     // ---- HUD panel ----
