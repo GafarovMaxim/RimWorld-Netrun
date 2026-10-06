@@ -22,6 +22,27 @@ public partial class Dialog_NetTerminal
     private Rect _guideCard;
     private Rect _guideBack, _guideNext, _guideHelp, _guideExit;
 
+    private static readonly Texture2D GuideIcon = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Guide", reportFailure: false);
+
+    /// <summary>The book button; lit and pulsing while the guide is on (pressing it leaves the guide).</summary>
+    private bool GuideIconButton(Rect rect)
+    {
+        Color c = _guide ? NetrunUI.Warn : NetrunUI.Ok;
+        if (_guide)
+        {
+            float p = NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 4f) : 1f;
+            Widgets.DrawBoxSolid(rect.ExpandedBy(4f), new Color(c.r, c.g, c.b, 0.25f + 0.3f * p));
+        }
+        bool clicked = NetrunUI.Button(rect, GuideIcon == null ? "◎" : string.Empty, c, true, (_guide ? "NR_GuideButtonLeaveTip" : "NR_GuideButtonTip").Translate());
+        if (GuideIcon != null)
+        {
+            GUI.color = c;
+            GUI.DrawTexture(rect.ContractedBy(5f), GuideIcon);
+            GUI.color = Color.white;
+        }
+        return clicked;
+    }
+
     private void ToggleGuide()
     {
         _guide = !_guide;
@@ -34,6 +55,12 @@ public partial class Dialog_NetTerminal
     /// <summary>Esc leaves the guide (or closes the card) instead of closing the terminal.</summary>
     public override void OnCancelKeyPressed()
     {
+        if (_view == View.Help && !_guide)
+        {
+            LeaveHelp();
+            Event.current.Use();
+            return;
+        }
         if (_guide)
         {
             if (_guideArea != null)
@@ -73,7 +100,7 @@ public partial class Dialog_NetTerminal
                         _guideArea = null;
                 }
                 else if (_guideHelp.Contains(m) && _guideArea.helpPage != null)
-                    Find.WindowStack.Add(new Dialog_NetHelp(HelpContext, OpenScreenByName, _guideArea.helpPage));
+                    OpenHelp(_guideArea.helpPage);
                 else if (_guideExit.Contains(m))
                     _guide = false;
                 SoundDefOf.Click.PlayOneShotOnCamera();
@@ -118,7 +145,7 @@ public partial class Dialog_NetTerminal
         if (!_guide)
             return;
         List<(GuideAreaDef def, Rect rect)> areas = AreasNow();
-        Widgets.DrawBoxSolid(inRect, new Color(0f, 0f, 0f, 0.45f));
+        Widgets.DrawBoxSolid(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, inRect.height - TitleHeight), new Color(0f, 0f, 0f, 0.45f));
         Vector2 mouse = Event.current.mousePosition;
         string pulse = _guideArea != null && _guideStep < _guideArea.steps.Count ? _guideArea.steps[_guideStep].highlight : null;
         HelpProgress progress = HelpProgress.Get();
@@ -139,7 +166,7 @@ public partial class Dialog_NetTerminal
             GUI.color = Color.white;
 
             // The number badge on the corner; seen areas get a check.
-            var badge = new Rect(rect.x - 9f, rect.y - 9f, 20f, 20f);
+            var badge = new Rect(Mathf.Clamp(rect.x - 9f, inRect.x + 3f, inRect.xMax - 23f), Mathf.Clamp(rect.y - 9f, inRect.y + TitleHeight + 3f, inRect.yMax - 23f), 20f, 20f);
             GUI.color = progress?.GuideAreaSeen(def) == true ? NetrunUI.Ok : c;
             GUI.DrawTexture(badge, NetrunUI.Disc);
             GUI.color = Color.white;
@@ -157,7 +184,7 @@ public partial class Dialog_NetTerminal
         string line = "NR_GuideModeLine".Translate(seen, areas.Count);
         Text.Font = GameFont.Tiny;
         float lw = Text.CalcSize(line).x + 20f;
-        var lineRect = new Rect(inRect.x + 14f, inRect.yMax - StatusHeight - 34f, lw, 26f);
+        var lineRect = new Rect(inRect.center.x - lw / 2f, inRect.y + TitleHeight + 6f, lw, 26f);
         NetrunUI.Box(lineRect, NetrunUI.BgWindow, NetrunUI.Accent);
         Text.Anchor = TextAnchor.MiddleCenter;
         Widgets.Label(lineRect, line);

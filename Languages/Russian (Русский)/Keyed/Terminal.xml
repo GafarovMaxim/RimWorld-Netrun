@@ -168,24 +168,21 @@
   <NR_HeatV2AdviceNear>сбросьте след ниже {0}, пока не пришёл уровень «{1}».</NR_HeatV2AdviceNear>
   <NR_HeatV2AdviceOk>след под контролем, до нуля {0}.</NR_HeatV2AdviceOk>
   <NR_HeatV2AdviceClean>следа нет. Хорошее время для нырка.</NR_HeatV2AdviceClean>
-  <NR_HelpTitle>NETRUN // СПРАВКА</NR_HelpTitle>
-  <NR_HelpClose>Закрыть (Esc)</NR_HelpClose>
-  <NR_HelpSearch>Поиск по справке…</NR_HelpSearch>
+  <NR_HelpTitle>NETRUN // КИБЕРПЕДИЯ</NR_HelpTitle>
+  <NR_HelpSearch>Поиск по Киберпедии…</NR_HelpSearch>
   <NR_HelpTopics>Темы</NR_HelpTopics>
   <NR_HelpResults>Найдено</NR_HelpResults>
   <NR_HelpNoResults>Ничего не найдено.</NR_HelpNoResults>
   <NR_HelpHere>вы здесь</NR_HelpHere>
   <NR_HelpNew>новое</NR_HelpNew>
   <NR_HelpLocked>Откроется, когда встретите это в игре.</NR_HelpLocked>
-  <NR_HelpCrumbRoot>Справка</NR_HelpCrumbRoot>
+  <NR_HelpCrumbRoot>Киберпедия</NR_HelpCrumbRoot>
   <NR_HelpTips>Советы</NR_HelpTips>
   <NR_HelpSeeAlso>Смотрите также</NR_HelpSeeAlso>
   <NR_HelpInThisTopic>В этой теме</NR_HelpInThisTopic>
   <NR_HelpBack>◄ Назад</NR_HelpBack>
   <NR_HelpForward>Вперёд ►</NR_HelpForward>
-  <NR_HelpOpenedFrom>Справка открыта с экрана «{0}» · статьи открываются по мере игры</NR_HelpOpenedFrom>
-  <NR_HelpEsc>Esc: закрыть</NR_HelpEsc>
-  <NR_HelpButtonTip>Справка по этому экрану (F1)</NR_HelpButtonTip>
+  <NR_HelpButtonTip>Киберпедия по этому экрану (F1)</NR_HelpButtonTip>
   <NR_HelpCtx_Core>Ядро</NR_HelpCtx_Core>
   <NR_HelpCtx_Onboarding>Добро пожаловать в сеть</NR_HelpCtx_Onboarding>
   <NR_HelpCtx_Heat>Heat и след</NR_HelpCtx_Heat>
@@ -198,15 +195,18 @@
   <NR_HelpCtx_Dive>Нырок</NR_HelpCtx_Dive>
   <NR_HelpCtx_Settings>Настройки мода</NR_HelpCtx_Settings>
   <NR_HelpCtx_DiveReport>Итоги вылазки</NR_HelpCtx_DiveReport>
-  <NR_GuideButton>◎ Гайд</NR_GuideButton>
-  <NR_GuideButtonTip>Гайд по экрану: области подсвечиваются, клик по области — короткий разбор. Esc — выйти.</NR_GuideButtonTip>
-  <NR_GuideModeLine>РЕЖИМ ГАЙДА: наведите на область и кликните · Esc выйти · просмотрено {0}/{1}</NR_GuideModeLine>
+  <NR_GuideButtonTip>Гайд по экрану: области подсвечиваются, клик по области — короткий разбор.</NR_GuideButtonTip>
+  <NR_GuideModeLine>ГАЙД: наведите на область и кликните · кнопка-книжка или Esc — выход · просмотрено {0}/{1}</NR_GuideModeLine>
   <NR_GuideCardHeader>ГАЙД ПО ЭКРАНУ · {0} / {1}</NR_GuideCardHeader>
   <NR_GuideStep>шаг {0}/{1}</NR_GuideStep>
   <NR_GuideTry>Попробуйте:</NR_GuideTry>
   <NR_GuideBack>◄ Назад</NR_GuideBack>
   <NR_GuideNext>Далее ►</NR_GuideNext>
   <NR_GuideDone>Готово ✔</NR_GuideDone>
-  <NR_GuideHelp>Справка ↗</NR_GuideHelp>
+  <NR_GuideHelp>Киберпедия ↗</NR_GuideHelp>
   <NR_GuideExit>Выход (Esc)</NR_GuideExit>
+  <NR_HelpBackTo>К: {0}</NR_HelpBackTo>
+  <NR_HelpLeaveTip>Назад к экрану, откуда открыли (Esc)</NR_HelpLeaveTip>
+  <NR_GuideButtonLeaveTip>Выйти из гайда (Esc)</NR_GuideButtonLeaveTip>
+  <NR_HelpCtx_Help>Киберпедия</NR_HelpCtx_Help>
 </LanguageData>

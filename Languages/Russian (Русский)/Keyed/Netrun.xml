@@ -91,9 +91,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsReportInfoDesc>Нашли ошибку? Скопируйте сведения и вставьте в баг-репорт на GitHub вместе с Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Скопировать сведения для отчёта</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Скопировано в буфер обмена.</NR_SettingsReportCopied>
-  <NR_SettingsUnlockHelp>Открыть всю справку</NR_SettingsUnlockHelp>
+  <NR_SettingsUnlockHelp>Открыть всю Киберпедию</NR_SettingsUnlockHelp>
   <NR_SettingsUnlockHelpTip>Открывает статьи-спойлеры (босс-нода, хакерская группа…) в этой игре.</NR_SettingsUnlockHelpTip>
-  <NR_SettingsUnlockHelpDone>Все статьи справки открыты.</NR_SettingsUnlockHelpDone>
+  <NR_SettingsUnlockHelpDone>Все статьи Киберпедии открыты.</NR_SettingsUnlockHelpDone>
   <NR_SettingsTitle>NETRUN // НАСТРОЙКИ</NR_SettingsTitle>
   <NR_SettingsDifficultyName_Easy>Лёгкий</NR_SettingsDifficultyName_Easy>
   <NR_SettingsDifficultyName_Normal>Обычный</NR_SettingsDifficultyName_Normal>

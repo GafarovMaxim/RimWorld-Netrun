@@ -26,6 +26,13 @@ public class HelpPageDef : Def
     public List<string> contexts = [];
     /// <summary>A spoiler page stays locked until this flag is set in the game (HelpProgress).</summary>
     public string unlockFlag;
+    /// <summary>Header and tree icon: see HelpIcons.Resolve ("Name", "Folder/Name", "thing:Def", "heat:Level", "ai:Personality").</summary>
+    public string icon;
+    /// <summary>While locked, show "???" instead of the title.</summary>
+    public bool lockedTitle;
+    /// <summary>How to unlock it, shown while locked.</summary>
+    [MustTranslate]
+    public string lockHint;
 
     public bool IsTopic => parent == null;
 
@@ -89,6 +96,20 @@ public class HelpPageDef : Def
         };
         foreach (KeyValuePair<string, string> kv in values)
             text = text.Replace("{" + kv.Key + "}", kv.Value);
+        // AI archetypes: {aiDesc:Ghost}, {aiService:Ghost}, {aiServiceDesc:Ghost}, {aiFood:Ghost}, {aiHost:Ghost}.
+        text = System.Text.RegularExpressions.Regex.Replace(text, @"\{ai(Desc|Service|ServiceDesc|Food|Host):(\w+)\}", m =>
+        {
+            if (!System.Enum.TryParse(m.Groups[2].Value, out AIPersonality p))
+                return m.Value;
+            return m.Groups[1].Value switch
+            {
+                "Desc" => p.Description(),
+                "Service" => AIBehavior.ServiceLabel(p),
+                "ServiceDesc" => (string)("NR_AIServiceDesc_" + p).Translate(),
+                "Food" => AIBehavior.FoodText(p),
+                _ => DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-",
+            };
+        });
         return text;
     }
 }
@@ -132,6 +153,8 @@ public class HelpProgress : GameComponent
             _flags.Add("group");
         if (AIManager.Get()?.AIs.Count > 0)
             _flags.Add("ai");
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            _flags.Add("ai:" + ai.Personality);
         if (map != null && ColonyGoods.Count(map, NetrunDefOf.NR_BlackBraindanceChip) > 0)
             _flags.Add("blackchip");
     }

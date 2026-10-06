@@ -91,9 +91,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsReportInfoDesc>Found a bug? Copy the info below and paste it into the bug report on GitHub with your Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Copy info for a bug report</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Copied to the clipboard.</NR_SettingsReportCopied>
-  <NR_SettingsUnlockHelp>Open the whole help</NR_SettingsUnlockHelp>
+  <NR_SettingsUnlockHelp>Open the whole Cyberpedia</NR_SettingsUnlockHelp>
   <NR_SettingsUnlockHelpTip>Unlocks the spoiler articles (boss node, hacker group…) in this game.</NR_SettingsUnlockHelpTip>
-  <NR_SettingsUnlockHelpDone>All help articles are open.</NR_SettingsUnlockHelpDone>
+  <NR_SettingsUnlockHelpDone>All Cyberpedia articles are open.</NR_SettingsUnlockHelpDone>
   <NR_SettingsTitle>NETRUN // SETTINGS</NR_SettingsTitle>
   <NR_SettingsDifficultyName_Easy>Easy</NR_SettingsDifficultyName_Easy>
   <NR_SettingsDifficultyName_Normal>Normal</NR_SettingsDifficultyName_Normal>

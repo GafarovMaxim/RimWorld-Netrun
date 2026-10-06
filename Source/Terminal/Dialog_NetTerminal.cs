@@ -23,6 +23,7 @@ public partial class Dialog_NetTerminal : Window
         Server,
         Studio,
         Gateway,
+        Help,
     }
 
     private const float TitleHeight = 44f;
@@ -38,6 +39,8 @@ public partial class Dialog_NetTerminal : Window
     private Vector2 _contractsScroll;
     private Vector2 _aiScroll;
     private Vector2 _studioScroll;
+    private readonly HelpBrowser _help = new();
+    private View _viewBeforeHelp = View.Map;
 
     /// <summary>Smallest size the player can drag the window down to.</summary>
     private static readonly Vector2 MinSize = new(860f, 640f);
@@ -98,6 +101,12 @@ public partial class Dialog_NetTerminal : Window
 
         if (tracker == null)
             return;
+
+        if (_view == View.Help)
+        {
+            _help.Draw(body);
+            return;
+        }
 
         if (_view == View.Map)
         {
@@ -198,6 +207,7 @@ public partial class Dialog_NetTerminal : Window
     /// <summary>The help context of the screen that is open now.</summary>
     private string HelpContext => Dive != null ? "Dive" : _view switch
     {
+        View.Help => "Help",
         View.Map => NetworkGate.Get()?.OnboardingDone == false ? "Onboarding" : "Core",
         View.Core => "Heat",
         _ => _view.ToString(),
@@ -214,14 +224,50 @@ public partial class Dialog_NetTerminal : Window
             OpenNode(view);
     }
 
-    private void OpenHelp() => Dialog_NetHelp.Open(HelpContext, OpenScreenByName);
+    /// <summary>"?" / F1: the Cyberpedia on this screen's page; again (or Esc) goes back where it was opened.</summary>
+    private void OpenHelp(HelpPageDef page = null)
+    {
+        if (_view == View.Help && page == null)
+        {
+            LeaveHelp();
+            return;
+        }
+        if (_view != View.Help)
+        {
+            _help.FromLabel = HelpContext == "Dive" ? (string)"NR_HelpCtx_Dive".Translate() : (string)("NR_HelpCtx_" + HelpContext).Translate();
+            page ??= HelpPageDef.ForContext(HelpContext);
+            _viewBeforeHelp = _view;
+        }
+        _guide = false;
+        _help.OpenScreen = name => OpenScreenByName(name);
+        _help.Leave = LeaveHelp;
+        _help.Show(page);
+        _view = View.Help;
+    }
+
+    private void LeaveHelp()
+    {
+        if (_view == View.Help)
+            _view = _viewBeforeHelp;
+    }
+
+    /// <summary>From outside the terminal (the dive summary): open it on a Cyberpedia page.</summary>
+    public static void OpenCyberpedia(Map map, string context)
+    {
+        if (map == null)
+            return;
+        NetTerminalUtility.OpenTerminal(map);
+        Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenHelp(HelpPageDef.ForContext(context));
+    }
 
     private void DrawTitle(Rect rect, HeatTracker tracker)
     {
         Text.Font = GameFont.Medium;
         Text.Anchor = TextAnchor.MiddleLeft;
         DiveSession dive = Dive;
-        string title = _view == View.Map
+        string title = _view == View.Help
+            ? "NR_HelpTitle".Translate()
+            : _view == View.Map
             ? "NR_TerminalTitleMap".Translate()
             : dive != null
                 ? "NR_TerminalTitleDive".Translate(dive.Node.Name.ToUpper())
@@ -240,19 +286,21 @@ public partial class Dialog_NetTerminal : Window
             float pulse = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f);
             Widgets.DrawBoxSolid(help.ExpandedBy(3f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.15f + 0.25f * pulse));
         }
-        if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, "NR_HelpButtonTip".Translate()))
+        if (_view == View.Help)
+            Widgets.DrawBoxSolid(help, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
+        if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, (_view == View.Help ? "NR_HelpLeaveTip" : "NR_HelpButtonTip").Translate()))
             OpenHelp();
-        string guide = "NR_GuideButton".Translate();
-        float gw = NetrunUI.ButtonWidth(guide) - 8f;
-        var guideRect = new Rect(help.x - 6f - gw, y - 3f, gw, 30f);
+        var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
         if (!_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
             Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.2f * gp));
         }
-        if (NetrunUI.Button(guideRect, guide, _guide ? NetrunUI.Warn : NetrunUI.Ok, true, "NR_GuideButtonTip".Translate()))
+        if (_view != View.Help && GuideIconButton(guideRect))
             ToggleGuide();
-        x = guideRect.x - 10f;
+        x = (_view == View.Help ? help.x : guideRect.x) - 10f;
+        if (_view == View.Help)
+            _help.DrawSearch(new Rect(x - 240f, y - 1f, 240f, 26f));
         if (_view == View.Map)
         {
             // Core: who would dive and whether the pod is ready; before the onboarding is done, "network not active".
