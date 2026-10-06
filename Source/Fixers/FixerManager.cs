@@ -66,7 +66,7 @@ public class FixerManager : GameComponent
 
         _nextRotationTick = Find.TickManager.TicksGame + Settings.rotationDays.RandomInRange * GenDate.TicksPerDay;
 
-        if (notify)
+        if (notify && NetworkGate.IsOpen)
             Messages.Message("NR_FixersRotated".Translate(), MessageTypeDefOf.NeutralEvent, historical: true);
     }
 

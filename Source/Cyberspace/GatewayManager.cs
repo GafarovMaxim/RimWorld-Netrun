@@ -216,6 +216,7 @@ public class GatewayManager : GameComponent
 
     public void Dive(Map map, ExternalNode node)
     {
+        NetworkGate.Notify();
         Pawn runner = Runner(map, out _);
         if (runner == null)
             return;

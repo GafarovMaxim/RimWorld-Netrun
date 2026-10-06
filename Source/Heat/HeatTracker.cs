@@ -41,6 +41,7 @@ public class HeatTracker : GameComponent
     {
         if (amount <= 0f)
             return;
+        NetworkGate.Notify();
 
         HeatLevel before = Level;
         float old = _heat;
