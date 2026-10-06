@@ -64,12 +64,12 @@ public class DiveReport : IExposable
         => pawn?.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)?.Severity ?? 0f;
 }
 
-/// <summary>"Dive summary": the result, the haul with item icons, costs and consequences.</summary>
+/// <summary>"Dive summary": result, the haul as item tiles, costs and consequences, events; cards in the terminal style.</summary>
 public class Dialog_DiveReport : Window
 {
     private readonly DiveReport _report;
 
-    public override Vector2 InitialSize => new(520f, Mathf.Min(600f, UI.screenHeight - 40f));
+    public override Vector2 InitialSize => new(Mathf.Min(780f, UI.screenWidth - 40f), Mathf.Min(560f, UI.screenHeight - 40f));
     protected override float Margin => 0f;
 
     public Dialog_DiveReport(DiveReport report)
@@ -89,17 +89,23 @@ public class Dialog_DiveReport : Window
             Find.WindowStack.Add(new Dialog_DiveReport(report));
     }
 
+    private static Texture2D Icon(string name) => NetrunTex.CyberIcon(name);
+
     public override void DoWindowContents(Rect inRect)
     {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f);
+        Widgets.DrawBox(inRect);
+        GUI.color = Color.white;
         Rect r = inRect.ContractedBy(14f);
         DiveReport d = _report;
 
+        // Title: icon, name, "?".
         float titleX = r.x;
         if (NetrunTex.DiveReport is { } reportIcon)
         {
             GUI.DrawTexture(new Rect(r.x, r.y, 30f, 30f), reportIcon);
-            titleX += 36f;
+            titleX += 38f;
         }
         if (NetrunUI.Button(new Rect(r.xMax - 28f, r.y, 28f, 28f), "?", NetrunUI.Accent, true, "NR_HelpButtonTip".Translate()))
         {
@@ -109,99 +115,160 @@ public class Dialog_DiveReport : Window
         Text.Font = GameFont.Medium;
         Widgets.Label(new Rect(titleX, r.y, r.xMax - titleX - 34f, 32f), "NR_ReportTitle".Translate(d.NodeName.ToUpper()).Colorize(NetrunUI.Accent));
         Text.Font = GameFont.Small;
-        float y = r.y + 36f;
+        float y = r.y + 38f;
 
-        (string result, Color color) = d.Success
-            ? ("NR_ReportSuccess".Translate(), NetrunUI.Ok)
-            : d.Retreated ? ("NR_ReportRetreat".Translate(), NetrunUI.Warn) : ("NR_ReportFail".Translate(), NetrunUI.Bad);
-        float x = r.x + NetrunUI.Chip(r.x, y, result.ToUpper(), color) + 8f;
-        Widgets.Label(new Rect(x, y, r.xMax - x, 22f), "NR_ReportRunner".Translate(d.RunnerName, d.Turns).Colorize(NetrunUI.Muted));
-        y += 30f;
+        // Result strip: status chip with icon, runner and turns.
+        (string result, Color color, string icon) = d.Success
+            ? ((string)"NR_ReportSuccess".Translate(), NetrunUI.Ok, "Action_Exit")
+            : d.Retreated ? ((string)"NR_ReportRetreat".Translate(), NetrunUI.Warn, "Action_Move") : ((string)"NR_ReportFail".Translate(), NetrunUI.Bad, "Dive_BLACKICE");
+        var strip = new Rect(r.x, y, r.width, 34f);
+        Widgets.DrawBoxSolid(strip, new Color(color.r, color.g, color.b, 0.12f));
+        Widgets.DrawBoxSolid(new Rect(strip.x, strip.y, 3f, strip.height), color);
+        if (Icon(icon) is { } statusIcon)
+            GUI.DrawTexture(new Rect(strip.x + 10f, strip.y + 5f, 24f, 24f), statusIcon);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(strip.x + 42f, strip.y, 200f, strip.height), result.ToUpper().Colorize(color));
+        Widgets.Label(new Rect(strip.x + 240f, strip.y, strip.width - 250f, strip.height), "NR_ReportRunner".Translate(d.RunnerName, d.Turns).Colorize(NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperLeft;
+        y = strip.yMax + 10f;
 
-        // The haul, with item icons.
-        y = NetrunUI.Section(new Rect(r.x, y, r.width, 36f), "NR_ReportHaul".Translate());
+        // Two cards: the haul, and costs and consequences; events below across the width.
+        float bottom = r.yMax - 40f;
+        float eventsH = d.Events.Count > 0 ? Mathf.Min(30f + d.Events.Count * 28f, 120f) : 0f;
+        float cardsH = bottom - y - (eventsH > 0f ? eventsH + 10f : 0f);
+        float half = (r.width - 10f) / 2f;
+        DrawHaul(new Rect(r.x, y, half, cardsH), d);
+        DrawCosts(new Rect(r.x + half + 10f, y, half, cardsH), d);
+        if (eventsH > 0f)
+            DrawEvents(new Rect(r.x, y + cardsH + 10f, r.width, eventsH), d);
+
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(r.x, r.yMax - 26f, r.width - 140f, 24f), "NR_ReportSettingHint".Translate().Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        string close = "CloseButton".Translate();
+        float cw = NetrunUI.ButtonWidth(close);
+        if (NetrunUI.Button(new Rect(r.xMax - cw, r.yMax - 32f, cw, 32f), close, NetrunUI.Accent, true))
+            Close();
+    }
+
+    private static Rect Card(Rect rect, string title, Texture2D icon)
+    {
+        NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.1f));
+        Rect inner = rect.ContractedBy(10f);
+        float x = inner.x;
+        if (icon != null)
+        {
+            GUI.DrawTexture(new Rect(inner.x, inner.y + 2f, 22f, 22f), icon);
+            x += 28f;
+        }
+        float y = NetrunUI.Section(new Rect(x, inner.y - 2f, inner.xMax - x, 30f), title);
+        return new Rect(inner.x, y - 4f, inner.width, inner.yMax - y + 4f);
+    }
+
+    private static void DrawHaul(Rect rect, DiveReport d)
+    {
+        Rect r = Card(rect, "NR_ReportHaul".Translate(), Icon("Reward_Valuables"));
         var haul = new List<(ThingDef def, int count)>();
         if (d.Cyberdata > 0) haul.Add((NetrunDefOf.USH_Cyberdata, d.Cyberdata));
         if (d.Advanced > 0) haul.Add((NetrunDefOf.USH_AdvancedCyberdata, d.Advanced));
         if (d.Silver > 0) haul.Add((ThingDefOf.Silver, d.Silver));
         foreach (IGrouping<ThingDef, ThingDef> g in d.Items.GroupBy(i => i))
             haul.Add((g.Key, g.Count()));
+
+        float y = r.y;
         if (haul.Count == 0)
         {
             Widgets.Label(new Rect(r.x, y, r.width, 22f), "NR_ReportNothing".Translate().Colorize(NetrunUI.Muted));
             y += 26f;
         }
-        x = r.x;
-        foreach ((ThingDef def, int count) in haul)
+        // Tiles: a big item icon, the count and the name.
+        float tw = (r.width - 6f) / 2f;
+        for (int i = 0; i < haul.Count; i++)
         {
-            string label = $"{count} × {def.label}";
-            float w = 30f + Text.CalcSize(label).x + 12f;
-            if (x + w > r.xMax)
-            {
-                x = r.x;
-                y += 30f;
-            }
-            var cell = new Rect(x, y, w, 26f);
-            Widgets.ThingIcon(new Rect(x, y + 1f, 24f, 24f), def);
+            (ThingDef def, int count) = haul[i];
+            var tile = new Rect(r.x + i % 2 * (tw + 6f), y + i / 2 * 48f, tw, 42f);
+            Widgets.DrawBoxSolid(tile, NetrunUI.BgWindow);
+            Widgets.ThingIcon(new Rect(tile.x + 5f, tile.y + 5f, 32f, 32f), def);
+            Text.Font = GameFont.Medium;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(x + 28f, y, w - 28f, 26f), label);
-            Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(cell, def.LabelCap);
-            x += w + 6f;
-        }
-        if (haul.Count > 0)
-            y += 32f;
-        if (d.Special)
-        {
-            Widgets.Label(new Rect(r.x, y, r.width, 22f), "NR_ReportSpecial".Translate().Colorize(NetrunUI.Ok));
-            y += 24f;
-        }
-        if (d.LostCyberdata + d.LostAdvanced + d.LostSilver + d.LostItems > 0)
-        {
-            string lost = "NR_ReportLost".Translate(d.LostCyberdata, d.LostAdvanced, d.LostSilver, d.LostItems);
-            float lh = Text.CalcHeight(lost, r.width);
-            Widgets.Label(new Rect(r.x, y, r.width, lh), lost.Colorize(NetrunUI.Bad));
-            y += lh + 4f;
-        }
-
-        // Costs and consequences.
-        y = NetrunUI.Section(new Rect(r.x, y + 4f, r.width, 36f), "NR_ReportCosts".Translate());
-        y = Line(r, y, "NR_ReportCost".Translate(), d.CostPaid.ToString(), NetrunUI.Warn);
-        float heat = d.HeatAfter - d.HeatBefore;
-        y = Line(r, y, "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0} ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})", heat > 0.05f ? NetrunUI.Bad : NetrunUI.Ok);
-        float sick = d.NetsickAfter - d.NetsickBefore;
-        y = Line(r, y, "NR_ReportNetsick".Translate(), $"{d.NetsickBefore.ToStringPercent()} → {d.NetsickAfter.ToStringPercent()} (+{sick.ToStringPercent()})", sick > 0.001f ? NetrunUI.Warn : NetrunUI.Muted);
-        if (d.Xp > 0f)
-            y = Line(r, y, "NR_ReportXp".Translate(), "+" + d.Xp.ToString("0") + " " + SkillDefOf.Intellectual.label, NetrunUI.Ok);
-        if (d.HunterFollowed)
-            y = Line(r, y, "NR_ReportHunter".Translate(), "NR_ReportHunterValue".Translate(), NetrunUI.Bad);
-
-        if (d.Events.Count > 0)
-        {
-            y = NetrunUI.Section(new Rect(r.x, y + 4f, r.width, 36f), "NR_ReportEvents".Translate());
+            Widgets.Label(new Rect(tile.x + 42f, tile.y, tile.width - 44f, 26f), count.ToString().Colorize(NetrunUI.Ok));
             Text.Font = GameFont.Tiny;
-            foreach (string e in d.Events)
-            {
-                float h = Text.CalcHeight("• " + e, r.width);
-                Widgets.Label(new Rect(r.x, y, r.width, h), "• " + e);
-                y += h + 2f;
-            }
+            Widgets.Label(new Rect(tile.x + 42f, tile.y + 22f, tile.width - 44f, 18f), def.LabelCap.ToString().Truncate(tile.width - 46f).Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(tile, def.LabelCap + " ×" + count);
         }
+        y += (haul.Count + 1) / 2 * 48f + 4f;
 
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(r.x, r.yMax - 30f, r.width - 120f, 30f), "NR_ReportSettingHint".Translate().Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        string close = "CloseButton".Translate();
-        float cw = NetrunUI.ButtonWidth(close);
-        if (NetrunUI.Button(new Rect(r.xMax - cw, r.yMax - 34f, cw, 34f), close, NetrunUI.Accent, true))
-            Close();
+        if (d.Special)
+            y = Line(r, y, Icon("Reward_DaemonProgram"), "NR_ReportSpecial".Translate(), NetrunUI.Ok);
+        if (d.LostCyberdata + d.LostAdvanced + d.LostSilver + d.LostItems > 0)
+            Line(r, y, Icon("Dive_Lightning_Red"), "NR_ReportLost".Translate(d.LostCyberdata, d.LostAdvanced, d.LostSilver, d.LostItems), NetrunUI.Bad);
     }
 
-    private static float Line(Rect r, float y, string label, string value, Color color)
+    private static void DrawCosts(Rect rect, DiveReport d)
     {
-        Widgets.Label(new Rect(r.x, y, 180f, 22f), label.Colorize(NetrunUI.Muted));
-        Widgets.Label(new Rect(r.x + 180f, y, r.width - 180f, 22f), value.Colorize(color));
-        return y + 24f;
+        Rect r = Card(rect, "NR_ReportCosts".Translate(), Icon("Dive_Heat"));
+        float y = r.y;
+        y = Row(r, y, NetrunDefOf.USH_Cyberdata.uiIcon, "NR_ReportCost".Translate(), "−" + d.CostPaid, NetrunUI.Warn);
+        float heat = d.HeatAfter - d.HeatBefore;
+        HeatLevel after = HeatLevelUtility.LevelOf(d.HeatAfter);
+        y = Row(r, y, NetrunTex.HeatIcon(after), "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0}  ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})",
+            heat > 0.05f ? NetrunUI.Bad : NetrunUI.Ok);
+        float sick = d.NetsickAfter - d.NetsickBefore;
+        y = Row(r, y, NetrunTex.AIUse, "NR_ReportNetsick".Translate(), $"{d.NetsickBefore.ToStringPercent()} → {d.NetsickAfter.ToStringPercent()}  (+{sick.ToStringPercent()})",
+            sick > 0.001f ? NetrunUI.Warn : NetrunUI.Muted);
+        if (d.Xp > 0f)
+            y = Row(r, y, Icon("Action_Hack"), "NR_ReportXp".Translate(), "+" + d.Xp.ToString("0") + " " + SkillDefOf.Intellectual.label, NetrunUI.Ok);
+        if (d.HunterFollowed)
+            Row(r, y, Icon("Event_HunterICE"), "NR_ReportHunter".Translate(), "NR_ReportHunterValue".Translate(), NetrunUI.Bad);
+    }
+
+    private static void DrawEvents(Rect rect, DiveReport d)
+    {
+        Rect r = Card(rect, "NR_ReportEvents".Translate(), Icon("Event_DataStorm"));
+        float y = r.y;
+        float colW = (r.width - 10f) / 2f;
+        for (int i = 0; i < d.Events.Count; i++)
+        {
+            string e = d.Events[i];
+            int bar = e.IndexOf('|');
+            Texture2D icon = bar > 0 ? Icon(e.Substring(0, bar)) : null;
+            string text = bar > 0 ? e.Substring(bar + 1) : e;
+            var cell = new Rect(r.x + i % 2 * (colW + 10f), y + i / 2 * 26f, colW, 24f);
+            if (icon != null)
+                GUI.DrawTexture(new Rect(cell.x, cell.y + 1f, 22f, 22f), icon);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(cell.x + 28f, cell.y, cell.width - 30f, cell.height), text.Truncate(cell.width - 30f));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(cell, text);
+        }
+    }
+
+    private static float Row(Rect r, float y, Texture2D icon, string label, string value, Color color)
+    {
+        var row = new Rect(r.x, y, r.width, 30f);
+        Widgets.DrawBoxSolid(row, NetrunUI.BgWindow);
+        if (icon != null)
+            GUI.DrawTexture(new Rect(row.x + 5f, row.y + 4f, 22f, 22f), icon);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(row.x + 32f, row.y, 130f, row.height), label.Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        Text.Anchor = TextAnchor.MiddleRight;
+        Widgets.Label(new Rect(row.x + 160f, row.y, row.width - 166f, row.height), value.Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        return y + 34f;
+    }
+
+    private static float Line(Rect r, float y, Texture2D icon, string text, Color color)
+    {
+        float h = Mathf.Max(24f, Text.CalcHeight(text, r.width - 30f));
+        if (icon != null)
+            GUI.DrawTexture(new Rect(r.x, y + 1f, 22f, 22f), icon);
+        Widgets.Label(new Rect(r.x + 28f, y + 2f, r.width - 30f, h), text.Colorize(color));
+        return y + h + 4f;
     }
 }

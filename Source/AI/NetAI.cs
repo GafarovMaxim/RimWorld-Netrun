@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -32,6 +33,8 @@ public class NetAI : IExposable
 
     public AIRequestKind Request;
     public int RequestAmount;
+    /// <summary>The last few requests and how they ended ("✓ ..." / "✗ ..."), newest last.</summary>
+    public List<string> RequestHistory = [];
     public int RequestStartTick;
     public int RequestDeadlineTick;
     public int NextRequestTick;
@@ -115,5 +118,7 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref SeedTowardGhost, "seedTowardGhost");
         Scribe_Values.Look(ref SeedLastQuietDayTick, "seedLastQuietDayTick");
         Scribe_Values.Look(ref NextEventTick, "nextEventTick");
+        Scribe_Collections.Look(ref RequestHistory, "requestHistory", LookMode.Value);
+        RequestHistory ??= [];
     }
 }

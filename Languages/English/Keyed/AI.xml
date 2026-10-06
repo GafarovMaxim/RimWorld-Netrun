@@ -218,4 +218,14 @@
   <NR_ChipAIs>AIs: {0}</NR_ChipAIs>
   <NR_ChipFragments>Fragments: {0}</NR_ChipFragments>
   <NR_AIServiceCost>Costs {0} trust, hunger +{1}.</NR_AIServiceCost>
+  <NR_AICardFood>Eats: {0}</NR_AICardFood>
+  <NR_AICardFedFor>fed for ~{0} days</NR_AICardFedFor>
+  <NR_AICardStarving>starving!</NR_AICardStarving>
+  <NR_AICardFoodTip>"Feed" lowers hunger by {0} and adds {1} trust. Above {2} hunger the AI starves and loses trust every day. In a host it cannot be fed: bring it back to the server.</NR_AICardFoodTip>
+  <NR_AICardRequest>Asks: {0} · {1} left</NR_AICardRequest>
+  <NR_AICardRequestStakes>done: +{0} trust · refused: −{0}</NR_AICardRequestStakes>
+  <NR_AICardNoRequest>No request · next in ~{0}</NR_AICardNoRequest>
+  <NR_AICardRequestSoon>No request · one may come soon</NR_AICardRequestSoon>
+  <NR_AICardRequestTip>Requests come every few days. Do it in time for +{0} trust; if the deadline passes, trust drops by the same.</NR_AICardRequestTip>
+  <NR_AICardHistory>Last:</NR_AICardHistory>
 </LanguageData>

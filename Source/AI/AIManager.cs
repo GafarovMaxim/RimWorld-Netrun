@@ -458,8 +458,16 @@ public class AIManager : GameComponent
         CompleteRequest(ai);
     }
 
+    private static void Remember(NetAI ai, bool done)
+    {
+        ai.RequestHistory.Add((done ? "✓ " : "✗ ") + RequestText(ai));
+        if (ai.RequestHistory.Count > 3)
+            ai.RequestHistory.RemoveAt(0);
+    }
+
     public void CompleteRequest(NetAI ai)
     {
+        Remember(ai, true);
         ai.Request = AIRequestKind.None;
         ai.AddTrust(Settings.requestTrust);
         ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;
@@ -468,6 +476,7 @@ public class AIManager : GameComponent
 
     private void FailRequest(NetAI ai)
     {
+        Remember(ai, false);
         ai.Request = AIRequestKind.None;
         ai.AddTrust(-Settings.requestTrust);
         ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;

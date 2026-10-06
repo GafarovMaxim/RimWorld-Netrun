@@ -97,7 +97,7 @@ public static class AITab
     {
         float textWidth = width - TextIndent - Pad;
         int rows = ButtonRows(Buttons(ai, map, manager), textWidth);
-        float content = 30f + 24f + 26f + 8f + rows * (ButtonHeight + ButtonGap) - ButtonGap + (ai.Escaping ? 22f : 0f);
+        float content = 30f + 24f + 26f + InfoRowsHeight(ai) + 8f + rows * (ButtonHeight + ButtonGap) - ButtonGap + (ai.Escaping ? 22f : 0f);
         return Mathf.Max(PortraitSize, content) + 2 * Pad;
     }
 
@@ -152,6 +152,8 @@ public static class AITab
         Text.Anchor = TextAnchor.UpperLeft;
         y += 26f;
 
+        y = DrawInfoRows(x, y, width, ai);
+
         if (ai.Escaping)
         {
             string escape = "NR_AIEscapeLine".Translate((ai.EscapeAtTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
@@ -160,6 +162,60 @@ public static class AITab
         }
 
         DrawButtons(new Rect(x, y + 8f, width, rect.yMax - y - 8f - Pad), Buttons(ai, map, manager));
+    }
+
+    private const float InfoRow = 22f;
+
+    private static float InfoRowsHeight(NetAI ai) => InfoRow * 2f + (ai.RequestHistory.Count > 0 ? 18f : 0f) + 4f;
+
+    /// <summary>What the AI eats and how hungry it is; its request (deadline, reward, refusal) or when the next one comes; the last requests.</summary>
+    private static float DrawInfoRows(float x, float y, float width, NetAI ai)
+    {
+        AISettingsDef s = NetrunDefOf.NR_AI;
+        Text.Font = GameFont.Tiny;
+        // Food.
+        var food = AIBehavior.Food(ai.Personality);
+        Texture2D foodIcon = food?.thing.uiIcon ?? NetrunTex.AIFeed;
+        float daysLeft = ai.Hunger >= s.starvingHunger ? 0f : (s.starvingHunger - ai.Hunger) / Mathf.Max(0.1f, s.hungerPerDay);
+        string foodLine = "NR_AICardFood".Translate(AIBehavior.FoodText(ai.Personality))
+            + "  " + (ai.Hunger >= s.starvingHunger ? "NR_AICardStarving".Translate().Colorize(NetrunUI.Bad) : "NR_AICardFedFor".Translate(daysLeft.ToString("0.#")).Colorize(NetrunUI.Muted));
+        InfoRowLine(new Rect(x, y, width, InfoRow), foodIcon, foodLine, "NR_AICardFoodTip".Translate(s.feedHungerRelief.ToString("0"), s.feedTrust.ToString("0"), s.starvingHunger.ToString("0")));
+        y += InfoRow;
+        // Request.
+        string reqLine;
+        if (ai.HasRequest)
+        {
+            string left = ai.RequestDeadlineTick > Find.TickManager.TicksGame ? (ai.RequestDeadlineTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "0";
+            reqLine = "NR_AICardRequest".Translate(AIManager.RequestText(ai), left).Colorize(NetrunUI.Warn) + "  " + "NR_AICardRequestStakes".Translate(s.requestTrust.ToString("0")).Colorize(NetrunUI.Muted);
+        }
+        else
+        {
+            int next = ai.NextRequestTick - Find.TickManager.TicksGame;
+            reqLine = (next > 0 ? "NR_AICardNoRequest".Translate(next.ToStringTicksToPeriod()) : "NR_AICardRequestSoon".Translate()).Colorize(NetrunUI.Muted);
+        }
+        InfoRowLine(new Rect(x, y, width, InfoRow), NetrunTex.CyberIcon("Icon_DiveReport") ?? NetrunTex.AIUse, reqLine, "NR_AICardRequestTip".Translate(s.requestTrust.ToString("0")));
+        y += InfoRow;
+        // History.
+        if (ai.RequestHistory.Count > 0)
+        {
+            string history = "NR_AICardHistory".Translate() + " " + string.Join(" · ", ai.RequestHistory.Select(h => h.StartsWith("✓") ? h.Colorize(NetrunUI.Ok) : h.Colorize(NetrunUI.Bad)));
+            var hr = new Rect(x + 22f, y, width - 22f, 18f);
+            Widgets.Label(hr, history.Truncate(hr.width));
+            TooltipHandler.TipRegion(hr, string.Join("\n", ai.RequestHistory));
+            y += 18f;
+        }
+        Text.Font = GameFont.Small;
+        return y + 4f;
+    }
+
+    private static void InfoRowLine(Rect row, Texture2D icon, string text, string tip)
+    {
+        if (icon != null)
+            GUI.DrawTexture(new Rect(row.x, row.y + 2f, 18f, 18f), icon);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(row.x + 22f, row.y, row.width - 22f, row.height), text.Truncate(row.width - 22f));
+        Text.Anchor = TextAnchor.UpperLeft;
+        TooltipHandler.TipRegion(row, text + "\n\n" + tip);
     }
 
     private static void DrawGauge(Rect rect, string label, float value, Color color, string tip)

@@ -218,4 +218,14 @@
   <NR_ChipAIs>ИИ: {0}</NR_ChipAIs>
   <NR_ChipFragments>Осколки: {0}</NR_ChipFragments>
   <NR_AIServiceCost>Стоит {0} доверия, голод +{1}.</NR_AIServiceCost>
+  <NR_AICardFood>Ест: {0}</NR_AICardFood>
+  <NR_AICardFedFor>сыт ещё ~{0} дн.</NR_AICardFedFor>
+  <NR_AICardStarving>голодает!</NR_AICardStarving>
+  <NR_AICardFoodTip>«Накормить» снижает голод на {0} и даёт {1} доверия. Выше {2} голода ИИ голодает и каждый день теряет доверие. В носителе его не кормят: верните на сервер.</NR_AICardFoodTip>
+  <NR_AICardRequest>Просит: {0} · осталось {1}</NR_AICardRequest>
+  <NR_AICardRequestStakes>выполнено: +{0} доверия · отказ: −{0}</NR_AICardRequestStakes>
+  <NR_AICardNoRequest>Просьб нет · следующая через ~{0}</NR_AICardNoRequest>
+  <NR_AICardRequestSoon>Просьб нет · скоро может появиться</NR_AICardRequestSoon>
+  <NR_AICardRequestTip>Просьбы приходят раз в несколько дней. Выполните вовремя — +{0} доверия; пропустите срок — столько же минус.</NR_AICardRequestTip>
+  <NR_AICardHistory>Было:</NR_AICardHistory>
 </LanguageData>

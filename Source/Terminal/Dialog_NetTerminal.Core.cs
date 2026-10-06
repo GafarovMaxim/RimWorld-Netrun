@@ -127,11 +127,20 @@ public partial class Dialog_NetTerminal
         GUI.color = new Color(1f, 1f, 1f, 0.15f);
         GUI.DrawTexture(box.ContractedBy(size * 0.18f), icon);
         GUI.color = Color.white;
-        Text.Font = GameFont.Medium;
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(box, "?".Colorize(NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
+        if (NetrunTex.CyberIcon("Node_Locked") is { } lockIcon)
+        {
+            GUI.color = new Color(1f, 1f, 1f, 0.8f);
+            GUI.DrawTexture(new Rect(box.center.x - 18f, box.center.y - 18f, 36f, 36f), lockIcon);
+            GUI.color = Color.white;
+        }
+        else
+        {
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(box, "?".Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
         string how = ("NR_NodeLocked_" + view).Translate();
         DrawNodeLabel(pos, box.yMax + 4f, NodeLabel(view).ToUpper(), NetrunUI.Muted, "NR_NodeLockedSub".Translate());
         TooltipHandler.TipRegion(box, how);

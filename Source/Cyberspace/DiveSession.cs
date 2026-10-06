@@ -706,17 +706,17 @@ public class DiveSession : IExposable
             HunterFollowed = hunterFollowed,
         };
         if (HunterSpawned)
-            report.Events.Add("NR_ReportEventHunter".Translate());
+            report.Events.Add("Event_HunterICE|" + "NR_ReportEventHunter".Translate());
         if (RivalTook)
-            report.Events.Add("NR_ReportEventRival".Translate());
+            report.Events.Add("Event_Rival|" + "NR_ReportEventRival".Translate());
         if (HoneypotRevealed)
-            report.Events.Add("NR_ReportEventHoneypot".Translate());
+            report.Events.Add("Event_Honeypot|" + "NR_ReportEventHoneypot".Translate());
         if (Storm)
-            report.Events.Add("NR_ReportEventStorm".Translate());
+            report.Events.Add("Event_DataStorm|" + "NR_ReportEventStorm".Translate());
         if (Node.IsBoss)
-            report.Events.Add("NR_ReportEventBoss".Translate());
+            report.Events.Add("Node_CorpCore|" + "NR_ReportEventBoss".Translate());
         if (Node.CounterHack && success)
-            report.Events.Add("NR_ReportEventCounterHack".Translate());
+            report.Events.Add("Node_Counterhack|" + "NR_ReportEventCounterHack".Translate());
         return report;
     }
 
