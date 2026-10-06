@@ -428,7 +428,7 @@ public static class HeatScreen
         Rect r = Card(rect, "NR_HeatScreenRaises".Translate());
         GUI.BeginGroup(r);
         int week = Find.TickManager.TicksGame - 7 * GenDate.TicksPerDay;
-        List<HeatLogEntry> entries = tracker.Log.Where(e => e.Tick >= week).ToList();
+        List<HeatLogEntry> entries = NetrunUI.Cached("heat.week", () => tracker.Log.Where(e => e.Tick >= week).ToList(), 1f);
         var top = entries.Where(e => e.Amount > 0f)
             .GroupBy(e => e.Text).Select(g => (text: g.Key, sum: g.Sum(e => e.Amount)))
             .OrderByDescending(g => g.sum).Take(5).ToList();

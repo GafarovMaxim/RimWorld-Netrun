@@ -89,6 +89,7 @@ public partial class Dialog_NetTerminal : Window
 
     private void DrawContents(Rect inRect)
     {
+        _drawTimer.Restart();
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.F1)
         {
             OpenHelp();
@@ -100,7 +101,19 @@ public partial class Dialog_NetTerminal : Window
         GuideRegistry.End();
         DrawGuideOverlay(inRect);
         DrawAmbientGlitch(inRect);
+        if (Prefs.DevMode && Event.current.type == EventType.Repaint)
+        {
+            _drawMs = Mathf.Lerp(_drawMs, (float)_drawTimer.Elapsed.TotalMilliseconds, 0.1f);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.LowerRight;
+            Widgets.Label(new Rect(inRect.xMax - 160f, inRect.yMax - StatusHeight - 18f, 156f, 16f), $"dev: draw {_drawMs:0.00} ms".Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
     }
+
+    private readonly System.Diagnostics.Stopwatch _drawTimer = new();
+    private float _drawMs;
 
     /// <summary>In the Red Zone the terminal flickers now and then: a few torn slices for a tenth of a second.</summary>
     private static void DrawAmbientGlitch(Rect rect)
@@ -518,7 +531,8 @@ public partial class Dialog_NetTerminal : Window
         }
 
         // Netsick: how many colonists, the worst severity on hover.
-        List<Pawn> sick = _map.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList();
+        List<Pawn> sick = NetrunUI.Cached("status.sick." + _map.uniqueID,
+            () => _map.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList(), 1f);
         Color sickColor = sick.Count > 0 ? NetrunUI.Warn : NetrunUI.Muted;
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
         Text.Font = GameFont.Tiny;

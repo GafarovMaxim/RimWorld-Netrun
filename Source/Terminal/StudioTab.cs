@@ -34,14 +34,16 @@ public static class StudioTab
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
-        List<Thing> raws = BraindanceEditing.RawRecordings(map).ToList();
-        // Only chip defs, not every haulable thing on the map.
-        List<Thing> chips = map.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceChip)
-            .Concat(map.listerThings.ThingsOfDef(NetrunDefOf.NR_BlackBraindanceChip))
-            .Where(t => t.Spawned && !t.IsForbidden(Faction.OfPlayer)).ToList();
-        List<Pawn> hooked = map.mapPawns.FreeColonistsSpawned
-            .Where(p => p.health.hediffSet.hediffs.Any(h => h is Hediff_Addiction a && a.Chemical == NetrunDefOf.NR_Braindance)
-                        || p.health.hediffSet.HasHediff(NetrunDefOf.NR_BraindanceTolerance)).ToList();
+        // Gathered about once a second, not on every GUI event.
+        (List<Thing> raws, List<Thing> chips, List<Pawn> hooked) = NetrunUI.Cached("studio.data." + map.uniqueID, () => (
+            BraindanceEditing.RawRecordings(map).ToList(),
+            // Only chip defs, not every haulable thing on the map.
+            map.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceChip)
+                .Concat(map.listerThings.ThingsOfDef(NetrunDefOf.NR_BlackBraindanceChip))
+                .Where(t => t.Spawned && !t.IsForbidden(Faction.OfPlayer)).ToList(),
+            map.mapPawns.FreeColonistsSpawned
+                .Where(p => p.health.hediffSet.hediffs.Any(h => h is Hediff_Addiction a && a.Chemical == NetrunDefOf.NR_Braindance)
+                            || p.health.hediffSet.HasHediff(NetrunDefOf.NR_BraindanceTolerance)).ToList()), 1f);
 
         GuideRegistry.Area("studio.tabs", new Rect(rect.x, rect.y, rect.width * 0.6f, 32f));
         DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), raws.Count, hooked.Count);

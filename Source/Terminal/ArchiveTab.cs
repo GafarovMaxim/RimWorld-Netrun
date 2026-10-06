@@ -352,18 +352,22 @@ public static class ArchiveTab
 
     private static void DrawEntries(Rect rect, Map map, HeatTracker tracker)
     {
-        List<HeatLogEntry> entries = tracker.Log
-            .Where(e => _tab == Tab.Raids ? e.Source == HeatSource.Raid : Passes(e))
-            .Where(e => Matches(e.Text))
-            .Where(e => _tab != Tab.Journal || _day < 0 || DaysAgo(e.Tick, map) == _day)
-            .Reverse().ToList();
+        string key = $"archive.entries.{_tab}.{_filter}.{_day}.{_search}.{tracker.Log.Count}.{(tracker.Log.Count > 0 ? tracker.Log[tracker.Log.Count - 1].Tick : 0)}";
+        (List<HeatLogEntry> entries, List<IGrouping<int, HeatLogEntry>> groups) = NetrunUI.Cached(key, () =>
+        {
+            List<HeatLogEntry> list = tracker.Log
+                .Where(e => _tab == Tab.Raids ? e.Source == HeatSource.Raid : Passes(e))
+                .Where(e => Matches(e.Text))
+                .Where(e => _tab != Tab.Journal || _day < 0 || DaysAgo(e.Tick, map) == _day)
+                .Reverse().ToList();
+            return (list, list.GroupBy(e => DaysAgo(e.Tick, map)).ToList());
+        }, 2f);
         if (entries.Count == 0)
         {
             Empty(rect, (_tab == Tab.Raids ? "NR_ArchiveNoRaids" : "NR_ArchiveEmpty").Translate());
             return;
         }
 
-        var groups = entries.GroupBy(e => DaysAgo(e.Tick, map)).ToList();
         float height = groups.Count * DayHeight + entries.Count * (RowHeight + 4f);
         var view = new Rect(0f, 0f, rect.width - 16f, height);
         Widgets.BeginScrollView(rect, ref _scroll, view);

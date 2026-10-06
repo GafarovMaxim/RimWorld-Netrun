@@ -41,6 +41,9 @@ public static class NetrunUI
         if (Cache.TryGetValue(key, out var entry) && now - entry.time < seconds && entry.value is T value)
             return value;
         T fresh = compute();
+        // Keys can carry state (filters, counts): drop the lot now and then so old ones do not pile up.
+        if (Cache.Count > 400)
+            Cache.Clear();
         Cache[key] = (now, fresh);
         return fresh;
     }

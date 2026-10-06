@@ -76,7 +76,8 @@ public static class AITab
     /// <summary>Used and total slots of the colony's AI server, for the section title: "1/3".</summary>
     private static string ServerSlots(Map map)
     {
-        CompAIServer server = map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault(c => c != null);
+        CompAIServer server = NetrunUI.Cached("ai.server." + map.uniqueID,
+            () => map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault(c => c != null), 1f);
         return server == null ? null : $"{server.Used}/{server.Slots}";
     }
 

@@ -93,7 +93,10 @@ public class IngestionOutcomeDoer_UniqueBraindance : IngestionOutcomeDoer
 
 public static class UniqueBraindance
 {
-    public static IEnumerable<ThingDef> All => DefDatabase<ThingDef>.AllDefs.Where(d => d.HasModExtension<UniqueBraindanceExtension>()).OrderBy(d => d.index);
+    private static List<ThingDef> _all;
+
+    /// <summary>All unique recordings, found once and kept (the def database does not change in play).</summary>
+    public static IEnumerable<ThingDef> All => _all ??= DefDatabase<ThingDef>.AllDefs.Where(d => d.HasModExtension<UniqueBraindanceExtension>()).OrderBy(d => d.index).ToList();
 
     public static UniqueBraindanceExtension Ext(ThingDef def) => def.GetModExtension<UniqueBraindanceExtension>();
 
