@@ -331,11 +331,13 @@ public partial class Dialog_NetTerminal
         Widgets.Label(new Rect(c.x - 55f, c.y + 12f, 110f, 16f), current.Label().ToUpper().Colorize(lc));
         float trend = HeatTrendPerDay(tracker);
         string trendText = trend > 0.05f
-            ? ("▲ " + "NR_CoreTrendUp".Translate(trend.ToString("0.#"))).Colorize(NetrunUI.Bad)
+            ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")).Colorize(NetrunUI.Bad)
             : trend < -0.05f
                 ? ("▼ " + "NR_CoreTrendDown".Translate((-trend).ToString("0.#"))).Colorize(NetrunUI.Ok)
                 : "NR_CoreTrendFlat".Translate().Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(c.x - 55f, c.y + 27f, 110f, 16f), trendText);
+        if (trend > 0.05f && NetrunTex.HeatRise is { } rise)
+            GUI.DrawTexture(new Rect(c.x - Text.CalcSize(trendText.StripTags()).x / 2f - 17f, c.y + 27f, 15f, 15f), rise);
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 

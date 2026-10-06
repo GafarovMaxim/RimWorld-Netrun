@@ -234,7 +234,8 @@ public class Dialog_DiveReport : Window
         y = Row(r, y, NetrunDefOf.USH_Cyberdata.uiIcon, "NR_ReportCost".Translate(), "−" + d.CostPaid, NetrunUI.Warn);
         float heat = d.HeatAfter - d.HeatBefore;
         HeatLevel after = HeatLevelUtility.LevelOf(d.HeatAfter);
-        y = Row(r, y, Icon("Dive_Heat") ?? NetrunTex.HeatIcon(after), "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0}  ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})",
+        Texture2D heatIcon = heat > 0.05f ? NetrunTex.HeatRise : heat < -0.05f ? NetrunTex.HeatReduction : null;
+        y = Row(r, y, heatIcon ?? Icon("Dive_Heat") ?? NetrunTex.HeatIcon(after), "NR_ReportHeat".Translate(), $"{d.HeatBefore:0} → {d.HeatAfter:0}  ({(heat >= 0 ? "+" : string.Empty)}{heat:0.#})",
             heat > 0.05f ? NetrunUI.Bad : NetrunUI.Ok);
         float sick = d.NetsickAfter - d.NetsickBefore;
         y = Row(r, y, Icon("Icon_Netsick") ?? NetrunTex.AIUse, "NR_ReportNetsick".Translate(), $"{d.NetsickBefore.ToStringPercent()} → {d.NetsickAfter.ToStringPercent()}  (+{sick.ToStringPercent()})",

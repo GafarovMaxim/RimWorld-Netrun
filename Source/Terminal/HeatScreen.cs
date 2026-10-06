@@ -77,10 +77,13 @@ public static class HeatScreen
         Text.Font = GameFont.Small;
 
         float week = WeekChange(tracker);
-        string trend = (week > 0.05f ? "▲ +" : week < -0.05f ? "▼ " : "• ") + "NR_HeatV2Trend".Translate(week.ToString("0.#"), tracker.DecayPerDay.ToString("0.#"));
+        string trend = (week > 0.05f ? "+" : week < -0.05f ? string.Empty : "• ") + "NR_HeatV2Trend".Translate(week.ToString("0.#"), tracker.DecayPerDay.ToString("0.#"));
         Text.Anchor = TextAnchor.UpperRight;
         Widgets.Label(new Rect(r.x + r.width * 0.45f, r.y + 6f, r.width * 0.55f, 24f), trend.Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
+        // Which way the week went: Heat_Rise or Heat_Reduction before the line.
+        if ((week > 0.05f ? NetrunTex.HeatRise : week < -0.05f ? NetrunTex.HeatReduction : null) is { } weekIcon)
+            GUI.DrawTexture(new Rect(r.xMax - Text.CalcSize(trend).x - 24f, r.y + 7f, 20f, 20f), weekIcon);
 
         var bar = new Rect(r.x, r.y + 38f, r.width, 14f);
         foreach (HeatLevel l in System.Enum.GetValues(typeof(HeatLevel)))
@@ -440,8 +443,10 @@ public static class HeatScreen
         const float barMax = 70f;
         foreach ((string text, float sum) in top)
         {
-            Widgets.Label(new Rect(0f, y, 40f, 20f), ("+" + sum.ToString("0.#")).Colorize(NetrunUI.Bad));
-            Widgets.DrawBoxSolid(new Rect(42f, y + 6f, Mathf.Max(4f, barMax * sum / max), 8f), NetrunUI.Bad);
+            if (NetrunTex.HeatRise is { } rise)
+                GUI.DrawTexture(new Rect(0f, y + 1f, 18f, 18f), rise);
+            Widgets.Label(new Rect(20f, y, 40f, 20f), ("+" + sum.ToString("0.#")).Colorize(NetrunUI.Bad));
+            Widgets.DrawBoxSolid(new Rect(62f, y + 6f, Mathf.Max(4f, (barMax - 20f) * sum / max), 8f), NetrunUI.Bad);
             var whole = new Rect(0f, y, r.width, 20f);
             if (Mouse.IsOver(whole))
                 Widgets.DrawHighlight(whole);
