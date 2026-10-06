@@ -207,8 +207,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HunterFollowed>The ICE hunter followed your netrunner back. Expect trouble with the machines soon.</NR_HunterFollowed>
   <NR_StormLabel>Data storm</NR_StormLabel>
   <NR_Storm>A data storm sweeps the net for {0}: every node is harder to crack, and every haul is bigger.</NR_Storm>
-  <NR_GatewayStorm>Data storm: {0} left</NR_GatewayStorm>
-  <NR_GatewayStormTip>Gates and ICE are one stronger, rewards are x1.5.</NR_GatewayStormTip>
   <NR_GatewayRival>⚔ rival</NR_GatewayRival>
   <NR_GatewayRivalTip>Another netrunner is after this node: you have {0} turns before the files are gone.</NR_GatewayRivalTip>
   <NR_DiveHunterActive>ICE hunter on your trail: it strikes every node turn. Hack it when nothing blocks the way.</NR_DiveHunterActive>
@@ -272,4 +270,14 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveBranchTake>Take this path</NR_DiveBranchTake>
   <NR_DiveBranchTakeTip>Final: there is no way back to the fork. Taking a path costs no action.</NR_DiveBranchTakeTip>
   <NR_DiveLogConfession>The confession's back doors are open: every hidden step is visible.</NR_DiveLogConfession>
+  <NR_NewsTag>NEWS //</NR_NewsTag>
+  <NR_NewsStorm>Data storm: stronger defenses, bigger hauls, {0} left</NR_NewsStorm>
+  <NR_NewsBossActive>Corporate core {0} is open for {1}</NR_NewsBossActive>
+  <NR_NewsBossSoon>Rumors: a corporate core surfaces in {0}</NR_NewsBossSoon>
+  <NR_NewsCounterHack>Your turrets are held from {0}: dive in to take them back</NR_NewsCounterHack>
+  <NR_NewsRival>A rival netrunner circles {0}</NR_NewsRival>
+  <NR_NewsWildAI>Something stirs in the memory of {0}</NR_NewsWildAI>
+  <NR_NewsContract>A fixer wants {0} cracked</NR_NewsContract>
+  <NR_NewsLastDive>Last dive: {0} at {1}, {2}</NR_NewsLastDive>
+  <NR_NewsRefresh>New nodes surface in {0}</NR_NewsRefresh>
 </LanguageData>

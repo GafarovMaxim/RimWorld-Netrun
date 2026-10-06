@@ -56,16 +56,6 @@ public static class GatewayView
         else
             DrawCircles(mapRect, nodes);
 
-        if (gateway.StormActive)
-        {
-            var storm = new Rect(mapRect.x, mapRect.y, mapRect.width - 120f, 24f);
-            Widgets.DrawBoxSolid(storm, new Color(NetrunUI.Purple.r, NetrunUI.Purple.g, NetrunUI.Purple.b, 0.2f));
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(storm, "NR_GatewayStorm".Translate(gateway.StormTicksLeft.ToStringTicksToPeriod()).Colorize(NetrunUI.Purple));
-            Text.Anchor = TextAnchor.UpperLeft;
-            NetrunUI.Tip(storm, "NR_GatewayStormTip".Translate());
-        }
-
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(rect.x, rect.yMax - 20f, mapRect.width, 20f), "NR_GatewayLegend".Translate().Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
@@ -106,7 +96,7 @@ public static class GatewayView
         {
             // The line leaves the home node's edge and stops at the circle's rim.
             Vector2 dir = (p.pos - hub).normalized;
-            DrawLink(hub + dir * 34f, p.pos - dir * p.radius, p.node.Color, p.node.Id);
+            DrawLink(hub + dir * 44f, p.pos - dir * p.radius, p.node.Color, p.node.Id);
         }
         DrawHome(hub);
 
@@ -118,6 +108,37 @@ public static class GatewayView
         float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
         DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
+    }
+
+    /// <summary>Short news of cyberspace for the bottom bar: storms, the corporate core, rivals, wild AIs, contracts, refresh.</summary>
+    public static List<(string text, Color color)> News()
+    {
+        var list = new List<(string, Color)>();
+        GatewayManager g = GatewayManager.Get();
+        if (g == null)
+            return list;
+        if (g.StormActive)
+            list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
+        if (g.Boss is { } boss)
+            list.Add(("NR_NewsBossActive".Translate(boss.Name, boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "?"), NetrunUI.Bad));
+        else if (g.TicksUntilBoss >= 0)
+            list.Add(("NR_NewsBossSoon".Translate(g.TicksUntilBoss.ToStringTicksToPeriod()), NetrunUI.Warn));
+        foreach (ExternalNode n in g.Nodes.Where(n => !n.Hidden))
+        {
+            if (n.CounterHack)
+                list.Add(("NR_NewsCounterHack".Translate(n.Name), NetrunUI.Bad));
+            if (n.Rival)
+                list.Add(("NR_NewsRival".Translate(n.Name), NetrunUI.Warn));
+            if (n.WildAI)
+                list.Add(("NR_NewsWildAI".Translate(n.Name), NetrunUI.Purple));
+            if (n.Contract)
+                list.Add(("NR_NewsContract".Translate(n.Name), NetrunUI.Ok));
+        }
+        if (g.LastReport is { } last)
+            list.Add(("NR_NewsLastDive".Translate(last.RunnerName ?? "?", last.NodeName,
+                (last.Success ? "NR_ReportSuccess" : last.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate()), NetrunUI.Muted));
+        list.Add(("NR_NewsRefresh".Translate(g.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.Accent));
+        return list;
     }
 
     /// <summary>The dive summaries of recent runs: opens the Archive on its dive reports tab.</summary>
@@ -229,6 +250,21 @@ public static class GatewayView
                 GUI.DrawTexture(new Rect(x - 0.5f, y, 2f, 60f), BaseContent.WhiteTex);
             }
         }
+        // Faint motes: a handful of points that light up and fade, each in its own time.
+        for (int k = 0; k < 7; k++)
+        {
+            float period = 3.5f + k * 0.6f;
+            float f = (now + k * 2.3f) / period;
+            int slot = Mathf.FloorToInt(f);
+            float t = f - slot;
+            var rnd = new System.Random(slot * 131 + k * 7);
+            var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+            float a = 0.35f * Mathf.Sin(t * Mathf.PI);
+            GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a * 0.5f);
+            GUI.DrawTexture(new Rect(p.x - 5f, p.y - 5f, 10f, 10f), NetrunUI.GlowTex);
+            GUI.color = new Color(1f, 1f, 1f, a);
+            GUI.DrawTexture(new Rect(p.x - 1f, p.y - 1f, 2f, 2f), BaseContent.WhiteTex);
+        }
         // Ripple: every ~7 s a faint double ring spreads over the grid.
         {
             const float period = 7f;
@@ -248,44 +284,64 @@ public static class GatewayView
         GUI.color = Color.white;
     }
 
-    /// <summary>A link from the home node: a soft glow under a thin line, and data packets running out to the node.</summary>
+    /// <summary>A link from the home node: a soft glow under a thin line, and now and then a packet running out to the node.</summary>
     private static void DrawLink(Vector2 from, Vector2 to, Color color, int seed)
     {
         Widgets.DrawLine(from, to, new Color(color.r, color.g, color.b, 0.10f), 6f);
         Widgets.DrawLine(from, to, new Color(color.r, color.g, color.b, 0.45f), 1.5f);
         if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
             return;
-        float length = Vector2.Distance(from, to);
-        float period = Mathf.Max(1.2f, length / 90f);
-        for (int k = 0; k < 2; k++)
-        {
-            float t = (Time.realtimeSinceStartup / period + k * 0.5f + seed * 0.37f) % 1f;
-            Vector2 p = Vector2.Lerp(from, to, t);
-            float a = Mathf.Sin(t * Mathf.PI);
-            GUI.color = new Color(color.r, color.g, color.b, 0.4f * a);
-            GUI.DrawTexture(new Rect(p.x - 7f, p.y - 7f, 14f, 14f), NetrunUI.GlowTex);
-            GUI.color = new Color(1f, 1f, 1f, 0.85f * a);
-            GUI.DrawTexture(new Rect(p.x - 2.5f, p.y - 2.5f, 5f, 5f), Disc);
-        }
+        // The same calm rhythm as the Core map: one packet, a pause, its own phase per link.
+        float period = 2.8f + seed % 5 * 0.37f;
+        float f = (Time.realtimeSinceStartup + seed * 0.91f) / period % 1f;
+        if (f > 0.7f)
+            return;
+        float t = f / 0.7f;
+        Vector2 p = Vector2.Lerp(from, to, t);
+        float a = Mathf.Sin(t * Mathf.PI);
+        GUI.color = new Color(color.r, color.g, color.b, 0.35f * a);
+        GUI.DrawTexture(new Rect(p.x - 8f, p.y - 8f, 16f, 16f), NetrunUI.GlowTex);
+        GUI.color = new Color(color.r, color.g, color.b, 0.9f * a);
+        GUI.DrawTexture(new Rect(p.x - 3f, p.y - 3f, 6f, 6f), Disc);
         GUI.color = Color.white;
     }
 
-    /// <summary>The home node at the hub: back to the terminal's main screen.</summary>
+    /// <summary>
+    /// The home node at the hub: a small Core (the Heat ring, the level icon, slowly turning notches); a click goes back to
+    /// the terminal's main screen.
+    /// </summary>
     private static void DrawHome(Vector2 hub)
     {
-        const float size = 54f;
+        HeatTracker tracker = HeatTracker.Get();
+        const float size = 66f;
         var r = new Rect(hub.x - size / 2f, hub.y - size / 2f, size, size);
         float lit = NetrunUI.HoverFade(r);
-        Color c = NetrunUI.Accent;
-        if (lit > 0f)
-            NetrunUI.Glow(r, c, 0.8f * lit, 12f);
-        Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
-        NetrunUI.Brackets(r, c, 2.5f, 14f);
-        GUI.DrawTexture(r.ContractedBy(10f), NetrunTex.NetTerminal);
-        NetrunUI.ScanlineOnce(r.ContractedBy(3f), c, NetrunUI.HoverTime(r));
+        HeatLevel level = tracker?.Level ?? HeatLevel.Shadow;
+        Color c = level.Color();
+        NetrunUI.Glow(r.ContractedBy(6f), c, 0.25f + 0.5f * lit, 14f);
+        GUI.color = NetrunUI.BgWindow;
+        GUI.DrawTexture(r.ExpandedBy(4f), Disc);
+        GUI.color = Color.white;
+        if (tracker != null)
+            GUI.DrawTexture(r, HeatRing.Get(tracker.Heat));
+        // Outer thin circle with three uneven notches, turning slowly.
+        Rect outer = r.ExpandedBy(8f);
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f + 0.3f * lit);
+        GUI.DrawTexture(outer, NetrunUI.ThinRing);
+        GUI.color = Color.white;
+        float turn = NetrunUI.AnimTime * 8f;
+        foreach ((float angle, float length) in new[] { (-60f, 7f), (75f, 5f), (190f, 9f) })
+        {
+            float ang = (angle + turn) * Mathf.Deg2Rad;
+            var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+            Widgets.DrawLine(outer.center + dir * (outer.width / 2f - length * 0.4f), outer.center + dir * (outer.width / 2f + length * 0.6f), NetrunUI.Accent, 2f);
+        }
+        GUI.DrawTexture(new Rect(hub.x - 13f, hub.y - 18f, 26f, 26f), NetrunTex.HeatIcon(level));
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.UpperCenter;
-        Widgets.Label(new Rect(r.x - 30f, r.yMax + 4f, r.width + 60f, 18f), "NR_GatewayHome".Translate().Colorize(c));
+        if (tracker != null)
+            Widgets.Label(new Rect(hub.x - 30f, hub.y + 6f, 60f, 16f), tracker.Heat.ToString("0").Colorize(c));
+        Widgets.Label(new Rect(r.x - 40f, outer.yMax + 2f, r.width + 80f, 18f), ((string)"NR_GatewayHome".Translate()).ToUpper().Colorize(NetrunUI.Accent));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         NetrunUI.Tip(r, "NR_GatewayHomeTip".Translate());

@@ -313,6 +313,42 @@ public static class NetrunUI
         GUI.color = Color.white;
     }
 
+    /// <summary>A news line running right to left inside <paramref name="rect"/>, items split by " /// ", clipped at the edges.</summary>
+    public static void Ticker(Rect rect, System.Collections.Generic.List<(string text, Color color)> items)
+    {
+        if (items.Count == 0)
+            return;
+        string sep = "   ///   ";
+        float sepW = Text.CalcSize(sep).x;
+        float total = 0f;
+        foreach ((string text, Color _) in items)
+            total += Text.CalcSize(text).x + sepW;
+        float speed = 38f;
+        float offset = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * speed % total : 0f;
+        Widgets.BeginGroup(rect);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        // Two passes so the line wraps around without a gap.
+        for (int pass = 0; pass < 2; pass++)
+        {
+            float x = -offset + pass * total;
+            foreach ((string text, Color color) in items)
+            {
+                float w = Text.CalcSize(text).x;
+                if (x + w > 0f && x < rect.width)
+                    Widgets.Label(new Rect(Mathf.Round(x), 0f, w + 4f, rect.height), text.Colorize(color));
+                x += w;
+                if (x + sepW > 0f && x < rect.width)
+                    Widgets.Label(new Rect(Mathf.Round(x), 0f, sepW + 4f, rect.height), sep.Colorize(new Color(1f, 1f, 1f, 0.25f)));
+                x += sepW;
+            }
+        }
+        Text.Anchor = TextAnchor.UpperLeft;
+        Widgets.EndGroup();
+        // Soft fade at both ends.
+        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + 1f, 6f, rect.height - 2f), new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.8f));
+        Widgets.DrawBoxSolid(new Rect(rect.xMax - 6f, rect.y + 1f, 6f, rect.height - 2f), new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.8f));
+    }
+
     /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
     public static string Prompt(string text)
     {

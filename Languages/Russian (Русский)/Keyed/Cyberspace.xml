@@ -207,8 +207,6 @@
   <NR_HunterFollowed>Охотник ICE прошёл по следу нетраннера. Скоро ждите проблем с машинами.</NR_HunterFollowed>
   <NR_StormLabel>Шторм данных</NR_StormLabel>
   <NR_Storm>Сеть накрыл шторм данных на {0}: все ноды сложнее, а добыча больше.</NR_Storm>
-  <NR_GatewayStorm>Шторм данных: ещё {0}</NR_GatewayStorm>
-  <NR_GatewayStormTip>Ворота и ICE на 1 сильнее, награда x1.5.</NR_GatewayStormTip>
   <NR_GatewayRival>⚔ соперник</NR_GatewayRival>
   <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой: у вас {0} ходов, потом файлов не станет.</NR_GatewayRivalTip>
   <NR_DiveHunterActive>Охотник ICE на следу: бьёт каждый ход ноды. Взломайте его, когда путь свободен.</NR_DiveHunterActive>
@@ -272,4 +270,14 @@
   <NR_DiveBranchTake>Выбрать этот путь</NR_DiveBranchTake>
   <NR_DiveBranchTakeTip>Выбор окончательный: к развилке не вернуться. Действие не тратится.</NR_DiveBranchTakeTip>
   <NR_DiveLogConfession>Лазейки из исповеди открыты: все скрытые ступени видны.</NR_DiveLogConfession>
+  <NR_NewsTag>НОВОСТИ //</NR_NewsTag>
+  <NR_NewsStorm>Шторм данных: защита крепче, добыча больше, осталось {0}</NR_NewsStorm>
+  <NR_NewsBossActive>Корп-ядро {0} открыто ещё {1}</NR_NewsBossActive>
+  <NR_NewsBossSoon>Слухи: корп-ядро всплывёт через {0}</NR_NewsBossSoon>
+  <NR_NewsCounterHack>Ваши турели держат из {0}: нырните, чтобы вернуть</NR_NewsCounterHack>
+  <NR_NewsRival>Соперник кружит у {0}</NR_NewsRival>
+  <NR_NewsWildAI>В памяти {0} что-то шевелится</NR_NewsWildAI>
+  <NR_NewsContract>Фиксер хочет взлома {0}</NR_NewsContract>
+  <NR_NewsLastDive>Последний нырок: {0}, {1}, {2}</NR_NewsLastDive>
+  <NR_NewsRefresh>Новые ноды всплывут через {0}</NR_NewsRefresh>
 </LanguageData>

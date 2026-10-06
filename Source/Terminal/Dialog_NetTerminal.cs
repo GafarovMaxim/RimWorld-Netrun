@@ -546,6 +546,19 @@ public partial class Dialog_NetTerminal : Window
             Text.Font = GameFont.Small;
             NetrunUI.Tip(adviceSeg, advice);
         }
+        // In cyberspace: the news line runs instead of the latest trace event.
+        else if (_view == View.Gateway && rect.xMax - 10f - x > 80f)
+        {
+            var newsSeg = new Rect(x, segY, rect.xMax - 10f - x, segHeight);
+            NetrunUI.Box(newsSeg, NetrunUI.BgWindow, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(newsSeg.x + 8f, newsSeg.y, 60f, newsSeg.height), "NR_NewsTag".Translate().Colorize(NetrunUI.Accent));
+            float tagW = Text.CalcSize("NR_NewsTag".Translate()).x + 16f;
+            List<(string text, Color color)> news = NetrunUI.Cached("gateway.news", GatewayView.News, 2f);
+            NetrunUI.Ticker(new Rect(newsSeg.x + tagW, newsSeg.y, newsSeg.width - tagW - 6f, newsSeg.height), news);
+            Text.Font = GameFont.Small;
+        }
         // The latest trace event fills the rest; a click opens the Archive.
         else if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
         {
