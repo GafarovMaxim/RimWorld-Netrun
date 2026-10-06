@@ -139,10 +139,10 @@ public static class FixersTab
                 () => manager?.BreakTies(fixer), destructive: true));
         if (!fixer.Pinned && manager != null)
         {
-            string hold = (fixer.Held ? "NR_FixerRelease" : "NR_FixerHold").Translate();
+            string hold = fixer.Held ? (string)"NR_FixerRelease".Translate() : (string)"NR_FixerHoldPaid".Translate(NetrunDefOf.NR_Fixers.holdCost);
             float hw = NetrunUI.ButtonWidth(hold);
             tx -= hw + 6f;
-            if (NetrunUI.Button(new Rect(tx, y - 2f, hw, 26f), hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld)))
+            if (NetrunUI.Button(new Rect(tx, y - 2f, hw, 26f), hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld, NetrunDefOf.NR_Fixers.holdCost)))
                 manager.ToggleHold(fixer);
         }
         y += 28f;

@@ -7,10 +7,12 @@ namespace Netrun;
 public class FixerSettingsDef : Def
 {
     // Pool
-    public int poolSize = 3;
+    public int poolSize = 4;
     public IntRange rotationDays = new(7, 10);
     /// <summary>Unpinned fixers the player can hold through a rotation.</summary>
     public int maxHeld = 2;
+    /// <summary>Silver paid per held fixer at every rotation; without it the hold lapses.</summary>
+    public int holdCost = 100;
     /// <summary>After breaking ties a fixer does not come back for this many days.</summary>
     public int breakBanDays = 30;
     /// <summary>A fixer is marked "new" for this many days after joining the pool.</summary>

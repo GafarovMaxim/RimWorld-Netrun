@@ -50,6 +50,7 @@ public class FixerManager : GameComponent
     /// </summary>
     public void Rotate(bool notify)
     {
+        PayHolds();
         ContractManager contracts = ContractManager.Get();
         _fixers.RemoveAll(f => !f.Pinned && !f.Held && contracts?.HasActive(f) != true);
 
@@ -98,6 +99,19 @@ public class FixerManager : GameComponent
 
     public AcceptanceReport CanHold(Fixer fixer)
         => fixer.Held || HeldCount < Settings.maxHeld ? true : (AcceptanceReport)"NR_FixerHoldLimit".Translate(Settings.maxHeld);
+
+    /// <summary>Each held (unpinned) fixer costs holdCost silver per rotation; unpaid holds lapse.</summary>
+    private void PayHolds()
+    {
+        Map map = Find.AnyPlayerHomeMap;
+        foreach (Fixer fixer in _fixers.Where(f => f.Held && !f.Pinned))
+        {
+            if (map != null && ColonyGoods.TryTake(map, ThingDefOf.Silver, Settings.holdCost))
+                continue;
+            fixer.Held = false;
+            Messages.Message("NR_FixerHoldLapsed".Translate(fixer.Name, Settings.holdCost), MessageTypeDefOf.NegativeEvent, historical: true);
+        }
+    }
 
     public void ToggleHold(Fixer fixer)
     {

@@ -73,12 +73,13 @@
   <NR_FixerNewTip>Недавно появился в пуле.</NR_FixerNewTip>
   <NR_FixerHeldTag>УДЕРЖАН</NR_FixerHeldTag>
   <NR_FixerHeldTip>Не уйдёт при смене пула, пока вы не отпустите.</NR_FixerHeldTip>
-  <NR_FixerHold>Удержать</NR_FixerHold>
   <NR_FixerRelease>Отпустить</NR_FixerRelease>
-  <NR_FixerHoldTip>Оставить фиксера при смене пула. Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
+  <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену (платится при смене; не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
   <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения и текущий контракт отменяются (без доп. штрафа), на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
   <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дней.</NR_FixerBreakConfirm>
   <NR_FixerTiesBroken>Связь с {0} разорвана. В пул пришёл {1}.</NR_FixerTiesBroken>
+  <NR_FixerHoldPaid>Удержать · {0}</NR_FixerHoldPaid>
+  <NR_FixerHoldLapsed>Не хватило серебра, чтобы удержать {0} ({1}): удержание снято.</NR_FixerHoldLapsed>
 </LanguageData>
