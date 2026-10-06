@@ -22,7 +22,8 @@ public static class AIHosting
            && pawn.IsHacker();
 
     public static IEnumerable<Pawn> Candidates(Map map)
-        => map.mapPawns.FreeColonistsSpawned.Where(HasEmptySocket);
+        // Colonists held on the map count too: a netrunner lying in a cyberpod is not "spawned".
+        => map.mapPawns.FreeColonists.Where(p => p.MapHeld == map && HasEmptySocket(p));
 
     public static AcceptanceReport CanUpload(NetAI ai, Map map)
     {

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <!-- Unique braindance recordings (docs/CONCEPTS_6.md, section 4): named recordings with their own effect,
-       1-3 views, never crafted or sold by traders, each found once per game (UniqueBraindanceManager).
+       1-3 views, never crafted or sold by traders, rare; the library remembers which ones were found (UniqueBraindanceManager).
        Sources: the corporate core, a dive's special find, the black market (rare) and a contract bonus. -->
 
   <Netrun.UniqueBraindanceSettingsDef>
     <defName>NR_UniqueBraindance</defName>
     <!-- Chances that a source gives a unique recording (if any is left) instead of its usual find -->
-    <diveFindChance>0.5</diveFindChance>
-    <bossChance>0.5</bossChance>
-    <blackMarketChance>0.3</blackMarketChance>
-    <contractChance>0.1</contractChance>
+    <diveFindChance>0.25</diveFindChance>
+    <bossChance>0.35</bossChance>
+    <blackMarketChance>0.15</blackMarketChance>
+    <contractChance>0.05</contractChance>
     <!-- Effects -->
     <marketDiscount>0.3</marketDiscount>
     <marketDiscountDays>3</marketDiscountDays>
     <confessionHeat>8</confessionHeat>
-    <oracleMercDelayDays>3</oracleMercDelayDays>
+    <oracleWarningDays>1</oracleWarningDays>
     <zeroRunHackBonus>0.1</zeroRunHackBonus>
   </Netrun.UniqueBraindanceSettingsDef>
 
@@ -128,7 +128,7 @@
   <ThingDef ParentName="NR_UniqueBraindanceBase">
     <defName>NR_UB_Concert</defName>
     <label>the last concert of Cyber-Liza</label>
-    <description>A unique braindance recording. The final show of a singer who vanished the next morning. Twenty thousand people in one breath.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <description>A unique braindance recording. The final show of a singer who vanished the next morning. Twenty thousand people in one breath.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>3</views>
@@ -145,7 +145,7 @@
   <ThingDef ParentName="NR_UniqueBraindanceBase">
     <defName>NR_UB_ZeroRun</defName>
     <label>Zero's run</label>
-    <description>A unique braindance recording. A legendary netrunner's straight dive through a corporate core, first person, every keystroke felt.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <description>A unique braindance recording. A legendary netrunner's straight dive through a corporate core, first person, every keystroke felt.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>1</views>
@@ -162,7 +162,7 @@
   <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
     <defName>NR_UB_Morton</defName>
     <label>Morton's quiet room</label>
-    <description>A black braindance recording. A therapist's recording from a sealed ward. It calms like nothing else, and it is not entirely legal.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s); each recording turns up only once per game.</description>
+    <description>A black braindance recording. A therapist's recording from a sealed ward. It calms like nothing else, and it is not entirely legal.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>2</views>
@@ -179,7 +179,7 @@
   <ThingDef ParentName="NR_UniqueBraindanceBase">
     <defName>NR_UB_NightMarket</defName>
     <label>night market</label>
-    <description>A unique braindance recording. A fixer's walk through a night market: who to ask, what to pay, how to look like you belong.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s); each recording turns up only once per game.</description>
+    <description>A unique braindance recording. A fixer's walk through a night market: who to ask, what to pay, how to look like you belong.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>2</views>
@@ -196,7 +196,7 @@
   <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
     <defName>NR_UB_Confession</defName>
     <label>a corporate's confession</label>
-    <description>A black braindance recording. A security chief tells everything before vanishing. Every back door he ever left open.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <description>A black braindance recording. A security chief tells everything before vanishing. Every back door he ever left open.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>1</views>
@@ -213,7 +213,7 @@
   <ThingDef ParentName="NR_UniqueBraindanceBase">
     <defName>NR_UB_StreetRunner</defName>
     <label>street runner drill</label>
-    <description>A unique braindance recording. A courier's day at full speed: rooftops, crowds and never a wasted step.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <description>A unique braindance recording. A courier's day at full speed: rooftops, crowds and never a wasted step.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>3</views>
@@ -230,7 +230,7 @@
   <ThingDef ParentName="NR_UniqueBraindanceBase">
     <defName>NR_UB_EchoLullaby</defName>
     <label>Echo's lullaby</label>
-    <description>A unique braindance recording. An AI hummed this to a sick child for a hundred nights. It still puts minds to sleep.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <description>A unique braindance recording. An AI hummed this to a sick child for a hundred nights. It still puts minds to sleep.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>3</views>
@@ -247,7 +247,7 @@
   <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
     <defName>NR_UB_Oracle</defName>
     <label>the Oracle's vision</label>
-    <description>A black braindance recording. A predictive AI's raw forecast, never meant for human eyes. For a while you see what comes next.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <description>A black braindance recording. A predictive AI's raw forecast, never meant for human eyes. For a while you see what comes next.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s). A rare find.</description>
     <comps>
       <li Class="Netrun.CompProperties_UniqueBraindance">
         <views>1</views>

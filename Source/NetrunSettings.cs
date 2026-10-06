@@ -48,8 +48,10 @@ public class NetrunSettings : ModSettings
     public bool PauseOnOpen = true;
     /// <summary>Moving and glowing bits of the terminal (floating Gateway nodes, node glow).</summary>
     public bool Animations = true;
-    /// <summary>Scale of everything in the terminal window (text and icons), 80-130%.</summary>
-    public float TerminalScale = 1f;
+    /// <summary>Text size in the mod's windows, 85-125%.</summary>
+    public float TextScale = 1f;
+    /// <summary>Icon size in the mod's lists and articles, 80-140%.</summary>
+    public float IconScale = 1f;
     /// <summary>Use the Tektur font in the mod's windows (when its bundle is present).</summary>
     public bool TerminalFont = true;
 
@@ -300,7 +302,8 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
         Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
         Toggle("NR_SettingsAnimations", ref Animations, "NR_SettingsAnimationsTip");
-        TerminalScale = Slider("NR_SettingsScale".Translate(TerminalScale.ToStringPercent()), TerminalScale, 0.8f, 1.3f);
+        TextScale = Slider("NR_SettingsTextScale".Translate(TextScale.ToStringPercent()), TextScale, 0.85f, 1.25f);
+        IconScale = Slider("NR_SettingsIconScale".Translate(IconScale.ToStringPercent()), IconScale, 0.8f, 1.4f);
         if (NetrunFont.Available)
             Toggle("NR_SettingsFont", ref TerminalFont, "NR_SettingsFontTip");
         _y += 6f;
@@ -360,7 +363,8 @@ public class NetrunSettings : ModSettings
         ShowDiveReport = true;
         PauseOnOpen = true;
         Animations = true;
-        TerminalScale = 1f;
+        TextScale = 1f;
+        IconScale = 1f;
         TerminalFont = true;
     }
 
@@ -380,7 +384,8 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);
-        Scribe_Values.Look(ref TerminalScale, "terminalScale", 1f);
+        Scribe_Values.Look(ref TextScale, "textScale", 1f);
+        Scribe_Values.Look(ref IconScale, "iconScale", 1f);
         Scribe_Values.Look(ref TerminalFont, "terminalFont", true);
         if (AIEventFrequency < 0f)
             AIEventFrequency = 1f;

@@ -77,9 +77,13 @@
   <NR_FixerHoldTip>Keep this fixer through the pool rotations for {1} silver per rotation (paid when the pool changes; if you cannot pay, the hold lapses). Up to {0} unpinned fixers at once.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Already holding {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Break ties</NR_FixerBreak>
-  <NR_FixerBreakTip>Drop this fixer: reputation is lost, offers and the running contract are cancelled (no extra penalty), a new fixer takes the place. They won't be back for {0} days.</NR_FixerBreakTip>
+  <NR_FixerBreakTip>Drop this fixer: reputation is lost, offers are cancelled; walking out on a running contract makes them take cyberdata from your storage (or leak your trace); a new fixer takes the place. They won't be back for {0} days.</NR_FixerBreakTip>
   <NR_FixerBreakConfirm>Break ties with {0}? Reputation and any contract with them are lost. They won't come back for {1} days.</NR_FixerBreakConfirm>
   <NR_FixerTiesBroken>Ties with {0} broken. {1} joins the pool.</NR_FixerTiesBroken>
   <NR_FixerHoldPaid>Hold · {0}</NR_FixerHoldPaid>
   <NR_FixerHoldLapsed>No silver to keep {0} ({1}): the hold lapsed.</NR_FixerHoldLapsed>
+  <NR_FixerSpiteLabel>Spiteful fixer</NR_FixerSpiteLabel>
+  <NR_FixerSpiteData>{0} took it badly that you walked out on the contract and pulled {1} cyberdata out of your storage on the way out.</NR_FixerSpiteData>
+  <NR_FixerSpiteHeat>{0} took it badly that you walked out on the contract. With nothing to take, he leaked your trace: Heat +{1}.</NR_FixerSpiteHeat>
+  <NR_FixerSpiteLog>{0} leaked the trace out of spite</NR_FixerSpiteLog>
 </LanguageData>

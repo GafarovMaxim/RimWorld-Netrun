@@ -455,7 +455,7 @@ public static class ArchiveTab
         var iconBox = new Rect(r.x + 12f, r.y + 9f, 30f, 30f);
         NetrunUI.Box(iconBox, NetrunUI.BgWindow, c);
         // Lines that are about Heat itself show which way it went.
-        Texture2D heatIcon = e.Source is HeatSource.Other or HeatSource.Event or HeatSource.Raid && e.Amount > 0.05f ? NetrunTex.HeatRise
+        Texture2D heatIcon = e.Level >= 0 ? NetrunTex.HeatIcon((HeatLevel)e.Level) : e.Source is HeatSource.Other or HeatSource.Event or HeatSource.Raid && e.Amount > 0.05f ? NetrunTex.HeatRise
             : e.Source == HeatSource.Other && e.Amount < -0.05f ? NetrunTex.HeatReduction : null;
         if ((heatIcon ?? SourceIcon(e.Source, HeatTracker.Get())) is { } icon)
             GUI.DrawTexture(iconBox.ContractedBy(4f), icon);

@@ -39,4 +39,34 @@
   <NR_UB_Bad_Morton>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Morton>
   <NR_UB_Bad_Confession>+8 Heat; привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Oracle>
+  <NR_UB_OracleLabel>Видение Оракула</NR_UB_OracleLabel>
+  <NR_UB_OracleText>Видение сбывается: рейд ({0}) придёт через {1}. Есть время подготовиться.</NR_UB_OracleText>
+  <NR_UB_OracleUnknown>неизвестные</NR_UB_OracleUnknown>
+  <NR_UB_ViewsLeft>Осталось просмотров: {0} из {1}</NR_UB_ViewsLeft>
+  <NR_UB_BurnedOut>Запись «{0}» выгорела.</NR_UB_BurnedOut>
+  <NR_UB_Watched>{0} прожил запись: {1}</NR_UB_Watched>
+  <NR_UB_ConfessionLog>{0} посмотрел украденную исповедь</NR_UB_ConfessionLog>
+  <NR_UB_Found>Найдена уникальная запись: {0}</NR_UB_Found>
+  <NR_UB_ContractBonusLabel>Бонусная запись</NR_UB_ContractBonusLabel>
+  <NR_UB_ContractBonus>{0} добавляет к оплате кое-что особое: уникальную брейнданс-запись «{1}».</NR_UB_ContractBonus>
+  <NR_UB_MarketDiscount>Знание ночного рынка: фиксеры берут на {0} меньше ещё {1}.</NR_UB_MarketDiscount>
+  <NR_UB_Author_Concert>Лиза Вэнс</NR_UB_Author_Concert>
+  <NR_UB_Author_ZeroRun>«Нулевой»</NR_UB_Author_ZeroRun>
+  <NR_UB_Author_Morton>доктор Мортон</NR_UB_Author_Morton>
+  <NR_UB_Author_NightMarket>фиксер по кличке Щука</NR_UB_Author_NightMarket>
+  <NR_UB_Author_Confession>неизвестен</NR_UB_Author_Confession>
+  <NR_UB_Author_StreetRunner>курьер К-7</NR_UB_Author_StreetRunner>
+  <NR_UB_Author_EchoLullaby>ИИ по имени Эхо</NR_UB_Author_EchoLullaby>
+  <NR_UB_Author_Oracle>ИИ по имени Оракул</NR_UB_Author_Oracle>
+  <NR_UB_Good_Concert>настроение +30 на 3 дня, снимает Netsick, без привыкания</NR_UB_Good_Concert>
+  <NR_UB_Good_ZeroRun>скорость взлома +30% и шанс взлома в нырке +10% на 5 дней</NR_UB_Good_ZeroRun>
+  <NR_UB_Good_Morton>отпускает плохие воспоминания, рабочий азарт</NR_UB_Good_Morton>
+  <NR_UB_Good_NightMarket>фиксеры берут на 30% меньше 3 дня</NR_UB_Good_NightMarket>
+  <NR_UB_Good_Confession>следующий нырок покажет все скрытые ступени и ловушки</NR_UB_Good_Confession>
+  <NR_UB_Good_StreetRunner>скорость работы +15% и передвижение +15% на 2 дня</NR_UB_Good_StreetRunner>
+  <NR_UB_Good_EchoLullaby>полный отдых сразу, снимает тошноту и похмелье</NR_UB_Good_EchoLullaby>
+  <NR_UB_Good_Oracle>предсказывает ближайший рейд за сутки; быстрее прицел и лучше уклонение 3 дня</NR_UB_Good_Oracle>
+  <NR_UB_Bad_Morton>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Morton>
+  <NR_UB_Bad_Confession>+8 Heat; привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Confession>
+  <NR_UB_Bad_Oracle>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Oracle>
 </LanguageData>

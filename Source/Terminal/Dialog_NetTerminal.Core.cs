@@ -313,7 +313,7 @@ public partial class Dialog_NetTerminal
         GUI.color = Color.white;
 
         // Inside: the level icon over the number, the level and the trend.
-        GUI.DrawTexture(new Rect(c.x - 19f, c.y - 52f, 38f, 38f), NetrunTex.HeatIcon(current));
+        GUI.DrawTexture(new Rect(c.x - 18f, c.y - 47f, 36f, 36f), NetrunTex.HeatIcon(current));
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
         Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), shown.ToString("0").Colorize(lc));

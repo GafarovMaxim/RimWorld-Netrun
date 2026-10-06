@@ -354,13 +354,6 @@ public static class DiveView
             });
             y = gridY + (index + 1) / 2 * 34f + 6f;
 
-            // Threats of this dive.
-            if (session.HunterActive)
-                y = Warning(inner, y, "NR_DiveHunterActive".Translate(), NetrunUI.Bad, NetrunTex.CyberIcon("Event_HunterICE"));
-            if (session.Node.Rival && !session.RivalTook)
-                y = Warning(inner, y, "NR_DiveRivalActive".Translate(System.Math.Max(0, NetrunDefOf.NR_Cyberspace.rivalTurns - session.Turn)), NetrunUI.Warn, NetrunTex.CyberIcon("Event_Rival"));
-            if (session.Storm)
-                y = Warning(inner, y, "NR_DiveStorm".Translate(), NetrunUI.Purple, NetrunTex.CyberIcon("Event_DataStorm"));
 
             GuideRegistry.InScroll("dive.actions", top, _panelScroll, new Rect(inner.x, gAct, inner.width, y - gAct));
             float gGauge = y;
@@ -404,6 +397,13 @@ public static class DiveView
             }
 
             GuideRegistry.InScroll("dive.programs", top, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
+            // Cyberspace events of this dive: after the programs, before the haul.
+            if (session.HunterActive)
+                y = Warning(inner, y, "NR_DiveHunterActive".Translate(), NetrunUI.Bad, NetrunTex.CyberIcon("Event_HunterICE"));
+            if (session.Node.Rival && !session.RivalTook)
+                y = Warning(inner, y, "NR_DiveRivalActive".Translate(System.Math.Max(0, NetrunDefOf.NR_Cyberspace.rivalTurns - session.Turn)), NetrunUI.Warn, NetrunTex.CyberIcon("Event_Rival"));
+            if (session.Storm)
+                y = Warning(inner, y, "NR_DiveStorm".Translate(), NetrunUI.Purple, NetrunTex.CyberIcon("Event_DataStorm"));
             float gHaul = y;
             y = DrawHaul(inner, y + 2f, session);
             GuideRegistry.InScroll("dive.haul", top, _panelScroll, new Rect(inner.x, gHaul, inner.width, y - gHaul));

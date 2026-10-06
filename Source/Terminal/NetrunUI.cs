@@ -109,6 +109,9 @@ public static class NetrunUI
         return tex;
     }
 
+    /// <summary>An icon size scaled by the "icon size" setting.</summary>
+    public static float Icon(float size) => Mathf.Round(size * Mathf.Clamp(NetrunMod.Settings?.IconScale ?? 1f, 0.8f, 1.4f));
+
     /// <summary>Seconds since the game started, for animations; frozen at 0 when animations are off.</summary>
     public static float AnimTime => NetrunMod.Settings.Animations ? Time.realtimeSinceStartup : 0f;
 
@@ -425,9 +428,9 @@ public static class NetrunUI
         Rect textRect = rect;
         if (icon != null)
         {
-            float size = rect.height - 8f;
+            float size = Mathf.Min(rect.height - 4f, Icon(rect.height - 8f));
             GUI.color = active ? Color.white : new Color(1f, 1f, 1f, 0.4f);
-            GUI.DrawTexture(new Rect(rect.x + 5f, rect.y + 4f, size, size), icon);
+            GUI.DrawTexture(new Rect(rect.x + 5f, rect.center.y - size / 2f, size, size), icon);
             GUI.color = Color.white;
             // Keep the label centred on the whole button when the icon fits beside it.
             float labelWidth = Text.CalcSize(label).x;
@@ -527,6 +530,7 @@ public static class NetrunUI
         Find.WindowStack.ImmediateWindow(TipWindowId, box, WindowLayer.Super, () =>
         {
             bool font = NetrunFont.Push();
+            bool size = NetrunText.Push();
             var local = new Rect(0f, 0f, box.width, box.height);
             Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f * shown));
             GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f * shown);
@@ -537,6 +541,7 @@ public static class NetrunUI
             GUI.color = new Color(1f, 1f, 1f, shown);
             Widgets.Label(new Rect(12f, 7f, w + 4f, h + 2f), text);
             GUI.color = Color.white;
+            NetrunText.Pop(size);
             NetrunFont.Pop(font);
         }, doBackground: false, absorbInputAroundWindow: false, shadowAlpha: 0f);
     }

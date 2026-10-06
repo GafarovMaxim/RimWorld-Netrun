@@ -23,6 +23,8 @@ public class HeatLogEntry : IExposable
     public HeatSource Source;
     /// <summary>Heat right after this entry; -1 for entries from older saves.</summary>
     public float After = -1f;
+    /// <summary>For "Heat reached a level" lines: that level; -1 otherwise.</summary>
+    public int Level = -1;
 
     public HeatLogEntry() { }
 
@@ -40,5 +42,6 @@ public class HeatLogEntry : IExposable
         Scribe_Values.Look(ref Text, "text");
         Scribe_Values.Look(ref Source, "source");
         Scribe_Values.Look(ref After, "after", -1f);
+        Scribe_Values.Look(ref Level, "level", -1);
     }
 }

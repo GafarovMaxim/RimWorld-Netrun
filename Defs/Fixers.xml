@@ -14,6 +14,9 @@
     <maxHeld>2</maxHeld>
     <!-- Silver per held fixer, paid at each rotation (the hold lapses if you cannot pay) -->
     <holdCost>100</holdCost>
+    <!-- Breaking ties during a running contract: the fixer takes this much cyberdata, or adds Heat if there is none -->
+    <breakContractCyberdata>6</breakContractCyberdata>
+    <breakContractHeat>6</breakContractHeat>
     <breakBanDays>30</breakBanDays>
     <newcomerDays>2</newcomerDays>
     <minSpecialties>2</minSpecialties>

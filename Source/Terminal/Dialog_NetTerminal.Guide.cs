@@ -203,7 +203,7 @@ public partial class Dialog_NetTerminal
     {
         GuideAreaDef def = _guideArea;
         GuideStep step = def.steps.Count > 0 ? def.steps[Mathf.Clamp(_guideStep, 0, def.steps.Count - 1)] : null;
-        const float width = 330f;
+        const float width = 360f;
         Text.Font = GameFont.Small;
         string text = step?.text ?? string.Empty;
         float textH = Text.CalcHeight(text, width - 24f);
@@ -246,10 +246,15 @@ public partial class Dialog_NetTerminal
 
         // Buttons (drawn here, clicked in GuideInput).
         float by = card.yMax - 34f;
-        _guideBack = new Rect(r.x, by, 80f, 24f);
-        _guideNext = new Rect(r.x + 86f, by, 80f, 24f);
-        _guideHelp = new Rect(r.x + 172f, by, 70f, 24f);
-        _guideExit = new Rect(r.xMax - 70f, by, 70f, 24f);
+        Text.Font = GameFont.Tiny;
+        float W(string s) => Text.CalcSize(s).x + 20f;
+        string backText = "NR_GuideBack".Translate(), nextText = (_guideStep < def.steps.Count - 1 ? "NR_GuideNext" : "NR_GuideDone").Translate();
+        string helpText = "NR_GuideHelp".Translate(), exitText = "NR_GuideExit".Translate();
+        _guideBack = new Rect(r.x, by, W(backText), 24f);
+        _guideNext = new Rect(_guideBack.xMax + 4f, by, W(nextText), 24f);
+        _guideHelp = new Rect(_guideNext.xMax + 4f, by, W(helpText), 24f);
+        _guideExit = new Rect(r.xMax - W(exitText), by, W(exitText), 24f);
+        Text.Font = GameFont.Small;
         GuideButton(_guideBack, "NR_GuideBack".Translate(), _guideStep > 0 ? NetrunUI.Muted : new Color(1f, 1f, 1f, 0.2f));
         GuideButton(_guideNext, (_guideStep < def.steps.Count - 1 ? "NR_GuideNext" : "NR_GuideDone").Translate(), NetrunUI.Accent);
         if (def.helpPage != null)

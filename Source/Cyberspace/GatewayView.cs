@@ -50,7 +50,7 @@ public static class GatewayView
 
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height - 24f);
         GuideRegistry.Area("gateway.field", mapRect);
-        GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f));
+        GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height));
         if (_listMode)
             DrawList(mapRect, nodes);
         else
@@ -70,7 +70,7 @@ public static class GatewayView
         Widgets.Label(new Rect(rect.x, rect.yMax - 20f, mapRect.width, 20f), "NR_GatewayLegend".Translate().Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
 
-        DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), map, gateway, selected);
+        DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height), map, gateway, selected);
     }
 
     /// <summary>

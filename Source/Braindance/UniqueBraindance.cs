@@ -141,7 +141,8 @@ public static class UniqueBraindance
                 break;
             case UniqueBraindanceEffect.Oracle:
                 Give(pawn, "NR_UBH_Oracle");
-                AIEventManager.Get()?.BlockMercs(NetrunDefOf.NR_UniqueBraindance.oracleMercDelayDays);
+                if (manager != null)
+                    manager.OracleWatching = true;
                 break;
         }
         Messages.Message("NR_UB_Watched".Translate(pawn.LabelShort, ("NR_UB_Good_" + effect).Translate()), pawn, MessageTypeDefOf.PositiveEvent, historical: true);
@@ -164,16 +165,18 @@ public class UniqueBraindanceSettingsDef : Def
     public float marketDiscount = 0.3f;
     public float marketDiscountDays = 3f;
     public float confessionHeat = 8f;
-    public float oracleMercDelayDays = 3f;
+    public float oracleWarningDays = 1f;
     public float zeroRunHackBonus = 0.1f;
 }
 
-/// <summary>Which unique recordings have been found (each drops once per game) and their lasting effects.</summary>
+/// <summary>Which unique recordings the library has seen, and their lasting effects.</summary>
 public class UniqueBraindanceManager : GameComponent
 {
     private List<ThingDef> _found = [];
     private int _discountUntil = -1;
     public bool RevealNextDive;
+    /// <summary>The Oracle's vision: the next raid on the colony is seen a day ahead (and comes a day later).</summary>
+    public bool OracleWatching;
 
     public UniqueBraindanceManager(Game game) { }
 
@@ -189,8 +192,10 @@ public class UniqueBraindanceManager : GameComponent
             _found.Add(def);
     }
 
-    /// <summary>A recording not found yet, or null when all are out in the world.</summary>
-    public ThingDef RandomUnfound() => UniqueBraindance.All.Where(d => !_found.Contains(d)).RandomElementWithFallback();
+    /// <summary>
+    /// A recording to drop. Any of them can come again; ones the library has not seen yet are three times as likely.
+    /// </summary>
+    public ThingDef RandomUnfound() => UniqueBraindance.All.RandomElementByWeightWithFallback(d => _found.Contains(d) ? 1f : 3f);
 
     public bool MarketDiscountActive => Find.TickManager.TicksGame < _discountUntil;
 
@@ -205,6 +210,7 @@ public class UniqueBraindanceManager : GameComponent
         Scribe_Collections.Look(ref _found, "found", LookMode.Def);
         Scribe_Values.Look(ref _discountUntil, "discountUntil", -1);
         Scribe_Values.Look(ref RevealNextDive, "revealNextDive");
+        Scribe_Values.Look(ref OracleWatching, "oracleWatching");
         _found ??= [];
         _found.RemoveAll(d => d == null);
     }

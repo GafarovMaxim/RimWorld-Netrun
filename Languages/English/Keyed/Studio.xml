@@ -36,7 +36,7 @@
   <NR_StudioDropDive>A dive's special find: {0} of celebrity chip finds</NR_StudioDropDive>
   <NR_StudioDropMarket>Black market: {0} chance per market, for a high price</NR_StudioDropMarket>
   <NR_StudioDropContract>A finished contract: {0} chance of a bonus recording</NR_StudioDropContract>
-  <NR_StudioDropOnce>Each recording turns up only once per game.</NR_StudioDropOnce>
+  <NR_StudioDropOnce>Rare: the same recording can turn up again.</NR_StudioDropOnce>
   <NR_StudioItem>Recording</NR_StudioItem>
   <NR_StudioPickHint>Pick a found recording on the left.</NR_StudioPickHint>
   <NR_StudioRules>Rules</NR_StudioRules>

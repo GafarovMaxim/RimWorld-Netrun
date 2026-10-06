@@ -134,6 +134,7 @@ public class HeatTracker : GameComponent
         string text = "NR_HeatLevelUp".Translate(Level.Label());
         Messages.Message(text, type, historical: true);
         AddLog(0f, text);
+        _log[_log.Count - 1].Level = (int)Level;
     }
 
     /// <summary>A journal line with no Heat change (a raid, an attack, an event).</summary>

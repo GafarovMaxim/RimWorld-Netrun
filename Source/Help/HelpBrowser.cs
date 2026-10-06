@@ -319,13 +319,13 @@ public class HelpBrowser
         bool bullet = line.StartsWith("- ");
         string textLine = bullet ? line.Substring(2) : line;
         Texture2D lineIcon = HelpIcons.TakeLeading(ref textLine);
-        const float iconSize = 40f;
+        float iconSize = NetrunUI.Icon(40f);
         float indent = (bullet ? 16f : 0f) + (lineIcon != null ? iconSize + 10f : 0f);
         if (bullet && lineIcon == null)
             Widgets.Label(new Rect(0f, y, 14f, 22f), "•".Colorize(NetrunUI.Accent));
         if (lineIcon != null)
             GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, iconSize, iconSize), lineIcon);
-        float pad = lineIcon != null ? (iconSize - Text.LineHeight) / 2f : 0f;
+        float pad = lineIcon != null ? Mathf.Max(0f, (iconSize - NetrunText.LineHeight) / 2f) : 0f;
         float h = FlowText(textLine, indent, y + pad, w - indent);
         h = Mathf.Max(lineIcon != null ? iconSize + 2f : 0f, h + pad);
         return y + h + (bullet ? 5f : 8f);
@@ -383,8 +383,9 @@ public class HelpBrowser
         float x = 14f;
         if (icon != null)
         {
-            GUI.DrawTexture(new Rect(x, band.y + 4f, 28f, 28f), icon);
-            x += 38f;
+            float s = Mathf.Min(34f, NetrunUI.Icon(28f));
+            GUI.DrawTexture(new Rect(x, band.center.y - s / 2f, s, s), icon);
+            x += s + 10f;
         }
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(x, band.y, w - x - 8f, band.height), heading.ToUpper().Colorize(c));

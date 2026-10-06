@@ -32,6 +32,15 @@ public static class NetrunTex
     public static Texture2D GroupFavor => CyberIcon("Icon_GroupFavor");
     public static Texture2D DiveReport => CyberIcon("Icon_DiveReport");
 
+    private static readonly Dictionary<string, Texture2D> TabIconsByName = [];
+
+    public static Texture2D TabIconByName(string name)
+    {
+        if (!TabIconsByName.TryGetValue(name, out Texture2D tex))
+            TabIconsByName[name] = tex = ContentFinder<Texture2D>.Get("UI/Netrun/Tabs/" + name, reportFailure: false);
+        return tex;
+    }
+
     /// <summary>The main color of each archetype's icon (measured from the art), for frames around it.</summary>
     public static Color PersonalityColor(AIPersonality p) => NetrunUI.Hex(p switch
     {

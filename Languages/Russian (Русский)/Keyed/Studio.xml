@@ -36,7 +36,7 @@
   <NR_StudioDropDive>Особая находка в нырке: {0} находок чипа знаменитости</NR_StudioDropDive>
   <NR_StudioDropMarket>Чёрный рынок: шанс {0} на каждый рынок, за высокую цену</NR_StudioDropMarket>
   <NR_StudioDropContract>Выполненный контракт: шанс {0} на бонусную запись</NR_StudioDropContract>
-  <NR_StudioDropOnce>Каждая запись выпадает один раз за игру.</NR_StudioDropOnce>
+  <NR_StudioDropOnce>Редкость: одна и та же запись может выпасть снова.</NR_StudioDropOnce>
   <NR_StudioItem>Запись</NR_StudioItem>
   <NR_StudioPickHint>Выберите найденную запись слева.</NR_StudioPickHint>
   <NR_StudioRules>Правила</NR_StudioRules>

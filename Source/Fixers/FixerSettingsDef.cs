@@ -14,6 +14,9 @@ public class FixerSettingsDef : Def
     /// <summary>Silver paid per held fixer at every rotation; without it the hold lapses.</summary>
     public int holdCost = 100;
     /// <summary>After breaking ties a fixer does not come back for this many days.</summary>
+    /// <summary>Breaking ties during a running contract: cyberdata the fixer takes, or Heat if there is none.</summary>
+    public int breakContractCyberdata = 6;
+    public float breakContractHeat = 6f;
     public int breakBanDays = 30;
     /// <summary>A fixer is marked "new" for this many days after joining the pool.</summary>
     public float newcomerDays = 2f;

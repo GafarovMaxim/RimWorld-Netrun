@@ -77,9 +77,13 @@
   <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену (платится при смене; не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
-  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения и текущий контракт отменяются (без доп. штрафа), на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
+  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт cyberdata со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
   <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дней.</NR_FixerBreakConfirm>
   <NR_FixerTiesBroken>Связь с {0} разорвана. В пул пришёл {1}.</NR_FixerTiesBroken>
   <NR_FixerHoldPaid>Удержать · {0}</NR_FixerHoldPaid>
   <NR_FixerHoldLapsed>Не хватило серебра, чтобы удержать {0} ({1}): удержание снято.</NR_FixerHoldLapsed>
+  <NR_FixerSpiteLabel>Обиженный фиксер</NR_FixerSpiteLabel>
+  <NR_FixerSpiteData>{0} обиделся, что вы бросили контракт, и напоследок увёл со склада {1} cyberdata.</NR_FixerSpiteData>
+  <NR_FixerSpiteHeat>{0} обиделся, что вы бросили контракт. Взять было нечего, и он слил ваш след: Heat +{1}.</NR_FixerSpiteHeat>
+  <NR_FixerSpiteLog>{0} слил след из обиды</NR_FixerSpiteLog>
 </LanguageData>

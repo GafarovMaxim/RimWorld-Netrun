@@ -101,12 +101,14 @@ public class Dialog_DiveReport : Window
     public override void DoWindowContents(Rect inRect)
     {
         bool font = NetrunFont.Push();
+        bool size = NetrunText.Push();
         try
         {
             DrawContents(inRect);
         }
         finally
         {
+            NetrunText.Pop(size);
             NetrunFont.Pop(font);
         }
     }

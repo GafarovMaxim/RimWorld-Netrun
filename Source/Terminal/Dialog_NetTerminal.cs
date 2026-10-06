@@ -75,21 +75,14 @@ public partial class Dialog_NetTerminal : Window
     public override void DoWindowContents(Rect inRect)
     {
         bool font = NetrunFont.Push();
-        float scale = Mathf.Clamp(NetrunMod.Settings.TerminalScale, 0.8f, 1.3f);
-        Matrix4x4 matrix = GUI.matrix;
+        bool size = NetrunText.Push();
         try
         {
-            if (Mathf.Abs(scale - 1f) > 0.01f)
-            {
-                // Everything inside is laid out for a smaller (or larger) window and drawn scaled up (down).
-                GUI.matrix = matrix * Matrix4x4.Scale(new Vector3(scale, scale, 1f));
-                inRect = new Rect(inRect.x / scale, inRect.y / scale, inRect.width / scale, inRect.height / scale);
-            }
             DrawContents(inRect);
         }
         finally
         {
-            GUI.matrix = matrix;
+            NetrunText.Pop(size);
             NetrunFont.Pop(font);
         }
     }
@@ -181,15 +174,6 @@ public partial class Dialog_NetTerminal : Window
             return;
         }
 
-        bool backToGateway = _view == View.Archive && _archiveFromGateway;
-        string backLabel = backToGateway ? "NR_BackToGateway".Translate() : "NR_BackToCore".Translate();
-        float backW = Mathf.Max(90f, NetrunUI.ButtonWidth(backLabel));
-        if (NetrunUI.Button(new Rect(content.x, content.y, backW, 28f), backLabel, NetrunUI.Accent, true, backToGateway ? null : "NR_TipBackToCore".Translate()))
-        {
-            _view = backToGateway ? View.Gateway : View.Map;
-            _archiveFromGateway = false;
-        }
-        content.yMin += 40f;
         // List screens: the whole content is one guide area.
         switch (_view)
         {
@@ -345,7 +329,26 @@ public partial class Dialog_NetTerminal : Window
             _titleView = _view;
             _titleChangedAt = Time.realtimeSinceStartup;
         }
-        var titleRect = new Rect(rect.x + 14f, rect.y, rect.width - 28f, rect.height);
+        float titleX = rect.x + 14f;
+        // Inside a node (not a dive, not the Cyberpedia): the way back sits before the title.
+        if (_view != View.Map && _view != View.Help && dive == null)
+        {
+            bool backToGateway = _view == View.Archive && _archiveFromGateway;
+            string backLabel = backToGateway ? "NR_BackToGateway".Translate() : "NR_BackToCore".Translate();
+            Text.Font = GameFont.Small;
+            float backW = Mathf.Max(90f, NetrunUI.ButtonWidth(backLabel));
+            var back = new Rect(titleX, rect.center.y - 15f, backW, 30f);
+            GuideRegistry.Area("terminal.back", back.ExpandedBy(3f));
+            if (NetrunUI.Button(back, backLabel, NetrunUI.Accent, true, backToGateway ? null : "NR_TipBackToCore".Translate()))
+            {
+                _view = backToGateway ? View.Gateway : View.Map;
+                _archiveFromGateway = false;
+            }
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            titleX = back.xMax + 14f;
+        }
+        var titleRect = new Rect(titleX, rect.y, rect.xMax - 14f - titleX, rect.height);
         float since = Time.realtimeSinceStartup - _titleChangedAt;
         if (NetrunMod.Settings.Animations && since < 0.28f)
         {
@@ -375,8 +378,11 @@ public partial class Dialog_NetTerminal : Window
         }
         if (_view == View.Help)
             Widgets.DrawBoxSolid(help, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
-        if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, (_view == View.Help ? "NR_HelpLeaveTip" : "NR_HelpButtonTip").Translate()))
+        Texture2D wiki = NetrunTex.TabIconByName("Tab_Cyberpedia");
+        if (NetrunUI.Button(help, wiki == null ? "?" : string.Empty, NetrunUI.Accent, true, (_view == View.Help ? "NR_HelpLeaveTip" : "NR_HelpButtonTip").Translate()))
             OpenHelp();
+        if (wiki != null)
+            GUI.DrawTexture(help.ContractedBy(4f), wiki);
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
         if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
@@ -518,8 +524,11 @@ public partial class Dialog_NetTerminal : Window
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
         Text.Font = GameFont.Tiny;
         float sickW = Text.CalcSize(sickText).x;
-        const float sickPad = 10f;
+        Texture2D sickIcon = NetrunTex.CyberIcon("Icon_NetsickGlitch") ?? NetrunTex.CyberIcon("Icon_Netsick");
+        float sickPad = sickIcon != null ? 32f : 10f;
         Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
+        if (sickIcon != null)
+            GUI.DrawTexture(new Rect(sickSeg.x + 6f, sickSeg.center.y - 11f, 22f, 22f), sickIcon);
         Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
         Text.Font = GameFont.Small;
         string sickTip = "NR_HeatScreenNetsickTip".Translate();
@@ -560,7 +569,10 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(eventSeg.x + 22f, eventSeg.y, textW, eventSeg.height), entry.Text.Truncate(textW));
             if (amount.Length > 0)
                 Widgets.Label(new Rect(eventSeg.x + 22f + textW + 4f, eventSeg.y, amountW, eventSeg.height), amount);
-            Widgets.Label(new Rect(eventSeg.xMax - agoW - 8f, eventSeg.y, agoW + 4f, eventSeg.height), ago.Colorize(NetrunUI.Muted));
+            // A wider rect anchored right: fractional window positions while dragging can no longer wrap it.
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(new Rect(Mathf.Round(eventSeg.xMax - agoW - 40f), eventSeg.y, agoW + 32f, eventSeg.height), ago.Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
             NetrunUI.Tip(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
             if (Widgets.ButtonInvisible(eventSeg))

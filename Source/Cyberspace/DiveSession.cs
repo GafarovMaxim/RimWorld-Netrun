@@ -982,7 +982,7 @@ public class DiveSession : IExposable
         if (ForkChoice.Count > 0)
         {
             string path = string.Join(", ", ForkChoice.Select(c => (c == 1 ? "NR_DivePathHard" : "NR_DivePathEasy").Translate().ToString()));
-            report.Events.Add((ForkChoice.Contains(1) ? "Dive_BLACKICE" : "Dive_HIDDEN") + "|" + "NR_ReportEventPath".Translate(path));
+            report.Events.Add((ForkChoice.Contains(1) ? "Path_Hard" : "Path_Easy") + "|" + "NR_ReportEventPath".Translate(path));
         }
         return report;
     }

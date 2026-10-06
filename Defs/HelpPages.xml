@@ -142,7 +142,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>The pool and reputation</label>
-    <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them (up to {fixers.held}). After a rotation the pool always has at least two specialties; newcomers are marked "new".\nReputation grows with calls, scrubs, purchases and contracts. At {fixers.pin} a fixer is pinned for good, reveals their trait and gives the best prices.\n## !Fixers/Disconnect Breaking ties\n"Break ties" drops a fixer: their contract is cancelled without a penalty, a newcomer takes the place, and they stay away for {fixers.ban} days.</body>
+    <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them (up to {fixers.held}). After a rotation the pool always has at least two specialties; newcomers are marked "new".\nReputation grows with calls, scrubs, purchases and contracts. At {fixers.pin} a fixer is pinned for good, reveals their trait and gives the best prices.\n## !Fixers/Disconnect Breaking ties\n"Break ties" drops a fixer: if a contract with them is running, they take cyberdata from your storage out of spite (or leak your trace when there is none); a newcomer takes the place, and they stay away for {fixers.ban} days.</body>
     <icon>Fixers/Star</icon>
     <contexts>
       <li>Club</li>
@@ -165,7 +165,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Contracts</label>
-    <body>Each fixer offers contracts on the Board:\n- !Tabs/Tab_Contracts Data delivery: bring cyberdata by the deadline.\n- !Action_Hack System tap: complete hacks.\n- !Program_Stealth Quiet run: hacks while staying at or below Tracked; it fails at Target.\nA dive into a node marked ★ counts double for the contract. A failed contract costs reputation and the fixer goes silent for a few days.\n&gt; open:Board|Open the Board</body>
+    <body>Each fixer offers contracts on the Board:\n- Data delivery: bring cyberdata by the deadline.\n- System tap: complete hacks.\n- Quiet run: hacks while staying at or below Tracked; it fails at Target.\nA dive into a node marked ★ counts double for the contract. A failed contract costs reputation and the fixer goes silent for a few days.\n&gt; open:Board|Open the Board</body>
     <icon>Nodes/Home_Board</icon>
     <contexts>
       <li>Board</li>
@@ -234,7 +234,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Feeding and requests</label>
-    <body>## !Gizmo_AI_Feed Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
+    <body>## !Tabs/Tab_Events_AI Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
     <icon>Tabs/Tab_AI</icon>
     <keywords>
       <li>trust</li>
@@ -582,7 +582,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Unique recordings</label>
-    <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight; each turns up only once per game.\n## Where to find them\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
+    <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight, and they are rare; the same one can turn up again.\n## Where to find them\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
     <icon>tex:Things/Item/Drug/NR_UniqueBraindance</icon>
     <keywords>
       <li>unique recordings</li>
@@ -619,7 +619,7 @@
     <color>Accent</color>
     <label>Map events</label>
     <body>- !Event_DataCourier Data courier: a fixer's courier stays a day; mercenaries come for the data. Keep them alive for silver and reputation.\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: an abandoned server on your land; connect to it for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
-    <icon>Tabs/Tab_Overview</icon>
+    <icon>Event_MapEvents</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>

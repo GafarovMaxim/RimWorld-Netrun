@@ -94,7 +94,7 @@ public static class HyperText
     /// <summary>Lays segments out word by word in the current font; links call <paramref name="go"/>. Returns the height.</summary>
     public static float Flow(List<Segment> segments, float x, float y, float width, bool draw, System.Action<HelpPageDef> go, Color? textColor = null)
     {
-        float lineH = Text.LineHeight;
+        float lineH = NetrunText.LineHeight;
         float cx = 0f, cy = 0f;
         float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
         foreach (Segment seg in segments)

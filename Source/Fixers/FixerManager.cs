@@ -127,6 +127,10 @@ public class FixerManager : GameComponent
     {
         if (!_fixers.Contains(fixer))
             return;
+        // Walking out on a running contract: out of spite the fixer takes cyberdata from your storage,
+        // or, with nothing to take, leaks your trace.
+        if (ContractManager.Get()?.HasActive(fixer) == true)
+            BreakPenalty(fixer);
         ContractManager.Get()?.DropFixer(fixer);
         _fixers.Remove(fixer);
         _banned[fixer.Name] = Find.TickManager.TicksGame + Settings.breakBanDays * GenDate.TicksPerDay;
@@ -134,6 +138,21 @@ public class FixerManager : GameComponent
         _fixers.Add(newcomer);
         ContractManager.Get()?.RegenerateOffers(newcomer);
         Messages.Message("NR_FixerTiesBroken".Translate(fixer.Name, newcomer.Name), MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
+    private void BreakPenalty(Fixer fixer)
+    {
+        Map map = Find.AnyPlayerHomeMap;
+        int want = Settings.breakContractCyberdata;
+        int have = map == null ? 0 : ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata);
+        int take = System.Math.Min(want, have);
+        if (take > 0 && ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, take))
+        {
+            Find.LetterStack.ReceiveLetter("NR_FixerSpiteLabel".Translate(), "NR_FixerSpiteData".Translate(fixer.Name, take), LetterDefOf.NegativeEvent);
+            return;
+        }
+        HeatTracker.Get()?.AddHeat(Settings.breakContractHeat, "NR_FixerSpiteLog".Translate(fixer.Name), HeatSource.Event);
+        Find.LetterStack.ReceiveLetter("NR_FixerSpiteLabel".Translate(), "NR_FixerSpiteHeat".Translate(fixer.Name, Settings.breakContractHeat.ToString("0")), LetterDefOf.NegativeEvent);
     }
 
     private bool Banned(string name)
