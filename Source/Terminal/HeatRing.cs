@@ -18,7 +18,7 @@ public static class HeatRing
 
     public static Texture2D Get(float heat)
     {
-        int key = Mathf.RoundToInt(heat * 2f);
+        int key = Mathf.RoundToInt(heat);
         if (_tex != null && key == _builtFor)
             return _tex;
         _builtFor = key;

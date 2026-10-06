@@ -224,7 +224,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Homes, trust and hunger</label>
-    <body>## !thing:NR_AIServer Server\nThe main home; services work only from there. Racks add slots.\n## !Gizmo_AI_CoprocessorUpload Coprocessor\nAn AI linked to a cyberpod helps the netrunner in dives.\n## !Gizmo_AI_Embody Host\nA colonist with an AI socket carries the AI and gets its passive bonus; a host cannot be fed, bring the AI back to the server for that.\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
+    <body>## !thing:NR_AIServer Server\nThe main home; services work only from there. Racks add slots.\n## !Gizmo_AI_CoprocessorUpload Coprocessor\nAn AI linked to a cyberpod helps the netrunner in dives.\n## !Gizmo_AI_Embody Host\nA colonist with an AI socket carries the AI and gets its passive bonus. The AI feeds on its host: hunger slowly falls while it rides along.\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
     <icon>Gizmo_AI_Use</icon>
   </Netrun.HelpPageDef>
 

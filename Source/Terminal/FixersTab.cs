@@ -142,9 +142,9 @@ public static class FixersTab
         FixerManager manager = FixerManager.Get();
         float tx = inner.xMax;
         string drop = "NR_FixerBreak".Translate();
-        float dw = NetrunUI.ButtonWidth(drop);
+        float dw = NetrunUI.ButtonWidth(drop, NetrunTex.Disconnect != null);
         tx -= dw;
-        if (NetrunUI.Button(new Rect(tx, y - 2f, dw, 26f), drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays)))
+        if (NetrunUI.Button(new Rect(tx, y - 2f, dw, 26f), drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays), NetrunTex.Disconnect))
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_FixerBreakConfirm".Translate(fixer.Name, NetrunDefOf.NR_Fixers.breakBanDays),
                 () => manager?.BreakTies(fixer), destructive: true));
         if (!fixer.Pinned && manager != null)
@@ -216,11 +216,11 @@ public static class FixersTab
         }
 
         AcceptanceReport needsChannel = !silent.Accepted ? silent : fixer.ChannelOpen ? true : (AcceptanceReport)"NR_FixerAfterCall".Translate();
-        if (Add("NR_FixerScrub".Translate(), NetrunUI.Accent, needsChannel, "NR_FixerScrubTip".Translate()))
+        if (Add("NR_FixerScrub".Translate(), NetrunUI.Accent, needsChannel, "NR_FixerScrubTip".Translate(), NetrunTex.HeatReduction))
             Find.WindowStack.Add(new Dialog_FixerScrub(fixer, map));
 
         bool blackMarket = MapEventsManager.Get()?.BlackMarketStock(fixer).Any() == true;
-        if ((fixer.HasShop || blackMarket) && Add(blackMarket ? "NR_FixerShopBlack".Translate() : "NR_FixerShop".Translate(), NetrunUI.Ok, needsChannel, "NR_FixerShopTip".Translate()))
+        if ((fixer.HasShop || blackMarket) && Add(blackMarket ? "NR_FixerShopBlack".Translate() : "NR_FixerShop".Translate(), NetrunUI.Ok, needsChannel, "NR_FixerShopTip".Translate(), NetrunTex.Shop))
             Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
 
         // A favor the fixer owes from a cyberspace find: a free scrub, no channel needed.
@@ -228,7 +228,7 @@ public static class FixersTab
                 "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
         {
             fixer.FreeScrubs--;
-            HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name));
+            HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
         }
     }
 }

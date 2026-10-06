@@ -205,6 +205,27 @@ public static class NetrunUI
         return s.since;
     }
 
+    private static readonly System.Collections.Generic.Dictionary<long, float> Sweeps = [];
+
+    /// <summary>
+    /// Seconds since a sweep started on <paramref name="r"/>: it starts when the mouse comes in and runs its full
+    /// <paramref name="duration"/> even after the mouse leaves; -1 when no sweep is running.
+    /// </summary>
+    public static float SweepTime(Rect r, float duration)
+    {
+        long key = Key(r);
+        float now = Time.realtimeSinceStartup;
+        bool running = Sweeps.TryGetValue(key, out float start) && now - start < duration;
+        if (!running && HoverTime(r) is >= 0f and < 0.05f)
+        {
+            if (Sweeps.Count > 300)
+                Sweeps.Clear();
+            Sweeps[key] = start = now;
+            running = true;
+        }
+        return running ? now - start : -1f;
+    }
+
     /// <summary>0..1, how lit a hover effect is: rises over <paramref name="fade"/> seconds after the mouse comes in.</summary>
     public static float HoverFade(Rect r, float fade = 0.15f)
     {
@@ -218,25 +239,33 @@ public static class NetrunUI
     /// A shown number that rolls to its new value over about <paramref name="seconds"/>; also returns the last jump and
     /// how long ago it happened (for a "+8" that floats away).
     /// </summary>
-    public static float Rolling(string key, float target, out float lastDelta, out float sinceChange, float seconds = 0.6f)
+    public static float Rolling(string key, float target, out float lastDelta, out float sinceChange, float seconds = 0.6f, float minJump = 1.5f)
     {
         float now = Time.realtimeSinceStartup;
         if (!Values.TryGetValue(key, out var v))
             v = (target, -10f, 0f);
-        if (Mathf.Abs(target - v.value) >= 0.5f && now - v.changed > seconds)
-            v = (v.value, now, target - v.value);
+        bool rolling = now - v.changed < seconds;
+        float diff = target - v.value;
+        if (!rolling)
+        {
+            // Small drifts (passive cooling) follow at once; only a real jump rolls and shows its delta.
+            if (Mathf.Abs(diff) >= minJump && NetrunMod.Settings.Animations)
+                v = (target, now, diff);
+            else
+                v = (target, v.changed, v.delta);
+        }
+        else
+        {
+            v = (target, v.changed, v.delta + diff);
+        }
         Values[key] = v;
         lastDelta = v.delta;
         sinceChange = now - v.changed;
-        if (!NetrunMod.Settings.Animations || sinceChange >= seconds)
-        {
-            Values[key] = (target, v.changed, v.delta);
+        if (sinceChange >= seconds)
             return target;
-        }
         float t = sinceChange / seconds;
         t = 1f - (1f - t) * (1f - t) * (1f - t);
-        float start = target - v.delta;
-        return Mathf.Lerp(start, target, t);
+        return Mathf.Lerp(target - v.delta, target, t);
     }
 
     /// <summary>1 normally; briefly up to 1.15 right after the counter under <paramref name="key"/> grows.</summary>
@@ -307,7 +336,7 @@ public static class NetrunUI
     {
         Box(rect, BgCard, new Color(stripe.r, stripe.g, stripe.b, 0.35f));
         Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, 4f, rect.height), stripe);
-        ScanlineOnce(rect, stripe, HoverTime(rect), 0.5f);
+        ScanlineOnce(rect, stripe, SweepTime(rect, 1.4f), 1.4f);
     }
 
     /// <summary>A small bordered tag like "BROKER"; returns its width.</summary>

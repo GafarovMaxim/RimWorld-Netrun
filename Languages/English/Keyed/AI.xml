@@ -131,7 +131,7 @@
   <NR_AILocationHost>Rides in the AI socket of {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>Isolated in the AI socket of {0}. Not working, cannot escape.</NR_AILocationHostIsolated>
   <NR_AIUpload>Upload into a host</NR_AIUpload>
-  <NR_AIUploadTip>Move the AI into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents, but the AI stops offering services and cannot be fed or asked for anything until it is back in the server. Its hunger keeps growing.</NR_AIUploadTip>
+  <NR_AIUploadTip>Move the AI into a colonist with a cyberlink and an empty AI socket. The host gets the AI's talents, but the AI stops offering services and cannot be asked for anything until it is back in the server. It feeds on the host, so its hunger slowly falls.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Only an awake AI in a powered server can be uploaded.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>No colonist with a cyberlink and an empty AI socket.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} moved into the AI socket of {1}.</NR_AIUploaded>

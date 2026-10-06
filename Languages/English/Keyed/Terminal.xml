@@ -214,8 +214,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatV2Axis12>12 h ago</NR_HeatV2Axis12>
   <NR_HeatV2DotClick>Click: open the Archive.</NR_HeatV2DotClick>
   <NR_HeatV2NotCurrent>not current</NR_HeatV2NotCurrent>
-  <NR_HeatV2Wiki>Cyberpedia ↗</NR_HeatV2Wiki>
-  <NR_HeatV2WikiTip>All levels and their effects in the Cyberpedia.</NR_HeatV2WikiTip>
   <NR_HeatV2BackToCurrent>◄ now</NR_HeatV2BackToCurrent>
   <NR_CoreRowEnergy>Energy consumption</NR_CoreRowEnergy>
   <NR_CoreRowEnergyValue>{0} W · {1}</NR_CoreRowEnergyValue>
@@ -263,4 +261,5 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_ArchiveHeatThenTip>The Heat graph and what changes it.</NR_ArchiveHeatThenTip>
   <NR_ArchiveArticle>Article: {0} ↗</NR_ArchiveArticle>
   <NR_ChipArchiveEvents>Events: {0}</NR_ChipArchiveEvents>
+  <NR_BackToGateway>◄ Gateway</NR_BackToGateway>
 </LanguageData>

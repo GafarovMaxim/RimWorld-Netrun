@@ -109,18 +109,20 @@ public static class GatewayView
             DrawCircle(node, pos, radius);
         Widgets.EndGroup();
 
-        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f - 4f, rect.y + 4f, 3 * 34f, 30f));
-        DrawReportsButton(new Rect(rect.xMax - 3 * 34f - 4f - 40f, rect.y + 4f, 30f, 30f));
+        string reports = "NR_GatewayReports".Translate(GatewayManager.Get()?.Reports.Count ?? 0);
+        float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
+        DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
+        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
     }
 
     /// <summary>The dive summaries of recent runs: opens the Archive on its dive reports tab.</summary>
-    private static void DrawReportsButton(Rect rect)
+    private static void DrawReportsButton(Rect rect, string label)
     {
         GatewayManager gateway = GatewayManager.Get();
         int count = gateway?.Reports.Count ?? 0;
-        bool clicked = NetrunUI.Button(rect, string.Empty, NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(), "NR_GatewayReportsTip".Translate(count));
-        if (NetrunTex.DiveReport is { } icon)
-            GUI.DrawTexture(rect.ContractedBy(4f), icon);
+        GuideRegistry.Area("gateway.reports", rect.ExpandedBy(4f));
+        bool clicked = NetrunUI.Button(rect, label, NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(),
+            "NR_GatewayReportsTip".Translate(count), NetrunTex.DiveReport);
         if (!clicked || gateway == null)
             return;
         Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenArchive(ArchiveTab.Tab.Reports);

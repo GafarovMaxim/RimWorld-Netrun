@@ -419,7 +419,7 @@ public static class ArchiveTab
         HeatSource.AI => NetrunTex.CyberIcon("Icon_AIRequest"),
         HeatSource.Raid => NetrunTex.CyberIcon("Event_CorpHunt"),
         HeatSource.Event => NetrunTex.EventIcon("DataCourier"),
-        _ => NetrunTex.HeatIcon(tracker?.Level ?? HeatLevel.Shadow),
+        _ => NetrunTex.CyberIcon("Dive_Heat") ?? NetrunTex.HeatIcon(tracker?.Level ?? HeatLevel.Shadow),
     };
 
     /// <summary>Rows come in as a cascade: each slides in a little after the one above.</summary>
@@ -531,8 +531,8 @@ public static class ArchiveTab
         }
         var iconBox = new Rect(r.x + 12f, r.y + 9f, 30f, 30f);
         NetrunUI.Box(iconBox, NetrunUI.BgWindow, c);
-        if (NetrunTex.DiveReport is { } icon)
-            GUI.DrawTexture(iconBox.ContractedBy(4f), icon);
+        if (((rep.Success ? NetrunTex.ReportOk : NetrunTex.ReportFail) ?? NetrunTex.DiveReport) is { } icon)
+            GUI.DrawTexture(iconBox.ContractedBy(2f), icon);
 
         float heat = rep.HeatAfter - rep.HeatBefore;
         float textX = iconBox.xMax + 10f;

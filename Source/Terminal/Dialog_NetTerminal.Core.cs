@@ -91,8 +91,15 @@ public partial class Dialog_NetTerminal
 
         NetworkGate gate = NetworkGate.Get();
         bool Open(View v) => gate == null || gate.IsUnlocked(v.ToString());
-        foreach (var node in nodes)
-            Widgets.DrawLine(center, node.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, Open(node.view) ? 0.8f : 0.25f), 2f);
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            float a = NetrunMod.Settings.Animations ? Mathf.Clamp01((Time.realtimeSinceStartup - _mapShownAt - i * 0.06f) / 0.4f) : 1f;
+            float e = 1f - (1f - a) * (1f - a) * (1f - a);
+            if (e <= 0f)
+                continue;
+            Widgets.DrawLine(center, Vector2.Lerp(center, nodes[i].pos, e),
+                new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, (Open(nodes[i].view) ? 0.8f : 0.25f) * e), 2f);
+        }
         if (Time.realtimeSinceStartup - _mapShownAt > 0.7f)
             DrawLinkPulses(center, nodes.Where(n => Open(n.view)).Select(n => (n.pos, n.color)).ToList());
         for (int i = 0; i < nodes.Count; i++)
@@ -210,19 +217,35 @@ public partial class Dialog_NetTerminal
         float scale = NetrunUI.CountPulse("badge." + key, count);
         if (badge.Text.NullOrEmpty())
             return;
-        Text.Font = GameFont.Tiny;
-        float w = Mathf.Max(20f, Text.CalcSize(badge.Text).x + 10f) * scale;
-        var rect = new Rect(corner.x - w / 2f, corner.y - 10f * scale, w, 20f * scale);
-        Widgets.DrawBoxSolid(rect, badge.Urgent ? NetrunUI.Bad : NetrunUI.BgCardAlt);
-        GUI.color = badge.Urgent ? NetrunUI.Bad : NetrunUI.Accent;
-        Widgets.DrawBox(rect);
+        Color c = badge.Urgent ? NetrunUI.Bad : NetrunUI.Warn;
+        Text.Font = GameFont.Small;
+        float w = Mathf.Max(24f, Text.CalcSize(badge.Text).x + 14f);
+        var rect = new Rect(corner.x - w / 2f - 2f, corner.y - 12f, w, 24f);
+        Rect shown = new Rect(rect.center.x - rect.width * scale / 2f, rect.center.y - rect.height * scale / 2f, rect.width * scale, rect.height * scale);
+
+        if (badge.Urgent && NetrunMod.Settings.Animations)
+        {
+            // A slow halo spreading out from an urgent badge.
+            float f = Time.realtimeSinceStartup / 1.6f % 1f;
+            GUI.color = new Color(c.r, c.g, c.b, 0.5f * (1f - f));
+            Widgets.DrawBox(shown.ExpandedBy(2f + 8f * f));
+            GUI.color = Color.white;
+        }
+        NetrunUI.Glow(shown, c, 0.45f, 8f);
+        Widgets.DrawBoxSolid(shown, NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(new Rect(shown.x, shown.y, shown.width, 2f), c);
+        GUI.color = new Color(c.r, c.g, c.b, 0.9f);
+        Widgets.DrawBox(shown);
         GUI.color = Color.white;
+        // A cut corner: a small dark triangle-ish tick at the bottom right.
+        Widgets.DrawBoxSolid(new Rect(shown.xMax - 5f, shown.yMax - 2f, 5f, 2f), NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(new Rect(shown.xMax - 2f, shown.yMax - 5f, 2f, 5f), NetrunUI.BgWindow);
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, badge.Text);
+        Widgets.Label(new Rect(shown.x, shown.y + 1f, shown.width, shown.height), badge.Text.Colorize(c));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         if (!badge.Tip.NullOrEmpty())
-            NetrunUI.Tip(rect, badge.Tip);
+            NetrunUI.Tip(shown, badge.Tip);
     }
 
     /// <summary>Label and sub-line on a background patch, so the links pass under them.</summary>
@@ -278,7 +301,7 @@ public partial class Dialog_NetTerminal
 
         // The smooth ring (anti-aliased texture with level arcs, gaps and ticks) and the marker at the current value.
         float shown = NetrunUI.Rolling("core.heat", tracker.Heat, out float jump, out float since);
-        GUI.DrawTexture(rect, HeatRing.Get(shown));
+        GUI.DrawTexture(rect, HeatRing.Get(tracker.Heat));
         Vector2 tip = HeatRing.PointAt(rect, shown);
         var marker = new Rect(tip.x - 7f, tip.y - 7f, 14f, 14f);
         GUI.color = NetrunUI.BgWindow;
@@ -290,11 +313,11 @@ public partial class Dialog_NetTerminal
         GUI.color = Color.white;
 
         // Inside: the level icon over the number, the level and the trend.
-        GUI.DrawTexture(new Rect(c.x - 14f, c.y - 40f, 28f, 28f), NetrunTex.HeatIcon(current));
+        GUI.DrawTexture(new Rect(c.x - 19f, c.y - 52f, 38f, 38f), NetrunTex.HeatIcon(current));
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
         Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), shown.ToString("0").Colorize(lc));
-        if (NetrunMod.Settings.Animations && since < 1.2f && Mathf.Abs(jump) >= 0.5f)
+        if (NetrunMod.Settings.Animations && since < 1.2f && Mathf.Abs(jump) >= 1.5f)
         {
             Text.Font = GameFont.Small;
             float f = since / 1.2f;
@@ -557,7 +580,7 @@ public partial class Dialog_NetTerminal
         if (gateway == null)
             return;
         float refreshDays = NetrunDefOf.NR_Cyberspace.refreshDays;
-        y = GaugeRow(inner, y, NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), "NR_CoreGatewayRefresh".Translate(),
+        y = GaugeRow(inner, y, NetrunTex.HiddenNode, "NR_CoreGatewayRefresh".Translate(),
             gateway.TicksUntilRefresh.ToStringTicksToPeriod(), 1f - gateway.TicksUntilRefresh / (refreshDays * GenDate.TicksPerDay), NetrunUI.Accent, null);
         ExternalNode boss = gateway.Boss;
         Texture2D bossIcon = NetrunTex.CyberIcon("Node_CorpCore");

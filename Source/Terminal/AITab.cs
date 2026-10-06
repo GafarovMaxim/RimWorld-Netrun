@@ -103,8 +103,10 @@ public static class AITab
         return Mathf.Max(PortraitSize, content) + 2 * Pad;
     }
 
-    private static void DrawCard(Rect rect, NetAI ai, Map map, AIManager manager, Color color)
+    private static void DrawCard(Rect rect, NetAI ai, Map map, AIManager manager, Color locationColor)
     {
+        // Frame and stripe in the archetype's color; the section above says where the AI lives.
+        Color color = NetrunTex.PersonalityColor(ai.Personality);
         NetrunUI.Card(rect, color);
         if (ai.HasRequest)
         {
@@ -113,7 +115,7 @@ public static class AITab
             GUI.color = Color.white;
         }
 
-        // Portrait framed in the location color.
+        // Portrait framed in the archetype's color.
         var portrait = new Rect(rect.x + 4f + Pad, rect.y + Pad, PortraitSize, PortraitSize);
         NetrunUI.Box(portrait, NetrunUI.BgWindow, color, 2);
         GUI.DrawTexture(portrait.ContractedBy(6f), NetrunTex.Portrait(ai.Personality));

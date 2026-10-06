@@ -30,6 +30,7 @@ public class AISettingsDef : Def
     public float feedHungerRelief = 50f;
     public float feedTrust = 5f;
     public float ghostHungerPerHack = 15f;
+    public float hostHungerReliefPerDay = 10f;
     public float ghostCalmPerDay = 15f;
 
     // Services.

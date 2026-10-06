@@ -567,6 +567,27 @@ public class DiveSession : IExposable
         }
     }
 
+    /// <summary>Neural feedback from a failed dive: a few small burns on outer body parts.</summary>
+    private void AddFailBurns()
+    {
+        if (Runner == null || Runner.Dead)
+            return;
+        List<BodyPartRecord> parts = Runner.health.hediffSet.GetNotMissingParts()
+            .Where(p => p.depth == BodyPartDepth.Outside && p.coverageAbs > 0f).ToList();
+        HediffDef burnDef = DefDatabase<HediffDef>.GetNamedSilentFail("Burn");
+        if (parts.Count == 0 || burnDef == null)
+            return;
+        int count = Settings.failBurns.RandomInRange;
+        for (int i = 0; i < count; i++)
+        {
+            BodyPartRecord part = parts.RandomElement();
+            var burn = (Hediff_Injury)HediffMaker.MakeHediff(burnDef, Runner, part);
+            burn.Severity = Settings.failBurnDamage.RandomInRange;
+            Runner.health.AddHediff(burn, part);
+        }
+        AddLog("NR_DiveLogBurns".Translate(Runner.LabelShort, count).Colorize(NetrunUI.Bad));
+    }
+
     private void AddHediff(string defName)
     {
         HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(defName);
@@ -655,6 +676,8 @@ public class DiveSession : IExposable
         if (heat > 0f)
             HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name), HeatSource.Dive);
         AddNetsick(Settings.netsickPerDive);
+        if (!success && !Retreated)
+            AddFailBurns();
 
         int kept = Mathf.RoundToInt(LootCyberdata * keepShare) + Mathf.RoundToInt(LootAdvanced * keepShare) * NetrunDefOf.NR_Fixers.advancedCyberdataWorth;
         EconomyTracker.Get()?.Note(gained: kept, diveWon: success);

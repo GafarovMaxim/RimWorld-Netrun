@@ -76,7 +76,7 @@ public class Dialog_DiveReport : Window
 
     private string Typed(string text) => NetrunUI.Typed(_stamp + _row, text, 120f, 0.12f * _row++);
 
-    public override Vector2 InitialSize => new(Mathf.Min(780f, UI.screenWidth - 40f), Mathf.Min(560f, UI.screenHeight - 40f));
+    public override Vector2 InitialSize => new(Mathf.Min(780f, UI.screenWidth - 40f), Mathf.Min(620f, UI.screenHeight - 40f));
     protected override float Margin => 0f;
 
     public Dialog_DiveReport(DiveReport report)
@@ -140,8 +140,8 @@ public class Dialog_DiveReport : Window
 
         // Result strip: status chip with icon, runner and turns.
         (string result, Color color, string icon) = d.Success
-            ? ((string)"NR_ReportSuccess".Translate(), NetrunUI.Ok, "Action_Exit")
-            : d.Retreated ? ((string)"NR_ReportRetreat".Translate(), NetrunUI.Warn, "Action_Move") : ((string)"NR_ReportFail".Translate(), NetrunUI.Bad, "Dive_BLACKICE");
+            ? ((string)"NR_ReportSuccess".Translate(), NetrunUI.Ok, "Dive_GATE_Success")
+            : d.Retreated ? ((string)"NR_ReportRetreat".Translate(), NetrunUI.Warn, "Action_Exit") : ((string)"NR_ReportFail".Translate(), NetrunUI.Bad, "Dive_GATE_Failed");
         var strip = new Rect(r.x, y, r.width, 34f);
         Widgets.DrawBoxSolid(strip, new Color(color.r, color.g, color.b, 0.12f));
         Widgets.DrawBoxSolid(new Rect(strip.x, strip.y, 3f, strip.height), color);
@@ -155,7 +155,7 @@ public class Dialog_DiveReport : Window
 
         // Two cards: the haul, and costs and consequences; events below across the width.
         float bottom = r.yMax - 40f;
-        float eventsH = d.Events.Count > 0 ? Mathf.Min(30f + d.Events.Count * 28f, 120f) : 0f;
+        float eventsH = d.Events.Count > 0 ? Mathf.Min(44f + EventsHeight(d, r.width), (bottom - y) * 0.5f) : 0f;
         float cardsH = bottom - y - (eventsH > 0f ? eventsH + 10f : 0f);
         float half = (r.width - 10f) / 2f;
         DrawHaul(new Rect(r.x, y, half, cardsH), d);
@@ -245,43 +245,74 @@ public class Dialog_DiveReport : Window
             Row(r, y, Icon("Event_HunterICE"), "NR_ReportHunter".Translate(), "NR_ReportHunterValue".Translate(), NetrunUI.Bad);
     }
 
+    /// <summary>Height of the events grid: two columns, each row as tall as its longer text.</summary>
+    private static float EventsHeight(DiveReport d, float width)
+    {
+        float colW = (width - 20f - 10f) / 2f;
+        Text.Font = GameFont.Tiny;
+        float h = 0f;
+        for (int i = 0; i < d.Events.Count; i += 2)
+            h += Mathf.Max(EventHeight(d.Events[i], colW), i + 1 < d.Events.Count ? EventHeight(d.Events[i + 1], colW) : 0f) + 4f;
+        Text.Font = GameFont.Small;
+        return h;
+    }
+
+    private static float EventHeight(string e, float colW)
+    {
+        int bar = e.IndexOf('|');
+        string text = bar > 0 ? e.Substring(bar + 1) : e;
+        return Mathf.Max(24f, Text.CalcHeight(text, colW - 30f));
+    }
+
     private static void DrawEvents(Rect rect, DiveReport d)
     {
         Rect r = Card(rect, "NR_ReportEvents".Translate(), Icon("Event_DataStorm"));
-        float y = r.y;
         float colW = (r.width - 10f) / 2f;
-        for (int i = 0; i < d.Events.Count; i++)
+        Widgets.BeginGroup(r);
+        float y = 0f;
+        Text.Font = GameFont.Tiny;
+        for (int i = 0; i < d.Events.Count; i += 2)
         {
-            string e = d.Events[i];
-            int bar = e.IndexOf('|');
-            Texture2D icon = bar > 0 ? Icon(e.Substring(0, bar)) : null;
-            string text = bar > 0 ? e.Substring(bar + 1) : e;
-            var cell = new Rect(r.x + i % 2 * (colW + 10f), y + i / 2 * 26f, colW, 24f);
-            if (icon != null)
-                GUI.DrawTexture(new Rect(cell.x, cell.y + 1f, 22f, 22f), icon);
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(cell.x + 28f, cell.y, cell.width - 30f, cell.height), text.Truncate(cell.width - 30f));
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-            NetrunUI.Tip(cell, text);
+            float rowH = Mathf.Max(EventHeight(d.Events[i], colW), i + 1 < d.Events.Count ? EventHeight(d.Events[i + 1], colW) : 0f);
+            for (int j = i; j < Mathf.Min(i + 2, d.Events.Count); j++)
+            {
+                string e = d.Events[j];
+                int bar = e.IndexOf('|');
+                Texture2D icon = bar > 0 ? Icon(e.Substring(0, bar)) : null;
+                string text = bar > 0 ? e.Substring(bar + 1) : e;
+                var cell = new Rect((j - i) * (colW + 10f), y, colW, rowH);
+                if (icon != null)
+                    GUI.DrawTexture(new Rect(cell.x, cell.y + 1f, 22f, 22f), icon);
+                Widgets.Label(new Rect(cell.x + 28f, cell.y + 3f, cell.width - 30f, cell.height), text);
+            }
+            y += rowH + 4f;
         }
+        Text.Font = GameFont.Small;
+        Widgets.EndGroup();
     }
 
+    /// <summary>Icon, label and value; both wrap onto more lines when they do not fit.</summary>
     private float Row(Rect r, float y, Texture2D icon, string label, string value, Color color)
     {
-        var row = new Rect(r.x, y, r.width, 30f);
+        float labelW = Mathf.Min(140f, r.width * 0.42f);
+        float valueW = r.width - 32f - labelW - 10f;
+        Text.Font = GameFont.Tiny;
+        float lh = Text.CalcHeight(label, labelW);
+        Text.Font = GameFont.Small;
+        float vh = Text.CalcHeight(value, valueW);
+        float h = Mathf.Max(30f, Mathf.Max(lh, vh) + 8f);
+        var row = new Rect(r.x, y, r.width, h);
         Widgets.DrawBoxSolid(row, NetrunUI.BgWindow);
         if (icon != null)
-            GUI.DrawTexture(new Rect(row.x + 5f, row.y + 4f, 22f, 22f), icon);
+            GUI.DrawTexture(new Rect(row.x + 5f, row.y + (h - 22f) / 2f, 22f, 22f), icon);
         Text.Anchor = TextAnchor.MiddleLeft;
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(row.x + 32f, row.y, 130f, row.height), label.Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(row.x + 32f, row.y, labelW, row.height), label.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(row.x + 160f, row.y, row.width - 166f, row.height), Typed(value).Colorize(color));
+        Widgets.Label(new Rect(row.xMax - valueW - 6f, row.y, valueW, row.height), Typed(value).Colorize(color));
         Text.Anchor = TextAnchor.UpperLeft;
-        return y + 34f;
+        return y + h + 4f;
     }
 
     private float Line(Rect r, float y, Texture2D icon, string text, Color color)

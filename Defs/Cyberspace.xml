@@ -39,6 +39,9 @@
          a dive every 2-3 days stays flat, ten daily dives reach "strong" -->
     <netsickPerDive>0.06</netsickPerDive>
     <netsickPerIceHit>0.04</netsickPerIceHit>
+    <!-- A failed dive (not a retreat): a few small burns from the neural feedback -->
+    <failBurns>2~3</failBurns>
+    <failBurnDamage>1.5~3.5</failBurnDamage>
     <successXp>400</successXp>
     <!-- Waking up and leaving a cyberpod, ticks (Hacking Expansion: 5000 = 2 hours) -->
     <podWakeUpTicks>2500</podWakeUpTicks>

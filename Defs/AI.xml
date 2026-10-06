@@ -34,6 +34,8 @@
     <feedTrust>5</feedTrust>
     <ghostHungerPerHack>15</ghostHungerPerHack>
     <ghostCalmPerDay>15</ghostCalmPerDay>
+    <!-- An AI in a colonist's socket feeds on the host: hunger drops per day -->
+    <hostHungerReliefPerDay>10</hostHungerReliefPerDay>
 
     <!-- Services: trust needed, cooldown, and what each personality does -->
     <minTrustForService>20</minTrustForService>

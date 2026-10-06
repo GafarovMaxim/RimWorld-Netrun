@@ -214,8 +214,6 @@
   <NR_HeatV2Axis12>12 ч назад</NR_HeatV2Axis12>
   <NR_HeatV2DotClick>Клик: открыть Архив.</NR_HeatV2DotClick>
   <NR_HeatV2NotCurrent>не текущий</NR_HeatV2NotCurrent>
-  <NR_HeatV2Wiki>Киберпедия ↗</NR_HeatV2Wiki>
-  <NR_HeatV2WikiTip>Все уровни и их эффекты в Киберпедии.</NR_HeatV2WikiTip>
   <NR_HeatV2BackToCurrent>◄ сейчас</NR_HeatV2BackToCurrent>
   <NR_CoreRowEnergy>Энергопотребление</NR_CoreRowEnergy>
   <NR_CoreRowEnergyValue>{0} Вт · {1}</NR_CoreRowEnergyValue>
@@ -263,4 +261,5 @@
   <NR_ArchiveHeatThenTip>График Heat и что на него влияет.</NR_ArchiveHeatThenTip>
   <NR_ArchiveArticle>Статья: {0} ↗</NR_ArchiveArticle>
   <NR_ChipArchiveEvents>Событий: {0}</NR_ChipArchiveEvents>
+  <NR_BackToGateway>◄ Шлюз</NR_BackToGateway>
 </LanguageData>

@@ -157,8 +157,14 @@ public partial class Dialog_NetTerminal : Window
             return;
         }
 
-        if (NetrunUI.Button(new Rect(content.x, content.y, 90f, 28f), "NR_BackToCore".Translate(), NetrunUI.Accent, true, "NR_TipBackToCore".Translate()))
-            _view = View.Map;
+        bool backToGateway = _view == View.Archive && _archiveFromGateway;
+        string backLabel = backToGateway ? "NR_BackToGateway".Translate() : "NR_BackToCore".Translate();
+        float backW = Mathf.Max(90f, NetrunUI.ButtonWidth(backLabel));
+        if (NetrunUI.Button(new Rect(content.x, content.y, backW, 28f), backLabel, NetrunUI.Accent, true, backToGateway ? null : "NR_TipBackToCore".Translate()))
+        {
+            _view = backToGateway ? View.Gateway : View.Map;
+            _archiveFromGateway = false;
+        }
         content.yMin += 40f;
         // List screens: the whole content is one guide area.
         switch (_view)
@@ -452,11 +458,8 @@ public partial class Dialog_NetTerminal : Window
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
         Text.Font = GameFont.Tiny;
         float sickW = Text.CalcSize(sickText).x;
-        Texture2D sickIcon = NetrunTex.CyberIcon("Icon_Netsick");
-        float sickPad = sickIcon != null ? 30f : 10f;
+        const float sickPad = 10f;
         Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
-        if (sickIcon != null)
-            GUI.DrawTexture(new Rect(sickSeg.x + 6f, sickSeg.center.y - 10f, 20f, 20f), sickIcon);
         Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
         Text.Font = GameFont.Small;
         string sickTip = "NR_HeatScreenNetsickTip".Translate();
@@ -507,8 +510,11 @@ public partial class Dialog_NetTerminal : Window
     public void OpenArchive(ArchiveTab.Tab tab)
     {
         ArchiveTab.Open(tab);
+        _archiveFromGateway = _view == View.Gateway;
         OpenNode(View.Archive);
     }
+
+    private bool _archiveFromGateway;
 
     private static void DrawCentered(Rect rect, string text)
     {

@@ -248,4 +248,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_GatewayRewardMult>x{0} of the dive cost</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Dive summaries: the last {0} runs.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>No dives yet.</NR_GatewayNoReports>
+  <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>
+  <NR_DiveLogBurns>Neural feedback burns {0}: {1} small burns.</NR_DiveLogBurns>
 </LanguageData>

@@ -248,4 +248,6 @@
   <NR_GatewayRewardMult>x{0} от стоимости нырка</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Итоги вылазок: последние {0}.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>Нырков ещё не было.</NR_GatewayNoReports>
+  <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>
+  <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}: небольших ожогов: {1}.</NR_DiveLogBurns>
 </LanguageData>

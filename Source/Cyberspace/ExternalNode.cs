@@ -53,6 +53,9 @@ public class CyberspaceSettingsDef : Def
     public float retreatLootLoss = 0.5f;
     public float netsickPerDive = 0.03f;
     public float netsickPerIceHit = 0.1f;
+    /// <summary>A failed dive (not a retreat) leaves a few small burns from the neural feedback.</summary>
+    public IntRange failBurns = new(2, 3);
+    public FloatRange failBurnDamage = new(1.5f, 3.5f);
     public float successXp = 400f;
     /// <summary>Waking up in a cyberpod (Hacking Expansion's own is 5000 = 2 hours).</summary>
     public int podWakeUpTicks = 2500;

@@ -92,10 +92,13 @@ public class AIManager : GameComponent
             if (!ai.Housed || !UpdatePower(ai, now))
                 continue;
 
-            // Hunger: Ghost is calmed by silence, everyone else just gets hungry. Isolation makes it worse.
-            float hunger = ai.Personality == AIPersonality.Ghost
-                ? (quiet ? -Settings.ghostCalmPerDay : 0f)
-                : Settings.hungerPerDay;
+            // Hunger: an AI in a host's socket feeds on the host and recovers; Ghost is calmed by silence;
+            // everyone else just gets hungry. Isolation makes it worse.
+            float hunger = ai.InHost
+                ? -Settings.hostHungerReliefPerDay
+                : ai.Personality == AIPersonality.Ghost
+                    ? (quiet ? -Settings.ghostCalmPerDay : 0f)
+                    : Settings.hungerPerDay;
             if (ai.Isolated && hunger > 0f)
                 hunger *= Settings.isolatedHungerFactor;
             ai.AddHunger(hunger * dayFraction);

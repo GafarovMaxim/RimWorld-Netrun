@@ -237,12 +237,8 @@ public static class HeatScreen
             cardTitle += " · " + "NR_HeatV2NotCurrent".Translate();
         Rect r = Card(rect, cardTitle);
         GUI.DrawTexture(new Rect(rect.xMax - 34f, rect.y + 8f, 22f, 22f), NetrunTex.HeatIcon(level));
-        string wiki = "NR_HeatV2Wiki".Translate();
-        float ww = NetrunUI.ButtonWidth(wiki) - 10f;
         Text.Font = GameFont.Tiny;
-        if (_openHelp != null && NetrunUI.Button(new Rect(rect.xMax - 40f - ww, rect.y + 8f, ww, 22f), wiki, NetrunUI.Accent, true, "NR_HeatV2WikiTip".Translate()))
-            _openHelp("NR_Help_Heat_Levels");
-        if (!current && NetrunUI.Button(new Rect(rect.xMax - 44f - ww - 70f, rect.y + 8f, 66f, 22f), "NR_HeatV2BackToCurrent".Translate(), NetrunUI.Muted, true))
+        if (!current && NetrunUI.Button(new Rect(rect.xMax - 44f - 70f, rect.y + 8f, 66f, 22f), "NR_HeatV2BackToCurrent".Translate(), NetrunUI.Muted, true))
             _shownLevel = null;
         Text.Font = GameFont.Small;
         GUI.BeginGroup(r);
