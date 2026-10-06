@@ -251,6 +251,7 @@ public static class GatewayView
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         Widgets.BeginScrollView(outer, ref _panelScroll, inner);
         float y = inner.y;
+        float gNodeStart = y;
 
         if (node == null || node.Hidden)
         {
@@ -259,6 +260,7 @@ public static class GatewayView
         }
         else
         {
+            float gNode = y;
             y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), node.Name);
             y = Row(inner, y, node.Icon, "NR_GatewayRowType".Translate(), node.TypeLabel, NetrunUI.TextColor, "NR_GatewayTipType".Translate());
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_GATE"), "NR_GatewayRowDefense".Translate(),
@@ -301,6 +303,9 @@ public static class GatewayView
             }
         }
 
+        if (node != null && !node.Hidden)
+            GuideRegistry.InScroll("gateway.node", outer, _panelScroll, new Rect(inner.x, gNodeStart, inner.width, y - gNodeStart));
+        float gProg = y;
         // Programs: toggles, limited by the pod's slots, paid in cyberdata on diving.
         Pawn runner = GatewayManager.Runner(map, out Building_Cyberpod pod);
         int slots = GatewayManager.ProgramSlots(pod);
@@ -346,6 +351,8 @@ public static class GatewayView
         Text.Font = GameFont.Small;
         y += dh + 8f;
 
+        GuideRegistry.InScroll("gateway.programs", outer, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
+        float gDive = y;
         // Dive cost with its breakdown, then the button.
         int cost = gateway.DiveCost(map, node, out string breakdown);
         var costRect = new Rect(inner.x, y, inner.width, 22f);
@@ -359,6 +366,8 @@ public static class GatewayView
             gateway.Dive(map, node);
         y += 52f;
 
+        GuideRegistry.InScroll("gateway.dive", outer, _panelScroll, new Rect(inner.x, gDive, inner.width, y - gDive));
+        float gSearch = y;
         // Search for hidden nodes and switch the view.
         if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_GatewaySearch".Translate(NetrunDefOf.NR_Cyberspace.searchCost), NetrunUI.Ok,
                 gateway.CanSearch(map), "NR_GatewaySearchTip".Translate()))
@@ -378,6 +387,7 @@ public static class GatewayView
         float rh = Text.CalcHeight(refresh, inner.width);
         Widgets.Label(new Rect(inner.x, y, inner.width, rh), refresh.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
+        GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
         _panelHeight = y + rh + 4f;
         Widgets.EndScrollView();
     }

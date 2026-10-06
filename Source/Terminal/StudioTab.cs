@@ -37,26 +37,33 @@ public static class StudioTab
         // Goggles and the colony's chip count at a glance.
         int goggles = map.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceGoggles).Count
                       + map.mapPawns.FreeColonistsSpawned.Count(BraindanceUtility.HasGoggles);
+        GuideRegistry.InScroll("studio.summary", rect, scroll, new Rect(0f, 0f, width, 26f));
         Widgets.Label(new Rect(0f, y, width, 24f), "NR_StudioSummary".Translate(goggles, chips.Sum(c => c.stackCount), raws.Count).Colorize(NetrunUI.Muted));
         y += 30f;
 
+        float gRec = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_StudioRecordings".Translate(raws.Count));
         if (raws.Count == 0)
             y = Empty(width, y, "NR_StudioNoRecordings".Translate());
         foreach (Thing raw in raws)
             y = DrawRecording(new Rect(0f, y, width, RowHeight), raw);
 
+        GuideRegistry.InScroll("studio.records", rect, scroll, new Rect(0f, gRec, width, y - gRec));
+        float gLib = y;
         y = NetrunUI.Section(new Rect(0f, y + 8f, width, SectionHeight), "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)));
         if (chips.Count == 0)
             y = Empty(width, y, "NR_StudioNoChips".Translate());
         foreach (Thing chip in chips)
             y = DrawChip(new Rect(0f, y, width, RowHeight), chip);
 
+        GuideRegistry.InScroll("studio.library", rect, scroll, new Rect(0f, gLib, width, y - gLib));
+        float gHook = y;
         y = NetrunUI.Section(new Rect(0f, y + 8f, width, SectionHeight), "NR_StudioHooked".Translate(hooked.Count));
         if (hooked.Count == 0)
             y = Empty(width, y, "NR_StudioNoneHooked".Translate());
         foreach (Pawn pawn in hooked)
             y = DrawHooked(new Rect(0f, y, width, RowHeight), pawn);
+        GuideRegistry.InScroll("studio.hooked", rect, scroll, new Rect(0f, gHook, width, y - gHook));
 
         Widgets.EndScrollView();
     }

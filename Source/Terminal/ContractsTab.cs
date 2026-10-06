@@ -45,6 +45,7 @@ public static class ContractsTab
         Widgets.BeginScrollView(rect, ref scroll, view);
         float y = 0f;
 
+        float gAct = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardActive".Translate());
         if (active.Count == 0)
             y = Empty(width, y, "NR_ContractsNoActive".Translate());
@@ -55,6 +56,8 @@ public static class ContractsTab
             y += h + CardGap;
         }
 
+        GuideRegistry.InScroll("board.active", rect, scroll, new Rect(0f, gAct, width, y - gAct));
+        float gOff = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardOffers".Translate(offers.Count));
         if (offers.Count + silent.Count == 0)
             y = Empty(width, y, "NR_ContractsNoOffers".Translate());
@@ -64,10 +67,12 @@ public static class ContractsTab
             DrawOffer(new Rect(0f, y, width, h), contract, fixer, contracts);
             y += h + CardGap;
         }
+        GuideRegistry.InScroll("board.offers", rect, scroll, new Rect(0f, gOff, width, y - gOff));
         foreach (Fixer fixer in silent)
         {
             DrawSilent(new Rect(0f, y, width, 60f), fixer);
             y += 60f + CardGap;
+            GuideRegistry.InScroll("board.offers", rect, scroll, new Rect(0f, gOff, width, y - gOff));
         }
 
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardHistory".Translate());

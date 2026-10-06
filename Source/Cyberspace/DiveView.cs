@@ -29,7 +29,6 @@ public static class DiveView
     {
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
         GuideRegistry.Area("dive.steps", mapRect);
-        GuideRegistry.Area("dive.panel", new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f));
         DrawElements(mapRect, session);
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), session);
     }
@@ -49,15 +48,21 @@ public static class DiveView
         };
     }
 
-    private static Texture2D ElementIcon(DiveElement e) => e.Hidden ? null : e.Kind switch
+    /// <summary>The step's icon and whether it is a white line icon to tint in the step's color.</summary>
+    private static (Texture2D icon, bool tint) ElementIcon(DiveElement e)
     {
-        DiveElementKind.Lobby => NetrunTex.CyberIcon("Action_Move"),
-        DiveElementKind.Gate => NetrunTex.CyberIcon("Dive_GATE"),
-        DiveElementKind.Ice => NetrunTex.CyberIcon("Dive_BLACKICE"),
-        DiveElementKind.Files => NetrunTex.CyberIcon("Reward_Valuables"),
-        DiveElementKind.Memory => NetrunDefOf.NR_AIFragment.uiIcon,
-        _ => NetrunTex.CyberIcon("Action_Exit"),
-    };
+        if (e.Hidden)
+            return (NetrunTex.CyberIcon("Dive_HIDDEN"), true);
+        return e.Kind switch
+        {
+            DiveElementKind.Lobby => (NetrunTex.CyberIcon("Dive_LOBBY"), true),
+            DiveElementKind.Gate => (NetrunTex.CyberIcon("Dive_GATE"), false),
+            DiveElementKind.Ice => (NetrunTex.CyberIcon("Dive_BLACKICE"), false),
+            DiveElementKind.Files => (NetrunTex.CyberIcon("Dive_FILES"), true),
+            DiveElementKind.Memory => (NetrunTex.CyberIcon("Dive_MEMORY"), true),
+            _ => (NetrunTex.CyberIcon("Dive_EXIT"), true),
+        };
+    }
 
     // ---- Steps ----
 
@@ -121,11 +126,11 @@ public static class DiveView
         // Header strip: icon and title.
         var header = new Rect(box.x + 1f, box.y + 1f, box.width - 2f, 22f);
         Widgets.DrawBoxSolid(header, new Color(color.r, color.g, color.b, 0.16f * alpha));
-        Texture2D icon = ElementIcon(e);
+        (Texture2D icon, bool tint) = ElementIcon(e);
         float tx = header.x + 6f;
         if (icon != null)
         {
-            GUI.color = new Color(1f, 1f, 1f, alpha);
+            GUI.color = tint ? edge : new Color(1f, 1f, 1f, alpha);
             GUI.DrawTexture(new Rect(header.x + 4f, header.y + 3f, 16f, 16f), icon);
             GUI.color = Color.white;
             tx += 18f;
@@ -198,6 +203,7 @@ public static class DiveView
         else
         {
             // Actions: pips for the actions left, buttons in a two-column grid.
+            float gAct = y;
             y = HudHeader(inner, y, "NR_DiveHudActions".Translate(), Pips(session.ActionsLeft, session.ActionsPerTurn, NetrunUI.Accent));
             float bw = (inner.width - 6f) / 2f;
             int index = 0;
@@ -229,6 +235,8 @@ public static class DiveView
             if (session.Storm)
                 y = Warning(inner, y, "NR_DiveStorm".Translate(), NetrunUI.Purple, NetrunTex.CyberIcon("Event_DataStorm"));
 
+            GuideRegistry.InScroll("dive.actions", top, _panelScroll, new Rect(inner.x, gAct, inner.width, y - gAct));
+            float gGauge = y;
             // Gauges: turn and trace.
             int maxTurns = NetrunDefOf.NR_Cyberspace.maxTurns;
             y = Gauge(inner, y, "NR_DiveHudTurn".Translate(session.Turn, maxTurns), session.Turn / (float)maxTurns,
@@ -237,6 +245,8 @@ public static class DiveView
             y = Gauge(inner, y, "NR_DiveHudTrace".Translate(session.Trace.ToString("0.#"), heat.ToString("0.#")), session.Trace / TraceGaugeMax,
                 HeatLevelUtility.LevelOf(Mathf.Min(99f, session.Trace / TraceGaugeMax * 100f)).Color(), "NR_DiveHudTraceTip".Translate());
 
+            GuideRegistry.InScroll("dive.gauges", top, _panelScroll, new Rect(inner.x, gGauge, inner.width, y - gGauge));
+            float gProg = y;
             // Programs and daemons as chips with icons and charges.
             y = HudHeader(inner, y + 4f, "NR_DivePrograms".Translate(), null);
             if (session.Programs.Count == 0 && session.Daemons.Count == 0)
@@ -266,11 +276,15 @@ public static class DiveView
                 y += 30f;
             }
 
+            GuideRegistry.InScroll("dive.programs", top, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
+            float gHaul = y;
             y = DrawHaul(inner, y + 2f, session);
+            GuideRegistry.InScroll("dive.haul", top, _panelScroll, new Rect(inner.x, gHaul, inner.width, y - gHaul));
         }
         _panelHeight = y + 4f;
         Widgets.EndScrollView();
 
+        GuideRegistry.Area("dive.log", log);
         DrawLog(log, session);
     }
 

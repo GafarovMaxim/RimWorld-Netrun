@@ -53,13 +53,13 @@ public static class FixersTab
             rect.yMin += 46f;
         }
 
-        GuideRegistry.Area("club.list", rect);
         float width = rect.width - 16f;
         float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);
 
         Widgets.BeginScrollView(rect, ref scroll, viewRect);
         float y = 0f;
+        float gPin = y;
         if (pinned.Count > 0)
         {
             y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_ClubPinned".Translate(pinned.Count));
@@ -70,10 +70,18 @@ public static class FixersTab
             }
         }
 
+        if (pinned.Count > 0)
+            GuideRegistry.InScroll("club.pinned", rect, scroll, new Rect(0f, gPin, width, y - gPin));
+        float gPool = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight),
             "NR_ClubPool".Translate(pool.Count, manager.TicksUntilRotation.ToStringTicksToPeriod()));
+        GuideRegistry.InScroll("club.pool", rect, scroll, new Rect(0f, gPool, width, SectionHeight));
+        bool first = true;
         foreach (Fixer fixer in pool)
         {
+            if (first)
+                GuideRegistry.InScroll("club.card", rect, scroll, new Rect(0f, y, width, CardHeight));
+            first = false;
             DrawFixer(new Rect(0f, y, width, CardHeight), fixer, map);
             y += CardHeight + CardGap;
         }

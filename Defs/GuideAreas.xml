@@ -46,8 +46,8 @@
         <text>Each node is a part of your network: Club, Board, Archive, Server room, Studio, Gateway. Badges count what needs attention.</text>
       </li>
       <li>
-        <text>Locked nodes show "?": hover to see how they open.</text>
-        <hint>hover over a node.</hint>
+        <text>A glowing node has news. Locked nodes show a lock: hover to see how they open.</text>
+        <hint>click any node.</hint>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -61,7 +61,7 @@
     <helpPage>NR_Help_Heat</helpPage>
     <steps>
       <li>
-        <text>Your trace: five segments for five levels, the number and the trend for the last day.</text>
+        <text>Your trace: five arcs for five levels, the marker at the current value, the number and the trend for the last day.</text>
         <hint>click the ring to open "Heat and trace".</hint>
       </li>
     </steps>
@@ -105,7 +105,10 @@
     <helpPage>NR_Help_Start_Terminal</helpPage>
     <steps>
       <li>
-        <text>Your network resources: cyberdata, AIs and slots, braindance chips, the hacker group's favor; then the power draw and the Gateway timers.</text>
+        <text>Your network resources: cyberdata, AIs and slots, braindance chips, the hacker group's favor.</text>
+      </li>
+      <li>
+        <text>Below: the energy the network draws, when new Gateway nodes come and when the corporate core appears.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -119,21 +122,28 @@
     <helpPage>NR_Help_Heat_Levels</helpPage>
     <steps>
       <li>
-        <text>Your Heat and its level, the change over 7 days and today's cooling. The scale shows all five levels with their thresholds.</text>
+        <text>Your Heat and its level, the change over 7 days and today's cooling.</text>
+      </li>
+      <li>
+        <text>The scale shows all five levels. Hover a segment for its effects; click it to show them in "Level effects".</text>
+        <hint>click a segment.</hint>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
     <defName>NR_Guide_heat_graph</defName>
-    <label>7-day graph</label>
+    <label>Graph</label>
     <area>heat.graph</area>
     <screen>Heat</screen>
     <order>2</order>
     <helpPage>NR_Help_Heat</helpPage>
     <steps>
       <li>
-        <text>Heat over the last week. Dots are events: green scrubs, yellow dives, red hacks.</text>
+        <text>Heat over the last week or day (switch top right). Dots are events: green scrubs, yellow dives, red hacks.</text>
+      </li>
+      <li>
+        <text>Move the mouse over the graph to read the value at that moment; click a dot to open the Archive.</text>
         <hint>hover over a dot.</hint>
       </li>
     </steps>
@@ -148,7 +158,10 @@
     <helpPage>NR_Help_Heat_Levels</helpPage>
     <steps>
       <li>
-        <text>What your current level brings: which threats can come and how the cooling changes. Below: how long until the level drops.</text>
+        <text>What the level brings: threats that can come and how cooling changes. Below: how long until the level drops.</text>
+      </li>
+      <li>
+        <text>"Cyberpedia ↗" opens the article about all levels.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -180,7 +193,7 @@
     <helpPage>NR_Help_Heat</helpPage>
     <steps>
       <li>
-        <text>The biggest sources of Heat this week and the totals: gained, scrubbed, cooled.</text>
+        <text>The biggest sources of Heat this week and the totals: gained, scrubbed, cooled. Click a row to open the Archive.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -191,42 +204,85 @@
     <area>club.group</area>
     <screen>Club</screen>
     <order>1</order>
-    <helpPage>NR_Help_Gateway</helpPage>
+    <helpPage>NR_Help_Gateway_Group</helpPage>
     <steps>
       <li>
-        <text>Favor from cyberspace finds. At full favor, "Call the group" sends allied fighters.</text>
+        <text>Favor from cyberspace finds. At full favor, "Call the group" sends allied fighters (or advanced cyberdata without allies).</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_club_list</defName>
-    <label>Fixers</label>
-    <area>club.list</area>
+    <defName>NR_Guide_club_pinned</defName>
+    <label>Pinned contacts</label>
+    <area>club.pinned</area>
     <screen>Club</screen>
     <order>2</order>
     <helpPage>NR_Help_Fixers_Pool</helpPage>
     <steps>
       <li>
-        <text>Pinned contacts first, then the rotating pool. Each card: specialty, trait, reputation and actions.</text>
-      </li>
-      <li>
-        <text>"Hold" keeps a fixer through the rotation; "Break ties" drops them for good.</text>
-        <hint>call a fixer to open a channel.</hint>
+        <text>Fixers with high reputation stay for good: their trait is known and their prices are the best.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_board_list</defName>
-    <label>Contracts</label>
-    <area>board.list</area>
+    <defName>NR_Guide_club_pool</defName>
+    <label>The pool</label>
+    <area>club.pool</area>
+    <screen>Club</screen>
+    <order>3</order>
+    <helpPage>NR_Help_Fixers_Pool</helpPage>
+    <steps>
+      <li>
+        <text>The rotating pool and when it changes next. Unpinned fixers leave at the rotation unless you hold them.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_club_card</defName>
+    <label>A fixer's card</label>
+    <area>club.card</area>
+    <screen>Club</screen>
+    <order>4</order>
+    <helpPage>NR_Help_Fixers_Types</helpPage>
+    <steps>
+      <li>
+        <text>Specialty and trait chips, the reputation bar with the pin mark.</text>
+      </li>
+      <li>
+        <text>Call (silver opens a channel), Scrub the trace, Shop. Top right: Hold for a fee per rotation, or Break ties.</text>
+        <hint>call this fixer.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_board_active</defName>
+    <label>Active contracts</label>
+    <area>board.active</area>
     <screen>Board</screen>
     <order>1</order>
     <helpPage>NR_Help_Fixers_Contracts</helpPage>
     <steps>
       <li>
-        <text>Offers from your fixers and your active contracts with their deadlines and progress.</text>
+        <text>What you took: progress, deadline and the reward. A missed deadline costs reputation.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_board_offers</defName>
+    <label>Offers</label>
+    <area>board.offers</area>
+    <screen>Board</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Fixers_Contracts</helpPage>
+    <steps>
+      <li>
+        <text>Contracts your fixers offer. Accept one; silent fixers show when they will talk again.</text>
+        <hint>accept an offer.</hint>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -240,21 +296,64 @@
     <helpPage>NR_Help_Heat</helpPage>
     <steps>
       <li>
-        <text>Every change of your Heat, newest first: what happened and by how much.</text>
+        <text>Every change of your Heat, newest first: what happened and by how much. Hover a row for the full text.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_studio_main</defName>
-    <label>Studio</label>
-    <area>studio.main</area>
+    <defName>NR_Guide_studio_summary</defName>
+    <label>Summary</label>
+    <area>studio.summary</area>
     <screen>Studio</screen>
     <order>1</order>
     <helpPage>NR_Help_Braindance</helpPage>
     <steps>
       <li>
-        <text>Raw braindance recordings from the goggles. Edit them into chips.</text>
+        <text>Goggles in the colony, chips in storage and raw recordings waiting.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_studio_records</defName>
+    <label>Raw recordings</label>
+    <area>studio.records</area>
+    <screen>Studio</screen>
+    <order>2</order>
+    <helpPage>NR_Help_BD_Record</helpPage>
+    <steps>
+      <li>
+        <text>Recordings made with the goggles. Edit one into a chip: pick the mood and wait for the work.</text>
+        <hint>edit a recording.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_studio_library</defName>
+    <label>Chip library</label>
+    <area>studio.library</area>
+    <screen>Studio</screen>
+    <order>3</order>
+    <helpPage>NR_Help_BD_Chips</helpPage>
+    <steps>
+      <li>
+        <text>Finished chips with their mood and quality. Black chips are stronger and riskier.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_studio_hooked</defName>
+    <label>Dependency</label>
+    <area>studio.hooked</area>
+    <screen>Studio</screen>
+    <order>4</order>
+    <helpPage>NR_Help_BD_Black</helpPage>
+    <steps>
+      <li>
+        <text>Colonists with braindance tolerance or addiction. Without regular braindance an addict gets withdrawal.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -268,11 +367,28 @@
     <helpPage>NR_Help_AI</helpPage>
     <steps>
       <li>
-        <text>Every AI by where it lives: the server, a coprocessor, a host. Trust and hunger show how it feels.</text>
+        <text>Every AI by where it lives: the server, a coprocessor, a host.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_server_card</defName>
+    <label>An AI's card</label>
+    <area>server.card</area>
+    <screen>Server</screen>
+    <order>2</order>
+    <helpPage>NR_Help_AI_Feeding</helpPage>
+    <steps>
+      <li>
+        <text>Status, archetype, trust and hunger.</text>
       </li>
       <li>
-        <text>Feed it, use its service, move it. A service costs trust and hunger.</text>
-        <hint>hover over the service button to see its price.</hint>
+        <text>"Eats" shows its food and how long it stays fed; the request plate shows what it asks, the deadline and the stakes.</text>
+        <hint>hover over the request.</hint>
+      </li>
+      <li>
+        <text>Buttons: feed, use its service (costs trust and hunger), move it to a host or a coprocessor, isolate or erase.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -283,7 +399,7 @@
     <area>gateway.field</area>
     <screen>Gateway</screen>
     <order>1</order>
-    <helpPage>NR_Help_Gateway</helpPage>
+    <helpPage>NR_Help_Gateway_Nodes</helpPage>
     <steps>
       <li>
         <text>External nodes in cyberspace. Bigger circles pay more; grey ones are hidden.</text>
@@ -307,19 +423,62 @@
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_gateway_panel</defName>
-    <label>Node panel</label>
-    <area>gateway.panel</area>
+    <defName>NR_Guide_gateway_node</defName>
+    <label>The node</label>
+    <area>gateway.node</area>
     <screen>Gateway</screen>
     <order>3</order>
-    <helpPage>NR_Help_Gateway_Programs</helpPage>
+    <helpPage>NR_Help_Gateway_Rewards</helpPage>
     <steps>
       <li>
-        <text>The selected node: type, defense, ICE, reward and risk.</text>
+        <text>The selected node: type, defense, ICE, trace per action and risk.</text>
         <hint>click a node on the field.</hint>
       </li>
       <li>
-        <text>Pick programs for the dive, check the cost and press DIVE. You can also search for hidden nodes here.</text>
+        <text>Reward: the multiplier of the dive cost and what you can bring back, item by item.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_programs</defName>
+    <label>Programs and daemons</label>
+    <area>gateway.programs</area>
+    <screen>Gateway</screen>
+    <order>4</order>
+    <helpPage>NR_Help_Gateway_Programs</helpPage>
+    <steps>
+      <li>
+        <text>Load programs into the pod's slots before diving; each costs cyberdata. Daemons are always on.</text>
+        <hint>toggle a program.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_dive</defName>
+    <label>Dive</label>
+    <area>gateway.dive</area>
+    <screen>Gateway</screen>
+    <order>5</order>
+    <helpPage>NR_Help_Gateway_Dive</helpPage>
+    <steps>
+      <li>
+        <text>The total cost (hover for the breakdown) and the DIVE button: a netrunner must lie in a powered pod.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_search</defName>
+    <label>Search and view</label>
+    <area>gateway.search</area>
+    <screen>Gateway</screen>
+    <order>6</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Find hidden nodes for cyberdata, switch between circles and a list, and see when new nodes come.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -333,24 +492,78 @@
     <helpPage>NR_Help_Gateway_Dive</helpPage>
     <steps>
       <li>
-        <text>The way from the lobby to the exit: gates to hack, ICE, files and memory. The bright one is where you are.</text>
+        <text>The way from the lobby to the exit: gates to hack, ICE, files and memory. The bright one is where you are; ✓ passed, ■ blocked, ? hidden.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_dive_panel</defName>
+    <defName>NR_Guide_dive_actions</defName>
     <label>Actions</label>
-    <area>dive.panel</area>
+    <area>dive.actions</area>
     <screen>Dive</screen>
     <order>2</order>
     <helpPage>NR_Help_Gateway_Dive</helpPage>
     <steps>
       <li>
-        <text>Your actions this turn: move, scan, hack, download, exit. Each one raises the dive's trace.</text>
+        <text>Your actions this turn (dots). Move, scan, hack, download, exit; each raises the dive's trace. Exit leaves at once.</text>
+        <hint>hover over Hack to see the chance.</hint>
       </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_dive_gauges</defName>
+    <label>Turn and trace</label>
+    <area>dive.gauges</area>
+    <screen>Dive</screen>
+    <order>3</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
       <li>
-        <text>Below: programs, turns left, the haul so far and the log.</text>
+        <text>Turns left before the node throws you out, and the trace that becomes Heat when you leave.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_dive_programs</defName>
+    <label>Programs</label>
+    <area>dive.programs</area>
+    <screen>Dive</screen>
+    <order>4</order>
+    <helpPage>NR_Help_Gateway_Programs</helpPage>
+    <steps>
+      <li>
+        <text>Loaded programs with charges left and your daemons. Spent charges dim.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_dive_haul</defName>
+    <label>Haul</label>
+    <area>dive.haul</area>
+    <screen>Dive</screen>
+    <order>5</order>
+    <helpPage>NR_Help_Gateway_Rewards</helpPage>
+    <steps>
+      <li>
+        <text>What you carry so far. A retreat from deep inside loses part of it.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_dive_log</defName>
+    <label>Log</label>
+    <area>dive.log</area>
+    <screen>Dive</screen>
+    <order>6</order>
+    <helpPage>NR_Help_Gateway_Dive</helpPage>
+    <steps>
+      <li>
+        <text>The dive's terminal: every action and the node's answer, newest at the bottom.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -360,7 +573,7 @@
     <label>Retreat</label>
     <area>dive.retreat</area>
     <screen>Dive</screen>
-    <order>3</order>
+    <order>7</order>
     <helpPage>NR_Help_Gateway_Dive</helpPage>
     <steps>
       <li>

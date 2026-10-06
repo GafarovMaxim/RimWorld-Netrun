@@ -25,6 +25,18 @@ public static class GuideRegistry
 
     public static void End() => Collecting = false;
 
+    /// <summary>An area inside a scroll view: <paramref name="local"/> in view coordinates, clipped to the visible part.</summary>
+    public static void InScroll(string id, Rect outer, Vector2 scroll, Rect local)
+    {
+        if (!Collecting)
+            return;
+        var r = new Rect(outer.x + local.x - scroll.x, outer.y + local.y - scroll.y, local.width, local.height);
+        float x0 = Mathf.Max(r.x, outer.x), y0 = Mathf.Max(r.y, outer.y);
+        float x1 = Mathf.Min(r.xMax, outer.xMax), y1 = Mathf.Min(r.yMax, outer.yMax);
+        if (x1 - x0 > 8f && y1 - y0 > 8f)
+            Area(id, new Rect(x0, y0, x1 - x0, y1 - y0));
+    }
+
     public static void Area(string id, Rect rect)
     {
         if (!Collecting || rect.width < 4f || rect.height < 4f)

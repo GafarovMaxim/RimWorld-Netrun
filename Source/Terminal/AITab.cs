@@ -64,6 +64,8 @@ public static class AITab
             foreach (NetAI ai in list)
             {
                 float h = CardHeight(ai, map, manager, width);
+                if (ai == groups[0].list[0])
+                    GuideRegistry.InScroll("server.card", listRect, scroll, new Rect(0f, y, width, h));
                 DrawCard(new Rect(0f, y, width, h), ai, map, manager, color);
                 y += h + CardGap;
             }

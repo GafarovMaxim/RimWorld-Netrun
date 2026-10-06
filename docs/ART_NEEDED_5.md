@@ -22,3 +22,8 @@ Daemon_Blade/Aegis/Wraith/Hound/Lens; Event_HunterICE, Event_Rival, Event_Honeyp
 | `Icon_AIRequest.png` | карточка ИИ, строка «Просит» | облачко-запрос с восклицательным знаком, фиолетовый | Icon_DiveReport |
 | `Icon_Trace.png` | HUD нырка, шкала «След» | отпечаток пальца из пикселей | — |
 | `Icon_Settings.png` (Textures/UI/Netrun/) | заголовок окна настроек мода | шестерёнка-микросхема | — |
+
+## Обновление 2026-10-06 (вечер)
+- Подключено из папки арта: Gizmo_AI_* (новые версии), Gizmo_CallFixer, Tab_Overview, Tab_Log (VarC), Gizmo_NetTerminal (VarC), Icon_AIRequest (из Gizmo_AI_Demand_VarH3), Icon_Xp (из Icon_Experience), Icon_Netsick (из Icon_NetSick_10E_GlitchSlices), NR_AIServer (из AIServer, 256 px), NR_DistressServer (из NR_DistressServer_3x3, 384 px, на карте drawSize 2.4 при клетке 1x1), Icon_Pinned (из Icon_Pinned_Diag_Dim).
+- Иконки ступеней нырка нарисованы мной как белые линейные заготовки (тонируются цветом ступени): Dive_LOBBY, Dive_FILES, Dive_MEMORY, Dive_EXIT, Dive_HIDDEN (Textures/UI/Netrun/Cyberspace, 64 px). Если захочешь фирменные — те же имена, белый контур на прозрачном.
+- Всё ещё нужно: Report_Success / Report_Retreat / Report_Fail (статусы итогов), Icon_Trace, Icon_Settings, фирменный Icon_Guide.
