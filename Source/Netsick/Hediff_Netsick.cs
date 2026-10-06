@@ -8,6 +8,8 @@ public class Hediff_Netsick : HediffWithComps
 {
     public int LastConnectedTick;
     public int EmotionalDiveUntilTick = -1;
+    /// <summary>A craving sent the pawn to a pod; the emotional dive starts as soon as they lie down (even if the break itself ended on the way).</summary>
+    public int CravingSinceTick = -1;
 
     private static NetsickSettingsDef Settings => NetrunDefOf.NR_NetsickSettings;
 
@@ -22,5 +24,6 @@ public class Hediff_Netsick : HediffWithComps
         base.ExposeData();
         Scribe_Values.Look(ref LastConnectedTick, "lastConnectedTick");
         Scribe_Values.Look(ref EmotionalDiveUntilTick, "emotionalDiveUntilTick", -1);
+        Scribe_Values.Look(ref CravingSinceTick, "cravingSinceTick", -1);
     }
 }

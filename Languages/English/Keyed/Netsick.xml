@@ -4,7 +4,7 @@
   <NR_NetsickWithdrawalTag>withdrawal</NR_NetsickWithdrawalTag>
 
   <!-- Emotional dive -->
-  <NR_DiveStarted>{0} jacked in on raw emotion.</NR_DiveStarted>
+  <NR_DiveStarted>{0} jacked in on raw emotion. The dive lasts about {1} hours, then the pod wakes them up.</NR_DiveStarted>
   <NR_DiveJackpotLabel>Legendary dive: {0}</NR_DiveJackpotLabel>
   <NR_DiveJackpot>{0} dove in on pure emotion and came back with something nobody expected: {1} advanced cyberdata, pulled from places no sane netrunner would go.</NR_DiveJackpot>
   <NR_DiveJackpotFragment>Something else came along: an AI fragment, still thinking.</NR_DiveJackpotFragment>
@@ -12,4 +12,5 @@
   <NR_DiveFail>{0} dove in on emotion and hit ICE head-first: {1}. The dependency only grew stronger.</NR_DiveFail>
   <NR_DiveNeutral>{0} surfaced from an emotional dive. Nothing gained, nothing lost.</NR_DiveNeutral>
 
+  <NR_DiveNeutralLabel>Emotional dive over: {0}</NR_DiveNeutralLabel>
 </LanguageData>

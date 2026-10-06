@@ -62,16 +62,15 @@ public class MentalState_NetCraving : MentalState
             return;
         }
 
+        if (pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is Hediff_Netsick netsick && netsick.CravingSinceTick < 0)
+            netsick.CravingSinceTick = Find.TickManager.TicksGame;
         pawn.jobs.StartJob(JobMaker.MakeJob(USH_DefOf.USH_EnterCyberpod, pod), JobCondition.InterruptForced);
     }
 
     private void StartEmotionalDive()
     {
         if (pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is Hediff_Netsick netsick)
-            netsick.EmotionalDiveUntilTick = Find.TickManager.TicksGame
-                + (int)(NetrunDefOf.NR_NetsickSettings.emotionalDiveHours * GenDate.TicksPerHour);
-
-        Messages.Message("NR_DiveStarted".Translate(pawn.LabelShort), pawn, MessageTypeDefOf.NeutralEvent, historical: true);
+            NetsickManager.BeginEmotionalDive(pawn, netsick);
         RecoverFromState();
     }
 }

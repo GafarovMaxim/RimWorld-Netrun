@@ -300,4 +300,7 @@ public static class NetrunDebugActions
 
     [DebugAction(Category, "Network gate: close (newcomer test)", allowedGameStates = AllowedGameStates.Playing)]
     private static void GateClose() => NetworkGate.Get()?.Close();
+
+    [DebugAction(Category, "Netsick: craving state", allowedGameStates = AllowedGameStates.Playing)]
+    private static void CravingState() => Find.WindowStack.Add(new Dialog_MessageBox(NetsickManager.DebugState()));
 }

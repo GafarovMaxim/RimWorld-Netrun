@@ -38,8 +38,15 @@ public class NetsickManager : GameComponent
                 Hediff_Netsick netsick = AddNetsick(diver, Settings.podGainPerDay * DayFraction * PodFactor(pod));
                 netsick.LastConnectedTick = now;
 
+                // A craving that brought the pawn here starts its dive now (the break may have ended on the way).
+                if (netsick.CravingSinceTick >= 0 && netsick.EmotionalDiveUntilTick < 0)
+                    BeginEmotionalDive(diver, netsick);
                 if (netsick.EmotionalDiveUntilTick >= 0 && now >= netsick.EmotionalDiveUntilTick)
+                {
                     ResolveEmotionalDive(diver, pod, netsick);
+                    // The craving is over: the pod wakes the netrunner up (Hacking Expansion's own waking, about an hour).
+                    StartWaking(pod);
+                }
             }
         }
 
@@ -50,10 +57,54 @@ public class NetsickManager : GameComponent
             if (pawn.TryGetHoldingCyberpod(out _))
                 continue;
 
-            // Left the pod mid-dive: the emotional dive simply ends.
+            // Left the pod mid-dive: the emotional dive simply ends. A craving that never reached a pod is dropped after a day.
             netsick.EmotionalDiveUntilTick = -1;
+            if (netsick.CravingSinceTick >= 0 && Find.TickManager.TicksGame - netsick.CravingSinceTick > GenDate.TicksPerDay)
+                netsick.CravingSinceTick = -1;
             netsick.Severity -= Settings.decayPerDay * DayFraction;
         }
+    }
+
+    private static readonly HarmonyLib.AccessTools.FieldRef<Building_Cyberpod, bool> IsWakingUp =
+        HarmonyLib.AccessTools.FieldRefAccess<Building_Cyberpod, bool>("_isWakingUp");
+
+    /// <summary>The emotional dive starts: it lasts emotionalDiveHours, then ends on its own.</summary>
+    public static void BeginEmotionalDive(Pawn pawn, Hediff_Netsick netsick)
+    {
+        netsick.CravingSinceTick = -1;
+        if (netsick.EmotionalDiveUntilTick >= 0)
+            return;
+        netsick.EmotionalDiveUntilTick = Find.TickManager.TicksGame + (int)(Settings.emotionalDiveHours * GenDate.TicksPerHour);
+        Messages.Message("NR_DiveStarted".Translate(pawn.LabelShort, Settings.emotionalDiveHours.ToString("0.#")), pawn, MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
+    /// <summary>Starts Hacking Expansion's wake-up of a cyberpod (the pawn leaves it when it finishes).</summary>
+    private static void StartWaking(Building_Cyberpod pod)
+    {
+        try
+        {
+            IsWakingUp(pod) = true;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Could not wake the cyberpod after a net craving; ejecting instead: " + e.Message, 0x4E52_5741);
+            pod.EjectContents();
+        }
+    }
+
+    /// <summary>Dev: the craving state of everyone with Netsick.</summary>
+    public static string DebugState()
+    {
+        int now = Find.TickManager.TicksGame;
+        var lines = new System.Collections.Generic.List<string>();
+        foreach (Pawn p in PawnsFinder.AllMaps_FreeColonists)
+        {
+            if (p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is not Hediff_Netsick n)
+                continue;
+            bool inPod = p.TryGetHoldingCyberpod(out _);
+            lines.Add($"{p.LabelShort}: {n.Severity:P0}, in pod {inPod}, craving since {(n.CravingSinceTick < 0 ? "-" : ((now - n.CravingSinceTick) / 2500f).ToString("0.#") + " h")}, dive ends in {(n.EmotionalDiveUntilTick < 0 ? "-" : ((n.EmotionalDiveUntilTick - now) / 2500f).ToString("0.#") + " h")}, mental state {p.MentalStateDef?.defName ?? "-"}");
+        }
+        return lines.Count == 0 ? "No Netsick." : string.Join("\n", lines);
     }
 
     /// <summary>Called once per hack completed by a colonist.</summary>
@@ -122,6 +173,6 @@ public class NetsickManager : GameComponent
             return;
         }
 
-        Messages.Message("NR_DiveNeutral".Translate(diver.LabelShort), pod, MessageTypeDefOf.NeutralEvent, historical: true);
+        Find.LetterStack.ReceiveLetter("NR_DiveNeutralLabel".Translate(diver.LabelShort), "NR_DiveNeutral".Translate(diver.LabelShort), LetterDefOf.NeutralEvent, new LookTargets(pod));
     }
 }
