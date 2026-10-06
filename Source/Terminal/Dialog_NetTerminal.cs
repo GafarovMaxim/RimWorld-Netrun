@@ -160,7 +160,8 @@ public partial class Dialog_NetTerminal : Window
         switch (_view)
         {
             case View.Core:
-                HeatScreen.Draw(content, _map, tracker, () => OpenNode(View.Club), () => OpenNode(View.Server));
+                HeatScreen.Draw(content, _map, tracker, () => OpenNode(View.Club), () => OpenNode(View.Server),
+                    page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)), () => OpenNode(View.Archive));
                 break;
             case View.Club:
                 FixersTab.Draw(content, _map, ref _fixersScroll);

@@ -18,9 +18,18 @@ public static class HeatScreen
 
     private static Vector2 _lowerScroll;
     private static float _lowerHeight;
+    /// <summary>The level shown in "Level effects" (null = the current one); picked by clicking the scale.</summary>
+    private static HeatLevel? _shownLevel;
+    /// <summary>Graph period: false = 7 days, true = the last 24 hours.</summary>
+    private static bool _period24;
+    private static System.Action<string> _openHelp;
+    private static System.Action _openArchive;
 
-    public static void Draw(Rect rect, Map map, HeatTracker tracker, System.Action openClub, System.Action openServer)
+    public static void Draw(Rect rect, Map map, HeatTracker tracker, System.Action openClub, System.Action openServer,
+        System.Action<string> openHelp = null, System.Action openArchive = null)
     {
+        _openHelp = openHelp;
+        _openArchive = openArchive;
         Rect hero = new(rect.x, rect.y, rect.width, HeroHeight);
         GuideRegistry.Area("heat.hero", hero);
         DrawHero(hero, tracker);
@@ -80,14 +89,24 @@ public static class HeatScreen
             float to = l == HeatLevel.RedZone ? 1f : (l + 1).MinHeat() / HeatTracker.MaxHeat;
             var seg = new Rect(bar.x + bar.width * from + 1f, bar.y, bar.width * (to - from) - 2f, bar.height);
             Color c = l.Color();
-            c.a = l == level ? 0.95f : l < level ? 0.6f : 0.3f;
+            bool hover = Mouse.IsOver(seg.ExpandedBy(0f, 6f));
+            c.a = l == level || hover ? 0.95f : l < level ? 0.6f : 0.3f;
             Widgets.DrawBoxSolid(seg, c);
+            if (l == level || hover || _shownLevel == l)
+            {
+                GUI.color = hover ? Color.white : _shownLevel == l ? NetrunUI.Accent : l.Color();
+                Widgets.DrawBox(seg.ExpandedBy(2f), l == level ? 2 : 1);
+                GUI.color = Color.white;
+            }
+            if (Widgets.ButtonInvisible(seg.ExpandedBy(0f, 6f)))
+                _shownLevel = l == level ? null : l;
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperCenter;
             Widgets.Label(new Rect(seg.x, bar.yMax + 3f, seg.width, 16f), $"{l.Label().CapitalizeFirst()} {l.MinHeat():0}".Colorize(l == level ? l.Color() : NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(seg, l.Label().CapitalizeFirst() + ": " + l.Description());
+            NetrunUI.Tip(seg.ExpandedBy(0f, 6f), l.Label().CapitalizeFirst() + ": " + l.Description() + "\n\n"
+                + string.Join("\n", (HeatLevelInfoDef.For(l)?.effects ?? []).Select(e => "• " + e.text)) + "\n\n" + "NR_HeatV2ScaleClick".Translate().Colorize(NetrunUI.Muted));
         }
         float mx = bar.x + bar.width * tracker.Heat / HeatTracker.MaxHeat;
         Widgets.DrawBoxSolid(new Rect(mx - 1.5f, bar.y - 6f, 3f, bar.height + 12f), Color.white);
@@ -101,13 +120,21 @@ public static class HeatScreen
 
     private static void DrawGraph(Rect rect, HeatTracker tracker)
     {
-        Rect plot = Card(rect, "NR_HeatScreenGraph".Translate());
-        // Legend in the card header.
+        Rect plot = Card(rect, (_period24 ? "NR_HeatV2Graph24" : "NR_HeatScreenGraph").Translate());
+        // Period chips at the top right, the legend left of them.
+        string d7 = "NR_HeatV2Period7".Translate(), d1 = "NR_HeatV2Period24".Translate();
+        float cw7 = NetrunUI.ButtonWidth(d7) - 10f, cw1 = NetrunUI.ButtonWidth(d1) - 10f;
+        var c7 = new Rect(rect.xMax - 12f - cw7, rect.y + 8f, cw7, 22f);
+        var c1 = new Rect(c7.x - 4f - cw1, rect.y + 8f, cw1, 22f);
         Text.Font = GameFont.Tiny;
+        if (NetrunUI.Button(c1, d1, _period24 ? NetrunUI.Ok : NetrunUI.Muted, true))
+            _period24 = true;
+        if (NetrunUI.Button(c7, d7, !_period24 ? NetrunUI.Ok : NetrunUI.Muted, true))
+            _period24 = false;
         Text.Anchor = TextAnchor.UpperRight;
         string legend = "● ".Colorize(NetrunUI.Ok) + "NR_HeatV2LegendScrub".Translate() + "   " + "● ".Colorize(NetrunUI.Warn) + "NR_HeatV2LegendDive".Translate()
             + "   " + "● ".Colorize(NetrunUI.Bad) + "NR_HeatV2LegendHack".Translate();
-        Widgets.Label(new Rect(rect.x, rect.y + 10f, rect.width - 12f, 18f), legend);
+        Widgets.Label(new Rect(rect.x, rect.y + 11f, c1.x - rect.x - 10f, 18f), legend);
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 
@@ -123,9 +150,10 @@ public static class HeatScreen
 
         // Axis: 7 days ago, 3 days ago, now.
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(plot.x, plot.yMax + 1f, 100f, 16f), "NR_HeatV2Axis7".Translate().Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(plot.x, plot.yMax + 1f, 100f, 16f), (_period24 ? "NR_HeatV2Axis24" : "NR_HeatV2Axis7").Translate().Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperCenter;
-        Widgets.Label(new Rect(plot.x + plot.width * (4f / 7f) - 50f, plot.yMax + 1f, 100f, 16f), "NR_HeatV2Axis3".Translate().Colorize(NetrunUI.Muted));
+        float mid = _period24 ? 0.5f : 4f / 7f;
+        Widgets.Label(new Rect(plot.x + plot.width * mid - 50f, plot.yMax + 1f, 100f, 16f), (_period24 ? "NR_HeatV2Axis12" : "NR_HeatV2Axis3").Translate().Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperRight;
         Widgets.Label(new Rect(plot.xMax - 100f, plot.yMax + 1f, 100f, 16f), "NR_HeatV2AxisNow".Translate().Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
@@ -133,7 +161,7 @@ public static class HeatScreen
 
         IReadOnlyList<float> history = tracker.History;
         int now = Find.TickManager.TicksGame;
-        int span = HeatTracker.HistorySize * HeatTracker.HistoryInterval;
+        int span = (_period24 ? 24 : HeatTracker.HistorySize) * HeatTracker.HistoryInterval;
         Vector2 Point(int tick, float heat) => new(
             plot.x + plot.width * Mathf.Clamp01(1f - (now - tick) / (float)span),
             plot.yMax - plot.height * Mathf.Clamp01(heat / HeatTracker.MaxHeat));
@@ -147,7 +175,8 @@ public static class HeatScreen
         if (history.Count >= 2)
         {
             int lastSample = now - now % HeatTracker.HistoryInterval;
-            for (int i = 1; i < history.Count; i++)
+            int first = _period24 ? Mathf.Max(1, history.Count - 24) : 1;
+            for (int i = first; i < history.Count; i++)
             {
                 int t0 = lastSample - (history.Count - i) * HeatTracker.HistoryInterval;
                 int t1 = t0 + HeatTracker.HistoryInterval;
@@ -159,11 +188,32 @@ public static class HeatScreen
         foreach (HeatLogEntry entry in tracker.Log.Where(e => now - e.Tick <= span && Mathf.Abs(e.Amount) > 0.05f))
         {
             Vector2 p = Point(entry.Tick, SampleAt(history, now, entry.Tick, tracker.Heat));
-            var dot = new Rect(p.x - 5f, p.y - 5f, 10f, 10f);
+            bool hoverDot = Mouse.IsOver(new Rect(p.x - 8f, p.y - 8f, 16f, 16f));
+            var dot = hoverDot ? new Rect(p.x - 7f, p.y - 7f, 14f, 14f) : new Rect(p.x - 5f, p.y - 5f, 10f, 10f);
             GUI.color = entry.Amount < 0f ? NetrunUI.Ok : entry.Source == HeatSource.Dive ? NetrunUI.Warn : NetrunUI.Bad;
             GUI.DrawTexture(dot, NetrunUI.Disc);
             GUI.color = Color.white;
-            NetrunUI.Tip(dot.ExpandedBy(3f), $"{entry.Text}: {entry.Amount:+0.#;-0.#}\n" + "NR_TimeAgo".Translate((now - entry.Tick).ToStringTicksToPeriod()));
+            NetrunUI.Tip(dot.ExpandedBy(3f), $"{entry.Text}: {entry.Amount:+0.#;-0.#}\n" + "NR_TimeAgo".Translate((now - entry.Tick).ToStringTicksToPeriod())
+                + "\n\n" + "NR_HeatV2DotClick".Translate().Colorize(NetrunUI.Muted));
+            if (_openArchive != null && Widgets.ButtonInvisible(dot.ExpandedBy(3f)))
+                _openArchive();
+        }
+
+        // Crosshair: the Heat at the hovered moment.
+        if (Mouse.IsOver(plot) && history.Count >= 2)
+        {
+            Vector2 m = Event.current.mousePosition;
+            float frac = Mathf.Clamp01((m.x - plot.x) / plot.width);
+            int tick = now - (int)((1f - frac) * span);
+            float value = SampleAt(history, now, tick, tracker.Heat);
+            Widgets.DrawBoxSolid(new Rect(m.x, plot.y, 1f, plot.height), new Color(1f, 1f, 1f, 0.25f));
+            Text.Font = GameFont.Tiny;
+            string label = $"{value:0} · " + "NR_TimeAgo".Translate((now - tick).ToStringTicksToPeriod());
+            float lw = Text.CalcSize(label).x + 10f;
+            var lr = new Rect(Mathf.Min(m.x + 6f, plot.xMax - lw), plot.y + 2f, lw, 18f);
+            Widgets.DrawBoxSolid(lr, NetrunUI.BgWindow);
+            Widgets.Label(new Rect(lr.x + 5f, lr.y + 1f, lw, 18f), label.Colorize(HeatLevelUtility.LevelOf(value).Color()));
+            Text.Font = GameFont.Small;
         }
     }
 
@@ -180,8 +230,21 @@ public static class HeatScreen
 
     private static void DrawEffects(Rect rect, HeatTracker tracker)
     {
-        HeatLevel level = tracker.Level;
-        Rect r = Card(rect, "NR_HeatV2Effects".Translate(level.Label().ToUpper()));
+        HeatLevel level = _shownLevel ?? tracker.Level;
+        bool current = level == tracker.Level;
+        string cardTitle = "NR_HeatV2Effects".Translate(level.Label().ToUpper());
+        if (!current)
+            cardTitle += " · " + "NR_HeatV2NotCurrent".Translate();
+        Rect r = Card(rect, cardTitle);
+        GUI.DrawTexture(new Rect(rect.xMax - 34f, rect.y + 8f, 22f, 22f), NetrunTex.HeatIcon(level));
+        string wiki = "NR_HeatV2Wiki".Translate();
+        float ww = NetrunUI.ButtonWidth(wiki) - 10f;
+        Text.Font = GameFont.Tiny;
+        if (_openHelp != null && NetrunUI.Button(new Rect(rect.xMax - 40f - ww, rect.y + 8f, ww, 22f), wiki, NetrunUI.Accent, true, "NR_HeatV2WikiTip".Translate()))
+            _openHelp("NR_Help_Heat_Levels");
+        if (!current && NetrunUI.Button(new Rect(rect.xMax - 44f - ww - 70f, rect.y + 8f, 66f, 22f), "NR_HeatV2BackToCurrent".Translate(), NetrunUI.Muted, true))
+            _shownLevel = null;
+        Text.Font = GameFont.Small;
         GUI.BeginGroup(r);
         float y = 0f;
         Text.Font = GameFont.Tiny;
@@ -380,6 +443,11 @@ public static class HeatScreen
         {
             Widgets.Label(new Rect(0f, y, 40f, 20f), ("+" + sum.ToString("0.#")).Colorize(NetrunUI.Bad));
             Widgets.DrawBoxSolid(new Rect(42f, y + 6f, Mathf.Max(4f, barMax * sum / max), 8f), NetrunUI.Bad);
+            var whole = new Rect(0f, y, r.width, 20f);
+            if (Mouse.IsOver(whole))
+                Widgets.DrawHighlight(whole);
+            if (_openArchive != null && Widgets.ButtonInvisible(whole))
+                _openArchive();
             var label = new Rect(42f + barMax + 8f, y, r.width - barMax - 52f, 20f);
             Widgets.Label(label, text.Truncate(label.width));
             NetrunUI.Tip(label, text);

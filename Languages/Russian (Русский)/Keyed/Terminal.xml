@@ -209,4 +209,15 @@
   <NR_HelpCtx_Gateway>Шлюз</NR_HelpCtx_Gateway>
   <NR_HelpCtx_Dive>Нырок</NR_HelpCtx_Dive>
   <NR_HelpCtx_Settings>Настройки мода</NR_HelpCtx_Settings>
+  <NR_HeatV2ScaleClick>Клик: показать эффекты этого уровня.</NR_HeatV2ScaleClick>
+  <NR_HeatV2Graph24>Heat за 24 часа</NR_HeatV2Graph24>
+  <NR_HeatV2Period7>7 дн</NR_HeatV2Period7>
+  <NR_HeatV2Period24>24 ч</NR_HeatV2Period24>
+  <NR_HeatV2Axis24>24 ч назад</NR_HeatV2Axis24>
+  <NR_HeatV2Axis12>12 ч назад</NR_HeatV2Axis12>
+  <NR_HeatV2DotClick>Клик: открыть Архив.</NR_HeatV2DotClick>
+  <NR_HeatV2NotCurrent>не текущий</NR_HeatV2NotCurrent>
+  <NR_HeatV2Wiki>Киберпедия ↗</NR_HeatV2Wiki>
+  <NR_HeatV2WikiTip>Все уровни и их эффекты в Киберпедии.</NR_HeatV2WikiTip>
+  <NR_HeatV2BackToCurrent>◄ сейчас</NR_HeatV2BackToCurrent>
 </LanguageData>

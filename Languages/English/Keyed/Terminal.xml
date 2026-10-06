@@ -209,4 +209,15 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpCtx_Gateway>Gateway</NR_HelpCtx_Gateway>
   <NR_HelpCtx_Dive>Dive</NR_HelpCtx_Dive>
   <NR_HelpCtx_Settings>Mod settings</NR_HelpCtx_Settings>
+  <NR_HeatV2ScaleClick>Click: show this level's effects.</NR_HeatV2ScaleClick>
+  <NR_HeatV2Graph24>Heat over 24 hours</NR_HeatV2Graph24>
+  <NR_HeatV2Period7>7 d</NR_HeatV2Period7>
+  <NR_HeatV2Period24>24 h</NR_HeatV2Period24>
+  <NR_HeatV2Axis24>24 h ago</NR_HeatV2Axis24>
+  <NR_HeatV2Axis12>12 h ago</NR_HeatV2Axis12>
+  <NR_HeatV2DotClick>Click: open the Archive.</NR_HeatV2DotClick>
+  <NR_HeatV2NotCurrent>not current</NR_HeatV2NotCurrent>
+  <NR_HeatV2Wiki>Cyberpedia ↗</NR_HeatV2Wiki>
+  <NR_HeatV2WikiTip>All levels and their effects in the Cyberpedia.</NR_HeatV2WikiTip>
+  <NR_HeatV2BackToCurrent>◄ now</NR_HeatV2BackToCurrent>
 </LanguageData>
