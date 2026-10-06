@@ -197,6 +197,10 @@ public class GatewayManager : GameComponent
         Messages.Message("NR_AlliesNoFaction".Translate(), MessageTypeDefOf.PositiveEvent, historical: true);
     }
 
+    /// <summary>Ticks until the next boss node, or -1 before the first count starts.</summary>
+    public int TicksUntilBoss => _nextBossTick < 0 ? -1 : System.Math.Max(0, _nextBossTick - Find.TickManager.TicksGame);
+    public ExternalNode Boss => _nodes.FirstOrDefault(n => n.IsBoss);
+
     public int TicksUntilRefresh => System.Math.Max(0, _nextRefreshTick - Find.TickManager.TicksGame);
 
     // ---- The netrunner and the pod ----

@@ -96,6 +96,7 @@ public class MapEventsManager : GameComponent
 
     // ---- Black market ----
 
+    public int BlackMarketTicksLeft => System.Math.Max(0, _blackMarketUntilTick - Find.TickManager.TicksGame);
     public bool BlackMarketOpen => Find.TickManager.TicksGame < _blackMarketUntilTick;
 
     public void OpenBlackMarket()

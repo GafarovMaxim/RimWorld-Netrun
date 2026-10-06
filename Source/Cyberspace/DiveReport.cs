@@ -95,8 +95,14 @@ public class Dialog_DiveReport : Window
         Rect r = inRect.ContractedBy(14f);
         DiveReport d = _report;
 
+        float titleX = r.x;
+        if (NetrunTex.DiveReport is { } reportIcon)
+        {
+            GUI.DrawTexture(new Rect(r.x, r.y, 30f, 30f), reportIcon);
+            titleX += 36f;
+        }
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(r.x, r.y, r.width, 32f), "NR_ReportTitle".Translate(d.NodeName.ToUpper()).Colorize(NetrunUI.Accent));
+        Widgets.Label(new Rect(titleX, r.y, r.xMax - titleX, 32f), "NR_ReportTitle".Translate(d.NodeName.ToUpper()).Colorize(NetrunUI.Accent));
         Text.Font = GameFont.Small;
         float y = r.y + 36f;
 

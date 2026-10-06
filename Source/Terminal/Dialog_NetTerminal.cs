@@ -228,54 +228,115 @@ public partial class Dialog_NetTerminal : Window
         GUI.color = Color.white;
     }
 
+    /// <summary>
+    /// Bottom bar in the terminal style: framed segments for the trace (icon, bar, value, level), the network,
+    /// Netsick and the latest trace event. Every segment explains itself on hover; trace opens the Heat screen,
+    /// the event opens the Archive.
+    /// </summary>
     private void DrawStatusBar(Rect rect, HeatTracker tracker)
     {
+        Widgets.DrawBoxSolid(rect, NetrunUI.BgCard);
         GUI.color = new Color(1f, 1f, 1f, 0.25f);
         Widgets.DrawLineHorizontal(rect.x, rect.y, rect.width);
         GUI.color = Color.white;
 
-        float x = rect.x + 14f;
+        const float segHeight = 28f;
+        float segY = rect.y + (rect.height - segHeight) / 2f;
+        float x = rect.x + 10f;
+
+        Rect Segment(float width, Color border)
+        {
+            var seg = new Rect(x, segY, width, segHeight);
+            NetrunUI.Box(seg, NetrunUI.BgWindow, new Color(border.r, border.g, border.b, 0.45f));
+            if (Mouse.IsOver(seg))
+                Widgets.DrawHighlight(seg);
+            x += width + 8f;
+            return seg;
+        }
+
         Text.Anchor = TextAnchor.MiddleLeft;
         if (tracker != null)
         {
-            string trace = "NR_StatusTrace".Translate();
-            float w = Text.CalcSize(trace).x;
-            Widgets.Label(new Rect(x, rect.y, w, rect.height), trace.Colorize(NetrunUI.Muted));
-            x += w + 8f;
-            NetrunUI.Bar(new Rect(x, rect.y + (rect.height - 12f) / 2f, 120f, 12f), tracker.Heat / HeatTracker.MaxHeat, tracker.Level.Color());
-            TooltipHandler.TipRegion(new Rect(rect.x, rect.y, x + 128f - rect.x, rect.height), "NR_TipTrace".Translate());
-            x += 128f;
+            // Trace: level icon, label, bar, value and level name.
             HeatLevel level = tracker.Level;
-            string heatText = tracker.Heat.ToString("0") + "  " + level.Label().CapitalizeFirst().Colorize(level.Color());
-            float hw = Text.CalcSize(heatText).x + 16f;
-            Widgets.Label(new Rect(x, rect.y, hw, rect.height), heatText);
-            TooltipHandler.TipRegion(new Rect(x, rect.y, hw, rect.height), level.Description());
-            x += hw;
+            Color levelColor = level.Color();
+            string value = tracker.Heat.ToString("0");
+            string levelLabel = level.Label().CapitalizeFirst();
+            Text.Font = GameFont.Tiny;
+            float labelW = Text.CalcSize(((string)"NR_StatusTrace".Translate()).ToUpper()).x;
+            float levelW = Text.CalcSize(levelLabel).x;
+            Text.Font = GameFont.Small;
+            float valueW = Text.CalcSize(value).x;
+            Rect seg = Segment(8f + 18f + 6f + labelW + 8f + 100f + 8f + valueW + 6f + levelW + 10f, levelColor);
+            float sx = seg.x + 8f;
+            GUI.DrawTexture(new Rect(sx, seg.center.y - 9f, 18f, 18f), NetrunTex.HeatIcon(level));
+            sx += 24f;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(sx, seg.y, labelW + 2f, seg.height), ((string)"NR_StatusTrace".Translate()).ToUpper().Colorize(NetrunUI.Muted));
+            sx += labelW + 8f;
+            Text.Font = GameFont.Small;
+            NetrunUI.Bar(new Rect(sx, seg.center.y - 5f, 100f, 10f), tracker.Heat / HeatTracker.MaxHeat, levelColor);
+            sx += 108f;
+            Widgets.Label(new Rect(sx, seg.y, valueW + 4f, seg.height), value.Colorize(levelColor));
+            sx += valueW + 6f;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(sx, seg.y, levelW + 4f, seg.height), levelLabel.Colorize(levelColor));
+            Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
+            if (Widgets.ButtonInvisible(seg))
+                OpenNode(View.Core);
+
+            // Network: a status dot and the word.
             bool online = AIAwakening.Console(_map) != null;
-            string net = (online ? "NR_ChipNetOnline" : "NR_ChipNetOffline").Translate().Colorize(online ? NetrunUI.Ok : NetrunUI.Bad);
-            float nw = Text.CalcSize(net).x + 16f;
-            Widgets.Label(new Rect(x, rect.y, nw, rect.height), net);
-            TooltipHandler.TipRegion(new Rect(x, rect.y, nw, rect.height), "NR_TipNet".Translate());
-            x += nw;
+            Color netColor = online ? NetrunUI.Ok : NetrunUI.Bad;
+            string net = (online ? "NR_StatusNetOnline" : "NR_StatusNetOffline").Translate();
+            Text.Font = GameFont.Tiny;
+            float netW = Text.CalcSize(net).x;
+            Rect netSeg = Segment(8f + 10f + 6f + netW + 10f, netColor);
+            GUI.color = netColor;
+            GUI.DrawTexture(new Rect(netSeg.x + 8f, netSeg.center.y - 5f, 10f, 10f), NetrunUI.Disc);
+            GUI.color = Color.white;
+            Widgets.Label(new Rect(netSeg.x + 24f, netSeg.y, netW + 4f, netSeg.height), net.Colorize(netColor));
+            Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(netSeg, "NR_TipNet".Translate());
         }
 
-        int netsick = _map.mapPawns.FreeColonistsSpawned.Count(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick));
-        string sick = netsick > 0
-            ? "NR_StatusNetsick".Translate(netsick).Colorize(NetrunUI.Warn)
-            : "NR_StatusNetsickNone".Translate().Colorize(NetrunUI.Muted);
-        float sw = Text.CalcSize(sick).x + 20f;
-        Widgets.Label(new Rect(x, rect.y, sw, rect.height), sick);
-        TooltipHandler.TipRegion(new Rect(x, rect.y, sw, rect.height), "NR_HeatScreenNetsickTip".Translate());
-        x += sw;
+        // Netsick: how many colonists, the worst severity on hover.
+        List<Pawn> sick = _map.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList();
+        Color sickColor = sick.Count > 0 ? NetrunUI.Warn : NetrunUI.Muted;
+        string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
+        Text.Font = GameFont.Tiny;
+        float sickW = Text.CalcSize(sickText).x;
+        Rect sickSeg = Segment(10f + sickW + 10f, sickColor);
+        Widgets.Label(new Rect(sickSeg.x + 10f, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
+        Text.Font = GameFont.Small;
+        string sickTip = "NR_HeatScreenNetsickTip".Translate();
+        if (sick.Count > 0)
+            sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
+        TooltipHandler.TipRegion(sickSeg, sickTip);
 
-        // The latest trace event; a click opens the Archive.
-        if (tracker != null && tracker.Log.Count > 0)
+        // The latest trace event fills the rest; a click opens the Archive.
+        if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
         {
-            var eventRect = new Rect(x, rect.y, rect.xMax - 14f - x, rect.height);
-            string last = tracker.Log[tracker.Log.Count - 1].Text;
-            Widgets.Label(eventRect, last.Truncate(eventRect.width).Colorize(NetrunUI.Muted));
-            TooltipHandler.TipRegion(eventRect, last + "\n\n" + "NR_StatusEventTip".Translate());
-            if (Widgets.ButtonInvisible(eventRect))
+            HeatLogEntry entry = tracker.Log[tracker.Log.Count - 1];
+            var eventSeg = new Rect(x, segY, rect.xMax - 10f - x, segHeight);
+            NetrunUI.Box(eventSeg, NetrunUI.BgWindow, new Color(1f, 1f, 1f, 0.12f));
+            if (Mouse.IsOver(eventSeg))
+                Widgets.DrawHighlight(eventSeg);
+            Text.Font = GameFont.Tiny;
+            string ago = "NR_TimeAgo".Translate((Find.TickManager.TicksGame - entry.Tick).ToStringTicksToPeriod());
+            float agoW = Text.CalcSize(ago).x;
+            string amount = entry.Amount > 0.05f ? $"+{entry.Amount:0.#}".Colorize(NetrunUI.Bad) : entry.Amount < -0.05f ? $"{entry.Amount:0.#}".Colorize(NetrunUI.Ok) : string.Empty;
+            float amountW = amount.Length > 0 ? Text.CalcSize(amount.StripTags()).x + 8f : 0f;
+            float textW = eventSeg.width - 20f - 14f - agoW - amountW - 8f;
+            Widgets.Label(new Rect(eventSeg.x + 8f, eventSeg.y, 14f, eventSeg.height), "▸".Colorize(NetrunUI.Accent));
+            Widgets.Label(new Rect(eventSeg.x + 22f, eventSeg.y, textW, eventSeg.height), entry.Text.Truncate(textW));
+            if (amount.Length > 0)
+                Widgets.Label(new Rect(eventSeg.x + 22f + textW + 4f, eventSeg.y, amountW, eventSeg.height), amount);
+            Widgets.Label(new Rect(eventSeg.xMax - agoW - 8f, eventSeg.y, agoW + 4f, eventSeg.height), ago.Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
+            if (Widgets.ButtonInvisible(eventSeg))
                 OpenNode(View.Archive);
         }
 

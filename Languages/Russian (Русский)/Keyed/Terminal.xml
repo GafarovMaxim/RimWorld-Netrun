@@ -26,8 +26,6 @@
   <NR_NodeSub_ServerRequest>ИИ: {0}, просьба</NR_NodeSub_ServerRequest>
   <NR_NodeSub_Studio>Сырых записей: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Нырок (нужна капсула)</NR_NodeSub_Gateway>
-  <NR_ChipNetOnline>Сеть: онлайн</NR_ChipNetOnline>
-  <NR_ChipNetOffline>Сеть: нет питания</NR_ChipNetOffline>
   <NR_ChipSilver>Серебро: {0}</NR_ChipSilver>
   <NR_ChipCyberdata>Cyberdata: {0} / {1}</NR_ChipCyberdata>
   <NR_StatusTrace>След</NR_StatusTrace>
@@ -62,10 +60,6 @@
   <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
   <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
-  <NR_CoreToNext>До «{0}»</NR_CoreToNext>
-  <NR_CoreToNextValue>ещё {0}</NR_CoreToNextValue>
-  <NR_CoreDecay>Остывание</NR_CoreDecay>
-  <NR_CoreDecayValue>−{0} / сутки</NR_CoreDecayValue>
   <NR_HeatScreenNow>Сейчас: {0} ({1})</NR_HeatScreenNow>
   <NR_HeatScreenNoHistory>График заполнится со временем (точка раз в час).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
@@ -93,4 +87,14 @@
   <NR_BadgeServer>ИИ, которым нужно внимание (просьба, голод, побег): {0}. Красный: кто-то сбегает.</NR_BadgeServer>
   <NR_BadgeStudio>Сырых записей ждут монтажа: {0}</NR_BadgeStudio>
   <NR_BadgeGateway>Новых внешних нод: {0}</NR_BadgeGateway>
+  <NR_StatusNetOnline>СЕТЬ В ЭФИРЕ</NR_StatusNetOnline>
+  <NR_StatusNetOffline>СЕТЬ ОФФЛАЙН</NR_StatusNetOffline>
+  <NR_StatusTraceClick>Клик: экран «Heat и след».</NR_StatusTraceClick>
+  <NR_CoreGroupFavor>Благосклонность группы</NR_CoreGroupFavor>
+  <NR_CoreSummaryGateway>Шлюз</NR_CoreSummaryGateway>
+  <NR_CoreGatewayRefresh>Новые ноды через</NR_CoreGatewayRefresh>
+  <NR_CoreBossActive>Корп-ядро: открыто ещё</NR_CoreBossActive>
+  <NR_CoreBossNext>Корп-ядро через</NR_CoreBossNext>
+  <NR_CoreAlertCounterHack>Турели захвачены: нода «Контрвзлом» в Шлюзе</NR_CoreAlertCounterHack>
+  <NR_CoreAlertBlackMarket>Открыт чёрный рынок: ещё {0}</NR_CoreAlertBlackMarket>
 </LanguageData>

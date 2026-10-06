@@ -25,6 +25,13 @@ public static class NetrunTex
         return tex;
     }
 
+    // ---- Optional art (docs/ART_NEEDED_4.md): used when the file exists in Textures/UI/Netrun/Cyberspace/, otherwise null ----
+    public static Texture2D DaemonIcon(DiveDaemon daemon) => CyberIcon("Daemon_" + daemon);
+    public static Texture2D EventIcon(string name) => CyberIcon("Event_" + name);
+    public static Texture2D HackerGroup => CyberIcon("Icon_HackerGroup");
+    public static Texture2D GroupFavor => CyberIcon("Icon_GroupFavor");
+    public static Texture2D DiveReport => CyberIcon("Icon_DiveReport");
+
     public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_NeutralZone");
 
     private static readonly Dictionary<string, Texture2D> CyberIcons = [];

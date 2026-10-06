@@ -308,7 +308,8 @@ public static class GatewayView
         }
         y += 36f;
 
-        // Daemons: permanent programs, always on, no slot.
+        // Daemons: permanent programs, always on, no slot. Icons for those that have art, then the text.
+        y = DaemonIcons(inner, y, gateway.Daemons);
         Text.Font = GameFont.Tiny;
         string daemons = gateway.Daemons.Count == 0
             ? "NR_GatewayNoDaemons".Translate().Colorize(NetrunUI.Muted)
@@ -356,6 +357,25 @@ public static class GatewayView
         Text.Font = GameFont.Small;
         _panelHeight = y + rh + 4f;
         Widgets.EndScrollView();
+    }
+
+    /// <summary>A row of daemon icons (only daemons with art); returns the next y.</summary>
+    public static float DaemonIcons(Rect inner, float y, IEnumerable<DiveDaemon> daemons)
+    {
+        float x = inner.x;
+        bool any = false;
+        foreach (DiveDaemon d in daemons)
+        {
+            Texture2D icon = NetrunTex.DaemonIcon(d);
+            if (icon == null)
+                continue;
+            var r = new Rect(x, y, 28f, 28f);
+            GUI.DrawTexture(r, icon);
+            TooltipHandler.TipRegion(r, (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate());
+            x += 32f;
+            any = true;
+        }
+        return any ? y + 32f : y;
     }
 
     /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>

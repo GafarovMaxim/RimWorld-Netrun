@@ -168,6 +168,7 @@ public static class DiveView
             y += ph + 4f;
             if (session.Daemons.Count > 0)
             {
+                y = GatewayView.DaemonIcons(inner, y, session.Daemons);
                 string daemons = "NR_DiveDaemons".Translate(session.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate()).ToCommaList());
                 float dh = Text.CalcHeight(daemons, inner.width);
                 Widgets.Label(new Rect(inner.x, y, inner.width, dh), daemons.Colorize(NetrunUI.Ok));

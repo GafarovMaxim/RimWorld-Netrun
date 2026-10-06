@@ -26,8 +26,6 @@
   <NR_NodeSub_ServerRequest>AIs: {0}, a request</NR_NodeSub_ServerRequest>
   <NR_NodeSub_Studio>Raw recordings: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Dive (needs a cyberpod)</NR_NodeSub_Gateway>
-  <NR_ChipNetOnline>Net: online</NR_ChipNetOnline>
-  <NR_ChipNetOffline>Net: no power</NR_ChipNetOffline>
   <NR_ChipSilver>Silver: {0}</NR_ChipSilver>
   <NR_ChipCyberdata>Cyberdata: {0} / {1}</NR_ChipCyberdata>
   <NR_StatusTrace>Trace</NR_StatusTrace>
@@ -62,10 +60,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreAlertHungry>{0} is starving</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
   <NR_CoreSummaryHeatLevel>Heat: {0}</NR_CoreSummaryHeatLevel>
-  <NR_CoreToNext>Until "{0}"</NR_CoreToNext>
-  <NR_CoreToNextValue>{0} more</NR_CoreToNextValue>
-  <NR_CoreDecay>Cooling</NR_CoreDecay>
-  <NR_CoreDecayValue>−{0} / day</NR_CoreDecayValue>
   <NR_HeatScreenNow>Now: {0} ({1})</NR_HeatScreenNow>
   <NR_HeatScreenNoHistory>The graph fills in as time passes (one point an hour).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat over 7 days</NR_HeatScreenGraph>
@@ -93,4 +87,14 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_BadgeServer>AIs that need attention (request, hunger, escape): {0}. Red: one is escaping.</NR_BadgeServer>
   <NR_BadgeStudio>Raw recordings waiting to be edited: {0}</NR_BadgeStudio>
   <NR_BadgeGateway>New external nodes: {0}</NR_BadgeGateway>
+  <NR_StatusNetOnline>NET ONLINE</NR_StatusNetOnline>
+  <NR_StatusNetOffline>NET OFFLINE</NR_StatusNetOffline>
+  <NR_StatusTraceClick>Click: Heat and trace screen.</NR_StatusTraceClick>
+  <NR_CoreGroupFavor>Hacker group favor</NR_CoreGroupFavor>
+  <NR_CoreSummaryGateway>Gateway</NR_CoreSummaryGateway>
+  <NR_CoreGatewayRefresh>New nodes in</NR_CoreGatewayRefresh>
+  <NR_CoreBossActive>Corporate core: open for</NR_CoreBossActive>
+  <NR_CoreBossNext>Corporate core in</NR_CoreBossNext>
+  <NR_CoreAlertCounterHack>Turrets hijacked: counter-hack node in the Gateway</NR_CoreAlertCounterHack>
+  <NR_CoreAlertBlackMarket>Black market open: {0} left</NR_CoreAlertBlackMarket>
 </LanguageData>

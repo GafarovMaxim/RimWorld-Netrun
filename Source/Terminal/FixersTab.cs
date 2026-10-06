@@ -32,13 +32,20 @@ public static class FixersTab
             var groupRect = new Rect(rect.x, rect.y, rect.width, 34f);
             string favor = "NR_ClubFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies);
             Text.Anchor = TextAnchor.MiddleLeft;
-            var favorRect = new Rect(groupRect.x, groupRect.y, groupRect.width - 220f, groupRect.height);
+            float favorX = groupRect.x;
+            if (NetrunTex.GroupFavor is { } favorIcon)
+            {
+                GUI.DrawTexture(new Rect(favorX, groupRect.center.y - 11f, 22f, 22f), favorIcon);
+                favorX += 28f;
+            }
+            var favorRect = new Rect(favorX, groupRect.y, groupRect.xMax - 220f - favorX, groupRect.height);
             Widgets.Label(favorRect, favor.Colorize(NetrunUI.Purple));
             TooltipHandler.TipRegion(favorRect, "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
             Text.Anchor = TextAnchor.UpperLeft;
             string call = "NR_ClubCallAllies".Translate();
-            float cw = NetrunUI.ButtonWidth(call);
-            if (NetrunUI.Button(new Rect(groupRect.xMax - cw - 16f, groupRect.y, cw, 30f), call, NetrunUI.Purple, gateway.CanCallAllies(), "NR_ClubCallAlliesTip".Translate()))
+            Texture2D groupIcon = NetrunTex.HackerGroup;
+            float cw = NetrunUI.ButtonWidth(call, groupIcon != null);
+            if (NetrunUI.Button(new Rect(groupRect.xMax - cw - 16f, groupRect.y, cw, 30f), call, NetrunUI.Purple, gateway.CanCallAllies(), "NR_ClubCallAlliesTip".Translate(), groupIcon))
                 gateway.CallAllies(map);
             rect.yMin += 40f;
         }

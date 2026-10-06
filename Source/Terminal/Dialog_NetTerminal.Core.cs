@@ -270,23 +270,11 @@ public partial class Dialog_NetTerminal
         Rect inner = rect.ContractedBy(10f);
         float y = inner.y;
 
-        // Heat: what the level brings, how far the next one is, how fast it cools.
+        // Heat: only the level and the way down; what the level means, the next threshold and cooling are on the Heat screen (click the ring).
         HeatLevel level = tracker.Level;
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_CoreSummaryHeatLevel".Translate(level.Label().ToUpper()));
-        Text.Font = GameFont.Tiny;
-        float dh = Text.CalcHeight(level.Description(), inner.width);
-        Widgets.Label(new Rect(inner.x, y, inner.width, dh), level.Description().Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        y += dh + 4f;
-        if (level != HeatLevel.RedZone)
-        {
-            HeatLevel next = level + 1;
-            y = SummaryRow(inner, y, "NR_CoreToNext".Translate(next.Label()),
-                "NR_CoreToNextValue".Translate((next.MinHeat() - tracker.Heat).ToString("0")), next.Color());
-        }
-        y = SummaryRow(inner, y, "NR_CoreDecay".Translate(), "NR_CoreDecayValue".Translate(tracker.DecayPerDay.ToString("0.#")), NetrunUI.Ok);
-        y += 4f;
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_CoreScrubButton".Translate(), NetrunUI.Ok, true, "NR_CoreScrubTip".Translate()))
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_CoreScrubButton".Translate(), NetrunUI.Ok, true,
+                "NR_CoreScrubTip".Translate() + "\n\n" + level.Description()))
             OpenNode(View.Club);
         y += 38f;
 
@@ -330,7 +318,23 @@ public partial class Dialog_NetTerminal
         y = ResourceRow(inner, y, NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), "NR_CoreAISlots".Translate(),
             server == null ? "NR_CoreNoServer".Translate() : (string)$"{server.Used}/{server.Slots}");
         int chips = ColonyGoods.Count(_map, NetrunDefOf.NR_BraindanceChip) + ColonyGoods.Count(_map, NetrunDefOf.NR_BlackBraindanceChip);
-        ResourceRow(inner, y, NetrunDefOf.NR_BraindanceChip.uiIcon, "NR_CoreChips".Translate(), chips.ToString());
+        y = ResourceRow(inner, y, NetrunDefOf.NR_BraindanceChip.uiIcon, "NR_CoreChips".Translate(), chips.ToString());
+        GatewayManager gateway = GatewayManager.Get();
+        if (gateway == null)
+            return;
+        y = ResourceRow(inner, y, NetrunTex.GroupFavor ?? NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), "NR_CoreGroupFavor".Translate(),
+            $"{gateway.GroupFavor}/{NetrunDefOf.NR_Cyberspace.groupFavorForAllies}");
+        TooltipHandler.TipRegion(new Rect(inner.x, y - 24f, inner.width, 24f),
+            "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
+
+        // Gateway timers: the next node refresh and the boss node.
+        y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), "NR_CoreSummaryGateway".Translate());
+        y = SummaryRow(inner, y, "NR_CoreGatewayRefresh".Translate(), gateway.TicksUntilRefresh.ToStringTicksToPeriod(), NetrunUI.Accent);
+        ExternalNode boss = gateway.Boss;
+        if (boss != null)
+            y = SummaryRow(inner, y, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓", NetrunUI.Bad);
+        else if (gateway.TicksUntilBoss >= 0)
+            SummaryRow(inner, y, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(), NetrunUI.Muted);
     }
 
     private static float SummaryRow(Rect inner, float y, string label, string value, Color color)
@@ -373,6 +377,11 @@ public partial class Dialog_NetTerminal
         int netsick = _map.mapPawns.FreeColonistsSpawned.Count(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick));
         if (netsick > 0)
             list.Add(("NR_CoreAlertNetsick".Translate(netsick), NetrunUI.Warn, null));
+        MapEventsManager events = MapEventsManager.Get();
+        if (events?.CounterHackRunning == true)
+            list.Insert(0, ("NR_CoreAlertCounterHack".Translate(), NetrunUI.Bad, View.Gateway));
+        if (events?.BlackMarketOpen == true)
+            list.Add(("NR_CoreAlertBlackMarket".Translate(events.BlackMarketTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple, View.Club));
         return list;
     }
 }
