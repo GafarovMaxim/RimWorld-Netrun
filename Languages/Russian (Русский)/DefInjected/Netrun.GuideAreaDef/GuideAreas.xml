@@ -48,20 +48,37 @@
   <NR_Guide_club_card.steps.0.text>Чипы специальности и черты, шкала репутации с отметкой закрепления.</NR_Guide_club_card.steps.0.text>
   <NR_Guide_club_card.steps.1.text>Позвонить (серебро открывает канал), Сбросить след, Магазин. Справа вверху: Удержать за плату за смену или Разорвать связь.</NR_Guide_club_card.steps.1.text>
   <NR_Guide_club_card.steps.1.hint>позвоните этому фиксеру.</NR_Guide_club_card.steps.1.hint>
-  <NR_Guide_board_active.label>Активные контракты</NR_Guide_board_active.label>
-  <NR_Guide_board_active.steps.0.text>Что вы взяли: прогресс, срок и награда. Пропущенный срок стоит репутации.</NR_Guide_board_active.steps.0.text>
+  <NR_Guide_board_fixers.label>Фиксеры и фильтры</NR_Guide_board_fixers.label>
+  <NR_Guide_board_fixers.steps.0.text>Ваши фиксеры с репутацией; клик оставляет только предложения этого фиксера. Ниже: фильтр по сложности и сортировка по выгоде или сроку.</NR_Guide_board_fixers.steps.0.text>
+  <NR_Guide_board_fixers.steps.0.hint>нажмите на фиксера.</NR_Guide_board_fixers.steps.0.hint>
+  <NR_Guide_board_active.label>Активный контракт</NR_Guide_board_active.label>
+  <NR_Guide_board_active.steps.0.text>Что вы взяли: прогресс, оставшееся время и награда. Пропущенный срок стоит репутации, а фиксер замолкает.</NR_Guide_board_active.steps.0.text>
   <NR_Guide_board_offers.label>Предложения</NR_Guide_board_offers.label>
   <NR_Guide_board_offers.steps.0.text>Контракты от ваших фиксеров. Примите подходящий; молчащие фиксеры показывают, когда заговорят снова.</NR_Guide_board_offers.steps.0.text>
   <NR_Guide_board_offers.steps.0.hint>примите предложение.</NR_Guide_board_offers.steps.0.hint>
-  <NR_Guide_archive_list.label>Журнал следа</NR_Guide_archive_list.label>
-  <NR_Guide_archive_list.steps.0.text>Каждое изменение Heat, новые сверху: что произошло и на сколько. Наведите на строку — полный текст.</NR_Guide_archive_list.steps.0.text>
+  <NR_Guide_board_offers.steps.1.text>Теги говорят, что требует работа: зелёный — легко, красный — риск. Наведите на тег — пояснение, клик — статья.</NR_Guide_board_offers.steps.1.text>
+  <NR_Guide_board_history.label>История</NR_Guide_board_history.label>
+  <NR_Guide_board_history.steps.0.text>Последние пять контрактов: выполненные и проваленные. Клик по строке разворачивает список.</NR_Guide_board_history.steps.0.text>
+  <NR_Guide_archive_tabs.label>Вкладки</NR_Guide_archive_tabs.label>
+  <NR_Guide_archive_tabs.steps.0.text>Журнал следа, отчёты о нырках (последние десять) и рейды с атаками.</NR_Guide_archive_tabs.steps.0.text>
+  <NR_Guide_archive_filters.label>Фильтры и поиск</NR_Guide_archive_filters.label>
+  <NR_Guide_archive_filters.steps.0.text>Показать только взломы, нырки, сброс, ИИ или события; поиск находит строку по тексту.</NR_Guide_archive_filters.steps.0.text>
+  <NR_Guide_archive_inset.label>Heat за 7 дней</NR_Guide_archive_inset.label>
+  <NR_Guide_archive_inset.steps.0.text>Ваш Heat за неделю. Клик по дню оставляет только его строки; колесо листает дни. Точки — события: клик открывает его.</NR_Guide_archive_inset.steps.0.text>
+  <NR_Guide_archive_inset.steps.0.hint>нажмите на день.</NR_Guide_archive_inset.steps.0.hint>
+  <NR_Guide_archive_list.label>Журнал</NR_Guide_archive_list.label>
+  <NR_Guide_archive_list.steps.0.text>Каждое изменение Heat по дням, с итогом дня. Иконка показывает тип; клик по строке — подробности.</NR_Guide_archive_list.steps.0.text>
+  <NR_Guide_archive_details.label>Подробности</NR_Guide_archive_details.label>
+  <NR_Guide_archive_details.steps.0.text>Heat до и после, а для нырков — исход, добыча и ходы. Кнопки открывают отчёт нырка, экран Heat или статью.</NR_Guide_archive_details.steps.0.text>
+  <NR_Guide_studio_tabs.label>Вкладки</NR_Guide_studio_tabs.label>
+  <NR_Guide_studio_tabs.steps.0.text>Сводка, сырые записи, библиотека (уникальные записи и чипы) и зависимость.</NR_Guide_studio_tabs.steps.0.text>
   <NR_Guide_studio_summary.label>Сводка</NR_Guide_studio_summary.label>
-  <NR_Guide_studio_summary.steps.0.text>Очки в колонии, чипы на складе и ждущие сырые записи.</NR_Guide_studio_summary.steps.0.text>
+  <NR_Guide_studio_summary.steps.0.text>Очки, сырые записи, чипы и уникальные записи одним взглядом и что делать дальше. Плитка открывает свою вкладку.</NR_Guide_studio_summary.steps.0.text>
   <NR_Guide_studio_records.label>Сырые записи</NR_Guide_studio_records.label>
   <NR_Guide_studio_records.steps.0.text>Записи, сделанные очками. Смонтируйте запись в чип: выберите настроение и дождитесь работы.</NR_Guide_studio_records.steps.0.text>
   <NR_Guide_studio_records.steps.0.hint>смонтируйте запись.</NR_Guide_studio_records.steps.0.hint>
-  <NR_Guide_studio_library.label>Библиотека чипов</NR_Guide_studio_library.label>
-  <NR_Guide_studio_library.steps.0.text>Готовые чипы с настроением и качеством. Чёрные чипы сильнее и опаснее.</NR_Guide_studio_library.steps.0.text>
+  <NR_Guide_studio_library.label>Библиотека</NR_Guide_studio_library.label>
+  <NR_Guide_studio_library.steps.0.text>Уникальные записи: найденные с эффектом, остальные «???»; клик открывает карточку. Ниже — чипы на складе.</NR_Guide_studio_library.steps.0.text>
   <NR_Guide_studio_hooked.label>Зависимость</NR_Guide_studio_hooked.label>
   <NR_Guide_studio_hooked.steps.0.text>Колонисты с привыканием или зависимостью от брейнданса. Без регулярного брейнданса у зависимого ломка.</NR_Guide_studio_hooked.steps.0.text>
   <NR_Guide_server_list.label>Ваши ИИ</NR_Guide_server_list.label>
@@ -103,6 +120,10 @@
   <NR_Guide_dive_haul.steps.0.text>Что вы уже несёте. Отступление из глубины теряет часть.</NR_Guide_dive_haul.steps.0.text>
   <NR_Guide_dive_log.label>Журнал</NR_Guide_dive_log.label>
   <NR_Guide_dive_log.steps.0.text>Терминал нырка: каждое действие и ответ ноды, новое внизу.</NR_Guide_dive_log.steps.0.text>
+  <NR_Guide_gateway_reports.label>Отчёты о нырках</NR_Guide_gateway_reports.label>
+  <NR_Guide_gateway_reports.steps.0.text>Последние десять нырков в Архиве; «◄ Шлюз» вернёт сюда.</NR_Guide_gateway_reports.steps.0.text>
+  <NR_Guide_terminal_back.label>Назад</NR_Guide_terminal_back.label>
+  <NR_Guide_terminal_back.steps.0.text>Назад к Ядру (или в Шлюз, если пришли оттуда). Esc закрывает терминал.</NR_Guide_terminal_back.steps.0.text>
   <NR_Guide_dive_retreat.label>Отступить</NR_Guide_dive_retreat.label>
   <NR_Guide_dive_retreat.steps.0.text>Выйти из нырка раньше. Из лобби бесплатно; глубже теряется часть добычи.</NR_Guide_dive_retreat.steps.0.text>
 </LanguageData>

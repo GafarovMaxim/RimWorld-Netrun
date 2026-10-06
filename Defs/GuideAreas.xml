@@ -259,15 +259,30 @@
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_board_active</defName>
-    <label>Active contracts</label>
-    <area>board.active</area>
+    <defName>NR_Guide_board_fixers</defName>
+    <label>Fixers and filters</label>
+    <area>board.fixers</area>
     <screen>Board</screen>
     <order>1</order>
+    <helpPage>NR_Help_Fixers</helpPage>
+    <steps>
+      <li>
+        <text>Your fixers with their reputation; a click shows only that fixer's offers. Below: filter by difficulty and sort by reward or term.</text>
+        <hint>click a fixer.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_board_active</defName>
+    <label>Active contract</label>
+    <area>board.active</area>
+    <screen>Board</screen>
+    <order>2</order>
     <helpPage>NR_Help_Fixers_Contracts</helpPage>
     <steps>
       <li>
-        <text>What you took: progress, deadline and the reward. A missed deadline costs reputation.</text>
+        <text>What you took: progress, time left and the reward. A missed deadline costs reputation and the fixer goes silent.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -277,26 +292,114 @@
     <label>Offers</label>
     <area>board.offers</area>
     <screen>Board</screen>
-    <order>2</order>
+    <order>3</order>
     <helpPage>NR_Help_Fixers_Contracts</helpPage>
     <steps>
       <li>
         <text>Contracts your fixers offer. Accept one; silent fixers show when they will talk again.</text>
         <hint>accept an offer.</hint>
       </li>
+      <li>
+        <text>Tags say what a job asks: green is easy, red is risky. Hover a tag for the details, click it for the article.</text>
+      </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_archive_list</defName>
-    <label>Trace log</label>
-    <area>archive.list</area>
+    <defName>NR_Guide_board_history</defName>
+    <label>History</label>
+    <area>board.history</area>
+    <screen>Board</screen>
+    <order>4</order>
+    <helpPage>NR_Help_Fixers_Contracts</helpPage>
+    <steps>
+      <li>
+        <text>The last five contracts: done or failed. Click the line to fold it open.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_archive_tabs</defName>
+    <label>Tabs</label>
+    <area>archive.tabs</area>
     <screen>Archive</screen>
     <order>1</order>
     <helpPage>NR_Help_Heat</helpPage>
     <steps>
       <li>
-        <text>Every change of your Heat, newest first: what happened and by how much. Hover a row for the full text.</text>
+        <text>The trace journal, the dive reports (the last ten) and raids and attacks.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_archive_filters</defName>
+    <label>Filters and search</label>
+    <area>archive.filters</area>
+    <screen>Archive</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Show only hacks, dives, scrubs, AI or events; the search finds a line by its text.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_archive_inset</defName>
+    <label>Heat over 7 days</label>
+    <area>archive.inset</area>
+    <screen>Archive</screen>
+    <order>3</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Your Heat over the week. Click a day to keep only its lines; the wheel steps through days. Dots are events: click one to open it.</text>
+        <hint>click a day.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_archive_list</defName>
+    <label>Journal</label>
+    <area>archive.list</area>
+    <screen>Archive</screen>
+    <order>4</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Every change of your Heat, grouped by day with the day's total. The icon tells the kind; click a line for the details.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_archive_details</defName>
+    <label>Details</label>
+    <area>archive.details</area>
+    <screen>Archive</screen>
+    <order>5</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Heat before and after, and for dives the outcome, the haul and the turns. Buttons open the dive report, the Heat screen or the article.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_studio_tabs</defName>
+    <label>Tabs</label>
+    <area>studio.tabs</area>
+    <screen>Studio</screen>
+    <order>0</order>
+    <helpPage>NR_Help_Braindance</helpPage>
+    <steps>
+      <li>
+        <text>Summary, raw recordings, the library (unique recordings and chips) and addiction.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -310,7 +413,7 @@
     <helpPage>NR_Help_Braindance</helpPage>
     <steps>
       <li>
-        <text>Goggles in the colony, chips in storage and raw recordings waiting.</text>
+        <text>Goggles, raw recordings, chips and unique recordings at a glance, and what to do next. A tile opens its tab.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -332,14 +435,14 @@
 
   <Netrun.GuideAreaDef>
     <defName>NR_Guide_studio_library</defName>
-    <label>Chip library</label>
+    <label>Library</label>
     <area>studio.library</area>
     <screen>Studio</screen>
     <order>3</order>
-    <helpPage>NR_Help_BD_Chips</helpPage>
+    <helpPage>NR_Help_BD_Unique</helpPage>
     <steps>
       <li>
-        <text>Finished chips with their mood and quality. Black chips are stronger and riskier.</text>
+        <text>Unique recordings: found ones with their effect, "???" for the rest; click one for its card. Below: chips in storage.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -579,6 +682,34 @@
     <steps>
       <li>
         <text>The dive's terminal: every action and the node's answer, newest at the bottom.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_reports</defName>
+    <label>Dive reports</label>
+    <area>gateway.reports</area>
+    <screen>Gateway</screen>
+    <order>7</order>
+    <helpPage>NR_Help_Gateway_Rewards</helpPage>
+    <steps>
+      <li>
+        <text>The last ten dives in the Archive; "◄ Gateway" brings you back here.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_terminal_back</defName>
+    <label>Back</label>
+    <area>terminal.back</area>
+    <screen>Any</screen>
+    <order>0</order>
+    <helpPage>NR_Help_Start_Terminal</helpPage>
+    <steps>
+      <li>
+        <text>Back to the Core (or to the Gateway when you came from there). Esc closes the terminal.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>

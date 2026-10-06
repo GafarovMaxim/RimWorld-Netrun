@@ -55,8 +55,10 @@ public static class ContractsTab
         float historyHeight = _historyOpen ? 30f + Mathf.Max(1, Mathf.Min(5, contracts.History.Count)) * 22f + 8f : 30f;
         var left = new Rect(rect.x, rect.y, LeftWidth, rect.height - historyHeight - 8f);
         var main = new Rect(left.xMax + 14f, rect.y, rect.width - LeftWidth - 14f, rect.height - historyHeight - 8f);
+        GuideRegistry.Area("board.fixers", left);
         DrawLeft(left, fixers, contracts);
         DrawMain(main, map, ref scroll, contracts, fixers, openHelp);
+        GuideRegistry.Area("board.history", new Rect(rect.x, rect.yMax - historyHeight, rect.width, historyHeight));
         DrawHistory(new Rect(rect.x, rect.yMax - historyHeight, rect.width, historyHeight), contracts);
     }
 

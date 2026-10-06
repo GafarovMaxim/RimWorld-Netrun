@@ -43,6 +43,7 @@ public static class StudioTab
             .Where(p => p.health.hediffSet.hediffs.Any(h => h is Hediff_Addiction a && a.Chemical == NetrunDefOf.NR_Braindance)
                         || p.health.hediffSet.HasHediff(NetrunDefOf.NR_BraindanceTolerance)).ToList();
 
+        GuideRegistry.Area("studio.tabs", new Rect(rect.x, rect.y, rect.width * 0.6f, 32f));
         DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), raws.Count, hooked.Count);
         rect.yMin += 42f;
 

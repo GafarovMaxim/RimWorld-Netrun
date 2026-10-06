@@ -178,7 +178,6 @@ public partial class Dialog_NetTerminal : Window
         switch (_view)
         {
             case View.Board: GuideRegistry.Area("board.list", content); break;
-            case View.Archive: GuideRegistry.Area("archive.list", content); break;
             case View.Studio: GuideRegistry.Area("studio.main", content); break;
         }
 

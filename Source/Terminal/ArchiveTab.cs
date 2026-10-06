@@ -64,6 +64,7 @@ public static class ArchiveTab
 
     public static void Draw(Rect rect, Map map, HeatTracker tracker, System.Action<string> openHelp, System.Action openHeat)
     {
+        GuideRegistry.Area("archive.tabs", new Rect(rect.x, rect.y, rect.width * 0.6f, 32f));
         DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), tracker);
         rect.yMin += 42f;
 
@@ -72,13 +73,17 @@ public static class ArchiveTab
         var right = new Rect(left.xMax + 12f, rect.y, detailWidth, rect.height);
 
         float y = left.y;
+        GuideRegistry.Area("archive.filters", new Rect(left.x, y, left.width, 26f));
         y = DrawFilters(new Rect(left.x, y, left.width, 26f)) + 8f;
         if (_tab == Tab.Journal)
         {
+            GuideRegistry.Area("archive.inset", new Rect(left.x, y, left.width, InsetHeight));
             DrawInset(new Rect(left.x, y, left.width, InsetHeight), map, tracker);
             y += InsetHeight + 8f;
         }
         var list = new Rect(left.x, y, left.width, left.yMax - y);
+        GuideRegistry.Area("archive.list", list);
+        GuideRegistry.Area("archive.details", right);
         if (_tab == Tab.Reports)
             DrawReports(list);
         else

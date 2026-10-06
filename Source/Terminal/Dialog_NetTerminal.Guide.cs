@@ -145,7 +145,7 @@ public partial class Dialog_NetTerminal
         if (!_guide)
             return;
         List<(GuideAreaDef def, Rect rect)> areas = AreasNow();
-        Widgets.DrawBoxSolid(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, inRect.height - TitleHeight), new Color(0f, 0f, 0f, 0.45f));
+        Widgets.DrawBoxSolid(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, inRect.height - TitleHeight), new Color(0f, 0f, 0f, 0.55f));
         Vector2 mouse = Event.current.mousePosition;
         string pulse = _guideArea != null && _guideStep < _guideArea.steps.Count ? _guideArea.steps[_guideStep].highlight : null;
         HelpProgress progress = HelpProgress.Get();
@@ -156,27 +156,43 @@ public partial class Dialog_NetTerminal
             bool hover = _guideArea == null && rect.Contains(mouse);
             bool active = _guideArea == def;
             bool pulsing = pulse != null && def.area == pulse;
-            Color c = NetrunUI.Accent;
-            if (hover || active)
-                Widgets.DrawBoxSolid(rect, new Color(c.r, c.g, c.b, 0.12f));
+            bool areaSeen = progress?.GuideAreaSeen(def) == true;
+            Color c = areaSeen ? NetrunUI.Ok : NetrunUI.Accent;
+            // Quiet by default: corner brackets and a faint tint; the hovered or open one gets a full frame.
+            Widgets.DrawBoxSolid(rect, new Color(c.r, c.g, c.b, hover || active ? 0.14f : 0.04f));
             if (pulsing)
                 Widgets.DrawBoxSolid(rect, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.15f * (0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 4f))));
-            GUI.color = hover || active ? Color.white : new Color(c.r, c.g, c.b, 0.85f);
-            Widgets.DrawBox(rect, hover || active ? 3 : 2);
-            GUI.color = Color.white;
+            if (hover || active)
+            {
+                GUI.color = Color.white;
+                Widgets.DrawBox(rect, 2);
+                GUI.color = Color.white;
+            }
+            NetrunUI.Brackets(rect, new Color(c.r, c.g, c.b, hover || active ? 1f : 0.85f), hover || active ? 3f : 2f, Mathf.Clamp(Mathf.Min(rect.width, rect.height) * 0.25f, 8f, 22f));
 
-            // The number badge on the corner; seen areas get a check.
-            var badge = new Rect(Mathf.Clamp(rect.x - 9f, inRect.x + 3f, inRect.xMax - 23f), Mathf.Clamp(rect.y - 9f, inRect.y + TitleHeight + 3f, inRect.yMax - 23f), 20f, 20f);
-            GUI.color = progress?.GuideAreaSeen(def) == true ? NetrunUI.Ok : c;
+            // The number badge on the corner; seen areas are green.
+            var badge = new Rect(Mathf.Clamp(rect.x - 11f, inRect.x + 3f, inRect.xMax - 27f), Mathf.Clamp(rect.y - 11f, inRect.y + 3f, inRect.yMax - 27f), 24f, 24f);
+            GUI.color = NetrunUI.BgWindow;
+            GUI.DrawTexture(badge.ExpandedBy(2f), NetrunUI.Disc);
+            GUI.color = c;
             GUI.DrawTexture(badge, NetrunUI.Disc);
             GUI.color = Color.white;
-            Text.Font = GameFont.Tiny;
+            Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(badge, (i + 1).ToString().Colorize(NetrunUI.BgWindow));
             Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
+
+            // The hovered area says its name right next to its number.
             if (hover)
-                NetrunUI.Tip(rect, def.LabelCap);
+            {
+                string name = def.LabelCap;
+                float nw = Text.CalcSize(name).x + 16f;
+                var plate = new Rect(Mathf.Min(badge.xMax + 4f, inRect.xMax - nw - 4f), badge.y, nw, 24f);
+                NetrunUI.Box(plate, NetrunUI.BgWindow, c);
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(plate, name);
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
         }
 
         // Bottom-left: the mode line and how many areas were seen.
