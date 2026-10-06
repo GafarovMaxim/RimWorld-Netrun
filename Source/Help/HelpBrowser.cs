@@ -397,9 +397,10 @@ public class HelpBrowser
 [StaticConstructorOnStartup]
 public static class HelpIcons
 {
-    public static readonly Texture2D Lock = Resolve("Icon_Lock");
-
+    // The cache must exist before anything resolves an icon (static fields initialise in order).
     private static readonly Dictionary<string, Texture2D> Cache = [];
+
+    public static Texture2D Lock => Resolve("Icon_Lock");
 
     public static Texture2D For(HelpPageDef page) => page.icon.NullOrEmpty() ? null : Resolve(page.icon);
 

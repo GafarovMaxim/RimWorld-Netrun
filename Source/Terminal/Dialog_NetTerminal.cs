@@ -104,7 +104,19 @@ public partial class Dialog_NetTerminal : Window
 
         if (_view == View.Help)
         {
-            _help.Draw(body);
+            // The Cyberpedia must never take the terminal down: on an error, log once and go back.
+            try
+            {
+                _help.Draw(body);
+            }
+            catch (System.Exception e)
+            {
+                Log.ErrorOnce("[Netrun] Cyberpedia failed to draw, back to the previous screen: " + e, 0x4E52_4350);
+                Text.Font = GameFont.Small;
+                Text.Anchor = TextAnchor.UpperLeft;
+                GUI.color = Color.white;
+                LeaveHelp();
+            }
             return;
         }
 
