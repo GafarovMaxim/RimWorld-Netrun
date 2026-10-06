@@ -62,6 +62,9 @@ public class Fixer : IExposable
             float factor = 1f - Mathf.Min(discount, Settings.maxDiscount);
             if (Trait == FixerTrait.Greedy)
                 factor *= Settings.greedyPriceFactor;
+            // A watched "night market" recording: the colony knows how to haggle for a few days.
+            if (UniqueBraindanceManager.Get()?.MarketDiscountActive == true)
+                factor *= 1f - NetrunDefOf.NR_UniqueBraindance.marketDiscount;
 
             return factor;
         }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <NR_StudioSummary>Брейнданс-очки: {0} · чипов на складе: {1} · сырых записей: {2}</NR_StudioSummary>
   <NR_StudioRecordings>Сырые записи ({0})</NR_StudioRecordings>
   <NR_StudioNoRecordings>Сырых записей нет. Колонисты в брейнданс-очках сами записывают сильные моменты.</NR_StudioNoRecordings>
   <NR_StudioLibrary>Библиотека чипов ({0})</NR_StudioLibrary>
@@ -11,4 +10,35 @@
   <NR_StudioEditTip>Выберите колониста: он отнесёт запись к сетевой консоли и смонтирует.</NR_StudioEditTip>
   <NR_StudioAddicted>зависимость ({0})</NR_StudioAddicted>
   <NR_StudioTolerance>толерантность {0}</NR_StudioTolerance>
+  <NR_StudioTab_Summary>Сводка</NR_StudioTab_Summary>
+  <NR_StudioTab_Raw>Сырые записи</NR_StudioTab_Raw>
+  <NR_StudioTab_Library>Библиотека</NR_StudioTab_Library>
+  <NR_StudioTab_Addiction>Зависимость</NR_StudioTab_Addiction>
+  <NR_StudioTileGoggles>Очки</NR_StudioTileGoggles>
+  <NR_StudioTileRaw>Сырые</NR_StudioTileRaw>
+  <NR_StudioTileChips>Чипы (чёрные)</NR_StudioTileChips>
+  <NR_StudioTileUnique>Уникальные</NR_StudioTileUnique>
+  <NR_StudioHintRaw>Сырых записей ждут монтажа: {0}. Откройте «Сырые записи».</NR_StudioHintRaw>
+  <NR_StudioHintHooked>Колонистов с тягой к брейндансу: {0}. Смотрите «Зависимость».</NR_StudioHintHooked>
+  <NR_StudioHintGoggles>Нет брейнданс-очков: чипы можно смотреть только через кибер-линк.</NR_StudioHintGoggles>
+  <NR_StudioHintUnique>Уникальных записей ещё не найдено: {0}.</NR_StudioHintUnique>
+  <NR_StudioUniqueHeader>Уникальные записи · редкая награда (найдено {0} из {1})</NR_StudioUniqueHeader>
+  <NR_StudioUniqueMissing>запись не найдена</NR_StudioUniqueMissing>
+  <NR_StudioUniqueWhere>Ищите в корп-ядре, на чёрном рынке, в редких находках нырков и в бонусах контрактов.</NR_StudioUniqueWhere>
+  <NR_StudioUniqueMeta>Автор: {0} · {1} · {2}</NR_StudioUniqueMeta>
+  <NR_StudioUniqueNormal>обычный брейнданс</NR_StudioUniqueNormal>
+  <NR_StudioUniqueBlack>чёрный брейнданс</NR_StudioUniqueBlack>
+  <NR_StudioUniqueViews>просмотров осталось: {0}</NR_StudioUniqueViews>
+  <NR_StudioUniqueGone>нет в колонии</NR_StudioUniqueGone>
+  <NR_StudioUniqueKind>Уникальная запись · {0}</NR_StudioUniqueKind>
+  <NR_StudioHowTheyDrop>Как выпадают</NR_StudioHowTheyDrop>
+  <NR_StudioDropBoss>Корп-ядро: шанс {0} вместо демона</NR_StudioDropBoss>
+  <NR_StudioDropDive>Особая находка в нырке: {0} находок чипа знаменитости</NR_StudioDropDive>
+  <NR_StudioDropMarket>Чёрный рынок: шанс {0} на каждый рынок, за высокую цену</NR_StudioDropMarket>
+  <NR_StudioDropContract>Выполненный контракт: шанс {0} на бонусную запись</NR_StudioDropContract>
+  <NR_StudioDropOnce>Каждая запись выпадает один раз за игру.</NR_StudioDropOnce>
+  <NR_StudioItem>Запись</NR_StudioItem>
+  <NR_StudioPickHint>Выберите найденную запись слева.</NR_StudioPickHint>
+  <NR_StudioRules>Правила</NR_StudioRules>
+  <NR_StudioRulesText>Эффект виден в здоровье или настроении колониста. Стак 1, от 1 до 3 просмотров, не крафтится, торговцы не покупают. Смотрится как обычный чип: в брейнданс-очках или через кибер-линк.</NR_StudioRulesText>
 </LanguageData>

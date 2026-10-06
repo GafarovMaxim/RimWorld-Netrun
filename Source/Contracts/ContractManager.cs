@@ -212,6 +212,12 @@ public class ContractManager : GameComponent
         }
 
         string fixerName = fixer?.Name ?? "?";
+        // Now and then a fixer adds a unique braindance recording to the pay.
+        if (map != null && Rand.Chance(NetrunDefOf.NR_UniqueBraindance.contractChance) && UniqueBraindanceManager.Get()?.RandomUnfound() is { } unique)
+        {
+            DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [ThingMaker.MakeThing(unique)], forbid: false);
+            Find.LetterStack.ReceiveLetter("NR_UB_ContractBonusLabel".Translate(), "NR_UB_ContractBonus".Translate(fixerName, unique.label), LetterDefOf.PositiveEvent);
+        }
         Record(contract, fixerName, success: true);
         if (fixer != null)
         {

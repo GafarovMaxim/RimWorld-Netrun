@@ -96,6 +96,9 @@ public class MapEventsManager : GameComponent
 
     // ---- Black market ----
 
+    /// <summary>A unique braindance recording on sale at this black market, or null.</summary>
+    public ThingDef BlackMarketUnique;
+
     public int BlackMarketTicksLeft => System.Math.Max(0, _blackMarketUntilTick - Find.TickManager.TicksGame);
     public bool BlackMarketOpen => Find.TickManager.TicksGame < _blackMarketUntilTick;
 
@@ -103,6 +106,7 @@ public class MapEventsManager : GameComponent
     {
         _blackMarketUntilTick = Find.TickManager.TicksGame + (int)(Settings.blackMarketDays * GenDate.TicksPerDay);
         BlackMarketCore = Rand.Chance(Settings.blackMarketCoreChance);
+        BlackMarketUnique = Rand.Chance(NetrunDefOf.NR_UniqueBraindance.blackMarketChance) ? UniqueBraindanceManager.Get()?.RandomUnfound() : null;
     }
 
     /// <summary>What a fixer sells on top of the usual stock while the black market is open (reputation 30+).</summary>
@@ -114,6 +118,9 @@ public class MapEventsManager : GameComponent
         yield return NetrunDefOf.NR_AIFragment;
         if (BlackMarketCore)
             yield return NetrunDefOf.NR_AICoreModule;
+        // Rarely, one unique recording, at its (high) market value; gone once bought.
+        if (BlackMarketUnique != null && UniqueBraindanceManager.Get()?.IsFound(BlackMarketUnique) == false)
+            yield return BlackMarketUnique;
     }
 
     // ---- Hack on the colony's turrets and the counter-hack ----
@@ -180,6 +187,7 @@ public class MapEventsManager : GameComponent
         Scribe_References.Look(ref _courier, "courier");
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
         Scribe_Values.Look(ref _blackMarketUntilTick, "blackMarketUntilTick", -1);
+        Scribe_Defs.Look(ref BlackMarketUnique, "blackMarketUnique");
         Scribe_Values.Look(ref BlackMarketCore, "blackMarketCore");
         Scribe_Collections.Look(ref _hijacked, "hijacked", LookMode.Reference);
         Scribe_Values.Look(ref _counterUntilTick, "counterUntilTick", -1);

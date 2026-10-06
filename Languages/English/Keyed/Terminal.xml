@@ -277,4 +277,5 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDiveStepDesc_MEMORY>Memory units: may hold AI fragments or core modules.</NR_HelpDiveStepDesc_MEMORY>
   <NR_HelpDiveStepDesc_EXIT>The I/O port: leave with everything you found. A clean exit can bring a special find.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>A node is a path of steps. Hover a step to see what it is, click to pin the text here.</NR_HelpDiveSchemaHint>
+  <NR_ChipMarketDiscount>Night market −{0}</NR_ChipMarketDiscount>
 </LanguageData>

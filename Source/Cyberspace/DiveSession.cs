@@ -202,6 +202,18 @@ public class DiveSession : IExposable
         session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
         session.Build();
+        // A watched corporate confession: this dive shows every hidden step, the forks' numbers and any trap.
+        if (UniqueBraindanceManager.Get() is { RevealNextDive: true } ub)
+        {
+            ub.RevealNextDive = false;
+            foreach (DiveElement e in session.Elements)
+                e.Hidden = false;
+            for (int i = 0; i < session.Elements.Count; i++)
+                if (session.IsFork(i))
+                    session.ForkScanned.Add(i);
+            session.HoneypotRevealed = node.Honeypot;
+            session.AddLog("NR_DiveLogConfession".Translate().Colorize(NetrunUI.Warn));
+        }
         session.ActionsLeft = session.ActionsPerTurn;
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
         return session;
@@ -383,6 +395,8 @@ public class DiveSession : IExposable
         float chance = Settings.hackBase + skill * Settings.hackPerSkill - target.Strength * Settings.hackPerStrength;
         if (Programs.Contains(DiveProgram.Sword) || Daemons.Contains(DiveDaemon.Blade))
             chance += Settings.swordBonus;
+        if (DefDatabase<HediffDef>.GetNamedSilentFail("NR_UBH_ZeroRun") is { } zero && Runner?.health.hediffSet.HasHediff(zero) == true)
+            chance += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 
@@ -524,7 +538,7 @@ public class DiveSession : IExposable
             (FindResearch, Settings.findResearch),
             (FindFixerService, Settings.findFixerService),
             (FindGroupFavor, Settings.findGroupFavor),
-            (FindCelebrityChip, Settings.findCelebrityChip),
+            (() => { if (!(Rand.Chance(NetrunDefOf.NR_UniqueBraindance.diveFindChance) && FindUnique())) FindCelebrityChip(); }, Settings.findCelebrityChip),
             (() => FindDaemon(), Settings.findDaemon),
             (() => LootItems.Add(NetrunDefOf.NR_AICoreModule), Settings.findCoreModule),
         };
@@ -536,7 +550,9 @@ public class DiveSession : IExposable
     /// <summary>The corporate core: a daemon (or a celebrity chip once all are found), maybe a core module.</summary>
     private void RollBossReward()
     {
-        if (!FindDaemon())
+        // A daemon or a unique recording (whichever is left), otherwise a celebrity chip.
+        bool unique = Rand.Chance(NetrunDefOf.NR_UniqueBraindance.bossChance) && FindUnique();
+        if (!unique && !FindDaemon() && !FindUnique())
             FindCelebrityChip();
         if (Rand.Chance(Settings.bossCoreModuleChance))
             LootItems.Add(NetrunDefOf.NR_AICoreModule);
@@ -595,6 +611,17 @@ public class DiveSession : IExposable
         if (Runner?.MapHeld is { } map)
             GenPlace.TryPlaceThing(chip, Runner.PositionHeld, map, ThingPlaceMode.Near);
         Messages.Message("NR_FindCelebrity".Translate(chip.LabelCap), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
+
+    /// <summary>A unique braindance recording not found yet joins the haul; false when all are out in the world.</summary>
+    private bool FindUnique()
+    {
+        ThingDef def = UniqueBraindanceManager.Get()?.RandomUnfound();
+        if (def == null || LootItems.Contains(def))
+            return false;
+        LootItems.Add(def);
+        AddLog("NR_UB_Found".Translate(def.LabelCap).Colorize(NetrunUI.Warn));
+        return true;
     }
 
     /// <summary>Unlocks a daemon the colony does not have yet; false when all are already found.</summary>

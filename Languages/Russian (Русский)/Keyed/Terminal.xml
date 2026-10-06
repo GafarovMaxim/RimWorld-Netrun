@@ -277,4 +277,5 @@
   <NR_HelpDiveStepDesc_MEMORY>Блоки памяти: в них бывают осколки ИИ и модули ядра.</NR_HelpDiveStepDesc_MEMORY>
   <NR_HelpDiveStepDesc_EXIT>Порт ввода-вывода: уходите со всем найденным. Чистый выход может принести особую находку.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
+  <NR_ChipMarketDiscount>Ночной рынок −{0}</NR_ChipMarketDiscount>
 </LanguageData>

@@ -426,6 +426,9 @@ public partial class Dialog_NetTerminal : Window
         }
         else if (_view == View.Club)
         {
+            if (UniqueBraindanceManager.Get() is { MarketDiscountActive: true } ub)
+                x = NetrunUI.HeaderChip(x, y, "NR_ChipMarketDiscount".Translate(NetrunDefOf.NR_UniqueBraindance.marketDiscount.ToStringPercent()).Colorize(NetrunUI.Ok),
+                    "NR_UB_MarketDiscount".Translate(NetrunDefOf.NR_UniqueBraindance.marketDiscount.ToStringPercent(), ub.MarketDiscountTicksLeft.ToStringTicksToPeriod())) - 8f;
             x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata),
                 ColonyGoods.Count(_map, NetrunDefOf.USH_AdvancedCyberdata))) - 8f;
             NetrunUI.HeaderChip(x, y, "NR_ChipSilver".Translate(ColonyGoods.Count(_map, ThingDefOf.Silver)));

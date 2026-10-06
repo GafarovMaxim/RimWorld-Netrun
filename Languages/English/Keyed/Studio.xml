@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <NR_StudioSummary>Braindance goggles: {0} · chips in storage: {1} · raw recordings: {2}</NR_StudioSummary>
   <NR_StudioRecordings>Raw recordings ({0})</NR_StudioRecordings>
   <NR_StudioNoRecordings>No raw recordings. Colonists wearing braindance goggles record strong moments on their own.</NR_StudioNoRecordings>
   <NR_StudioLibrary>Chip library ({0})</NR_StudioLibrary>
@@ -11,4 +10,35 @@
   <NR_StudioEditTip>Pick a colonist: they carry the recording to the network console and edit it.</NR_StudioEditTip>
   <NR_StudioAddicted>addicted ({0})</NR_StudioAddicted>
   <NR_StudioTolerance>tolerance {0}</NR_StudioTolerance>
+  <NR_StudioTab_Summary>Summary</NR_StudioTab_Summary>
+  <NR_StudioTab_Raw>Raw recordings</NR_StudioTab_Raw>
+  <NR_StudioTab_Library>Library</NR_StudioTab_Library>
+  <NR_StudioTab_Addiction>Addiction</NR_StudioTab_Addiction>
+  <NR_StudioTileGoggles>Goggles</NR_StudioTileGoggles>
+  <NR_StudioTileRaw>Raw</NR_StudioTileRaw>
+  <NR_StudioTileChips>Chips (black)</NR_StudioTileChips>
+  <NR_StudioTileUnique>Unique</NR_StudioTileUnique>
+  <NR_StudioHintRaw>{0} raw recording(s) wait for editing: open "Raw recordings".</NR_StudioHintRaw>
+  <NR_StudioHintHooked>{0} colonist(s) are hooked on braindance: see "Addiction".</NR_StudioHintHooked>
+  <NR_StudioHintGoggles>No braindance goggles: chips can only be watched through a cyberlink.</NR_StudioHintGoggles>
+  <NR_StudioHintUnique>{0} unique recording(s) are still out there.</NR_StudioHintUnique>
+  <NR_StudioUniqueHeader>Unique recordings · rare reward ({0} of {1} found)</NR_StudioUniqueHeader>
+  <NR_StudioUniqueMissing>not found</NR_StudioUniqueMissing>
+  <NR_StudioUniqueWhere>Look in the corporate core, at the black market, in rare dive finds and among contract bonuses.</NR_StudioUniqueWhere>
+  <NR_StudioUniqueMeta>Author: {0} · {1} · {2}</NR_StudioUniqueMeta>
+  <NR_StudioUniqueNormal>ordinary braindance</NR_StudioUniqueNormal>
+  <NR_StudioUniqueBlack>black braindance</NR_StudioUniqueBlack>
+  <NR_StudioUniqueViews>views left: {0}</NR_StudioUniqueViews>
+  <NR_StudioUniqueGone>not in the colony</NR_StudioUniqueGone>
+  <NR_StudioUniqueKind>Unique recording · {0}</NR_StudioUniqueKind>
+  <NR_StudioHowTheyDrop>How they drop</NR_StudioHowTheyDrop>
+  <NR_StudioDropBoss>Corporate core: {0} chance instead of a daemon</NR_StudioDropBoss>
+  <NR_StudioDropDive>A dive's special find: {0} of celebrity chip finds</NR_StudioDropDive>
+  <NR_StudioDropMarket>Black market: {0} chance per market, for a high price</NR_StudioDropMarket>
+  <NR_StudioDropContract>A finished contract: {0} chance of a bonus recording</NR_StudioDropContract>
+  <NR_StudioDropOnce>Each recording turns up only once per game.</NR_StudioDropOnce>
+  <NR_StudioItem>Recording</NR_StudioItem>
+  <NR_StudioPickHint>Pick a found recording on the left.</NR_StudioPickHint>
+  <NR_StudioRules>Rules</NR_StudioRules>
+  <NR_StudioRulesText>The effect shows as a hediff or a mood in the colonist's health and needs. Stack of 1, 1 to 3 views, never crafted, traders do not buy it. Watched like any chip: braindance goggles or a cyberlink.</NR_StudioRulesText>
 </LanguageData>

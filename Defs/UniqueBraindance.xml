@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <!-- Unique braindance recordings (docs/CONCEPTS_6.md, section 4): named recordings with their own effect,
+       1-3 views, never crafted or sold by traders, each found once per game (UniqueBraindanceManager).
+       Sources: the corporate core, a dive's special find, the black market (rare) and a contract bonus. -->
+
+  <Netrun.UniqueBraindanceSettingsDef>
+    <defName>NR_UniqueBraindance</defName>
+    <!-- Chances that a source gives a unique recording (if any is left) instead of its usual find -->
+    <diveFindChance>0.5</diveFindChance>
+    <bossChance>0.5</bossChance>
+    <blackMarketChance>0.3</blackMarketChance>
+    <contractChance>0.1</contractChance>
+    <!-- Effects -->
+    <marketDiscount>0.3</marketDiscount>
+    <marketDiscountDays>3</marketDiscountDays>
+    <confessionHeat>8</confessionHeat>
+    <oracleMercDelayDays>3</oracleMercDelayDays>
+    <zeroRunHackBonus>0.1</zeroRunHackBonus>
+  </Netrun.UniqueBraindanceSettingsDef>
+
+  <ThingDef Name="NR_UniqueBraindanceBase" ParentName="DrugBase" Abstract="True">
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_UniqueBraindance</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>1</stackLimit>
+    <tradeability>None</tradeability>
+    <statBases>
+      <MarketValue>1500</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>0.8</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BraindanceHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+        </li>
+        <li Class="Netrun.IngestionOutcomeDoer_UniqueBraindance" />
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <!-- Ordinary unique recordings do not hook; black ones hook twice as fast as a black chip -->
+        <addictiveness>0</addictiveness>
+        <minToleranceToAddict>1</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1002</listOrder>
+      </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef Name="NR_UniqueBlackBraindanceBase" ParentName="DrugBase" Abstract="True">
+    <graphicData>
+      <texPath>Things/Item/Drug/NR_UniqueBraindance</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>0.8</drawSize>
+    </graphicData>
+    <rotatable>false</rotatable>
+    <stackLimit>1</stackLimit>
+    <tradeability>None</tradeability>
+    <statBases>
+      <MarketValue>1800</MarketValue>
+      <Mass>0.05</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <techLevel>Spacer</techLevel>
+    <ingestible>
+      <joyKind>Chemical</joyKind>
+      <joy>1.0</joy>
+      <drugCategory>Hard</drugCategory>
+      <foodType>Processed</foodType>
+      <baseIngestTicks>600</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
+      <useEatingSpeedStat>false</useEatingSpeedStat>
+      <chairSearchRadius>8</chairSearchRadius>
+      <ingestCommandString>Play {0}</ingestCommandString>
+      <ingestReportString>Playing {0}.</ingestReportString>
+      <outcomeDoers>
+        <li Class="IngestionOutcomeDoer_GiveHediff">
+          <hediffDef>NR_BlackBraindanceHigh</hediffDef>
+          <severity>0.75</severity>
+          <toleranceChemical>NR_Braindance</toleranceChemical>
+        </li>
+        <li Class="Netrun.IngestionOutcomeDoer_UniqueBraindance" />
+      </outcomeDoers>
+    </ingestible>
+    <comps>
+      <li Class="CompProperties_Drug">
+        <chemical>NR_Braindance</chemical>
+        <!-- Ordinary unique recordings do not hook; black ones hook twice as fast as a black chip -->
+        <addictiveness>0.24</addictiveness>
+        <minToleranceToAddict>0.02</minToleranceToAddict>
+        <existingAddictionSeverityOffset>0.2</existingAddictionSeverityOffset>
+        <needLevelOffset>1</needLevelOffset>
+        <listOrder>1002</listOrder>
+      </li>
+      <li Class="Netrun.CompProperties_BraindanceRecord" />
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.BraindanceChipExtension" />
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBraindanceBase">
+    <defName>NR_UB_Concert</defName>
+    <label>the last concert of Cyber-Liza</label>
+    <description>A unique braindance recording. The final show of a singer who vanished the next morning. Twenty thousand people in one breath.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>3</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>Concert</effect>
+        <black>false</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBraindanceBase">
+    <defName>NR_UB_ZeroRun</defName>
+    <label>Zero's run</label>
+    <description>A unique braindance recording. A legendary netrunner's straight dive through a corporate core, first person, every keystroke felt.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>1</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>ZeroRun</effect>
+        <black>false</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
+    <defName>NR_UB_Morton</defName>
+    <label>Morton's quiet room</label>
+    <description>A black braindance recording. A therapist's recording from a sealed ward. It calms like nothing else, and it is not entirely legal.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>2</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>Morton</effect>
+        <black>true</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBraindanceBase">
+    <defName>NR_UB_NightMarket</defName>
+    <label>night market</label>
+    <description>A unique braindance recording. A fixer's walk through a night market: who to ask, what to pay, how to look like you belong.\n\nWatched with braindance goggles or a cyberlink. Can be watched 2 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>2</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>NightMarket</effect>
+        <black>false</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
+    <defName>NR_UB_Confession</defName>
+    <label>a corporate's confession</label>
+    <description>A black braindance recording. A security chief tells everything before vanishing. Every back door he ever left open.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>1</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>Confession</effect>
+        <black>true</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBraindanceBase">
+    <defName>NR_UB_StreetRunner</defName>
+    <label>street runner drill</label>
+    <description>A unique braindance recording. A courier's day at full speed: rooftops, crowds and never a wasted step.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>3</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>StreetRunner</effect>
+        <black>false</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBraindanceBase">
+    <defName>NR_UB_EchoLullaby</defName>
+    <label>Echo's lullaby</label>
+    <description>A unique braindance recording. An AI hummed this to a sick child for a hundred nights. It still puts minds to sleep.\n\nWatched with braindance goggles or a cyberlink. Can be watched 3 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>3</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>EchoLullaby</effect>
+        <black>false</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_UniqueBlackBraindanceBase">
+    <defName>NR_UB_Oracle</defName>
+    <label>the Oracle's vision</label>
+    <description>A black braindance recording. A predictive AI's raw forecast, never meant for human eyes. For a while you see what comes next.\n\nWatched with braindance goggles or a cyberlink. Can be watched 1 time(s); each recording turns up only once per game.</description>
+    <comps>
+      <li Class="Netrun.CompProperties_UniqueBraindance">
+        <views>1</views>
+      </li>
+    </comps>
+    <modExtensions>
+      <li Class="Netrun.UniqueBraindanceExtension">
+        <effect>Oracle</effect>
+        <black>true</black>
+      </li>
+    </modExtensions>
+  </ThingDef>
+
+  <HediffDef>
+    <defName>NR_UBH_ZeroRun</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Zero's edge</label>
+    <description>Zero's run still plays in the fingers: hacks go faster and dives crack easier.</description>
+    <defaultLabelColor>(1.0, 0.8, 0.3)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>300000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <HackingSpeed>0.3</HackingSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_UBH_StreetRunner</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>runner's rhythm</label>
+    <description>The courier's pace sticks: everything gets done a little faster.</description>
+    <defaultLabelColor>(1.0, 0.8, 0.3)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>120000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <WorkSpeedGlobal>1.15</WorkSpeedGlobal>
+        </statFactors>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>0.15</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_UBH_Oracle</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>Oracle's sight</label>
+    <description>A glimpse of what comes next: aim settles faster and blows are seen coming.</description>
+    <defaultLabelColor>(1.0, 0.8, 0.3)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>180000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <AimingDelayFactor>0.8</AimingDelayFactor>
+        </statFactors>
+        <statOffsets>
+          <MeleeDodgeChance>5</MeleeDodgeChance>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_UBT_Concert</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>1</stackLimit>
+    <stages>
+      <li>
+        <label>Cyber-Liza's last concert</label>
+        <description>I was there. Twenty thousand voices and mine among them.</description>
+        <baseMoodEffect>30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

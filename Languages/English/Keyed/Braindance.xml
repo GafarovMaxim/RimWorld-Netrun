@@ -12,4 +12,31 @@
   <NR_BDEditCommand>Edit braindance</NR_BDEditCommand>
   <NR_BDEditOption>Edit {0}'s recording ({1}) into: {2}</NR_BDEditOption>
   <NR_BDEdited>{0} finished editing: {1}.</NR_BDEdited>
+  <NR_UB_ViewsLeft>Views left: {0} of {1}</NR_UB_ViewsLeft>
+  <NR_UB_BurnedOut>The {0} has burned out.</NR_UB_BurnedOut>
+  <NR_UB_Watched>{0} lived the recording: {1}</NR_UB_Watched>
+  <NR_UB_ConfessionLog>{0} watched a stolen confession</NR_UB_ConfessionLog>
+  <NR_UB_Found>Unique recording found: {0}</NR_UB_Found>
+  <NR_UB_ContractBonusLabel>Bonus recording</NR_UB_ContractBonusLabel>
+  <NR_UB_ContractBonus>{0} adds something extra to the payment: a unique braindance recording, {1}.</NR_UB_ContractBonus>
+  <NR_UB_MarketDiscount>Night market know-how: fixers charge {0} less for {1}.</NR_UB_MarketDiscount>
+  <NR_UB_Author_Concert>Liza Vance</NR_UB_Author_Concert>
+  <NR_UB_Author_ZeroRun>"Zero"</NR_UB_Author_ZeroRun>
+  <NR_UB_Author_Morton>Dr. Morton</NR_UB_Author_Morton>
+  <NR_UB_Author_NightMarket>a fixer called Pike</NR_UB_Author_NightMarket>
+  <NR_UB_Author_Confession>unknown</NR_UB_Author_Confession>
+  <NR_UB_Author_StreetRunner>courier K-7</NR_UB_Author_StreetRunner>
+  <NR_UB_Author_EchoLullaby>an AI called Echo</NR_UB_Author_EchoLullaby>
+  <NR_UB_Author_Oracle>an AI called Oracle</NR_UB_Author_Oracle>
+  <NR_UB_Good_Concert>mood +30 for 3 days, removes Netsick, does not hook</NR_UB_Good_Concert>
+  <NR_UB_Good_ZeroRun>hacking speed +30% and dive hack chance +10% for 5 days</NR_UB_Good_ZeroRun>
+  <NR_UB_Good_Morton>lets go of bad memories, a work frenzy</NR_UB_Good_Morton>
+  <NR_UB_Good_NightMarket>fixers charge 30% less for 3 days</NR_UB_Good_NightMarket>
+  <NR_UB_Good_Confession>the next dive shows every hidden step and any trap</NR_UB_Good_Confession>
+  <NR_UB_Good_StreetRunner>work speed +15% and moving +15% for 2 days</NR_UB_Good_StreetRunner>
+  <NR_UB_Good_EchoLullaby>full rest at once, eases nausea and hangover</NR_UB_Good_EchoLullaby>
+  <NR_UB_Good_Oracle>mercenaries come 3 days later; faster aim and better dodge for 3 days</NR_UB_Good_Oracle>
+  <NR_UB_Bad_Morton>hooks twice as fast as a black chip</NR_UB_Bad_Morton>
+  <NR_UB_Bad_Confession>+8 Heat; hooks twice as fast as a black chip</NR_UB_Bad_Confession>
+  <NR_UB_Bad_Oracle>hooks twice as fast as a black chip</NR_UB_Bad_Oracle>
 </LanguageData>

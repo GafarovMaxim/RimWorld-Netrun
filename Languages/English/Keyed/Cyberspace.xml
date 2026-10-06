@@ -271,4 +271,5 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveBranchScanHint>Scan the fork to see the numbers.</NR_DiveBranchScanHint>
   <NR_DiveBranchTake>Take this path</NR_DiveBranchTake>
   <NR_DiveBranchTakeTip>Final: there is no way back to the fork. Taking a path costs no action.</NR_DiveBranchTakeTip>
+  <NR_DiveLogConfession>The confession's back doors are open: every hidden step is visible.</NR_DiveLogConfession>
 </LanguageData>

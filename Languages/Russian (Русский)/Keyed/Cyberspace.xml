@@ -271,4 +271,5 @@
   <NR_DiveBranchScanHint>Просканируйте развилку, чтобы увидеть числа.</NR_DiveBranchScanHint>
   <NR_DiveBranchTake>Выбрать этот путь</NR_DiveBranchTake>
   <NR_DiveBranchTakeTip>Выбор окончательный: к развилке не вернуться. Действие не тратится.</NR_DiveBranchTakeTip>
+  <NR_DiveLogConfession>Лазейки из исповеди открыты: все скрытые ступени видны.</NR_DiveLogConfession>
 </LanguageData>
