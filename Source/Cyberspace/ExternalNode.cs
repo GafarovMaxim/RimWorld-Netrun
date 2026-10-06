@@ -55,6 +55,14 @@ public class CyberspaceSettingsDef : Def
     public float netsickPerIceHit = 0.1f;
     /// <summary>A failed dive (not a retreat) leaves a few small burns from the neural feedback.</summary>
     public IntRange failBurns = new(2, 3);
+
+    // Branches (docs/DIVE_BRANCHING.md): haul multipliers of the hard and easy branch, their trace, the hidden passage.
+    public float branchHardReward = 1.6f;
+    public float branchEasyReward = 0.8f;
+    public float branchHardTrace = 4f;
+    public float branchEasyTrace = 1f;
+    public float branchPassageBonus = 0.1f;
+    public int branchExtraTurns = 3;
     public FloatRange failBurnDamage = new(1.5f, 3.5f);
     public float successXp = 400f;
     /// <summary>Waking up in a cyberpod (Hacking Expansion's own is 5000 = 2 hours).</summary>
@@ -206,6 +214,15 @@ public class ExternalNode : IExposable
         : BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
         : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
 
+    /// <summary>
+    /// Branched dives: the base without the Black ICE premium (the hard branch carries the ICE and its own multiplier),
+    /// times storm and honeypot as usual.
+    /// </summary>
+    public float BranchBaseMultiplier => (IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
+            : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid)
+        * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
+        * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
+
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
     /// <summary>What a clean dive can bring, item by item, with an amount or a chance (for the node panel).</summary>
@@ -213,11 +230,17 @@ public class ExternalNode : IExposable
     {
         var s = NetrunDefOf.NR_Cyberspace;
         int basis = Mathf.Max(diveCost, s.diveBaseCost + Defense / 2);
-        int data = Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier));
-        var lines = new System.Collections.Generic.List<(ThingDef, string)>
+        var lines = new System.Collections.Generic.List<(ThingDef, string)>();
+        if (DiveSession.ForksFor(this) > 0)
         {
-            (NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(data * 0.85f))}–{Mathf.RoundToInt(data * 1.15f)}"),
-        };
+            float b = basis * BranchBaseMultiplier;
+            lines.Add((NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(b * s.branchEasyReward * 0.85f))}–{Mathf.RoundToInt(b * s.branchHardReward * 1.15f)}"));
+        }
+        else
+        {
+            int data = Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier));
+            lines.Add((NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(data * 0.85f))}–{Mathf.RoundToInt(data * 1.15f)}"));
+        }
         if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
             lines.Add((NetrunDefOf.USH_AdvancedCyberdata, "1–2"));
         if (Type == ExternalNodeType.DarkExchange)

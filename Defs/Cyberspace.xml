@@ -42,6 +42,14 @@
     <!-- A failed dive (not a retreat): a few small burns from the neural feedback -->
     <failBurns>2~3</failBurns>
     <failBurnDamage>1.5~3.5</failBurnDamage>
+    <!-- Branches (docs/DIVE_BRANCHING.md): medium nodes fork once, large ones and the corporate core twice.
+         The hard branch carries Black ICE; the easy one a hidden passage. Multipliers act on the main files. -->
+    <branchHardReward>1.6</branchHardReward>
+    <branchEasyReward>0.8</branchEasyReward>
+    <branchHardTrace>4</branchHardTrace>
+    <branchEasyTrace>1</branchEasyTrace>
+    <branchPassageBonus>0.1</branchPassageBonus>
+    <branchExtraTurns>3</branchExtraTurns>
     <successXp>400</successXp>
     <!-- Waking up and leaving a cyberpod, ticks (Hacking Expansion: 5000 = 2 hours) -->
     <podWakeUpTicks>2500</podWakeUpTicks>

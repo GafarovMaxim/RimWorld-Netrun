@@ -498,6 +498,21 @@
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
+    <defName>NR_Guide_dive_fork</defName>
+    <label>Fork</label>
+    <area>dive.fork</area>
+    <screen>Dive</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Gateway_Dive</helpPage>
+    <steps>
+      <li>
+        <text>At a fork the way splits: the hard path pays more but Black ICE guards it and the trace is louder; the easy path is quiet, pays less and hides a passage. Scan to see the numbers; the choice is final and costs no action.</text>
+        <hint>a prepared runner (good hacker, Sword, Shield) gains on the hard path; a novice is better off on the easy one.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
     <defName>NR_Guide_dive_actions</defName>
     <label>Actions</label>
     <area>dive.actions</area>

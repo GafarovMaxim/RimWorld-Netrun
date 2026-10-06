@@ -549,7 +549,11 @@ public partial class Dialog_NetTerminal : Window
             string amount = entry.Amount > 0.05f ? $"+{entry.Amount:0.#}".Colorize(NetrunUI.Bad) : entry.Amount < -0.05f ? $"{entry.Amount:0.#}".Colorize(NetrunUI.Ok) : string.Empty;
             float amountW = amount.Length > 0 ? Text.CalcSize(amount.StripTags()).x + 8f : 0f;
             float textW = eventSeg.width - 20f - 14f - agoW - amountW - 8f;
-            Widgets.Label(new Rect(eventSeg.x + 8f, eventSeg.y, 14f, eventSeg.height), "▸".Colorize(NetrunUI.Accent));
+            Texture2D trend = entry.Amount > 0.05f ? NetrunTex.HeatRise : entry.Amount < -0.05f ? NetrunTex.HeatReduction : null;
+            if (trend != null)
+                GUI.DrawTexture(new Rect(eventSeg.x + 4f, eventSeg.center.y - 9f, 18f, 18f), trend);
+            else
+                Widgets.Label(new Rect(eventSeg.x + 8f, eventSeg.y, 14f, eventSeg.height), "▸".Colorize(NetrunUI.Accent));
             Widgets.Label(new Rect(eventSeg.x + 22f, eventSeg.y, textW, eventSeg.height), entry.Text.Truncate(textW));
             if (amount.Length > 0)
                 Widgets.Label(new Rect(eventSeg.x + 22f + textW + 4f, eventSeg.y, amountW, eventSeg.height), amount);

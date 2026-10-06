@@ -389,9 +389,11 @@ public static class ArchiveTab
         {
             Text.Anchor = TextAnchor.MiddleRight;
             string total = sum > 0f
-                ? ("▲ " + "NR_ArchiveDaySum".Translate($"+{sum:0.#}")).Colorize(NetrunUI.Bad)
-                : ("▼ " + "NR_ArchiveDaySum".Translate($"{sum:0.#}")).Colorize(NetrunUI.Ok);
+                ? "NR_ArchiveDaySum".Translate($"+{sum:0.#}").Colorize(NetrunUI.Bad)
+                : "NR_ArchiveDaySum".Translate($"{sum:0.#}").Colorize(NetrunUI.Ok);
             Widgets.Label(new Rect(r.xMax - 200f, r.y, 200f, r.height), total);
+            if ((sum > 0f ? NetrunTex.HeatRise : NetrunTex.HeatReduction) is { } dayIcon)
+                GUI.DrawTexture(new Rect(r.xMax - Text.CalcSize(total.StripTags()).x - 22f, r.center.y - 9f, 18f, 18f), dayIcon);
         }
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
@@ -452,7 +454,10 @@ public static class ArchiveTab
 
         var iconBox = new Rect(r.x + 12f, r.y + 9f, 30f, 30f);
         NetrunUI.Box(iconBox, NetrunUI.BgWindow, c);
-        if (SourceIcon(e.Source, HeatTracker.Get()) is { } icon)
+        // Lines that are about Heat itself show which way it went.
+        Texture2D heatIcon = e.Source is HeatSource.Other or HeatSource.Event or HeatSource.Raid && e.Amount > 0.05f ? NetrunTex.HeatRise
+            : e.Source == HeatSource.Other && e.Amount < -0.05f ? NetrunTex.HeatReduction : null;
+        if ((heatIcon ?? SourceIcon(e.Source, HeatTracker.Get())) is { } icon)
             GUI.DrawTexture(iconBox.ContractedBy(4f), icon);
 
         string amount = e.Amount > 0.05f ? $"+{e.Amount:0.#}" : e.Amount < -0.05f ? $"{e.Amount:0.#}" : "0";

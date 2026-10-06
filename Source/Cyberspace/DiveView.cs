@@ -66,45 +66,132 @@ public static class DiveView
 
     // ---- Steps ----
 
+    /// <summary>
+    /// The node as a graph (docs/DIVE_BRANCHING.md): steps on a grid of columns and lanes (hard branch on top, easy at the
+    /// bottom), elbow links, the walked path lit green with a packet running along it, the branch not taken dimmed.
+    /// </summary>
     private static void DrawElements(Rect rect, DiveSession session)
     {
         List<DiveElement> elements = session.Elements;
         int n = elements.Count;
-        float boxW = n > 0 ? Mathf.Clamp(rect.width / n - 10f, MinBoxWidth, MaxBoxWidth) : MinBoxWidth;
+        if (n == 0)
+            return;
+        int cols = elements.Max(e => e.Col) + 1;
+        float boxW = Mathf.Clamp(rect.width / cols - 14f, 84f, MaxBoxWidth);
         Text.Font = GameFont.Tiny;
         float boxH = MinBoxHeight;
         for (int i = 0; i < n; i++)
-            boxH = Mathf.Max(boxH, HeaderHeight(elements[i], boxW) + 12f + (elements[i].Kind is DiveElementKind.Gate or DiveElementKind.Ice ? 10f : 0f) + Text.CalcHeight(ElementInfo(elements[i]), boxW - 16f));
+            boxH = Mathf.Max(boxH, HeaderHeight(elements[i], boxW) + 12f + (elements[i].Kind is DiveElementKind.Gate or DiveElementKind.Ice ? 10f : 0f)
+                                   + Text.CalcHeight(ElementInfo(elements[i]), boxW - 16f));
         boxH = Mathf.Min(boxH, MaxBoxHeight);
         Text.Font = GameFont.Small;
 
-        float stepX = n > 1 ? (rect.width - boxW) / (n - 1) : 0f;
-        float stepY = n > 1 ? (rect.height - boxH - 20f) / (n - 1) : 0f;
+        bool branched = session.Forks > 0;
+        float stepX = cols > 1 ? (rect.width - boxW) / (cols - 1) : 0f;
+        float lane = Mathf.Max(0f, (rect.height - boxH - 60f) / 2f) * (branched ? 1f : 0.45f);
+        float midY = rect.center.y + 12f;
         var boxes = new Rect[n];
         for (int i = 0; i < n; i++)
-            boxes[i] = new Rect(rect.x + i * stepX, rect.yMax - boxH - 10f - i * stepY, boxW, boxH);
+            boxes[i] = new Rect(rect.x + elements[i].Col * stepX, midY + elements[i].Row * lane - boxH / 2f, boxW, boxH);
 
-        // Links: from the right edge of a box across to the next box's centre, then up into its bottom edge.
-        // Solid 2 px bars that overlap at the corner, so there are no gaps; a faint wider bar under them glows.
-        for (int i = 1; i < n; i++)
+        var visited = new HashSet<int>(session.Visited);
+        bool Dim(int i) => elements[i].Branch != 0 && session.ChoiceAt(elements[i].ForkAt) is var c and > 0 && c != elements[i].Branch;
+
+        // Links: elbows (across, up or down, across); walked ones green, ones into the branch not taken faint.
+        var walked = new List<Vector2>();
+        for (int i = 0; i < n; i++)
         {
-            Rect a = boxes[i - 1];
-            Rect b = boxes[i];
-            bool done = i <= session.Position;
-            Color line = done ? new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.9f) : NetrunUI.Line;
-            float y = a.center.y;
-            float x = b.center.x;
-            var across = new Rect(a.xMax, y - 1f, Mathf.Max(0f, x - a.xMax + 1f), 2f);
-            var up = new Rect(x - 1f, b.yMax, 2f, Mathf.Max(0f, y - b.yMax + 1f));
-            Color glow = new(line.r, line.g, line.b, 0.15f);
-            Widgets.DrawBoxSolid(across.ExpandedBy(2f), glow);
-            Widgets.DrawBoxSolid(up.ExpandedBy(2f), glow);
-            Widgets.DrawBoxSolid(across, line);
-            Widgets.DrawBoxSolid(up, line);
+            foreach (int j in elements[i].Links)
+            {
+                bool done = visited.Contains(i) && visited.Contains(j);
+                Color line = done ? new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.9f)
+                    : Dim(j) || Dim(i) ? new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, 0.18f)
+                    : NetrunUI.Line;
+                List<Vector2> pts = Elbow(boxes[i], boxes[j]);
+                for (int k = 0; k + 1 < pts.Count; k++)
+                    Segment(pts[k], pts[k + 1], line);
+                if (done)
+                    walked.AddRange(pts);
+            }
         }
+        DrawPacket(walked);
 
         for (int i = 0; i < n; i++)
-            DrawStep(boxes[i], elements[i], i == session.Position, i < session.Position);
+            DrawStep(boxes[i], elements[i], i == session.Position, visited.Contains(i) && i != session.Position, Dim(i));
+
+        // Branch tags over the first step of each branch.
+        for (int i = 0; i < n; i++)
+        {
+            if (!session.IsFork(i))
+                continue;
+            for (int k = 0; k < elements[i].Links.Count; k++)
+            {
+                int first = elements[i].Links[k];
+                int branch = elements[first].Branch;
+                if (branch == 0)
+                    continue;
+                Color c = branch == 1 ? NetrunUI.Bad : NetrunUI.Ok;
+                bool dim = Dim(first);
+                string tag = (branch == 1 ? "NR_DiveBranchHard" : "NR_DiveBranchEasy").Translate();
+                Text.Font = GameFont.Tiny;
+                float tw = Text.CalcSize(tag).x + 12f;
+                Rect bx = boxes[first];
+                var r = branch == 1 ? new Rect(bx.x, bx.y - 22f, tw, 18f) : new Rect(bx.x, bx.yMax + 4f, tw, 18f);
+                Widgets.DrawBoxSolid(r, new Color(c.r, c.g, c.b, dim ? 0.08f : 0.22f));
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(r, tag.Colorize(new Color(c.r, c.g, c.b, dim ? 0.4f : 1f)));
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+            }
+        }
+    }
+
+    /// <summary>Points of an elbow link from the right edge of <paramref name="a"/> into the left edge of <paramref name="b"/>.</summary>
+    private static List<Vector2> Elbow(Rect a, Rect b)
+    {
+        var from = new Vector2(a.xMax, a.center.y);
+        var to = new Vector2(b.x, b.center.y);
+        if (Mathf.Abs(from.y - to.y) < 3f)
+            return [from, new Vector2(to.x, from.y)];
+        float mx = Mathf.Round((from.x + to.x) / 2f);
+        return [from, new Vector2(mx, from.y), new Vector2(mx, to.y), to];
+    }
+
+    /// <summary>A 2 px axis-aligned bar between two points with a faint glow under it.</summary>
+    private static void Segment(Vector2 p, Vector2 q, Color color)
+    {
+        Rect r = Mathf.Abs(p.y - q.y) < 0.5f
+            ? new Rect(Mathf.Min(p.x, q.x), p.y - 1f, Mathf.Abs(q.x - p.x) + 1f, 2f)
+            : new Rect(p.x - 1f, Mathf.Min(p.y, q.y), 2f, Mathf.Abs(q.y - p.y) + 1f);
+        Widgets.DrawBoxSolid(r.ExpandedBy(2f), new Color(color.r, color.g, color.b, color.a * 0.15f));
+        Widgets.DrawBoxSolid(r, color);
+    }
+
+    /// <summary>A data packet running along the walked path (the points come in link order).</summary>
+    private static void DrawPacket(List<Vector2> pts)
+    {
+        if (!NetrunMod.Settings.Animations || pts.Count < 2 || Event.current.type != EventType.Repaint)
+            return;
+        float total = 0f;
+        for (int i = 0; i + 1 < pts.Count; i++)
+            total += Vector2.Distance(pts[i], pts[i + 1]);
+        if (total < 1f)
+            return;
+        float d = Time.realtimeSinceStartup * 120f % total;
+        for (int i = 0; i + 1 < pts.Count; i++)
+        {
+            float len = Vector2.Distance(pts[i], pts[i + 1]);
+            if (d <= len && len > 0f)
+            {
+                Vector2 p = Vector2.Lerp(pts[i], pts[i + 1], d / len);
+                GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.45f);
+                GUI.DrawTexture(new Rect(p.x - 8f, p.y - 8f, 16f, 16f), NetrunUI.GlowTex);
+                GUI.color = Color.white;
+                GUI.DrawTexture(new Rect(p.x - 3f, p.y - 3f, 6f, 6f), NetrunUI.Disc);
+                return;
+            }
+            d -= len;
+        }
     }
 
     /// <summary>Header height: the title wraps onto a second line instead of being cut.</summary>
@@ -115,7 +202,7 @@ public static class DiveView
         return Mathf.Clamp(h + 6f, 24f, 36f);
     }
 
-    private static void DrawStep(Rect box, DiveElement e, bool here, bool passed)
+    private static void DrawStep(Rect box, DiveElement e, bool here, bool passed, bool dim = false)
     {
         Color color = ElementColor(e);
         float pulse = here && NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f) : 0.5f;
@@ -180,6 +267,8 @@ public static class DiveView
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
+        if (dim)
+            Widgets.DrawBoxSolid(box.ExpandedBy(3f), new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.7f));
         NetrunUI.Tip(box, title + "\n" + info);
     }
 
@@ -234,6 +323,12 @@ public static class DiveView
         }
         else
         {
+            if (session.AtUndecidedFork)
+            {
+                float gFork = y;
+                y = DrawFork(inner, y, session);
+                GuideRegistry.InScroll("dive.fork", top, _panelScroll, new Rect(inner.x, gFork, inner.width, y - gFork));
+            }
             // Actions: pips for the actions left, buttons in a two-column grid.
             float gAct = y;
             y = HudHeader(inner, y, "NR_DiveHudActions".Translate(), Pips(session.ActionsLeft, session.ActionsPerTurn, NetrunUI.Accent));
@@ -270,7 +365,7 @@ public static class DiveView
             GuideRegistry.InScroll("dive.actions", top, _panelScroll, new Rect(inner.x, gAct, inner.width, y - gAct));
             float gGauge = y;
             // Gauges: turn and trace.
-            int maxTurns = NetrunDefOf.NR_Cyberspace.maxTurns;
+            int maxTurns = session.MaxTurns;
             y = Gauge(inner, y, "NR_DiveHudTurn".Translate(session.Turn, maxTurns), session.Turn / (float)maxTurns,
                 session.Turn >= maxTurns - 1 ? NetrunUI.Bad : NetrunUI.Accent, "NR_DiveTurn".Translate(session.Turn, maxTurns));
             float heat = session.Trace * session.Node.HeatPerTrace;
@@ -318,6 +413,47 @@ public static class DiveView
 
         GuideRegistry.Area("dive.log", log);
         DrawLog(log, session);
+    }
+
+    /// <summary>At a fork: two cards, hard and easy. Numbers show after a scan; the choice is final.</summary>
+    private static float DrawFork(Rect inner, float y, DiveSession session)
+    {
+        bool scanned = session.ForkScanned.Contains(session.Position);
+        y = HudHeader(inner, y, "NR_DiveForkTitle".Translate(), scanned ? null : "?".Colorize(NetrunUI.Warn));
+        for (int branch = 1; branch <= 2; branch++)
+        {
+            (float reward, int ice, float trace) = session.BranchInfo(session.Position, branch);
+            Color c = branch == 1 ? NetrunUI.Bad : NetrunUI.Ok;
+            string title = (branch == 1 ? "NR_DiveBranchHard" : "NR_DiveBranchEasy").Translate();
+            string desc = (branch == 1 ? "NR_DiveBranchHardDesc" : "NR_DiveBranchEasyDesc").Translate();
+            string numbers = scanned
+                ? (string)"NR_DiveBranchNumbers".Translate(reward.ToString("0.0#"), ice > 0 ? (string)"NR_DiveBranchIce".Translate(ice) : (string)"NR_DiveBranchNoIce".Translate(),
+                    trace.ToString("0"))
+                : (string)"NR_DiveBranchScanHint".Translate();
+            Text.Font = GameFont.Tiny;
+            float tw = inner.width - 20f;
+            float h = 8f + 20f + Text.CalcHeight(desc, tw) + 4f + Text.CalcHeight(numbers, tw) + 6f + 28f + 8f;
+            var card = new Rect(inner.x, y, inner.width, h);
+            NetrunUI.Box(card, NetrunUI.BgWindow, new Color(c.r, c.g, c.b, 0.5f));
+            Widgets.DrawBoxSolid(new Rect(card.x, card.y, 3f, card.height), c);
+            float cy = card.y + 6f;
+            Text.Font = GameFont.Small;
+            Widgets.Label(new Rect(card.x + 10f, cy, tw, 22f), title.Colorize(c));
+            cy += 22f;
+            Text.Font = GameFont.Tiny;
+            float dh = Text.CalcHeight(desc, tw);
+            Widgets.Label(new Rect(card.x + 10f, cy, tw, dh), desc.Colorize(NetrunUI.Muted));
+            cy += dh + 4f;
+            float nh = Text.CalcHeight(numbers, tw);
+            Widgets.Label(new Rect(card.x + 10f, cy, tw, nh), numbers.Colorize(scanned ? NetrunUI.TextColor : NetrunUI.Warn));
+            cy += nh + 6f;
+            Text.Font = GameFont.Small;
+            int b = branch;
+            if (NetrunUI.Button(new Rect(card.x + 10f, cy, tw, 28f), "NR_DiveBranchTake".Translate(), c, true, "NR_DiveBranchTakeTip".Translate()))
+                session.Choose(b);
+            y = card.yMax + 6f;
+        }
+        return y + 4f;
     }
 
     private static void Chip(Rect inner, ref float x, ref float y, Texture2D icon, string label, bool active, string tip)

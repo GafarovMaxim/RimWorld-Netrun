@@ -37,11 +37,31 @@ public class DiveElement : IExposable
     public bool Cleared;
     public bool Looted;
 
+    // The dive is a graph (docs/DIVE_BRANCHING.md): where this step leads, which branch it is on, where it is drawn.
+    /// <summary>Indices of the steps this one leads to: one on a plain path, two at a fork (hard first, easy second).</summary>
+    public List<int> Links = [];
+    /// <summary>0 on the trunk, 1 on a hard branch, 2 on an easy branch.</summary>
+    public int Branch;
+    /// <summary>For branch steps: the index of the fork they come from.</summary>
+    public int ForkAt = -1;
+    /// <summary>The easy branch's hidden passage: downloading it adds to the haul multiplier instead of giving a cache.</summary>
+    public bool Passage;
+    public int Col;
+    /// <summary>Lane: -1 top (hard), 0 middle, 1 bottom (easy), with a little offset so no two dives look alike.</summary>
+    public float Row;
+
     /// <summary>Gates and ICE block the way on until they are hacked.</summary>
     public bool Blocks => (Kind == DiveElementKind.Gate || Kind == DiveElementKind.Ice) && !Cleared;
 
     public void ExposeData()
     {
+        Scribe_Collections.Look(ref Links, "links", LookMode.Value);
+        Scribe_Values.Look(ref Branch, "branch");
+        Scribe_Values.Look(ref ForkAt, "forkAt", -1);
+        Scribe_Values.Look(ref Passage, "passage");
+        Scribe_Values.Look(ref Col, "col");
+        Scribe_Values.Look(ref Row, "row");
+        Links ??= [];
         Scribe_Values.Look(ref Kind, "kind");
         Scribe_Values.Look(ref Strength, "strength");
         Scribe_Values.Look(ref Hidden, "hidden");
@@ -78,6 +98,15 @@ public class DiveSession : IExposable
     public List<ThingDef> LootItems = [];
     public List<string> Log = [];
     public bool Finished;
+    /// <summary>The steps walked so far, in order (the lit path on the map).</summary>
+    public List<int> Visited = [];
+    /// <summary>Forks decided: the fork's index and the chosen branch (1 hard, 2 easy).</summary>
+    public List<int> ForkIndex = [];
+    public List<int> ForkChoice = [];
+    /// <summary>Forks whose branches have been scanned: their numbers are shown.</summary>
+    public List<int> ForkScanned = [];
+    /// <summary>Added to the path multiplier by downloaded hidden passages.</summary>
+    public float PassageBonus;
     /// <summary>Cyberdata paid to start the dive; the main files pay it back with a multiplier.</summary>
     public int CostPaid;
 
@@ -105,7 +134,58 @@ public class DiveSession : IExposable
     }
 
     public DiveElement Current => Elements[Position];
-    public DiveElement Next => Position + 1 < Elements.Count ? Elements[Position + 1] : null;
+
+    /// <summary>The step ahead: the only link, or the chosen branch at a fork; null at an undecided fork or the end.</summary>
+    public DiveElement Next => NextIndex(Position) is var i and >= 0 ? Elements[i] : null;
+
+    public int NextIndex(int index)
+    {
+        List<int> links = Elements[index].Links;
+        if (links.Count == 1)
+            return links[0];
+        if (links.Count > 1)
+        {
+            int at = ForkIndex.IndexOf(index);
+            return at >= 0 ? links[ForkChoice[at] - 1] : -1;
+        }
+        return -1;
+    }
+
+    /// <summary>The step <paramref name="steps"/> ahead along the chosen path, or null.</summary>
+    public DiveElement Ahead(int steps)
+    {
+        int i = Position;
+        for (int s = 0; s < steps && i >= 0; s++)
+            i = NextIndex(i);
+        return i >= 0 ? Elements[i] : null;
+    }
+
+    public bool IsFork(int index) => Elements[index].Links.Count > 1;
+
+    /// <summary>Standing at a fork with no branch chosen yet.</summary>
+    public bool AtUndecidedFork => IsFork(Position) && !ForkIndex.Contains(Position);
+
+    public int ChoiceAt(int fork) => ForkIndex.IndexOf(fork) is var at and >= 0 ? ForkChoice[at] : 0;
+
+    /// <summary>Number of forks for this node: small none, medium one, large and the corporate core two.</summary>
+    public static int ForksFor(ExternalNode node) => node.IsBoss ? 2 : node.Defense <= 2 ? 0 : node.Defense <= 4 ? 1 : 2;
+
+    public int Forks => Elements.Count(e => e.Links.Count > 1);
+
+    /// <summary>Turns: the setting, plus a couple per fork (branched nodes are longer).</summary>
+    public int MaxTurns => Settings.maxTurns + Forks * Settings.branchExtraTurns;
+
+    /// <summary>The haul multiplier of the chosen path: the mean of the branches taken plus hidden passages.</summary>
+    public float PathMultiplier
+    {
+        get
+        {
+            if (ForkChoice.Count == 0)
+                return 1f;
+            float mean = (float)ForkChoice.Average(c => c == 1 ? Settings.branchHardReward : Settings.branchEasyReward);
+            return mean + PassageBonus;
+        }
+    }
 
     public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid, List<DiveDaemon> daemons)
     {
@@ -127,9 +207,95 @@ public class DiveSession : IExposable
         return session;
     }
 
+    private int Add(DiveElement e, int col, float row)
+    {
+        e.Col = col;
+        e.Row = row + Rand.Range(-0.18f, 0.18f);
+        Elements.Add(e);
+        return Elements.Count - 1;
+    }
+
+    private static void Link(DiveElement from, int to) => from.Links.Add(to);
+
+    private int GateStrength(int delta) => Mathf.Max(1, Node.Defense + delta + Rand.RangeInclusive(0, 2) + (Storm ? 1 : 0));
+
+    /// <summary>
+    /// Medium and large nodes (docs/DIVE_BRANCHING.md): the trunk splits into a hard branch (a stronger gate, a cache,
+    /// Black ICE) and an easy one (a weaker gate, a hidden passage), the branches meet at a junction cache; after the last fork come the
+    /// main files, a memory unit and the exit.
+    /// </summary>
+    private void BuildBranched(int forks)
+    {
+        int col = 0;
+        int last = Add(new DiveElement { Kind = DiveElementKind.Lobby, Cleared = true }, col++, 0f);
+        int trunkGates = Node.IsBoss ? 2 : 1;
+        for (int i = 0; i < trunkGates; i++)
+        {
+            int g = Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = GateStrength(0) }, col++, 0f);
+            Link(Elements[last], g);
+            last = g;
+        }
+        for (int f = 0; f < forks; f++)
+        {
+            int fork = last;
+            int c0 = col;
+            // Hard: a stronger gate, a visible cache, Black ICE.
+            int h1 = Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = GateStrength(1), Branch = 1, ForkAt = fork }, c0, -1f);
+            int h2 = Add(new DiveElement { Kind = DiveElementKind.Files, Cache = true, Cleared = true, Branch = 1, ForkAt = fork }, c0 + 1, -1f);
+            // The second fork's Black ICE is one weaker: two full-strength ICE on one path made the hard way a losing bet
+            // (tools/dive_branch_check.py).
+            int iceStrength = Mathf.Max(1, (Node.BlackIce ? Node.IceStrength : Node.Defense + 1) + (Storm ? 1 : 0) - (f > 0 ? 1 : 0));
+            int h3 = Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = iceStrength, Branch = 1, ForkAt = fork }, c0 + 2, -1f);
+            // Easy: a weaker gate and a hidden passage.
+            int e1 = Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = GateStrength(-1), Branch = 2, ForkAt = fork }, c0, 1f);
+            int e2 = Add(new DiveElement { Kind = DiveElementKind.Files, Cache = true, Passage = true, Cleared = true,
+                Hidden = !Daemons.Contains(DiveDaemon.Lens), Branch = 2, ForkAt = fork }, c0 + 2, 1f);
+            Link(Elements[fork], h1);
+            Link(Elements[fork], e1);
+            Link(Elements[h1], h2);
+            Link(Elements[h2], h3);
+            Link(Elements[e1], e2);
+            col = c0 + 3;
+            // The branches meet: at a small junction cache (the next fork), or at the main files after the last fork.
+            int merge = f < forks - 1
+                ? Add(new DiveElement { Kind = DiveElementKind.Files, Cache = true, Cleared = true }, col++, 0f)
+                : Add(new DiveElement { Kind = DiveElementKind.Files, Cleared = true }, col++, 0f);
+            Link(Elements[h3], merge);
+            Link(Elements[e2], merge);
+            last = merge;
+        }
+        if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
+        {
+            int m = Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true }, col++, 0f);
+            Link(Elements[last], m);
+            last = m;
+        }
+        int exit = Add(new DiveElement { Kind = DiveElementKind.Exit, Cleared = true }, col, 0f);
+        Link(Elements[last], exit);
+    }
+
+    /// <summary>Old saves and small nodes: a single path; the steps zigzag a little so the map is not a staircase.</summary>
+    private void Linearize()
+    {
+        for (int i = 0; i < Elements.Count; i++)
+        {
+            DiveElement e = Elements[i];
+            e.Links = i + 1 < Elements.Count ? [i + 1] : [];
+            e.Col = i;
+            e.Row = (i % 2 == 0 ? -0.3f : 0.3f) + Rand.Range(-0.15f, 0.15f);
+        }
+    }
+
     /// <summary>Lobby, 1-3 code gates, maybe a hidden cache, Black ICE if the node has it, files, a memory unit, the exit.</summary>
     private void Build()
     {
+        int forks = ForksFor(Node);
+        if (forks > 0)
+        {
+            BuildBranched(forks);
+            Visited.Add(0);
+            return;
+        }
         Elements.Add(new DiveElement { Kind = DiveElementKind.Lobby, Cleared = true });
         int gates = Node.IsBoss ? 4 : 1 + Node.Defense / 2;
         for (int i = 0; i < gates; i++)
@@ -142,6 +308,8 @@ public class DiveSession : IExposable
         if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Exit, Cleared = true });
+        Linearize();
+        Visited.Add(0);
     }
 
     public void AddLog(string line)
@@ -155,6 +323,8 @@ public class DiveSession : IExposable
 
     public AcceptanceReport CanMove()
     {
+        if (AtUndecidedFork)
+            return "NR_DiveChoosePath".Translate();
         if (Next == null)
             return "NR_DiveNoFurther".Translate();
         if (Next.Hidden)
@@ -166,17 +336,24 @@ public class DiveSession : IExposable
 
     public void Move()
     {
-        Position++;
+        Position = NextIndex(Position);
+        Visited.Add(Position);
         AddLog("NR_DiveLogMove".Translate(ElementLabel(Current)));
         Spend(Settings.tracePerAction);
     }
 
     public AcceptanceReport CanScan()
-        => Next is { Hidden: true } || (Node.Honeypot && !HoneypotRevealed) ? true : "NR_DiveNothingToScan".Translate();
+        => Next is { Hidden: true } || (AtUndecidedFork && !ForkScanned.Contains(Position)) || (Node.Honeypot && !HoneypotRevealed)
+            ? true : "NR_DiveNothingToScan".Translate();
 
     public void Scan()
     {
-        if (Next is { Hidden: true })
+        if (AtUndecidedFork && !ForkScanned.Contains(Position))
+        {
+            ForkScanned.Add(Position);
+            AddLog("NR_DiveLogForkScan".Translate());
+        }
+        else if (Next is { Hidden: true })
         {
             Next.Hidden = false;
             AddLog("NR_DiveLogScan".Translate(ElementLabel(Next)));
@@ -256,6 +433,33 @@ public class DiveSession : IExposable
         Spend(Settings.tracePerAction);
     }
 
+    // ---- Forks ----
+
+    /// <summary>What a branch holds, for the choice cards: its haul multiplier, Black ICE strength (0 if none), trace.</summary>
+    public (float reward, int ice, float trace) BranchInfo(int fork, int branch)
+    {
+        int first = Elements[fork].Links[branch - 1];
+        int ice = 0;
+        for (int i = first; i >= 0 && Elements[i].Branch == branch; i = Elements[i].Links.Count > 0 ? Elements[i].Links[0] : -1)
+            if (Elements[i].Kind == DiveElementKind.Ice)
+                ice = Elements[i].Strength;
+        return branch == 1
+            ? (Settings.branchHardReward, ice, Settings.branchHardTrace)
+            : (Settings.branchEasyReward, ice, Settings.branchEasyTrace);
+    }
+
+    /// <summary>Takes a branch at the fork here. The choice is final and costs no action; the branch adds its trace.</summary>
+    public void Choose(int branch)
+    {
+        if (!AtUndecidedFork)
+            return;
+        ForkIndex.Add(Position);
+        ForkChoice.Add(branch);
+        bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
+        Trace += (branch == 1 ? Settings.branchHardTrace : Settings.branchEasyTrace) * (stealth ? Settings.stealthTraceFactor : 1f);
+        AddLog((branch == 1 ? "NR_DiveLogPathHard" : "NR_DiveLogPathEasy").Translate().Colorize(branch == 1 ? NetrunUI.Bad : NetrunUI.Ok));
+    }
+
     public AcceptanceReport CanDownload()
     {
         if (Current.Kind is not (DiveElementKind.Files or DiveElementKind.Memory))
@@ -272,6 +476,11 @@ public class DiveSession : IExposable
             RollMemory();
         else if (Node.Honeypot && !Current.Cache)
             SpringHoneypot();
+        else if (Current.Passage)
+        {
+            PassageBonus += Settings.branchPassageBonus;
+            AddLog("NR_DiveLogPassage".Translate(Settings.branchPassageBonus.ToString("0.0#")).Colorize(NetrunUI.Ok));
+        }
         else if (Current.Cache)
             LootCyberdata += Rand.RangeInclusive(1, 2);
         else
@@ -286,7 +495,8 @@ public class DiveSession : IExposable
     private void RollFiles()
     {
         int basis = Mathf.Max(CostPaid, Settings.diveBaseCost + Node.Defense / 2);
-        LootCyberdata += Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier * Rand.Range(0.85f, 1.15f)));
+        float mult = Forks > 0 ? Node.BranchBaseMultiplier * PathMultiplier : RewardMultiplier;
+        LootCyberdata += Mathf.Max(2, Mathf.RoundToInt(basis * mult * Rand.Range(0.85f, 1.15f)));
         if (Node.Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
             LootAdvanced += Rand.RangeInclusive(1, 2);
         else if (Node.Type == ExternalNodeType.DarkExchange)
@@ -471,8 +681,9 @@ public class DiveSession : IExposable
 
     private void NodeTurn()
     {
-        int ice = Elements.FindIndex(e => e.Kind == DiveElementKind.Ice && !e.Cleared);
-        if (ice >= 0 && Position >= ice - 1 && Rand.Chance(Settings.iceAttackChance))
+        bool iceNext = Next is { Kind: DiveElementKind.Ice, Cleared: false };
+        bool iceNear = iceNext || Ahead(2) is { Kind: DiveElementKind.Ice, Cleared: false };
+        if (iceNext && Rand.Chance(Settings.iceAttackChance))
             IceAttack();
         if (!Finished && HunterActive && Rand.Chance(Settings.hunterAttackChance))
         {
@@ -487,13 +698,13 @@ public class DiveSession : IExposable
 
         Turn++;
         ActionsLeft = ActionsPerTurn;
-        if (Turn > Settings.maxTurns)
+        if (Turn > MaxTurns)
         {
             AddLog("NR_DiveLogTimeout".Translate().Colorize(NetrunUI.Bad));
             Runner?.health.AddHediff(HediffDefOf.Anesthetic);
             End(success: false, keepShare: 1f - Settings.retreatLootLoss);
         }
-        else if (ice >= 0 && Position >= ice - 2)
+        else if (iceNear)
         {
             AddLog("NR_DiveLogIceWatching".Translate().Colorize(NetrunUI.Bad));
         }
@@ -634,7 +845,7 @@ public class DiveSession : IExposable
     /// <summary>Leaving early: from the lobby it is free, deeper in it costs part of the haul and some Netsick.</summary>
     public void Retreat()
     {
-        bool safe = Current.Kind == DiveElementKind.Lobby;
+        bool safe = Current.Kind == DiveElementKind.Lobby || (AtUndecidedFork && ForkIndex.Count == 0);
         if (!safe)
             AddNetsick(Settings.netsickPerIceHit * 0.5f);
         AddLog("NR_DiveLogRetreat".Translate());
@@ -741,6 +952,11 @@ public class DiveSession : IExposable
             report.Events.Add("Node_CorpCore|" + "NR_ReportEventBoss".Translate());
         if (Node.CounterHack && success)
             report.Events.Add("Node_Counterhack|" + "NR_ReportEventCounterHack".Translate());
+        if (ForkChoice.Count > 0)
+        {
+            string path = string.Join(", ", ForkChoice.Select(c => (c == 1 ? "NR_DivePathHard" : "NR_DivePathEasy").Translate().ToString()));
+            report.Events.Add((ForkChoice.Contains(1) ? "Dive_BLACKICE" : "Dive_HIDDEN") + "|" + "NR_ReportEventPath".Translate(path));
+        }
         return report;
     }
 
@@ -789,7 +1005,23 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Deep.Look(ref Report, "report");
+        Scribe_Collections.Look(ref Visited, "visited", LookMode.Value);
+        Scribe_Collections.Look(ref ForkIndex, "forkIndex", LookMode.Value);
+        Scribe_Collections.Look(ref ForkChoice, "forkChoice", LookMode.Value);
+        Scribe_Collections.Look(ref ForkScanned, "forkScanned", LookMode.Value);
+        Scribe_Values.Look(ref PassageBonus, "passageBonus");
+        Visited ??= [];
+        ForkIndex ??= [];
+        ForkChoice ??= [];
+        ForkScanned ??= [];
         Elements ??= [];
+        if (Scribe.mode == LoadSaveMode.PostLoadInit && Elements.Count > 0 && Elements.All(e => e.Links.Count == 0))
+        {
+            // A dive saved before branching: the old staircase becomes a single path.
+            Linearize();
+            for (int i = 0; i <= Position; i++)
+                Visited.Add(i);
+        }
         Programs ??= [];
         Daemons ??= [];
         LootItems ??= [];

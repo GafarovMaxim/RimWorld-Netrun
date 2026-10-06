@@ -89,6 +89,9 @@
   <NR_Guide_gateway_search.steps.0.text>Найти скрытые ноды за cyberdata, переключить вид кругами или списком и узнать, когда придут новые ноды.</NR_Guide_gateway_search.steps.0.text>
   <NR_Guide_dive_steps.label>Ступени ноды</NR_Guide_dive_steps.label>
   <NR_Guide_dive_steps.steps.0.text>Путь от лобби к выходу: ворота для взлома, ICE, файлы и память. Яркая ступень — где вы; ✓ пройдено, ■ закрыто, ? скрыто.</NR_Guide_dive_steps.steps.0.text>
+  <NR_Guide_dive_fork.label>Развилка</NR_Guide_dive_fork.label>
+  <NR_Guide_dive_fork.steps.0.text>На развилке путь делится: сложный платит больше, но его стережёт Black ICE и след громче; простой тихий, платит меньше и прячет проход. Скан покажет числа; выбор окончательный и не тратит действие.</NR_Guide_dive_fork.steps.0.text>
+  <NR_Guide_dive_fork.steps.0.hint>подготовленному раннеру (хороший хакер, Меч, Щит) выгоднее сложный путь; новичку лучше простой.</NR_Guide_dive_fork.steps.0.hint>
   <NR_Guide_dive_actions.label>Действия</NR_Guide_dive_actions.label>
   <NR_Guide_dive_actions.steps.0.text>Действия на этот ход (точки). Шаг, скан, взлом, загрузка, выход; каждое поднимает след нырка. Выход завершает нырок сразу.</NR_Guide_dive_actions.steps.0.text>
   <NR_Guide_dive_actions.steps.0.hint>наведите на «Взлом» — увидите шанс.</NR_Guide_dive_actions.steps.0.hint>

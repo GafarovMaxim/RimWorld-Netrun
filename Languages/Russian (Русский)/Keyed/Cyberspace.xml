@@ -252,4 +252,23 @@
   <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}: небольших ожогов: {1}.</NR_DiveLogBurns>
   <NR_GatewayHome>Дом</NR_GatewayHome>
   <NR_GatewayHomeTip>Ваша домашняя нода: назад, на главный экран терминала.</NR_GatewayHomeTip>
+  <NR_DiveChoosePath>Сначала выберите путь.</NR_DiveChoosePath>
+  <NR_DiveLogForkScan>Обе ветки впереди просканированы.</NR_DiveLogForkScan>
+  <NR_DiveLogPathHard>Выбран сложный путь.</NR_DiveLogPathHard>
+  <NR_DiveLogPathEasy>Выбран простой путь.</NR_DiveLogPathEasy>
+  <NR_DiveLogPassage>Скрытый проход: добыча растёт на ×{0}.</NR_DiveLogPassage>
+  <NR_DivePathHard>сложный</NR_DivePathHard>
+  <NR_DivePathEasy>простой</NR_DivePathEasy>
+  <NR_ReportEventPath>Путь: {0}</NR_ReportEventPath>
+  <NR_DiveBranchHard>СЛОЖНЫЙ ПУТЬ</NR_DiveBranchHard>
+  <NR_DiveBranchEasy>ПРОСТОЙ ПУТЬ</NR_DiveBranchEasy>
+  <NR_DiveForkTitle>Развилка</NR_DiveForkTitle>
+  <NR_DiveBranchHardDesc>Больше добычи и лишний тайник, но его стережёт Black ICE, и след громче.</NR_DiveBranchHardDesc>
+  <NR_DiveBranchEasyDesc>Меньше добычи, без Black ICE, тихий след. Где-то на нём есть скрытый проход.</NR_DiveBranchEasyDesc>
+  <NR_DiveBranchNumbers>Добыча ×{0} · {1} · след +{2}</NR_DiveBranchNumbers>
+  <NR_DiveBranchIce>Black ICE, сила {0}</NR_DiveBranchIce>
+  <NR_DiveBranchNoIce>без ICE</NR_DiveBranchNoIce>
+  <NR_DiveBranchScanHint>Просканируйте развилку, чтобы увидеть числа.</NR_DiveBranchScanHint>
+  <NR_DiveBranchTake>Выбрать этот путь</NR_DiveBranchTake>
+  <NR_DiveBranchTakeTip>Выбор окончательный: к развилке не вернуться. Действие не тратится.</NR_DiveBranchTakeTip>
 </LanguageData>

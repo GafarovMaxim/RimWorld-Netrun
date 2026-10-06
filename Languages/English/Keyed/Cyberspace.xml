@@ -252,4 +252,23 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveLogBurns>Neural feedback burns {0}: {1} small burns.</NR_DiveLogBurns>
   <NR_GatewayHome>Home</NR_GatewayHome>
   <NR_GatewayHomeTip>Your home node: back to the terminal's main screen.</NR_GatewayHomeTip>
+  <NR_DiveChoosePath>Choose a path first.</NR_DiveChoosePath>
+  <NR_DiveLogForkScan>Scanned both branches ahead.</NR_DiveLogForkScan>
+  <NR_DiveLogPathHard>Took the hard path.</NR_DiveLogPathHard>
+  <NR_DiveLogPathEasy>Took the easy path.</NR_DiveLogPathEasy>
+  <NR_DiveLogPassage>A hidden passage: the haul grows by ×{0}.</NR_DiveLogPassage>
+  <NR_DivePathHard>hard</NR_DivePathHard>
+  <NR_DivePathEasy>easy</NR_DivePathEasy>
+  <NR_ReportEventPath>Path: {0}</NR_ReportEventPath>
+  <NR_DiveBranchHard>HARD PATH</NR_DiveBranchHard>
+  <NR_DiveBranchEasy>EASY PATH</NR_DiveBranchEasy>
+  <NR_DiveForkTitle>Fork</NR_DiveForkTitle>
+  <NR_DiveBranchHardDesc>More loot and an extra cache, but Black ICE guards it and the trace is louder.</NR_DiveBranchHardDesc>
+  <NR_DiveBranchEasyDesc>Less loot, no Black ICE, a quiet trace. Somewhere along it lies a hidden passage.</NR_DiveBranchEasyDesc>
+  <NR_DiveBranchNumbers>Haul ×{0} · {1} · trace +{2}</NR_DiveBranchNumbers>
+  <NR_DiveBranchIce>Black ICE, strength {0}</NR_DiveBranchIce>
+  <NR_DiveBranchNoIce>no ICE</NR_DiveBranchNoIce>
+  <NR_DiveBranchScanHint>Scan the fork to see the numbers.</NR_DiveBranchScanHint>
+  <NR_DiveBranchTake>Take this path</NR_DiveBranchTake>
+  <NR_DiveBranchTakeTip>Final: there is no way back to the fork. Taking a path costs no action.</NR_DiveBranchTakeTip>
 </LanguageData>

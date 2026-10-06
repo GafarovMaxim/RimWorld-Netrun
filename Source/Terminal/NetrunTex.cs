@@ -56,6 +56,7 @@ public static class NetrunTex
     public static readonly Texture2D Shop = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Shop", reportFailure: false);
     public static readonly Texture2D Handshake = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Handshake", reportFailure: false);
     public static readonly Texture2D HeatReduction = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Reduction", reportFailure: false);
+    public static readonly Texture2D HeatRise = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Rise", reportFailure: false);
 
     public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_NeutralZone");
 
