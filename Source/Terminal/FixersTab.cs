@@ -27,12 +27,14 @@ public static class FixersTab
 
         // The hacker group: favor from cyberspace finds, spent on calling allies.
         GatewayManager gateway = GatewayManager.Get();
-        if (gateway != null && (gateway.GroupFavor > 0 || !gateway.AlliesReady))
+        if (gateway != null)
         {
             var groupRect = new Rect(rect.x, rect.y, rect.width, 34f);
             string favor = "NR_ClubFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies);
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(groupRect.x, groupRect.y, groupRect.width - 220f, groupRect.height), favor.Colorize(NetrunUI.Purple));
+            var favorRect = new Rect(groupRect.x, groupRect.y, groupRect.width - 220f, groupRect.height);
+            Widgets.Label(favorRect, favor.Colorize(NetrunUI.Purple));
+            TooltipHandler.TipRegion(favorRect, "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
             Text.Anchor = TextAnchor.UpperLeft;
             string call = "NR_ClubCallAllies".Translate();
             float cw = NetrunUI.ButtonWidth(call);
@@ -111,7 +113,29 @@ public static class FixersTab
         Text.Font = GameFont.Small;
         float chipX = x + nameWidth + 10f;
         chipX += NetrunUI.Chip(chipX, y + 4f, fixer.SpecialtyLabel.ToUpper(), SpecialtyColor(fixer.Specialty), fixer.SpecialtyDescription) + 6f;
-        NetrunUI.Chip(chipX, y + 4f, fixer.TraitLabel.ToUpper(), TraitColor(fixer), fixer.TraitDescription);
+        chipX += NetrunUI.Chip(chipX, y + 4f, fixer.TraitLabel.ToUpper(), TraitColor(fixer), fixer.TraitDescription) + 6f;
+        if (fixer.IsNew)
+            chipX += NetrunUI.Chip(chipX, y + 4f, "NR_FixerNewTag".Translate(), NetrunUI.Accent, "NR_FixerNewTip".Translate()) + 6f;
+        if (fixer.Held && !fixer.Pinned)
+            NetrunUI.Chip(chipX, y + 4f, "NR_FixerHeldTag".Translate(), NetrunUI.Warn, "NR_FixerHeldTip".Translate());
+
+        // Top right: hold through rotation (unpinned only) and break ties.
+        FixerManager manager = FixerManager.Get();
+        float tx = inner.xMax;
+        string drop = "NR_FixerBreak".Translate();
+        float dw = NetrunUI.ButtonWidth(drop);
+        tx -= dw;
+        if (NetrunUI.Button(new Rect(tx, y - 2f, dw, 26f), drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays)))
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_FixerBreakConfirm".Translate(fixer.Name, NetrunDefOf.NR_Fixers.breakBanDays),
+                () => manager?.BreakTies(fixer), destructive: true));
+        if (!fixer.Pinned && manager != null)
+        {
+            string hold = (fixer.Held ? "NR_FixerRelease" : "NR_FixerHold").Translate();
+            float hw = NetrunUI.ButtonWidth(hold);
+            tx -= hw + 6f;
+            if (NetrunUI.Button(new Rect(tx, y - 2f, hw, 26f), hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld)))
+                manager.ToggleHold(fixer);
+        }
         y += 28f;
 
         // Status line.

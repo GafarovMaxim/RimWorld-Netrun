@@ -15,6 +15,8 @@ public class FixerManager : GameComponent
     private List<Fixer> _fixers = [];
     private int _nextRotationTick = -1;
     private int _nextId = 1;
+    /// <summary>Fixers dropped by the player: name and the tick until which they stay away.</summary>
+    private Dictionary<string, int> _banned = new();
 
     public FixerManager(Game game) { }
 
@@ -49,7 +51,7 @@ public class FixerManager : GameComponent
     public void Rotate(bool notify)
     {
         ContractManager contracts = ContractManager.Get();
-        _fixers.RemoveAll(f => !f.Pinned && contracts?.HasActive(f) != true);
+        _fixers.RemoveAll(f => !f.Pinned && !f.Held && contracts?.HasActive(f) != true);
 
         foreach (Fixer fixer in _fixers)
         {
@@ -62,7 +64,7 @@ public class FixerManager : GameComponent
 
         int newcomers = Math.Max(1, Settings.poolSize - _fixers.Count);
         for (int i = 0; i < newcomers; i++)
-            _fixers.Add(Generate());
+            _fixers.Add(Generate(MissingSpecialty()));
 
         _nextRotationTick = Find.TickManager.TicksGame + Settings.rotationDays.RandomInRange * GenDate.TicksPerDay;
 
@@ -70,13 +72,55 @@ public class FixerManager : GameComponent
             Messages.Message("NR_FixersRotated".Translate(), MessageTypeDefOf.NeutralEvent, historical: true);
     }
 
-    private Fixer Generate()
+    /// <summary>A specialty the pool lacks while it has fewer than minSpecialties different ones.</summary>
+    private FixerSpecialty? MissingSpecialty()
+    {
+        var have = _fixers.Select(f => f.Specialty).Distinct().ToList();
+        if (have.Count >= Settings.minSpecialties)
+            return null;
+        var missing = Enum.GetValues(typeof(FixerSpecialty)).Cast<FixerSpecialty>().Where(s => !have.Contains(s)).ToList();
+        return missing.Count == 0 ? null : missing.RandomElement();
+    }
+
+    public int HeldCount => _fixers.Count(f => f.Held && !f.Pinned);
+
+    public AcceptanceReport CanHold(Fixer fixer)
+        => fixer.Held || HeldCount < Settings.maxHeld ? true : (AcceptanceReport)"NR_FixerHoldLimit".Translate(Settings.maxHeld);
+
+    public void ToggleHold(Fixer fixer)
+    {
+        if (CanHold(fixer).Accepted)
+            fixer.Held = !fixer.Held;
+    }
+
+    /// <summary>
+    /// Break ties: the fixer leaves the pool and stays away for breakBanDays; their contracts are dropped without a
+    /// reputation penalty (the relationship is gone anyway); a newcomer takes the free place at once.
+    /// </summary>
+    public void BreakTies(Fixer fixer)
+    {
+        if (!_fixers.Contains(fixer))
+            return;
+        ContractManager.Get()?.DropFixer(fixer);
+        _fixers.Remove(fixer);
+        _banned[fixer.Name] = Find.TickManager.TicksGame + Settings.breakBanDays * GenDate.TicksPerDay;
+        Fixer newcomer = Generate(MissingSpecialty());
+        _fixers.Add(newcomer);
+        ContractManager.Get()?.RegenerateOffers(newcomer);
+        Messages.Message("NR_FixerTiesBroken".Translate(fixer.Name, newcomer.Name), MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
+    private bool Banned(string name)
+        => _banned.TryGetValue(name, out int until) && Find.TickManager.TicksGame < until;
+
+    private Fixer Generate(FixerSpecialty? specialty = null)
     {
         var fixer = new Fixer
         {
             Id = _nextId++,
             Name = GenerateName(),
-            Specialty = Gen.RandomEnumValue<FixerSpecialty>(disallowFirstValue: false),
+            JoinedTick = Find.TickManager.TicksGame,
+            Specialty = specialty ?? Gen.RandomEnumValue<FixerSpecialty>(disallowFirstValue: false),
             Trait = Gen.RandomEnumValue<FixerTrait>(disallowFirstValue: false),
             CallCost = Settings.callCost.RandomInRange,
         };
@@ -101,7 +145,7 @@ public class FixerManager : GameComponent
         for (int i = 0; i < 20; i++)
         {
             string name = GrammarResolver.Resolve("r_name", new GrammarRequest { Includes = { NetrunDefOf.NR_NamerFixer } });
-            if (_fixers.All(f => f.Name != name))
+            if (_fixers.All(f => f.Name != name) && !Banned(name))
                 return name;
         }
         return "Fixer " + _nextId;
@@ -113,8 +157,10 @@ public class FixerManager : GameComponent
         Scribe_Collections.Look(ref _fixers, "fixers", LookMode.Deep);
         Scribe_Values.Look(ref _nextRotationTick, "nextRotationTick", -1);
         Scribe_Values.Look(ref _nextId, "nextId", 1);
+        Scribe_Collections.Look(ref _banned, "banned", LookMode.Value, LookMode.Value);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
             _fixers ??= [];
+            _banned ??= [];
     }
 }

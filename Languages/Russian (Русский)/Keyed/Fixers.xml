@@ -68,4 +68,17 @@
   <NR_ClubCallAlliesTip>Потратить благосклонность: союзная фракция пришлёт бойцов (или группа пришлёт продвинутые данные). Раз в сезон.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Услуга ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>Фиксер должен вам: сбросить {0} Heat бесплатно, без звонка.</NR_FixerFreeScrubTip>
+  <NR_ClubFavorTip>Благосклонность хакерской группы. +1 за находку «услуга группе» в киберпространстве (особая находка при чистом выходе). При {0} кнопка «Позвать группу» присылает союзных бойцов (или 3 продвинутых cyberdata, если союзников нет); затем {1} дней перерыва.</NR_ClubFavorTip>
+  <NR_FixerNewTag>НОВЫЙ</NR_FixerNewTag>
+  <NR_FixerNewTip>Недавно появился в пуле.</NR_FixerNewTip>
+  <NR_FixerHeldTag>УДЕРЖАН</NR_FixerHeldTag>
+  <NR_FixerHeldTip>Не уйдёт при смене пула, пока вы не отпустите.</NR_FixerHeldTip>
+  <NR_FixerHold>Удержать</NR_FixerHold>
+  <NR_FixerRelease>Отпустить</NR_FixerRelease>
+  <NR_FixerHoldTip>Оставить фиксера при смене пула. Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
+  <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
+  <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
+  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения и текущий контракт отменяются (без доп. штрафа), на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
+  <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дней.</NR_FixerBreakConfirm>
+  <NR_FixerTiesBroken>Связь с {0} разорвана. В пул пришёл {1}.</NR_FixerTiesBroken>
 </LanguageData>

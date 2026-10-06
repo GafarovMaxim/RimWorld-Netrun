@@ -68,4 +68,17 @@
   <NR_ClubCallAlliesTip>Spend the favor: an allied faction sends fighters (or the group sends advanced data). Once a season.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Favor ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>The fixer owes you: scrub {0} Heat for free, no call needed.</NR_FixerFreeScrubTip>
+  <NR_ClubFavorTip>Hacker group favor. +1 from a "group favor" find in cyberspace (a special find on a clean exit). At {0}, "Call the group" sends allied fighters (or 3 advanced cyberdata if you have no allies); then {1} days to rest.</NR_ClubFavorTip>
+  <NR_FixerNewTag>NEW</NR_FixerNewTag>
+  <NR_FixerNewTip>Joined the pool recently.</NR_FixerNewTip>
+  <NR_FixerHeldTag>HELD</NR_FixerHeldTag>
+  <NR_FixerHeldTip>Stays through rotations until you let go.</NR_FixerHeldTip>
+  <NR_FixerHold>Hold</NR_FixerHold>
+  <NR_FixerRelease>Let go</NR_FixerRelease>
+  <NR_FixerHoldTip>Keep this fixer through the pool rotations. Up to {0} unpinned fixers at once.</NR_FixerHoldTip>
+  <NR_FixerHoldLimit>Already holding {0}</NR_FixerHoldLimit>
+  <NR_FixerBreak>Break ties</NR_FixerBreak>
+  <NR_FixerBreakTip>Drop this fixer: reputation is lost, offers and the running contract are cancelled (no extra penalty), a new fixer takes the place. They won't be back for {0} days.</NR_FixerBreakTip>
+  <NR_FixerBreakConfirm>Break ties with {0}? Reputation and any contract with them are lost. They won't come back for {1} days.</NR_FixerBreakConfirm>
+  <NR_FixerTiesBroken>Ties with {0} broken. {1} joins the pool.</NR_FixerTiesBroken>
 </LanguageData>

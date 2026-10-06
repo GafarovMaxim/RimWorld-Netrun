@@ -180,6 +180,17 @@ public class ContractManager : GameComponent
 
     public void Abandon(Contract contract) => Fail(contract, "NR_ContractFailedAbandoned");
 
+    /// <summary>Ties broken: offers vanish, an active contract ends as failed in the history, without a reputation penalty.</summary>
+    public void DropFixer(Fixer fixer)
+    {
+        foreach (Contract contract in _contracts.Where(c => c.FixerId == fixer.Id).ToList())
+        {
+            _contracts.Remove(contract);
+            if (contract.Accepted)
+                Record(contract, fixer.Name, success: false);
+        }
+    }
+
     private void AddProgress(Contract contract, int amount)
     {
         contract.Progress = Mathf.Min(contract.Goal, contract.Progress + amount);

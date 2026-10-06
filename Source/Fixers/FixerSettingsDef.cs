@@ -9,6 +9,14 @@ public class FixerSettingsDef : Def
     // Pool
     public int poolSize = 3;
     public IntRange rotationDays = new(7, 10);
+    /// <summary>Unpinned fixers the player can hold through a rotation.</summary>
+    public int maxHeld = 2;
+    /// <summary>After breaking ties a fixer does not come back for this many days.</summary>
+    public int breakBanDays = 30;
+    /// <summary>A fixer is marked "new" for this many days after joining the pool.</summary>
+    public float newcomerDays = 2f;
+    /// <summary>The pool keeps at least this many different specialties after a rotation.</summary>
+    public int minSpecialties = 2;
     public float pinnedReputation = 60f;
     public float traitRevealReputation = 25f;
 

@@ -9,6 +9,12 @@
          reputation that reveals the fixer's trait -->
     <poolSize>3</poolSize>
     <rotationDays>7~10</rotationDays>
+    <!-- Fixers v2 (docs/FIXERS_V2.md): unpinned fixers the player can hold through a rotation, days a dropped fixer stays away,
+         days a newcomer is marked "new", specialties the pool always keeps -->
+    <maxHeld>2</maxHeld>
+    <breakBanDays>30</breakBanDays>
+    <newcomerDays>2</newcomerDays>
+    <minSpecialties>2</minSpecialties>
     <pinnedReputation>45</pinnedReputation>
     <traitRevealReputation>20</traitRevealReputation>
 

@@ -35,12 +35,16 @@ public class Fixer : IExposable
     /// <summary>Free trace scrubs owed by this fixer (a cyberspace find).</summary>
     public int FreeScrubs;
     public List<ThingDef> Stock = [];
+    /// <summary>Held by the player: stays through the next rotations.</summary>
+    public bool Held;
+    public int JoinedTick;
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
 
     public bool Pinned => Reputation >= Settings.pinnedReputation;
     public bool TraitKnown => TraitRevealed || Reputation >= Settings.traitRevealReputation;
     public bool HasShop => Specialty == FixerSpecialty.Fence;
+    public bool IsNew => Find.TickManager.TicksGame - JoinedTick < Settings.newcomerDays * GenDate.TicksPerDay;
 
     public bool IsSilent => Find.TickManager.TicksGame < SilentUntilTick;
     public bool ChannelOpen => Find.TickManager.TicksGame < ChannelOpenUntilTick;
@@ -121,6 +125,8 @@ public class Fixer : IExposable
         Scribe_Values.Look(ref TraitRevealed, "traitRevealed");
         Scribe_Collections.Look(ref Stock, "stock", LookMode.Def);
         Scribe_Values.Look(ref FreeScrubs, "freeScrubs");
+        Scribe_Values.Look(ref Held, "held");
+        Scribe_Values.Look(ref JoinedTick, "joinedTick", -999999);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
