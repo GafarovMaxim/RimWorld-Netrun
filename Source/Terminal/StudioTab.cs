@@ -47,28 +47,31 @@ public static class StudioTab
         DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), raws.Count, hooked.Count);
         rect.yMin += 42f;
 
-        bool panel = _tab == Tab.Library;
-        float panelW = panel ? Mathf.Min(330f, rect.width * 0.36f) : 0f;
-        var left = new Rect(rect.x, rect.y, rect.width - (panel ? panelW + 12f : 0f), rect.height);
+        float panelW = Mathf.Min(330f, rect.width * 0.36f);
+        var left = new Rect(rect.x, rect.y, rect.width - panelW - 12f, rect.height);
+        var right = new Rect(left.xMax + 12f, rect.y, panelW, rect.height);
         switch (_tab)
         {
             case Tab.Summary:
                 DrawSummary(left, map, raws, chips, hooked);
+                DrawGallery(right, map, chips);
                 break;
             case Tab.Raw:
                 GuideRegistry.Area("studio.records", left);
                 DrawList(left, ref scroll, "NR_StudioRecordings".Translate(raws.Count), raws.Count, "NR_StudioNoRecordings".Translate(),
                     (y, w) => { float yy = y; foreach (Thing raw in raws) yy = DrawRecording(new Rect(0f, yy, w, RowHeight), raw); return yy; });
+                DrawInfo(right, "NR_StudioInfoRawTitle", "NR_StudioInfoRaw", StudioColor);
                 break;
             case Tab.Library:
                 GuideRegistry.Area("studio.library", left);
                 DrawLibrary(left, map, chips, ref scroll);
-                DrawPanel(new Rect(left.xMax + 12f, rect.y, panelW, rect.height));
+                DrawPanel(right);
                 break;
             case Tab.Addiction:
                 GuideRegistry.Area("studio.hooked", left);
                 DrawList(left, ref scroll, "NR_StudioHooked".Translate(hooked.Count), hooked.Count, "NR_StudioNoneHooked".Translate(),
                     (y, w) => { float yy = y; foreach (Pawn pawn in hooked) yy = DrawHooked(new Rect(0f, yy, w, RowHeight), pawn); return yy; });
+                DrawInfo(right, "NR_StudioInfoHookTitle", "NR_StudioInfoHook", NetrunUI.Bad);
                 break;
         }
     }
@@ -162,6 +165,83 @@ public static class StudioTab
             Widgets.DrawBoxSolid(row, NetrunUI.BgCard);
             Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), StudioColor);
             Widgets.Label(new Rect(row.x + 12f, row.y + 5f, row.width - 18f, h), "> " + line);
+            y += h + 4f;
+        }
+    }
+
+    /// <summary>Summary's right panel: the unique recordings as a small gallery and the chips by mood.</summary>
+    private static void DrawGallery(Rect rect, Map map, List<Thing> chips)
+    {
+        NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
+        Rect inner = rect.ContractedBy(12f);
+        float y = Header(inner, inner.y, "NR_StudioGallery".Translate());
+        UniqueBraindanceManager ub = UniqueBraindanceManager.Get();
+        List<ThingDef> all = UniqueBraindance.All.ToList();
+        float cell = Mathf.Min(60f, (inner.width - 3 * 8f) / 4f);
+        for (int i = 0; i < all.Count; i++)
+        {
+            var r = new Rect(inner.x + i % 4 * (cell + 8f), y + i / 4 * (cell + 8f), cell, cell);
+            bool found = ub?.IsFound(all[i]) == true;
+            NetrunUI.Box(r, NetrunUI.BgWindow, found ? Gold : new Color(1f, 1f, 1f, 0.15f), found ? 2 : 1);
+            if (found)
+            {
+                GUI.DrawTexture(r.ContractedBy(6f), all[i].uiIcon);
+                NetrunUI.Tip(r, all[i].LabelCap + "\n" + ("NR_UB_Good_" + UniqueBraindance.Ext(all[i]).effect).Translate());
+            }
+            else
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(r, "?".Colorize(NetrunUI.Muted));
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
+            if (Widgets.ButtonInvisible(r))
+            {
+                _tab = Tab.Library;
+                _picked = found ? all[i] : null;
+            }
+        }
+        y += Mathf.CeilToInt(all.Count / 4f) * (cell + 8f) + 10f;
+
+        y = Header(inner, y, "NR_StudioChipsByMood".Translate());
+        Text.Font = GameFont.Tiny;
+        var byMood = chips.Select(c => c.TryGetComp<CompBraindanceRecord>()).Where(c => c != null)
+            .GroupBy(c => c.Mood).ToDictionary(g => g.Key, g => g.Count());
+        int total = Mathf.Max(1, byMood.Values.Sum());
+        foreach (BraindanceMood mood in System.Enum.GetValues(typeof(BraindanceMood)))
+        {
+            int n = byMood.TryGetValue(mood, out int v) ? v : 0;
+            Widgets.Label(new Rect(inner.x, y, 90f, 18f), ((string)("NR_BDMood_" + mood).Translate()).CapitalizeFirst().Colorize(MoodColor(mood)));
+            NetrunUI.Bar(new Rect(inner.x + 94f, y + 5f, inner.width - 130f, 8f), n / (float)total, MoodColor(mood));
+            Text.Anchor = TextAnchor.UpperRight;
+            Widgets.Label(new Rect(inner.xMax - 32f, y, 32f, 18f), n.ToString());
+            Text.Anchor = TextAnchor.UpperLeft;
+            y += 22f;
+        }
+        Text.Font = GameFont.Small;
+    }
+
+    /// <summary>A right-hand panel with a title and a few lines of explanation.</summary>
+    private static void DrawInfo(Rect rect, string titleKey, string textKey, Color color)
+    {
+        NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
+        Rect inner = rect.ContractedBy(12f);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(inner.x, inner.y, inner.width, 24f), ((string)titleKey.Translate()).ToUpper().Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        GUI.color = new Color(color.r, color.g, color.b, 0.6f);
+        Widgets.DrawLineHorizontal(inner.x, inner.y + 26f, inner.width);
+        GUI.color = Color.white;
+        float y = inner.y + 34f;
+        Text.Font = GameFont.Small;
+        foreach (string line in ((string)textKey.Translate()).Split('\n'))
+        {
+            if (line.Trim().Length == 0)
+            {
+                y += 6f;
+                continue;
+            }
+            float h = Text.CalcHeight("• " + line, inner.width);
+            Widgets.Label(new Rect(inner.x, y, inner.width, h), ("• " + line).Colorize(NetrunUI.Muted));
             y += h + 4f;
         }
     }

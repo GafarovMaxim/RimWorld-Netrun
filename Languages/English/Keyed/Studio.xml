@@ -41,4 +41,10 @@
   <NR_StudioPickHint>Pick a found recording on the left.</NR_StudioPickHint>
   <NR_StudioRules>Rules</NR_StudioRules>
   <NR_StudioRulesText>The effect shows as a hediff or a mood in the colonist's health and needs. Stack of 1, 1 to 3 views, never crafted, traders do not buy it. Watched like any chip: braindance goggles or a cyberlink.</NR_StudioRulesText>
+  <NR_StudioGallery>Unique recordings</NR_StudioGallery>
+  <NR_StudioChipsByMood>Chips by mood</NR_StudioChipsByMood>
+  <NR_StudioInfoRawTitle>How editing works</NR_StudioInfoRawTitle>
+  <NR_StudioInfoRaw>A colonist in braindance goggles records strong moments of their life: fights, joy, grief.\nEdit a raw recording at the network console: pick the chip, a colonist does the work.\nThe mood decides the chip: bright for mood, dark for a strong grim rush, combat for sharper fighting.\nThe better the editor, the better the quality: ordinary, great, masterful.</NR_StudioInfoRaw>
+  <NR_StudioInfoHookTitle>Braindance and the hook</NR_StudioInfoHookTitle>
+  <NR_StudioInfoHook>Every chip builds a little tolerance; enough tolerance turns into addiction.\nBlack chips hook far faster; ordinary unique recordings do not hook at all.\nAn addict without braindance gets withdrawal; the hook fades with time without chips.\nKeep chips under a drug policy to decide who may watch and how often.</NR_StudioInfoHook>
 </LanguageData>
