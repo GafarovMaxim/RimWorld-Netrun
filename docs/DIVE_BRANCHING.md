@@ -57,3 +57,40 @@
 - Netsick растёт одинаково на обоих путях (по числу действий), поэтому простой путь с проходом не «бесплатен».
 - Программы: Щит и Призрак работают на обоих путях; Меч и Гончая ломают ICE только на сложном.
 - Корп-ядро: сложный ×1.6 и простой ×0.8 применяются к базовой добыче ×3 (PHASE5_REWARDS.md); награда за чистый выход (демон/уникальный чип) не зависит от пути, зависит от дойти до хранилища.
+
+## Реализация и проверка по правилам игры (2026-10-07)
+Сделано в коде (DiveSession, DiveView). Проверка `python tools/dive_branch_check.py` играет нырки по настоящим правилам и числам из Defs/Cyberspace.xml: шанс взлома от навыка и силы, ICE бьёт на ходу ноды и при провале взлома, лимит ходов. Политика простая и разумная: ломать ворота, брать тайники, сканировать скрытое, идти к выходу.
+
+Что пришлось поменять относительно расчёта выше:
+- **+3 хода за развилку** (branchExtraTurns), а не 2. Иначе на крупных нодах простой путь упирался в лимит ходов: 73% нырков заканчивались по таймауту.
+- **Между развилками стоит узел-тайник, а не ворота.** Иначе на пути получалось 4 ворот и 2 ICE против 3 ворот и 1 ICE у прежней лесенки.
+- **Black ICE второй развилки слабее на 1.** Два ICE полной силы делали сложный путь проигрышным даже для подготовленного раннера.
+- **Базовый множитель ветвистой ноды берётся без надбавки за Black ICE** (ICE теперь только на сложной ветке). Иначе простой путь на ноде с ICE платил бы ×3×0.8, то есть больше обычной ноды без риска.
+
+Результат (cyberdata домой в среднем, успех):
+```
+== novice: skill 8
+  def 2          line  ok  76%  ICE   0%  timeout  24%  cyberdata   6.5 (x3.2 cost)  trace 13.2
+  def 3          hard  ok  39%  ICE  52%  timeout   8%  cyberdata   4.9 (x2.5 cost)  trace 17.8
+  def 3          easy  ok  95%  ICE   0%  timeout   5%  cyberdata   7.2 (x3.6 cost)  trace 16.3
+  def 4 +BlackICE hard  ok  27%  ICE  60%  timeout  14%  cyberdata   4.3 (x1.4 cost)  trace 18.4
+  def 4 +BlackICE easy  ok  90%  ICE   0%  timeout  10%  cyberdata   8.6 (x2.9 cost)  trace 17.1
+  def 5          hard  ok   2%  ICE  73%  timeout  24%  cyberdata   0.8 (x0.3 cost)  trace 26.6
+  def 5          easy  ok  58%  ICE   0%  timeout  42%  cyberdata   7.6 (x2.5 cost)  trace 27.5
+  def 5 +BlackICE hard  ok   2%  ICE  76%  timeout  22%  cyberdata   0.7 (x0.2 cost)  trace 26.2
+  def 5 +BlackICE easy  ok  58%  ICE   0%  timeout  42%  cyberdata   7.6 (x2.5 cost)  trace 27.5
+== prepared: skill 12, Sword, Shield
+  def 2          line  ok 100%  ICE   0%  timeout   0%  cyberdata   7.7 (x3.9 cost)  trace 11.2
+  def 3          hard  ok  93%  ICE   7%  timeout   0%  cyberdata  10.9 (x5.4 cost)  trace 17.4
+  def 3          easy  ok 100%  ICE   0%  timeout   0%  cyberdata   7.4 (x3.7 cost)  trace 13.5
+  def 4 +BlackICE hard  ok  88%  ICE  12%  timeout   0%  cyberdata  13.1 (x4.4 cost)  trace 17.4
+  def 4 +BlackICE easy  ok 100%  ICE   0%  timeout   0%  cyberdata   9.3 (x3.1 cost)  trace 13.7
+  def 5          hard  ok  68%  ICE  29%  timeout   3%  cyberdata  12.4 (x4.1 cost)  trace 28.2
+  def 5          easy  ok 100%  ICE   0%  timeout   0%  cyberdata  11.3 (x3.8 cost)  trace 22.4
+  def 5 +BlackICE hard  ok  65%  ICE  32%  timeout   3%  cyberdata  11.9 (x4.0 cost)  trace 27.8
+  def 5 +BlackICE easy  ok 100%  ICE   0%  timeout   0%  cyberdata  11.3 (x3.8 cost)  trace 22.4
+```
+Выводы:
+- Новичку (навык 8, без программ) выгоднее простой путь: успех 90–95% против 27–39% на сложном.
+- Подготовленному раннеру (навык 12, Меч и Щит) сложный путь даёт +40–50% добычи на средних нодах ценой примерно +4 следа. На крупных нодах (две развилки) он даёт только около +10% при 65–68% успеха, а с двумя Щитами +26% при 78% успеха. Крупная нода по-прежнему серьёзный риск.
+- Если в игре сложный путь на крупных нодах окажется слишком невыгодным, есть два рычага: поднять branchHardReward до 1.7–1.75 или ещё ослабить ICE второй развилки.
