@@ -44,8 +44,6 @@
 {2}
 
 Кольцо — пять уровней, стрелка — изменение за сутки. Клик — подробности.</NR_CoreRingTip>
-  <NR_CoreScrubButton>Сбросить след</NR_CoreScrubButton>
-  <NR_CoreScrubTip>Открывает Клуб: позвоните фиксеру и отдайте cyberdata, чтобы снизить Heat.</NR_CoreScrubTip>
   <NR_CoreSummaryAlerts>Тревоги</NR_CoreSummaryAlerts>
   <NR_CoreNoAlerts>Ничего срочного.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Клик — открыть: {0}</NR_CoreAlertGo>
@@ -56,22 +54,12 @@
   <NR_CoreAlertRequest>{0} просит: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
-  <NR_HeatScreenNow>Сейчас: {0} ({1})</NR_HeatScreenNow>
-  <NR_HeatScreenNoHistory>График заполнится со временем (точка раз в час).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
-  <NR_HeatScreenLevels>Что даёт каждый уровень</NR_HeatScreenLevels>
   <NR_HeatScreenLowers>Что снижает Heat</NR_HeatScreenLowers>
-  <NR_HeatScreenScrub>Сброс у фиксера ({0}): 1 cyberdata = −{1}, 1 продвинутая = −{2}</NR_HeatScreenScrub>
   <NR_HeatScreenNoFixer>Сброс у фиксера: сейчас никто не отвечает</NR_HeatScreenNoFixer>
-  <NR_HeatScreenDecay>Тишина: −{0} в сутки</NR_HeatScreenDecay>
-  <NR_HeatScreenGhost>ИИ Призрак: его услуга и события стирают след</NR_HeatScreenGhost>
   <NR_HeatScreenRaises>Что поднимало за неделю</NR_HeatScreenRaises>
   <NR_HeatScreenNothingRaised>За неделю ничего.</NR_HeatScreenNothingRaised>
-  <NR_HeatScreenNetsickNone>Netsick: ни у кого</NR_HeatScreenNetsickNone>
-  <NR_HeatScreenNetsick>Netsick: {0}</NR_HeatScreenNetsick>
   <NR_HeatScreenNetsickTip>Зависимость от киберпространства у тех, кто много ныряет. Растёт от времени в капсуле и ударов Black ICE.</NR_HeatScreenNetsickTip>
-  <NR_HeatScreenCallFixer>Позвать фиксера</NR_HeatScreenCallFixer>
-  <NR_HeatScreenCallTip>Открывает Клуб.</NR_HeatScreenCallTip>
   <NR_TipTrace>Цифровой след (Heat), 0–100. Растёт от взломов, остывает со временем, фиксер может сбросить.</NR_TipTrace>
   <NR_TipNet>Есть ли на карте запитанная сетевая консоль. Без неё терминал работает только из капсулы.</NR_TipNet>
   <NR_TipBackToCore>Назад к карте узлов.</NR_TipBackToCore>
@@ -142,4 +130,42 @@
   <NR_NodeLocked_Server>Откроется, когда появится осколок ИИ, ИИ-сервер или ИИ.</NR_NodeLocked_Server>
   <NR_NodeLocked_Studio>Откроется, когда появятся брейнданс-очки, запись или чип.</NR_NodeLocked_Studio>
   <NR_NodeLocked_Gateway>Откроется вместе с кибер-капсулой.</NR_NodeLocked_Gateway>
+  <NR_HeatV2Trend>{0} за 7 дней · остывание −{1} в сутки</NR_HeatV2Trend>
+  <NR_HeatV2LegendScrub>сброс</NR_HeatV2LegendScrub>
+  <NR_HeatV2LegendDive>нырок</NR_HeatV2LegendDive>
+  <NR_HeatV2LegendHack>взлом</NR_HeatV2LegendHack>
+  <NR_HeatV2Axis7>7 дн. назад</NR_HeatV2Axis7>
+  <NR_HeatV2Axis3>3 дн. назад</NR_HeatV2Axis3>
+  <NR_HeatV2AxisNow>сейчас</NR_HeatV2AxisNow>
+  <NR_HeatV2NoHistory>График заполнится по мере игры.</NR_HeatV2NoHistory>
+  <NR_HeatV2Effects>Эффекты уровня: {0}</NR_HeatV2Effects>
+  <NR_HeatV2EffectScrub>Лучший сброс сейчас: {0} Heat за cyberdata ({1}).</NR_HeatV2EffectScrub>
+  <NR_HeatV2EffectDecay>Остывание: −{0} в сутки.</NR_HeatV2EffectDecay>
+  <NR_HeatV2ToLower>До «{0}»: {1} без нового следа</NR_HeatV2ToLower>
+  <NR_HeatV2NoTrace>Остывать нечему.</NR_HeatV2NoTrace>
+  <NR_HeatV2Days>~{0} дн.</NR_HeatV2Days>
+  <NR_HeatV2LessThanDay>меньше суток</NR_HeatV2LessThanDay>
+  <NR_HeatV2ViaFixer>Через фиксера</NR_HeatV2ViaFixer>
+  <NR_HeatV2ViaFixerDesc>Фиксер стирает след за cyberdata. У вас {0} (+{1} прод.). Позвоните, чтобы открыть канал, потом сбрасывайте.</NR_HeatV2ViaFixerDesc>
+  <NR_HeatV2FixerRate>1 data = −{0}, прод. = −{1}</NR_HeatV2FixerRate>
+  <NR_HeatV2FixerDiscount>скидка {0}</NR_HeatV2FixerDiscount>
+  <NR_HeatV2FixerSilent>молчит: {0}</NR_HeatV2FixerSilent>
+  <NR_HeatV2ScrubWith>Сбросить…</NR_HeatV2ScrubWith>
+  <NR_HeatV2ScrubWithTip>Канал с {0} открыт: выберите, сколько cyberdata отдать.</NR_HeatV2ScrubWithTip>
+  <NR_HeatV2CallFixer>Позвать · {0}</NR_HeatV2CallFixer>
+  <NR_HeatV2CallFixerTip>Заплатить серебро и открыть канал с {0} на {1} ч; затем откроется окно сброса.</NR_HeatV2CallFixerTip>
+  <NR_HeatV2Ghost>ИИ «Призрак»</NR_HeatV2Ghost>
+  <NR_HeatV2GhostNone>Нужен ИИ «Призрак» на сервере или в носителе.</NR_HeatV2GhostNone>
+  <NR_HeatV2GhostDesc>Его услуга стирает −{0} Heat за {1} доверия.</NR_HeatV2GhostDesc>
+  <NR_HeatV2Unavailable>Недоступно</NR_HeatV2Unavailable>
+  <NR_HeatV2ToServer>В серверную</NR_HeatV2ToServer>
+  <NR_HeatV2Wait>Переждать</NR_HeatV2Wait>
+  <NR_HeatV2WaitDesc>−{0} в сутки (−{1} на «Цели» и выше)</NR_HeatV2WaitDesc>
+  <NR_HeatV2ToZero>{0} до нуля</NR_HeatV2ToZero>
+  <NR_HeatV2Totals>Итого: +{0}, сброс {1}, остывание {2}</NR_HeatV2Totals>
+  <NR_HeatV2AdvicePrefix>Совет:</NR_HeatV2AdvicePrefix>
+  <NR_HeatV2AdviceHigh>затаитесь или сбросьте след: сейчас остывание всего −{0} в сутки.</NR_HeatV2AdviceHigh>
+  <NR_HeatV2AdviceNear>сбросьте след ниже {0}, пока не пришёл уровень «{1}».</NR_HeatV2AdviceNear>
+  <NR_HeatV2AdviceOk>след под контролем, до нуля {0}.</NR_HeatV2AdviceOk>
+  <NR_HeatV2AdviceClean>следа нет. Хорошее время для нырка.</NR_HeatV2AdviceClean>
 </LanguageData>

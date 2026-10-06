@@ -3,11 +3,20 @@ using Verse;
 namespace Netrun;
 
 /// <summary>One line of the terminal journal. The text is stored already translated.</summary>
+/// <summary>Where a Heat change came from: colors the dots on the Heat graph.</summary>
+public enum HeatSource
+{
+    Other,
+    Hack,
+    Dive,
+}
+
 public class HeatLogEntry : IExposable
 {
     public int Tick;
     public float Amount;
     public string Text;
+    public HeatSource Source;
 
     public HeatLogEntry() { }
 
@@ -23,5 +32,6 @@ public class HeatLogEntry : IExposable
         Scribe_Values.Look(ref Tick, "tick");
         Scribe_Values.Look(ref Amount, "amount");
         Scribe_Values.Look(ref Text, "text");
+        Scribe_Values.Look(ref Source, "source");
     }
 }

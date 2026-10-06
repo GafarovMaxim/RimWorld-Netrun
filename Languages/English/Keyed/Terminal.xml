@@ -44,8 +44,6 @@
 {2}
 
 The ring shows the five levels; the arrow is the change over the last day. Click for details.</NR_CoreRingTip>
-  <NR_CoreScrubButton>Scrub the trace</NR_CoreScrubButton>
-  <NR_CoreScrubTip>Opens the Club: call a fixer and hand over cyberdata to lower Heat.</NR_CoreScrubTip>
   <NR_CoreSummaryAlerts>Alerts</NR_CoreSummaryAlerts>
   <NR_CoreNoAlerts>Nothing urgent.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Click to open: {0}</NR_CoreAlertGo>
@@ -56,22 +54,12 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreAlertRequest>{0} asks: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} is starving</NR_CoreAlertHungry>
   <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
-  <NR_HeatScreenNow>Now: {0} ({1})</NR_HeatScreenNow>
-  <NR_HeatScreenNoHistory>The graph fills in as time passes (one point an hour).</NR_HeatScreenNoHistory>
   <NR_HeatScreenGraph>Heat over 7 days</NR_HeatScreenGraph>
-  <NR_HeatScreenLevels>What each level brings</NR_HeatScreenLevels>
   <NR_HeatScreenLowers>What lowers Heat</NR_HeatScreenLowers>
-  <NR_HeatScreenScrub>Scrub at a fixer ({0}): 1 cyberdata = −{1}, 1 advanced = −{2}</NR_HeatScreenScrub>
   <NR_HeatScreenNoFixer>Scrub at a fixer: no fixer is answering right now</NR_HeatScreenNoFixer>
-  <NR_HeatScreenDecay>Quiet time: −{0} a day</NR_HeatScreenDecay>
-  <NR_HeatScreenGhost>A Ghost AI: its service and events wipe the trace</NR_HeatScreenGhost>
   <NR_HeatScreenRaises>What raised it this week</NR_HeatScreenRaises>
   <NR_HeatScreenNothingRaised>Nothing this week.</NR_HeatScreenNothingRaised>
-  <NR_HeatScreenNetsickNone>Netsick: nobody</NR_HeatScreenNetsickNone>
-  <NR_HeatScreenNetsick>Netsick: {0}</NR_HeatScreenNetsick>
   <NR_HeatScreenNetsickTip>Cyberspace dependency of colonists who dive a lot. It grows with time in the pod and Black ICE hits.</NR_HeatScreenNetsickTip>
-  <NR_HeatScreenCallFixer>Call a fixer</NR_HeatScreenCallFixer>
-  <NR_HeatScreenCallTip>Opens the Club.</NR_HeatScreenCallTip>
   <NR_TipTrace>Digital trace (Heat), 0-100. Hacks raise it, it cools over time; a fixer can scrub it.</NR_TipTrace>
   <NR_TipNet>Whether a powered network console is on the map. Without it the terminal works only from a cyberpod.</NR_TipNet>
   <NR_TipBackToCore>Back to the node map.</NR_TipBackToCore>
@@ -142,4 +130,42 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_NodeLocked_Server>Opens when you have an AI fragment, an AI server or an AI.</NR_NodeLocked_Server>
   <NR_NodeLocked_Studio>Opens when you have braindance goggles, a recording or a chip.</NR_NodeLocked_Studio>
   <NR_NodeLocked_Gateway>Opens with the cyberpod.</NR_NodeLocked_Gateway>
+  <NR_HeatV2Trend>{0} in 7 days · cooling −{1} a day</NR_HeatV2Trend>
+  <NR_HeatV2LegendScrub>scrub</NR_HeatV2LegendScrub>
+  <NR_HeatV2LegendDive>dive</NR_HeatV2LegendDive>
+  <NR_HeatV2LegendHack>hack</NR_HeatV2LegendHack>
+  <NR_HeatV2Axis7>7 days ago</NR_HeatV2Axis7>
+  <NR_HeatV2Axis3>3 days ago</NR_HeatV2Axis3>
+  <NR_HeatV2AxisNow>now</NR_HeatV2AxisNow>
+  <NR_HeatV2NoHistory>The graph fills in as you play.</NR_HeatV2NoHistory>
+  <NR_HeatV2Effects>Level effects: {0}</NR_HeatV2Effects>
+  <NR_HeatV2EffectScrub>Best scrub now: {0} Heat per cyberdata ({1}).</NR_HeatV2EffectScrub>
+  <NR_HeatV2EffectDecay>Cooling: −{0} a day.</NR_HeatV2EffectDecay>
+  <NR_HeatV2ToLower>Down to "{0}": {1} without new trace</NR_HeatV2ToLower>
+  <NR_HeatV2NoTrace>No trace to cool.</NR_HeatV2NoTrace>
+  <NR_HeatV2Days>~{0} days</NR_HeatV2Days>
+  <NR_HeatV2LessThanDay>less than a day</NR_HeatV2LessThanDay>
+  <NR_HeatV2ViaFixer>Through a fixer</NR_HeatV2ViaFixer>
+  <NR_HeatV2ViaFixerDesc>A fixer erases trace for cyberdata. You have {0} (+{1} advanced). Call to open a channel, then scrub.</NR_HeatV2ViaFixerDesc>
+  <NR_HeatV2FixerRate>1 data = −{0}, adv. = −{1}</NR_HeatV2FixerRate>
+  <NR_HeatV2FixerDiscount>discount {0}</NR_HeatV2FixerDiscount>
+  <NR_HeatV2FixerSilent>silent: {0}</NR_HeatV2FixerSilent>
+  <NR_HeatV2ScrubWith>Scrub…</NR_HeatV2ScrubWith>
+  <NR_HeatV2ScrubWithTip>The channel with {0} is open: choose how much cyberdata to hand over.</NR_HeatV2ScrubWithTip>
+  <NR_HeatV2CallFixer>Call · {0}</NR_HeatV2CallFixer>
+  <NR_HeatV2CallFixerTip>Pay silver to open a channel with {0} for {1} hours, then the scrub window opens.</NR_HeatV2CallFixerTip>
+  <NR_HeatV2Ghost>AI "Ghost"</NR_HeatV2Ghost>
+  <NR_HeatV2GhostNone>Needs a Ghost AI on the server or in a host.</NR_HeatV2GhostNone>
+  <NR_HeatV2GhostDesc>Its service wipes −{0} Heat for {1} trust.</NR_HeatV2GhostDesc>
+  <NR_HeatV2Unavailable>Unavailable</NR_HeatV2Unavailable>
+  <NR_HeatV2ToServer>Server room</NR_HeatV2ToServer>
+  <NR_HeatV2Wait>Wait it out</NR_HeatV2Wait>
+  <NR_HeatV2WaitDesc>−{0} a day (−{1} at Target and above)</NR_HeatV2WaitDesc>
+  <NR_HeatV2ToZero>{0} to zero</NR_HeatV2ToZero>
+  <NR_HeatV2Totals>Total: +{0}, scrubbed {1}, cooled {2}</NR_HeatV2Totals>
+  <NR_HeatV2AdvicePrefix>Advice:</NR_HeatV2AdvicePrefix>
+  <NR_HeatV2AdviceHigh>lie low or scrub: Heat cools only −{0} a day now.</NR_HeatV2AdviceHigh>
+  <NR_HeatV2AdviceNear>scrub the trace below {0} before "{1}" comes.</NR_HeatV2AdviceNear>
+  <NR_HeatV2AdviceOk>the trace is under control, {0} to zero.</NR_HeatV2AdviceOk>
+  <NR_HeatV2AdviceClean>no trace. A good time for a dive.</NR_HeatV2AdviceClean>
 </LanguageData>

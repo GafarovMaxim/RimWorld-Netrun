@@ -67,7 +67,7 @@ def main() -> int:
     used = set()
     for path in glob.glob("Source/**/*.cs", recursive=True):
         with open(path, encoding="utf-8") as f:
-            used |= set(re.findall(r'"(NR_[A-Za-z_]+)"', f.read()))
+            used |= set(re.findall(r'"(NR_[A-Za-z0-9_]+)"', f.read()))
     # Strings that name our own defs (DefDatabase lookups) are not translation keys.
     def_names = set()
     for path in glob.glob("Defs/**/*.xml", recursive=True):

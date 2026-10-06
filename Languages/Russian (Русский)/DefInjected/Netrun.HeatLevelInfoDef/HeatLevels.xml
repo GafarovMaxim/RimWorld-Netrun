@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_HeatInfo_Shadow.effects.0.text>Сетевых атак нет.</NR_HeatInfo_Shadow.effects.0.text>
+  <NR_HeatInfo_Shadow.effects.1.text>Фиксеры стирают след по лучшему курсу.</NR_HeatInfo_Shadow.effects.1.text>
+  <NR_HeatInfo_Noticed.effects.0.text>Начинаются сетевые атаки: нейрошум, кража данных.</NR_HeatInfo_Noticed.effects.0.text>
+  <NR_HeatInfo_Noticed.effects.1.text>Сброс следа ещё по лучшему курсу.</NR_HeatInfo_Noticed.effects.1.text>
+  <NR_HeatInfo_Tracked.effects.0.text>К атакам добавляются вирусные поломки и скачки напряжения.</NR_HeatInfo_Tracked.effects.0.text>
+  <NR_HeatInfo_Tracked.effects.1.text>Хакеры могут захватить турели (если нетраннер в капсуле).</NR_HeatInfo_Tracked.effects.1.text>
+  <NR_HeatInfo_Tracked.effects.2.text>Сброс следа дешевеет хуже: меньше Heat за cyberdata.</NR_HeatInfo_Tracked.effects.2.text>
+  <NR_HeatInfo_Target.effects.0.text>Атаки вымогателей.</NR_HeatInfo_Target.effects.0.text>
+  <NR_HeatInfo_Target.effects.1.text>Рейды наёмников «Чёрной книги».</NR_HeatInfo_Target.effects.1.text>
+  <NR_HeatInfo_Target.effects.2.text>Охота корпов за вашим ИИ-сервером.</NR_HeatInfo_Target.effects.2.text>
+  <NR_HeatInfo_Target.effects.3.text>В нырках за нетраннером может прийти охотник ICE.</NR_HeatInfo_Target.effects.3.text>
+  <NR_HeatInfo_Target.effects.4.text>След остывает вдвое медленнее.</NR_HeatInfo_Target.effects.4.text>
+  <NR_HeatInfo_Target.effects.5.text>Контракты «Тихий заход» проваливаются.</NR_HeatInfo_Target.effects.5.text>
+  <NR_HeatInfo_RedZone.effects.0.text>Все угрозы уровня «Цель».</NR_HeatInfo_RedZone.effects.0.text>
+  <NR_HeatInfo_RedZone.effects.1.text>Сброс у фиксера по худшему курсу.</NR_HeatInfo_RedZone.effects.1.text>
+  <NR_HeatInfo_RedZone.effects.2.text>След остывает вдвое медленнее.</NR_HeatInfo_RedZone.effects.2.text>
+</LanguageData>

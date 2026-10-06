@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- What each Heat level brings (Heat screen, "Level effects"). severity: Info, Warn, Bad. -->
+  <Netrun.HeatLevelInfoDef>
+    <defName>NR_HeatInfo_Shadow</defName>
+    <level>Shadow</level>
+    <effects>
+      <li><severity>Info</severity><text>No network attacks.</text></li>
+      <li><severity>Info</severity><text>Fixers scrub the trace at their best rate.</text></li>
+    </effects>
+  </Netrun.HeatLevelInfoDef>
+
+  <Netrun.HeatLevelInfoDef>
+    <defName>NR_HeatInfo_Noticed</defName>
+    <level>Noticed</level>
+    <effects>
+      <li><severity>Warn</severity><text>Net attacks begin: neural noise, data theft.</text></li>
+      <li><severity>Info</severity><text>Scrubbing is still at the best rate.</text></li>
+    </effects>
+  </Netrun.HeatLevelInfoDef>
+
+  <Netrun.HeatLevelInfoDef>
+    <defName>NR_HeatInfo_Tracked</defName>
+    <level>Tracked</level>
+    <effects>
+      <li><severity>Warn</severity><text>Net attacks add malware breakdowns and power surges.</text></li>
+      <li><severity>Warn</severity><text>Hackers may hijack your turrets (with a netrunner in a pod).</text></li>
+      <li><severity>Warn</severity><text>Scrubbing is less effective.</text></li>
+    </effects>
+  </Netrun.HeatLevelInfoDef>
+
+  <Netrun.HeatLevelInfoDef>
+    <defName>NR_HeatInfo_Target</defName>
+    <level>Target</level>
+    <effects>
+      <li><severity>Bad</severity><text>Ransomware attacks.</text></li>
+      <li><severity>Bad</severity><text>Black Book mercenary raids.</text></li>
+      <li><severity>Bad</severity><text>Corporate hunt for your AI server.</text></li>
+      <li><severity>Bad</severity><text>An ICE hunter can come after your netrunner in dives.</text></li>
+      <li><severity>Warn</severity><text>Heat cools twice as slowly.</text></li>
+      <li><severity>Warn</severity><text>"Quiet run" contracts fail.</text></li>
+    </effects>
+  </Netrun.HeatLevelInfoDef>
+
+  <Netrun.HeatLevelInfoDef>
+    <defName>NR_HeatInfo_RedZone</defName>
+    <level>RedZone</level>
+    <effects>
+      <li><severity>Bad</severity><text>Every threat of the Target level.</text></li>
+      <li><severity>Bad</severity><text>A fixer's scrub is at its worst rate.</text></li>
+      <li><severity>Warn</severity><text>Heat cools twice as slowly.</text></li>
+    </effects>
+  </Netrun.HeatLevelInfoDef>
+
+</Defs>

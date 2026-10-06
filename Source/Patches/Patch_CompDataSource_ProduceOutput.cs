@@ -18,7 +18,7 @@ public static class Patch_CompDataSource_ProduceOutput
                 return;
 
             string reason = "NR_LogRip".Translate(hacker.LabelShort, thingDef.label, __instance.parent.LabelCap);
-            HeatTracker.Get()?.AddHeat(NetrunDefOf.NR_Heat.heatPerRippedItem, reason);
+            HeatTracker.Get()?.AddHeat(NetrunDefOf.NR_Heat.heatPerRippedItem, reason, HeatSource.Hack);
         }
         catch (Exception ex)
         {

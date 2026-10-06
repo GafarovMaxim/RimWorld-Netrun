@@ -22,7 +22,7 @@ public static class Patch_CompHackable_ProcessHacked
                 return;
 
             string reason = "NR_LogHack".Translate(hacker.LabelShort, __instance.parent.LabelCap);
-            HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason);
+            HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason, HeatSource.Hack);
             ContractManager.Get()?.NotifyHackCompleted();
             AIManager.Get()?.NotifyHack();
             NetsickManager.Get()?.NotifyHack(hacker);

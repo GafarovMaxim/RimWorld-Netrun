@@ -37,7 +37,7 @@ public class HeatTracker : GameComponent
     public IReadOnlyList<float> History => _history;
 
     /// <summary>Adds heat after the settings multiplier is applied.</summary>
-    public void AddHeat(float amount, string reason)
+    public void AddHeat(float amount, string reason, HeatSource source = HeatSource.Other)
     {
         if (amount <= 0f)
             return;
@@ -46,7 +46,7 @@ public class HeatTracker : GameComponent
         HeatLevel before = Level;
         float old = _heat;
         _heat = Mathf.Min(MaxHeat, _heat + amount * NetrunMod.Settings.HeatGainMultiplier);
-        AddLog(_heat - old, reason);
+        AddLog(_heat - old, reason, source);
         EconomyTracker.Get()?.Note(heatUp: _heat - old);
 
         if (Level > before)
@@ -66,6 +66,27 @@ public class HeatTracker : GameComponent
         {
             ReduceHeat(_heat - target, reason);
         }
+    }
+
+    /// <summary>Days for Heat to cool to zero with no new trace (slower part above Target).</summary>
+    public float DaysToZero()
+    {
+        float low = NetrunMod.Settings.HeatDecayPerDay;
+        if (low <= 0f)
+            return float.PositiveInfinity;
+        float high = low * NetrunDefOf.NR_Heat.highHeatDecayFactor;
+        float target = HeatLevel.Target.MinHeat();
+        return _heat <= target ? _heat / low : (_heat - target) / Mathf.Max(0.01f, high) + target / low;
+    }
+
+    /// <summary>Days to cool below the current level's threshold (0 at Shadow).</summary>
+    public float DaysToLowerLevel()
+    {
+        if (Level == HeatLevel.Shadow)
+            return 0f;
+        float min = Level.MinHeat();
+        float rate = Level >= HeatLevel.Target ? NetrunMod.Settings.HeatDecayPerDay * NetrunDefOf.NR_Heat.highHeatDecayFactor : NetrunMod.Settings.HeatDecayPerDay;
+        return rate <= 0f ? float.PositiveInfinity : (_heat - min + 0.5f) / rate;
     }
 
     public void ReduceHeat(float amount, string reason)
@@ -115,9 +136,9 @@ public class HeatTracker : GameComponent
         AddLog(0f, text);
     }
 
-    private void AddLog(float amount, string text)
+    private void AddLog(float amount, string text, HeatSource source = HeatSource.Other)
     {
-        _log.Add(new HeatLogEntry(Find.TickManager.TicksGame, amount, text));
+        _log.Add(new HeatLogEntry(Find.TickManager.TicksGame, amount, text) { Source = source });
 
         if (_log.Count > MaxLogEntries)
             _log.RemoveRange(0, _log.Count - MaxLogEntries);

@@ -115,7 +115,7 @@ public partial class Dialog_NetTerminal : Window
         switch (_view)
         {
             case View.Core:
-                HeatScreen.Draw(content, _map, tracker, () => OpenNode(View.Club));
+                HeatScreen.Draw(content, _map, tracker, () => OpenNode(View.Club), () => OpenNode(View.Server));
                 break;
             case View.Club:
                 FixersTab.Draw(content, _map, ref _fixersScroll);
@@ -318,8 +318,19 @@ public partial class Dialog_NetTerminal : Window
             sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
         TooltipHandler.TipRegion(sickSeg, sickTip);
 
+        // On the Heat screen: one sentence of advice instead of the latest event.
+        if (tracker != null && _view == View.Core && rect.xMax - 10f - x > 80f)
+        {
+            var adviceSeg = new Rect(x, segY, rect.xMax - 10f - x, segHeight);
+            NetrunUI.Box(adviceSeg, NetrunUI.BgWindow, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.35f));
+            Text.Font = GameFont.Tiny;
+            string advice = "NR_HeatV2AdvicePrefix".Translate() + " " + HeatScreen.Advice(tracker);
+            Widgets.Label(new Rect(adviceSeg.x + 8f, adviceSeg.y, adviceSeg.width - 12f, adviceSeg.height), advice.Truncate(adviceSeg.width - 12f).Colorize(NetrunUI.Ok));
+            Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(adviceSeg, advice);
+        }
         // The latest trace event fills the rest; a click opens the Archive.
-        if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
+        else if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
         {
             HeatLogEntry entry = tracker.Log[tracker.Log.Count - 1];
             var eventSeg = new Rect(x, segY, rect.xMax - 10f - x, segHeight);

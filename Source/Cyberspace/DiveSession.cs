@@ -643,7 +643,7 @@ public class DiveSession : IExposable
 
         if (HunterActive && map != null)
         {
-            HeatTracker.Get()?.AddHeat(Settings.hunterEscapeHeat, "NR_HunterFollowedLog".Translate());
+            HeatTracker.Get()?.AddHeat(Settings.hunterEscapeHeat, "NR_HunterFollowedLog".Translate(), HeatSource.Dive);
             IncidentParms parms = StorytellerUtility.DefaultParmsNow(NetrunDefOf.NR_NetAttack_Breakdown.category, map);
             parms.forced = true;
             Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_NetAttack_Breakdown, null, parms),
@@ -653,7 +653,7 @@ public class DiveSession : IExposable
 
         float heat = Trace * Node.HeatPerTrace * CyberpodUtility.HeatFactor(coprocessor);
         if (heat > 0f)
-            HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name));
+            HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name), HeatSource.Dive);
         AddNetsick(Settings.netsickPerDive);
 
         int kept = Mathf.RoundToInt(LootCyberdata * keepShare) + Mathf.RoundToInt(LootAdvanced * keepShare) * NetrunDefOf.NR_Fixers.advancedCyberdataWorth;
