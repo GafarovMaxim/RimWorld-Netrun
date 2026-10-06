@@ -32,10 +32,6 @@ public class MapEventsSettingsDef : Def
     public float mapHackWinHeat = 5f;
     public int mapHackLoseBreakdowns = 2;
 
-    public float iceTrapRadius = 4f;
-    public int iceTrapCooldownTicks = 5000;
-    public int iceTrapStunTicks = 180;
-    public float iceTrapDamage = 4f;
 }
 
 /// <summary>
@@ -300,51 +296,6 @@ public class IncidentWorker_MapHack : IncidentWorker
 }
 
 // ---- Buildings ----
-
-public class CompProperties_IceTrap : CompProperties
-{
-    public CompProperties_IceTrap() => compClass = typeof(CompIceTrap);
-}
-
-/// <summary>ICE cables: a powered shock trap that stuns and burns hostile pawns nearby, then recharges.</summary>
-public class CompIceTrap : ThingComp
-{
-    private int _readyTick;
-
-    private static MapEventsSettingsDef Settings => NetrunDefOf.NR_MapEvents;
-
-    public override void CompTickRare()
-    {
-        base.CompTickRare();
-        if (Find.TickManager.TicksGame < _readyTick || parent.GetComp<CompPowerTrader>()?.PowerOn == false || !parent.Spawned)
-            return;
-
-        Map map = parent.Map;
-        List<Pawn> targets = GenRadial.RadialDistinctThingsAround(parent.Position, map, Settings.iceTrapRadius, true)
-            .OfType<Pawn>().Where(p => !p.Dead && !p.Downed && p.HostileTo(Faction.OfPlayer)).ToList();
-        if (targets.Count == 0)
-            return;
-
-        foreach (Pawn pawn in targets)
-        {
-            pawn.stances?.stunner?.StunFor(Settings.iceTrapStunTicks, parent, addBattleLog: false);
-            pawn.TakeDamage(new DamageInfo(DamageDefOf.Burn, Settings.iceTrapDamage, instigator: parent));
-            FleckMaker.ThrowMicroSparks(pawn.DrawPos, map);
-        }
-        _readyTick = Find.TickManager.TicksGame + Settings.iceTrapCooldownTicks;
-    }
-
-    public override string CompInspectStringExtra()
-        => Find.TickManager.TicksGame < _readyTick
-            ? "NR_IceTrapCharging".Translate((_readyTick - Find.TickManager.TicksGame).ToStringTicksToPeriod())
-            : (string)"NR_IceTrapReady".Translate();
-
-    public override void PostExposeData()
-    {
-        base.PostExposeData();
-        Scribe_Values.Look(ref _readyTick, "readyTick");
-    }
-}
 
 public class CompProperties_DistressServer : CompProperties
 {

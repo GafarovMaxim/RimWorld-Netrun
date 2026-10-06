@@ -26,7 +26,7 @@ public class FixerSettingsDef : Def
     public float heatPerCyberdata = 5f;
     public float heatPerAdvancedCyberdata = 15f;
     /// <summary>Scrub efficiency by Heat level (index = HeatLevel): the louder the colony, the dearer the scrub.</summary>
-    public List<float> scrubFactorByLevel = [1f, 1f, 0.8f, 0.6f, 0.4f];
+    public List<float> scrubFactorByLevel = [0.6f, 0.6f, 0.4f, 0.3f, 0.2f];
 
     // Rat trait
     public float ratLeakChance = 0.1f;

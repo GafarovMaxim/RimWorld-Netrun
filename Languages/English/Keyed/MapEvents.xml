@@ -7,7 +7,7 @@
   <NR_CourierLostLabel>Courier lost</NR_CourierLostLabel>
   <NR_CourierLost>{0} did not make it. The data is gone, and the trail leads to your colony.</NR_CourierLost>
   <NR_CourierLostLog>A data courier fell</NR_CourierLostLog>
-  <NR_CorpHuntIntro>A corporate team has come for your AI server. Defend it: ICE cables help.</NR_CorpHuntIntro>
+  <NR_CorpHuntIntro>A corporate team has come for your AI server. Defend it: they will try to carry it off or wreck it.</NR_CorpHuntIntro>
   <NR_BlackMarketLabel>Black market</NR_BlackMarketLabel>
   <NR_BlackMarket>For {0} days the black market is open to those fixers trust: black braindance, AI fragments, sometimes more. Open: {1}.</NR_BlackMarket>
   <NR_BlackMarketNobody>nobody yet (needs {0} reputation)</NR_BlackMarketNobody>
@@ -22,6 +22,4 @@
   <NR_CounterHackWonLabel>Turrets back</NR_CounterHackWonLabel>
   <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
   <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
-  <NR_IceTrapReady>Charged</NR_IceTrapReady>
-  <NR_IceTrapCharging>Recharging: {0}</NR_IceTrapCharging>
 </LanguageData>

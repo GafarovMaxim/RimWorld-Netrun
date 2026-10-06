@@ -102,7 +102,6 @@ AIServer, AIServer_Minimal, BraindanceChip, BraindanceGoggles, Fixer_Corp / Shad
 
 | Файл | Что это | Идея |
 |---|---|---|
-| `NR_IceTrap.png` (Things/Building/Security) | Тросы ICE, ловушка 1x1 | свёрнутый толстый кабель с голубыми искрами и маленьким модулем; сейчас ванильный IED-EMP с голубым тоном |
 | `NR_DistressServer.png` (Things/Building/Misc) | Брошенный сервер | старая серверная стойка, ржавчина, мигает красный огонёк; сейчас серый NR_AIServer |
 
 ## Интерфейс

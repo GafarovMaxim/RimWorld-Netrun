@@ -21,10 +21,6 @@
     <mapHackHours>12</mapHackHours>
     <mapHackWinHeat>5</mapHackWinHeat>
     <mapHackLoseBreakdowns>2</mapHackLoseBreakdowns>
-    <iceTrapRadius>4</iceTrapRadius>
-    <iceTrapCooldownTicks>5000</iceTrapCooldownTicks>
-    <iceTrapStunTicks>180</iceTrapStunTicks>
-    <iceTrapDamage>4</iceTrapDamage>
   </Netrun.MapEventsSettingsDef>
 
   <IncidentDef>
@@ -78,47 +74,6 @@
     <baseChance>0.4</baseChance>
     <minRefireDays>12</minRefireDays>
   </IncidentDef>
-
-  <!-- ICE cables: a powered shock trap (vanilla EMP IED art until our own sprite) -->
-  <ThingDef ParentName="BuildingBase">
-    <defName>NR_IceTrap</defName>
-    <label>ICE cables</label>
-    <description>A coil of hardened network cable charged by a corporate countermeasure routine. When hostiles come close it discharges: a stunning shock and burns. Recharges in about two hours. Needs power.</description>
-    <thingClass>Building</thingClass>
-    <graphicData>
-      <texPath>Things/Building/Security/IEDEMP</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-      <color>(0.35, 0.9, 1)</color>
-    </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
-    <passability>Standable</passability>
-    <tickerType>Rare</tickerType>
-    <size>(1,1)</size>
-    <rotatable>false</rotatable>
-    <designationCategory>NR_Cyberspace</designationCategory>
-    <statBases>
-      <MaxHitPoints>80</MaxHitPoints>
-      <WorkToBuild>2000</WorkToBuild>
-      <Flammability>0.2</Flammability>
-      <Mass>8</Mass>
-    </statBases>
-    <costList>
-      <Steel>30</Steel>
-      <ComponentIndustrial>2</ComponentIndustrial>
-      <USH_Cyberdata>1</USH_Cyberdata>
-    </costList>
-    <researchPrerequisites>
-      <li>USH_AdvancedCybertech</li>
-    </researchPrerequisites>
-    <comps>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>100</basePowerConsumption>
-      </li>
-      <li Class="CompProperties_Flickable" />
-      <li Class="Netrun.CompProperties_IceTrap" />
-    </comps>
-  </ThingDef>
 
   <!-- The abandoned server from a distress signal -->
   <ThingDef ParentName="BuildingBase">

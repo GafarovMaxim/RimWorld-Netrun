@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <NR_IceTrap.label>тросы ICE</NR_IceTrap.label>
-  <NR_IceTrap.description>Моток укреплённого сетевого кабеля, заряженный корпоративной программой защиты. Когда враги подходят близко, он разряжается: оглушающий удар и ожоги. Перезаряжается около двух часов. Нужно питание.</NR_IceTrap.description>
   <NR_DistressServer.label>брошенный сервер</NR_DistressServer.label>
   <NR_DistressServer.description>Старый сервер, всё ещё подающий слабый сигнал бедствия. Внутри может что-то жить. Колонист может к нему подключиться.</NR_DistressServer.description>
 </LanguageData>

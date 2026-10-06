@@ -7,7 +7,7 @@
   <NR_CourierLostLabel>Курьер потерян</NR_CourierLostLabel>
   <NR_CourierLost>{0} не дошёл. Данные пропали, а след ведёт к вашей колонии.</NR_CourierLost>
   <NR_CourierLostLog>Курьер данных пал</NR_CourierLostLog>
-  <NR_CorpHuntIntro>Корпоративная группа пришла за вашим ИИ-сервером. Защищайте его: помогут тросы ICE.</NR_CorpHuntIntro>
+  <NR_CorpHuntIntro>Корпоративная группа пришла за вашим ИИ-сервером. Защищайте его: они попробуют унести или разбить сервер.</NR_CorpHuntIntro>
   <NR_BlackMarketLabel>Чёрный рынок</NR_BlackMarketLabel>
   <NR_BlackMarket>На {0} дня открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarket>
   <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
@@ -22,6 +22,4 @@
   <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
   <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
   <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>
-  <NR_IceTrapReady>Заряжен</NR_IceTrapReady>
-  <NR_IceTrapCharging>Перезарядка: {0}</NR_IceTrapCharging>
 </LanguageData>
