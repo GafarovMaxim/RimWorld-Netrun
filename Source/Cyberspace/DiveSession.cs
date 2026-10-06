@@ -684,6 +684,7 @@ public class DiveSession : IExposable
         var report = new DiveReport
         {
             NodeName = Node.Name,
+            EndTick = Find.TickManager.TicksGame,
             RunnerName = Runner?.LabelShort ?? "?",
             Success = success,
             Retreated = Retreated,

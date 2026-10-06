@@ -246,4 +246,6 @@
   <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Пока пусто.</NR_DiveHudHaulEmpty>
   <NR_GatewayRewardMult>x{0} от стоимости нырка</NR_GatewayRewardMult>
+  <NR_GatewayReportsTip>Итоги вылазок: последние {0}.</NR_GatewayReportsTip>
+  <NR_GatewayNoReports>Нырков ещё не было.</NR_GatewayNoReports>
 </LanguageData>

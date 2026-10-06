@@ -246,4 +246,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHudHaul>Haul</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Nothing yet.</NR_DiveHudHaulEmpty>
   <NR_GatewayRewardMult>x{0} of the dive cost</NR_GatewayRewardMult>
+  <NR_GatewayReportsTip>Dive summaries: the last {0} runs.</NR_GatewayReportsTip>
+  <NR_GatewayNoReports>No dives yet.</NR_GatewayNoReports>
 </LanguageData>

@@ -10,6 +10,7 @@ namespace Netrun;
 public class DiveReport : IExposable
 {
     public string NodeName;
+    public int EndTick;
     public string RunnerName;
     public bool Success;
     public bool Retreated;
@@ -35,6 +36,7 @@ public class DiveReport : IExposable
     public void ExposeData()
     {
         Scribe_Values.Look(ref NodeName, "node");
+        Scribe_Values.Look(ref EndTick, "endTick");
         Scribe_Values.Look(ref RunnerName, "runner");
         Scribe_Values.Look(ref Success, "success");
         Scribe_Values.Look(ref Retreated, "retreated");

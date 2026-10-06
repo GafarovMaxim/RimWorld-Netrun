@@ -38,6 +38,9 @@ public class GatewayManager : GameComponent
     public DiveSession Session;
     /// <summary>The summary of the last finished dive (dev: show it again).</summary>
     public DiveReport LastReport;
+    /// <summary>The last few dive summaries, newest last.</summary>
+    public List<DiveReport> Reports = [];
+    private const int MaxReports = 10;
 
     public GatewayManager(Game game)
     {
@@ -281,6 +284,9 @@ public class GatewayManager : GameComponent
         if (Session.Report != null)
         {
             LastReport = Session.Report;
+            Reports.Add(LastReport);
+            if (Reports.Count > MaxReports)
+                Reports.RemoveAt(0);
             Dialog_DiveReport.Show(LastReport);
         }
         Session = null;
@@ -338,6 +344,8 @@ public class GatewayManager : GameComponent
         Scribe_Collections.Look(ref Daemons, "daemons", LookMode.Value);
         Scribe_Values.Look(ref GroupFavor, "groupFavor");
         Scribe_Deep.Look(ref LastReport, "lastReport");
+        Scribe_Collections.Look(ref Reports, "reports", LookMode.Deep);
+        Reports ??= [];
         Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
         Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
         Scribe_Values.Look(ref _stormUntilTick, "stormUntilTick", -1);

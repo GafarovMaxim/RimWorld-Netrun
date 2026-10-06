@@ -110,6 +110,27 @@ public static class GatewayView
         Widgets.EndGroup();
 
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f - 4f, rect.y + 4f, 3 * 34f, 30f));
+        DrawReportsButton(new Rect(rect.xMax - 3 * 34f - 4f - 40f, rect.y + 4f, 30f, 30f));
+    }
+
+    /// <summary>The dive summaries of recent runs: a menu, newest first.</summary>
+    private static void DrawReportsButton(Rect rect)
+    {
+        GatewayManager gateway = GatewayManager.Get();
+        int count = gateway?.Reports.Count ?? 0;
+        bool clicked = NetrunUI.Button(rect, string.Empty, NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(), "NR_GatewayReportsTip".Translate(count));
+        if (NetrunTex.DiveReport is { } icon)
+            GUI.DrawTexture(rect.ContractedBy(4f), icon);
+        if (!clicked || gateway == null)
+            return;
+        int now = Find.TickManager.TicksGame;
+        var options = gateway.Reports.AsEnumerable().Reverse().Select(r =>
+        {
+            string result = (r.Success ? "NR_ReportSuccess" : r.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate();
+            string ago = r.EndTick > 0 ? "NR_TimeAgo".Translate((now - r.EndTick).ToStringTicksToPeriod()) : string.Empty;
+            return new FloatMenuOption($"{r.NodeName} · {result} · {ago}", () => Find.WindowStack.Add(new Dialog_DiveReport(r)));
+        }).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
     }
 
     /// <summary>Zoom in, zoom out and reset (also resets the pan).</summary>
