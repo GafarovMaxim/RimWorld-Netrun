@@ -4,6 +4,7 @@ using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Netrun;
 
@@ -77,138 +78,232 @@ public class NetrunSettings : ModSettings
         ScrubMultiplier = p.scrub;
     }
 
+    // ---- Window: drawn by hand in the terminal style (no Listing), with its own scroll ----
+
+    private float _y;
+    private float _w;
+
     public void DoWindowContents(Rect inRect)
     {
-        var view = new Rect(0f, 0f, inRect.width - 16f, _viewHeight);
-        Widgets.BeginScrollView(inRect, ref _scroll, view);
-        var list = new Listing_Standard();
-        list.Begin(view);
+        Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
+        Rect outer = inRect.ContractedBy(10f);
+        bool scrolls = _viewHeight > outer.height;
+        var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_viewHeight, outer.height));
+        Widgets.BeginScrollView(outer, ref _scroll, view);
+        _y = 0f;
+        _w = view.width;
 
-        if (Group(list, "gameplay", "NR_SettingsGroupGameplay"))
-            DrawGameplay(list);
-        if (Group(list, "interface", "NR_SettingsGroupInterface"))
-            DrawInterface(list);
-        if (Group(list, "support", "NR_SettingsGroupSupport"))
-            DrawSupport(list);
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(0f, _y, _w, 32f), "NR_SettingsTitle".Translate().Colorize(NetrunUI.Accent));
+        Text.Font = GameFont.Small;
+        _y += 38f;
 
-        list.GapLine();
-        if (list.ButtonText("NR_SettingsReset".Translate()))
+        if (Group("gameplay", "NR_SettingsGroupGameplay"))
+            DrawGameplay();
+        if (Group("interface", "NR_SettingsGroupInterface"))
+            DrawInterface();
+        if (Group("support", "NR_SettingsGroupSupport"))
+            DrawSupport();
+
+        _y += 10f;
+        if (NetrunUI.Button(new Rect(0f, _y, 220f, 30f), "NR_SettingsReset".Translate(), NetrunUI.Bad, true))
             ResetAll();
+        _y += 40f;
 
-        _viewHeight = list.CurHeight + 20f;
-        list.End();
+        _viewHeight = _y;
         Widgets.EndScrollView();
     }
 
-    /// <summary>A clickable group header (▼ open / ► closed); true when the group is open.</summary>
-    private static bool Group(Listing_Standard list, string id, string labelKey)
+    /// <summary>A clickable group bar (▼ open / ► closed); true when open.</summary>
+    private bool Group(string id, string labelKey)
     {
-        list.Gap(6f);
         bool open = !Collapsed.Contains(id);
-        Rect row = list.GetRect(30f);
-        Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.06f));
-        Text.Font = GameFont.Medium;
+        var row = new Rect(0f, _y, _w, 32f);
+        NetrunUI.Box(row, Mouse.IsOver(row) ? NetrunUI.BgCardAlt : NetrunUI.BgCard, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f));
         Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(row.x + 8f, row.y, row.width - 8f, row.height), (open ? "▼ " : "► ") + labelKey.Translate());
+        Widgets.Label(new Rect(row.x + 10f, row.y, row.width - 12f, row.height), ((open ? "▼  " : "►  ") + ((string)labelKey.Translate()).ToUpper()).Colorize(NetrunUI.Accent));
         Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
         if (Widgets.ButtonInvisible(row))
         {
             if (open)
                 Collapsed.Add(id);
             else
                 Collapsed.Remove(id);
+            SoundDefOf.Click.PlayOneShotOnCamera();
         }
-        list.Gap(4f);
+        _y += 38f;
         return open;
     }
 
-    private void DrawGameplay(Listing_Standard list)
+    private void Label(string text, Color? color = null, string tip = null)
     {
-        list.Label("NR_SettingsDifficulty".Translate(), tooltip: "NR_SettingsDifficultyTip".Translate());
-        foreach (HeatDifficulty d in new[] { HeatDifficulty.Easy, HeatDifficulty.Normal, HeatDifficulty.Hard })
+        float h = Text.CalcHeight(text, _w - 12f);
+        var r = new Rect(12f, _y, _w - 12f, h);
+        Widgets.Label(r, color.HasValue ? text.Colorize(color.Value) : text);
+        if (tip != null)
+            TooltipHandler.TipRegion(r, tip);
+        _y += h + 4f;
+    }
+
+    /// <summary>Options as a row of chips; returns the picked index.</summary>
+    private int Chips(string[] labels, int selected, string[] tips = null)
+    {
+        float x = 12f;
+        int picked = selected;
+        for (int i = 0; i < labels.Length; i++)
+        {
+            float w = NetrunUI.ButtonWidth(labels[i]);
+            if (x + w > _w)
+            {
+                x = 12f;
+                _y += 34f;
+            }
+            bool on = i == selected;
+            var r = new Rect(x, _y, w, 28f);
+            if (on)
+                Widgets.DrawBoxSolid(r, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.18f));
+            if (NetrunUI.Button(r, (on ? "● " : string.Empty) + labels[i], on ? NetrunUI.Ok : NetrunUI.Muted, true, tips?[i]))
+                picked = i;
+            x += w + 6f;
+        }
+        _y += 36f;
+        return picked;
+    }
+
+    private void Toggle(string labelKey, ref bool value, string tipKey)
+    {
+        var r = new Rect(12f, _y, _w - 12f, 28f);
+        if (Mouse.IsOver(r))
+            Widgets.DrawBoxSolid(r, new Color(1f, 1f, 1f, 0.04f));
+        var box = new Rect(r.x, r.y + 5f, 18f, 18f);
+        NetrunUI.Box(box, NetrunUI.BgCard, value ? NetrunUI.Ok : NetrunUI.Muted);
+        if (value)
+        {
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(box, "✓".Colorize(NetrunUI.Ok));
+        }
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(r.x + 28f, r.y, r.width - 28f, r.height), labelKey.Translate());
+        Text.Anchor = TextAnchor.UpperLeft;
+        TooltipHandler.TipRegion(r, tipKey.Translate());
+        if (Widgets.ButtonInvisible(r))
+        {
+            value = !value;
+            SoundDefOf.Click.PlayOneShotOnCamera();
+        }
+        _y += 32f;
+    }
+
+    private float Slider(string label, float value, float min, float max)
+    {
+        var frame = new Rect(12f, _y, _w - 12f, 50f);
+        NetrunUI.Box(frame, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.1f));
+        Widgets.Label(new Rect(frame.x + 8f, frame.y + 4f, frame.width - 16f, 22f), label);
+        float v = Widgets.HorizontalSlider(new Rect(frame.x + 8f, frame.y + 28f, frame.width - 16f, 16f), value, min, max, roundTo: 0.05f);
+        _y += 56f;
+        return v;
+    }
+
+    private void DrawGameplay()
+    {
+        Label("NR_SettingsDifficulty".Translate(), NetrunUI.Accent, "NR_SettingsDifficultyTip".Translate());
+        HeatDifficulty[] presets = [HeatDifficulty.Easy, HeatDifficulty.Normal, HeatDifficulty.Hard];
+        string[] names = presets.Select(d => (string)("NR_SettingsDifficultyName_" + d).Translate()).ToArray();
+        string[] tips = presets.Select(d =>
         {
             var p = Presets[d];
-            if (list.RadioButton(("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), p.decay.ToString("0.#"), p.scrub.ToStringPercent()),
-                    Difficulty == d))
-                ApplyPreset(d);
-        }
+            return (string)("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), p.decay.ToString("0.#"), p.scrub.ToStringPercent());
+        }).ToArray();
+        int current = System.Array.IndexOf(presets, Difficulty);
+        int picked = Chips(names, current, tips);
+        if (picked != current && picked >= 0)
+            ApplyPreset(presets[picked]);
         if (Difficulty == HeatDifficulty.Custom)
-            list.Label("NR_SettingsDifficulty_Custom".Translate().Colorize(ColoredText.SubtleGrayColor));
+            Label("NR_SettingsDifficulty_Custom".Translate(), NetrunUI.Warn);
+        else if (current >= 0)
+            Label(tips[current], NetrunUI.Muted);
 
-        if (list.ButtonText((_advancedOpen ? "▼ " : "► ") + "NR_SettingsAdvanced".Translate()))
+        var adv = new Rect(12f, _y, 240f, 26f);
+        if (NetrunUI.Button(adv, (_advancedOpen ? "▼ " : "► ") + "NR_SettingsAdvanced".Translate(), NetrunUI.Muted, true))
             _advancedOpen = !_advancedOpen;
+        _y += 32f;
         if (_advancedOpen)
         {
             float gain = HeatGainMultiplier, decay = HeatDecayPerDay, scrub = ScrubMultiplier;
-            list.Label("NR_SettingsHeatGain".Translate(HeatGainMultiplier.ToStringPercent()));
-            HeatGainMultiplier = list.Slider(HeatGainMultiplier, 0.25f, 3f);
-            list.Label("NR_SettingsHeatDecay".Translate(HeatDecayPerDay.ToString("0.0")));
-            HeatDecayPerDay = list.Slider(HeatDecayPerDay, 0f, 20f);
-            list.Label("NR_SettingsScrub".Translate(ScrubMultiplier.ToStringPercent()));
-            ScrubMultiplier = list.Slider(ScrubMultiplier, 0.5f, 2f);
+            HeatGainMultiplier = Slider("NR_SettingsHeatGain".Translate(HeatGainMultiplier.ToStringPercent()), HeatGainMultiplier, 0.25f, 3f);
+            HeatDecayPerDay = Slider("NR_SettingsHeatDecay".Translate(HeatDecayPerDay.ToString("0.0")), HeatDecayPerDay, 0f, 20f);
+            ScrubMultiplier = Slider("NR_SettingsScrub".Translate(ScrubMultiplier.ToStringPercent()), ScrubMultiplier, 0.5f, 2f);
             if (!Mathf.Approximately(gain, HeatGainMultiplier) || !Mathf.Approximately(decay, HeatDecayPerDay) || !Mathf.Approximately(scrub, ScrubMultiplier))
                 Difficulty = HeatDifficulty.Custom;
         }
-        list.Gap();
+        _y += 6f;
 
-        Frequency(list, "NR_SettingsFreqAttacks", ref NetAttackFrequency);
-        Frequency(list, "NR_SettingsFreqMap", ref MapEventFrequency);
-        Frequency(list, "NR_SettingsFreqCyber", ref CyberEventFrequency);
-        Frequency(list, "NR_SettingsAIEventFrequency", ref AIEventFrequency);
+        Frequency("NR_SettingsFreqAttacks", ref NetAttackFrequency);
+        Frequency("NR_SettingsFreqMap", ref MapEventFrequency);
+        Frequency("NR_SettingsFreqCyber", ref CyberEventFrequency);
+        Frequency("NR_SettingsAIEventFrequency", ref AIEventFrequency);
 
-        list.CheckboxLabeled("NR_SettingsNewcomer".Translate(), ref NewcomerProtection, "NR_SettingsNewcomerTip".Translate());
+        Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
+        _y += 6f;
     }
 
-    /// <summary>Label and a row of four radio buttons: off, 0.5x, 1x, 2x.</summary>
-    private static void Frequency(Listing_Standard list, string labelKey, ref float value)
+    /// <summary>Label and four chips: off, 0.5x, 1x, 2x.</summary>
+    private void Frequency(string labelKey, ref float value)
     {
-        list.Label(labelKey.Translate(), tooltip: (labelKey + "Tip").Translate());
-        Rect row = list.GetRect(26f);
-        float w = row.width / Frequencies.Length;
-        for (int i = 0; i < Frequencies.Length; i++)
-        {
-            float f = Frequencies[i];
-            string label = f <= 0f ? "NR_SettingsOff".Translate() : "NR_SettingsAIEventFrequencyValue".Translate(f.ToString("0.#"));
-            if (Widgets.RadioButtonLabeled(new Rect(row.x + i * w, row.y, w - 12f, row.height), label, Mathf.Approximately(value, f)))
-                value = f;
-        }
-        list.Gap(6f);
+        Label(labelKey.Translate(), null, (labelKey + "Tip").Translate());
+        string[] labels = Frequencies.Select(f => f <= 0f ? (string)"NR_SettingsOff".Translate() : (string)"NR_SettingsAIEventFrequencyValue".Translate(f.ToString("0.#"))).ToArray();
+        float v = value;
+        int current = System.Array.FindIndex(Frequencies, f => Mathf.Approximately(f, v));
+        int picked = Chips(labels, current);
+        if (picked >= 0)
+            value = Frequencies[picked];
     }
 
-    private void DrawInterface(Listing_Standard list)
+    private void DrawInterface()
     {
-        list.Label("NR_SettingsAccent".Translate());
+        Label("NR_SettingsAccent".Translate(), NetrunUI.Accent);
+        float x = 12f;
         for (int i = 0; i < NetrunTex.Accents.Length; i++)
         {
-            if (list.RadioButton(("NR_SettingsAccent_" + i).Translate().Colorize(NetrunTex.Accents[i]), TerminalAccent == i))
+            string name = ("NR_SettingsAccent_" + i).Translate();
+            float w = NetrunUI.ButtonWidth(name);
+            if (x + w > _w)
+            {
+                x = 12f;
+                _y += 34f;
+            }
+            var r = new Rect(x, _y, w, 28f);
+            if (TerminalAccent == i)
+                Widgets.DrawBoxSolid(r, new Color(NetrunTex.Accents[i].r, NetrunTex.Accents[i].g, NetrunTex.Accents[i].b, 0.2f));
+            if (NetrunUI.Button(r, (TerminalAccent == i ? "● " : string.Empty) + name, NetrunTex.Accents[i], true))
                 TerminalAccent = i;
+            x += w + 6f;
         }
-        list.Gap();
-        list.CheckboxLabeled("NR_SettingsDiveReport".Translate(), ref ShowDiveReport, "NR_SettingsDiveReportTip".Translate());
-        list.CheckboxLabeled("NR_SettingsPause".Translate(), ref PauseOnOpen, "NR_SettingsPauseTip".Translate());
-        list.CheckboxLabeled("NR_SettingsAnimations".Translate(), ref Animations, "NR_SettingsAnimationsTip".Translate());
+        _y += 40f;
+        Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
+        Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
+        Toggle("NR_SettingsAnimations", ref Animations, "NR_SettingsAnimationsTip");
+        _y += 6f;
     }
 
-    private void DrawSupport(Listing_Standard list)
+    private void DrawSupport()
     {
         if (Current.Game != null)
         {
-            if (list.ButtonText("NR_SettingsOpenHelp".Translate()))
-                Dialog_NetHelp.Open("Settings");
-            if (list.ButtonText("NR_SettingsUnlockHelp".Translate(), "NR_SettingsUnlockHelpTip".Translate()))
+            if (NetrunUI.Button(new Rect(12f, _y, 300f, 30f), "NR_SettingsUnlockHelp".Translate(), NetrunUI.Ok, true, "NR_SettingsUnlockHelpTip".Translate()))
             {
                 HelpProgress.Get()?.UnlockAll();
                 Messages.Message("NR_SettingsUnlockHelpDone".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
             }
-            list.Gap();
+            _y += 38f;
         }
-        list.Label("NR_SettingsReportInfoDesc".Translate().Colorize(ColoredText.SubtleGrayColor));
-        if (list.ButtonText("NR_SettingsReportInfo".Translate()))
+        Label("NR_SettingsReportInfoDesc".Translate(), NetrunUI.Muted);
+        if (NetrunUI.Button(new Rect(12f, _y, 300f, 30f), "NR_SettingsReportInfo".Translate(), NetrunUI.Accent, true))
         {
             GUIUtility.systemCopyBuffer = ReportInfo();
             Messages.Message("NR_SettingsReportCopied".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
         }
+        _y += 40f;
     }
 
     /// <summary>Versions, mod list and the settings that matter for a bug report.</summary>

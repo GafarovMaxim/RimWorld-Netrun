@@ -45,6 +45,9 @@ public class CoreAdviceDef : Def
     /// <summary>Bad, Warn, Ok, Accent or Purple.</summary>
     public string color = "Accent";
     public List<CoreAdviceButton> buttons = [];
+    /// <summary>The body text (not description: other mods append to descriptions).</summary>
+    [MustTranslate]
+    public string text;
 
     public Color Color => color switch
     {

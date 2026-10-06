@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_Advice_AIEscape.label>ИИ {0} сбегает: осталось {1}</NR_Advice_AIEscape.label>
-  <NR_Advice_AIEscape.description>Накормите его, поднимите доверие или обесточьте сервер, пока он не ушёл в сеть.</NR_Advice_AIEscape.description>
+  <NR_Advice_AIEscape.text>Накормите его, поднимите доверие или обесточьте сервер, пока он не ушёл в сеть.</NR_Advice_AIEscape.text>
   <NR_Advice_CounterHack.label>Турели захвачены</NR_Advice_CounterHack.label>
-  <NR_Advice_CounterHack.description>В Шлюзе ждёт нода «Контрвзлом». Нырните и выйдите чисто, чтобы вернуть турели.</NR_Advice_CounterHack.description>
+  <NR_Advice_CounterHack.text>В Шлюзе ждёт нода «Контрвзлом». Нырните и выйдите чисто, чтобы вернуть турели.</NR_Advice_CounterHack.text>
   <NR_Advice_ContractDue.label>Контракт «{0}» истекает через {1}</NR_Advice_ContractDue.label>
-  <NR_Advice_ContractDue.description>Завершите его, иначе фиксер запомнит. Что осталось, видно на Доске.</NR_Advice_ContractDue.description>
+  <NR_Advice_ContractDue.text>Завершите его, иначе фиксер запомнит. Что осталось, видно на Доске.</NR_Advice_ContractDue.text>
   <NR_Advice_HeatHigh.label>Heat {0}: {1}</NR_Advice_HeatHigh.label>
-  <NR_Advice_HeatHigh.description>Вас ищут наёмники и корпорации. Сбросьте след у фиксера или затаитесь.</NR_Advice_HeatHigh.description>
+  <NR_Advice_HeatHigh.text>Вас ищут наёмники и корпорации. Сбросьте след у фиксера или затаитесь.</NR_Advice_HeatHigh.text>
   <NR_Advice_HeatNearNext.label>Heat {0}, до «{1}» {2}</NR_Advice_HeatNearNext.label>
-  <NR_Advice_HeatNearNext.description>Лучше сбросить след или переждать перед следующим взломом.</NR_Advice_HeatNearNext.description>
+  <NR_Advice_HeatNearNext.text>Лучше сбросить след или переждать перед следующим взломом.</NR_Advice_HeatNearNext.text>
   <NR_Advice_AIRequest.label>ИИ {0} просит: {1}</NR_Advice_AIRequest.label>
-  <NR_Advice_AIRequest.description>Ответьте вовремя, и доверие вырастет; проигнорируете — может обидеться.</NR_Advice_AIRequest.description>
+  <NR_Advice_AIRequest.text>Ответьте вовремя, и доверие вырастет; проигнорируете — может обидеться.</NR_Advice_AIRequest.text>
   <NR_Advice_RawRecordings.label>Сырые записи: {0}</NR_Advice_RawRecordings.label>
-  <NR_Advice_RawRecordings.description>Смонтируйте их в Студии в брейнданс-чипы.</NR_Advice_RawRecordings.description>
+  <NR_Advice_RawRecordings.text>Смонтируйте их в Студии в брейнданс-чипы.</NR_Advice_RawRecordings.text>
   <NR_Advice_FreeNode.label>В Шлюзе нод: {0}</NR_Advice_FreeNode.label>
-  <NR_Advice_FreeNode.description>{1} в капсуле и готов нырять.</NR_Advice_FreeNode.description>
+  <NR_Advice_FreeNode.text>{1} в капсуле и готов нырять.</NR_Advice_FreeNode.text>
   <NR_Advice_Nothing.label>Ничего срочного</NR_Advice_Nothing.label>
-  <NR_Advice_Nothing.description>Хорошее время взять контракт или позвонить фиксеру.</NR_Advice_Nothing.description>
+  <NR_Advice_Nothing.text>Хорошее время взять контракт или позвонить фиксеру.</NR_Advice_Nothing.text>
 </LanguageData>

@@ -332,7 +332,7 @@ public partial class Dialog_NetTerminal
             return y;
 
         string title = advice.label.Formatted(args).Resolve();
-        string body = advice.description.Formatted(args).Resolve();
+        string body = (advice.text ?? string.Empty).Formatted(args).Resolve();
         Text.Font = GameFont.Tiny;
         float bodyH = Text.CalcHeight(body, inner.width - 16f);
         Text.Font = GameFont.Small;
