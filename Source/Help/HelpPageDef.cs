@@ -30,6 +30,9 @@ public class HelpPageDef : Def
     public string icon;
     /// <summary>While locked, show "???" instead of the title.</summary>
     public bool lockedTitle;
+    /// <summary>Words that link to this page from the text of other pages (first mention per line).</summary>
+    [MustTranslate]
+    public List<string> keywords = [];
     /// <summary>How to unlock it, shown while locked.</summary>
     [MustTranslate]
     public string lockHint;

@@ -265,14 +265,12 @@ public class HelpBrowser
                 foreach (string tip in _page.tips)
                 {
                     string t = HelpPageDef.Tokens(tip);
-                    float h = Mathf.Max(26f, Text.CalcHeight(t, w - 40f) + 8f);
+                    float h = Mathf.Max(26f, FlowHeight(t, w - 40f) + 8f);
                     var row = new Rect(0f, y, w, h);
                     Widgets.DrawBoxSolid(row, NetrunUI.BgCard);
                     Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), NetrunUI.Ok);
-                    Text.Anchor = TextAnchor.MiddleLeft;
-                    Widgets.Label(new Rect(row.x + 12f, row.y, 20f, h), "✔".Colorize(NetrunUI.Ok));
-                    Widgets.Label(new Rect(row.x + 34f, row.y, w - 40f, h), t);
-                    Text.Anchor = TextAnchor.UpperLeft;
+                    Widgets.Label(new Rect(row.x + 12f, row.y + 4f, 20f, 22f), "✔".Colorize(NetrunUI.Ok));
+                    FlowText(t, row.x + 34f, row.y + 4f, w - 40f);
                     y += h + 4f;
                 }
             }
@@ -299,8 +297,8 @@ public class HelpBrowser
             Texture2D icon = HelpIcons.TakeLeading(ref heading);
             if (icon == null)
                 return NetrunUI.Section(new Rect(0f, y + 4f, w, 32f), heading);
-            GUI.DrawTexture(new Rect(0f, y + 6f, 24f, 24f), icon);
-            return NetrunUI.Section(new Rect(30f, y + 4f, w - 30f, 32f), heading);
+            GUI.DrawTexture(new Rect(0f, y + 2f, 32f, 32f), icon);
+            return NetrunUI.Section(new Rect(40f, y + 4f, w - 40f, 32f), heading);
         }
         if (line == "[[levels]]")
             return LevelTiles(y, w);
@@ -322,14 +320,136 @@ public class HelpBrowser
         bool bullet = line.StartsWith("- ");
         string textLine = bullet ? line.Substring(2) : line;
         Texture2D lineIcon = HelpIcons.TakeLeading(ref textLine);
-        float indent = (bullet ? 16f : 0f) + (lineIcon != null ? 30f : 0f);
-        float h = Mathf.Max(lineIcon != null ? 26f : 0f, Text.CalcHeight(textLine, w - indent));
+        float indent = (bullet ? 16f : 0f) + (lineIcon != null ? 40f : 0f);
         if (bullet && lineIcon == null)
             Widgets.Label(new Rect(0f, y, 14f, 22f), "•".Colorize(NetrunUI.Accent));
         if (lineIcon != null)
-            GUI.DrawTexture(new Rect(bullet ? 4f : 0f, y, 24f, 24f), lineIcon);
-        Widgets.Label(new Rect(indent, y + (lineIcon != null && h <= 26f ? 2f : 0f), w - indent, h), textLine);
+            GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, 32f, 32f), lineIcon);
+        float h = FlowText(textLine, indent, y + (lineIcon != null ? 6f : 0f), w - indent);
+        h = Mathf.Max(lineIcon != null ? 34f : 0f, h + (lineIcon != null ? 6f : 0f));
         return y + h + (bullet ? 4f : 6f);
+    }
+
+    // ---- Hyperlinks: "[[Def|text]]" in the text, and key words of other pages, coloured and clickable ----
+
+    private struct Segment
+    {
+        public string Text;
+        public HelpPageDef Link;
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex ExplicitLink = new(@"\[\[(\w+)\|([^\]]+)\]\]");
+    private readonly Dictionary<string, List<Segment>> _segments = [];
+    private HelpPageDef _segmentsFor;
+
+    /// <summary>Splits a line into plain text and links (explicit ones, then the first mention of each other page's key words).</summary>
+    private List<Segment> Segments(string line)
+    {
+        if (_segmentsFor != _page)
+        {
+            _segments.Clear();
+            _segmentsFor = _page;
+        }
+        if (_segments.TryGetValue(line, out List<Segment> cached))
+            return cached;
+
+        // Explicit links first.
+        var parts = new List<Segment>();
+        int last = 0;
+        foreach (System.Text.RegularExpressions.Match m in ExplicitLink.Matches(line))
+        {
+            if (m.Index > last)
+                parts.Add(new Segment { Text = line.Substring(last, m.Index - last) });
+            parts.Add(new Segment { Text = m.Groups[2].Value, Link = DefDatabase<HelpPageDef>.GetNamedSilentFail(m.Groups[1].Value) });
+            last = m.Index + m.Length;
+        }
+        if (last < line.Length)
+            parts.Add(new Segment { Text = line.Substring(last) });
+
+        // Then key words of other unlocked pages, longest first, once per line.
+        HelpProgress progress = HelpProgress.Get();
+        var words = DefDatabase<HelpPageDef>.AllDefs
+            .Where(p => p != _page && p.keywords.Count > 0 && progress?.Unlocked(p) != false)
+            .SelectMany(p => p.keywords.Select(k => (k, p)))
+            .OrderByDescending(x => x.k.Length).ToList();
+        var used = new HashSet<HelpPageDef>();
+        foreach ((string word, HelpPageDef target) in words)
+        {
+            if (used.Contains(target))
+                continue;
+            var pattern = new System.Text.RegularExpressions.Regex(@"(?<![\w])" + System.Text.RegularExpressions.Regex.Escape(word) + @"(?![\w])",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            for (int i = 0; i < parts.Count; i++)
+            {
+                if (parts[i].Link != null)
+                    continue;
+                System.Text.RegularExpressions.Match m = pattern.Match(parts[i].Text);
+                if (!m.Success)
+                    continue;
+                string text = parts[i].Text;
+                parts.RemoveAt(i);
+                parts.Insert(i, new Segment { Text = text.Substring(m.Index + m.Length) });
+                parts.Insert(i, new Segment { Text = m.Value, Link = target });
+                parts.Insert(i, new Segment { Text = text.Substring(0, m.Index) });
+                used.Add(target);
+                break;
+            }
+        }
+        parts.RemoveAll(s => s.Text.Length == 0);
+        _segments[line] = parts;
+        return parts;
+    }
+
+    private float FlowHeight(string line, float width) => Flow(line, 0f, 0f, width, draw: false);
+
+    private float FlowText(string line, float x, float y, float width) => Flow(line, x, y, width, draw: true);
+
+    /// <summary>Lays the line out word by word (links coloured, underlined and clickable); returns its height.</summary>
+    private float Flow(string line, float x, float y, float width, bool draw)
+    {
+        float lineH = Text.LineHeight;
+        float cx = 0f, cy = 0f;
+        float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
+        foreach (Segment seg in Segments(line))
+        {
+            string[] words = seg.Text.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                string word = words[i];
+                if (i > 0)
+                    cx += space;
+                if (word.Length == 0)
+                    continue;
+                float ww = Text.CalcSize(word).x;
+                if (cx > 0f && cx + ww > width)
+                {
+                    cx = 0f;
+                    cy += lineH;
+                }
+                if (draw)
+                {
+                    var r = new Rect(x + cx, y + cy, ww + 1f, lineH);
+                    if (seg.Link == null)
+                    {
+                        Widgets.Label(r, word);
+                    }
+                    else
+                    {
+                        bool hover = Mouse.IsOver(r);
+                        Color c = hover ? Color.white : NetrunUI.Accent;
+                        Widgets.Label(r, word.Colorize(c));
+                        GUI.color = new Color(c.r, c.g, c.b, 0.5f);
+                        Widgets.DrawLineHorizontal(r.x, r.yMax - 3f, ww);
+                        GUI.color = Color.white;
+                        NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(seg.Link.LabelCap));
+                        if (Widgets.ButtonInvisible(r))
+                            Go(seg.Link);
+                    }
+                }
+                cx += ww;
+            }
+        }
+        return cy + lineH;
     }
 
     private static (string target, string text) SplitLink(string s)

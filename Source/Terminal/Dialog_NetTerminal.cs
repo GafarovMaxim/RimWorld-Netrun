@@ -317,7 +317,7 @@ public partial class Dialog_NetTerminal : Window
         if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, (_view == View.Help ? "NR_HelpLeaveTip" : "NR_HelpButtonTip").Translate()))
             OpenHelp();
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
-        if (!_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
+        if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
             Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.2f * gp));

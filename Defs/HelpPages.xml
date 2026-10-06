@@ -29,6 +29,9 @@
     <contexts>
       <li>Core</li>
     </contexts>
+    <keywords>
+      <li>terminal</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -39,6 +42,9 @@
     <label>Hacks and cyberdata</label>
     <body>A hacker colonist (with a cyberlink) can hack devices on the map, or do it from a cyberpod. Each finished hack gives cyberdata and raises Heat: the stronger the target, the more trace. Hacking from a pod leaves less trace and sometimes gives extra data.\n## !thing:USH_Cyberdata Cyberdata\nThe currency of the net: dives, programs, scrubbing the trace with a fixer. Advanced cyberdata is worth three times more.</body>
     <icon>thing:USH_Cyberdata</icon>
+    <keywords>
+      <li>cyberdata</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -49,6 +55,9 @@
     <label>Newcomer protection</label>
     <body>Until the colony touches the net (any Heat, a cyberpod or server built, a colonist with a cyberlink, or a dive), Netrun's attacks, mercenaries, corporate hunts and courier do not come. The black market and the distress signal can come at any time.\nThe protection can be turned off in the mod settings.</body>
     <icon>Icon_Lock</icon>
+    <keywords>
+      <li>newcomer protection</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -69,6 +78,9 @@
     <contexts>
       <li>Heat</li>
     </contexts>
+    <keywords>
+      <li>Heat</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -98,7 +110,10 @@
     <color>Accent</color>
     <label>Netsick</label>
     <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure. A Doc AI eases it; an AI in a AI coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\nThe bottom bar of the terminal shows how many colonists have it.</body>
-    <icon>Gizmo_AI_CoprocessorUpload</icon>
+    <icon>Icon_Netsick</icon>
+    <keywords>
+      <li>Netsick</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -107,7 +122,7 @@
     <color>Warn</color>
     <label>Fixers and contracts</label>
     <body>Fixers are your contacts in the net. They scrub your trace, sell goods and give contracts. Calling a fixer costs silver and opens a channel for {fixers.channel} hours.</body>
-    <icon>Nodes/Home_Club</icon>
+    <icon>Fixers/Fixer_Street</icon>
     <tips>
       <li>Hold a fixer you like so they stay through the rotation.</li>
       <li>A fixer with 'Rat' may leak your deals: watch their trait.</li>
@@ -115,6 +130,10 @@
     <contexts>
       <li>Club</li>
     </contexts>
+    <keywords>
+      <li>fixers</li>
+      <li>fixer</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -124,7 +143,7 @@
     <color>Accent</color>
     <label>The pool and reputation</label>
     <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them (up to {fixers.held}). After a rotation the pool always has at least two specialties; newcomers are marked "new".\nReputation grows with calls, scrubs, purchases and contracts. At {fixers.pin} a fixer is pinned for good, reveals their trait and gives the best prices.\n## !Icon_Pinned Breaking ties\n"Break ties" drops a fixer: their contract is cancelled without a penalty, a newcomer takes the place, and they stay away for {fixers.ban} days.</body>
-    <icon>Icon_Pinned</icon>
+    <icon>Tabs/Tab_Rewards</icon>
     <contexts>
       <li>Club</li>
     </contexts>
@@ -151,6 +170,10 @@
     <contexts>
       <li>Board</li>
     </contexts>
+    <keywords>
+      <li>contracts</li>
+      <li>contract</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -161,6 +184,10 @@
     <label>Scrubbing the trace</label>
     <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Reputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Fixer_Service_Reward</icon>
+    <keywords>
+      <li>scrub the trace</li>
+      <li>scrub</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -171,6 +198,9 @@
     <label>Shop and black market</label>
     <body>Fences sell goods for silver; pinned fixers add rare items.\n## !Event_BlackMarket Black market\nDuring the black market event, fixers who trust you sell black braindance, AI fragments and sometimes core modules.</body>
     <icon>Event_BlackMarket</icon>
+    <keywords>
+      <li>black market</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -183,6 +213,9 @@
     <contexts>
       <li>Server</li>
     </contexts>
+    <keywords>
+      <li>AI server</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -201,8 +234,12 @@
     <order>2</order>
     <color>Accent</color>
     <label>Feeding and requests</label>
-    <body>## !Gizmo_AI_Feed Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Tabs/Tab_Log Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
+    <body>## !Gizmo_AI_Feed Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
     <icon>Gizmo_AI_Feed</icon>
+    <keywords>
+      <li>trust</li>
+      <li>hunger</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -213,6 +250,10 @@
     <label>Fragments and awakening</label>
     <body>!thing:NR_AIFragment AI fragments come from cyberspace finds, memory units in dives, wild AIs, the distress signal and the black market. A colonist with good Intellectual awakens one on a powered AI server with a free slot; the archetype is revealed at awakening.\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
     <icon>thing:NR_AIFragment</icon>
+    <keywords>
+      <li>AI fragment</li>
+      <li>AI fragments</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -398,6 +439,9 @@
     <contexts>
       <li>Gateway</li>
     </contexts>
+    <keywords>
+      <li>Gateway</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -422,6 +466,10 @@
       <li>Dive</li>
       <li>DiveReport</li>
     </contexts>
+    <keywords>
+      <li>dives</li>
+      <li>dive</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -432,6 +480,9 @@
     <label>ICE and Black ICE</label>
     <body>## !Dive_GATE Code gates\nWalls you must hack; strength grows with the node's defense.\n## !Dive_ICE ICE\nHacking Expansion's defense: it can trace, lock out or hurt the hacker.\n## !Dive_BLACKICE Black ICE\nA killer program on a step of the node. It strikes every node turn: nausea, a lockout (the dive ends) or a coma. A Shield absorbs a strike, a Decoy may draw it off, a Killer breaks it.</body>
     <icon>Dive_BLACKICE</icon>
+    <keywords>
+      <li>Black ICE</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -442,6 +493,9 @@
     <label>Programs</label>
     <body>Programs are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.</body>
     <icon>Program_Sword</icon>
+    <keywords>
+      <li>programs</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -452,6 +506,10 @@
     <label>Daemons</label>
     <body>Daemons are permanent programs found in cyberspace (often in the corporate core): always on, free, no slot.\n- !Daemon_Blade Blade: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
     <icon>Reward_DaemonProgram</icon>
+    <keywords>
+      <li>daemons</li>
+      <li>daemon</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -461,7 +519,7 @@
     <color>Accent</color>
     <label>Rewards and the summary</label>
     <body>!Reward_Valuables Files pay back the cost of the dive with a multiplier: more for stronger nodes, most with Black ICE. Corporate vaults add advanced cyberdata, dark exchanges silver, memory units AI fragments or core modules.\nOn a clean exit there is a chance of a special find: an AI fragment, research, a fixer's service, the hacker group's favor, a celebrity braindance, a daemon or a core module.\n!Icon_DiveReport After a dive the summary shows the haul, the costs, Heat and Netsick (can be turned off in the settings).</body>
-    <icon>Reward_Valuables</icon>
+    <icon>Tabs/Tab_Rewards</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -475,6 +533,9 @@
     <lockedTitle>true</lockedTitle>
     <lockHint>Opens when the corporate core appears in the Gateway.</lockHint>
     <unlockFlag>boss</unlockFlag>
+    <keywords>
+      <li>corporate core</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -488,6 +549,9 @@
     <lockedTitle>true</lockedTitle>
     <lockHint>Opens when you first earn the group's favor.</lockHint>
     <unlockFlag>group</unlockFlag>
+    <keywords>
+      <li>hacker group</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -500,6 +564,9 @@
     <contexts>
       <li>Studio</li>
     </contexts>
+    <keywords>
+      <li>braindance</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -540,7 +607,7 @@
     <color>Muted</color>
     <label>Events</label>
     <body>Netrun brings four groups of events. The frequency of each group can be changed in the mod settings; everything that touches your trace is logged in the Archive.\n&gt; open:Archive|Open the Archive</body>
-    <icon>Nodes/Home_Archive</icon>
+    <icon>Tabs/Tab_Events_Blue</icon>
     <contexts>
       <li>Archive</li>
     </contexts>
@@ -573,7 +640,7 @@
     <color>Accent</color>
     <label>Cyberspace events</label>
     <body>- !Event_HunterICE ICE hunter (Target+): strikes every node turn; hack it or leave before it follows you home.\n- !Event_Rival Rival netrunner: takes the files after a few turns; be faster.\n- !Event_Honeypot Honeypot: looks rich, pays half and calls a hunter; a deep scan reveals it.\n- !Event_DataStorm Data storm: harder gates, bigger haul for a day or two.\n- !Event_WildAI Wild AI: in an abandoned server; tame it, erase it or sell it.\n- !Node_Counterhack Counter-hack: the node to free your hijacked turrets.</body>
-    <icon>Event_DataStorm</icon>
+    <icon>Tabs/Tab_Events_Cyberspace</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -583,7 +650,7 @@
     <color>Accent</color>
     <label>AI events</label>
     <body>!Gizmo_AI_Use Your AIs act on their own: requests (answer in time for trust), gifts and favors when they trust you, tricks and trouble when they do not. Each archetype has its own events; a letter offers up to three choices.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
-    <icon>Tabs/Tab_AI</icon>
+    <icon>Tabs/Tab_Events_AI</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -592,7 +659,10 @@
     <color>Muted</color>
     <label>Settings and bug reports</label>
     <body>Options → Mod settings → Hacking Expansion: Netrun.\n- !heat:Tracked Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Event_DataStorm Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
-    <icon>Tabs/Tab_Overview</icon>
+    <icon>Tabs/Tab_Settings</icon>
+    <keywords>
+      <li>mod settings</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
 </Defs>
