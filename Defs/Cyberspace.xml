@@ -5,7 +5,7 @@
   <DesignationCategoryDef>
     <defName>NR_Cyberspace</defName>
     <label>cyberspace</label>
-    <description>AI servers, server racks and cyberpod coprocessors.</description>
+    <description>Cyberpods, coprocessors, data servers, AI servers and server racks.</description>
     <order>245</order>
     <specialDesignatorClasses>
       <li>Designator_Cancel</li>

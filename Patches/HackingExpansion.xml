@@ -36,4 +36,34 @@
     </match>
   </Operation>
 
+  <!-- Hacking Expansion's buildings go to our Cyberspace tab: the cyberpod, its three coprocessors (set on their abstract base)
+       and the data server. The Mechhive disruptor is a turret and stays under Security. Conditional: silent if HE renames anything. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/designationCategory</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/designationCategory</xpath>
+      <value>
+        <designationCategory>NR_Cyberspace</designationCategory>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[@Name="USH_CoprocessorBase"]/designationCategory</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/ThingDef[@Name="USH_CoprocessorBase"]/designationCategory</xpath>
+      <value>
+        <designationCategory>NR_Cyberspace</designationCategory>
+      </value>
+    </match>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="USH_DataServer"]/designationCategory</xpath>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/ThingDef[defName="USH_DataServer"]/designationCategory</xpath>
+      <value>
+        <designationCategory>NR_Cyberspace</designationCategory>
+      </value>
+    </match>
+  </Operation>
+
 </Patch>
