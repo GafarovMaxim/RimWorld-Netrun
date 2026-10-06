@@ -54,6 +54,8 @@ public class CyberspaceSettingsDef : Def
     public float netsickPerDive = 0.03f;
     public float netsickPerIceHit = 0.1f;
     public float successXp = 400f;
+    /// <summary>Waking up in a cyberpod (Hacking Expansion's own is 5000 = 2 hours).</summary>
+    public int podWakeUpTicks = 2500;
     public float rewardMultLow = 1.5f;
     public float rewardMultMid = 2f;
     public float rewardMultBlackIce = 3f;

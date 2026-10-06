@@ -38,6 +38,9 @@
     <!-- Services: trust needed, cooldown, and what each personality does -->
     <minTrustForService>20</minTrustForService>
     <serviceCooldownDays>4</serviceCooldownDays>
+    <!-- Each service costs trust and makes the AI hungrier (BALANCE.md section 4) -->
+    <serviceTrustCost>7</serviceTrustCost>
+    <serviceHungerCost>10</serviceHungerCost>
     <dataHunterData>2~4</dataHunterData>
     <dataHunterHeat>2</dataHunterHeat>
     <ghostHeatScrub>10</ghostHeatScrub>

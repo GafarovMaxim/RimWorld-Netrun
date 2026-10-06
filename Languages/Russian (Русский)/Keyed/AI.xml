@@ -217,4 +217,5 @@
   <NR_AIHungerLabel>Голод</NR_AIHungerLabel>
   <NR_ChipAIs>ИИ: {0}</NR_ChipAIs>
   <NR_ChipFragments>Осколки: {0}</NR_ChipFragments>
+  <NR_AIServiceCost>Стоит {0} доверия, голод +{1}.</NR_AIServiceCost>
 </LanguageData>

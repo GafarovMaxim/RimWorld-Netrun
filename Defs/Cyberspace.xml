@@ -35,9 +35,13 @@
     <iceAttackChance>0.6</iceAttackChance>
     <decoyChance>0.5</decoyChance>
     <retreatLootLoss>0.5</retreatLootLoss>
-    <netsickPerDive>0.03</netsickPerDive>
-    <netsickPerIceHit>0.1</netsickPerIceHit>
+    <!-- About 0.1 Netsick per dive in total (with pod time and ICE hits); recovery is 0.04/day (Netsick.xml):
+         a dive every 2-3 days stays flat, ten daily dives reach "strong" -->
+    <netsickPerDive>0.06</netsickPerDive>
+    <netsickPerIceHit>0.04</netsickPerIceHit>
     <successXp>400</successXp>
+    <!-- Waking up and leaving a cyberpod, ticks (Hacking Expansion: 5000 = 2 hours) -->
+    <podWakeUpTicks>2500</podWakeUpTicks>
     <!-- Main files pay the dive cost back times this: defense up to 2, up to 4, Black ICE. Plus a chance of something special on a clean exit. -->
     <rewardMultLow>1.5</rewardMultLow>
     <rewardMultMid>2</rewardMultMid>

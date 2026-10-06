@@ -217,4 +217,5 @@
   <NR_AIHungerLabel>Hunger</NR_AIHungerLabel>
   <NR_ChipAIs>AIs: {0}</NR_ChipAIs>
   <NR_ChipFragments>Fragments: {0}</NR_ChipFragments>
+  <NR_AIServiceCost>Costs {0} trust, hunger +{1}.</NR_AIServiceCost>
 </LanguageData>

@@ -43,7 +43,8 @@ public static class AIBehavior
     }
 
     public static string ServiceLabel(AIPersonality personality) => ("NR_AIService_" + personality).Translate();
-    public static string ServiceDescription(AIPersonality personality) => ("NR_AIServiceDesc_" + personality).Translate();
+    public static string ServiceDescription(AIPersonality personality) => ("NR_AIServiceDesc_" + personality).Translate()
+        + "\n\n" + "NR_AIServiceCost".Translate(Settings.serviceTrustCost.ToString("0"), Settings.serviceHungerCost.ToString("0"));
 
     public static AcceptanceReport CanUseService(NetAI ai)
     {
@@ -149,6 +150,9 @@ public static class AIBehavior
             AIManager.Get()?.CompleteRequest(ai);
         if (ai.Personality == AIPersonality.Trickster)
             ai.AddHunger(-Settings.feedHungerRelief);
+        else
+            ai.AddHunger(Settings.serviceHungerCost);
+        ai.AddTrust(-Settings.serviceTrustCost);
 
         Perform(ai, ai.Personality, map);
     }

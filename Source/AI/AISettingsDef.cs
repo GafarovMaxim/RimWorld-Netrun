@@ -35,6 +35,8 @@ public class AISettingsDef : Def
     // Services.
     public float minTrustForService = 20f;
     public float serviceCooldownDays = 3f;
+    public float serviceTrustCost = 7f;
+    public float serviceHungerCost = 10f;
     public IntRange dataHunterData = new(2, 4);
     public float dataHunterHeat = 2f;
     public float ghostHeatScrub = 10f;
