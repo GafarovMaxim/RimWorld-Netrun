@@ -168,4 +168,34 @@
   <NR_HeatV2AdviceNear>сбросьте след ниже {0}, пока не пришёл уровень «{1}».</NR_HeatV2AdviceNear>
   <NR_HeatV2AdviceOk>след под контролем, до нуля {0}.</NR_HeatV2AdviceOk>
   <NR_HeatV2AdviceClean>следа нет. Хорошее время для нырка.</NR_HeatV2AdviceClean>
+  <NR_HelpTitle>NETRUN // СПРАВКА</NR_HelpTitle>
+  <NR_HelpClose>Закрыть (Esc)</NR_HelpClose>
+  <NR_HelpSearch>Поиск по справке…</NR_HelpSearch>
+  <NR_HelpTopics>Темы</NR_HelpTopics>
+  <NR_HelpResults>Найдено</NR_HelpResults>
+  <NR_HelpNoResults>Ничего не найдено.</NR_HelpNoResults>
+  <NR_HelpHere>вы здесь</NR_HelpHere>
+  <NR_HelpNew>новое</NR_HelpNew>
+  <NR_HelpLocked>Откроется, когда встретите это в игре.</NR_HelpLocked>
+  <NR_HelpCrumbRoot>Справка</NR_HelpCrumbRoot>
+  <NR_HelpTips>Советы</NR_HelpTips>
+  <NR_HelpSeeAlso>Смотрите также</NR_HelpSeeAlso>
+  <NR_HelpInThisTopic>В этой теме</NR_HelpInThisTopic>
+  <NR_HelpBack>◄ Назад</NR_HelpBack>
+  <NR_HelpForward>Вперёд ►</NR_HelpForward>
+  <NR_HelpOpenedFrom>Справка открыта с экрана «{0}» · статьи открываются по мере игры</NR_HelpOpenedFrom>
+  <NR_HelpEsc>Esc: закрыть</NR_HelpEsc>
+  <NR_HelpButtonTip>Справка по этому экрану (F1)</NR_HelpButtonTip>
+  <NR_HelpCtx_Core>Ядро</NR_HelpCtx_Core>
+  <NR_HelpCtx_Onboarding>Добро пожаловать в сеть</NR_HelpCtx_Onboarding>
+  <NR_HelpCtx_Heat>Heat и след</NR_HelpCtx_Heat>
+  <NR_HelpCtx_Club>Клуб</NR_HelpCtx_Club>
+  <NR_HelpCtx_Board>Доска</NR_HelpCtx_Board>
+  <NR_HelpCtx_Archive>Архив</NR_HelpCtx_Archive>
+  <NR_HelpCtx_Server>Серверная</NR_HelpCtx_Server>
+  <NR_HelpCtx_Studio>Студия</NR_HelpCtx_Studio>
+  <NR_HelpCtx_Gateway>Шлюз</NR_HelpCtx_Gateway>
+  <NR_HelpCtx_Dive>Нырок</NR_HelpCtx_Dive>
+  <NR_HelpCtx_Settings>Настройки мода</NR_HelpCtx_Settings>
+  <NR_HelpCtx_DiveReport>Итоги вылазки</NR_HelpCtx_DiveReport>
 </LanguageData>

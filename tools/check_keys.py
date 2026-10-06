@@ -48,6 +48,7 @@ DYNAMIC = {
     "NR_BDMood_": ["Bright", "Dark", "Combat"],
     "NR_BDQuality_": ["0", "1", "2"],
     "NR_SettingsAccent_": ["0", "1", "2", "3", "4"],
+    "NR_HelpCtx_": ["Core", "Onboarding", "Heat", "Club", "Board", "Archive", "Server", "Studio", "Gateway", "Dive", "Settings", "DiveReport"],
     "NR_SettingsDifficulty_": ["Easy", "Normal", "Hard", "Custom"],
     "NR_AdviceButton_": ["Scrub", "Club", "Board", "Server", "Studio", "Gateway", "HeatScreen"],
     "NR_NodeLocked_": ["Club", "Board", "Archive", "Server", "Studio", "Gateway"],

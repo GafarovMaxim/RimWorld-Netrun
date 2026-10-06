@@ -192,6 +192,17 @@ public class NetrunSettings : ModSettings
 
     private void DrawSupport(Listing_Standard list)
     {
+        if (Current.Game != null)
+        {
+            if (list.ButtonText("NR_SettingsOpenHelp".Translate()))
+                Dialog_NetHelp.Open("Settings");
+            if (list.ButtonText("NR_SettingsUnlockHelp".Translate(), "NR_SettingsUnlockHelpTip".Translate()))
+            {
+                HelpProgress.Get()?.UnlockAll();
+                Messages.Message("NR_SettingsUnlockHelpDone".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
+            }
+            list.Gap();
+        }
         list.Label("NR_SettingsReportInfoDesc".Translate().Colorize(ColoredText.SubtleGrayColor));
         if (list.ButtonText("NR_SettingsReportInfo".Translate()))
         {

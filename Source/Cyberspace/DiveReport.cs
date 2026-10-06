@@ -101,8 +101,10 @@ public class Dialog_DiveReport : Window
             GUI.DrawTexture(new Rect(r.x, r.y, 30f, 30f), reportIcon);
             titleX += 36f;
         }
+        if (NetrunUI.Button(new Rect(r.xMax - 28f, r.y, 28f, 28f), "?", NetrunUI.Accent, true, "NR_HelpButtonTip".Translate()))
+            Dialog_NetHelp.Open("DiveReport");
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(titleX, r.y, r.xMax - titleX, 32f), "NR_ReportTitle".Translate(d.NodeName.ToUpper()).Colorize(NetrunUI.Accent));
+        Widgets.Label(new Rect(titleX, r.y, r.xMax - titleX - 34f, 32f), "NR_ReportTitle".Translate(d.NodeName.ToUpper()).Colorize(NetrunUI.Accent));
         Text.Font = GameFont.Small;
         float y = r.y + 36f;
 

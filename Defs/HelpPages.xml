@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The help encyclopedia (docs/HELP.md). Generated from tools; body markup: "## ", "- ", "[[levels]]", "> page:", "> open:", {tokens}. -->
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Start</defName>
+    <order>10</order>
+    <color>Accent</color>
+    <label>Getting started</label>
+    <body>Netrun turns Hacking Expansion into a whole network game: your hacks leave a digital trace (Heat), fixers sell services and contracts, awakened AIs live on your servers, and netrunners dive into cyberspace for loot.\n## How to get online\n- Build a comms console: it becomes the network console and opens the terminal.\n- Build a cyberpod (the "Cyberspace" tab).\n- Give a colonist a cyberlink.\n- Hack any target on the map: the first Heat appears and the Core opens.\nUntil then Netrun's threats do not come (newcomer protection).\n&gt; page:NR_Help_Start_Terminal|The terminal and its nodes</body>
+    <tips>
+      <li>Press F1 in the terminal to open help on the current screen.</li>
+      <li>"Guide" in the terminal's title highlights the areas of a screen and explains each one.</li>
+    </tips>
+    <contexts>
+      <li>Onboarding</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Start_Terminal</defName>
+    <parent>NR_Help_Start</parent>
+    <order>1</order>
+    <color>Accent</color>
+    <label>The terminal</label>
+    <body>The terminal is a map of nodes around the Core. Each node is a part of your network:\n- Club: fixers, their services and the hacker group.\n- Board: contracts from fixers.\n- Archive: the log of your trace.\n- Server room: awakened AIs.\n- Studio: braindance recordings and chips.\n- Gateway: cyberspace and dives.\nThe ring in the middle is your Heat; click it for the "Heat and trace" screen. On the right, "Now" suggests the most useful action, "Alerts" lists what is burning, and "Colony online" shows your resources.\nNodes open one by one as you meet them in the game.\n&gt; open:Core|Open the Core</body>
+    <contexts>
+      <li>Core</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Start_Newcomer</defName>
+    <parent>NR_Help_Start</parent>
+    <order>2</order>
+    <color>Accent</color>
+    <label>Newcomer protection</label>
+    <body>Until the colony touches the net (any Heat, a cyberpod or server built, a colonist with a cyberlink, or a dive), Netrun's attacks, mercenaries, corporate hunts and courier do not come. The black market and the distress signal can come at any time.\nThe protection can be turned off in the mod settings.</body>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Heat</defName>
+    <order>20</order>
+    <color>Bad</color>
+    <label>Heat and trace</label>
+    <body>Heat is your colony's digital trace, from 0 to 100. Every hack and dive raises it. The higher it is, the more attention the net pays to you: network attacks, mercenary raids, corporate hunts.\n[[levels]]\nHeat cools by itself: −{heat.decay} a day, −{heat.decayHigh} at Target and above.\n&gt; open:Heat|Open the "Heat and trace" screen</body>
+    <tips>
+      <li>Scrub the trace while you are below Target: it is cheaper.</li>
+      <li>A Ghost AI and the Wraith daemon reduce the trace of your hacks and dives.</li>
+    </tips>
+    <related>
+      <li>NR_Help_Fixers</li>
+      <li>NR_Help_AI</li>
+    </related>
+    <contexts>
+      <li>Heat</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Heat_Levels</defName>
+    <parent>NR_Help_Heat</parent>
+    <order>1</order>
+    <color>Accent</color>
+    <label>Levels and their effects</label>
+    <body>## Shadow (0–24)\nNobody is looking. No attacks; fixers scrub at their best rate.\n## Noticed (25–49)\nNeural noise and data theft can come.\n## Tracked (50–74)\nMalware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod.\n## Target (75–94)\nRansomware, Black Book mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n## Red Zone (95–100)\nEverything from Target, with the worst scrub rate.\nThe exact list for your current level is on the Heat screen under "Level effects".</body>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Heat_Lower</defName>
+    <parent>NR_Help_Heat</parent>
+    <order>2</order>
+    <color>Accent</color>
+    <label>How to lower Heat</label>
+    <body>## Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours) and hand over cyberdata. The rate falls as Heat grows: from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone; advanced cyberdata counts triple. Reputation and the Cleaner specialty give discounts.\n## A Ghost AI\nIts service wipes part of the trace for some trust.\n## Wait\nHeat cools on its own every day. Lie low and do not hack.\n&gt; open:Heat|Ways to lower on the Heat screen</body>
+    <related>
+      <li>NR_Help_Fixers_Pool</li>
+    </related>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Heat_Netsick</defName>
+    <parent>NR_Help_Heat</parent>
+    <order>3</order>
+    <color>Accent</color>
+    <label>Trace and Netsick</label>
+    <body>Trace is the bar at the bottom of the terminal: the same Heat, always in sight.\nNetsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline. A dive every 2–3 days keeps it steady; daily dives build a strong dependency with mood penalties and "net craving" breaks.</body>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Fixers</defName>
+    <order>30</order>
+    <color>Warn</color>
+    <label>Fixers and contracts</label>
+    <body>Fixers are your contacts in the net. They scrub your trace, sell goods and give contracts.\n&gt; page:NR_Help_Fixers_Pool|The pool and rotation\n&gt; page:NR_Help_Fixers_Contracts|Contracts</body>
+    <tips>
+      <li>Hold a fixer you like so they stay through the rotation.</li>
+      <li>A fixer with 'Rat' may leak your deals: watch their trait.</li>
+    </tips>
+    <contexts>
+      <li>Club</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Fixers_Pool</defName>
+    <parent>NR_Help_Fixers</parent>
+    <order>1</order>
+    <color>Accent</color>
+    <label>The pool and reputation</label>
+    <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them (up to {fixers.held}).\nReputation grows with calls, scrubs, purchases and contracts. At {fixers.pin} a fixer is pinned for good, reveals their trait and gives the best prices.\n## Specialties\n- Broker: contracts.\n- Cleaner: cheaper scrubs.\n- Fence: a shop.\n## Breaking ties\n"Break ties" drops a fixer: their contract is cancelled without a penalty, a newcomer takes the place, and they stay away for {fixers.ban} days.</body>
+    <contexts>
+      <li>Club</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Fixers_Contracts</defName>
+    <parent>NR_Help_Fixers</parent>
+    <order>2</order>
+    <color>Accent</color>
+    <label>Contracts</label>
+    <body>Each fixer offers contracts on the Board:\n- Data delivery: bring cyberdata by the deadline.\n- System tap: complete hacks.\n- Quiet run: hacks while staying at or below Tracked; it fails at Target.\nA dive into a node marked ★ counts double for the contract. A failed contract costs reputation and the fixer goes silent for a few days.\n&gt; open:Board|Open the Board</body>
+    <contexts>
+      <li>Board</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Fixers_Market</defName>
+    <parent>NR_Help_Fixers</parent>
+    <order>3</order>
+    <color>Accent</color>
+    <label>Shop and black market</label>
+    <body>Fences sell goods for silver; pinned fixers add rare items. During a black market event, fixers who trust you sell black braindance, AI fragments and sometimes core modules.</body>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_AI</defName>
+    <order>40</order>
+    <color>Purple</color>
+    <label>AI and the server room</label>
+    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has a personality with its own service, food and character.\n- Server: the main home; services work only from there. Racks add slots.\n- Coprocessor: an AI linked to a cyberpod helps the netrunner.\n- Host: a colonist with an AI socket carries the AI and gets its bonus.\n## Trust and hunger\nFeed the AI its food and answer its requests. A service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.\n&gt; open:Server|Open the server room</body>
+    <contexts>
+      <li>Server</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway</defName>
+    <order>50</order>
+    <color>Accent</color>
+    <label>Gateway and dives</label>
+    <body>The Gateway is a map of external nodes in cyberspace. A netrunner in a cyberpod dives into a node to steal files.\n- Node types: markets, archives, corporate vaults, abandoned servers, dark exchanges.\n- Defense: code gates to hack; Black ICE strikes back.\n- New nodes come every {dive.refresh} days; hidden ones can be found for {dive.search} cyberdata.\n&gt; page:NR_Help_Gateway_Dive|How a dive goes\n&gt; open:Gateway|Open the Gateway</body>
+    <tips>
+      <li>Middle mouse button on the Gateway field resets the camera.</li>
+      <li>A clean exit gives the full haul and a chance of a special find.</li>
+    </tips>
+    <contexts>
+      <li>Gateway</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway_Dive</defName>
+    <parent>NR_Help_Gateway</parent>
+    <order>1</order>
+    <color>Accent</color>
+    <label>How a dive goes</label>
+    <body>A dive is a staircase from the lobby to the exit. Each turn you have a few actions: move, scan, hack, download, exit. Every action raises the trace of the dive; after your actions the node takes its turn and Black ICE may strike.\nYou have {dive.turns} turns. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.\nAfter a dive, the summary shows the haul, Heat and Netsick.</body>
+    <contexts>
+      <li>Dive</li>
+      <li>DiveReport</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway_Programs</defName>
+    <parent>NR_Help_Gateway</parent>
+    <order>2</order>
+    <color>Accent</color>
+    <label>Programs and daemons</label>
+    <body>Programs are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- Sword: easier hacks.\n- Shield: absorbs an ICE strike.\n- Decoy: may draw ICE away.\n- Stealth: half the trace.\n- Killer: breaks ICE.\nDaemons are permanent programs found in cyberspace: always on, free, no slot.</body>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway_Boss</defName>
+    <parent>NR_Help_Gateway</parent>
+    <order>3</order>
+    <color>Accent</color>
+    <label>The corporate core</label>
+    <body>Every {dive.boss} days a boss node appears for a few days: four gates and strong Black ICE. Cracking it gives a daemon (or a celebrity chip), maybe a core module, and a big haul.</body>
+    <unlockFlag>boss</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway_Group</defName>
+    <parent>NR_Help_Gateway</parent>
+    <order>4</order>
+    <color>Accent</color>
+    <label>The hacker group</label>
+    <body>Sometimes a dive's special find is a favor for a hacker group. At {dive.favor} favor, "Call the group" in the Club sends allied fighters (or advanced cyberdata if you have no allies); then the group rests {dive.allies} days.</body>
+    <unlockFlag>group</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Braindance</defName>
+    <order>60</order>
+    <color>Studio</color>
+    <label>Braindance</label>
+    <body>Braindance goggles record strong moments of a colonist's life. In the Studio raw recordings are edited into chips: bright, dark or combat. Watching a chip gives mood and sometimes skills; black chips are powerful and dangerous.\n&gt; open:Studio|Open the Studio</body>
+    <contexts>
+      <li>Studio</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Events</defName>
+    <order>70</order>
+    <color>Muted</color>
+    <label>Events</label>
+    <body>## Network attacks\nCome with Heat: neural noise, data theft, breakdowns, power surges, ransomware.\n## Map events\nA data courier, the corporate hunt, the black market, a distress signal, turret hijacking.\n## Cyberspace events\nICE hunters, rival netrunners, honeypots, data storms, wild AIs.\n## AI events\nRequests, gifts and tricks of your AIs.\nThe frequency of each group can be changed in the mod settings. Everything that touches your trace is logged in the Archive.\n&gt; open:Archive|Open the Archive</body>
+    <contexts>
+      <li>Archive</li>
+    </contexts>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Settings</defName>
+    <order>80</order>
+    <color>Muted</color>
+    <label>Settings and bug reports</label>
+    <body>Options → Mod settings → Hacking Expansion: Netrun.\n- Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- Frequency of each event group, from off to x2.\n- Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" in the settings puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
+  </Netrun.HelpPageDef>
+
+</Defs>

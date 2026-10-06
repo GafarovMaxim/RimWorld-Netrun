@@ -73,6 +73,11 @@ public partial class Dialog_NetTerminal : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.F1)
+        {
+            OpenHelp();
+            Event.current.Use();
+        }
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         HeatTracker tracker = HeatTracker.Get();
 
@@ -171,6 +176,27 @@ public partial class Dialog_NetTerminal : Window
 
     // ---- Title and status bar ----
 
+    /// <summary>The help context of the screen that is open now.</summary>
+    private string HelpContext => Dive != null ? "Dive" : _view switch
+    {
+        View.Map => NetworkGate.Get()?.OnboardingDone == false ? "Onboarding" : "Core",
+        View.Core => "Heat",
+        _ => _view.ToString(),
+    };
+
+    /// <summary>"> open:" links of the help: a screen by name.</summary>
+    private void OpenScreenByName(string name)
+    {
+        if (name == "Heat")
+            name = nameof(View.Core);
+        if (name == "Core")
+            name = nameof(View.Map);
+        if (System.Enum.TryParse(name, out View view))
+            OpenNode(view);
+    }
+
+    private void OpenHelp() => Dialog_NetHelp.Open(HelpContext, OpenScreenByName);
+
     private void DrawTitle(Rect rect, HeatTracker tracker)
     {
         Text.Font = GameFont.Medium;
@@ -187,6 +213,17 @@ public partial class Dialog_NetTerminal : Window
 
         float x = rect.xMax - 12f;
         float y = rect.y + 10f;
+
+        // "?": the encyclopedia on this screen's topic (F1). Pulses until the help has been opened once.
+        var help = new Rect(x - 30f, y - 3f, 30f, 30f);
+        if (HelpProgress.Get()?.HelpOpened == false && NetrunMod.Settings.Animations)
+        {
+            float pulse = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f);
+            Widgets.DrawBoxSolid(help.ExpandedBy(3f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.15f + 0.25f * pulse));
+        }
+        if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, "NR_HelpButtonTip".Translate()))
+            OpenHelp();
+        x = help.x - 10f;
         if (_view == View.Map)
         {
             // Core: who would dive and whether the pod is ready; before the onboarding is done, "network not active".

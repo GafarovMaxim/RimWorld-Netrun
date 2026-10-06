@@ -91,4 +91,8 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsReportInfoDesc>Нашли ошибку? Скопируйте сведения и вставьте в баг-репорт на GitHub вместе с Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Скопировать сведения для отчёта</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Скопировано в буфер обмена.</NR_SettingsReportCopied>
+  <NR_SettingsOpenHelp>Открыть справку Netrun</NR_SettingsOpenHelp>
+  <NR_SettingsUnlockHelp>Открыть всю справку</NR_SettingsUnlockHelp>
+  <NR_SettingsUnlockHelpTip>Открывает статьи-спойлеры (босс-нода, хакерская группа…) в этой игре.</NR_SettingsUnlockHelpTip>
+  <NR_SettingsUnlockHelpDone>Все статьи справки открыты.</NR_SettingsUnlockHelpDone>
 </LanguageData>
