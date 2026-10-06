@@ -50,7 +50,7 @@ jobs:
       - name: Package mod
         run: |
           mkdir -p dist/$MOD_FOLDER
-          cp -r About AssetBundles Assemblies Defs Fonts Languages Patches Textures README.md dist/$MOD_FOLDER/
+          cp -r About Assemblies Defs Languages Patches Textures README.md dist/$MOD_FOLDER/
           cd dist && zip -qr $MOD_FOLDER.zip $MOD_FOLDER
 
       - uses: actions/upload-artifact@v7

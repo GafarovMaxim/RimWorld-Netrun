@@ -300,8 +300,6 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsAnimations", ref Animations, "NR_SettingsAnimationsTip");
         if (NetrunFont.Available)
             Toggle("NR_SettingsFont", ref TerminalFont, "NR_SettingsFontTip");
-        else
-            Label("NR_SettingsFontMissing".Translate(), NetrunUI.Muted);
         _y += 6f;
     }
 

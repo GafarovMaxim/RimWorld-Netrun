@@ -14,6 +14,12 @@ public static class NetrunFont
 {
     private const string AssetPath = "assets/netrun/fonts/tektur.ttf";
 
+    /// <summary>
+    /// Off: the UnityPy-built bundle loads but draws no text in game, and swapping fonts on the shared styles left
+    /// Unity's text measuring cache with wrong sizes. Kept for a bundle built in the Unity Editor later.
+    /// </summary>
+    public static bool Enabled => false;
+
     public static readonly Font Tektur;
 
     private static readonly Font[] Saved = new Font[3];
@@ -22,6 +28,8 @@ public static class NetrunFont
 
     static NetrunFont()
     {
+        if (!Enabled)
+            return;
         try
         {
             ModContentPack mod = LoadedModManager.RunningModsListForReading.FirstOrDefault(m => m.PackageId.Equals(NetrunMod.HarmonyId.ToLowerInvariant()));
