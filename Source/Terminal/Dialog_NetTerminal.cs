@@ -39,7 +39,22 @@ public partial class Dialog_NetTerminal : Window
     private Vector2 _aiScroll;
     private Vector2 _studioScroll;
 
-    public override Vector2 InitialSize => new(900f, 720f);
+    /// <summary>Smallest size the player can drag the window down to.</summary>
+    private static readonly Vector2 MinSize = new(860f, 640f);
+    /// <summary>The size the player left the window at (kept for the session).</summary>
+    private static Vector2 _savedSize;
+    /// <summary>Window.resizer is private; set it to give the window a minimum size.</summary>
+    private static readonly HarmonyLib.AccessTools.FieldRef<Window, WindowResizer> ResizerRef = HarmonyLib.AccessTools.FieldRefAccess<Window, WindowResizer>("resizer");
+
+    public override Vector2 InitialSize
+    {
+        get
+        {
+            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1000f, 760f);
+            return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
+                Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
+        }
+    }
     protected override float Margin => 0f;
 
     public Dialog_NetTerminal(Map map)
@@ -48,6 +63,7 @@ public partial class Dialog_NetTerminal : Window
         doCloseX = false;
         doCloseButton = false;
         draggable = true;
+        resizeable = true;
         // Paused once on opening (PreOpen); the player may unpause and change speed while it is open.
         forcePause = false;
         absorbInputAroundWindow = false;
@@ -141,6 +157,7 @@ public partial class Dialog_NetTerminal : Window
     public override void PreOpen()
     {
         base.PreOpen();
+        ResizerRef(this) = new WindowResizer { minWindowSize = new Vector2(Mathf.Min(MinSize.x, UI.screenWidth - 20f), Mathf.Min(MinSize.y, UI.screenHeight - 20f)) };
         if (Find.TickManager is { Paused: false } ticks)
             ticks.TogglePaused();
     }
@@ -148,6 +165,7 @@ public partial class Dialog_NetTerminal : Window
     public override void PostClose()
     {
         base.PostClose();
+        _savedSize = windowRect.size;
         GatewayManager.Get()?.ClearFinished();
     }
 

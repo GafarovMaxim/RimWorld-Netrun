@@ -34,6 +34,8 @@ public static class GatewayView
     private const float MinZoom = 0.6f;
     private const float MaxZoom = 1.8f;
     private static Vector2 _listScroll;
+    private static Vector2 _panelScroll;
+    private static float _panelHeight;
 
     public static void Draw(Rect rect, Map map)
     {
@@ -114,10 +116,13 @@ public static class GatewayView
         if (NetrunUI.Button(new Rect(rect.x + 34f, rect.y, 30f, 30f), "−", NetrunUI.Accent, _zoom > MinZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomOut".Translate()))
             _zoom = Mathf.Max(MinZoom, _zoom - 0.2f);
         if (NetrunUI.Button(new Rect(rect.x + 68f, rect.y, 30f, 30f), "◎", NetrunUI.Muted, true, "NR_GatewayZoomReset".Translate()))
-        {
-            _zoom = 1f;
-            _pan = Vector2.zero;
-        }
+            ResetCamera();
+    }
+
+    private static void ResetCamera()
+    {
+        _zoom = 1f;
+        _pan = Vector2.zero;
     }
 
     /// <summary>Left-drag on the field pans it (kept within one field size); the mouse wheel zooms.</summary>
@@ -129,6 +134,11 @@ public static class GatewayView
             _pan += e.delta;
             _pan.x = Mathf.Clamp(_pan.x, -rect.width * 0.6f, rect.width * 0.6f);
             _pan.y = Mathf.Clamp(_pan.y, -rect.height * 0.6f, rect.height * 0.6f);
+            e.Use();
+        }
+        else if (e.type == EventType.MouseDown && e.button == 2 && Mouse.IsOver(rect))
+        {
+            ResetCamera();
             e.Use();
         }
         else if (e.type == EventType.ScrollWheel && Mouse.IsOver(rect))
@@ -230,7 +240,11 @@ public static class GatewayView
     private static void DrawPanel(Rect rect, Map map, GatewayManager gateway, ExternalNode node)
     {
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
-        Rect inner = rect.ContractedBy(10f);
+        // The panel scrolls when the window is too short for it (height measured on the previous frame).
+        Rect outer = rect.ContractedBy(10f);
+        bool scrolls = _panelHeight > outer.height;
+        var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
+        Widgets.BeginScrollView(outer, ref _panelScroll, inner);
         float y = inner.y;
 
         if (node == null || node.Hidden)
@@ -336,9 +350,12 @@ public static class GatewayView
         y += 32f;
 
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(inner.x, y, inner.width, 40f),
-            "NR_GatewayRefresh".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod()).Colorize(NetrunUI.Muted));
+        string refresh = "NR_GatewayRefresh".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod());
+        float rh = Text.CalcHeight(refresh, inner.width);
+        Widgets.Label(new Rect(inner.x, y, inner.width, rh), refresh.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
+        _panelHeight = y + rh + 4f;
+        Widgets.EndScrollView();
     }
 
     /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>

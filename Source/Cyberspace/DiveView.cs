@@ -13,8 +13,13 @@ namespace Netrun;
 public static class DiveView
 {
     private const float PanelWidth = 280f;
-    private const float BoxWidth = 108f;
-    private const float BoxHeight = 66f;
+    private const float MinBoxWidth = 108f;
+    private const float MaxBoxWidth = 160f;
+    private const float MinBoxHeight = 66f;
+    private const float MaxBoxHeight = 110f;
+
+    private static Vector2 _panelScroll;
+    private static float _panelHeight;
 
     public static void Draw(Rect rect, DiveSession session)
     {
@@ -42,6 +47,14 @@ public static class DiveView
     {
         List<DiveElement> elements = session.Elements;
         int n = elements.Count;
+        // Wider boxes when there is room; tall enough for the longest text (Tiny font), within limits.
+        float BoxWidth = n > 0 ? Mathf.Clamp(rect.width / n - 10f, MinBoxWidth, MaxBoxWidth) : MinBoxWidth;
+        Text.Font = GameFont.Tiny;
+        float BoxHeight = MinBoxHeight;
+        for (int i = 0; i < n; i++)
+            BoxHeight = Mathf.Max(BoxHeight, 26f + Text.CalcHeight(ElementInfo(elements[i], i == session.Position), BoxWidth - 10f));
+        BoxHeight = Mathf.Min(BoxHeight, MaxBoxHeight);
+        Text.Font = GameFont.Small;
         float stepX = n > 1 ? (rect.width - BoxWidth) / (n - 1) : 0f;
         float stepY = n > 1 ? (rect.height - BoxHeight - 20f) / (n - 1) : 0f;
 
@@ -67,9 +80,12 @@ public static class DiveView
             NetrunUI.Box(box, here ? new Color(color.r, color.g, color.b, 0.18f) : NetrunUI.BgWindow, color, here ? 3 : 2);
 
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(box.x + 6f, box.y + 4f, box.width - 10f, 18f), DiveSession.ElementLabel(e).ToUpper().Colorize(color));
-            Widgets.Label(new Rect(box.x + 6f, box.y + 22f, box.width - 10f, box.height - 24f), ElementInfo(e, here).Colorize(NetrunUI.TextColor));
+            string title = DiveSession.ElementLabel(e).ToUpper();
+            string info = ElementInfo(e, here);
+            Widgets.Label(new Rect(box.x + 6f, box.y + 4f, box.width - 10f, 18f), title.Truncate(box.width - 10f).Colorize(color));
+            Widgets.Label(new Rect(box.x + 6f, box.y + 22f, box.width - 10f, box.height - 24f), info.Colorize(NetrunUI.TextColor));
             Text.Font = GameFont.Small;
+            TooltipHandler.TipRegion(box, title + "\n" + info);
         }
     }
 
@@ -90,14 +106,19 @@ public static class DiveView
     private static void DrawPanel(Rect rect, DiveSession session)
     {
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
-        Rect inner = rect.ContractedBy(10f);
+        Rect outer = rect.ContractedBy(10f);
+        bool scrolls = _panelHeight > outer.height;
+        var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
+        Widgets.BeginScrollView(outer, ref _panelScroll, inner);
         float y = inner.y;
 
         if (session.Finished)
         {
             y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_DiveOver".Translate());
-            Widgets.Label(new Rect(inner.x, y, inner.width, 60f), "NR_DiveLoot".Translate(session.LootText()));
-            y += 60f;
+            string lootDone = "NR_DiveLoot".Translate(session.LootText());
+            float ldh = Text.CalcHeight(lootDone, inner.width);
+            Widgets.Label(new Rect(inner.x, y, inner.width, ldh), lootDone);
+            y += ldh + 6f;
         }
         else
         {
@@ -154,8 +175,10 @@ public static class DiveView
             }
             Widgets.Label(new Rect(inner.x, y, inner.width, 22f), "NR_DiveTurn".Translate(session.Turn, NetrunDefOf.NR_Cyberspace.maxTurns).Colorize(NetrunUI.Muted));
             y += 26f;
-            Widgets.Label(new Rect(inner.x, y, inner.width, 40f), "NR_DiveLoot".Translate(session.LootText()).Colorize(NetrunUI.Ok));
-            y += 40f;
+            string loot = "NR_DiveLoot".Translate(session.LootText());
+            float lh = Text.CalcHeight(loot, inner.width);
+            Widgets.Label(new Rect(inner.x, y, inner.width, lh), loot.Colorize(NetrunUI.Ok));
+            y += lh + 4f;
         }
 
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_DiveLogHeader".Translate());
@@ -163,12 +186,12 @@ public static class DiveView
         foreach (string line in session.Log)
         {
             float h = Text.CalcHeight(line, inner.width);
-            if (y + h > inner.yMax)
-                break;
             Widgets.Label(new Rect(inner.x, y, inner.width, h), line);
             y += h + 2f;
         }
         Text.Font = GameFont.Small;
+        _panelHeight = y + 4f;
+        Widgets.EndScrollView();
     }
 
     private static float Warning(Rect inner, float y, string text, Color color)

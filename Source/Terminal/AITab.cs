@@ -39,9 +39,10 @@ public static class AITab
             return;
         }
 
+        List<NetAI> inServer = ais.Where(a => a.InMainServer).ToList();
         var groups = new List<(string label, Color color, List<NetAI> list)>
         {
-            ("NR_AISectionServer".Translate(), NetrunUI.Accent, ais.Where(a => a.InMainServer).ToList()),
+            ("NR_AISectionServer".Translate(), NetrunUI.Accent, inServer),
             ("NR_AISectionCoprocessor".Translate(), NetrunUI.Purple, ais.Where(a => a.InCoprocessor).ToList()),
             ("NR_AISectionHost".Translate(), HostColor, ais.Where(a => a.InHost).ToList()),
             ("NR_AISectionOther".Translate(), NetrunUI.Muted, ais.Where(a => !a.InMainServer && !a.InCoprocessor && !a.InHost).ToList()),
@@ -57,7 +58,7 @@ public static class AITab
         foreach ((string label, Color color, List<NetAI> list) in groups)
         {
             // The server section counts slots (1/3), the others count AIs.
-            string count = color == NetrunUI.Accent ? ServerSlots(map) ?? list.Count.ToString() : list.Count.ToString();
+            string count = list == inServer ? ServerSlots(map) ?? list.Count.ToString() : list.Count.ToString();
             y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), $"{label} ({count})");
             foreach (NetAI ai in list)
             {

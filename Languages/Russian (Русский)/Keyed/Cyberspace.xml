@@ -145,7 +145,7 @@
   <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний. Красный: Black ICE и исходы Hacking Expansion.</NR_GatewayTipRisk>
   <NR_GatewayZoomIn>Приблизить (колесо мыши)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Отдалить (колесо мыши)</NR_GatewayZoomOut>
-  <NR_GatewayZoomReset>Сбросить масштаб и положение. Поле можно таскать мышью.</NR_GatewayZoomReset>
+  <NR_GatewayZoomReset>Сбросить масштаб и положение (или средняя кнопка мыши на поле). Поле можно таскать мышью.</NR_GatewayZoomReset>
   <NR_GatewayRewardValue>x{0} от стоимости нырка: {1}</NR_GatewayRewardValue>
   <NR_DiveLogSpecial>У выхода ждало что-то особенное.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Корп-ядро-{0}</NR_ExtNodeName_CorpCore>

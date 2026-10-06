@@ -145,7 +145,7 @@
   <NR_GatewayTipRisk>Grey: low. Yellow: medium. Red: Black ICE and Hacking Expansion outcomes.</NR_GatewayTipRisk>
   <NR_GatewayZoomIn>Zoom in (mouse wheel)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Zoom out (mouse wheel)</NR_GatewayZoomOut>
-  <NR_GatewayZoomReset>Reset zoom and position. Drag the field with the mouse to move it.</NR_GatewayZoomReset>
+  <NR_GatewayZoomReset>Reset zoom and position (or click the middle mouse button on the field). Drag the field with the mouse to move it.</NR_GatewayZoomReset>
   <NR_GatewayRewardValue>x{0} of the dive cost: {1}</NR_GatewayRewardValue>
   <NR_DiveLogSpecial>Something special was waiting at the exit.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Corp core-{0}</NR_ExtNodeName_CorpCore>
