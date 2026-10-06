@@ -70,20 +70,97 @@ public static class DiveView
     /// The node as a graph (docs/DIVE_BRANCHING.md): steps on a grid of columns and lanes (hard branch on top, easy at the
     /// bottom), elbow links, the walked path lit green with a packet running along it, the branch not taken dimmed.
     /// </summary>
+    private const float StepGap = 36f;
+    private const float ScrollBoxWidth = 136f;
+    private static Vector2 _mapScroll;
+    private static int _scrolledFor = -1;
+
+    /// <summary>
+    /// The steps with room to breathe: if they do not fit with a proper gap, the map scrolls sideways and follows the
+    /// runner. A quiet animated background sits under it.
+    /// </summary>
     private static void DrawElements(Rect rect, DiveSession session)
     {
         List<DiveElement> elements = session.Elements;
-        int n = elements.Count;
-        if (n == 0)
+        if (elements.Count == 0)
             return;
+        DrawBackground(rect);
         int cols = elements.Max(e => e.Col) + 1;
-        float boxW = Mathf.Clamp(rect.width / cols - 14f, 84f, MaxBoxWidth);
-        Text.Font = GameFont.Tiny;
+        float fit = (rect.width - (cols - 1) * StepGap) / cols;
+        if (fit >= 120f)
+        {
+            DrawGraph(rect, session, Mathf.Min(fit, MaxBoxWidth));
+            return;
+        }
+        float need = cols * ScrollBoxWidth + (cols - 1) * StepGap;
+        var view = new Rect(0f, 0f, need, rect.height - 16f);
+        if (_scrolledFor != session.Position)
+        {
+            _scrolledFor = session.Position;
+            float cx = elements[session.Position].Col * (ScrollBoxWidth + StepGap) + ScrollBoxWidth / 2f;
+            _mapScroll.x = Mathf.Clamp(cx - rect.width / 2f, 0f, need - rect.width);
+        }
+        Widgets.BeginScrollView(rect, ref _mapScroll, view);
+        DrawGraph(view, session, ScrollBoxWidth);
+        Widgets.EndScrollView();
+    }
+
+    /// <summary>Faint grid, slow data rain and a rare scan sweep behind the steps.</summary>
+    private static void DrawBackground(Rect rect)
+    {
+        var grid = new Color(0.22f, 0.78f, 0.38f, 0.05f);
+        for (float x = rect.x + 16f; x < rect.xMax; x += 32f)
+            Widgets.DrawBoxSolid(new Rect(x, rect.y, 1f, rect.height), grid);
+        for (float y = rect.y + 16f; y < rect.yMax; y += 32f)
+            Widgets.DrawBoxSolid(new Rect(rect.x, y, rect.width, 1f), grid);
+        if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
+            return;
+        float now = Time.realtimeSinceStartup;
+        for (int k = 0; k < 8; k++)
+        {
+            float period = 6f + k * 0.9f;
+            float f = (now + k * 1.3f) / period;
+            int slot = Mathf.FloorToInt(f);
+            float t = f - slot;
+            var rnd = new System.Random(slot * 977 + k * 31);
+            float x = rect.x + 16f + 32f * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / 32f)));
+            float len = 30f + (float)rnd.NextDouble() * 50f;
+            float y = Mathf.Lerp(rect.y - len, rect.yMax, t);
+            float a = 0.22f * Mathf.Sin(t * Mathf.PI);
+            for (int d = 0; d < 5; d++)
+            {
+                float yy = y + d * len / 5f;
+                if (yy < rect.y || yy > rect.yMax - 4f)
+                    continue;
+                GUI.color = new Color(0.3f, 0.9f, 0.5f, a * (0.3f + d * 0.17f));
+                GUI.DrawTexture(new Rect(x - 0.5f, yy, 2f, len / 7f), BaseContent.WhiteTex);
+            }
+        }
+        float sweep = now / 9f % 1f;
+        if (sweep < 0.25f)
+        {
+            float sy = rect.y + rect.height * (sweep / 0.25f);
+            GUI.color = new Color(0.3f, 0.9f, 0.5f, 0.06f);
+            GUI.DrawTexture(new Rect(rect.x, sy - 14f, rect.width, 14f), BaseContent.WhiteTex);
+            GUI.color = new Color(0.3f, 0.9f, 0.5f, 0.18f);
+            GUI.DrawTexture(new Rect(rect.x, sy, rect.width, 1f), BaseContent.WhiteTex);
+        }
+        GUI.color = Color.white;
+    }
+
+    private static void DrawGraph(Rect rect, DiveSession session, float boxW)
+    {
+        List<DiveElement> elements = session.Elements;
+        int n = elements.Count;
+        int cols = elements.Max(e => e.Col) + 1;
         float boxH = MinBoxHeight;
         for (int i = 0; i < n; i++)
-            boxH = Mathf.Max(boxH, HeaderHeight(elements[i], boxW) + 12f + (elements[i].Kind is DiveElementKind.Gate or DiveElementKind.Ice ? 10f : 0f)
-                                   + Text.CalcHeight(ElementInfo(elements[i]), boxW - 16f));
-        boxH = Mathf.Min(boxH, MaxBoxHeight);
+        {
+            Text.Font = GameFont.Small;
+            float body = Text.CalcHeight(ElementInfo(elements[i]), boxW - 16f);
+            boxH = Mathf.Max(boxH, HeaderHeight(elements[i], boxW) + 14f + (elements[i].Kind is DiveElementKind.Gate or DiveElementKind.Ice ? 10f : 0f) + body);
+        }
+        boxH = Mathf.Min(boxH, MaxBoxHeight + 16f);
         Text.Font = GameFont.Small;
 
         bool branched = session.Forks > 0;
@@ -244,7 +321,9 @@ public static class DiveView
         // Body: the info, a little larger spacing; strength as pips under it.
         string info = ElementInfo(e);
         var body = new Rect(box.x + 8f, header.yMax + 6f, box.width - 16f, box.yMax - header.yMax - 10f);
+        Text.Font = GameFont.Small;
         Widgets.Label(body, info.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
+        Text.Font = GameFont.Tiny;
         if (!e.Hidden && !e.Cleared && e.Strength > 0 && e.Kind is DiveElementKind.Gate or DiveElementKind.Ice)
         {
             int pips = Mathf.Clamp(e.Strength, 1, 10);
