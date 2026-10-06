@@ -61,4 +61,8 @@ AI events: {7}
 Heat now: {8}</NR_EconomySummary>
   <NR_SettingsAIEventFrequency>AI event frequency:</NR_SettingsAIEventFrequency>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
+  <NR_SettingsDiveReport>Show the dive summary</NR_SettingsDiveReport>
+  <NR_SettingsDiveReportTip>After leaving a dive, open a window with the haul, costs, Heat and Netsick.</NR_SettingsDiveReportTip>
+  <NR_SettingsNewcomer>Network events only after the colony goes online</NR_SettingsNewcomer>
+  <NR_SettingsNewcomerTip>Netrun threats (net attacks, corporate hunts, mercenaries, AI and fixer events) wait until the colony has touched the net: any Heat, a cyberpod, console or AI server built, a colonist with a cyberlink, or a dive. Black market and distress signal come anyway.</NR_SettingsNewcomerTip>
 </LanguageData>

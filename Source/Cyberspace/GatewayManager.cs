@@ -36,6 +36,8 @@ public class GatewayManager : GameComponent
         Find.LetterStack.ReceiveLetter("NR_StormLabel".Translate(), "NR_Storm".Translate(StormTicksLeft.ToStringTicksToPeriod()), LetterDefOf.NeutralEvent);
     }
     public DiveSession Session;
+    /// <summary>The summary of the last finished dive (dev: show it again).</summary>
+    public DiveReport LastReport;
 
     public GatewayManager(Game game)
     {
@@ -250,8 +252,14 @@ public class GatewayManager : GameComponent
     /// <summary>The dive window was closed after the end: forget it.</summary>
     public void ClearFinished()
     {
-        if (Session is { Finished: true })
-            Session = null;
+        if (Session is not { Finished: true })
+            return;
+        if (Session.Report != null)
+        {
+            LastReport = Session.Report;
+            Dialog_DiveReport.Show(LastReport);
+        }
+        Session = null;
     }
 
     /// <summary>A dive whose netrunner left the pod (or died) cannot go on.</summary>
@@ -305,6 +313,7 @@ public class GatewayManager : GameComponent
         Scribe_Deep.Look(ref Session, "session");
         Scribe_Collections.Look(ref Daemons, "daemons", LookMode.Value);
         Scribe_Values.Look(ref GroupFavor, "groupFavor");
+        Scribe_Deep.Look(ref LastReport, "lastReport");
         Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
         Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
         Scribe_Values.Look(ref _stormUntilTick, "stormUntilTick", -1);

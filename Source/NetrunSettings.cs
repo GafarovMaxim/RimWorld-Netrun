@@ -18,6 +18,12 @@ public class NetrunSettings : ModSettings
     public float AIEventFrequency = 1f;
     private static readonly float[] Frequencies = [0.5f, 1f, 2f];
 
+    /// <summary>Open the dive summary after leaving a dive.</summary>
+    public bool ShowDiveReport = true;
+
+    /// <summary>Netrun threats (Heat, AI, fixers, mercenaries) wait until the colony has touched the net.</summary>
+    public bool NewcomerProtection = true;
+
     public void DoWindowContents(Rect inRect)
     {
         var list = new Listing_Standard();
@@ -47,8 +53,14 @@ public class NetrunSettings : ModSettings
         }
         list.Gap();
 
+        list.CheckboxLabeled("NR_SettingsDiveReport".Translate(), ref ShowDiveReport, "NR_SettingsDiveReportTip".Translate());
+        list.CheckboxLabeled("NR_SettingsNewcomer".Translate(), ref NewcomerProtection, "NR_SettingsNewcomerTip".Translate());
+        list.Gap();
+
         if (list.ButtonText("NR_SettingsReset".Translate()))
         {
+            ShowDiveReport = true;
+            NewcomerProtection = true;
             AIEventFrequency = 1f;
             TerminalAccent = 0;
             HeatGainMultiplier = DefaultHeatGainMultiplier;
@@ -65,6 +77,8 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref HeatDecayPerDay, "heatDecayPerDay", DefaultHeatDecayPerDay);
         Scribe_Values.Look(ref TerminalAccent, "terminalAccent");
         Scribe_Values.Look(ref AIEventFrequency, "aiEventFrequency", 1f);
+        Scribe_Values.Look(ref ShowDiveReport, "showDiveReport", true);
+        Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
         if (AIEventFrequency <= 0f)
             AIEventFrequency = 1f;
     }

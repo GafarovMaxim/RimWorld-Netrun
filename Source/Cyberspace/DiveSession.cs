@@ -88,6 +88,13 @@ public class DiveSession : IExposable
     public bool RivalTook;
     public bool Storm;
 
+    // For the dive summary.
+    public float HeatAtStart;
+    public float NetsickAtStart;
+    public bool SpecialFound;
+    public bool Retreated;
+    public DiveReport Report;
+
     public int ActionsPerTurn
     {
         get
@@ -112,6 +119,8 @@ public class DiveSession : IExposable
         if (session.Daemons.Contains(DiveDaemon.Hound))
             session.KillerCharges++;
         session.Storm = GatewayManager.Get()?.StormActive == true;
+        session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
+        session.NetsickAtStart = DiveReport.NetsickOf(runner);
         session.Build();
         session.ActionsLeft = session.ActionsPerTurn;
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
@@ -310,6 +319,7 @@ public class DiveSession : IExposable
             (() => LootItems.Add(NetrunDefOf.NR_AICoreModule), Settings.findCoreModule),
         };
         finds.RandomElementByWeight(f => f.weight).find();
+        SpecialFound = true;
         AddLog("NR_DiveLogSpecial".Translate().Colorize(NetrunUI.Ok));
     }
 
@@ -320,6 +330,7 @@ public class DiveSession : IExposable
             FindCelebrityChip();
         if (Rand.Chance(Settings.bossCoreModuleChance))
             LootItems.Add(NetrunDefOf.NR_AICoreModule);
+        SpecialFound = true;
         AddLog("NR_DiveLogBoss".Translate().Colorize(NetrunUI.Ok));
     }
 
@@ -589,6 +600,7 @@ public class DiveSession : IExposable
         if (!safe)
             AddNetsick(Settings.netsickPerIceHit * 0.5f);
         AddLog("NR_DiveLogRetreat".Translate());
+        Retreated = true;
         End(success: false, keepShare: safe ? 1f : 1f - Settings.retreatLootLoss);
     }
 
@@ -641,10 +653,54 @@ public class DiveSession : IExposable
                 MapEventsManager.Get()?.CounterHackWon();
         }
 
+        Report = BuildReport(success, keepShare, HunterActive && map != null);
+
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))
                 : "NR_DiveFailed".Translate(Runner?.LabelShort ?? "?", Node.Name, heat.ToString("0")),
             success ? MessageTypeDefOf.PositiveEvent : MessageTypeDefOf.NegativeEvent, historical: true);
+    }
+
+    private DiveReport BuildReport(bool success, float keepShare, bool hunterFollowed)
+    {
+        int Kept(int n) => Mathf.RoundToInt(n * keepShare);
+        var report = new DiveReport
+        {
+            NodeName = Node.Name,
+            RunnerName = Runner?.LabelShort ?? "?",
+            Success = success,
+            Retreated = Retreated,
+            Turns = Turn,
+            CostPaid = CostPaid,
+            Cyberdata = Kept(LootCyberdata),
+            Advanced = Kept(LootAdvanced),
+            Silver = Kept(LootSilver),
+            Items = keepShare >= 1f ? LootItems.ToList() : [],
+            LostCyberdata = LootCyberdata - Kept(LootCyberdata),
+            LostAdvanced = LootAdvanced - Kept(LootAdvanced),
+            LostSilver = LootSilver - Kept(LootSilver),
+            LostItems = keepShare >= 1f ? 0 : LootItems.Count,
+            HeatBefore = HeatAtStart,
+            HeatAfter = HeatTracker.Get()?.Heat ?? 0f,
+            NetsickBefore = NetsickAtStart,
+            NetsickAfter = DiveReport.NetsickOf(Runner),
+            Xp = success ? Settings.successXp : 0f,
+            Special = SpecialFound,
+            HunterFollowed = hunterFollowed,
+        };
+        if (HunterSpawned)
+            report.Events.Add("NR_ReportEventHunter".Translate());
+        if (RivalTook)
+            report.Events.Add("NR_ReportEventRival".Translate());
+        if (HoneypotRevealed)
+            report.Events.Add("NR_ReportEventHoneypot".Translate());
+        if (Storm)
+            report.Events.Add("NR_ReportEventStorm".Translate());
+        if (Node.IsBoss)
+            report.Events.Add("NR_ReportEventBoss".Translate());
+        if (Node.CounterHack && success)
+            report.Events.Add("NR_ReportEventCounterHack".Translate());
+        return report;
     }
 
     private static void Spawn(Map map, IntVec3 spot, ThingDef def, int count)
@@ -687,6 +743,11 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref HoneypotRevealed, "honeypotRevealed");
         Scribe_Values.Look(ref RivalTook, "rivalTook");
         Scribe_Values.Look(ref Storm, "storm");
+        Scribe_Values.Look(ref HeatAtStart, "heatAtStart");
+        Scribe_Values.Look(ref NetsickAtStart, "netsickAtStart");
+        Scribe_Values.Look(ref SpecialFound, "specialFound");
+        Scribe_Values.Look(ref Retreated, "retreated");
+        Scribe_Deep.Look(ref Report, "report");
         Elements ??= [];
         Programs ??= [];
         Daemons ??= [];

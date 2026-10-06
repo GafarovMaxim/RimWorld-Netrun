@@ -61,4 +61,8 @@ Heat поднят на {3}, снижен на {4} (без пассивного �
 Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAIEventFrequency>Частота событий ИИ:</NR_SettingsAIEventFrequency>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
+  <NR_SettingsDiveReport>Показывать итоги вылазки</NR_SettingsDiveReport>
+  <NR_SettingsDiveReportTip>После выхода из нырка открывать окно с добычей, затратами, Heat и Netsick.</NR_SettingsDiveReportTip>
+  <NR_SettingsNewcomer>Сетевые события только после начала игры с сетью</NR_SettingsNewcomer>
+  <NR_SettingsNewcomerTip>Угрозы Netrun (сетевые атаки, охота корпов, наёмники, события ИИ и фиксеров) не приходят, пока колония не вошла в сеть: любой Heat, построена капсула, консоль или ИИ-сервер, колонист с кибер-линком или нырок. Чёрный рынок и сигнал бедствия приходят всегда.</NR_SettingsNewcomerTip>
 </LanguageData>

@@ -220,4 +220,28 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveRivalActive>Rival netrunner: {0} turns left</NR_DiveRivalActive>
   <NR_DiveStorm>Data storm: stronger defenses, bigger haul</NR_DiveStorm>
   <NR_ExtNodeName_CounterHack>Counter-hack</NR_ExtNodeName_CounterHack>
+  <NR_ReportTitle>DIVE SUMMARY // {0}</NR_ReportTitle>
+  <NR_ReportSuccess>Clean exit</NR_ReportSuccess>
+  <NR_ReportRetreat>Retreat</NR_ReportRetreat>
+  <NR_ReportFail>Failed</NR_ReportFail>
+  <NR_ReportRunner>{0}, turns: {1}</NR_ReportRunner>
+  <NR_ReportHaul>Haul</NR_ReportHaul>
+  <NR_ReportNothing>Nothing brought back.</NR_ReportNothing>
+  <NR_ReportSpecial>★ A special find on the exit.</NR_ReportSpecial>
+  <NR_ReportLost>Lost on the way out: {0} cyberdata, {1} advanced, {2} silver, {3} items.</NR_ReportLost>
+  <NR_ReportCosts>Costs and consequences</NR_ReportCosts>
+  <NR_ReportCost>Cyberdata spent</NR_ReportCost>
+  <NR_ReportHeat>Heat</NR_ReportHeat>
+  <NR_ReportNetsick>Netsick</NR_ReportNetsick>
+  <NR_ReportXp>Experience</NR_ReportXp>
+  <NR_ReportHunter>ICE hunter</NR_ReportHunter>
+  <NR_ReportHunterValue>followed the trace: a breakdown on the map within 6-12 hours</NR_ReportHunterValue>
+  <NR_ReportEvents>Events</NR_ReportEvents>
+  <NR_ReportEventHunter>An ICE hunter came after the netrunner.</NR_ReportEventHunter>
+  <NR_ReportEventRival>A rival netrunner took the files first.</NR_ReportEventRival>
+  <NR_ReportEventHoneypot>The node was a honeypot.</NR_ReportEventHoneypot>
+  <NR_ReportEventStorm>A data storm: harder gates, bigger haul.</NR_ReportEventStorm>
+  <NR_ReportEventBoss>Corporate core cracked.</NR_ReportEventBoss>
+  <NR_ReportEventCounterHack>Counter-hack done: the turrets are back.</NR_ReportEventCounterHack>
+  <NR_ReportSettingHint>This summary can be turned off in the mod settings.</NR_ReportSettingHint>
 </LanguageData>

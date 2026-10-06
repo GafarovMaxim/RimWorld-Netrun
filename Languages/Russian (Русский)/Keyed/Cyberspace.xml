@@ -220,4 +220,28 @@
   <NR_DiveRivalActive>Соперник: осталось {0} ходов</NR_DiveRivalActive>
   <NR_DiveStorm>Шторм данных: защита сильнее, добыча больше</NR_DiveStorm>
   <NR_ExtNodeName_CounterHack>Контрвзлом</NR_ExtNodeName_CounterHack>
+  <NR_ReportTitle>ИТОГИ ВЫЛАЗКИ // {0}</NR_ReportTitle>
+  <NR_ReportSuccess>Чистый выход</NR_ReportSuccess>
+  <NR_ReportRetreat>Отступление</NR_ReportRetreat>
+  <NR_ReportFail>Провал</NR_ReportFail>
+  <NR_ReportRunner>{0}, ходов: {1}</NR_ReportRunner>
+  <NR_ReportHaul>Добыча</NR_ReportHaul>
+  <NR_ReportNothing>Ничего не вынесено.</NR_ReportNothing>
+  <NR_ReportSpecial>★ Особая находка на выходе.</NR_ReportSpecial>
+  <NR_ReportLost>Потеряно при отходе: cyberdata {0}, продвинутых {1}, серебра {2}, предметов {3}.</NR_ReportLost>
+  <NR_ReportCosts>Затраты и последствия</NR_ReportCosts>
+  <NR_ReportCost>Потрачено cyberdata</NR_ReportCost>
+  <NR_ReportHeat>Heat</NR_ReportHeat>
+  <NR_ReportNetsick>Netsick</NR_ReportNetsick>
+  <NR_ReportXp>Опыт</NR_ReportXp>
+  <NR_ReportHunter>Охотник ICE</NR_ReportHunter>
+  <NR_ReportHunterValue>пошёл по следу: поломка на карте через 6–12 часов</NR_ReportHunterValue>
+  <NR_ReportEvents>События</NR_ReportEvents>
+  <NR_ReportEventHunter>За нетраннером пришёл охотник ICE.</NR_ReportEventHunter>
+  <NR_ReportEventRival>Соперник забрал файлы первым.</NR_ReportEventRival>
+  <NR_ReportEventHoneypot>Нода оказалась приманкой.</NR_ReportEventHoneypot>
+  <NR_ReportEventStorm>Шторм данных: ворота сложнее, добыча больше.</NR_ReportEventStorm>
+  <NR_ReportEventBoss>Корп-ядро взломано.</NR_ReportEventBoss>
+  <NR_ReportEventCounterHack>Контрвзлом выполнен: турели снова ваши.</NR_ReportEventCounterHack>
+  <NR_ReportSettingHint>Итоги можно отключить в настройках мода.</NR_ReportSettingHint>
 </LanguageData>
