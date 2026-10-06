@@ -176,7 +176,7 @@ public partial class Dialog_NetTerminal
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
             if (hover)
-                TooltipHandler.TipRegion(rect, def.LabelCap);
+                NetrunUI.Tip(rect, def.LabelCap);
         }
 
         // Bottom-left: the mode line and how many areas were seen.

@@ -41,7 +41,7 @@ public static class FixersTab
             }
             var favorRect = new Rect(favorX, groupRect.y, groupRect.xMax - 220f - favorX, groupRect.height);
             Widgets.Label(favorRect, favor.Colorize(NetrunUI.Purple));
-            TooltipHandler.TipRegion(favorRect, "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
+            NetrunUI.Tip(favorRect, "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
             Text.Anchor = TextAnchor.UpperLeft;
             string call = "NR_ClubCallAllies".Translate();
             Texture2D groupIcon = NetrunTex.HackerGroup;
@@ -108,7 +108,7 @@ public static class FixersTab
             GUI.color = NetrunUI.Warn;
             GUI.DrawTexture(pinRect, NetrunTex.Pinned);
             GUI.color = Color.white;
-            TooltipHandler.TipRegion(pinRect, "NR_FixerPinnedTag".Translate());
+            NetrunUI.Tip(pinRect, "NR_FixerPinnedTag".Translate());
         }
 
         float x = portraitRect.xMax + 14f;
@@ -167,7 +167,7 @@ public static class FixersTab
             repText += "  " + "NR_FixerToPin".Translate(Mathf.CeilToInt(pinAt - fixer.Reputation)).Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(barRect.xMax + 8f, y, width - (barRect.xMax + 8f - x), lineHeight), repText);
         Text.Anchor = TextAnchor.UpperLeft;
-        TooltipHandler.TipRegion(new Rect(x, y, width, 22f), "NR_FixerReputationTip".Translate(pinAt.ToString("0")));
+        NetrunUI.Tip(new Rect(x, y, width, 22f), "NR_FixerReputationTip".Translate(pinAt.ToString("0")));
         y += lineHeight + 8f;
 
         // Buttons right under the reputation line, never overlapping it.

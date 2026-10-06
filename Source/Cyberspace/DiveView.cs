@@ -143,7 +143,7 @@ public static class DiveView
         Widgets.Label(new Rect(box.x + 6f, header.yMax + 3f, box.width - 12f, box.height - header.height - 6f),
             info.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
         Text.Font = GameFont.Small;
-        TooltipHandler.TipRegion(box, title + "\n" + info);
+        NetrunUI.Tip(box, title + "\n" + info);
     }
 
     /// <summary>Small corner brackets around a step box.</summary>
@@ -292,7 +292,7 @@ public static class DiveView
         Widgets.Label(new Rect(r.x + 24f, r.y, w - 26f, r.height), label.Colorize(c));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        TooltipHandler.TipRegion(r, tip);
+        NetrunUI.Tip(r, tip);
         x += w + 4f;
     }
 
@@ -323,7 +323,7 @@ public static class DiveView
         Widgets.Label(new Rect(inner.x, y, inner.width, 16f), label.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
         NetrunUI.Bar(new Rect(inner.x, y + 17f, inner.width, 8f), fraction, color);
-        TooltipHandler.TipRegion(new Rect(inner.x, y, inner.width, 26f), tip);
+        NetrunUI.Tip(new Rect(inner.x, y, inner.width, 26f), tip);
         return y + 32f;
     }
 
@@ -360,7 +360,7 @@ public static class DiveView
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(new Rect(r.x + 28f, r.y, w - 28f, r.height), label.Colorize(NetrunUI.Ok));
             Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(r, tip);
+            NetrunUI.Tip(r, tip);
             x += w + 4f;
         }
         Text.Font = GameFont.Small;

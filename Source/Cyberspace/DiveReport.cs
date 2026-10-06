@@ -68,6 +68,11 @@ public class DiveReport : IExposable
 public class Dialog_DiveReport : Window
 {
     private readonly DiveReport _report;
+    /// <summary>Rows type out in order the first time the window shows.</summary>
+    private static int _row;
+    private readonly string _stamp = System.Guid.NewGuid().ToString("N");
+
+    private string Typed(string text) => NetrunUI.Typed(_stamp + _row, text, 120f, 0.12f * _row++);
 
     public override Vector2 InitialSize => new(Mathf.Min(780f, UI.screenWidth - 40f), Mathf.Min(560f, UI.screenHeight - 40f));
     protected override float Margin => 0f;
@@ -93,6 +98,7 @@ public class Dialog_DiveReport : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        _row = 0;
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f);
         Widgets.DrawBox(inRect);
@@ -165,7 +171,7 @@ public class Dialog_DiveReport : Window
         return new Rect(inner.x, y - 4f, inner.width, inner.yMax - y + 4f);
     }
 
-    private static void DrawHaul(Rect rect, DiveReport d)
+    private void DrawHaul(Rect rect, DiveReport d)
     {
         Rect r = Card(rect, "NR_ReportHaul".Translate(), Icon("Reward_Valuables"));
         var haul = new List<(ThingDef def, int count)>();
@@ -196,7 +202,7 @@ public class Dialog_DiveReport : Window
             Widgets.Label(new Rect(tile.x + 42f, tile.y + 22f, tile.width - 44f, 18f), def.LabelCap.ToString().Truncate(tile.width - 46f).Colorize(NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(tile, def.LabelCap + " ×" + count);
+            NetrunUI.Tip(tile, def.LabelCap + " ×" + count);
         }
         y += (haul.Count + 1) / 2 * 48f + 4f;
 
@@ -206,7 +212,7 @@ public class Dialog_DiveReport : Window
             Line(r, y, Icon("Dive_Lightning_Red"), "NR_ReportLost".Translate(d.LostCyberdata, d.LostAdvanced, d.LostSilver, d.LostItems), NetrunUI.Bad);
     }
 
-    private static void DrawCosts(Rect rect, DiveReport d)
+    private void DrawCosts(Rect rect, DiveReport d)
     {
         Rect r = Card(rect, "NR_ReportCosts".Translate(), Icon("Dive_Heat"));
         float y = r.y;
@@ -243,11 +249,11 @@ public class Dialog_DiveReport : Window
             Widgets.Label(new Rect(cell.x + 28f, cell.y, cell.width - 30f, cell.height), text.Truncate(cell.width - 30f));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(cell, text);
+            NetrunUI.Tip(cell, text);
         }
     }
 
-    private static float Row(Rect r, float y, Texture2D icon, string label, string value, Color color)
+    private float Row(Rect r, float y, Texture2D icon, string label, string value, Color color)
     {
         var row = new Rect(r.x, y, r.width, 30f);
         Widgets.DrawBoxSolid(row, NetrunUI.BgWindow);
@@ -258,17 +264,17 @@ public class Dialog_DiveReport : Window
         Widgets.Label(new Rect(row.x + 32f, row.y, 130f, row.height), label.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(row.x + 160f, row.y, row.width - 166f, row.height), value.Colorize(color));
+        Widgets.Label(new Rect(row.x + 160f, row.y, row.width - 166f, row.height), Typed(value).Colorize(color));
         Text.Anchor = TextAnchor.UpperLeft;
         return y + 34f;
     }
 
-    private static float Line(Rect r, float y, Texture2D icon, string text, Color color)
+    private float Line(Rect r, float y, Texture2D icon, string text, Color color)
     {
         float h = Mathf.Max(24f, Text.CalcHeight(text, r.width - 30f));
         if (icon != null)
             GUI.DrawTexture(new Rect(r.x, y + 1f, 22f, 22f), icon);
-        Widgets.Label(new Rect(r.x + 28f, y + 2f, r.width - 30f, h), text.Colorize(color));
+        Widgets.Label(new Rect(r.x + 28f, y + 2f, r.width - 30f, h), Typed(text).Colorize(color));
         return y + h + 4f;
     }
 }

@@ -141,7 +141,7 @@ public class NetrunSettings : ModSettings
         var r = new Rect(12f, _y, _w - 12f, h);
         Widgets.Label(r, color.HasValue ? text.Colorize(color.Value) : text);
         if (tip != null)
-            TooltipHandler.TipRegion(r, tip);
+            NetrunUI.Tip(r, tip);
         _y += h + 4f;
     }
 
@@ -185,7 +185,7 @@ public class NetrunSettings : ModSettings
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(r.x + 28f, r.y, r.width - 28f, r.height), labelKey.Translate());
         Text.Anchor = TextAnchor.UpperLeft;
-        TooltipHandler.TipRegion(r, tipKey.Translate());
+        NetrunUI.Tip(r, tipKey.Translate());
         if (Widgets.ButtonInvisible(r))
         {
             value = !value;

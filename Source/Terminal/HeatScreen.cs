@@ -87,7 +87,7 @@ public static class HeatScreen
             Widgets.Label(new Rect(seg.x, bar.yMax + 3f, seg.width, 16f), $"{l.Label().CapitalizeFirst()} {l.MinHeat():0}".Colorize(l == level ? l.Color() : NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(seg, l.Label().CapitalizeFirst() + ": " + l.Description());
+            NetrunUI.Tip(seg, l.Label().CapitalizeFirst() + ": " + l.Description());
         }
         float mx = bar.x + bar.width * tracker.Heat / HeatTracker.MaxHeat;
         Widgets.DrawBoxSolid(new Rect(mx - 1.5f, bar.y - 6f, 3f, bar.height + 12f), Color.white);
@@ -163,7 +163,7 @@ public static class HeatScreen
             GUI.color = entry.Amount < 0f ? NetrunUI.Ok : entry.Source == HeatSource.Dive ? NetrunUI.Warn : NetrunUI.Bad;
             GUI.DrawTexture(dot, NetrunUI.Disc);
             GUI.color = Color.white;
-            TooltipHandler.TipRegion(dot.ExpandedBy(3f), $"{entry.Text}: {entry.Amount:+0.#;-0.#}\n" + "NR_TimeAgo".Translate((now - entry.Tick).ToStringTicksToPeriod()));
+            NetrunUI.Tip(dot.ExpandedBy(3f), $"{entry.Text}: {entry.Amount:+0.#;-0.#}\n" + "NR_TimeAgo".Translate((now - entry.Tick).ToStringTicksToPeriod()));
         }
     }
 
@@ -382,7 +382,7 @@ public static class HeatScreen
             Widgets.DrawBoxSolid(new Rect(42f, y + 6f, Mathf.Max(4f, barMax * sum / max), 8f), NetrunUI.Bad);
             var label = new Rect(42f + barMax + 8f, y, r.width - barMax - 52f, 20f);
             Widgets.Label(label, text.Truncate(label.width));
-            TooltipHandler.TipRegion(label, text);
+            NetrunUI.Tip(label, text);
             y += 22f;
         }
 

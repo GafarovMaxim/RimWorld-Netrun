@@ -95,7 +95,7 @@ public static class NetrunUI
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         if (!tip.NullOrEmpty())
-            TooltipHandler.TipRegion(rect, tip);
+            Tip(rect, tip);
         return width;
     }
 
@@ -109,7 +109,7 @@ public static class NetrunUI
         Widgets.Label(rect, text);
         Text.Anchor = TextAnchor.UpperLeft;
         if (!tip.NullOrEmpty())
-            TooltipHandler.TipRegion(rect, tip);
+            Tip(rect, tip);
         return rect.x;
     }
 
@@ -140,7 +140,7 @@ public static class NetrunUI
         if (!active && !report.Reason.NullOrEmpty())
             fullTip = (fullTip.NullOrEmpty() ? string.Empty : fullTip + "\n\n") + report.Reason.Colorize(ColorLibrary.RedReadable);
         if (!fullTip.NullOrEmpty())
-            TooltipHandler.TipRegion(rect, fullTip);
+            Tip(rect, fullTip);
 
         if (active && Widgets.ButtonInvisible(rect))
         {
@@ -174,4 +174,67 @@ public static class NetrunUI
         return rect.y + 36f;
     }
 
+
+    // ---- Tooltips in the terminal style ----
+
+    private const int TipWindowId = 0x4E52_5450;
+    private const float TipMaxWidth = 320f;
+
+    /// <summary>A terminal-style tooltip over <paramref name="rect"/>: dark box, accent bar, the text. Use instead of TooltipHandler.TipRegion.</summary>
+    public static void Tip(Rect rect, string text)
+    {
+        if (text.NullOrEmpty() || !Mouse.IsOver(rect) || Event.current.type != EventType.Repaint)
+            return;
+        Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+        Text.Font = GameFont.Small;
+        float w = Mathf.Min(TipMaxWidth, Text.CalcSize(text.StripTags()).x + 4f);
+        float h = Text.CalcHeight(text, w);
+        var box = new Rect(mouse.x + 18f, mouse.y + 18f, w + 22f, h + 14f);
+        if (box.xMax > UI.screenWidth - 4f)
+            box.x = mouse.x - box.width - 8f;
+        if (box.yMax > UI.screenHeight - 4f)
+            box.y = mouse.y - box.height - 8f;
+        Find.WindowStack.ImmediateWindow(TipWindowId, box, WindowLayer.Super, () =>
+        {
+            var local = new Rect(0f, 0f, box.width, box.height);
+            Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f));
+            GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f);
+            Widgets.DrawBox(local);
+            GUI.color = Color.white;
+            Widgets.DrawBoxSolid(new Rect(0f, 0f, 3f, local.height), Accent);
+            Text.Font = GameFont.Small;
+            Widgets.Label(new Rect(12f, 7f, w + 4f, h + 2f), text);
+        }, doBackground: false, absorbInputAroundWindow: false, shadowAlpha: 0f);
+    }
+
+
+    // ---- Typewriter: text that types itself out once, like the dive log ----
+
+    private static readonly System.Collections.Generic.Dictionary<string, float> TypeStarts = [];
+
+    /// <summary>
+    /// The part of <paramref name="text"/> typed so far (plain, with a "█" cursor) the first time this key is seen;
+    /// the full text once done or when animations are off. A new key (new text) types again.
+    /// </summary>
+    public static string Typed(string key, string text, float charsPerSecond = 70f, float delay = 0f)
+    {
+        if (!NetrunMod.Settings.Animations || text.NullOrEmpty())
+            return text;
+        float now = Time.realtimeSinceStartup;
+        if (!TypeStarts.TryGetValue(key, out float start))
+        {
+            if (TypeStarts.Count > 200)
+                TypeStarts.Clear();
+            TypeStarts[key] = start = now;
+        }
+        float elapsed = now - start - delay;
+        string plain = text.StripTags();
+        if (elapsed <= 0f)
+            return string.Empty;
+        int shown = Mathf.FloorToInt(elapsed * charsPerSecond);
+        return shown >= plain.Length ? text : plain.Substring(0, shown) + "█";
+    }
+
+    /// <summary>Forget a typed key so the text types again (e.g. a window opened anew).</summary>
+    public static void Retype(string key) => TypeStarts.Remove(key);
 }

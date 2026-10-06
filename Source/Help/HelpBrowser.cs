@@ -16,6 +16,8 @@ public class HelpBrowser
     private const float TreeWidth = 260f;
 
     private HelpPageDef _page;
+    /// <summary>Changes on every page visit so the title types out again.</summary>
+    private int _openStamp;
     private readonly List<HelpPageDef> _back = [];
     private readonly List<HelpPageDef> _forward = [];
     private string _search = string.Empty;
@@ -45,6 +47,7 @@ public class HelpBrowser
         _forward.Clear();
         _search = string.Empty;
         _page = page ?? HelpPageDef.Topics.FirstOrDefault();
+        _openStamp++;
         _articleScroll = Vector2.zero;
     }
 
@@ -140,7 +143,7 @@ public class HelpBrowser
                 Dot(new Vector2(row.xMax - 9f, row.center.y), page.Topic.Color, "NR_HelpHere".Translate());
 
             if (locked)
-                TooltipHandler.TipRegion(row, page.lockHint.NullOrEmpty() ? (string)"NR_HelpLocked".Translate() : page.lockHint);
+                NetrunUI.Tip(row, page.lockHint.NullOrEmpty() ? (string)"NR_HelpLocked".Translate() : page.lockHint);
             if (Widgets.ButtonInvisible(row))
                 Go(page);
             ry += h + 2f;
@@ -155,7 +158,7 @@ public class HelpBrowser
         GUI.color = color;
         GUI.DrawTexture(r, NetrunUI.Disc);
         GUI.color = Color.white;
-        TooltipHandler.TipRegion(r.ExpandedBy(4f), tip);
+        NetrunUI.Tip(r.ExpandedBy(4f), tip);
     }
 
     private List<(HelpPageDef, int)> Rows()
@@ -240,7 +243,7 @@ public class HelpBrowser
         string title = locked && _page.lockedTitle ? "???" : (string)_page.LabelCap;
         float th = Mathf.Max(icon != null ? 48f : 0f, Text.CalcHeight(title, w - tx));
         Text.Anchor = icon != null ? TextAnchor.MiddleLeft : TextAnchor.UpperLeft;
-        Widgets.Label(new Rect(tx, y, w - tx, th), title.Colorize(_page.Topic.Color));
+        Widgets.Label(new Rect(tx, y, w - tx, th), NetrunUI.Typed("help:" + _page.defName + _openStamp, title, 60f).Colorize(_page.Topic.Color));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         y += th + 10f;
@@ -378,6 +381,7 @@ public class HelpBrowser
             _back.Add(_page);
         _forward.Clear();
         _page = page;
+        _openStamp++;
         _articleScroll = Vector2.zero;
         _search = string.Empty;
     }

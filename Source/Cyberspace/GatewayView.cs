@@ -63,7 +63,7 @@ public static class GatewayView
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(storm, "NR_GatewayStorm".Translate(gateway.StormTicksLeft.ToStringTicksToPeriod()).Colorize(NetrunUI.Purple));
             Text.Anchor = TextAnchor.UpperLeft;
-            TooltipHandler.TipRegion(storm, "NR_GatewayStormTip".Translate());
+            NetrunUI.Tip(storm, "NR_GatewayStormTip".Translate());
         }
 
         Text.Font = GameFont.Tiny;
@@ -322,7 +322,7 @@ public static class GatewayView
         float dh = Text.CalcHeight(daemons, inner.width);
         var daemonRect = new Rect(inner.x, y, inner.width, dh);
         Widgets.Label(daemonRect, daemons);
-        TooltipHandler.TipRegion(daemonRect, gateway.Daemons.Count == 0
+        NetrunUI.Tip(daemonRect, gateway.Daemons.Count == 0
             ? "NR_GatewayDaemonsTip".Translate()
             : string.Join("\n", gateway.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate())));
         Text.Font = GameFont.Small;
@@ -332,7 +332,7 @@ public static class GatewayView
         int cost = gateway.DiveCost(map, node, out string breakdown);
         var costRect = new Rect(inner.x, y, inner.width, 22f);
         Widgets.Label(costRect, "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn));
-        TooltipHandler.TipRegion(costRect, breakdown);
+        NetrunUI.Tip(costRect, breakdown);
         y += 26f;
 
         AcceptanceReport dive = gateway.CanDive(map, node);
@@ -376,7 +376,7 @@ public static class GatewayView
                 continue;
             var r = new Rect(x, y, 28f, 28f);
             GUI.DrawTexture(r, icon);
-            TooltipHandler.TipRegion(r, (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate());
+            NetrunUI.Tip(r, (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate());
             x += 32f;
             any = true;
         }
@@ -403,7 +403,7 @@ public static class GatewayView
         }
         float h = Mathf.Max(22f, Text.CalcHeight(value, inner.xMax - vx));
         Widgets.Label(new Rect(vx, y, inner.xMax - vx, h), value.Colorize(color));
-        TooltipHandler.TipRegion(new Rect(inner.x, y, inner.width, h), tip);
+        NetrunUI.Tip(new Rect(inner.x, y, inner.width, h), tip);
         GUI.color = new Color(1f, 1f, 1f, 0.08f);
         Widgets.DrawLineHorizontal(inner.x, y + h + 1f, inner.width);
         GUI.color = Color.white;

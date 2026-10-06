@@ -114,7 +114,7 @@ public static class StudioTab
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(row.x + 50f, row.y, row.width * 0.55f, row.height), chip.LabelCap.Truncate(row.width * 0.55f));
         Text.Anchor = TextAnchor.UpperLeft;
-        TooltipHandler.TipRegion(new Rect(row.x, row.y, row.width * 0.6f, row.height), chip.GetInspectString());
+        NetrunUI.Tip(new Rect(row.x, row.y, row.width * 0.6f, row.height), chip.GetInspectString());
         return row.yMax + 4f;
     }
 

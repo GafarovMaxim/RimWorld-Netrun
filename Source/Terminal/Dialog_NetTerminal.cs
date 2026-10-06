@@ -411,7 +411,7 @@ public partial class Dialog_NetTerminal : Window
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(sx, seg.y, levelW + 4f, seg.height), levelLabel.Colorize(levelColor));
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
+            NetrunUI.Tip(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
             if (Widgets.ButtonInvisible(seg))
                 OpenNode(View.Core);
 
@@ -427,7 +427,7 @@ public partial class Dialog_NetTerminal : Window
             GUI.color = Color.white;
             Widgets.Label(new Rect(netSeg.x + 24f, netSeg.y, netW + 4f, netSeg.height), net.Colorize(netColor));
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(netSeg, "NR_TipNet".Translate());
+            NetrunUI.Tip(netSeg, "NR_TipNet".Translate());
         }
 
         // Netsick: how many colonists, the worst severity on hover.
@@ -442,7 +442,7 @@ public partial class Dialog_NetTerminal : Window
         string sickTip = "NR_HeatScreenNetsickTip".Translate();
         if (sick.Count > 0)
             sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
-        TooltipHandler.TipRegion(sickSeg, sickTip);
+        NetrunUI.Tip(sickSeg, sickTip);
 
         // On the Heat screen: one sentence of advice instead of the latest event.
         if (tracker != null && _view == View.Core && rect.xMax - 10f - x > 80f)
@@ -453,7 +453,7 @@ public partial class Dialog_NetTerminal : Window
             string advice = "NR_HeatV2AdvicePrefix".Translate() + " " + HeatScreen.Advice(tracker);
             Widgets.Label(new Rect(adviceSeg.x + 8f, adviceSeg.y, adviceSeg.width - 12f, adviceSeg.height), advice.Truncate(adviceSeg.width - 12f).Colorize(NetrunUI.Ok));
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(adviceSeg, advice);
+            NetrunUI.Tip(adviceSeg, advice);
         }
         // The latest trace event fills the rest; a click opens the Archive.
         else if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
@@ -475,7 +475,7 @@ public partial class Dialog_NetTerminal : Window
                 Widgets.Label(new Rect(eventSeg.x + 22f + textW + 4f, eventSeg.y, amountW, eventSeg.height), amount);
             Widgets.Label(new Rect(eventSeg.xMax - agoW - 8f, eventSeg.y, agoW + 4f, eventSeg.height), ago.Colorize(NetrunUI.Muted));
             Text.Font = GameFont.Small;
-            TooltipHandler.TipRegion(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
+            NetrunUI.Tip(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
             if (Widgets.ButtonInvisible(eventSeg))
                 OpenNode(View.Archive);
         }
@@ -519,7 +519,7 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(row.x + 6f, row.y, 150f, row.height), ago.Colorize(NetrunUI.Muted));
             var textRect = new Rect(row.x + 160f, row.y, row.width - 230f, row.height);
             Widgets.Label(textRect, entry.Text.Truncate(textRect.width));
-            TooltipHandler.TipRegion(textRect, entry.Text);
+            NetrunUI.Tip(textRect, entry.Text);
             Widgets.Label(new Rect(row.xMax - 64f, row.y, 60f, row.height), amount);
             Text.Anchor = TextAnchor.UpperLeft;
 

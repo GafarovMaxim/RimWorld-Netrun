@@ -113,7 +113,7 @@ public partial class Dialog_NetTerminal
 
         DrawNodeLabel(pos, box.yMax + 4f, NodeLabel(view).ToUpper(), color, sub);
 
-        TooltipHandler.TipRegion(box, ("NR_NodeTip_" + view).Translate() + "\n\n" + sub);
+        NetrunUI.Tip(box, ("NR_NodeTip_" + view).Translate() + "\n\n" + sub);
         if (Widgets.ButtonInvisible(box))
             OpenNode(view);
     }
@@ -143,7 +143,7 @@ public partial class Dialog_NetTerminal
         }
         string how = ("NR_NodeLocked_" + view).Translate();
         DrawNodeLabel(pos, box.yMax + 4f, NodeLabel(view).ToUpper(), NetrunUI.Muted, "NR_NodeLockedSub".Translate());
-        TooltipHandler.TipRegion(box, how);
+        NetrunUI.Tip(box, how);
     }
 
     private static void DrawBadge(Vector2 corner, NodeBadge badge)
@@ -162,7 +162,7 @@ public partial class Dialog_NetTerminal
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         if (!badge.Tip.NullOrEmpty())
-            TooltipHandler.TipRegion(rect, badge.Tip);
+            NetrunUI.Tip(rect, badge.Tip);
     }
 
     /// <summary>Label and sub-line on a background patch, so the links pass under them.</summary>
@@ -245,7 +245,7 @@ public partial class Dialog_NetTerminal
 
         DrawNodeLabel(new Vector2(c.x, 0f), rect.yMax + 8f, NodeLabel(View.Core).ToUpper(), NetrunUI.Accent, "NR_NodeSub_Core".Translate());
 
-        TooltipHandler.TipRegion(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()));
+        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()));
         if (Widgets.ButtonInvisible(rect))
             OpenNode(View.Core);
     }
@@ -353,10 +353,11 @@ public partial class Dialog_NetTerminal
         Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), advice.Color);
 
         float ty = box.y + 8f;
-        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, titleH), title.Colorize(advice.Color));
+        string typeKey = "now:" + advice.defName + title;
+        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, titleH), NetrunUI.Typed(typeKey + ":t", title).Colorize(advice.Color));
         ty += titleH + 2f;
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, bodyH), body.Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(box.x + 12f, ty, box.width - 16f, bodyH), NetrunUI.Typed(typeKey + ":b", body, 90f, title.Length / 70f).Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
         ty += bodyH + 8f;
 
@@ -417,7 +418,7 @@ public partial class Dialog_NetTerminal
             {
                 Text.Anchor = TextAnchor.MiddleRight;
                 Widgets.Label(new Rect(row.xMax - whereWidth - 4f, row.y, whereWidth, h), where.Colorize(NetrunUI.Muted));
-                TooltipHandler.TipRegion(row, "NR_CoreAlertGo".Translate(where));
+                NetrunUI.Tip(row, "NR_CoreAlertGo".Translate(where));
                 if (Widgets.ButtonInvisible(row))
                     OpenNode(target.Value);
             }
@@ -482,7 +483,7 @@ public partial class Dialog_NetTerminal
         Widgets.Label(new Rect(x + bw + 6f, rect.y + 22f, rect.xMax - x - bw - 10f, 22f), small.Truncate(rect.xMax - x - bw - 10f).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        TooltipHandler.TipRegion(rect, tip);
+        NetrunUI.Tip(rect, tip);
     }
 
     private static float SummaryRow(Rect inner, float y, string label, string value, Color color, string tip = null)
@@ -498,7 +499,7 @@ public partial class Dialog_NetTerminal
         Widgets.DrawLineHorizontal(inner.x, y + 23f, inner.width);
         GUI.color = Color.white;
         if (tip != null)
-            TooltipHandler.TipRegion(new Rect(inner.x, y, inner.width, 22f), tip);
+            NetrunUI.Tip(new Rect(inner.x, y, inner.width, 22f), tip);
         return y + 25f;
     }
 

@@ -115,7 +115,7 @@ public static class AITab
         var portrait = new Rect(rect.x + 4f + Pad, rect.y + Pad, PortraitSize, PortraitSize);
         NetrunUI.Box(portrait, NetrunUI.BgWindow, color, 2);
         GUI.DrawTexture(portrait.ContractedBy(6f), NetrunTex.Portrait(ai.Personality));
-        TooltipHandler.TipRegion(portrait, ai.LocationText);
+        NetrunUI.Tip(portrait, ai.LocationText);
 
         float x = rect.x + TextIndent;
         float width = rect.xMax - Pad - x;
@@ -201,7 +201,7 @@ public static class AITab
             string history = "NR_AICardHistory".Translate() + " " + string.Join(" · ", ai.RequestHistory.Select(h => h.StartsWith("✓") ? h.Colorize(NetrunUI.Ok) : h.Colorize(NetrunUI.Bad)));
             var hr = new Rect(x + 22f, y, width - 22f, 18f);
             Widgets.Label(hr, history.Truncate(hr.width));
-            TooltipHandler.TipRegion(hr, string.Join("\n", ai.RequestHistory));
+            NetrunUI.Tip(hr, string.Join("\n", ai.RequestHistory));
             y += 18f;
         }
         Text.Font = GameFont.Small;
@@ -215,7 +215,7 @@ public static class AITab
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(row.x + 22f, row.y, row.width - 22f, row.height), text.Truncate(row.width - 22f));
         Text.Anchor = TextAnchor.UpperLeft;
-        TooltipHandler.TipRegion(row, text + "\n\n" + tip);
+        NetrunUI.Tip(row, text + "\n\n" + tip);
     }
 
     private static void DrawGauge(Rect rect, string label, float value, Color color, string tip)
@@ -225,7 +225,7 @@ public static class AITab
         var bar = new Rect(rect.x + labelWidth, rect.y + (rect.height - 12f) / 2f, Mathf.Max(40f, rect.width - labelWidth - 40f), 12f);
         NetrunUI.Bar(bar, value / 100f, color);
         Widgets.Label(new Rect(bar.xMax + 8f, rect.y, 36f, rect.height), value.ToString("0").Colorize(color));
-        TooltipHandler.TipRegion(rect, tip);
+        NetrunUI.Tip(rect, tip);
     }
 
     // ---- Buttons ----
