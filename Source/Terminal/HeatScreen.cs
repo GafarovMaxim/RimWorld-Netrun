@@ -12,27 +12,39 @@ namespace Netrun;
 /// </summary>
 public static class HeatScreen
 {
-    private const float GraphHeight = 130f;
+    private const float MinGraphHeight = 130f;
+    private const float MaxGraphHeight = 340f;
+    private const float ScaleHeight = 62f;
+    private const float FooterHeight = 34f;
+    /// <summary>Height of the two columns on the previous frame: the graph takes whatever room is left.</summary>
+    private static float _columnsHeight = 230f;
     private const float RowHeight = 24f;
 
     public static void Draw(Rect rect, Map map, HeatTracker tracker, System.Action openClub)
     {
         float y = rect.y;
-        y = DrawScale(new Rect(rect.x, y, rect.width, 48f), tracker) + 6f;
-        y = DrawGraph(new Rect(rect.x, y, rect.width, GraphHeight), tracker) + 12f;
+        y = DrawScale(new Rect(rect.x, y, rect.width, ScaleHeight), tracker) + 6f;
+        // The graph grows into the free space so the screen has no empty band at the bottom.
+        float graphHeight = Mathf.Clamp(rect.yMax - y - 12f - _columnsHeight - 8f - FooterHeight - 4f, MinGraphHeight, MaxGraphHeight);
+        y = DrawGraph(new Rect(rect.x, y, rect.width, graphHeight), tracker) + 12f;
 
         float colWidth = (rect.width - 16f) / 2f;
         float left = DrawLevels(new Rect(rect.x, y, colWidth, 200f), tracker.Level);
         float right = DrawLowerRaise(new Rect(rect.x + colWidth + 16f, y, colWidth, 220f), map, tracker);
+        _columnsHeight = Mathf.Max(left, right) - y;
         y = Mathf.Max(left, right) + 8f;
 
-        DrawFooter(new Rect(rect.x, y, rect.width, rect.yMax - y), map, openClub);
+        DrawFooter(new Rect(rect.x, Mathf.Max(y, rect.yMax - FooterHeight), rect.width, FooterHeight), map, openClub);
     }
 
     // 1. The scale: five colored zones, a marker at the current value, threshold labels.
     private static float DrawScale(Rect rect, HeatTracker tracker)
     {
-        var bar = new Rect(rect.x, rect.y + 6f, rect.width, 16f);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(rect.x, rect.y, rect.width, 16f),
+            "NR_HeatScreenNow".Translate(tracker.Heat.ToString("0"), tracker.Level.Label()).Colorize(tracker.Level.Color()));
+        Text.Font = GameFont.Small;
+        var bar = new Rect(rect.x, rect.y + 22f, rect.width, 16f);
         foreach (HeatLevel level in System.Enum.GetValues(typeof(HeatLevel)))
         {
             float from = level.MinHeat() / HeatTracker.MaxHeat;
@@ -54,10 +66,6 @@ public static class HeatScreen
             float tx = bar.x + bar.width * level.MinHeat() / HeatTracker.MaxHeat;
             Widgets.Label(new Rect(tx - 12f, bar.yMax + 4f, 24f, 16f), level.MinHeat().ToString("0").Colorize(NetrunUI.Muted));
         }
-        Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(new Rect(rect.xMax - 200f, bar.yMax + 4f, 200f, 16f),
-            "NR_HeatScreenNow".Translate(tracker.Heat.ToString("0"), tracker.Level.Label()).Colorize(tracker.Level.Color()));
-        Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         return rect.yMax;
     }
@@ -67,6 +75,10 @@ public static class HeatScreen
     {
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.1f));
         Rect plot = rect.ContractedBy(8f);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(plot.x + 2f, plot.y - 2f, plot.width, 16f), "NR_HeatScreenGraph".Translate().Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        plot.yMin += 16f;
         foreach (HeatLevel level in System.Enum.GetValues(typeof(HeatLevel)))
         {
             float from = level.MinHeat() / HeatTracker.MaxHeat;
@@ -111,9 +123,6 @@ public static class HeatScreen
             TooltipHandler.TipRegion(dot.ExpandedBy(3f), $"{entry.Text}: {entry.Amount:+0.#;-0.#}");
         }
 
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(plot.x + 2f, plot.y, 200f, 16f), "NR_HeatScreenGraph".Translate().Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
         return rect.yMax;
     }
 
