@@ -114,11 +114,8 @@
   <NR_GatewayPodNone>Нет капсулы</NR_GatewayPodNone>
   <NR_GatewayRunner>Нетраннер: {0}</NR_GatewayRunner>
   <NR_DiveOver>Нырок окончен</NR_DiveOver>
-  <NR_DiveLoot>Добыча: {0}</NR_DiveLoot>
-  <NR_DiveActions>Действия ({0} из {1})</NR_DiveActions>
   <NR_DivePrograms>Программы</NR_DivePrograms>
   <NR_DiveNoPrograms>нет</NR_DiveNoPrograms>
-  <NR_DiveProgramState>Щит ×{0}, Фальшивка ×{1}, Убийца ×{2}, Меч {3}, Призрак {4}</NR_DiveProgramState>
   <NR_DiveTurn>Ход {0} из {1}</NR_DiveTurn>
   <NR_DiveLogHeader>Лог</NR_DiveLogHeader>
   <NR_DiveTraceChip>След +{0}</NR_DiveTraceChip>
@@ -169,7 +166,6 @@
   <NR_GatewayDaemons>Демоны: {0}</NR_GatewayDaemons>
   <NR_GatewayNoDaemons>Демоны: пока нет</NR_GatewayNoDaemons>
   <NR_GatewayDaemonsTip>Демоны — постоянные программы из киберпространства (редкие находки, корпоративное ядро). Работают в каждом нырке бесплатно.</NR_GatewayDaemonsTip>
-  <NR_DiveDaemons>Демоны: {0}</NR_DiveDaemons>
   <NR_AlliesNeedFavor>нужна благосклонность группы: {0}/{1}</NR_AlliesNeedFavor>
   <NR_AlliesCooldown>группа сможет помочь снова через {0}</NR_AlliesCooldown>
   <NR_AlliesNoFaction>Союзной фракции рядом нет, поэтому хакерская группа прислала данные.</NR_AlliesNoFaction>
@@ -244,4 +240,10 @@
   <NR_ReportEventBoss>Корп-ядро взломано.</NR_ReportEventBoss>
   <NR_ReportEventCounterHack>Контрвзлом выполнен: турели снова ваши.</NR_ReportEventCounterHack>
   <NR_ReportSettingHint>Итоги можно отключить в настройках мода.</NR_ReportSettingHint>
+  <NR_DiveHudActions>Действия</NR_DiveHudActions>
+  <NR_DiveHudTurn>Ход {0} / {1}</NR_DiveHudTurn>
+  <NR_DiveHudTrace>След {0} (≈ +{1} Heat на выходе)</NR_DiveHudTrace>
+  <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. Призрак и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
+  <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
+  <NR_DiveHudHaulEmpty>Пока пусто.</NR_DiveHudHaulEmpty>
 </LanguageData>

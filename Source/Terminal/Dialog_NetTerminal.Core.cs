@@ -196,41 +196,41 @@ public partial class Dialog_NetTerminal
         GUI.DrawTexture(rect.ExpandedBy(6f), NetrunUI.Disc);
         GUI.color = Color.white;
 
-        // Five segments, one per level; the reached ones lit in their level color.
-        var levels = (HeatLevel[])System.Enum.GetValues(typeof(HeatLevel));
-        for (int i = 0; i < levels.Length; i++)
-        {
-            bool lit = levels[i] <= current;
-            Color col = levels[i].Color();
-            col.a = lit ? (levels[i] == current ? 1f : 0.7f) : 0.18f;
-            float from = -90f + i * 72f + 4f;
-            float to = -90f + (i + 1) * 72f - 4f;
-            const int steps = 10;
-            for (int s = 0; s < steps; s++)
-            {
-                float a1 = Mathf.Deg2Rad * Mathf.Lerp(from, to, s / (float)steps);
-                float a2 = Mathf.Deg2Rad * Mathf.Lerp(from, to, (s + 1) / (float)steps);
-                Widgets.DrawLine(c + new Vector2(Mathf.Cos(a1), Mathf.Sin(a1)) * (RingRadius - 4f),
-                    c + new Vector2(Mathf.Cos(a2), Mathf.Sin(a2)) * (RingRadius - 4f), col, 7f);
-            }
-        }
-
-        // Inside: the level icon faintly, the number, the level and the trend.
-        GUI.color = new Color(1f, 1f, 1f, 0.18f);
-        GUI.DrawTexture(new Rect(c.x - 34f, c.y - 34f, 68f, 68f), NetrunTex.HeatIcon(current));
+        // Soft glow in the level color (pulses in the Red Zone when animations are on).
+        Color lc = current.Color();
+        float pulse = current == HeatLevel.RedZone && NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f) : 0.5f;
+        GUI.color = new Color(lc.r, lc.g, lc.b, 0.08f + 0.1f * pulse);
+        GUI.DrawTexture(rect.ExpandedBy(18f), NetrunUI.Disc);
+        GUI.color = new Color(lc.r, lc.g, lc.b, 0.06f);
+        GUI.DrawTexture(rect.ExpandedBy(6f), NetrunUI.Disc);
         GUI.color = Color.white;
+
+        // The smooth ring (anti-aliased texture with level arcs, gaps and ticks) and the marker at the current value.
+        GUI.DrawTexture(rect, HeatRing.Get(tracker.Heat));
+        Vector2 tip = HeatRing.PointAt(rect, tracker.Heat);
+        var marker = new Rect(tip.x - 7f, tip.y - 7f, 14f, 14f);
+        GUI.color = NetrunUI.BgWindow;
+        GUI.DrawTexture(marker.ExpandedBy(2f), NetrunUI.Disc);
+        GUI.color = Color.white;
+        GUI.DrawTexture(marker, NetrunUI.Disc);
+        GUI.color = lc;
+        GUI.DrawTexture(marker.ContractedBy(3f), NetrunUI.Disc);
+        GUI.color = Color.white;
+
+        // Inside: the level icon over the number, the level and the trend.
+        GUI.DrawTexture(new Rect(c.x - 14f, c.y - 40f, 28f, 28f), NetrunTex.HeatIcon(current));
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(c.x - 50f, c.y - 26f, 100f, 32f), tracker.Heat.ToString("0").Colorize(current.Color()));
+        Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), tracker.Heat.ToString("0").Colorize(lc));
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(c.x - 55f, c.y + 2f, 110f, 16f), current.Label().ToUpper().Colorize(current.Color()));
+        Widgets.Label(new Rect(c.x - 55f, c.y + 12f, 110f, 16f), current.Label().ToUpper().Colorize(lc));
         float trend = HeatTrendPerDay(tracker);
         string trendText = trend > 0.05f
             ? ("▲ " + "NR_CoreTrendUp".Translate(trend.ToString("0.#"))).Colorize(NetrunUI.Bad)
             : trend < -0.05f
                 ? ("▼ " + "NR_CoreTrendDown".Translate((-trend).ToString("0.#"))).Colorize(NetrunUI.Ok)
                 : "NR_CoreTrendFlat".Translate().Colorize(NetrunUI.Muted);
-        Widgets.Label(new Rect(c.x - 55f, c.y + 18f, 110f, 16f), trendText);
+        Widgets.Label(new Rect(c.x - 55f, c.y + 27f, 110f, 16f), trendText);
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 
