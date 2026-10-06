@@ -78,12 +78,23 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
             Event.current.Use();
         }
+        GuideInput();
+        GuideRegistry.Begin();
+        DrawWindow(inRect);
+        GuideRegistry.End();
+        DrawGuideOverlay(inRect);
+    }
+
+    private void DrawWindow(Rect inRect)
+    {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         HeatTracker tracker = HeatTracker.Get();
 
         DrawTitle(new Rect(inRect.x, inRect.y, inRect.width, TitleHeight), tracker);
         var body = new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, inRect.height - TitleHeight - StatusHeight);
-        DrawStatusBar(new Rect(inRect.x, body.yMax, inRect.width, StatusHeight), tracker);
+        var statusRect = new Rect(inRect.x, body.yMax, inRect.width, StatusHeight);
+        GuideRegistry.Area("terminal.status", statusRect);
+        DrawStatusBar(statusRect, tracker);
 
         if (tracker == null)
             return;
@@ -108,6 +119,7 @@ public partial class Dialog_NetTerminal : Window
                 else
                     dive.Retreat();
             }
+            GuideRegistry.Area("dive.retreat", new Rect(content.x, content.y, 130f, 28f));
             content.yMin += 40f;
             DiveView.Draw(content, dive);
             return;
@@ -116,6 +128,13 @@ public partial class Dialog_NetTerminal : Window
         if (NetrunUI.Button(new Rect(content.x, content.y, 90f, 28f), "NR_BackToCore".Translate(), NetrunUI.Accent, true, "NR_TipBackToCore".Translate()))
             _view = View.Map;
         content.yMin += 40f;
+        // List screens: the whole content is one guide area.
+        switch (_view)
+        {
+            case View.Board: GuideRegistry.Area("board.list", content); break;
+            case View.Archive: GuideRegistry.Area("archive.list", content); break;
+            case View.Studio: GuideRegistry.Area("studio.main", content); break;
+        }
 
         switch (_view)
         {
@@ -223,7 +242,17 @@ public partial class Dialog_NetTerminal : Window
         }
         if (NetrunUI.Button(help, "?", NetrunUI.Accent, true, "NR_HelpButtonTip".Translate()))
             OpenHelp();
-        x = help.x - 10f;
+        string guide = "NR_GuideButton".Translate();
+        float gw = NetrunUI.ButtonWidth(guide) - 8f;
+        var guideRect = new Rect(help.x - 6f - gw, y - 3f, gw, 30f);
+        if (!_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
+        {
+            float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
+            Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.2f * gp));
+        }
+        if (NetrunUI.Button(guideRect, guide, _guide ? NetrunUI.Warn : NetrunUI.Ok, true, "NR_GuideButtonTip".Translate()))
+            ToggleGuide();
+        x = guideRect.x - 10f;
         if (_view == View.Map)
         {
             // Core: who would dive and whether the pod is ready; before the onboarding is done, "network not active".

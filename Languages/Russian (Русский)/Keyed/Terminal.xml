@@ -198,4 +198,15 @@
   <NR_HelpCtx_Dive>Нырок</NR_HelpCtx_Dive>
   <NR_HelpCtx_Settings>Настройки мода</NR_HelpCtx_Settings>
   <NR_HelpCtx_DiveReport>Итоги вылазки</NR_HelpCtx_DiveReport>
+  <NR_GuideButton>◎ Гайд</NR_GuideButton>
+  <NR_GuideButtonTip>Гайд по экрану: области подсвечиваются, клик по области — короткий разбор. Esc — выйти.</NR_GuideButtonTip>
+  <NR_GuideModeLine>РЕЖИМ ГАЙДА: наведите на область и кликните · Esc выйти · просмотрено {0}/{1}</NR_GuideModeLine>
+  <NR_GuideCardHeader>ГАЙД ПО ЭКРАНУ · {0} / {1}</NR_GuideCardHeader>
+  <NR_GuideStep>шаг {0}/{1}</NR_GuideStep>
+  <NR_GuideTry>Попробуйте:</NR_GuideTry>
+  <NR_GuideBack>◄ Назад</NR_GuideBack>
+  <NR_GuideNext>Далее ►</NR_GuideNext>
+  <NR_GuideDone>Готово ✔</NR_GuideDone>
+  <NR_GuideHelp>Справка ↗</NR_GuideHelp>
+  <NR_GuideExit>Выход (Esc)</NR_GuideExit>
 </LanguageData>

@@ -198,4 +198,15 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpCtx_Dive>Dive</NR_HelpCtx_Dive>
   <NR_HelpCtx_Settings>Mod settings</NR_HelpCtx_Settings>
   <NR_HelpCtx_DiveReport>Dive summary</NR_HelpCtx_DiveReport>
+  <NR_GuideButton>◎ Guide</NR_GuideButton>
+  <NR_GuideButtonTip>Guide to this screen: its areas light up, click one for a short walkthrough. Esc to leave.</NR_GuideButtonTip>
+  <NR_GuideModeLine>GUIDE MODE: hover over an area and click · Esc to leave · seen {0}/{1}</NR_GuideModeLine>
+  <NR_GuideCardHeader>SCREEN GUIDE · {0} / {1}</NR_GuideCardHeader>
+  <NR_GuideStep>step {0}/{1}</NR_GuideStep>
+  <NR_GuideTry>Try:</NR_GuideTry>
+  <NR_GuideBack>◄ Back</NR_GuideBack>
+  <NR_GuideNext>Next ►</NR_GuideNext>
+  <NR_GuideDone>Done ✔</NR_GuideDone>
+  <NR_GuideHelp>Help ↗</NR_GuideHelp>
+  <NR_GuideExit>Exit (Esc)</NR_GuideExit>
 </LanguageData>

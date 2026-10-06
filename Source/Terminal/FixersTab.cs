@@ -30,6 +30,7 @@ public static class FixersTab
         if (gateway != null)
         {
             var groupRect = new Rect(rect.x, rect.y, rect.width, 34f);
+            GuideRegistry.Area("club.group", groupRect);
             string favor = "NR_ClubFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies);
             Text.Anchor = TextAnchor.MiddleLeft;
             float favorX = groupRect.x;
@@ -50,6 +51,7 @@ public static class FixersTab
             rect.yMin += 40f;
         }
 
+        GuideRegistry.Area("club.list", rect);
         float width = rect.width - 16f;
         float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);

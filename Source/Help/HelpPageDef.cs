@@ -116,6 +116,12 @@ public class HelpProgress : GameComponent
     public void MarkSeen(HelpPageDef page) => _seen.Add(page.defName);
     public void UnlockAll() => _flags.Add("all");
 
+    // Guide mode: screens opened in the guide and areas looked at.
+    public void MarkGuideScreen(string screen) => _seen.Add("guide:" + screen);
+    public bool GuideScreenSeen(string screen) => _seen.Contains("guide:" + screen);
+    public void MarkGuideArea(GuideAreaDef area) => _seen.Add("area:" + area.defName);
+    public bool GuideAreaSeen(GuideAreaDef area) => _seen.Contains("area:" + area.defName);
+
     /// <summary>Checks what the colony has met (called when the help opens).</summary>
     public void Refresh(Map map)
     {

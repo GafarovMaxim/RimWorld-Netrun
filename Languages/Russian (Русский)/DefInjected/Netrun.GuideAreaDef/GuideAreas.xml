@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Guide_terminal_status.label>Нижняя строка</NR_Guide_terminal_status.label>
+  <NR_Guide_terminal_status.steps.0.text>Всегда на виду: ваш след (Heat) с уровнем, сеть, Netsick и последнее событие следа.</NR_Guide_terminal_status.steps.0.text>
+  <NR_Guide_terminal_status.steps.0.hint>кликните по полосе следа, чтобы открыть экран Heat.</NR_Guide_terminal_status.steps.0.hint>
+  <NR_Guide_onboarding_list.label>Вход в сеть</NR_Guide_onboarding_list.label>
+  <NR_Guide_onboarding_list.steps.0.text>Эти шаги вводят колонию в сеть. Выполненные становятся зелёными, жёлтый — следующий.</NR_Guide_onboarding_list.steps.0.text>
+  <NR_Guide_onboarding_list.steps.1.text>Когда всё выполнено, открывается Core, и его узлы открываются по одному. «Пропустить» сразу показывает полный Core.</NR_Guide_onboarding_list.steps.1.text>
+  <NR_Guide_core_map.label>Карта узлов</NR_Guide_core_map.label>
+  <NR_Guide_core_map.steps.0.text>Каждый узел — часть вашей сети: Клуб, Доска, Архив, Серверная, Студия, Шлюз. Бейджи считают то, что требует внимания.</NR_Guide_core_map.steps.0.text>
+  <NR_Guide_core_map.steps.1.text>Закрытые узлы показывают «?»: наведите, чтобы узнать, как их открыть.</NR_Guide_core_map.steps.1.text>
+  <NR_Guide_core_map.steps.1.hint>наведите на узел.</NR_Guide_core_map.steps.1.hint>
+  <NR_Guide_core_ring.label>Кольцо Heat</NR_Guide_core_ring.label>
+  <NR_Guide_core_ring.steps.0.text>Ваш след: пять сегментов на пять уровней, число и тренд за сутки.</NR_Guide_core_ring.steps.0.text>
+  <NR_Guide_core_ring.steps.0.hint>кликните по кольцу, чтобы открыть «Heat и след».</NR_Guide_core_ring.steps.0.hint>
+  <NR_Guide_core_now.label>Сейчас</NR_Guide_core_now.label>
+  <NR_Guide_core_now.steps.0.text>Одна главная рекомендация: что стоит сделать прямо сейчас. Кнопки под ней ведут в нужный узел.</NR_Guide_core_now.steps.0.text>
+  <NR_Guide_core_now.steps.0.hint>нажмите одну из её кнопок.</NR_Guide_core_now.steps.0.hint>
+  <NR_Guide_core_alerts.label>Тревоги</NR_Guide_core_alerts.label>
+  <NR_Guide_core_alerts.steps.0.text>Что горит: побеги ИИ, сроки, захваченные турели, просьбы. Красное — срочно; клик ведёт в узел.</NR_Guide_core_alerts.steps.0.text>
+  <NR_Guide_core_colony.label>Колония в сети</NR_Guide_core_colony.label>
+  <NR_Guide_core_colony.steps.0.text>Ресурсы сети: cyberdata, ИИ и слоты, брейнданс-чипы, благосклонность хакерской группы; ниже потребление сети и таймеры Шлюза.</NR_Guide_core_colony.steps.0.text>
+  <NR_Guide_heat_hero.label>Значение и шкала</NR_Guide_heat_hero.label>
+  <NR_Guide_heat_hero.steps.0.text>Ваш Heat и его уровень, изменение за 7 дней и сегодняшнее остывание. Шкала показывает все пять уровней с порогами.</NR_Guide_heat_hero.steps.0.text>
+  <NR_Guide_heat_graph.label>График за 7 дней</NR_Guide_heat_graph.label>
+  <NR_Guide_heat_graph.steps.0.text>Heat за последнюю неделю. Точки — события: зелёные сбросы, жёлтые нырки, красные взломы.</NR_Guide_heat_graph.steps.0.text>
+  <NR_Guide_heat_graph.steps.0.hint>наведите на точку.</NR_Guide_heat_graph.steps.0.hint>
+  <NR_Guide_heat_effects.label>Эффекты уровня</NR_Guide_heat_effects.label>
+  <NR_Guide_heat_effects.steps.0.text>Что даёт текущий уровень: какие угрозы могут прийти и как меняется остывание. Внизу — сколько ждать до уровня ниже.</NR_Guide_heat_effects.steps.0.text>
+  <NR_Guide_heat_lower.label>Как снизить</NR_Guide_heat_lower.label>
+  <NR_Guide_heat_lower.steps.0.text>Через фиксера: каждый фиксер пула со своим курсом. «Позвать» открывает канал, «Сбросить…» — окно сброса у этого фиксера.</NR_Guide_heat_lower.steps.0.text>
+  <NR_Guide_heat_lower.steps.0.hint>позвоните фиксеру и сбросьте немного следа.</NR_Guide_heat_lower.steps.0.hint>
+  <NR_Guide_heat_lower.steps.1.text>ИИ «Призрак» тоже стирает след (затемнён, если его нет). Или просто переждите: Heat остывает каждый день.</NR_Guide_heat_lower.steps.1.text>
+  <NR_Guide_heat_raised.label>Что подняло</NR_Guide_heat_raised.label>
+  <NR_Guide_heat_raised.steps.0.text>Главные источники Heat за неделю и итог: прирост, сброс, остывание.</NR_Guide_heat_raised.steps.0.text>
+  <NR_Guide_club_group.label>Хакерская группа</NR_Guide_club_group.label>
+  <NR_Guide_club_group.steps.0.text>Благосклонность за находки в киберпространстве. При полной шкале «Позвать группу» присылает союзных бойцов.</NR_Guide_club_group.steps.0.text>
+  <NR_Guide_club_list.label>Фиксеры</NR_Guide_club_list.label>
+  <NR_Guide_club_list.steps.0.text>Сначала закреплённые контакты, затем пул, который меняется. В карточке: специальность, черта, репутация и действия.</NR_Guide_club_list.steps.0.text>
+  <NR_Guide_club_list.steps.1.text>«Удержать» оставляет фиксера при смене пула; «Разорвать связь» убирает его.</NR_Guide_club_list.steps.1.text>
+  <NR_Guide_club_list.steps.1.hint>позвоните фиксеру, чтобы открыть канал.</NR_Guide_club_list.steps.1.hint>
+  <NR_Guide_board_list.label>Контракты</NR_Guide_board_list.label>
+  <NR_Guide_board_list.steps.0.text>Предложения фиксеров и ваши активные контракты со сроками и прогрессом.</NR_Guide_board_list.steps.0.text>
+  <NR_Guide_archive_list.label>Журнал следа</NR_Guide_archive_list.label>
+  <NR_Guide_archive_list.steps.0.text>Каждое изменение Heat, новые сверху: что произошло и на сколько.</NR_Guide_archive_list.steps.0.text>
+  <NR_Guide_studio_main.label>Студия</NR_Guide_studio_main.label>
+  <NR_Guide_studio_main.steps.0.text>Сырые брейнданс-записи с очков. Смонтируйте их в чипы.</NR_Guide_studio_main.steps.0.text>
+  <NR_Guide_server_list.label>Ваши ИИ</NR_Guide_server_list.label>
+  <NR_Guide_server_list.steps.0.text>Все ИИ по месту: сервер, сопроцессор, носитель. Доверие и голод показывают, как ему живётся.</NR_Guide_server_list.steps.0.text>
+  <NR_Guide_server_list.steps.1.text>Кормите, пользуйтесь услугой, переносите. Услуга стоит доверия и голода.</NR_Guide_server_list.steps.1.text>
+  <NR_Guide_server_list.steps.1.hint>наведите на кнопку услуги, чтобы увидеть цену.</NR_Guide_server_list.steps.1.hint>
+  <NR_Guide_gateway_field.label>Поле нод</NR_Guide_gateway_field.label>
+  <NR_Guide_gateway_field.steps.0.text>Внешние ноды киберпространства. Крупные круги платят больше; серые скрыты.</NR_Guide_gateway_field.steps.0.text>
+  <NR_Guide_gateway_field.steps.0.hint>потащите поле, колесо — масштаб, средняя кнопка — сброс.</NR_Guide_gateway_field.steps.0.hint>
+  <NR_Guide_gateway_zoom.label>Камера</NR_Guide_gateway_zoom.label>
+  <NR_Guide_gateway_zoom.steps.0.text>Приблизить, отдалить и сбросить камеру (или средняя кнопка мыши на поле).</NR_Guide_gateway_zoom.steps.0.text>
+  <NR_Guide_gateway_panel.label>Панель ноды</NR_Guide_gateway_panel.label>
+  <NR_Guide_gateway_panel.steps.0.text>Выбранная нода: тип, защита, ICE, награда и риск.</NR_Guide_gateway_panel.steps.0.text>
+  <NR_Guide_gateway_panel.steps.0.hint>кликните по ноде на поле.</NR_Guide_gateway_panel.steps.0.hint>
+  <NR_Guide_gateway_panel.steps.1.text>Выберите программы на нырок, проверьте цену и нажмите «НЫРНУТЬ». Здесь же поиск скрытых нод.</NR_Guide_gateway_panel.steps.1.text>
+  <NR_Guide_dive_steps.label>Ступени ноды</NR_Guide_dive_steps.label>
+  <NR_Guide_dive_steps.steps.0.text>Путь от лобби к выходу: ворота для взлома, ICE, файлы и память. Яркая ступень — где вы сейчас.</NR_Guide_dive_steps.steps.0.text>
+  <NR_Guide_dive_panel.label>Действия</NR_Guide_dive_panel.label>
+  <NR_Guide_dive_panel.steps.0.text>Действия на этот ход: шаг, скан, взлом, загрузка, выход. Каждое поднимает след нырка.</NR_Guide_dive_panel.steps.0.text>
+  <NR_Guide_dive_panel.steps.1.text>Ниже: программы, оставшиеся ходы, добыча и журнал.</NR_Guide_dive_panel.steps.1.text>
+  <NR_Guide_dive_retreat.label>Отступить</NR_Guide_dive_retreat.label>
+  <NR_Guide_dive_retreat.steps.0.text>Выйти из нырка раньше. Из лобби бесплатно; глубже теряется часть добычи.</NR_Guide_dive_retreat.steps.0.text>
+</LanguageData>

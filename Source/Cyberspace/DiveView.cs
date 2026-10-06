@@ -24,6 +24,8 @@ public static class DiveView
     public static void Draw(Rect rect, DiveSession session)
     {
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
+        GuideRegistry.Area("dive.steps", mapRect);
+        GuideRegistry.Area("dive.panel", new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f));
         DrawElements(mapRect, session);
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), session);
     }

@@ -47,6 +47,8 @@ public static class GatewayView
         ExternalNode selected = nodes.FirstOrDefault(n => n.Id == _selectedId);
 
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height - 24f);
+        GuideRegistry.Area("gateway.field", mapRect);
+        GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f));
         if (_listMode)
             DrawList(mapRect, nodes);
         else
@@ -111,6 +113,7 @@ public static class GatewayView
     /// <summary>Zoom in, zoom out and reset (also resets the pan).</summary>
     private static void DrawZoomButtons(Rect rect)
     {
+        GuideRegistry.Area("gateway.zoom", rect.ExpandedBy(4f));
         if (NetrunUI.Button(new Rect(rect.x, rect.y, 30f, 30f), "+", NetrunUI.Accent, _zoom < MaxZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomIn".Translate()))
             _zoom = Mathf.Min(MaxZoom, _zoom + 0.2f);
         if (NetrunUI.Button(new Rect(rect.x + 34f, rect.y, 30f, 30f), "−", NetrunUI.Accent, _zoom > MinZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomOut".Translate()))

@@ -42,9 +42,11 @@ public partial class Dialog_NetTerminal
         NetrunUI.Cached("core.gate." + _map.uniqueID, () => { gate?.Refresh(_map); return true; }, 1f);
         if (gate != null && !gate.OnboardingDone)
         {
+            GuideRegistry.Area("onboarding.list", rect.ContractedBy(Mathf.Min(48f, rect.width * 0.05f)));
             DrawOnboarding(rect);
             return;
         }
+        GuideRegistry.Area("core.map", new Rect(rect.x, rect.y, rect.width - SummaryWidth - 12f, rect.height));
         DrawMap(new Rect(rect.x, rect.y, rect.width - SummaryWidth - 12f, rect.height), tracker);
         DrawSummary(new Rect(rect.xMax - SummaryWidth, rect.y, SummaryWidth, rect.height), tracker);
     }
@@ -188,6 +190,7 @@ public partial class Dialog_NetTerminal
         HeatLevel current = tracker.Level;
         var rect = new Rect(center.x - RingRadius, center.y - RingRadius - 14f, RingRadius * 2f, RingRadius * 2f);
         Vector2 c = rect.center;
+        GuideRegistry.Area("core.ring", rect.ExpandedBy(10f));
 
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(rect.ExpandedBy(6f), NetrunUI.Disc);
@@ -310,8 +313,13 @@ public partial class Dialog_NetTerminal
         Rect inner = rect.ContractedBy(10f);
         float y = inner.y;
 
+        float y0 = y;
         y = DrawNow(inner, y, tracker);
-        y = DrawAlerts(inner, y + 4f, tracker);
+        GuideRegistry.Area("core.now", new Rect(inner.x - 4f, y0, inner.width + 8f, y - y0));
+        float y1 = y + 4f;
+        y = DrawAlerts(inner, y1, tracker);
+        GuideRegistry.Area("core.alerts", new Rect(inner.x - 4f, y1, inner.width + 8f, y - y1));
+        GuideRegistry.Area("core.colony", new Rect(inner.x - 4f, y + 4f, inner.width + 8f, inner.yMax - y - 4f));
         DrawColony(inner, y + 4f);
     }
 

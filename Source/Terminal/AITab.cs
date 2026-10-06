@@ -49,6 +49,7 @@ public static class AITab
         };
         groups.RemoveAll(g => g.list.Count == 0);
 
+        GuideRegistry.Area("server.list", listRect);
         float width = listRect.width - 16f;
         float height = groups.Sum(g => SectionHeight + g.list.Sum(a => CardHeight(a, map, manager, width) + CardGap));
         var viewRect = new Rect(0f, 0f, width, height);
