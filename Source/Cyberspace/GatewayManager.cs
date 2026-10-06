@@ -141,6 +141,25 @@ public class GatewayManager : GameComponent
         return true;
     }
 
+    /// <summary>Dev: allies ready again.</summary>
+    public void DevResetAllies() => _alliesReadyTick = 0;
+
+    /// <summary>Dev: a fresh node of the given type (visible, not an event node).</summary>
+    public void DevAddNode(ExternalNodeType type)
+    {
+        if (type == ExternalNodeType.CorpCore)
+        {
+            SpawnBoss();
+            return;
+        }
+        ExternalNode node = ExternalNode.Generate(_nextId++);
+        node.Type = type;
+        node.Hidden = node.Rival = node.Honeypot = node.WildAI = node.CounterHack = false;
+        if (_nodes.Count >= MaxNodes)
+            _nodes.RemoveAt(0);
+        _nodes.Add(node);
+    }
+
     public bool AlliesReady => Find.TickManager.TicksGame >= _alliesReadyTick;
 
     public AcceptanceReport CanCallAllies()

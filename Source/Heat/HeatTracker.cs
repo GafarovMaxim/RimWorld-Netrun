@@ -53,6 +53,21 @@ public class HeatTracker : GameComponent
             NotifyLevelUp();
     }
 
+    /// <summary>Dev: put Heat at an exact value (no multipliers), logged.</summary>
+    public void DevSetHeat(float value, string reason)
+    {
+        float target = Mathf.Clamp(value, 0f, MaxHeat);
+        if (target > _heat)
+        {
+            float multiplier = NetrunMod.Settings.HeatGainMultiplier;
+            AddHeat((target - _heat) / (multiplier > 0f ? multiplier : 1f), reason);
+        }
+        else if (target < _heat)
+        {
+            ReduceHeat(_heat - target, reason);
+        }
+    }
+
     public void ReduceHeat(float amount, string reason)
     {
         float old = _heat;

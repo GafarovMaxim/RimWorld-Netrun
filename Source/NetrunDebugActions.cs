@@ -163,4 +163,141 @@ public static class NetrunDebugActions
         foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
             fixer.GainReputation(20f);
     }
+
+    // ---- Added 2026-10-06: more test buttons ----
+
+    [DebugAction(Category, "-0.3 Netsick", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void RemoveNetsick(Pawn pawn)
+    {
+        Hediff netsick = pawn?.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
+        if (netsick != null)
+            netsick.Severity -= 0.3f;
+    }
+
+    [DebugAction(Category, "Set Heat level...", allowedGameStates = AllowedGameStates.Playing)]
+    private static void SetHeatLevel()
+    {
+        var levels = new List<(HeatLevel level, float value)>
+        {
+            (HeatLevel.Shadow, 0f), (HeatLevel.Noticed, 30f), (HeatLevel.Tracked, 55f), (HeatLevel.Target, 80f), (HeatLevel.RedZone, 97f),
+        };
+        Find.WindowStack.Add(new FloatMenu(levels.Select(l => new FloatMenuOption($"{l.level.Label().CapitalizeFirst()} ({l.value:0})",
+            () => HeatTracker.Get()?.DevSetHeat(l.value, "NR_LogDev".Translate()))).ToList()));
+    }
+
+    [DebugAction(Category, "Fire Netrun incident...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void FireIncident()
+    {
+        var options = DefDatabase<IncidentDef>.AllDefs.Where(d => d.defName.StartsWith("NR_")).OrderBy(d => d.defName)
+            .Select(d => new FloatMenuOption(d.defName, () =>
+            {
+                IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
+                parms.forced = true;
+                if (!d.Worker.TryExecute(parms))
+                    Messages.Message(d.defName + ": could not fire here", MessageTypeDefOf.RejectInput, historical: false);
+            })).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Category, "Spawn Gateway node...", allowedGameStates = AllowedGameStates.Playing)]
+    private static void SpawnNode()
+    {
+        var options = System.Enum.GetValues(typeof(ExternalNodeType)).Cast<ExternalNodeType>()
+            .Select(t => new FloatMenuOption(t.ToString(), () => GatewayManager.Get()?.DevAddNode(t))).ToList();
+        options.Add(new FloatMenuOption("Event nodes (rival, honeypot, wild AI)", () => GatewayManager.Get()?.SpawnEventNodes()));
+        options.Add(new FloatMenuOption("Counter-hack node (12 h)", () => GatewayManager.Get()?.AddCounterHackNode(12f)));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Category, "Dive: finish as clean exit", allowedGameStates = AllowedGameStates.Playing)]
+    private static void FinishDiveWin() => GatewayManager.Get()?.Session?.DevFinish(success: true);
+
+    [DebugAction(Category, "Dive: finish as failure", allowedGameStates = AllowedGameStates.Playing)]
+    private static void FinishDiveFail() => GatewayManager.Get()?.Session?.DevFinish(success: false);
+
+    [DebugAction(Category, "Show last dive summary", allowedGameStates = AllowedGameStates.Playing)]
+    private static void ShowLastReport()
+    {
+        DiveReport report = GatewayManager.Get()?.LastReport;
+        if (report != null)
+            Find.WindowStack.Add(new Dialog_DiveReport(report));
+        else
+            Messages.Message("No dive yet", MessageTypeDefOf.RejectInput, historical: false);
+    }
+
+    [DebugAction(Category, "Give resources...", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void GiveResources()
+    {
+        IntVec3 cell = UI.MouseCell();
+        Map map = Find.CurrentMap;
+        void Give(ThingDef def, int count)
+        {
+            while (count > 0)
+            {
+                Thing thing = ThingMaker.MakeThing(def);
+                thing.stackCount = System.Math.Min(count, def.stackLimit);
+                count -= thing.stackCount;
+                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
+            }
+        }
+        var options = new List<FloatMenuOption>
+        {
+            new("20 cyberdata", () => Give(NetrunDefOf.USH_Cyberdata, 20)),
+            new("5 advanced cyberdata", () => Give(NetrunDefOf.USH_AdvancedCyberdata, 5)),
+            new("AI fragment", () => Give(NetrunDefOf.NR_AIFragment, 1)),
+            new("AI core module", () => Give(NetrunDefOf.NR_AICoreModule, 1)),
+            new("3 braindance chips", () => Give(NetrunDefOf.NR_BraindanceChip, 3)),
+            new("3 black braindance chips", () => Give(NetrunDefOf.NR_BlackBraindanceChip, 3)),
+            new("3 raw recordings", () => Give(NetrunDefOf.NR_BraindanceRaw, 3)),
+            new("500 silver", () => Give(ThingDefOf.Silver, 500)),
+        };
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Category, "Reset cooldowns (fixers, group, AI)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void ResetCooldowns()
+    {
+        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
+            fixer.SilentUntilTick = 0;
+        GatewayManager.Get()?.DevResetAllies();
+        AIEventManager.Get()?.DevResetGap();
+        ReadyAIs();
+    }
+
+    [DebugAction(Category, "Fixers: new pool", allowedGameStates = AllowedGameStates.Playing)]
+    private static void NewFixerPool() => FixerManager.Get()?.DevNewPool();
+
+    [DebugAction(Category, "AIs: +20 trust", allowedGameStates = AllowedGameStates.Playing)]
+    private static void TrustUp()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            ai.AddTrust(20f);
+    }
+
+    [DebugAction(Category, "AIs: -20 trust", allowedGameStates = AllowedGameStates.Playing)]
+    private static void TrustDown()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            ai.AddTrust(-20f);
+    }
+
+    [DebugAction(Category, "AIs: +20 hunger", allowedGameStates = AllowedGameStates.Playing)]
+    private static void HungerUp()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            ai.AddHunger(20f);
+    }
+
+    [DebugAction(Category, "AIs: -20 hunger", allowedGameStates = AllowedGameStates.Playing)]
+    private static void HungerDown()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            ai.AddHunger(-20f);
+    }
+
+    [DebugAction(Category, "Network gate: open", allowedGameStates = AllowedGameStates.Playing)]
+    private static void GateOpen() => NetworkGate.Get()?.Open();
+
+    [DebugAction(Category, "Network gate: close (newcomer test)", allowedGameStates = AllowedGameStates.Playing)]
+    private static void GateClose() => NetworkGate.Get()?.Close();
 }

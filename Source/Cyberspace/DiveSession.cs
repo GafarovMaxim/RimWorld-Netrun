@@ -584,6 +584,23 @@ public class DiveSession : IExposable
         netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor);
     }
 
+    /// <summary>Dev: end the dive at once, as a clean exit (with the special roll) or a failure.</summary>
+    public void DevFinish(bool success)
+    {
+        if (Finished)
+            return;
+        if (success)
+        {
+            RollFiles();
+            RollSpecial();
+            End(success: true, keepShare: 1f);
+        }
+        else
+        {
+            End(success: false, keepShare: 0f);
+        }
+    }
+
     public AcceptanceReport CanExit() => Current.Kind == DiveElementKind.Exit ? true : "NR_DiveExitFar".Translate();
 
     public void Exit()

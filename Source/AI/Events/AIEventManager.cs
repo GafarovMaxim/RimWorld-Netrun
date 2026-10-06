@@ -57,6 +57,9 @@ public class AIEventManager : GameComponent
     public static AIEventManager Get() => Current.Game?.GetComponent<AIEventManager>();
 
     public float DefenseBonus => Find.TickManager.TicksGame < _defenseUntilTick ? _defenseBonus : 0f;
+    /// <summary>Dev: forget the colony-wide gap between AI events.</summary>
+    public void DevResetGap() => _lastEventTick = -GenDate.TicksPerDay * 30;
+
     public bool MercsBlocked => Find.TickManager.TicksGame < _mercBlockUntilTick;
 
     public void AddDefense(float amount, float days)

@@ -82,6 +82,18 @@ public class FixerManager : GameComponent
         return missing.Count == 0 ? null : missing.RandomElement();
     }
 
+    /// <summary>Dev: a brand-new pool (contracts with the old fixers are dropped).</summary>
+    public void DevNewPool()
+    {
+        foreach (Fixer fixer in _fixers.ToList())
+            ContractManager.Get()?.DropFixer(fixer);
+        _fixers.Clear();
+        for (int i = 0; i < Settings.poolSize; i++)
+            _fixers.Add(Generate(MissingSpecialty()));
+        foreach (Fixer fixer in _fixers)
+            ContractManager.Get()?.RegenerateOffers(fixer);
+    }
+
     public int HeldCount => _fixers.Count(f => f.Held && !f.Pinned);
 
     public AcceptanceReport CanHold(Fixer fixer)
