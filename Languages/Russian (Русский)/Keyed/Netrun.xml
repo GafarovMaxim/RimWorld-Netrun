@@ -99,4 +99,5 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsDifficultyName_Hard>Жёсткий</NR_SettingsDifficultyName_Hard>
   <NR_SettingsFont>Шрифт терминала: Tektur (выкл: стандартный)</NR_SettingsFont>
   <NR_SettingsFontTip>Окна мода используют шрифт Tektur (лицензия SIL OFL). Выключите, чтобы был шрифт игры.</NR_SettingsFontTip>
+  <NR_SettingsScale>Масштаб терминала (текст и иконки): {0}</NR_SettingsScale>
 </LanguageData>

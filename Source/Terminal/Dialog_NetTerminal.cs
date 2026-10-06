@@ -75,12 +75,21 @@ public partial class Dialog_NetTerminal : Window
     public override void DoWindowContents(Rect inRect)
     {
         bool font = NetrunFont.Push();
+        float scale = Mathf.Clamp(NetrunMod.Settings.TerminalScale, 0.8f, 1.3f);
+        Matrix4x4 matrix = GUI.matrix;
         try
         {
+            if (Mathf.Abs(scale - 1f) > 0.01f)
+            {
+                // Everything inside is laid out for a smaller (or larger) window and drawn scaled up (down).
+                GUI.matrix = matrix * Matrix4x4.Scale(new Vector3(scale, scale, 1f));
+                inRect = new Rect(inRect.x / scale, inRect.y / scale, inRect.width / scale, inRect.height / scale);
+            }
             DrawContents(inRect);
         }
         finally
         {
+            GUI.matrix = matrix;
             NetrunFont.Pop(font);
         }
     }
@@ -97,7 +106,22 @@ public partial class Dialog_NetTerminal : Window
         DrawWindow(inRect);
         GuideRegistry.End();
         DrawGuideOverlay(inRect);
+        DrawAmbientGlitch(inRect);
     }
+
+    /// <summary>In the Red Zone the terminal flickers now and then: a few torn slices for a tenth of a second.</summary>
+    private static void DrawAmbientGlitch(Rect rect)
+    {
+        if (!NetrunMod.Settings.Animations || HeatTracker.Get()?.Level != HeatLevel.RedZone)
+            return;
+        float f = Time.realtimeSinceStartup / 9f;
+        float t = (f - Mathf.Floor(f)) * 9f;
+        if (t < 0.12f)
+            NetrunUI.Glitch(rect, t / 0.12f, Mathf.FloorToInt(f), 5);
+    }
+
+    private View _titleView;
+    private float _titleChangedAt = -10f;
 
     private void DrawWindow(Rect inRect)
     {
@@ -316,7 +340,21 @@ public partial class Dialog_NetTerminal : Window
             : dive != null
                 ? "NR_TerminalTitleDive".Translate(dive.Node.Name.ToUpper())
                 : "NR_TerminalTitleNode".Translate(NodeLabel(_view).ToUpper());
-        Widgets.Label(new Rect(rect.x + 14f, rect.y, rect.width - 28f, rect.height), title.Colorize(NetrunUI.Accent));
+        if (_titleView != _view)
+        {
+            _titleView = _view;
+            _titleChangedAt = Time.realtimeSinceStartup;
+        }
+        var titleRect = new Rect(rect.x + 14f, rect.y, rect.width - 28f, rect.height);
+        float since = Time.realtimeSinceStartup - _titleChangedAt;
+        if (NetrunMod.Settings.Animations && since < 0.28f)
+        {
+            // A short RGB split as the screen changes.
+            float k = 1f - since / 0.28f;
+            Widgets.Label(new Rect(titleRect.x - 3f * k, titleRect.y, titleRect.width, titleRect.height), title.Colorize(new Color(1f, 0.2f, 0.5f, 0.6f * k)));
+            Widgets.Label(new Rect(titleRect.x + 3f * k, titleRect.y, titleRect.width, titleRect.height), title.Colorize(new Color(0.2f, 0.9f, 1f, 0.6f * k)));
+        }
+        Widgets.Label(titleRect, title.Colorize(NetrunUI.Accent));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 

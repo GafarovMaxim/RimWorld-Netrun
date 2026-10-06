@@ -370,6 +370,33 @@ public static class NetrunUI
     }
 
     private static bool _pressed;
+    private static readonly System.Collections.Generic.Dictionary<long, float> Clicks = [];
+
+    /// <summary>
+    /// A light glitch over <paramref name="r"/>: a few thin slices shifted sideways in magenta and cyan, fading as
+    /// <paramref name="t"/> goes 0 → 1. The slices change every couple of frames.
+    /// </summary>
+    public static void Glitch(Rect r, float t, int seed, int slices = 3)
+    {
+        if (Event.current.type != EventType.Repaint)
+            return;
+        var rnd = new System.Random(seed * 7349 + Time.frameCount / 2);
+        float a = 1f - t;
+        for (int i = 0; i < slices; i++)
+        {
+            float h = 1f + (float)rnd.NextDouble() * Mathf.Min(5f, r.height * 0.2f);
+            float y = r.y + (float)rnd.NextDouble() * (r.height - h);
+            float shift = ((float)rnd.NextDouble() * 2f - 1f) * Mathf.Min(10f, r.width * 0.08f);
+            float w = r.width * (0.3f + 0.7f * (float)rnd.NextDouble());
+            float x = r.x + (float)rnd.NextDouble() * (r.width - w);
+            Color c = i % 2 == 0 ? new Color(1f, 0.2f, 0.55f) : new Color(0.25f, 0.9f, 1f);
+            GUI.color = new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.7f * a);
+            GUI.DrawTexture(new Rect(x, y, w, h), BaseContent.WhiteTex);
+            GUI.color = new Color(c.r, c.g, c.b, 0.45f * a);
+            GUI.DrawTexture(new Rect(x + shift, y, w, Mathf.Max(1f, h * 0.5f)), BaseContent.WhiteTex);
+        }
+        GUI.color = Color.white;
+    }
 
     /// <summary>A bordered button in the given color; disabled ones are muted and explain why.</summary>
     public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null, Texture2D icon = null)
@@ -384,6 +411,9 @@ public static class NetrunUI
         if (active && lit > 0f && _pressed && NetrunMod.Settings.Animations)
             rect.y += 2f;
         Color c = active ? color : Muted;
+        float glitch = Clicks.TryGetValue(Key(hit), out float clickedAt) ? Time.realtimeSinceStartup - clickedAt : 99f;
+        if (glitch < 0.18f && NetrunMod.Settings.Animations)
+            rect.x += (Time.frameCount / 2 % 2 == 0 ? 1.5f : -1.5f) * (1f - glitch / 0.18f);
         Box(rect, Color.Lerp(new Color(0f, 0f, 0f, 0.15f), new Color(c.r, c.g, c.b, 0.18f), lit), new Color(c.r, c.g, c.b, active ? 0.75f + 0.25f * lit : 0.5f));
         Rect textRect = rect;
         if (icon != null)
@@ -407,9 +437,14 @@ public static class NetrunUI
         if (!fullTip.NullOrEmpty())
             Tip(hit, fullTip);
 
+        if (glitch < 0.18f && NetrunMod.Settings.Animations)
+            Glitch(rect, glitch / 0.18f, (int)Key(hit), 2);
         if (active && Widgets.ButtonInvisible(hit))
         {
             SoundDefOf.Click.PlayOneShotOnCamera();
+            if (Clicks.Count > 200)
+                Clicks.Clear();
+            Clicks[Key(hit)] = Time.realtimeSinceStartup;
             return true;
         }
         return false;
