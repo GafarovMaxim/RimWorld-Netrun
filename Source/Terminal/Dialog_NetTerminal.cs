@@ -178,7 +178,7 @@ public partial class Dialog_NetTerminal : Window
                 FixersTab.Draw(content, _map, ref _fixersScroll);
                 break;
             case View.Board:
-                ContractsTab.Draw(content, _map, ref _contractsScroll);
+                ContractsTab.Draw(content, _map, ref _contractsScroll, page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)));
                 break;
             case View.Archive:
                 ArchiveTab.Draw(content, _map, tracker, page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)), () => OpenNode(View.Core));

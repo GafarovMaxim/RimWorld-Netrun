@@ -193,6 +193,18 @@ public static class NetrunUI
         return now - h.since;
     }
 
+    private static readonly System.Collections.Generic.Dictionary<string, (float since, int frame)> Screens = [];
+
+    /// <summary>When the screen <paramref name="key"/> came on (again) after not being drawn: lists cascade in from there.</summary>
+    public static float CascadeStart(string key)
+    {
+        int frame = Time.frameCount;
+        if (!Screens.TryGetValue(key, out var s) || frame - s.frame > 2)
+            s = (Time.realtimeSinceStartup, frame);
+        Screens[key] = (s.since, frame);
+        return s.since;
+    }
+
     /// <summary>0..1, how lit a hover effect is: rises over <paramref name="fade"/> seconds after the mouse comes in.</summary>
     public static float HoverFade(Rect r, float fade = 0.15f)
     {

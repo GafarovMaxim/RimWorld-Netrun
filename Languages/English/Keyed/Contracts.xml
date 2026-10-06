@@ -36,22 +36,41 @@
 
   <NR_BoardActive>Active contract</NR_BoardActive>
   <NR_BoardOffers>Available ({0})</NR_BoardOffers>
-  <NR_BoardHistory>History</NR_BoardHistory>
-  <NR_BoardDue>due in {0}</NR_BoardDue>
-  <NR_BoardProgress>{0} / {1} done</NR_BoardProgress>
-  <NR_BoardReward>Reward: {0} silver, +{1} reputation</NR_BoardReward>
   <NR_BoardFail>Failure: −{0} rep., the fixer goes silent for {1} days</NR_BoardFail>
-  <NR_BoardDeliver>⇩ Deliver cyberdata ({0} in the colony)</NR_BoardDeliver>
-  <NR_BoardDifficulty>Difficulty</NR_BoardDifficulty>
   <NR_BoardDuration>Time: {0}</NR_BoardDuration>
   <NR_BoardSilver>{0} silver</NR_BoardSilver>
   <NR_BoardRep>+{0} rep.</NR_BoardRep>
   <NR_BoardOneActive>One active</NR_BoardOneActive>
-  <NR_BoardSilentText>This fixer is not answering: an earlier contract went wrong.</NR_BoardSilentText>
-  <NR_BoardSilentFor>silent for {0}</NR_BoardSilentFor>
   <NR_BoardNoHistory>No finished contracts yet.</NR_BoardNoHistory>
   <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
   <NR_BoardHistoryFailed>{0}, {1}: failed</NR_BoardHistoryFailed>
   <NR_BoardRepChip>Rep. {0}: {1}</NR_BoardRepChip>
   <NR_BoardActiveChip>Active: {0} / {1}</NR_BoardActiveChip>
+  <NR_BoardFixers>Fixers</NR_BoardFixers>
+  <NR_BoardAllFixers>All ({0})</NR_BoardAllFixers>
+  <NR_BoardAllFixersSub>all offers shown</NR_BoardAllFixersSub>
+  <NR_BoardFixerSub>rep. {0} · offers: {1}</NR_BoardFixerSub>
+  <NR_BoardSilentShort>silent</NR_BoardSilentShort>
+  <NR_BoardSilentBack>back in {0}</NR_BoardSilentBack>
+  <NR_BoardFilter>Filter</NR_BoardFilter>
+  <NR_BoardFilter_Any>Any difficulty</NR_BoardFilter_Any>
+  <NR_BoardFilter_Easy>Easy only</NR_BoardFilter_Easy>
+  <NR_BoardFilter_Hard>Hard only</NR_BoardFilter_Hard>
+  <NR_BoardSort>Sort</NR_BoardSort>
+  <NR_BoardSort_Reward>Reward</NR_BoardSort_Reward>
+  <NR_BoardSort_Duration>Term</NR_BoardSort_Duration>
+  <NR_BoardDifficulty_1>easy</NR_BoardDifficulty_1>
+  <NR_BoardDifficulty_2>medium</NR_BoardDifficulty_2>
+  <NR_BoardDifficulty_3>hard</NR_BoardDifficulty_3>
+  <NR_BoardTag_Delivery>Cyberdata delivery</NR_BoardTag_Delivery>
+  <NR_BoardTag_DeliveryTip>Hand cyberdata over at the terminal. Advanced cyberdata counts as {0}.</NR_BoardTag_DeliveryTip>
+  <NR_BoardTag_AnyHack>Any hacks</NR_BoardTag_AnyHack>
+  <NR_BoardTag_AnyHackTip>Every finished hack counts.</NR_BoardTag_AnyHackTip>
+  <NR_BoardTag_Quiet>Heat ≤ {0}</NR_BoardTag_Quiet>
+  <NR_BoardTag_QuietTip>The trace must not rise above "{0}" while the contract runs, or it fails.</NR_BoardTag_QuietTip>
+  <NR_BoardTagArticle>Click: the Cyberpedia article.</NR_BoardTagArticle>
+  <NR_BoardActiveLine>Done {0} of {1}</NR_BoardActiveLine>
+  <NR_BoardLeft>{0} left</NR_BoardLeft>
+  <NR_BoardDeliverShort>⇩ Deliver ({0})</NR_BoardDeliverShort>
+  <NR_BoardHistoryHead>History: last {0} contracts</NR_BoardHistoryHead>
 </LanguageData>

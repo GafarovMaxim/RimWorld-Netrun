@@ -17,6 +17,11 @@ NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 DYNAMIC = {
+    "NR_ArchiveTab_": ["Journal", "Reports", "Raids"],
+    "NR_ArchiveFilter_": ["All", "Hack", "Dive", "Scrub", "AI", "Events"],
+    "NR_ArchiveType_": ["Other", "Hack", "Dive", "Scrub", "AI", "Raid", "Event"],
+    "NR_BoardFilter_": ["Any", "Easy", "Hard"],
+    "NR_BoardDifficulty_": ["1", "2", "3"],
     "NR_HeatLevel_": HEAT,
     "NR_HeatLevelDesc_": HEAT,
     "NR_ExtNodeName_": ["Market", "Archive", "Corp", "Abandoned", "DarkExchange", "CorpCore"],

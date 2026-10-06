@@ -36,22 +36,41 @@
 
   <NR_BoardActive>Активный контракт</NR_BoardActive>
   <NR_BoardOffers>Доступные ({0})</NR_BoardOffers>
-  <NR_BoardHistory>История</NR_BoardHistory>
-  <NR_BoardDue>срок {0}</NR_BoardDue>
-  <NR_BoardProgress>{0} / {1} сдано</NR_BoardProgress>
-  <NR_BoardReward>Награда: {0} серебра, +{1} репутации</NR_BoardReward>
   <NR_BoardFail>Провал: −{0} реп., фиксер молчит {1} дня</NR_BoardFail>
-  <NR_BoardDeliver>⇩ Сдать cyberdata ({0} в колонии)</NR_BoardDeliver>
-  <NR_BoardDifficulty>Сложность</NR_BoardDifficulty>
   <NR_BoardDuration>Срок: {0}</NR_BoardDuration>
   <NR_BoardSilver>{0} серебра</NR_BoardSilver>
   <NR_BoardRep>+{0} реп.</NR_BoardRep>
   <NR_BoardOneActive>Один активный</NR_BoardOneActive>
-  <NR_BoardSilentText>Фиксер молчит: контракт сорван ранее.</NR_BoardSilentText>
-  <NR_BoardSilentFor>молчит {0}</NR_BoardSilentFor>
   <NR_BoardNoHistory>Завершённых контрактов пока нет.</NR_BoardNoHistory>
   <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
   <NR_BoardHistoryFailed>{0}, {1}: провален</NR_BoardHistoryFailed>
   <NR_BoardRepChip>Реп. {0}: {1}</NR_BoardRepChip>
   <NR_BoardActiveChip>Активных: {0} / {1}</NR_BoardActiveChip>
+  <NR_BoardFixers>Фиксеры</NR_BoardFixers>
+  <NR_BoardAllFixers>Все ({0})</NR_BoardAllFixers>
+  <NR_BoardAllFixersSub>показаны все контракты</NR_BoardAllFixersSub>
+  <NR_BoardFixerSub>реп. {0} · контрактов: {1}</NR_BoardFixerSub>
+  <NR_BoardSilentShort>молчит</NR_BoardSilentShort>
+  <NR_BoardSilentBack>вернётся через {0}</NR_BoardSilentBack>
+  <NR_BoardFilter>Фильтр</NR_BoardFilter>
+  <NR_BoardFilter_Any>Любая сложность</NR_BoardFilter_Any>
+  <NR_BoardFilter_Easy>Только лёгкие</NR_BoardFilter_Easy>
+  <NR_BoardFilter_Hard>Только тяжёлые</NR_BoardFilter_Hard>
+  <NR_BoardSort>Сортировка</NR_BoardSort>
+  <NR_BoardSort_Reward>Выгода</NR_BoardSort_Reward>
+  <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
+  <NR_BoardDifficulty_1>лёгкая</NR_BoardDifficulty_1>
+  <NR_BoardDifficulty_2>средняя</NR_BoardDifficulty_2>
+  <NR_BoardDifficulty_3>тяжёлая</NR_BoardDifficulty_3>
+  <NR_BoardTag_Delivery>Доставка cyberdata</NR_BoardTag_Delivery>
+  <NR_BoardTag_DeliveryTip>Сдать cyberdata через терминал. Продвинутые засчитываются за {0}.</NR_BoardTag_DeliveryTip>
+  <NR_BoardTag_AnyHack>Любые взломы</NR_BoardTag_AnyHack>
+  <NR_BoardTag_AnyHackTip>Засчитывается любой завершённый взлом.</NR_BoardTag_AnyHackTip>
+  <NR_BoardTag_Quiet>Heat ≤ «{0}»</NR_BoardTag_Quiet>
+  <NR_BoardTag_QuietTip>След не должен подняться выше «{0}», пока идёт контракт, иначе провал.</NR_BoardTag_QuietTip>
+  <NR_BoardTagArticle>Клик: статья в Киберпедии.</NR_BoardTagArticle>
+  <NR_BoardActiveLine>Сдано {0} из {1}</NR_BoardActiveLine>
+  <NR_BoardLeft>осталось {0}</NR_BoardLeft>
+  <NR_BoardDeliverShort>⇩ Сдать ({0})</NR_BoardDeliverShort>
+  <NR_BoardHistoryHead>История: последние контракты ({0})</NR_BoardHistoryHead>
 </LanguageData>
