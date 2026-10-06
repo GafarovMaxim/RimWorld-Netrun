@@ -93,15 +93,18 @@ public partial class Dialog_NetTerminal
         bool Open(View v) => gate == null || gate.IsUnlocked(v.ToString());
         foreach (var node in nodes)
             Widgets.DrawLine(center, node.pos, new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, Open(node.view) ? 0.8f : 0.25f), 2f);
-        DrawLinkPulses(center, nodes.Where(n => Open(n.view)).Select(n => (n.pos, n.color)).ToList());
+        if (Time.realtimeSinceStartup - _mapShownAt > 0.7f)
+            DrawLinkPulses(center, nodes.Where(n => Open(n.view)).Select(n => (n.pos, n.color)).ToList());
         for (int i = 0; i < nodes.Count; i++)
         {
             var node = nodes[i];
-            float appear = NetrunMod.Settings.Animations ? Mathf.Clamp01((Time.realtimeSinceStartup - _mapShownAt - i * 0.05f) / 0.35f) : 1f;
+            float appear = NetrunMod.Settings.Animations ? Mathf.Clamp01((Time.realtimeSinceStartup - _mapShownAt - i * 0.06f) / 0.4f) : 1f;
+            float ease = 1f - (1f - appear) * (1f - appear) * (1f - appear);
+            Vector2 pos = Vector2.Lerp(center, node.pos, ease);
             if (Open(node.view))
-                DrawNode(node.view, node.pos, NodeSize, node.icon, node.color, node.sub, node.badge, appear);
+                DrawNode(node.view, pos, NodeSize, node.icon, node.color, node.sub, node.badge, appear);
             else
-                DrawLockedNode(node.view, node.pos, NodeSize, node.icon, appear);
+                DrawLockedNode(node.view, pos, NodeSize, node.icon, appear);
         }
 
         DrawHeatRing(center, tracker);
@@ -115,15 +118,16 @@ public partial class Dialog_NetTerminal
     {
         var box = new Rect(pos.x - size / 2f, pos.y - size / 2f - 14f, size, size);
         bool hover = Mouse.IsOver(box);
+        float lit = NetrunUI.HoverFade(box);
         bool alarm = badge.Urgent;
         Color frame = alarm ? NetrunUI.Bad : color;
         float ease = 1f - (1f - appear) * (1f - appear);
 
-        if (hover)
-            NetrunUI.Glow(box, color, 0.9f);
+        if (lit > 0f)
+            NetrunUI.Glow(box, color, 0.9f * lit);
         else if (alarm)
             NetrunUI.Glow(box, NetrunUI.Bad, 0.35f + 0.25f * Mathf.Sin(NetrunUI.AnimTime * 2.4f));
-        Widgets.DrawBoxSolid(box, hover ? Color.Lerp(NetrunUI.BgWindow, color, 0.10f) : NetrunUI.BgWindow);
+        Widgets.DrawBoxSolid(box, Color.Lerp(NetrunUI.BgWindow, color, 0.10f * lit));
         GUI.color = new Color(frame.r, frame.g, frame.b, 0.5f * ease);
         Widgets.DrawBox(box.ContractedBy(4f));
         GUI.color = Color.white;
@@ -133,13 +137,12 @@ public partial class Dialog_NetTerminal
         GUI.color = new Color(1f, 1f, 1f, ease);
         GUI.DrawTexture(box.ContractedBy(size * 0.2f), icon);
         GUI.color = Color.white;
-        if (hover)
-            NetrunUI.Scanline(box.ContractedBy(4f), color);
+        NetrunUI.ScanlineOnce(box.ContractedBy(4f), color, NetrunUI.HoverTime(box));
 
         NetrunUI.Brackets(box.ExpandedBy(10f * (1f - ease)), new Color(frame.r, frame.g, frame.b, ease), hover ? 3f : 2.5f);
         Color led = alarm ? NetrunUI.Bad : !badge.Text.NullOrEmpty() ? NetrunUI.Warn : NetrunUI.Ok;
         NetrunUI.Led(new Rect(box.x + 10f, box.yMax - 9f, size * 0.32f, 3f), led, alarm);
-        DrawBadge(new Vector2(box.xMax, box.y), badge);
+        DrawBadge(new Vector2(box.xMax, box.y), badge, view.ToString());
 
         DrawNodeLabel(pos, box.yMax + 6f, NodeLabel(view).ToUpper(), color, sub);
 
@@ -201,13 +204,15 @@ public partial class Dialog_NetTerminal
         GUI.color = Color.white;
     }
 
-    private static void DrawBadge(Vector2 corner, NodeBadge badge)
+    private static void DrawBadge(Vector2 corner, NodeBadge badge, string key)
     {
+        int count = int.TryParse(badge.Text, out int n) ? n : 0;
+        float scale = NetrunUI.CountPulse("badge." + key, count);
         if (badge.Text.NullOrEmpty())
             return;
         Text.Font = GameFont.Tiny;
-        float w = Mathf.Max(20f, Text.CalcSize(badge.Text).x + 10f);
-        var rect = new Rect(corner.x - w / 2f, corner.y - 10f, w, 20f);
+        float w = Mathf.Max(20f, Text.CalcSize(badge.Text).x + 10f) * scale;
+        var rect = new Rect(corner.x - w / 2f, corner.y - 10f * scale, w, 20f * scale);
         Widgets.DrawBoxSolid(rect, badge.Urgent ? NetrunUI.Bad : NetrunUI.BgCardAlt);
         GUI.color = badge.Urgent ? NetrunUI.Bad : NetrunUI.Accent;
         Widgets.DrawBox(rect);
@@ -272,8 +277,9 @@ public partial class Dialog_NetTerminal
         DrawCoreNotches(rect, current);
 
         // The smooth ring (anti-aliased texture with level arcs, gaps and ticks) and the marker at the current value.
-        GUI.DrawTexture(rect, HeatRing.Get(tracker.Heat));
-        Vector2 tip = HeatRing.PointAt(rect, tracker.Heat);
+        float shown = NetrunUI.Rolling("core.heat", tracker.Heat, out float jump, out float since);
+        GUI.DrawTexture(rect, HeatRing.Get(shown));
+        Vector2 tip = HeatRing.PointAt(rect, shown);
         var marker = new Rect(tip.x - 7f, tip.y - 7f, 14f, 14f);
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(marker.ExpandedBy(2f), NetrunUI.Disc);
@@ -287,7 +293,17 @@ public partial class Dialog_NetTerminal
         GUI.DrawTexture(new Rect(c.x - 14f, c.y - 40f, 28f, 28f), NetrunTex.HeatIcon(current));
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), tracker.Heat.ToString("0").Colorize(lc));
+        Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), shown.ToString("0").Colorize(lc));
+        if (NetrunMod.Settings.Animations && since < 1.2f && Mathf.Abs(jump) >= 0.5f)
+        {
+            Text.Font = GameFont.Small;
+            float f = since / 1.2f;
+            Color jc = jump > 0f ? NetrunUI.Bad : NetrunUI.Ok;
+            GUI.color = new Color(1f, 1f, 1f, 1f - f);
+            Widgets.Label(new Rect(rect.xMax - 10f, rect.y + 10f - 24f * f, 60f, 24f), ((jump > 0f ? "+" : "") + jump.ToString("0")).Colorize(jc));
+            GUI.color = Color.white;
+            Text.Font = GameFont.Medium;
+        }
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(c.x - 55f, c.y + 12f, 110f, 16f), current.Label().ToUpper().Colorize(lc));
         float trend = HeatTrendPerDay(tracker);
@@ -308,8 +324,8 @@ public partial class Dialog_NetTerminal
     }
 
     /// <summary>
-    /// A thin outer circle with four notches at uneven angles and lengths. They drift a few degrees back and forth;
-    /// in the Red Zone they turn red and blink slowly (the frame itself never blinks).
+    /// A thin outer circle with four notches at uneven angles and lengths. They turn slowly; in the Red Zone faster,
+    /// red and blinking slowly (the frame itself never blinks).
     /// </summary>
     private static void DrawCoreNotches(Rect ringRect, HeatLevel level)
     {
@@ -322,7 +338,7 @@ public partial class Dialog_NetTerminal
         GUI.color = new Color(line.r, line.g, line.b, 0.35f);
         GUI.DrawTexture(outer, NetrunUI.ThinRing);
         GUI.color = Color.white;
-        float drift = 4f * Mathf.Sin(NetrunUI.AnimTime * 0.35f);
+        float drift = NetrunUI.AnimTime * (red ? 20f : 5f) % 360f;
         (float angle, float length)[] notches = [(-78f, 9f), (17f, 6f), (124f, 11f), (203f, 6f)];
         var col = new Color(line.r, line.g, line.b, blink);
         foreach ((float angle, float length) in notches)

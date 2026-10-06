@@ -140,23 +140,106 @@ public static class NetrunUI
         Widgets.DrawBoxSolid(new Rect(r.x - 3f, r.y + r.height * 0.34f, 5f, 2f), color);
     }
 
-    /// <summary>A dashed outline (the "current" mark).</summary>
+    /// <summary>A dashed outline (the "current" mark); the dashes slowly run around clockwise.</summary>
     public static void Dashed(Rect r, Color color, float dash = 5f, float gap = 4f)
     {
+        float period = dash + gap;
+        float shift = AnimTime * 10f % period;
         GUI.color = color;
-        for (float x = r.x; x < r.xMax; x += dash + gap)
+        // Top goes right, right goes down, bottom goes left, left goes up.
+        for (float s = shift - period; s < r.width; s += period)
         {
-            float w = Mathf.Min(dash, r.xMax - x);
-            GUI.DrawTexture(new Rect(x, r.y, w, 1f), BaseContent.WhiteTex);
-            GUI.DrawTexture(new Rect(x, r.yMax - 1f, w, 1f), BaseContent.WhiteTex);
+            float a = Mathf.Max(0f, s), b = Mathf.Min(r.width, s + dash);
+            if (b > a)
+            {
+                GUI.DrawTexture(new Rect(r.x + a, r.y, b - a, 1f), BaseContent.WhiteTex);
+                GUI.DrawTexture(new Rect(r.xMax - b, r.yMax - 1f, b - a, 1f), BaseContent.WhiteTex);
+            }
         }
-        for (float y = r.y; y < r.yMax; y += dash + gap)
+        for (float s = shift - period; s < r.height; s += period)
         {
-            float h = Mathf.Min(dash, r.yMax - y);
-            GUI.DrawTexture(new Rect(r.x, y, 1f, h), BaseContent.WhiteTex);
-            GUI.DrawTexture(new Rect(r.xMax - 1f, y, 1f, h), BaseContent.WhiteTex);
+            float a = Mathf.Max(0f, s), b = Mathf.Min(r.height, s + dash);
+            if (b > a)
+            {
+                GUI.DrawTexture(new Rect(r.xMax - 1f, r.y + a, 1f, b - a), BaseContent.WhiteTex);
+                GUI.DrawTexture(new Rect(r.x, r.yMax - b, 1f, b - a), BaseContent.WhiteTex);
+            }
         }
         GUI.color = Color.white;
+    }
+
+    // ---- Hover and change tracking for small animations (keyed by a rect or a name) ----
+
+    private static readonly System.Collections.Generic.Dictionary<long, (float since, int frame)> Hovers = [];
+    private static readonly System.Collections.Generic.Dictionary<string, (float value, float changed, float delta)> Values = [];
+
+    private static long Key(Rect r) => ((long)Mathf.RoundToInt(r.x) << 32) ^ ((long)Mathf.RoundToInt(r.y) << 12) ^ Mathf.RoundToInt(r.width);
+
+    /// <summary>Real seconds the mouse has been over <paramref name="r"/>, or -1 when it is not.</summary>
+    public static float HoverTime(Rect r)
+    {
+        if (!Mouse.IsOver(r))
+            return -1f;
+        long key = Key(r);
+        int frame = Time.frameCount;
+        float now = Time.realtimeSinceStartup;
+        if (!Hovers.TryGetValue(key, out var h) || frame - h.frame > 2)
+        {
+            if (Hovers.Count > 300)
+                Hovers.Clear();
+            h = (now, frame);
+        }
+        Hovers[key] = (h.since, frame);
+        return now - h.since;
+    }
+
+    /// <summary>0..1, how lit a hover effect is: rises over <paramref name="fade"/> seconds after the mouse comes in.</summary>
+    public static float HoverFade(Rect r, float fade = 0.15f)
+    {
+        float t = HoverTime(r);
+        if (t < 0f)
+            return 0f;
+        return NetrunMod.Settings.Animations ? Mathf.Clamp01(t / fade) : 1f;
+    }
+
+    /// <summary>
+    /// A shown number that rolls to its new value over about <paramref name="seconds"/>; also returns the last jump and
+    /// how long ago it happened (for a "+8" that floats away).
+    /// </summary>
+    public static float Rolling(string key, float target, out float lastDelta, out float sinceChange, float seconds = 0.6f)
+    {
+        float now = Time.realtimeSinceStartup;
+        if (!Values.TryGetValue(key, out var v))
+            v = (target, -10f, 0f);
+        if (Mathf.Abs(target - v.value) >= 0.5f && now - v.changed > seconds)
+            v = (v.value, now, target - v.value);
+        Values[key] = v;
+        lastDelta = v.delta;
+        sinceChange = now - v.changed;
+        if (!NetrunMod.Settings.Animations || sinceChange >= seconds)
+        {
+            Values[key] = (target, v.changed, v.delta);
+            return target;
+        }
+        float t = sinceChange / seconds;
+        t = 1f - (1f - t) * (1f - t) * (1f - t);
+        float start = target - v.delta;
+        return Mathf.Lerp(start, target, t);
+    }
+
+    /// <summary>1 normally; briefly up to 1.15 right after the counter under <paramref name="key"/> grows.</summary>
+    public static float CountPulse(string key, int count)
+    {
+        float now = Time.realtimeSinceStartup;
+        if (!Values.TryGetValue("pulse:" + key, out var v))
+            v = (count, -10f, 0f);
+        if (count > v.value)
+            v = (count, now, count - v.value);
+        else if (count < v.value)
+            v = (count, v.changed, 0f);
+        Values["pulse:" + key] = v;
+        float t = now - v.changed;
+        return NetrunMod.Settings.Animations && t < 0.35f ? 1f + 0.15f * Mathf.Sin(t / 0.35f * Mathf.PI) : 1f;
     }
 
     /// <summary>A bright line sweeping down the rect with a faint trail (hover effect).</summary>
@@ -173,10 +256,24 @@ public static class NetrunUI
         GUI.color = Color.white;
     }
 
-    /// <summary>A small status light: steady, or blinking when <paramref name="blink"/>.</summary>
+    /// <summary>One sweep of the scanline, <paramref name="t"/> seconds after the mouse came in.</summary>
+    public static void ScanlineOnce(Rect r, Color color, float t, float duration = 0.45f)
+    {
+        if (!NetrunMod.Settings.Animations || t < 0f || t > duration)
+            return;
+        float y = r.y + r.height * (t / duration);
+        GUI.color = new Color(color.r, color.g, color.b, 0.12f);
+        GUI.DrawTexture(new Rect(r.x, Mathf.Max(r.y, y - 12f), r.width, Mathf.Min(12f, y - r.y)), BaseContent.WhiteTex);
+        GUI.color = new Color(color.r, color.g, color.b, 0.7f);
+        GUI.DrawTexture(new Rect(r.x, y, r.width, 1f), BaseContent.WhiteTex);
+        GUI.color = Color.white;
+    }
+
+    /// <summary>A small status light: steady, or blinking once every 1.5 s when <paramref name="blink"/>.</summary>
     public static void Led(Rect r, Color color, bool blink = false)
     {
-        float a = blink && NetrunMod.Settings.Animations ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(Time.realtimeSinceStartup * 3.2f)) : 1f;
+        float phase = Time.realtimeSinceStartup / 1.5f % 1f;
+        float a = blink && NetrunMod.Settings.Animations ? 0.35f + 0.65f * Mathf.Clamp01(1f - Mathf.Abs(phase - 0.15f) / 0.15f) : 1f;
         GUI.color = new Color(color.r, color.g, color.b, 0.35f * a);
         GUI.DrawTexture(r.ExpandedBy(3f), GlowTex);
         GUI.color = new Color(color.r, color.g, color.b, a);
@@ -198,8 +295,7 @@ public static class NetrunUI
     {
         Box(rect, BgCard, new Color(stripe.r, stripe.g, stripe.b, 0.35f));
         Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, 4f, rect.height), stripe);
-        if (Mouse.IsOver(rect))
-            Scanline(rect, stripe, 2.4f);
+        ScanlineOnce(rect, stripe, HoverTime(rect), 0.5f);
     }
 
     /// <summary>A small bordered tag like "BROKER"; returns its width.</summary>
@@ -232,13 +328,22 @@ public static class NetrunUI
         return rect.x;
     }
 
+    private static bool _pressed;
+
     /// <summary>A bordered button in the given color; disabled ones are muted and explain why.</summary>
     public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null, Texture2D icon = null)
     {
         bool active = report.Accepted;
-        bool hover = Mouse.IsOver(rect);
+        Rect hit = rect;
+        if (Event.current.rawType == EventType.MouseDown && Event.current.button == 0)
+            _pressed = true;
+        else if (Event.current.rawType == EventType.MouseUp)
+            _pressed = false;
+        float lit = active ? HoverFade(hit, 0.1f) : 0f;
+        if (active && lit > 0f && _pressed && NetrunMod.Settings.Animations)
+            rect.y += 2f;
         Color c = active ? color : Muted;
-        Box(rect, active && hover ? new Color(c.r, c.g, c.b, 0.18f) : new Color(0f, 0f, 0f, 0.15f), new Color(c.r, c.g, c.b, active ? 1f : 0.5f));
+        Box(rect, Color.Lerp(new Color(0f, 0f, 0f, 0.15f), new Color(c.r, c.g, c.b, 0.18f), lit), new Color(c.r, c.g, c.b, active ? 0.75f + 0.25f * lit : 0.5f));
         Rect textRect = rect;
         if (icon != null)
         {
@@ -259,9 +364,9 @@ public static class NetrunUI
         if (!active && !report.Reason.NullOrEmpty())
             fullTip = (fullTip.NullOrEmpty() ? string.Empty : fullTip + "\n\n") + report.Reason.Colorize(ColorLibrary.RedReadable);
         if (!fullTip.NullOrEmpty())
-            Tip(rect, fullTip);
+            Tip(hit, fullTip);
 
-        if (active && Widgets.ButtonInvisible(rect))
+        if (active && Widgets.ButtonInvisible(hit))
         {
             SoundDefOf.Click.PlayOneShotOnCamera();
             return true;
@@ -315,6 +420,9 @@ public static class NetrunUI
     {
         if (text.NullOrEmpty() || !Mouse.IsOver(rect) || Event.current.type != EventType.Repaint)
             return;
+        float shown = NetrunMod.Settings.Animations ? Mathf.Clamp01((HoverTime(rect) - 0.2f) / 0.15f) : 1f;
+        if (shown <= 0f)
+            return;
         Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
         Text.Font = GameFont.Small;
         float w = Mathf.Min(TipMaxWidth, Text.CalcSize(text.StripTags()).x + 4f);
@@ -328,13 +436,15 @@ public static class NetrunUI
         {
             bool font = NetrunFont.Push();
             var local = new Rect(0f, 0f, box.width, box.height);
-            Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f));
-            GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f);
+            Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f * shown));
+            GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f * shown);
             Widgets.DrawBox(local);
             GUI.color = Color.white;
-            Widgets.DrawBoxSolid(new Rect(0f, 0f, 3f, local.height), Accent);
+            Widgets.DrawBoxSolid(new Rect(0f, 0f, 3f, local.height), new Color(Accent.r, Accent.g, Accent.b, shown));
             Text.Font = GameFont.Small;
+            GUI.color = new Color(1f, 1f, 1f, shown);
             Widgets.Label(new Rect(12f, 7f, w + 4f, h + 2f), text);
+            GUI.color = Color.white;
             NetrunFont.Pop(font);
         }, doBackground: false, absorbInputAroundWindow: false, shadowAlpha: 0f);
     }
