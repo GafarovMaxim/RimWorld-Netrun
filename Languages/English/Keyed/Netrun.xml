@@ -98,4 +98,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsDifficultyName_Easy>Easy</NR_SettingsDifficultyName_Easy>
   <NR_SettingsDifficultyName_Normal>Normal</NR_SettingsDifficultyName_Normal>
   <NR_SettingsDifficultyName_Hard>Hard</NR_SettingsDifficultyName_Hard>
+  <NR_SettingsFont>Terminal font: Tektur (off: the standard font)</NR_SettingsFont>
+  <NR_SettingsFontTip>The mod's windows use the Tektur font (SIL Open Font License). Turn off to use the game's font.</NR_SettingsFontTip>
+  <NR_SettingsFontMissing>Terminal font: the Tektur bundle was not found, the standard font is used.</NR_SettingsFontMissing>
 </LanguageData>

@@ -131,9 +131,10 @@ python tools/check_keys.py
 
 ## 📄 License
 
-[MIT](LICENSE) © 2026 Raul Moreau.
+[MIT](LICENSE) © 2026 Raul Moreau. The Tektur font (Fonts/, AssetBundles/netrun_fonts_*) is licensed separately under the [SIL Open Font License 1.1](Fonts/OFL.txt).
 
 ## 📜 Authors & Credits
 
 * **Author:** Raul Moreau (GafarovMaxim)
+* **Font:** [Tektur](https://github.com/hyvyys/Tektur) © 2023 The Tektur Project Authors, SIL OFL 1.1.
 * **Special Thanks:** BlueEagle421 & the Ushanka Modding Team for the incredible foundation of Hacking Expansion.

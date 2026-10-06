@@ -40,6 +40,19 @@ public class Dialog_FixerScrub : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        bool font = NetrunFont.Push();
+        try
+        {
+            DrawContents(inRect);
+        }
+        finally
+        {
+            NetrunFont.Pop(font);
+        }
+    }
+
+    private void DrawContents(Rect inRect)
+    {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         Rect r = inRect.ContractedBy(14f);
         float y = r.y;

@@ -265,7 +265,7 @@ public class IncidentWorker_DistressSignal : IncidentWorker
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
         var map = (Map)parms.target;
-        if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => c.Standable(map) && !c.Fogged(map) && c.GetFirstBuilding(map) == null, map, out IntVec3 cell))
+        if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => GenAdj.OccupiedRect(c, Rot4.North, NetrunDefOf.NR_DistressServer.size).All(x => x.InBounds(map) && x.Standable(map) && !x.Fogged(map) && x.GetFirstBuilding(map) == null), map, out IntVec3 cell))
             return false;
         Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
         SendStandardLetter("NR_DistressLabel".Translate(), "NR_Distress".Translate(), LetterDefOf.PositiveEvent, parms, server);

@@ -196,6 +196,7 @@ public static class NetrunUI
             box.y = mouse.y - box.height - 8f;
         Find.WindowStack.ImmediateWindow(TipWindowId, box, WindowLayer.Super, () =>
         {
+            bool font = NetrunFont.Push();
             var local = new Rect(0f, 0f, box.width, box.height);
             Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f));
             GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f);
@@ -204,6 +205,7 @@ public static class NetrunUI
             Widgets.DrawBoxSolid(new Rect(0f, 0f, 3f, local.height), Accent);
             Text.Font = GameFont.Small;
             Widgets.Label(new Rect(12f, 7f, w + 4f, h + 2f), text);
+            NetrunFont.Pop(font);
         }, doBackground: false, absorbInputAroundWindow: false, shadowAlpha: 0f);
     }
 

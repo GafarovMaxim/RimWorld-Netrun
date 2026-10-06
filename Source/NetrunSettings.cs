@@ -48,6 +48,8 @@ public class NetrunSettings : ModSettings
     public bool PauseOnOpen = true;
     /// <summary>Moving and glowing bits of the terminal (floating Gateway nodes, node glow).</summary>
     public bool Animations = true;
+    /// <summary>Use the Tektur font in the mod's windows (when its bundle is present).</summary>
+    public bool TerminalFont = true;
 
     private static readonly float[] Frequencies = [0f, 0.5f, 1f, 2f];
 
@@ -84,6 +86,19 @@ public class NetrunSettings : ModSettings
     private float _w;
 
     public void DoWindowContents(Rect inRect)
+    {
+        bool font = NetrunFont.Push();
+        try
+        {
+            DrawWindow(inRect);
+        }
+        finally
+        {
+            NetrunFont.Pop(font);
+        }
+    }
+
+    private void DrawWindow(Rect inRect)
     {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         Rect outer = inRect.ContractedBy(10f);
@@ -283,6 +298,10 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
         Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
         Toggle("NR_SettingsAnimations", ref Animations, "NR_SettingsAnimationsTip");
+        if (NetrunFont.Available)
+            Toggle("NR_SettingsFont", ref TerminalFont, "NR_SettingsFontTip");
+        else
+            Label("NR_SettingsFontMissing".Translate(), NetrunUI.Muted);
         _y += 6f;
     }
 
@@ -340,6 +359,7 @@ public class NetrunSettings : ModSettings
         ShowDiveReport = true;
         PauseOnOpen = true;
         Animations = true;
+        TerminalFont = true;
     }
 
     public override void ExposeData()
@@ -358,6 +378,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);
+        Scribe_Values.Look(ref TerminalFont, "terminalFont", true);
         if (AIEventFrequency < 0f)
             AIEventFrequency = 1f;
         if (ScrubMultiplier <= 0f)

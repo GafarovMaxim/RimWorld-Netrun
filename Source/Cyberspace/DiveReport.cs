@@ -98,6 +98,19 @@ public class Dialog_DiveReport : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        bool font = NetrunFont.Push();
+        try
+        {
+            DrawContents(inRect);
+        }
+        finally
+        {
+            NetrunFont.Pop(font);
+        }
+    }
+
+    private void DrawContents(Rect inRect)
+    {
         _row = 0;
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f);

@@ -84,12 +84,12 @@
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(2.4,2.4)</drawSize>
+      <drawSize>(3,3)</drawSize>
       <color>(0.6, 0.6, 0.6)</color>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
-    <size>(1,1)</size>
+    <size>(3,3)</size>
     <rotatable>false</rotatable>
     <useHitPoints>true</useHitPoints>
     <statBases>

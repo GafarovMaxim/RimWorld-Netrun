@@ -76,6 +76,19 @@ public partial class Dialog_NetTerminal : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        bool font = NetrunFont.Push();
+        try
+        {
+            DrawContents(inRect);
+        }
+        finally
+        {
+            NetrunFont.Pop(font);
+        }
+    }
+
+    private void DrawContents(Rect inRect)
+    {
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.F1)
         {
             OpenHelp();

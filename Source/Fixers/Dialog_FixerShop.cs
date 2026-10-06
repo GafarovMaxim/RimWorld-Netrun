@@ -33,6 +33,19 @@ public class Dialog_FixerShop : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        bool font = NetrunFont.Push();
+        try
+        {
+            DrawContents(inRect);
+        }
+        finally
+        {
+            NetrunFont.Pop(font);
+        }
+    }
+
+    private void DrawContents(Rect inRect)
+    {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         Rect r = inRect.ContractedBy(14f);
         int silver = ColonyGoods.Count(_map, ThingDefOf.Silver);
