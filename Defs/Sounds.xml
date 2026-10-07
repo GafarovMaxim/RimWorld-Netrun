@@ -303,6 +303,66 @@
     </subSounds>
   </SoundDef>
 
+  <!-- a step to the next step of a node -->
+  <SoundDef>
+    <defName>NR_Clean_Dive_Move</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Dive/Move</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step back (the same step reversed and lower) -->
+  <SoundDef>
+    <defName>NR_Clean_Dive_Back</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Dive/Back</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a hack of a gate or ICE fails -->
+  <SoundDef>
+    <defName>NR_Clean_Dive_HackFail</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Dive/HackFail</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- jack out of the dive (disconnect) -->
+  <SoundDef>
+    <defName>NR_Clean_Dive_Exit</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Dive/Exit</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
   <!-- an AI wakes up -->
   <SoundDef>
     <defName>NR_Clean_AI_Awaken</defName>
@@ -796,6 +856,66 @@
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Dive/ICE</clipPath></li></grains>
         <volumeRange>65~65</volumeRange>
         <pitchRange>0.95~1.05</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step to the next step of a node -->
+  <SoundDef>
+    <defName>NR_Minimal_Dive_Move</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Dive/Move</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step back (the same step reversed and lower) -->
+  <SoundDef>
+    <defName>NR_Minimal_Dive_Back</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Dive/Back</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a hack of a gate or ICE fails -->
+  <SoundDef>
+    <defName>NR_Minimal_Dive_HackFail</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Dive/HackFail</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- jack out of the dive (disconnect) -->
+  <SoundDef>
+    <defName>NR_Minimal_Dive_Exit</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Dive/Exit</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
     </subSounds>
@@ -1299,6 +1419,66 @@
     </subSounds>
   </SoundDef>
 
+  <!-- a step to the next step of a node -->
+  <SoundDef>
+    <defName>NR_Neon_Dive_Move</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Dive/Move</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step back (the same step reversed and lower) -->
+  <SoundDef>
+    <defName>NR_Neon_Dive_Back</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Dive/Back</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a hack of a gate or ICE fails -->
+  <SoundDef>
+    <defName>NR_Neon_Dive_HackFail</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Dive/HackFail</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- jack out of the dive (disconnect) -->
+  <SoundDef>
+    <defName>NR_Neon_Dive_Exit</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Dive/Exit</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
   <!-- an AI wakes up -->
   <SoundDef>
     <defName>NR_Neon_AI_Awaken</defName>
@@ -1797,6 +1977,66 @@
     </subSounds>
   </SoundDef>
 
+  <!-- a step to the next step of a node -->
+  <SoundDef>
+    <defName>NR_RetroDeck_Dive_Move</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Dive/Move</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step back (the same step reversed and lower) -->
+  <SoundDef>
+    <defName>NR_RetroDeck_Dive_Back</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Dive/Back</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a hack of a gate or ICE fails -->
+  <SoundDef>
+    <defName>NR_RetroDeck_Dive_HackFail</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Dive/HackFail</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- jack out of the dive (disconnect) -->
+  <SoundDef>
+    <defName>NR_RetroDeck_Dive_Exit</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Dive/Exit</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
   <!-- an AI wakes up -->
   <SoundDef>
     <defName>NR_RetroDeck_AI_Awaken</defName>
@@ -2290,6 +2530,66 @@
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Dive/ICE</clipPath></li></grains>
         <volumeRange>65~65</volumeRange>
         <pitchRange>0.95~1.05</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step to the next step of a node -->
+  <SoundDef>
+    <defName>NR_Deep_Dive_Move</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Dive/Move</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a step back (the same step reversed and lower) -->
+  <SoundDef>
+    <defName>NR_Deep_Dive_Back</defName>
+    <context>Any</context>
+    <maxSimultaneous>2</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Dive/Back</clipPath></li></grains>
+        <volumeRange>40~40</volumeRange>
+        <pitchRange>0.97~1.03</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- a hack of a gate or ICE fails -->
+  <SoundDef>
+    <defName>NR_Deep_Dive_HackFail</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Dive/HackFail</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
+        <onCamera>true</onCamera>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+  <!-- jack out of the dive (disconnect) -->
+  <SoundDef>
+    <defName>NR_Deep_Dive_Exit</defName>
+    <context>Any</context>
+    <maxSimultaneous>1</maxSimultaneous>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Dive/Exit</clipPath></li></grains>
+        <volumeRange>55~55</volumeRange>
+        <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
     </subSounds>
