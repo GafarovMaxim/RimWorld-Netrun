@@ -97,8 +97,18 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
             Event.current.Use();
         }
-        // The cyberdeck casing outside, the interface on its screen.
-        inRect = NetrunUI.Bezel(inRect, 20f, "NR_DeckPlate".Translate());
+        // The rugged cyberdeck casing outside (gauges show Heat and the net), the interface on its screen.
+        // Its hardware keys: back (out of the Cyberpedia or a node), home, the Cyberpedia.
+        HeatTracker heat = HeatTracker.Get();
+        inRect = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (heat?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen, key =>
+        {
+            if (key == 2)
+                OpenHelp();
+            else if (_view == View.Help)
+                LeaveHelp();
+            else if (Dive == null)
+                GoHome();
+        });
         GuideInput();
         GuideRegistry.Begin();
         DrawWindow(inRect);

@@ -21,6 +21,7 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_DeckKey_": ["0", "1", "2"],
     "NR_HelpContractStage_": ["Board", "Taken", "Work", "Pay"],
     "NR_HelpContractStageDesc_": ["Board", "Taken", "Work", "Pay"],
     "NR_HelpBDTier_": ["0", "1", "2"],

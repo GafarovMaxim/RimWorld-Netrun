@@ -55,7 +55,7 @@ public class Dialog_AIServer : Window
         try
         {
             NetrunSound.Ambient("Ambient_Terminal");
-            Rect screen = NetrunUI.Bezel(inRect, 18f, "NR_DeckPlate".Translate());
+            Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen);
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);
             Text.Font = GameFont.Medium;

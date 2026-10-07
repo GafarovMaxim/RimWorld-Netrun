@@ -429,6 +429,170 @@ public static class NetrunUI
         return screen;
     }
 
+    private static readonly Color DeckBody = Hex(0x1b1e22);
+    private static readonly Color DeckRubber = Hex(0x0c0d0f);
+    private static readonly Color DeckOrange = Hex(0xf08a24);
+    public const float DeckSide = 22f, DeckTop = 32f, DeckBottom = 38f;
+
+    /// <summary>
+    /// The terminal's rugged cyberdeck casing (after Maxim's references): rubber corner bumpers on bolts, side rails
+    /// with grip ridges, two live gauges on top (Heat and the net), a tuning scale and an antenna port, and along the
+    /// bottom an engraved plate, three hardware keys, a vent grille, an orange key and the power light. The keys call
+    /// <paramref name="onKey"/> (0 back, 1 home, 2 help). Returns the screen inside.
+    /// </summary>
+    public static Rect DeckBezel(Rect outer, string plate, float heat01, bool online, System.Action<int> onKey = null)
+    {
+        bool anim = NetrunMod.Settings.Animations;
+        float time = Time.realtimeSinceStartup;
+        // Body: a darker shell with a lighter upper band, the outer edge lit.
+        Widgets.DrawBoxSolid(outer, DeckBody);
+        Widgets.DrawBoxSolid(new Rect(outer.x, outer.y, outer.width, DeckTop * 0.45f), new Color(1f, 1f, 1f, 0.025f));
+        Widgets.DrawBoxSolid(new Rect(outer.x, outer.yMax - DeckBottom * 0.35f, outer.width, DeckBottom * 0.35f), new Color(0f, 0f, 0f, 0.18f));
+        GUI.color = BezelLight;
+        Widgets.DrawBox(outer);
+        GUI.color = Color.white;
+
+        var screen = new Rect(outer.x + DeckSide, outer.y + DeckTop, outer.width - 2f * DeckSide, outer.height - DeckTop - DeckBottom);
+        // The screen sits in a recess: dark shadow on top and left, a lit lip below and right.
+        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.y - 3f, screen.width + 6f, 3f), new Color(0f, 0f, 0f, 0.7f));
+        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.y - 3f, 3f, screen.height + 6f), new Color(0f, 0f, 0f, 0.7f));
+        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.yMax, screen.width + 6f, 2f), BezelLight);
+        Widgets.DrawBoxSolid(new Rect(screen.xMax, screen.y - 3f, 2f, screen.height + 5f), BezelLight);
+
+        // Side rails: a recessed handle slot with grip ridges and two mounting blocks.
+        foreach (float rx in new[] { outer.x + DeckSide / 2f - 4f, outer.xMax - DeckSide / 2f - 4f })
+        {
+            var slot = new Rect(rx, outer.y + 78f, 8f, outer.height - 156f);
+            if (slot.height < 40f)
+                continue;
+            Widgets.DrawBoxSolid(slot, new Color(0f, 0f, 0f, 0.55f));
+            for (float gy = slot.y + 30f; gy < slot.yMax - 30f; gy += 6f)
+                Widgets.DrawBoxSolid(new Rect(slot.x + 1f, gy, slot.width - 2f, 1f), new Color(1f, 1f, 1f, 0.06f));
+            foreach (float my in new[] { slot.y - 4f, slot.yMax - 10f })
+            {
+                Widgets.DrawBoxSolid(new Rect(slot.x - 3f, my, slot.width + 6f, 14f), BezelLight);
+                GUI.color = new Color(0f, 0f, 0f, 0.6f);
+                GUI.DrawTexture(new Rect(slot.center.x - 2.5f, my + 4.5f, 5f, 5f), Disc);
+                GUI.color = Color.white;
+            }
+        }
+
+        // Rubber corner bumpers, each held by a bolt.
+        const float bump = 56f;
+        foreach ((float bx, float by, int sx, int sy) in new[]
+                 {
+                     (outer.x, outer.y, 1, 1), (outer.xMax, outer.y, -1, 1), (outer.x, outer.yMax, 1, -1), (outer.xMax, outer.yMax, -1, -1),
+                 })
+        {
+            var h = new Rect(sx > 0 ? bx : bx - bump, sy > 0 ? by : by - (sy > 0 ? DeckTop : DeckBottom), bump, sy > 0 ? DeckTop : DeckBottom);
+            var v = new Rect(sx > 0 ? bx : bx - DeckSide, sy > 0 ? by : by - bump, DeckSide, bump);
+            Widgets.DrawBoxSolid(h, DeckRubber);
+            Widgets.DrawBoxSolid(v, DeckRubber);
+            Widgets.DrawBoxSolid(new Rect(h.x, sy > 0 ? h.y : h.yMax - 1f, h.width, 1f), new Color(1f, 1f, 1f, 0.08f));
+            var bolt = new Rect((sx > 0 ? bx + DeckSide / 2f : bx - DeckSide / 2f) - 4.5f, (sy > 0 ? by + Mathf.Min(DeckTop, DeckBottom) / 2f : by - Mathf.Min(DeckTop, DeckBottom) / 2f) - 4.5f, 9f, 9f);
+            GUI.color = BezelLight;
+            GUI.DrawTexture(bolt, Disc);
+            GUI.color = new Color(0f, 0f, 0f, 0.75f);
+            GUI.DrawTexture(new Rect(bolt.x + 1f, bolt.center.y - 0.75f, bolt.width - 2f, 1.5f), BaseContent.WhiteTex);
+            GUI.color = Color.white;
+        }
+
+        // Top: two gauges (Heat, the net), a tuning scale with a drifting marker, an antenna port on the right.
+        float gx = outer.x + bump + 12f;
+        float gd = DeckTop - 8f;
+        DeckGauge(new Rect(gx, outer.y + 4f, gd, gd), heat01, heat01 >= 0.6f ? Bad : heat01 >= 0.3f ? Warn : Ok, "NR_DeckGaugeHeat".Translate());
+        float net = online ? 0.55f + (anim ? 0.08f * Mathf.Sin(time * 2.3f) + 0.04f * Mathf.Sin(time * 7.1f) : 0f) : 0.02f;
+        DeckGauge(new Rect(gx + gd + 8f, outer.y + 4f, gd, gd), net, online ? Accent : Muted, "NR_DeckGaugeNet".Translate());
+        var scale = new Rect(gx + 2f * gd + 22f, outer.y + 9f, Mathf.Min(150f, outer.width * 0.18f), DeckTop - 18f);
+        Widgets.DrawBoxSolid(scale, new Color(0f, 0f, 0f, 0.55f));
+        for (int i = 0; i <= 20; i++)
+        {
+            float tx = scale.x + 4f + (scale.width - 8f) * i / 20f;
+            Widgets.DrawBoxSolid(new Rect(tx, scale.yMax - (i % 5 == 0 ? 8f : 4f), 1f, i % 5 == 0 ? 8f : 4f), new Color(1f, 1f, 1f, 0.35f));
+        }
+        float drift = anim ? 0.5f + 0.42f * Mathf.Sin(time * 0.37f) : 0.5f;
+        Widgets.DrawBoxSolid(new Rect(scale.x + 4f + (scale.width - 8f) * drift - 1f, scale.y + 1f, 2f, scale.height - 2f), DeckOrange);
+        var port = new Rect(outer.xMax - bump - 30f, outer.y + 6f, DeckTop - 12f, DeckTop - 12f);
+        GUI.color = BezelLight;
+        GUI.DrawTexture(port, Disc);
+        GUI.color = DeckRubber;
+        GUI.DrawTexture(port.ContractedBy(4f), Disc);
+        GUI.color = new Color(1f, 1f, 1f, 0.5f);
+        GUI.DrawTexture(port.ContractedBy(7f), Disc);
+        GUI.color = Color.white;
+        Widgets.DrawBoxSolid(new Rect(port.xMax - 2f, port.center.y - 2f, outer.xMax - bump - port.xMax + 2f, 4f), DeckRubber);
+
+        // Bottom: the plate, three hardware keys, a vent grille, the orange key and the power light.
+        float by0 = outer.yMax - DeckBottom;
+        if (!plate.NullOrEmpty())
+        {
+            Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            float pw = Text.CalcSize(plate).x + 18f;
+            var pr = new Rect(outer.x + bump + 10f, by0 + 7f, pw, DeckBottom - 14f);
+            Widgets.DrawBoxSolid(pr, new Color(0f, 0f, 0f, 0.4f));
+            Widgets.DrawBoxSolid(new Rect(pr.x, pr.yMax - 1f, pr.width, 1f), BezelLight);
+            Widgets.Label(new Rect(pr.x + 9f, pr.y, pr.width, pr.height), plate.Colorize(new Color(1f, 1f, 1f, 0.66f)));
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+        string[] glyphs = ["◄", "●", "►"];
+        const float kw = 40f, kh = 22f;
+        float kx = outer.center.x - (3 * kw + 2 * 8f) / 2f;
+        for (int i = 0; i < 3; i++)
+        {
+            var key = new Rect(kx + i * (kw + 8f), by0 + (DeckBottom - kh) / 2f, kw, kh);
+            bool over = Mouse.IsOver(key);
+            Widgets.DrawBoxSolid(key, over ? Hex(0x2a2f36) : Hex(0x15181c));
+            Widgets.DrawBoxSolid(new Rect(key.x, key.y, key.width, 1f), new Color(1f, 1f, 1f, over ? 0.18f : 0.1f));
+            Widgets.DrawBoxSolid(new Rect(key.x, key.yMax - 2f, key.width, 2f), new Color(0f, 0f, 0f, 0.6f));
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(key, glyphs[i].Colorize(over ? Accent : new Color(1f, 1f, 1f, 0.55f)));
+            Text.Anchor = TextAnchor.UpperLeft;
+            if (onKey != null)
+            {
+                Tip(key, ("NR_DeckKey_" + i).Translate());
+                if (Widgets.ButtonInvisible(key, doMouseoverSound: false))
+                {
+                    NetrunSound.Click();
+                    onKey(i);
+                }
+            }
+        }
+        float vx = outer.xMax - bump - 150f;
+        for (int i = 0; i < 9; i++)
+            Widgets.DrawBoxSolid(new Rect(vx + i * 8f, by0 + 9f, 4f, DeckBottom - 18f), new Color(0f, 0f, 0f, 0.6f));
+        var orange = new Rect(vx + 9 * 8f + 10f, by0 + 10f, 14f, DeckBottom - 20f);
+        Widgets.DrawBoxSolid(orange, DeckOrange);
+        Widgets.DrawBoxSolid(new Rect(orange.x, orange.y, orange.width, 1f), new Color(1f, 1f, 1f, 0.35f));
+        float a = anim ? 0.6f + 0.4f * Mathf.Sin(time * 1.5f) : 1f;
+        Led(new Rect(orange.xMax + 14f, by0 + DeckBottom / 2f - 2f, 16f, 4f), new Color(Ok.r, Ok.g, Ok.b, a));
+        return screen;
+    }
+
+    /// <summary>A round gauge in the casing: a black face, ticks and a needle from -135° to +135°.</summary>
+    private static void DeckGauge(Rect r, float value, Color needle, string tip)
+    {
+        GUI.color = BezelLight;
+        GUI.DrawTexture(r, Disc);
+        GUI.color = Hex(0x07080a);
+        GUI.DrawTexture(r.ContractedBy(2f), Disc);
+        GUI.color = Color.white;
+        Vector2 c = r.center;
+        float rad = r.width / 2f - 3f;
+        for (int i = 0; i <= 6; i++)
+        {
+            float ang = Mathf.Deg2Rad * (-135f + 270f * i / 6f - 90f);
+            var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+            Widgets.DrawLine(c + dir * (rad - 3f), c + dir * rad, new Color(1f, 1f, 1f, 0.45f), 1f);
+        }
+        float va = Mathf.Deg2Rad * (-135f + 270f * Mathf.Clamp01(value) - 90f);
+        Widgets.DrawLine(c, c + new Vector2(Mathf.Cos(va), Mathf.Sin(va)) * (rad - 2f), needle, 1.5f);
+        GUI.color = BezelLight;
+        GUI.DrawTexture(new Rect(c.x - 2f, c.y - 2f, 4f, 4f), Disc);
+        GUI.color = Color.white;
+        Tip(r, tip);
+    }
+
     private static readonly System.Collections.Generic.List<(Rect screen, Texture2D tex, Color color)> LateIcons = [];
     private static int _lateFrame;
     private static readonly System.Reflection.PropertyInfo VisibleRect =

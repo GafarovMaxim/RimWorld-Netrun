@@ -287,4 +287,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDemoSick_Severe>Severe (85%+): worse mood and more frequent breaks.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Hover a stage to read what it does. The marker shows Netsick creeping up with daily dives.</NR_HelpDemoSickHint>
   <NR_DeckPlate>NETRUN // CYBERDECK MK-II</NR_DeckPlate>
+  <NR_DeckGaugeHeat>Heat gauge: how hot your trace is.</NR_DeckGaugeHeat>
+  <NR_DeckGaugeNet>Net gauge: the uplink's signal.</NR_DeckGaugeNet>
+  <NR_DeckKey_0>Back</NR_DeckKey_0>
+  <NR_DeckKey_1>Home: the network map</NR_DeckKey_1>
+  <NR_DeckKey_2>Cyberpedia</NR_DeckKey_2>
 </LanguageData>
