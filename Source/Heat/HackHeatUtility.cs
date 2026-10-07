@@ -22,6 +22,20 @@ public static class HackHeatUtility
         if (CyberpodUtility.InCyberpod(hacker, out NetAI coprocessorAI))
             heat *= Settings.cyberpodHeatFactor * CyberpodUtility.HeatFactor(coprocessorAI);
 
+        // Biotech: a hacked mech leaves less trace when the colony has a mechanitor ("our own protocols").
+        if (ModsConfig.BiotechActive && comp.parent is Pawn { RaceProps.IsMechanoid: true } && ColonyHasMechanitor(hacker.MapHeld))
+            heat *= NetrunDefOf.NR_Cyberspace.pawnNet.mechHackTraceFactor;
+
         return heat;
+    }
+
+    private static bool ColonyHasMechanitor(Map map)
+    {
+        if (map == null)
+            return false;
+        foreach (Pawn p in map.mapPawns.FreeColonistsSpawned)
+            if (p.mechanitor != null)
+                return true;
+        return false;
     }
 }

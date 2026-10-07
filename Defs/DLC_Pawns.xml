@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Light DLC links (docs/CONCEPTS_10.md, section 9). Each def loads only with its DLC. -->
+
+  <!-- Biotech: the one gene Netrun adds -->
+  <GeneDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>NR_Gene_NeuralResilience</defName>
+    <label>neural resilience</label>
+    <description>Carriers of this gene have a nervous system that shrugs off long hours in the net. Netsick grows 40% slower.</description>
+    <iconPath>UI/Netrun/Genes/NR_NeuralResilience</iconPath>
+    <displayCategory>Miscellaneous</displayCategory>
+    <displayOrderInCategory>900</displayOrderInCategory>
+    <biostatCpx>1</biostatCpx>
+    <biostatMet>-1</biostatMet>
+  </GeneDef>
+
+  <!-- Biotech: a child learns from a braindance chip like from a book; the chip is not used up -->
+  <LearningDesireDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>NR_Learning_Braindance</defName>
+    <label>braindance lesson</label>
+    <description>Watching a braindance recording from storage: other people's skills, felt from the inside. Teaches intellectual or artistic skill. The chip is not used up.</description>
+    <workerClass>Netrun.LearningGiver_Braindance</workerClass>
+    <jobDef>NR_BraindanceLesson</jobDef>
+    <iconPath>UI/Netrun/Learning/NR_BraindanceLesson</iconPath>
+    <selectionWeight>0.6</selectionWeight>
+    <xpPerTick>0.08</xpPerTick>
+  </LearningDesireDef>
+
+  <JobDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>NR_BraindanceLesson</defName>
+    <driverClass>Netrun.JobDriver_BraindanceLesson</driverClass>
+    <reportString>learning from a braindance.</reportString>
+    <casualInterruptible>true</casualInterruptible>
+  </JobDef>
+
+  <!-- Royalty: the Empire scrubs the colony's trace for a knight or higher -->
+  <RoyalTitlePermitDef MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>NR_Permit_TraceScrub</defName>
+    <label>imperial trace scrub</label>
+    <description>Imperial network wardens wipe the colony's digital trace from public logs: Heat -20. Asked for at the comms console. Once every 30 days.</description>
+    <workerClass>Netrun.RoyalTitlePermitWorker_TraceScrub</workerClass>
+    <minTitle>Knight</minTitle>
+    <faction>Empire</faction>
+    <permitPointCost>1</permitPointCost>
+    <cooldownDays>30</cooldownDays>
+    <uiPosition>(6, 1)</uiPosition>
+  </RoyalTitlePermitDef>
+
+</Defs>

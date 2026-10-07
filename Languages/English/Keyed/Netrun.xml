@@ -309,4 +309,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpMarketBlack>Black market goods (price ×{0})</NR_HelpMarketBlack>
   <NR_HelpBDMoodDarkCombat>Dark / combat</NR_HelpBDMoodDarkCombat>
   <NR_HelpFixerTraitsReveal>A fixer's trait shows at reputation {0}, or when the fixer gives themselves away.</NR_HelpFixerTraitsReveal>
+  <NR_DiveTraitLabel>{0}: {1}</NR_DiveTraitLabel>
+  <NR_DiveTrait>{0} has earned a lasting mark from the net: {1}.\n\n{2}</NR_DiveTrait>
+  <NR_PermitCooldown>ready in {0} days</NR_PermitCooldown>
+  <NR_PermitScrubLog>Imperial trace scrub ({0})</NR_PermitScrubLog>
+  <NR_PermitScrubDone>{0} has wiped the colony's trace from public logs: Heat -{1}.</NR_PermitScrubDone>
 </LanguageData>

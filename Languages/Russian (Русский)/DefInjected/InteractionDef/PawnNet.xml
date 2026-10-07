@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_DiveStory.label>рассказ о нырке</NR_DiveStory.label>
+  <NR_DiveStory.logRulesInitiator.rulesStrings>
+    <li>r_logentry->[INITIATOR_nameDef] рассказал [RECIPIENT_nameDef] про [story].</li>
+    <li>story->ночь, когда прошёл мимо чёрного льда</li>
+    <li>story->корп-хранилище, которое чуть его не оставило себе</li>
+    <li>story->патруль ICE, который промахнулся на один ход</li>
+    <li>story->ноду, которой нет ни на одной карте</li>
+  </NR_DiveStory.logRulesInitiator.rulesStrings>
+</LanguageData>

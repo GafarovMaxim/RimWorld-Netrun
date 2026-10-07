@@ -8,6 +8,8 @@ public class HeatSettingsDef : Def
     // Heat from a completed hack: target defence / defencePerHeat, clamped.
     public float defencePerHeat = 1000f;
     public FloatRange hackHeat = new(2f, 15f);
+    /// <summary>Royalty permit "imperial trace scrub": Heat taken off per use.</summary>
+    public float imperialScrubAmount = 20f;
 
     // Hacker stealth: heat is multiplied by baseStealth / stealth, clamped.
     public float baseStealth = 100f;

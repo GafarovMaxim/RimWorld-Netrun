@@ -12,4 +12,7 @@
   <NR_Record_NetComas.description>Сколько раз ICE отправлял этого раннера в кому.</NR_Record_NetComas.description>
   <NR_Record_AIsAwakened.label>пробуждено ИИ</NR_Record_AIsAwakened.label>
   <NR_Record_AIsAwakened.description>Пробуждённые осколки ИИ.</NR_Record_AIsAwakened.description>
+
+  <NR_Record_LinkBurns.label>выжженные линки</NR_Record_LinkBurns.label>
+  <NR_Record_LinkBurns.description>Сколько раз Black ICE выжигал кибер-линк этого нетраннера (выжженный линк, потеря линка).</NR_Record_LinkBurns.description>
 </LanguageData>

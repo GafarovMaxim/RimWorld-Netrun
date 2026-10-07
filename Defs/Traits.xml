@@ -16,4 +16,50 @@
     </degreeDatas>
   </TraitDef>
 
+  <!-- Permanent dive traits (docs/CONCEPTS_10.md, section 14): earned from pawn records, never rolled at birth.
+       One per pawn, except "burnt", which can sit next to another (Source/Pawns/DiveTraits.cs). -->
+  <TraitDef>
+    <defName>NR_NetVeteran</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>net veteran</label>
+        <description>{PAWN_nameDef} has come back clean from the net more times than anyone can count. {PAWN_possessive} hacks in dives land 10% more often, but the net lets go slowly: Netsick fades 20% slower.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+  <TraitDef>
+    <defName>NR_GhostHand</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>ghost hand</label>
+        <description>{PAWN_nameDef} once went thirty dives without ICE ever touching {PAWN_objective}. {PAWN_pronoun} moves through nodes like a draft: dive trace is 15% lower.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+  <TraitDef>
+    <defName>NR_Burnt</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>burnt</label>
+        <description>Black ICE has burned {PAWN_nameDef} so often that the pain no longer reaches {PAWN_objective}. {PAWN_pronoun} never gets cyberspace nausea, but {PAWN_possessive} first move in a dive is slow: one action less in the first turn.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+  <TraitDef>
+    <defName>NR_AlienInFlesh</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>alien in flesh</label>
+        <description>After a hundred and fifty dives {PAWN_nameDef} feels more at home in the net than in {PAWN_possessive} own body. {PAWN_pronoun} is happy in the cyberpod and gloomy when {PAWN_pronoun} has not dived for three days.</description>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
 </Defs>

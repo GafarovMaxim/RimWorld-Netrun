@@ -15,6 +15,7 @@ public static class NetrunRecords
     public static RecordDef NR_Record_CorpCores;
     public static RecordDef NR_Record_NetComas;
     public static RecordDef NR_Record_AIsAwakened;
+    public static RecordDef NR_Record_LinkBurns;
 
     public static void Add(Pawn pawn, RecordDef record)
     {

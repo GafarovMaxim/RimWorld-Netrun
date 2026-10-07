@@ -25,6 +25,10 @@ public static class NetrunTraits
         int neurotic = Degree(pawn, "Neurotic");
         if (neurotic > 0)
             factor *= 1f + 0.15f * neurotic;
+        // Biotech gene "neural resilience" (docs/CONCEPTS_10.md, section 9).
+        if (ModsConfig.BiotechActive && pawn?.genes != null && DefDatabase<GeneDef>.GetNamedSilentFail("NR_Gene_NeuralResilience") is { } gene
+            && pawn.genes.HasActiveGene(gene))
+            factor *= 0.6f;
         return factor;
     }
 
@@ -32,10 +36,10 @@ public static class NetrunTraits
     public static float DecayFactor(Pawn pawn)
     {
         int industrious = Degree(pawn, "Industriousness");
-        return 1f + 0.15f * industrious;
+        return (1f + 0.15f * industrious) * DiveTraits.NetsickDecayFactor(pawn);
     }
 
     /// <summary>Hack chance in dives.</summary>
     public static float HackBonus(Pawn pawn)
-        => Natural is { } natural && pawn?.story?.traits?.HasTrait(natural) == true ? 0.05f : 0f;
+        => (Natural is { } natural && pawn?.story?.traits?.HasTrait(natural) == true ? 0.05f : 0f) + DiveTraits.HackBonus(pawn);
 }

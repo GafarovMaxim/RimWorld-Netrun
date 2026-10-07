@@ -8,6 +8,8 @@
     <!-- Heat from a completed hack: target defence / defencePerHeat, kept within hackHeat -->
     <defencePerHeat>1000</defencePerHeat>
     <hackHeat>2~15</hackHeat>
+    <!-- Royalty permit "imperial trace scrub" -->
+    <imperialScrubAmount>20</imperialScrubAmount>
 
     <!-- Hacker stealth: Heat is multiplied by baseStealth / stealth, kept within stealthFactor -->
     <baseStealth>100</baseStealth>

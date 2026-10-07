@@ -169,6 +169,7 @@ public class FixerManager : GameComponent, INetrunCleanable
             Specialty = specialty ??= SpreadSpecialty(),
             Trait = RollTrait(specialty),
             CallCost = Settings.callCost.RandomInRange,
+            Reputation = NetrunBackstories.FixerStartReputation(),
         };
 
         if (fixer.HasShop)

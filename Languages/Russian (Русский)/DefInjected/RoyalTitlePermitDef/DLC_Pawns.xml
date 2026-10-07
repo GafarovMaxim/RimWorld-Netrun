@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_Permit_TraceScrub.label>имперская зачистка следа</NR_Permit_TraceScrub.label>
+  <NR_Permit_TraceScrub.description>Имперские сетевые надзиратели стирают цифровой след колонии из публичных журналов: Heat −20. Запрашивается через консоль связи. Раз в 30 дней.</NR_Permit_TraceScrub.description>
+</LanguageData>

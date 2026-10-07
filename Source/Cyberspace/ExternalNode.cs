@@ -36,6 +36,8 @@ public class CyberspaceSettingsDef : Def
     public int programSlots = 2;
     /// <summary>An exec data program: +1 action in each of this many first turns.</summary>
     public int execExtraActionTurns = 3;
+    /// <summary>Pawn side of dives: dive traits, atrophy, stories, backstories, DLC links.</summary>
+    public PawnNetSettings pawnNet = new();
     /// <summary>Entry cost of any dive; the node adds one per two defense levels.</summary>
     public int diveBaseCost = 1;
     /// <summary>Discounts on the dive cost: an AI in the pod's coprocessor, an AI riding in the netrunner.</summary>

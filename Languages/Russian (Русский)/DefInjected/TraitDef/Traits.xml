@@ -2,4 +2,13 @@
 <LanguageData>
   <NR_NaturalNetrunner.degreeDatas.0.label>прирождённый нетраннер</NR_NaturalNetrunner.degreeDatas.0.label>
   <NR_NaturalNetrunner.degreeDatas.0.description>{PAWN_nameDef} освоил сеть так, как другие учатся ходить. Киберпространство не забирается под кожу так глубоко: Netsick растёт на 40% медленнее, а взломы в нырках удаются на 5% чаще.</NR_NaturalNetrunner.degreeDatas.0.description>
+
+  <NR_NetVeteran.degreeDatas.0.label>сетевой ветеран</NR_NetVeteran.degreeDatas.0.label>
+  <NR_NetVeteran.degreeDatas.0.description>{PAWN_nameDef} возвращался из сети чистым больше раз, чем можно сосчитать. Взломы в нырках удаются на 10% чаще, но сеть отпускает медленно: Netsick остывает на 20% медленнее.</NR_NetVeteran.degreeDatas.0.description>
+  <NR_GhostHand.degreeDatas.0.label>призрачная рука</NR_GhostHand.degreeDatas.0.label>
+  <NR_GhostHand.degreeDatas.0.description>{PAWN_nameDef} однажды прошёл тридцать нырков подряд, и ICE ни разу его не коснулся. Проходит ноды как сквозняк: след нырка на 15% меньше.</NR_GhostHand.degreeDatas.0.description>
+  <NR_Burnt.degreeDatas.0.label>обожжённый</NR_Burnt.degreeDatas.0.label>
+  <NR_Burnt.degreeDatas.0.description>Black ICE жёг {PAWN_nameDef} так часто, что боль больше не доходит. Не бывает киберпространственной тошноты, но первый ход в нырке медленный: на одно действие меньше.</NR_Burnt.degreeDatas.0.description>
+  <NR_AlienInFlesh.degreeDatas.0.label>чужой в мясе</NR_AlienInFlesh.degreeDatas.0.label>
+  <NR_AlienInFlesh.degreeDatas.0.description>После ста пятидесяти нырков {PAWN_nameDef} чувствует себя дома в сети, а не в собственном теле. Счастлив в капсуле и мрачнеет, если не нырял три дня.</NR_AlienInFlesh.degreeDatas.0.description>
 </LanguageData>

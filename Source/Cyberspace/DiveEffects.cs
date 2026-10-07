@@ -42,7 +42,10 @@ public static class DiveEffects
             report.Events.Add("Dive_BLACKICE|" + "NR_DiveEffectPhantom".Translate(pawn.LabelShort));
 
         if (!success && dive.Node.BlackIce && dive.IceHits > 0 && Rand.Chance(Settings.effectBurnedLinkChance) && Give(pawn, "NR_BurnedLink"))
+        {
+            NetrunRecords.Add(pawn, NetrunRecords.NR_Record_LinkBurns);
             report.Events.Add("Dive_Lightning_Red|" + "NR_DiveEffectBurned".Translate(pawn.LabelShort));
+        }
     }
 
     /// <summary>Hack chance from the runner's state: flow helps, a burned link hurts.</summary>

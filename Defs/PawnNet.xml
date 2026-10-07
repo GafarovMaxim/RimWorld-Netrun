@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Body and society around long dives (docs/CONCEPTS_10.md, section 14; Source/Pawns/PawnNetState.cs). -->
+
+  <HediffDef>
+    <defName>NR_PodAtrophy</defName>
+    <label>pod atrophy</label>
+    <description>Days without moving in a cyberpod left the muscles weak. It passes in a couple of days.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.8, 0.8, 0.6)</defaultLabelColor>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>120000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Moving</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_MissedSpouse</defName>
+    <durationDays>1.5</durationDays>
+    <stackLimit>1</stackLimit>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <stages>
+      <li>
+        <label>missed {0}</label>
+        <description>{0} spent days in the net. The bed felt empty.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+        <baseOpinionOffset>-3</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>NR_HeardDiveStory</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>2</stackLimit>
+    <stages>
+      <li>
+        <label>heard a dive story</label>
+        <description>Black ICE, a corporate core, and somebody who came back to tell about it. What a story.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>NR_AlienInPod</defName>
+    <workerClass>Netrun.ThoughtWorker_AlienInPod</workerClass>
+    <requiredTraits>
+      <li>NR_AlienInFlesh</li>
+    </requiredTraits>
+    <stages>
+      <li>
+        <label>home in the net</label>
+        <description>The pod is quiet, the body is far away. This is where I belong.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef>
+    <defName>NR_AlienOffline</defName>
+    <workerClass>Netrun.ThoughtWorker_AlienOffline</workerClass>
+    <requiredTraits>
+      <li>NR_AlienInFlesh</li>
+    </requiredTraits>
+    <stages>
+      <li>
+        <label>stuck in meat</label>
+        <description>Three days without a dive. Everything out here is so slow and heavy.</description>
+        <baseMoodEffect>-5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <!-- Telling a dive story: a netrunner who has been past Black ICE shares it -->
+  <InteractionDef>
+    <defName>NR_DiveStory</defName>
+    <label>dive story</label>
+    <workerClass>Netrun.InteractionWorker_DiveStory</workerClass>
+    <symbol>Things/Mote/SpeechSymbols/Chitchat</symbol>
+    <recipientThought>NR_HeardDiveStory</recipientThought>
+    <logRulesInitiator>
+      <rulesStrings>
+        <li>r_logentry->[INITIATOR_nameDef] told [RECIPIENT_nameDef] about [story].</li>
+        <li>story->the night [INITIATOR_pronoun] went past black ICE</li>
+        <li>story->a corporate vault that nearly kept [INITIATOR_objective]</li>
+        <li>story->an ICE patrol that missed [INITIATOR_objective] by one turn</li>
+        <li>story->a node that was not on any map</li>
+      </rulesStrings>
+    </logRulesInitiator>
+  </InteractionDef>
+
+  <!-- Tales for art -->
+  <TaleDef>
+    <defName>NR_Tale_CorpCore</defName>
+    <label>broke a corporate core</label>
+    <taleClass>Tale_SinglePawn</taleClass>
+    <type>Volatile</type>
+    <baseInterest>4</baseInterest>
+    <rulePack>
+      <rulesStrings>
+        <li>tale_noun->[PAWN_nameDef] breaking a corporate core</li>
+        <li>image->[PAWN_nameFull] lying in a cyberpod while black ICE burns around a glowing core [circumstance_group]</li>
+        <li>image->[PAWN_nameFull] tearing a data vault open, lines of code falling like rain [circumstance_group]</li>
+        <li>circumstance_phrase->with a calm face</li>
+        <li>circumstance_phrase->as alarms flood the net</li>
+        <li>circumstance_phrase->while the corporation's ICE closes in</li>
+        <li>desc_sentence->Firewalls collapse in the background.</li>
+        <li>desc_sentence->A corporate logo cracks in half.</li>
+      </rulesStrings>
+    </rulePack>
+  </TaleDef>
+
+  <TaleDef>
+    <defName>NR_Tale_RepelledIntrusion</defName>
+    <label>repelled an intrusion</label>
+    <taleClass>Tale_SinglePawn</taleClass>
+    <type>Volatile</type>
+    <baseInterest>3</baseInterest>
+    <rulePack>
+      <rulesStrings>
+        <li>tale_noun->[PAWN_nameDef] repelling a net intrusion</li>
+        <li>image->[PAWN_nameFull] standing guard in the colony's node as an attacker's code breaks against the firewall [circumstance_group]</li>
+        <li>circumstance_phrase->with clenched teeth</li>
+        <li>circumstance_phrase->as the servers hum louder</li>
+        <li>desc_sentence->The intruder's mask shatters into pixels.</li>
+      </rulesStrings>
+    </rulePack>
+  </TaleDef>
+
+</Defs>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_Tale_CorpCore.label>взломал корп-ядро</NR_Tale_CorpCore.label>
+  <NR_Tale_CorpCore.rulePack.rulesStrings>
+    <li>tale_noun->[PAWN_nameDef], взламывающий корпоративное ядро</li>
+    <li>image->[PAWN_nameFull] лежит в кибер-капсуле, а вокруг светящегося ядра горит чёрный лёд [circumstance_group]</li>
+    <li>image->[PAWN_nameFull] вскрывает хранилище данных, строки кода падают как дождь [circumstance_group]</li>
+    <li>circumstance_phrase->со спокойным лицом</li>
+    <li>circumstance_phrase->пока сеть заливают тревоги</li>
+    <li>circumstance_phrase->пока ICE корпорации смыкается</li>
+    <li>desc_sentence->На заднем плане рушатся брандмауэры.</li>
+    <li>desc_sentence->Логотип корпорации трескается пополам.</li>
+  </NR_Tale_CorpCore.rulePack.rulesStrings>
+  <NR_Tale_RepelledIntrusion.label>отбил вторжение</NR_Tale_RepelledIntrusion.label>
+  <NR_Tale_RepelledIntrusion.rulePack.rulesStrings>
+    <li>tale_noun->[PAWN_nameDef], отбивающий сетевое вторжение</li>
+    <li>image->[PAWN_nameFull] стоит на страже в ноде колонии, и код взломщика разбивается о брандмауэр [circumstance_group]</li>
+    <li>circumstance_phrase->стиснув зубы</li>
+    <li>circumstance_phrase->пока серверы гудят всё громче</li>
+    <li>desc_sentence->Маска взломщика рассыпается на пиксели.</li>
+  </NR_Tale_RepelledIntrusion.rulePack.rulesStrings>
+</LanguageData>

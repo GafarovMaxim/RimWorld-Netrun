@@ -45,4 +45,11 @@
     <type>Int</type>
   </RecordDef>
 
+  <RecordDef>
+    <defName>NR_Record_LinkBurns</defName>
+    <label>burned links</label>
+    <description>Times Black ICE burned this netrunner's cyberlink (burned link, lost link).</description>
+    <type>Int</type>
+  </RecordDef>
+
 </Defs>

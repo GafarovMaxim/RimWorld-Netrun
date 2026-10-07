@@ -161,6 +161,8 @@ public class DiveSession : IExposable
     public int ExtraActions(int turn)
     {
         int extra = turn <= ExecTurns ? 1 : 0;
+        if (turn == 1)
+            extra += DiveTraits.FirstTurnActions(Runner);
         if (turn == 1 && DefDatabase<HediffDef>.GetNamedSilentFail("USH_InstalledOptimizationModule") is { } module
             && Runner?.health?.hediffSet?.HasHediff(module) == true)
             extra++;
@@ -249,7 +251,7 @@ public class DiveSession : IExposable
             session.HoneypotRevealed = node.Honeypot;
             session.AddLog("NR_DiveLogConfession".Translate().Colorize(NetrunUI.Warn));
         }
-        session.ActionsLeft = session.ActionsPerTurn + session.ExtraActions(1);
+        session.ActionsLeft = UnityEngine.Mathf.Max(1, session.ActionsPerTurn + session.ExtraActions(1));
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
         return session;
     }
@@ -578,7 +580,7 @@ public class DiveSession : IExposable
         ForkIndex.Add(Position);
         ForkChoice.Add(branch);
         bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
-        Trace += (branch == 1 ? Settings.branchHardTrace : Settings.branchEasyTrace) * (stealth ? Settings.stealthTraceFactor : 1f);
+        Trace += (branch == 1 ? Settings.branchHardTrace : Settings.branchEasyTrace) * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner);
         AddLog((branch == 1 ? "NR_DiveLogPathHard" : "NR_DiveLogPathEasy").Translate().Colorize(branch == 1 ? NetrunUI.Bad : NetrunUI.Ok));
     }
 
@@ -809,7 +811,7 @@ public class DiveSession : IExposable
     private void Spend(float trace)
     {
         bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
-        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f);
+        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner);
         ActionsLeft--;
         if (ActionsLeft <= 0 && !Finished)
             NodeTurn();
@@ -835,7 +837,7 @@ public class DiveSession : IExposable
             return;
 
         Turn++;
-        ActionsLeft = ActionsPerTurn + ExtraActions(Turn);
+        ActionsLeft = Mathf.Max(1, ActionsPerTurn + ExtraActions(Turn));
         if (Turn > MaxTurns)
         {
             AddLog("NR_DiveLogTimeout".Translate().Colorize(NetrunUI.Bad));
@@ -932,6 +934,7 @@ public class DiveSession : IExposable
         if (link == null)
             return;
         Runner.health.RemoveHediff(link);
+        NetrunRecords.Add(Runner, NetrunRecords.NR_Record_LinkBurns);
         AddLog("NR_DiveLogLinkLost".Translate(Runner.LabelShort, link.LabelBase).Colorize(NetrunUI.Bad));
         Find.LetterStack.ReceiveLetter("NR_LinkLostLabel".Translate(), "NR_LinkLost".Translate(Runner.LabelShort, link.LabelBase), LetterDefOf.NegativeEvent, Runner);
     }
@@ -959,6 +962,8 @@ public class DiveSession : IExposable
 
     private void AddHediff(string defName)
     {
+        if (defName == "USH_CyberspaceNausea" && DiveTraits.NauseaImmune(Runner))
+            return;
         HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(defName);
         if (def != null && Runner != null && !Runner.Dead)
             Runner.health.AddHediff(def, Runner.health.hediffSet.GetBrain());
@@ -1072,13 +1077,19 @@ public class DiveSession : IExposable
             if (Node.BlackIce)
                 NetrunRecords.Add(Runner, NetrunRecords.NR_Record_BlackICEPassed);
             if (Node.IsBoss)
+            {
                 NetrunRecords.Add(Runner, NetrunRecords.NR_Record_CorpCores);
+                if (DefDatabase<TaleDef>.GetNamedSilentFail("NR_Tale_CorpCore") is { } tale && Runner != null)
+                    TaleRecorder.RecordTale(tale, Runner);
+            }
         }
+        PawnNetState.Get()?.NotifyDive(Runner, IceHits);
 
         Report = BuildReport(success, keepShare, HunterActive && map != null);
         DiveEffects.Apply(this, success, Report);
         ContractManager.Get()?.NotifyDive(Runner, success);
         NetCulture.RecordDive(Runner);
+        DiveTraits.Check(Runner);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))
