@@ -337,6 +337,15 @@ public class IncidentWorker_DistressSignal : IncidentWorker
         if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => GenAdj.OccupiedRect(c, Rot4.North, NetrunDefOf.NR_DistressServer.size).All(x => x.InBounds(map) && x.Standable(map) && !x.Fogged(map) && x.GetFirstBuilding(map) == null), map, out IntVec3 cell))
             return false;
         Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
+        // A couple of dead racks around it.
+        ThingDef rackDef = DefDatabase<ThingDef>.GetNamedSilentFail("NR_DistressRack");
+        if (rackDef != null)
+        {
+            var around = GenAdj.OccupiedRect(cell, Rot4.North, NetrunDefOf.NR_DistressServer.size).ExpandedBy(1).EdgeCells
+                .Where(c => c.InBounds(map) && c.Standable(map) && c.GetFirstBuilding(map) == null && !c.Fogged(map)).InRandomOrder().Take(2).ToList();
+            foreach (IntVec3 c in around)
+                GenSpawn.Spawn(ThingMaker.MakeThing(rackDef), c, map);
+        }
         HeatTracker.Get()?.Note("NR_DistressLabel".Translate(), HeatSource.Event);
         SendStandardLetter("NR_DistressLabel".Translate(), "NR_Distress".Translate(), LetterDefOf.PositiveEvent, parms, server);
         return true;

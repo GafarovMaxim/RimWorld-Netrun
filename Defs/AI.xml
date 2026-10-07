@@ -225,7 +225,7 @@
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServerRack</texPath>
       <graphicClass>Graphic_Single</graphicClass>
-      <drawSize>(1.1, 1.1)</drawSize>
+      <drawSize>(1.45, 1.45)</drawSize>
     </graphicData>
     <size>(1,1)</size>
     <rotatable>false</rotatable>

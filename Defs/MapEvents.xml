@@ -85,10 +85,9 @@
     <description>An old server, still sending a weak distress signal. Something may be alive inside. A colonist can connect to it.</description>
     <thingClass>Building</thingClass>
     <graphicData>
-      <texPath>Things/Building/Misc/NR_AIServer</texPath>
+      <texPath>Things/Building/Misc/NR_DistressServer</texPath>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3,3)</drawSize>
-      <color>(0.6, 0.6, 0.6)</color>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
@@ -102,6 +101,37 @@
     <comps>
       <li Class="Netrun.CompProperties_DistressServer" />
     </comps>
+  </ThingDef>
+
+  <!-- Dead racks around the abandoned server: decoration, deconstruct for a little steel -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_DistressRack</defName>
+    <label>dead server rack</label>
+    <description>A rack of burned-out servers next to the abandoned one, its cables torn and patched. Nothing works here any more, but the steel is good.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Misc/NR_DistressRack</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.45, 1.45)</drawSize>
+    </graphicData>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <useHitPoints>true</useHitPoints>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Flammability>0.2</Flammability>
+      <Beauty>-2</Beauty>
+    </statBases>
+    <costList>
+      <Steel>20</Steel>
+    </costList>
+    <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
+    <building>
+      <deconstructible>true</deconstructible>
+    </building>
   </ThingDef>
 
   <JobDef>

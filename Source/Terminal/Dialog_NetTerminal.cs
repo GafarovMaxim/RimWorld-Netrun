@@ -537,7 +537,7 @@ public partial class Dialog_NetTerminal : Window
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
         Text.Font = GameFont.Tiny;
         float sickW = Text.CalcSize(sickText).x;
-        Texture2D sickIcon = NetrunTex.CyberIcon("Icon_NetsickGlitch") ?? NetrunTex.CyberIcon("Icon_Netsick");
+        Texture2D sickIcon = NetrunTex.CyberIcon("Icon_Netsick");
         float sickPad = sickIcon != null ? 32f : 10f;
         Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
         if (sickIcon != null)
