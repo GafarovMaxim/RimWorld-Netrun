@@ -288,4 +288,10 @@
   <NR_NewsEffectPrograms>Программы на следующий нырок: {0}</NR_NewsEffectPrograms>
   <NR_NewsEffectConfession>Просмотренная исповедь: следующий нырок покажет всё скрытое</NR_NewsEffectConfession>
   <NR_NewsEffectNone>Ничего особенного.</NR_NewsEffectNone>
+  <NR_DiveEffectFlow>{0} в потоке: сутки учёба и исследования быстрее, взломы удаются чаще.</NR_DiveEffectFlow>
+  <NR_DiveEffectMemory>{0} вынес кое-что из сети: +{2} опыта к навыку «{1}».</NR_DiveEffectMemory>
+  <NR_DiveEffectAdrenaline>{0} пережил ICE и чувствует себя неудержимым.</NR_DiveEffectAdrenaline>
+  <NR_DiveEffectMigraine>У {0} цифровая мигрень после долгого нырка.</NR_DiveEffectMigraine>
+  <NR_DiveEffectPhantom>{0} ловит фантомные сигналы: зависимость показывает ICE в реальном мире.</NR_DiveEffectPhantom>
+  <NR_DiveEffectBurned>Black ICE выжег нейролинк {0}: три дня взломы даются труднее.</NR_DiveEffectBurned>
 </LanguageData>

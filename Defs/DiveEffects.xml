@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- What a dive leaves on the netrunner (Source/Cyberspace/DiveEffects.cs); chances in Defs/Cyberspace.xml -->
+
+  <HediffDef>
+    <defName>NR_DiveFlow</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>net flow</label>
+    <description>A clean run still hums in the head: thoughts come quick and clear. Learning and research are faster, and the next dive's hacks land more often.</description>
+    <defaultLabelColor>(0.4, 0.9, 1)</defaultLabelColor>
+    <isBad>false</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statOffsets>
+          <GlobalLearningFactor>0.2</GlobalLearningFactor>
+          <ResearchSpeed>0.15</ResearchSpeed>
+        </statOffsets>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_DiveMigraine</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>digital migraine</label>
+    <description>Too many hours behind the ICE. The light is too sharp and the head throbs.</description>
+    <defaultLabelColor>(1, 0.6, 0.3)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>30000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <painOffset>0.15</painOffset>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.10</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_PhantomSignals</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>phantom signals</label>
+    <description>A strong dependency blurs the line: now and then the netrunner sees ICE where there is only a wall. Sometimes it is enough to send them wandering, lost in a net that is not there.</description>
+    <defaultLabelColor>(0.8, 0.4, 1)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <mentalStateGivers>
+          <li>
+            <mentalState>Wander_Psychotic</mentalState>
+            <mtbDays>2</mtbDays>
+          </li>
+        </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_BurnedLink</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>burned neural link</label>
+    <description>Black ICE fried the neural interface. Until it settles, hacks in dives fail more often and thinking is a little slower.</description>
+    <defaultLabelColor>(1, 0.35, 0.35)</defaultLabelColor>
+    <isBad>true</isBad>
+    <initialSeverity>1</initialSeverity>
+    <maxSeverity>1</maxSeverity>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>180000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <offset>-0.05</offset>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <ThoughtDef>
+    <defName>NR_NetAdrenaline</defName>
+    <durationDays>2</durationDays>
+    <stackLimit>1</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>survived the ICE</label>
+        <description>The ICE went for me and I still made it out with the data. I feel unstoppable.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

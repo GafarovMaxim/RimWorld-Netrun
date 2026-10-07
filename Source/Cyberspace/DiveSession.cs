@@ -122,6 +122,8 @@ public class DiveSession : IExposable
     public float NetsickAtStart;
     public bool SpecialFound;
     public bool Retreated;
+    /// <summary>ICE hits that got through (not stopped by a shield or a decoy).</summary>
+    public int IceHits;
     public DiveReport Report;
 
     public int ActionsPerTurn
@@ -399,6 +401,7 @@ public class DiveSession : IExposable
             chance += Settings.swordBonus;
         if (DefDatabase<HediffDef>.GetNamedSilentFail("NR_UBH_ZeroRun") is { } zero && Runner?.health.hediffSet.HasHediff(zero) == true)
             chance += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
+        chance += DiveEffects.HackBonus(Runner);
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 
@@ -789,6 +792,7 @@ public class DiveSession : IExposable
         }
 
         AddNetsick(Settings.netsickPerIceHit);
+        IceHits++;
         NetrunSound.Play("Dive_ICE");
         float roll = Rand.Value;
         if (roll < 0.6f)
@@ -938,6 +942,7 @@ public class DiveSession : IExposable
         }
 
         Report = BuildReport(success, keepShare, HunterActive && map != null);
+        DiveEffects.Apply(this, success, Report);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))
@@ -1037,6 +1042,7 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref NetsickAtStart, "netsickAtStart");
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
+        Scribe_Values.Look(ref IceHits, "iceHits");
         Scribe_Deep.Look(ref Report, "report");
         Scribe_Collections.Look(ref Visited, "visited", LookMode.Value);
         Scribe_Collections.Look(ref ForkIndex, "forkIndex", LookMode.Value);

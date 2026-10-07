@@ -65,6 +65,16 @@ public class CyberspaceSettingsDef : Def
     public int branchExtraTurns = 3;
     public FloatRange failBurnDamage = new(1.5f, 3.5f);
     public float successXp = 400f;
+
+    // What a dive leaves on the runner (DiveEffects).
+    public float effectMemoryChance = 0.25f;
+    public float effectMemoryXp = 1500f;
+    public int effectMigraineTurns = 9;
+    public float effectPhantomNetsick = 0.6f;
+    public float effectPhantomChance = 0.3f;
+    public float effectBurnedLinkChance = 0.25f;
+    public float effectFlowHackBonus = 0.05f;
+    public float effectBurnedHackPenalty = 0.1f;
     /// <summary>Waking up in a cyberpod (Hacking Expansion's own is 5000 = 2 hours).</summary>
     public int podWakeUpTicks = 2500;
     public float rewardMultLow = 1.5f;

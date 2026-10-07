@@ -51,6 +51,16 @@
     <branchPassageBonus>0.1</branchPassageBonus>
     <branchExtraTurns>3</branchExtraTurns>
     <successXp>400</successXp>
+    <!-- What a dive leaves on the runner. Flow: a clean exit without ICE hits (a day, +5% hack). Memory: on success, XP to a random skill.
+         Migraine: the dive lasted this many turns. Phantom signals: at this Netsick, with this chance. Burned link: failed Black ICE dive after a hit (-10% hack, 3 days). -->
+    <effectMemoryChance>0.25</effectMemoryChance>
+    <effectMemoryXp>1500</effectMemoryXp>
+    <effectMigraineTurns>9</effectMigraineTurns>
+    <effectPhantomNetsick>0.6</effectPhantomNetsick>
+    <effectPhantomChance>0.3</effectPhantomChance>
+    <effectBurnedLinkChance>0.25</effectBurnedLinkChance>
+    <effectFlowHackBonus>0.05</effectFlowHackBonus>
+    <effectBurnedHackPenalty>0.1</effectBurnedHackPenalty>
     <!-- Waking up and leaving a cyberpod, ticks (Hacking Expansion: 5000 = 2 hours) -->
     <podWakeUpTicks>2500</podWakeUpTicks>
     <!-- Main files pay the dive cost back times this: defense up to 2, up to 4, Black ICE. Plus a chance of something special on a clean exit. -->

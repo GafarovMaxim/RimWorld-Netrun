@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_DiveFlow.label>сетевой поток</NR_DiveFlow.label>
+  <NR_DiveFlow.description>Чистый забег ещё гудит в голове: мысли быстрые и ясные. Учёба и исследования идут быстрее, а взломы в следующем нырке удаются чаще.</NR_DiveFlow.description>
+  <NR_DiveMigraine.label>цифровая мигрень</NR_DiveMigraine.label>
+  <NR_DiveMigraine.description>Слишком много часов за ICE. Свет режет глаза, голова гудит.</NR_DiveMigraine.description>
+  <NR_PhantomSignals.label>фантомные сигналы</NR_PhantomSignals.label>
+  <NR_PhantomSignals.description>Сильная зависимость стирает границу: иногда нетраннер видит ICE там, где просто стена. Порой этого хватает, чтобы он побрёл куда-то, заблудившись в сети, которой нет.</NR_PhantomSignals.description>
+  <NR_BurnedLink.label>выжженный нейролинк</NR_BurnedLink.label>
+  <NR_BurnedLink.description>Black ICE прожёг нейроинтерфейс. Пока он не придёт в себя, взломы в нырках чаще срываются, а мысли чуть медленнее.</NR_BurnedLink.description>
+</LanguageData>
