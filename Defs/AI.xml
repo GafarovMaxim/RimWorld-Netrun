@@ -17,8 +17,19 @@
 
     <!-- Finds on completed hacks: AI fragment from core-command ICE / Black ICE targets,
          core module from Black ICE targets and satellite black boxes -->
-    <fragmentChanceCoreCommandICE>0.1</fragmentChanceCoreCommandICE>
-    <fragmentChanceBlackICE>0.25</fragmentChanceBlackICE>
+    <fragmentChanceCoreCommandICE>0.05</fragmentChanceCoreCommandICE>
+    <fragmentChanceBlackICE>0.12</fragmentChanceBlackICE>
+
+    <!-- Network noise and waking (docs/CONCEPTS_10.md, section 2): Heat floor per awake AI after the first;
+         a fresh fragment costs cyberdata to wake and can come out empty or slip into the net;
+         an unwoken fragment crumbles after some days unless it lies near a powered AI server -->
+    <noisePerAI>5</noisePerAI>
+    <awakenCyberdataCost>10</awakenCyberdataCost>
+    <awakenEmptyChance>0.2</awakenEmptyChance>
+    <awakenEmptyCyberdata>3</awakenEmptyCyberdata>
+    <awakenEscapeChance>0.1</awakenEscapeChance>
+    <fragmentDecayDays>30</fragmentDecayDays>
+    <fragmentSafeRadius>6</fragmentSafeRadius>
     <moduleChanceBlackICE>0.05</moduleChanceBlackICE>
     <moduleChanceBlackBox>0.1</moduleChanceBlackBox>
 
@@ -143,7 +154,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>NR_AIFragment</defName>
     <label>AI fragment</label>
-    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at a network console and move it into an AI server. Its personality stays hidden until then.</description>
+    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at an AI server for a little cyberdata. Its personality stays hidden until then, and not every fragment makes it: some are empty shells, some slip out into the net.\n\nAway from a powered AI server the fragment slowly falls apart.</description>
     <thingClass>ThingWithComps</thingClass>
     <graphicData>
       <texPath>Things/Item/NR_AIFragment</texPath>
@@ -151,6 +162,7 @@
     </graphicData>
     <stackLimit>1</stackLimit>
     <techLevel>Spacer</techLevel>
+    <tickerType>Rare</tickerType>
     <statBases>
       <MarketValue>1200</MarketValue>
       <Mass>0.2</Mass>

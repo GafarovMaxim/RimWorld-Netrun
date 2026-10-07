@@ -265,4 +265,14 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AIRenameTip>Give this AI a name of your own.</NR_AIRenameTip>
   <NR_AIRenameOk>Rename</NR_AIRenameOk>
   <NR_AIRenameEmpty>The name cannot be empty.</NR_AIRenameEmpty>
+  <NR_AwakenNoCyberdata>Waking a fresh fragment needs {0} cyberdata.</NR_AwakenNoCyberdata>
+  <NR_AwakenCost>{0} cyberdata</NR_AwakenCost>
+  <NR_AwakenEmptyLabel>Empty fragment</NR_AwakenEmptyLabel>
+  <NR_AwakenEmpty>{0} reached into the fragment and found nothing awake: only an echo of code. It fell apart into {1} cyberdata.</NR_AwakenEmpty>
+  <NR_AwakenEscapedLabel>{0} got away</NR_AwakenEscapedLabel>
+  <NR_AwakenEscaped>The fragment woke up faster than {1} could hold it. The AI calling itself {0} slipped out of the server and into the net.\n\nIt is hiding in an abandoned node now. A dive there can find it and bring it back.</NR_AwakenEscaped>
+  <NR_AIFragmentCrumbled>An AI fragment has fallen apart: it lay too long away from a powered AI server.</NR_AIFragmentCrumbled>
+  <NR_AIFragmentDecaying>Falling apart: {0} days left. Keep it near a powered AI server.</NR_AIFragmentDecaying>
+  <NR_AIFragmentStable>Stable near the AI server ({0} days left elsewhere).</NR_AIFragmentStable>
+  <NR_NoiseFloorLine>Network noise: {0} awake AIs, Heat does not cool below {1}.</NR_NoiseFloorLine>
 </LanguageData>

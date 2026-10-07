@@ -81,7 +81,10 @@
     <specialItemChance>0.1</specialItemChance>
     <specialItemChanceBlackIce>0.25</specialItemChanceBlackIce>
     <!-- Special finds by weight (docs/PHASE5_REWARDS.md) -->
-    <findFragment>30</findFragment>
+    <findFragment>15</findFragment>
+    <!-- AI fragment in a node memory unit (CONCEPTS_10, section 2: halved) -->
+    <memoryFragmentAbandoned>0.15</memoryFragmentAbandoned>
+    <memoryFragmentOther>0.05</memoryFragmentOther>
     <findResearch>20</findResearch>
     <findFixerService>15</findFixerService>
     <findGroupFavor>15</findGroupFavor>

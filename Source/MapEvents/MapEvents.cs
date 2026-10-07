@@ -549,7 +549,7 @@ public class CompDistressServer : ThingComp
         MapEventsSettingsDef s = NetrunDefOf.NR_MapEvents;
         Map map = parent.Map;
         IntVec3 pos = parent.Position;
-        if (Rand.Chance(s.distressFragmentChance))
+        if (Rand.Chance(AIBalance.FragmentChance(s.distressFragmentChance)))
         {
             Thing fragment = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment), pos, map);
             Messages.Message("NR_DistressFragment".Translate(pawn.LabelShort), fragment, MessageTypeDefOf.PositiveEvent, historical: true);

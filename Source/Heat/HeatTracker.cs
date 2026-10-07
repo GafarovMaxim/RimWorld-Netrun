@@ -67,7 +67,9 @@ public class HeatTracker : GameComponent, INetrunCleanable
         }
         else if (target < _heat)
         {
+            _ignoreNoiseFloor = true;
             ReduceHeat(_heat - target, reason);
+            _ignoreNoiseFloor = false;
         }
     }
 
@@ -112,8 +114,17 @@ public class HeatTracker : GameComponent, INetrunCleanable
         if (amount <= 0f)
             return;
 
-        _heat = Mathf.Max(0f, _heat - amount);
+        // Network noise (awake AIs) keeps a floor under the trace: cooling and scrubbing stop there.
+        float floor = _ignoreNoiseFloor ? 0f : AIBalance.NoiseFloor;
+        if (_heat <= floor)
+            return;
+        _heat = Mathf.Max(floor, Mathf.Max(0f, _heat - amount));
     }
+
+    private bool _ignoreNoiseFloor;
+
+    /// <summary>The noise floor right now (0 with no or one awake AI).</summary>
+    public float NoiseFloor => AIBalance.NoiseFloor;
 
     public override void GameComponentTick()
     {

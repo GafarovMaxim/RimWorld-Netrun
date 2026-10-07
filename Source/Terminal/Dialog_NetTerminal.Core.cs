@@ -307,6 +307,15 @@ public partial class Dialog_NetTerminal
         // The smooth ring (anti-aliased texture with level arcs, gaps and ticks) and the marker at the current value.
         float shown = NetrunUI.Rolling("core.heat", tracker.Heat, out float jump, out float since);
         GUI.DrawTexture(rect, HeatRing.Get(tracker.Heat));
+        // Network noise: a thin mark where Heat stops cooling (awake AIs, CONCEPTS_10 section 2).
+        float floor = tracker.NoiseFloor;
+        if (floor > 0.5f)
+        {
+            Vector2 fp = HeatRing.PointAt(rect, floor);
+            GUI.color = NetrunUI.Muted;
+            GUI.DrawTexture(new Rect(fp.x - 3f, fp.y - 3f, 6f, 6f), NetrunUI.Disc);
+            GUI.color = Color.white;
+        }
         Vector2 tip = HeatRing.PointAt(rect, shown);
         var marker = new Rect(tip.x - 7f, tip.y - 7f, 14f, 14f);
         GUI.color = NetrunUI.BgWindow;
@@ -334,10 +343,15 @@ public partial class Dialog_NetTerminal
         // The day's trend lives in the tooltip now; the ring itself only shows the value.
         float trend = HeatTrendPerDay(tracker);
         string trendTip = trend > 0.05f ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : trend < -0.05f ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
-        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()) + "\n\n" + trendTip);
+        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()) + "\n\n" + trendTip
+            + (floor > 0.5f ? "\n" + NoiseLine(floor) : ""));
         if (Widgets.ButtonInvisible(rect))
             OpenNode(View.Core);
     }
+
+    /// <summary>"Network noise: 3 AIs, Heat stays above 10."</summary>
+    public static string NoiseLine(float floor)
+        => "NR_NoiseFloorLine".Translate(AIBalance.NoisyAIs().Count(), floor.ToString("0"));
 
     /// <summary>
     /// A Heat change floats up from the top of the ring as a badge: the arrow icon, the signed number, a glow that

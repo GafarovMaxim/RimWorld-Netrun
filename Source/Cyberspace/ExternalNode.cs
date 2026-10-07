@@ -96,6 +96,9 @@ public class CyberspaceSettingsDef : Def
 
     // Special finds on a clean exit, by weight.
     public float findFragment = 30f;
+    /// <summary>An AI fragment in a node's memory unit (abandoned servers more often).</summary>
+    public float memoryFragmentAbandoned = 0.15f;
+    public float memoryFragmentOther = 0.05f;
     public float findResearch = 20f;
     public float findFixerService = 15f;
     public float findGroupFavor = 15f;
@@ -269,7 +272,7 @@ public class ExternalNode : IExposable
         if (IsBoss)
             lines.Add((NetrunDefOf.NR_AICoreModule, s.bossCoreModuleChance.ToStringPercent()));
         if (Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
-            lines.Add((NetrunDefOf.NR_AIFragment, (Type == ExternalNodeType.Abandoned ? 0.25f : 0.1f).ToStringPercent()));
+            lines.Add((NetrunDefOf.NR_AIFragment, AIBalance.FragmentChance(Type == ExternalNodeType.Abandoned ? NetrunDefOf.NR_Cyberspace.memoryFragmentAbandoned : NetrunDefOf.NR_Cyberspace.memoryFragmentOther).ToStringPercent()));
         return lines;
     }
 

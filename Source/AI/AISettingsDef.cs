@@ -17,6 +17,17 @@ public class AISettingsDef : Def
     // Drops on completed hacks, by Hacking Expansion hackset of the target.
     public float fragmentChanceCoreCommandICE = 0.1f;
     public float fragmentChanceBlackICE = 0.25f;
+
+    /// <summary>Network noise: Heat floor per awake AI after the first (docs/CONCEPTS_10.md, section 2).</summary>
+    public float noisePerAI = 5f;
+    /// <summary>Waking a fresh fragment: cyberdata it costs, and how it can go.</summary>
+    public int awakenCyberdataCost = 10;
+    public float awakenEmptyChance = 0.2f;
+    public int awakenEmptyCyberdata = 3;
+    public float awakenEscapeChance = 0.1f;
+    /// <summary>Days an unawakened fragment keeps away from a powered AI server before it crumbles.</summary>
+    public float fragmentDecayDays = 30f;
+    public float fragmentSafeRadius = 6f;
     public float moduleChanceBlackICE = 0.05f;
     public float moduleChanceBlackBox = 0.1f;
 

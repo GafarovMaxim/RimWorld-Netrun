@@ -20,7 +20,7 @@
     <blackMarketReputation>30</blackMarketReputation>
     <blackMarketCoreChance>0.3</blackMarketCoreChance>
     <distressWorkHours>2</distressWorkHours>
-    <distressFragmentChance>0.7</distressFragmentChance>
+    <distressFragmentChance>0.4</distressFragmentChance>
     <distressSteel>30</distressSteel>
     <mapHackTurrets>3</mapHackTurrets>
     <mapHackHours>12</mapHackHours>

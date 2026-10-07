@@ -466,6 +466,13 @@ public static class HeatScreen
             y += 22f;
         }
 
+        float floor = tracker.NoiseFloor;
+        if (floor > 0.5f)
+        {
+            Widgets.Label(new Rect(0f, y, r.width, 20f), Dialog_NetTerminal.NoiseLine(floor).Colorize(NetrunUI.Warn));
+            y += 22f;
+        }
+
         // Totals: in, scrubbed out, and the cooling that explains the rest.
         float gained = entries.Where(e => e.Amount > 0f).Sum(e => e.Amount);
         float scrubbed = entries.Where(e => e.Amount < 0f).Sum(e => e.Amount);

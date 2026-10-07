@@ -36,6 +36,21 @@ public class AIManager : GameComponent, INetrunCleanable
     {
         int storedId = fragment.TryGetComp<CompAIFragment>()?.StoredAIId ?? -1;
         NetAI ai = storedId >= 0 ? ById(storedId) : null;
+        Map map = server.MapHeld ?? worker.MapHeld;
+
+        // A fresh fragment costs cyberdata to coax awake and does not always make it (CONCEPTS_10, section 2).
+        // An AI that already lived with the colony comes back for free.
+        if (ai == null)
+        {
+            int cost = Settings.awakenCyberdataCost;
+            if (cost > 0 && !ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost))
+            {
+                Messages.Message("NR_AwakenNoCyberdata".Translate(cost), MessageTypeDefOf.RejectInput, historical: false);
+                return null;
+            }
+            if (TryFailAwakening(fragment, server, worker, map))
+                return null;
+        }
 
         if (ai == null)
         {
@@ -66,6 +81,39 @@ public class AIManager : GameComponent, INetrunCleanable
         NetrunRecords.Add(worker, NetrunRecords.NR_Record_AIsAwakened);
         TryDetectAwakening(ai);
         return ai;
+    }
+
+    /// <summary>
+    /// The two ways a fresh awakening goes wrong: the fragment was an empty shell (it falls apart into a little
+    /// cyberdata) or the AI wakes up and slips out into the net, where a dive can find it again.
+    /// </summary>
+    private bool TryFailAwakening(Thing fragment, Building server, Pawn worker, Map map)
+    {
+        float roll = Rand.Value;
+        if (roll < Settings.awakenEmptyChance)
+        {
+            IntVec3 cell = server.PositionHeld;
+            fragment.Destroy();
+            if (Settings.awakenEmptyCyberdata > 0 && map != null)
+            {
+                Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
+                data.stackCount = Settings.awakenEmptyCyberdata;
+                GenPlace.TryPlaceThing(data, cell, map, ThingPlaceMode.Near);
+            }
+            Find.LetterStack.ReceiveLetter("NR_AwakenEmptyLabel".Translate(), "NR_AwakenEmpty".Translate(worker.LabelShort, Settings.awakenEmptyCyberdata),
+                LetterDefOf.NeutralEvent, new LookTargets(server));
+            return true;
+        }
+        if (roll < Settings.awakenEmptyChance + Settings.awakenEscapeChance)
+        {
+            string name = $"{Names.RandomElement()}-{Rand.Range(10, 99)}";
+            fragment.Destroy();
+            GatewayManager.Get()?.RunawayAI(name);
+            Find.LetterStack.ReceiveLetter("NR_AwakenEscapedLabel".Translate(name), "NR_AwakenEscaped".Translate(name, worker.LabelShort),
+                LetterDefOf.NegativeEvent, new LookTargets(server));
+            return true;
+        }
+        return false;
     }
 
     /// <summary>Waking an AI is loud: the higher the Heat, the likelier someone notices.</summary>

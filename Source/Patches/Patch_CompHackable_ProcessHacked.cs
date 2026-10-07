@@ -51,7 +51,7 @@ public static class Patch_CompHackable_ProcessHacked
         float fragmentChance = blackIce ? settings.fragmentChanceBlackICE : coreCommand ? settings.fragmentChanceCoreCommandICE : 0f;
         float moduleChance = blackIce ? settings.moduleChanceBlackICE : blackBox ? settings.moduleChanceBlackBox : 0f;
 
-        if (Rand.Chance(fragmentChance))
+        if (Rand.Chance(AIBalance.FragmentChance(fragmentChance)))
             DropFind(NetrunDefOf.NR_AIFragment, target, hacker);
         if (Rand.Chance(moduleChance))
             DropFind(NetrunDefOf.NR_AICoreModule, target, hacker);

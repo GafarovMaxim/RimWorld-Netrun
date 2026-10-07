@@ -265,4 +265,14 @@
   <NR_AIRenameTip>Дать этому ИИ своё имя.</NR_AIRenameTip>
   <NR_AIRenameOk>Переименовать</NR_AIRenameOk>
   <NR_AIRenameEmpty>Имя не может быть пустым.</NR_AIRenameEmpty>
+  <NR_AwakenNoCyberdata>Для пробуждения нового осколка нужно {0} cyberdata.</NR_AwakenNoCyberdata>
+  <NR_AwakenCost>{0} cyberdata</NR_AwakenCost>
+  <NR_AwakenEmptyLabel>Пустой осколок</NR_AwakenEmptyLabel>
+  <NR_AwakenEmpty>{0} заглянул в осколок и не нашёл там ничего живого: только эхо кода. Осколок рассыпался в {1} cyberdata.</NR_AwakenEmpty>
+  <NR_AwakenEscapedLabel>{0} ускользнул</NR_AwakenEscapedLabel>
+  <NR_AwakenEscaped>Осколок проснулся быстрее, чем {1} успел его удержать. ИИ, назвавший себя {0}, выскользнул из сервера в сеть.\n\nТеперь он прячется в заброшенной ноде. Нырок туда может его найти и вернуть.</NR_AwakenEscaped>
+  <NR_AIFragmentCrumbled>Осколок ИИ распался: он слишком долго лежал вдали от запитанного ИИ-сервера.</NR_AIFragmentCrumbled>
+  <NR_AIFragmentDecaying>Распадается: осталось {0} дн. Держите его рядом с запитанным ИИ-сервером.</NR_AIFragmentDecaying>
+  <NR_AIFragmentStable>Стабилен рядом с ИИ-сервером (вдали осталось бы {0} дн.).</NR_AIFragmentStable>
+  <NR_NoiseFloorLine>Сетевой шум: {0} активных ИИ, Heat не остывает ниже {1}.</NR_NoiseFloorLine>
 </LanguageData>

@@ -36,7 +36,7 @@
     <emotionalFailChance>0.65</emotionalFailChance>
     <emotionalJackpotChance>0.12</emotionalJackpotChance>
     <jackpotAdvancedData>3~5</jackpotAdvancedData>
-    <jackpotFragmentChance>0.3</jackpotFragmentChance>
+    <jackpotFragmentChance>0.15</jackpotFragmentChance>
     <failNetsickGain>0.1</failNetsickGain>
   </Netrun.NetsickSettingsDef>
 

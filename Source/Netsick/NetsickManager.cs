@@ -181,7 +181,7 @@ public class NetsickManager : GameComponent
             data.stackCount = Settings.jackpotAdvancedData.RandomInRange;
             GenPlace.TryPlaceThing(data, pod.InteractionCell, pod.Map, ThingPlaceMode.Near);
 
-            bool fragment = Rand.Chance(Settings.jackpotFragmentChance);
+            bool fragment = Rand.Chance(AIBalance.FragmentChance(Settings.jackpotFragmentChance));
             if (fragment)
                 GenPlace.TryPlaceThing(ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment), pod.InteractionCell, pod.Map, ThingPlaceMode.Near);
 

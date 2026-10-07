@@ -83,6 +83,11 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsFreqCyber>Cyberspace events:</NR_SettingsFreqCyber>
   <NR_SettingsFreqCyberTip>ICE hunter, rival netrunners, honeypots, data storms, wild AIs.</NR_SettingsFreqCyberTip>
   <NR_SettingsAIEventFrequencyTip>AI events: requests, favors and tricks of your AIs.</NR_SettingsAIEventFrequencyTip>
+  <NR_SettingsAIAvailability>AI availability</NR_SettingsAIAvailability>
+  <NR_SettingsAIAvailabilityTip>How often AI fragments turn up: in hacks, dives, distress signals and emotional dives. Low halves every chance, high gives one and a half times.</NR_SettingsAIAvailabilityTip>
+  <NR_SettingsAIAvailabilityLow>Low</NR_SettingsAIAvailabilityLow>
+  <NR_SettingsAIAvailabilityNormal>Normal</NR_SettingsAIAvailabilityNormal>
+  <NR_SettingsAIAvailabilityHigh>High</NR_SettingsAIAvailabilityHigh>
   <NR_SettingsPause>Pause when the terminal opens</NR_SettingsPause>
   <NR_SettingsPauseTip>The game pauses once when the terminal opens; you can unpause it while it is open.</NR_SettingsPauseTip>
   <NR_SettingsAnimations>Terminal animations</NR_SettingsAnimations>

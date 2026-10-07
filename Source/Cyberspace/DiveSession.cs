@@ -567,7 +567,7 @@ public class DiveSession : IExposable
 
         var finds = new List<(System.Action find, float weight)>
         {
-            (() => LootItems.Add(NetrunDefOf.NR_AIFragment), Settings.findFragment),
+            (() => LootItems.Add(NetrunDefOf.NR_AIFragment), Settings.findFragment * NetrunMod.Settings.AIAvailability),
             (FindResearch, Settings.findResearch),
             (FindFixerService, Settings.findFixerService),
             (FindGroupFavor, Settings.findGroupFavor),
@@ -708,7 +708,7 @@ public class DiveSession : IExposable
 
     private void RollMemory()
     {
-        if (Rand.Chance(Node.Type == ExternalNodeType.Abandoned ? 0.25f : 0.1f))
+        if (Rand.Chance(AIBalance.FragmentChance(Node.Type == ExternalNodeType.Abandoned ? Settings.memoryFragmentAbandoned : Settings.memoryFragmentOther)))
             LootItems.Add(NetrunDefOf.NR_AIFragment);
         else if (Rand.Chance(0.05f))
             LootItems.Add(NetrunDefOf.NR_AICoreModule);

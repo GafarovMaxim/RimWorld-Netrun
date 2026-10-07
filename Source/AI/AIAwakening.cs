@@ -29,7 +29,18 @@ public static class AIAwakening
             return "NR_AwakenNoFragment".Translate();
         if (FreeServer(map) == null)
             return "NR_AwakenNoServer".Translate();
+        // AIs that already lived with the colony come back for free; fresh fragments cost cyberdata.
+        if (!Fragments(map).Any(f => IsStored(f) || Affordable(map)))
+            return "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost);
         return true;
+    }
+
+    private static bool IsStored(Thing fragment) => fragment.TryGetComp<CompAIFragment>()?.StoredAI != null;
+
+    private static bool Affordable(Map map)
+    {
+        int cost = NetrunDefOf.NR_AI.awakenCyberdataCost;
+        return cost <= 0 || ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= cost;
     }
 
     /// <summary>Pick a fragment, then a colonist; the job does the rest.</summary>
@@ -46,10 +57,17 @@ public static class AIAwakening
         foreach (Thing fragment in Fragments(map))
         {
             NetAI stored = fragment.TryGetComp<CompAIFragment>()?.StoredAI;
-            string label = stored == null
-                ? "NR_AwakenFragmentUnknown".Translate()
-                : "NR_AwakenFragmentStored".Translate(stored.Name);
-            options.Add(new FloatMenuOption(label, () => OpenWorkerMenu(map, fragment)));
+            if (stored == null)
+            {
+                string label = "NR_AwakenFragmentUnknown".Translate() + " (" + "NR_AwakenCost".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost) + ")";
+                options.Add(Affordable(map)
+                    ? new FloatMenuOption(label, () => OpenWorkerMenu(map, fragment))
+                    : new FloatMenuOption(label + ": " + "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost), null));
+            }
+            else
+            {
+                options.Add(new FloatMenuOption("NR_AwakenFragmentStored".Translate(stored.Name), () => OpenWorkerMenu(map, fragment)));
+            }
         }
         Find.WindowStack.Add(new FloatMenu(options));
     }

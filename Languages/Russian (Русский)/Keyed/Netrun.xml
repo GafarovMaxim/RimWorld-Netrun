@@ -83,6 +83,11 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFreqCyber>События киберпространства:</NR_SettingsFreqCyber>
   <NR_SettingsFreqCyberTip>Охотник ICE, соперники, приманки, шторм данных, дикий ИИ.</NR_SettingsFreqCyberTip>
   <NR_SettingsAIEventFrequencyTip>События ИИ: просьбы, услуги и выходки ваших ИИ.</NR_SettingsAIEventFrequencyTip>
+  <NR_SettingsAIAvailability>Доступность ИИ</NR_SettingsAIAvailability>
+  <NR_SettingsAIAvailabilityTip>Как часто попадаются осколки ИИ: во взломах, нырках, сигналах бедствия и нырках на эмоциях. Низкая вдвое снижает каждый шанс, высокая повышает в полтора раза.</NR_SettingsAIAvailabilityTip>
+  <NR_SettingsAIAvailabilityLow>Низкая</NR_SettingsAIAvailabilityLow>
+  <NR_SettingsAIAvailabilityNormal>Обычная</NR_SettingsAIAvailabilityNormal>
+  <NR_SettingsAIAvailabilityHigh>Высокая</NR_SettingsAIAvailabilityHigh>
   <NR_SettingsPause>Пауза при открытии терминала</NR_SettingsPause>
   <NR_SettingsPauseTip>Игра встаёт на паузу при открытии терминала; снять паузу можно и при открытом окне.</NR_SettingsPauseTip>
   <NR_SettingsAnimations>Анимации терминала</NR_SettingsAnimations>
