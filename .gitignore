@@ -1,6 +1,8 @@
 # Build output
 Source/obj/
 Source/bin/
+SourceVAE/obj/
+SourceVAE/bin/
 *.pdb
 
 # IDE
@@ -11,6 +13,7 @@ Source/bin/
 
 # CI download
 Source/lib/
+SourceVAE/lib/
 dist/
 
 # Source art kept only on the author's PC (game copies are in Textures/)

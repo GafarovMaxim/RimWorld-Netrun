@@ -522,6 +522,25 @@ public class DiveSession : IExposable
     }
 
     /// <summary>A failed gate raises the node alert; the patrol wakes at the threshold.</summary>
+    /// <summary>Achievement counters for a finished dive (docs/TECH_DETAILS.md, section 3.5).</summary>
+    private void DiveSignals(bool success)
+    {
+        NetrunCounters counters = NetrunCounters.Get();
+        if (counters == null)
+            return;
+        // The first dive ever, right in the Red Zone.
+        if (counters.Value("Dives") == 0 && HeatAtStart >= 95f)
+            NetrunSignals.Increment("RookieRedZone");
+        NetrunSignals.Increment("Dives");
+        int streak = success && !Retreated ? counters.Value("CleanStreakNow") + 1 : 0;
+        counters.Set("CleanStreakNow", streak);
+        NetrunSignals.Max("CleanStreak", streak);
+        if (success && Node.BlackIce)
+            NetrunSignals.Increment("BlackICEPassed");
+        if (success && Node.IsBoss)
+            NetrunSignals.Increment("CorpCores");
+    }
+
     private void RaiseAlert()
     {
         if (!AlertApplies || PatrolAwake)
@@ -1133,6 +1152,7 @@ public class DiveSession : IExposable
         DiveTraits.Check(Runner);
         NetIdeo.AfterDive(Runner, Node.BlackIce, success);
         AIQuests.NotifyDive(this, success);
+        DiveSignals(success);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))

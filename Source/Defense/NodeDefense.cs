@@ -252,6 +252,9 @@ public class NodeDefense : GameComponent
     public void OnRepelled(Map map, string attackLabel, bool intercepted = false)
     {
         AIQuests.NotifyRepelled(intercepted);
+        NetrunSignals.Increment("IntrusionsRepelled");
+        if (intercepted)
+            NetrunSignals.Increment("Intercepts");
         if (Tier == IceTier.BlackIce)
             HeatTracker.Get()?.AddHeat(Settings.blackIceRepelHeat, "NR_DefenseBlackIceHeat".Translate(attackLabel), HeatSource.Raid);
 

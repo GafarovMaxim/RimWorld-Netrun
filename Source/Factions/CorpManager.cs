@@ -458,6 +458,8 @@ public class CorpManager : GameComponent, INetrunCleanable
             }
         }
         if (c.PlayerLastBlow)
+            NetrunSignals.Increment("CorpCollapsed");
+        if (c.PlayerLastBlow)
             NetRanking.Get()?.AddColonyFame(null, NetRanking.Settings.fameCollapse, "NR_FameCollapse".Translate(f.Name));
         f.defeated = true;
         Corps.Remove(c);

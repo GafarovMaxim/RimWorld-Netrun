@@ -65,6 +65,8 @@ public class NetAI : IExposable
     public bool Drilled;
     /// <summary>Doc's patient: the service heals 50% more for good.</summary>
     public bool DocBoost;
+    /// <summary>Echo: thingIDNumber of the one who killed its colonist, -1 unknown.</summary>
+    public int EchoKillerId = -1;
     public int SecondServiceReadyTick;
 
     public bool InServer => Server != null && !Server.Destroyed;
@@ -145,6 +147,7 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref NextQuestTick, "nextQuestTick", -1);
         Scribe_Values.Look(ref Drilled, "drilled");
         Scribe_Values.Look(ref DocBoost, "docBoost");
+        Scribe_Values.Look(ref EchoKillerId, "echoKiller", -1);
         Scribe_Values.Look(ref SecondServiceReadyTick, "secondServiceReady");
         RequestHistory ??= [];
         Traits ??= [];

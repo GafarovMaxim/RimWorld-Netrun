@@ -12,6 +12,7 @@ permissions:
 
 env:
   HE_DLL_URL: https://raw.githubusercontent.com/BlueEagle421/HackingExpansion/main/1.6/Assemblies/HackingExpansion.dll
+  VAE_DLL_URL: https://raw.githubusercontent.com/Vanilla-Expanded/VanillaAchievementsExpanded/main/1.6/Assemblies/AchievementsExpanded.dll
   MOD_FOLDER: HackingExpansionNetrun
 
 jobs:
@@ -47,10 +48,16 @@ jobs:
       - name: Build
         run: dotnet build Source/Netrun.csproj -c Release -warnaserror
 
+      - name: Download Vanilla Achievements Expanded
+        run: curl -fsSL "$VAE_DLL_URL" -o SourceVAE/lib/AchievementsExpanded.dll --create-dirs
+
+      - name: Build achievements (optional VAE folder)
+        run: dotnet build SourceVAE/NetrunVAE.csproj -c Release -warnaserror
+
       - name: Package mod
         run: |
           mkdir -p dist/$MOD_FOLDER
-          cp -r About Assemblies Defs Languages Patches Textures README.md dist/$MOD_FOLDER/
+          cp -r About Assemblies Defs Languages Mods Patches Sounds Textures LoadFolders.xml README.md dist/$MOD_FOLDER/
           cd dist && zip -qr $MOD_FOLDER.zip $MOD_FOLDER
 
       - uses: actions/upload-artifact@v7

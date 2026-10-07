@@ -81,6 +81,8 @@ public class AIManager : GameComponent, INetrunCleanable
             LetterDefOf.PositiveEvent, new LookTargets(server));
 
         NetrunRecords.Add(worker, NetrunRecords.NR_Record_AIsAwakened);
+        NetrunSignals.Increment("AIsAwakened");
+        NetrunCounters.Get()?.MetPersonality(ai.Personality);
         TryDetectAwakening(ai);
         return ai;
     }
@@ -278,6 +280,7 @@ public class AIManager : GameComponent, INetrunCleanable
             else
             {
                 Remove(ai, "NR_AIBetrayalLabel", "NR_AIBetrayal", Settings.betrayalHeat, LetterDefOf.ThreatSmall);
+                NetrunSignals.Increment("BetrayalSurvived");
                 Mercenaries.TryQueueRevenge(0.5f, "NR_MercReasonBetrayal", ai.Name);
             }
             return;
@@ -386,7 +389,7 @@ public class AIManager : GameComponent, INetrunCleanable
     }
 
     /// <summary>A colonist with a cyberlink died and left a digital imprint.</summary>
-    public void CreateEcho(Pawn pawn)
+    public void CreateEcho(Pawn pawn, Pawn killer = null)
     {
         var ai = new NetAI
         {
@@ -395,8 +398,11 @@ public class AIManager : GameComponent, INetrunCleanable
             Personality = AIPersonality.Echo,
             AwakenedTick = Find.TickManager.TicksGame,
             Trust = Settings.startTrust,
+            EchoKillerId = killer?.thingIDNumber ?? -1,
         };
         _ais.Add(ai);
+        NetrunSignals.Increment("EchoBorn");
+        NetrunCounters.Get()?.MetPersonality(AIPersonality.Echo);
 
         Map map = pawn.MapHeld;
         if (map == null)
@@ -451,6 +457,8 @@ public class AIManager : GameComponent, INetrunCleanable
         if (ai.InHost)
             AIHosting.RemovePassengerHediff(ai, ai.Host);
         ai.Personality = grown;
+        NetrunSignals.Increment("SeedGrown");
+        NetrunCounters.Get()?.MetPersonality(grown);
         if (ai.InHost)
             AIHosting.AddPassengerHediff(ai, ai.Host);
         // What it was fed most leaves a mark.
@@ -467,6 +475,7 @@ public class AIManager : GameComponent, INetrunCleanable
     public void NotifyHack()
     {
         _lastHackTick = Find.TickManager.TicksGame;
+        NetrunCounters.Get()?.NotifyHack();
         foreach (NetAI ai in _ais.Where(a => a.Personality == AIPersonality.Ghost && a.Active))
             ai.AddHunger(Settings.ghostHungerPerHack);
     }

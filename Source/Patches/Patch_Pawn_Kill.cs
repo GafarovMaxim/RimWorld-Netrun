@@ -20,7 +20,7 @@ public static class Patch_Pawn_Kill
         __state = __instance.Faction == Faction.OfPlayer && __instance.RaceProps.Humanlike && __instance.IsHacker();
     }
 
-    static void Postfix(Pawn __instance, bool __state)
+    static void Postfix(Pawn __instance, bool __state, DamageInfo? dinfo)
     {
         try
         {
@@ -33,7 +33,7 @@ public static class Patch_Pawn_Kill
                 manager.EjectFromHost(passenger, "NR_AIHostDied");
 
             if (__state && Rand.Chance(NetrunDefOf.NR_AI.echoChance))
-                manager.CreateEcho(__instance);
+                manager.CreateEcho(__instance, dinfo?.Instigator as Pawn);
         }
         catch (Exception ex)
         {

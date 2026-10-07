@@ -336,6 +336,7 @@ public class ContractManager : GameComponent, INetrunCleanable
         _contracts.Remove(contract);
         Fixer fixer = FixerManager.Get()?.ById(contract.FixerId);
         AIQuests.NotifyContract(contract.FixerId);
+        NetrunSignals.Increment("ContractsDone");
         Map map = Find.AnyPlayerHomeMap;
 
         // A gambler rolls the pay when the job is done.

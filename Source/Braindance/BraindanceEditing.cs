@@ -103,6 +103,8 @@ public static class BraindanceEditing
             target.Strength = Mathf.Clamp01(source.Strength + skill * 0.015f);
             ContractManager.Get()?.NotifyChipEdited(target.Mood);
             AIQuests.NotifyEdited(target.Mood, target.QualityTier);
+            if (target.QualityTier >= 2)
+                NetrunSignals.Increment("MasterChip");
         }
 
         IntVec3 cell = editor.Position;

@@ -132,6 +132,9 @@ public class FixerManager : GameComponent, INetrunCleanable
         // or, with nothing to take, leaks your trace.
         if (ContractManager.Get()?.HasActive(fixer) == true)
             BreakPenalty(fixer);
+        // Cut a rat loose before it ever sold the colony out.
+        if (fixer.Trait == FixerTrait.Rat && !fixer.TraitRevealed)
+            NetrunSignals.Increment("RatCut");
         ContractManager.Get()?.DropFixer(fixer);
         _fixers.Remove(fixer);
         _banned[fixer.Name] = Find.TickManager.TicksGame + Settings.breakBanDays * GenDate.TicksPerDay;

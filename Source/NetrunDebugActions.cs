@@ -372,4 +372,19 @@ public static class NetrunDebugActions
             })).ToList();
         Find.WindowStack.Add(new FloatMenu(options));
     }
+
+    [DebugAction(Category, "AI quest: offer now...", allowedGameStates = AllowedGameStates.Playing)]
+    private static void OfferAIQuest()
+    {
+        var options = (AIManager.Get()?.AIs ?? []).Select(ai => new FloatMenuOption(ai.Name + " (" + ai.Personality + ")", () =>
+        {
+            if (AIQuests.QuestOf(ai) != null || AIQuests.Get()?.Offer(ai) != true)
+                Messages.Message(ai.Name + ": already has a quest or none can be offered", MessageTypeDefOf.RejectInput, historical: false);
+        })).ToList();
+        if (options.Count > 0)
+            Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Category, "Achievement counters", allowedGameStates = AllowedGameStates.Playing)]
+    private static void AchievementCounters() => Find.WindowStack.Add(new Dialog_MessageBox(NetrunCounters.Get()?.DebugState() ?? "-"));
 }

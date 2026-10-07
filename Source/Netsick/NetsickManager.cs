@@ -186,6 +186,7 @@ public class NetsickManager : GameComponent
 
         if (roll < Settings.emotionalJackpotChance)
         {
+            NetrunSignals.Increment("EmotionalJackpot");
             Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_AdvancedCyberdata);
             data.stackCount = Settings.jackpotAdvancedData.RandomInRange;
             GenPlace.TryPlaceThing(data, pod.InteractionCell, pod.Map, ThingPlaceMode.Near);
