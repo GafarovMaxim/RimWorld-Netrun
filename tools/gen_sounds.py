@@ -180,15 +180,15 @@ STYLE = {}
 
 PACKS = {
     # name: (russian label, description, style)
-    "Clean": ("Чистый", "Тихий терминал: ровный гул, редкие писки. Шума почти нет.",
+    "Clean": ("Чистый", "Неоновая ночь: тёплые аналоговые пады, стеклянные электропианные сигналы, редкая сирена вдали.",
               dict(tone="soft", noise=0.35, wet=1.0, bright=9000, click="tick", scale=None, pitch=1.0)),
-    "Minimal": ("Минимализм", "Почти тишина: короткие мягкие щелчки, эмбиент едва слышен.",
+    "Minimal": ("Минимализм", "Холодная комната: короткие чистые пипы, тихий дрон и далёкий колокол, всё очень скупо.",
                 dict(tone="sine", noise=0.0, wet=0.6, bright=5000, click="soft", scale=None, pitch=1.0)),
-    "Neon": ("Неон", "Синтвейв: тёплые пады, арпеджио, мелодичные сигналы.",
+    "Neon": ("Неон", "Синтвейв: суперсо-пады, бас-арпеджио, пилообразные щипки и гейт-эхо.",
              dict(tone="tri", noise=0.25, wet=1.3, bright=8000, click="pluck", scale=[0, 2, 3, 5, 7, 8, 10], pitch=1.0)),
-    "RetroDeck": ("Ретро-дека", "Кибердека 80-х: реле, клавиши, квадратные писки, сонар.",
+    "RetroDeck": ("Ретро-дека", "Кибердека 80-х: чип-звуки в 8 бит, реле, модемные трели, сонар.",
                   dict(tone="square", noise=0.5, wet=0.5, bright=4500, click="relay", scale=None, pitch=0.85)),
-    "Deep": ("Глубина", "Просторные колокольчики, суб-бас, длинное эхо. Без шума.",
+    "Deep": ("Глубина", "Тяжёлая бездна: смычковые дроны, огромные колокола, гонги и длинное эхо.",
              dict(tone="bell", noise=0.0, wet=1.8, bright=7000, click="soft", scale=[0, 2, 4, 7, 9], pitch=0.8)),
 }
 
@@ -707,7 +707,492 @@ def amb_deep(name):
     return rms_norm(y, -30)
 
 
-AMBIENT = {"Clean": amb_clean, "Minimal": amb_minimal, "Neon": amb_neon, "RetroDeck": amb_retro, "Deep": amb_deep}
+
+# ---------- v3: pack identity (voices, motifs, sweeps) and cyberpunk ambients ----------
+
+EXTRA = {
+    "Clean": dict(voice="fm", atk=0.003, dec=0.5, rt=0.9, wetm=0.28, echo=True, gate=False, crushb=0, sweep="smooth", level=-9,
+                  M=dict(confirm=[(659, 0, .14), (988, .08, .22)], notify=[(880, 0, .14), (1319, .11, .26)],
+                         tab=[(880, 0, .06), (1175, .035, .06), (1568, .07, .08)], hack=[(440, 0, .1), (554, .07, .1), (740, .14, .18)],
+                         success=[(523, 0, .5), (659, .09, .5), (784, .18, .5), (1047, .27, .5), (1319, .36, .8)],
+                         heat_down=[(1568, 0, .4), (1175, .1, .4), (880, .2, .4), (659, .3, .6)],
+                         chime=[(1319, 0, 1.0), (1760, .16, 1.2)], fulfilled=[(262, 0, .9), (330, 0, .9), (392, 0, .9), (523, 0, .9)],
+                         deny=[(330, 0, .12), (247, .1, .2)], request=[(523, 0, .14), (659, .13, .14), (880, .26, .3)],
+                         alert=[(740, 0, .1), (740, .24, .1), (740, .48, .1)])),
+    "Minimal": dict(voice="sine", atk=0.002, dec=0.3, rt=0.5, wetm=0.1, echo=False, gate=False, crushb=0, sweep="tiny", level=-14,
+                    M=dict(confirm=[(523, 0, .09)], notify=[(784, 0, .1)], tab=[(660, 0, .04)], hack=[(392, 0, .06)],
+                           success=[(392, 0, .3), (523, .13, .4)], heat_down=[(523, 0, .3), (392, .16, .4)],
+                           chime=[(880, 0, .5)], fulfilled=[(330, 0, .6), (440, 0, .6)], deny=[(196, 0, .14)],
+                           request=[(440, 0, .12), (587, .14, .2)], alert=[(330, 0, .12), (330, .3, .12)])),
+    "Neon": dict(voice="saw", atk=0.002, dec=0.35, rt=1.1, wetm=0.35, echo=True, gate=True, crushb=0, sweep="saw", level=-8,
+                 M=dict(confirm=[(440, 0, .12), (659, .07, .12), (880, .14, .3)], notify=[(660, 0, .12), (880, .09, .12), (1320, .18, .3)],
+                        tab=[(330, 0, .06), (440, .04, .06), (660, .08, .08)], hack=[(220, 0, .1), (330, .06, .1), (440, .12, .2)],
+                        success=[(440, 0, .2), (523, .06, .2), (659, .12, .2), (880, .18, .2), (1047, .24, .2), (1319, .3, .2), (1568, .36, .2), (2093, .42, .5)],
+                        heat_down=[(1319, 0, .2), (1047, .08, .2), (880, .16, .2), (659, .24, .2), (523, .32, .4)],
+                        chime=[(880, 0, .3), (1320, .12, .5)], fulfilled=[(220, 0, 1.2), (330, 0, 1.2), (440, 0, 1.2), (523, 0, 1.2)],
+                        deny=[(220, 0, .25), (208, .03, .25)], request=[(440, 0, .1), (523, .1, .1), (659, .2, .3)],
+                        alert=[(880, 0, .5), (660, .25, .5)])),
+    "RetroDeck": dict(voice="chip", atk=0.001, dec=0.9, rt=0.3, wetm=0.08, echo=False, gate=True, crushb=6, sweep="steps", level=-8,
+                      M=dict(confirm=[(523, 0, .05), (659, .05, .05), (784, .1, .12)], notify=[(1047, 0, .07), (1047, .1, .07)],
+                             tab=[(1568, 0, .03)], hack=[(262, 0, .05), (262, .06, .05), (523, .12, .1)],
+                             success=[(988, 0, .07), (1319, .07, .3), (659, .4, .08), (784, .48, .08), (1047, .56, .3)],
+                             heat_down=[(1047, 0, .05), (988, .06, .05), (880, .12, .05), (784, .18, .05), (659, .24, .05), (523, .3, .05), (392, .36, .1)],
+                             chime=[(1568, 0, .06), (2093, .08, .12)], fulfilled=[(262, 0, .1), (330, .1, .1), (392, .2, .1), (523, .3, .3)],
+                             deny=[(110, 0, .1), (98, .1, .2)], request=[(523, 0, .06), (784, .08, .06), (1047, .16, .12)],
+                             alert=[(1320, 0, .06), (880, .08, .06), (1320, .16, .06), (880, .24, .06), (1320, .4, .06), (880, .48, .06)])),
+    "Deep": dict(voice="bell", atk=0.004, dec=0.9, rt=2.8, wetm=0.5, echo=True, gate=False, crushb=0, sweep="swell", level=-8,
+                 M=dict(confirm=[(196, 0, 1.4), (294, .16, 1.2)], notify=[(330, 0, 1.6)], tab=[(262, 0, .4)], hack=[(147, 0, .7)],
+                        success=[(262, 0, 1.4), (330, .4, 1.4), (392, .8, 1.4), (523, 1.2, 2.0)],
+                        heat_down=[(523, 0, 1.0), (440, .45, 1.0), (330, .9, 1.0), (262, 1.35, 1.6)],
+                        chime=[(392, 0, 1.6), (587, .3, 1.6)], fulfilled=[(147, 0, 2.0), (220, 0, 2.0), (294, 0, 2.0)],
+                        deny=[(98, 0, .8)], request=[(220, 0, .5), (294, .4, .9)], alert=[(110, 0, 2.0), (165, .05, 2.0)])),
+}
+
+
+def saw_w(f, n):
+    fa = np.full(n, float(f)) if np.isscalar(f) else np.asarray(f, dtype=float)
+    return 2 * ((np.cumsum(fa) / SR) % 1.0) - 1
+
+
+def vtone(f, d):
+    """A note in the current pack's voice: fm (glass e-piano), sine, saw (supersaw pluck), chip (25% pulse), bell."""
+    k = STYLE["voice"]
+    n = int(SR * d)
+    fa = np.full(n, float(f)) if np.isscalar(f) else np.asarray(f, dtype=float)
+    t = np.arange(n) / SR
+    ph = 2 * np.pi * np.cumsum(fa) / SR
+    if k == "fm":
+        return (np.sin(ph + 1.6 * np.exp(-t / 0.18) * np.sin(2 * ph)) + 0.25 * np.sin(ph * 4.0) * np.exp(-t / 0.05)) / 1.2
+    if k == "saw":
+        x = (saw_w(fa * 0.994, n) + saw_w(fa, n) + saw_w(fa * 1.006, n)) / 3
+        return lp(x, 3800) if n > 64 else x
+    if k == "chip":
+        frac = (np.cumsum(fa) / SR) % 1.0
+        return np.where(frac < 0.25, 1.0, -1.0) * 0.7
+    if k == "bell":
+        return np.sin(ph + 2.4 * np.sin(1.414 * ph) * np.exp(-t / 0.5)) * 0.9 + 0.2 * np.sin(2.76 * ph) * np.exp(-t / 0.3)
+    return np.sin(ph)
+
+
+def vfx(x, tail=0.0, db=None):
+    """Pack effects: bit crush, reverb, gate; then level."""
+    if STYLE["crushb"]:
+        x = crush(x, STYLE["crushb"], 2)
+    if STYLE["wetm"] > 0:
+        x = reverb(x, min(STYLE["rt"], 0.5 + 2.0 * tail) if tail else STYLE["rt"], STYLE["wetm"])
+    if STYLE["echo"]:
+        x = echo(x, 0.19, 0.3, 2)
+    if STYLE["gate"]:
+        n = int(SR * (tail + 0.12))
+        if 0 < n < len(x):
+            x = x[: n + int(SR * 0.04)].copy()
+            x[n:] *= np.linspace(1, 0, len(x) - n)
+    return fades(peak_norm(lp(x, STYLE["bright"]), db if db is not None else STYLE["level"]), 0.002, 0.02)
+
+
+def motif(key, db=None, mult=1.0):
+    notes = STYLE["M"][key]
+    total = max(st + d for _, st, d in notes) + 0.05
+    x = np.zeros(int(SR * (total + 0.1)))
+    for f, st, d in notes:
+        n = int(SR * d)
+        w = vtone(nt(f), d) * env_ad(n, STYLE["atk"], max(d * STYLE["dec"], 0.03))
+        mix_at(x, w, int(SR * st))
+    return vfx(x * mult, total, db)
+
+
+def ui_confirm():
+    return motif("confirm")
+
+
+def ui_notify():
+    return motif("notify")
+
+
+def ui_tab():
+    return motif("tab", -12)
+
+
+def ui_hack():
+    return motif("hack", -10)
+
+
+def ui_heat_down():
+    return motif("heat_down", -10)
+
+
+def dive_success():
+    return motif("success")
+
+
+def ai_chime():
+    return motif("chime", -11)
+
+
+def ai_fulfilled():
+    return motif("fulfilled", -9)
+
+
+def ai_request():
+    return motif("request", -10)
+
+
+def ui_deny():
+    k = STYLE["voice"]
+    if k == "chip":
+        d = 0.3
+        x = crush(np.sign(sine(np.linspace(130, 70, int(SR * d)), d)) * 0.7 + 0.3 * white(int(SR * d), 5), 4, 3) * env_ad(int(SR * d), 0.001, 0.12)
+        return fades(peak_norm(lp(x, 3000), -9))
+    if k == "saw":
+        d = 0.35
+        x = (saw_w(np.linspace(220, 110, int(SR * d)), int(SR * d)) + saw_w(np.linspace(226, 112, int(SR * d)), int(SR * d))) * env_ad(int(SR * d), 0.003, 0.15)
+        return fades(peak_norm(lp(x, 1500), -8))
+    if k == "bell":
+        return motif("deny", -9)
+    return motif("deny", -10)
+
+
+def ui_alert():
+    k = STYLE["voice"]
+    if k == "saw":
+        d = 1.0
+        n = int(SR * d)
+        f = np.concatenate([np.linspace(440, 880, n // 2), np.linspace(880, 440, n - n // 2)])
+        x = (saw_w(f, n) + saw_w(f * 1.01, n)) * 0.5 * np.sin(np.pi * np.arange(n) / n) ** 0.5
+        return fades(peak_norm(lp(reverb(x, 1.0, 0.25), 3500), -8), 0.01, 0.1)
+    if k == "bell":
+        x = motif("alert", -7)
+        n = int(SR * 2.2)
+        rumble = lp(white(n, 4), 120) * np.exp(-np.arange(n) / SR / 0.9) * 4
+        return fades(peak_norm(add(x, rumble * 0.5), -7))
+    return motif("alert", -8)
+
+
+def ui_open():
+    k = STYLE["sweep"]
+    if k == "tiny":
+        return motif("tab", -12)
+    if k == "steps":
+        x = np.zeros(int(SR * 0.7))
+        for i, f in enumerate((262, 330, 392, 523, 659, 784, 1047)):
+            mix_at(x, vtone(f, 0.06) * env_ad(int(SR * 0.06), 0.001, 0.05), int(SR * 0.055 * i))
+        mix_at(x, vtone(1047, 0.2) * env_ad(int(SR * 0.2), 0.001, 0.12), int(SR * 0.42))
+        return vfx(x, 0.6, -8)
+    if k == "saw":
+        d = 0.9
+        n = int(SR * d)
+        f = np.linspace(80, 900, n)
+        x = (saw_w(f, n) + saw_w(f * 1.008, n)) * 0.5 * np.linspace(0, 1, n) ** 1.3 * np.exp(-np.linspace(0, 1.5, n))
+        x = lp(x, 2500)
+        return vfx(x, 0.9, -8)
+    if k == "swell":
+        d = 2.4
+        n = int(SR * d)
+        t = np.arange(n) / SR
+        x = sum(np.sin(2 * np.pi * f * t) for f in (73.4, 110, 146.8)) * np.minimum(1, t / 1.4) ** 2 * np.exp(-np.maximum(0, t - 1.5) / 0.5) * 0.4
+        mix_at(x, vtone(220, 1.2) * env_ad(int(SR * 1.2), 0.005, 0.5), int(SR * 1.3))
+        return vfx(x, 2.4, -8)
+    d = 0.7
+    n = int(SR * d)
+    s = sweep(160, 1300, d) * np.linspace(0, 1, n) ** 2 * np.exp(-np.linspace(0, 2.5, n))
+    x = s + vtone(1568, 0.1)[:int(SR * 0.1)].tolist().__len__() * 0
+    return vfx(add(s, pad(vtone(1175, 0.08) * env_ad(int(SR * 0.08), 0.002, 0.03) * 0.5, 0) if False else s * 0), 0.7, -8) if False else vfx(s, 0.7, -8)
+
+
+def ui_close():
+    k = STYLE["sweep"]
+    if k == "tiny":
+        return motif("tab", -14)
+    if k == "steps":
+        x = np.zeros(int(SR * 0.4))
+        for i, f in enumerate((784, 659, 523, 392, 262)):
+            mix_at(x, vtone(f, 0.05) * env_ad(int(SR * 0.05), 0.001, 0.04), int(SR * 0.05 * i))
+        return vfx(x, 0.3, -10)
+    if k == "swell":
+        return motif("heat_down", -12, 0.6)
+    d = 0.5
+    n = int(SR * d)
+    f = np.linspace(900, 80, n)
+    x = (saw_w(f, n) * 0.5 if k == "saw" else np.sin(2 * np.pi * np.cumsum(f) / SR)) * np.exp(-np.linspace(0, 4, n))
+    return vfx(x, 0.5, -10)
+
+
+def ui_heat_up():
+    k = STYLE["sweep"]
+    d = 1.4
+    n = int(SR * d)
+    if k == "steps":
+        x = np.zeros(n)
+        pos = 0.0
+        gap = 0.28
+        for i in range(6):
+            mix_at(x, vtone(110 + 12 * i, 0.12) * env_ad(int(SR * 0.12), 0.001, 0.08), int(SR * pos))
+            pos += gap
+            gap *= 0.78
+        return vfx(x, 1.2, -7)
+    if k == "swell":
+        t = np.arange(n) / SR
+        x = lp(white(n, 6), 90) * 6 * np.exp(-t / 0.7) + sum(np.sin(2 * np.pi * f * t) for f in (55, 82)) * np.exp(-t / 0.9) * 0.4
+        mix_at(x, vtone(110, 1.2) * env_ad(int(SR * 1.2), 0.004, 0.5), 0)
+        return vfx(x, 1.4, -6)
+    if k == "saw":
+        f = np.linspace(55, 440, n) ** 1.0
+        x = (saw_w(f, n) + saw_w(f * 1.01, n)) * 0.5 * np.linspace(0.1, 1, n) ** 2
+        return vfx(lp(x, 2200), 1.4, -7)
+    if k == "tiny":
+        x = np.zeros(int(SR * 0.5))
+        for i in range(2):
+            mix_at(x, sine(70, 0.15) * env_ad(int(SR * 0.15), 0.004, 0.05), int(SR * 0.2 * i))
+        return vfx(x, 0.4, -10)
+    low = sweep(50, 90, d, "lin") * np.linspace(0.3, 1, n) * np.exp(-np.linspace(0, 2.2, n))
+    beat = np.zeros(n)
+    for j, pp in enumerate((0.0, 0.17, 0.5, 0.67)):
+        mix_at(beat, sine(62, 0.18) * env_ad(int(SR * 0.18), 0.003, 0.06), int(SR * pp), 1.0 if j % 2 == 0 else 0.7)
+    hi = sweep(500, 1800, d) * np.linspace(0, 0.35, n) ** 2 * np.exp(-np.linspace(0, 5, n))
+    return vfx(low * 0.5 + beat + hi, 1.3, -7)
+
+
+def dive_start():
+    k = STYLE["sweep"]
+    d = 1.9
+    n = int(SR * d)
+    if k == "steps":
+        x = np.zeros(n)
+        r = rng(3)
+        pos = 0.0
+        gap = 0.16
+        notes = [262, 330, 392, 523, 659, 784, 1047, 1319]
+        for i in range(18):
+            mix_at(x, vtone(notes[min(i // 2, 7)] * 2 ** (i % 2 * 0), 0.05) * env_ad(int(SR * 0.05), 0.001, 0.04), int(SR * pos))
+            pos += gap
+            gap = max(0.05, gap * 0.9)
+        x += crush(white(n, 8) * np.linspace(0, 0.15, n), 3, 4)
+        return vfx(x, 1.7, -7)
+    if k == "swell":
+        t = np.arange(n) / SR
+        x = sum(np.sin(2 * np.pi * f * t) for f in (55, 82.4, 110)) * np.minimum(1, t / 1.3) ** 2 * 0.4
+        for j, f in enumerate((147, 220, 294, 440)):
+            mix_at(x, vtone(f, 1.0) * env_ad(int(SR * 1.0), 0.004, 0.4) * 0.5, int(SR * (0.9 + 0.2 * j)))
+        return vfx(x, 1.9, -7)
+    if k == "saw":
+        f = np.geomspace(60, 1800, n)
+        x = (saw_w(f, n) + saw_w(f * 1.01, n)) * 0.5 * np.linspace(0, 1, n) ** 1.5
+        gate_ = (np.sin(2 * np.pi * np.linspace(2, 9, n) * np.arange(n) / SR) > -0.3).astype(float)
+        return vfx(lp(x * (0.5 + 0.5 * gate_), 3500), 1.9, -7)
+    if k == "tiny":
+        return motif("success", -12, 0.5)
+    up = sweep(80, 2200, d) * np.linspace(0, 1, n) ** 1.5
+    x = up * 0.6 * np.concatenate([np.ones(int(n * 0.8)), np.linspace(1, 0, n - int(n * 0.8))])
+    r = rng(2)
+    for i in range(14):
+        mix_at(x, vtone(r.choice([1568, 2093, 2637, 3136]), 0.05) * env_ad(int(SR * 0.05), 0.001, 0.02) * 0.4, int(SR * r.uniform(0.6, 1.6)))
+    return vfx(x, 1.9, -7)
+
+
+def dive_fail():
+    k = STYLE["sweep"]
+    d = 1.3
+    n = int(SR * d)
+    if k == "steps":
+        x = np.zeros(n)
+        for i, f in enumerate((784, 659, 523, 440, 349, 262, 196, 131)):
+            mix_at(x, vtone(f, 0.09) * env_ad(int(SR * 0.09), 0.001, 0.07), int(SR * 0.085 * i))
+        x += crush(white(n, 9) * np.exp(-np.arange(n) / SR / 0.3) * 0.4, 3, 4)
+        return vfx(x, 1.2, -7)
+    if k == "saw":
+        f = np.linspace(440, 40, n)
+        x = (saw_w(f, n) + saw_w(f * 1.02, n)) * 0.5 * np.exp(-np.arange(n) / SR / 0.6)
+        return vfx(lp(x, 1800), 1.3, -7)
+    if k == "swell":
+        t = np.arange(n) / SR
+        x = lp(white(n, 10), 140) * 5 * np.exp(-t / 0.5) + vtone(65, 1.3) * env_ad(n, 0.003, 0.5)
+        return vfx(x, 1.3, -6)
+    s = sweep(220, 40, d) * np.exp(-np.linspace(0, 3, n))
+    z = lp(white(n, 8), 2500) * np.exp(-np.linspace(0, 5, n)) * 0.25
+    x = np.tanh(2.5 * (s + z))
+    return vfx(crush(x, 6, 3) * 0.8 + x * 0.2, 1.3, -7)
+
+
+# ---------- v3 ambients: cyberpunk, audible, still almost noise-free ----------
+
+def saw_per(f, T, n, det=0.004):
+    t = np.arange(n) / SR
+    out = np.zeros(n)
+    for dd in (-det, 0.0, det):
+        ff = snap(f * (1 + dd), T)
+        out += 2 * ((ff * t) % 1.0) - 1
+    return out / 3
+
+
+def swept_pad(freqs, T, n, lo, hi, rate, amp=1.0, det=0.004, seed=0):
+    """Supersaw chord through a slowly sweeping low-pass (periodic: two filtered copies crossfaded by a periodic LFO)."""
+    x = sum(saw_per(f, T, n, det) for f in freqs) / max(1, len(freqs))
+    t = np.arange(n) / SR
+    m = 0.5 + 0.5 * np.sin(2 * np.pi * snap(rate, T) * t + rng(seed).uniform(0, 6.28))
+    return amp * (lp(x, lo) * (1 - m) + lp(x, hi) * m)
+
+
+def siren(T, n, f0=420, f1=640, period=8.0, vol=0.06, at=0.0):
+    d = period
+    m = int(SR * d)
+    t = np.arange(m) / SR
+    f = f0 + (f1 - f0) * (0.5 - 0.5 * np.cos(2 * np.pi * t / d))
+    w = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.sin(np.pi * t / d) ** 2 * vol
+    w = echo(w, 0.45, 0.5, 3)
+    y = np.zeros(n)
+    mix_at(y, w, int(SR * at), 1.0, wrap=True)
+    return y
+
+
+def bellp(f, vol=0.12, d=1.6):
+    k = tone(f, d, "bell") * env_ad(int(SR * d), 0.004, 0.5) * vol
+    return echo(k, 0.5, 0.5, 3)
+
+
+def chirp_burst(r, vol=0.05, steps=10, base=(900, 2400)):
+    out = []
+    for _ in range(steps):
+        d = r.uniform(0.02, 0.05)
+        out.append(tone(r.uniform(*base), d, "sine") * env_ad(int(SR * d), 0.001, d / 2) * vol)
+    return np.concatenate(out)
+
+
+def amb_v3(pack, name):
+    T = 16.0 if name != "server" else 12.0
+    n = int(SR * T)
+    t = np.arange(n) / SR
+    y = np.zeros(n)
+    r = rng(hash((pack, name)) % 10000)
+    am9 = [110, 164.81, 220, 329.63, 392]
+    if pack == "Clean":
+        if name == "terminal":
+            y += swept_pad(am9, T, n, 380, 1500, 0.06) * 0.5 + part(55, T, n) * 0.15
+            sprinkle(y, T, 3, lambda rr: tone(rr.choice([1319.5, 1760, 2093]), 0.9, "bell") * env_ad(int(SR * 0.9), 0.003, 0.3) * 0.07, 41, 3.0)
+            y += siren(T, n, 420, 640, 8.0, 0.025, 1.0)
+        elif name == "cyberspace":
+            y += swept_pad([f * 2 for f in am9], T, n, 500, 2200, 0.05, seed=2) * 0.45 + part(110, T, n) * 0.1
+            step = T / 32
+            for i in range(32):
+                f = [440, 659, 880, 659, 523, 659, 784, 988][i % 8]
+                b = tone(f, 0.3, "bell") * env_ad(int(SR * 0.3), 0.002, 0.07) * 0.045
+                mix_at(y, echo(b, 0.375, 0.4, 3), int(SR * step * i), 1.0, wrap=True)
+            y += siren(T, n, 500, 760, 10.0, 0.03, 4.0)
+        elif name == "dive":
+            y += swept_pad([110, 164.81, 207.65], T, n, 260, 900, 0.09, seed=3) * 0.5
+            throb = 0.5 + 0.5 * np.sin(2 * np.pi * snap(1.5, T) * t)
+            y += part(55, T, n) * throb * 0.35
+            sprinkle(y, T, 8, lambda rr: tone(rr.choice([1760, 2349, 2794]), 0.05) * env_ad(int(SR * 0.05), 0.001, 0.015) * 0.07, 43)
+        else:
+            y += swept_pad([55, 110, 165], T, n, 260, 700, 0.1, seed=4) * 0.5 + part(50, T, n) * 0.12 + part(3100, T, n) * 0.005
+    elif pack == "Minimal":
+        if name == "terminal":
+            y += (part(110, T, n) + 0.6 * part(165, T, n) + 0.3 * part(82.41, T, n)) * slow(T, n, 0.1, 0.4) * 0.25
+            sprinkle(y, T, 2, lambda rr: bellp(rr.choice([880, 1175]), 0.07, 1.5), 51, 3.0)
+        elif name == "cyberspace":
+            y += (part(130.8, T, n) + 0.7 * part(196, T, n) + 0.4 * part(261.6, T, n)) * slow(T, n, 0.07, 0.5) * 0.22
+            y += siren(T, n, 600, 780, 12.0, 0.03, 3.0)
+            sprinkle(y, T, 2, lambda rr: bellp(rr.choice([1175, 1568]), 0.07, 1.5), 52, 3.0)
+        elif name == "dive":
+            for k in range(int(T * 1.2)):
+                p = k / 1.2
+                mix_at(y, sine(58, 0.18) * env_ad(int(SR * 0.18), 0.01, 0.05) * 0.5, int(SR * p), 1.0, wrap=True)
+                mix_at(y, sine(52, 0.16) * env_ad(int(SR * 0.16), 0.01, 0.04) * 0.3, int(SR * (p + 0.2)), 1.0, wrap=True)
+            y += part(110, T, n) * 0.07
+        else:
+            y += (part(50, T, n) + 0.5 * part(100, T, n)) * 0.25
+    elif pack == "Neon":
+        chords = [(220, 261.63, 329.63), (174.61, 220, 261.63), (261.63, 329.63, 392), (196, 246.94, 293.66)]
+        seg = T / 4
+        for ci, ch in enumerate(chords):
+            center = (ci + 0.5) * seg
+            dist = np.abs(((t - center + T / 2) % T) - T / 2)
+            env = np.clip(1 - dist / seg, 0, 1) ** 1.2
+            y += env * swept_pad([f for f in ch], T, n, 500, 2400, 0.07, seed=ci) * 0.5
+        if name in ("terminal", "cyberspace", "dive"):
+            step = T / 32
+            for i in range(32):
+                ci = (i * 4) // 32
+                root = chords[ci][0] / 2
+                b = lp(saw_w(root, int(SR * 0.28)) + saw_w(root * 1.005, int(SR * 0.28)), 500) * env_ad(int(SR * 0.28), 0.004, 0.12) * (0.25 if name != "terminal" else 0.14)
+                mix_at(y, b, int(SR * step * i), 1.0, wrap=True)
+        if name in ("cyberspace", "dive"):
+            step = T / 32
+            patt = [0, 2, 1, 2, 0, 2, 1, 2]
+            for i in range(32):
+                ci = (i * 4) // 32
+                f = chords[ci][patt[i % 8]] * 4
+                b = vtone_pluck(f, 0.2) * 0.06
+                mix_at(y, echo(b, 0.375, 0.4, 2), int(SR * step * i + 0), 1.0, wrap=True)
+        if name == "dive":
+            for i in range(16):
+                mix_at(y, sine(np.linspace(110, 45, int(SR * 0.2)), 0.2) * env_ad(int(SR * 0.2), 0.002, 0.08) * 0.45, int(SR * (T / 16) * i), 1.0, wrap=True)
+        if name == "server":
+            y *= 0.6
+            y += part(55, T, n) * 0.18
+    elif pack == "RetroDeck":
+        y += (part(60, T, n) + 0.4 * part(180, T, n) + 0.2 * part(300, T, n)) * 0.12
+        y += part(2610, T, n) * 0.004
+        relay = lambda rr: add(sine(150, 0.04) * env_ad(int(SR * 0.04), 0.0004, 0.01), bp(white(int(SR * 0.02), int(rr.integers(1000))), 900, 6000) * env_ad(int(SR * 0.02), 0.0002, 0.003) * 0.6) * 0.09
+        if name in ("terminal", "cyberspace", "dive"):
+            bass = [55, 55, 82.41, 65.41, 55, 55, 98, 73.42]
+            step = T / 32 if name != "terminal" else T / 16
+            cnt = 32 if name != "terminal" else 16
+            for i in range(cnt):
+                f = bass[i % 8]
+                frac = (np.cumsum(np.full(int(SR * 0.12), f * 2)) / SR) % 1.0
+                b = np.where(frac < 0.25, 1.0, -1.0) * env_ad(int(SR * 0.12), 0.001, 0.07) * (0.16 if name != "dive" else 0.22)
+                mix_at(y, lp(b, 900), int(SR * step * i), 1.0, wrap=True)
+        if name == "cyberspace":
+            scale = [440, 523.25, 587.33, 659.25, 784, 880]
+            rr = rng(60)
+            for i in range(32):
+                if rr.random() < 0.55:
+                    frac = (np.cumsum(np.full(int(SR * 0.1), rr.choice(scale) * 2)) / SR) % 1.0
+                    b = np.where(frac < 0.25, 1.0, -1.0) * env_ad(int(SR * 0.1), 0.001, 0.04) * 0.05
+                    mix_at(y, echo(b, 0.25, 0.4, 3), int(SR * (T / 32) * i), 1.0, wrap=True)
+        if name == "dive":
+            for k in range(4):
+                mix_at(y, echo(sine(1200, 0.4) * env_ad(int(SR * 0.4), 0.002, 0.09) * 0.09, 0.5, 0.5, 4), int(SR * 4 * k), 1.0, wrap=True)
+        sprinkle(y, T, 8, relay, 61)
+        sprinkle(y, T, 2, lambda rr: crush(chirp_burst(rr, 0.05, 12), 5, 3), 62, 3.0)
+        if name == "server":
+            sprinkle(y, T, 6, lambda rr: bp(white(int(SR * 0.012), int(rr.integers(1000))), 1500, 4500) * env_ad(int(SR * 0.012), 0.0002, 0.003) * 0.08, 63)
+    else:  # Deep
+        bow = lambda fr, cutoff=450, amp=1.0: lp(saw_per(fr, T, n, 0.006), cutoff) * slow(T, n, 0.06, 0.5, int(fr)) * amp
+        if name == "terminal":
+            y += bow(55, 380, 0.5) + bow(82.41, 420, 0.4) + part(41.2, T, n) * 0.3
+            mix_at(y, bellp(98, 0.16, 3.0), int(SR * 2), 1.0, wrap=True)
+            mix_at(y, bellp(147, 0.12, 3.0), int(SR * 10), 1.0, wrap=True)
+        elif name == "cyberspace":
+            y += bow(110, 600, 0.35) + bow(146.83, 700, 0.3) + bow(220, 800, 0.2)
+            y += siren(T, n, 300, 470, 12.0, 0.05, 2.0)
+            sprinkle(y, T, 4, lambda rr: bellp(rr.choice([659.25, 987.77, 1318.5, 1760]), 0.08, 2.0), 71, 3.0)
+        elif name == "dive":
+            pulse = (0.5 + 0.5 * np.sin(2 * np.pi * snap(0.25, T) * t - 1.5)) ** 3
+            y += part(36.71, T, n) * 0.5 + bow(73.42, 500, 0.5) * pulse
+            y += bow(77.78, 500, 0.3) * pulse
+            mix_at(y, bellp(220, 0.1, 3.0), int(SR * 5), 1.0, wrap=True)
+        else:
+            y += part(41.2, T, n) * 0.35 + bow(82.41, 300, 0.3)
+    return rms_norm(y, STYLE_RMS[pack][name])
+
+
+STYLE_RMS = {
+    "Clean": dict(terminal=-21, cyberspace=-21, dive=-20, server=-24),
+    "Minimal": dict(terminal=-25, cyberspace=-25, dive=-24, server=-27),
+    "Neon": dict(terminal=-20, cyberspace=-20, dive=-19, server=-24),
+    "RetroDeck": dict(terminal=-21, cyberspace=-21, dive=-20, server=-24),
+    "Deep": dict(terminal=-20, cyberspace=-20, dive=-19, server=-24),
+}
+
+
+def vtone_pluck(f, d):
+    n = int(SR * d)
+    w = lp(saw_w(f, n) + saw_w(f * 1.006, n), 3500) * env_ad(n, 0.002, 0.06)
+    return w
+
+
+AMBIENT = {p: (lambda name, p=p: amb_v3(p, name)) for p in ("Clean", "Minimal", "Neon", "RetroDeck", "Deep")}
 
 # ---------- catalogue and output ----------
 
@@ -744,10 +1229,10 @@ ONE_SHOTS = {
 }
 
 LOOPS = {
-    "Ambient/Terminal": ("terminal", "terminal open (Core, Archive, Board, Club, Studio, server room)", 28),
-    "Ambient/Cyberspace": ("cyberspace", "Gateway (cyberspace map)", 28),
-    "Ambient/Dive": ("dive", "inside a dive", 30),
-    "Ambient/Server": ("server", "AI server building (Building.soundAmbient, positional)", 22),
+    "Ambient/Terminal": ("terminal", "terminal open (Core, Archive, Board, Club, Studio, server room)", 55),
+    "Ambient/Cyberspace": ("cyberspace", "Gateway (cyberspace map)", 55),
+    "Ambient/Dive": ("dive", "inside a dive", 60),
+    "Ambient/Server": ("server", "AI server building (Building.soundAmbient, positional)", 45),
 }
 
 
@@ -791,6 +1276,7 @@ def main():
     for pack in PACKS:
         STYLE.clear()
         STYLE.update(PACKS[pack][2])
+        STYLE.update(EXTRA[pack])
         for name, (fn, desc, vol, pitch, maxsim) in ONE_SHOTS.items():
             variants = fn() if name in ("UI/Click", "UI/Hover", "UI/Type", "UI/Glitch") else None
             if pack in packs and (not only or any(o.lower() in name.lower() for o in only)):

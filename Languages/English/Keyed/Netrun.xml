@@ -109,11 +109,11 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SoundPack_Neon>Neon</NR_SoundPack_Neon>
   <NR_SoundPack_RetroDeck>Retro deck</NR_SoundPack_RetroDeck>
   <NR_SoundPack_Deep>Deep</NR_SoundPack_Deep>
-  <NR_SoundPackDesc_Clean>A quiet terminal: an even hum and rare beeps. Almost no noise.</NR_SoundPackDesc_Clean>
-  <NR_SoundPackDesc_Minimal>Near silence: short soft clicks, the ambient barely heard.</NR_SoundPackDesc_Minimal>
-  <NR_SoundPackDesc_Neon>Synthwave: warm pads, arpeggios, melodic signals.</NR_SoundPackDesc_Neon>
-  <NR_SoundPackDesc_RetroDeck>An 80s cyberdeck: relays, keys, square beeps, sonar.</NR_SoundPackDesc_RetroDeck>
-  <NR_SoundPackDesc_Deep>Wide bells, sub bass, long echo. No noise.</NR_SoundPackDesc_Deep>
+  <NR_SoundPackDesc_Clean>A neon night: warm analog pads, glassy e-piano signals, a distant siren.</NR_SoundPackDesc_Clean>
+  <NR_SoundPackDesc_Minimal>A cold room: short clean pips, a quiet drone and a far bell. Very sparse.</NR_SoundPackDesc_Minimal>
+  <NR_SoundPackDesc_Neon>Synthwave: supersaw pads, bass arpeggios, saw plucks and gated echo.</NR_SoundPackDesc_Neon>
+  <NR_SoundPackDesc_RetroDeck>An 80s cyberdeck: 8-bit chip sounds, relays, modem warbles, sonar.</NR_SoundPackDesc_RetroDeck>
+  <NR_SoundPackDesc_Deep>Heavy abyss: bowed drones, huge bells, gongs and long echo.</NR_SoundPackDesc_Deep>
   <NR_SoundPackDesc_Off>No mod sounds: only the game's own click.</NR_SoundPackDesc_Off>
   <NR_SettingsUiVolume>Interface sounds: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Ambient: {0}</NR_SettingsAmbientVolume>

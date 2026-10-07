@@ -109,11 +109,11 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SoundPack_Neon>Неон</NR_SoundPack_Neon>
   <NR_SoundPack_RetroDeck>Ретро-дека</NR_SoundPack_RetroDeck>
   <NR_SoundPack_Deep>Глубина</NR_SoundPack_Deep>
-  <NR_SoundPackDesc_Clean>Тихий терминал: ровный гул, редкие писки. Шума почти нет.</NR_SoundPackDesc_Clean>
-  <NR_SoundPackDesc_Minimal>Почти тишина: короткие мягкие щелчки, эмбиент едва слышен.</NR_SoundPackDesc_Minimal>
-  <NR_SoundPackDesc_Neon>Синтвейв: тёплые пады, арпеджио, мелодичные сигналы.</NR_SoundPackDesc_Neon>
-  <NR_SoundPackDesc_RetroDeck>Кибердека 80-х: реле, клавиши, квадратные писки, сонар.</NR_SoundPackDesc_RetroDeck>
-  <NR_SoundPackDesc_Deep>Просторные колокольчики, суб-бас, длинное эхо. Без шума.</NR_SoundPackDesc_Deep>
+  <NR_SoundPackDesc_Clean>Неоновая ночь: тёплые аналоговые пады, стеклянные электропианные сигналы, далёкая сирена.</NR_SoundPackDesc_Clean>
+  <NR_SoundPackDesc_Minimal>Холодная комната: короткие чистые пипы, тихий дрон и далёкий колокол. Очень скупо.</NR_SoundPackDesc_Minimal>
+  <NR_SoundPackDesc_Neon>Синтвейв: суперсо-пады, бас-арпеджио, пилообразные щипки и гейт-эхо.</NR_SoundPackDesc_Neon>
+  <NR_SoundPackDesc_RetroDeck>Кибердека 80-х: 8-битные чип-звуки, реле, модемные трели, сонар.</NR_SoundPackDesc_RetroDeck>
+  <NR_SoundPackDesc_Deep>Тяжёлая бездна: смычковые дроны, огромные колокола, гонги и длинное эхо.</NR_SoundPackDesc_Deep>
   <NR_SoundPackDesc_Off>Без звуков мода: только обычный щелчок игры.</NR_SoundPackDesc_Off>
   <NR_SettingsUiVolume>Звуки интерфейса: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
