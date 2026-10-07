@@ -292,4 +292,11 @@
   <NR_DeckKey_0>Назад</NR_DeckKey_0>
   <NR_DeckKey_1>Домой: карта сети</NR_DeckKey_1>
   <NR_DeckKey_2>Киберпедия</NR_DeckKey_2>
+  <NR_DeckTuner>Тюнер: метка прыгает на каждом новом событии в сети.</NR_DeckTuner>
+  <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
+  <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
+  <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
+  <NR_DeckKnobHeat>Heat: {0} ({1}).</NR_DeckKnobHeat>
+  <NR_DeckKnobNetOn>Сеть: онлайн.</NR_DeckKnobNetOn>
+  <NR_DeckKnobNetOff>Сеть: офлайн.</NR_DeckKnobNetOff>
 </LanguageData>

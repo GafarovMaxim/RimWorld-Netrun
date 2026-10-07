@@ -1,3 +1,4 @@
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -478,125 +479,183 @@ public static class NetrunUI
         return value;
     }
 
-    private static readonly Color DeckBody = Hex(0x1b1e22);
-    private static readonly Color DeckRubber = Hex(0x0c0d0f);
-    private static readonly Color DeckOrange = Hex(0xf08a24);
-    public const float DeckSide = 22f, DeckTop = 32f, DeckBottom = 38f;
+    // ---- Template A: the field deck (docs/CONCEPT_TERMINAL_FRAME.md, mockups 25 and 27) ----
+
+    private static readonly Color DeckTopColor = Hex(0x39414a);
+    private static readonly Color DeckBottomColor = Hex(0x1b2026);
+    private static readonly Color DeckEdge = Hex(0x5b6671);
+    private static readonly Color DeckRubber = Hex(0x0e1013);
+    private static readonly Color DeckOrange = Hex(0xff9a4a);
+    public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 56f, DeckBottom = 64f;
+    /// <summary>How much bigger a window gets around its screen with the deck casing.</summary>
+    public static Vector2 DeckExtra => new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
+
+    private static float _gaugeHeat, _gaugeNet, _knobHeat, _knobNet;
+    private static float _tuner = 0.5f, _tunerTarget = 0.5f;
+    private static int _tunerLogCount = -1;
 
     /// <summary>
-    /// The terminal's rugged cyberdeck casing (after Maxim's references): rubber corner bumpers on bolts, side rails
-    /// with grip ridges, two live gauges on top (Heat and the net), a tuning scale and an antenna port, and along the
-    /// bottom an engraved plate, three hardware keys, a vent grille, an orange key and the power light. The keys call
-    /// <paramref name="onKey"/> (0 back, 1 home, 2 help). Returns the screen inside.
+    /// The terminal's casing, template A "field deck": rails as handles outside the body, ribbed rubber bumpers on
+    /// bolts, two gauges on top (Heat by its zones, the net), a tuner whose orange mark moves on every new event,
+    /// the maker's plate and three lights (net, Netsick, pod), an antenna; below a vent grille, three hardware keys
+    /// (◁ back, ○ core, ? Cyberpedia; <paramref name="onKey"/> 0, 1, 2) and two ribbed knobs with notches: Heat by
+    /// level and the net ON / OFF. Needles and knobs ease to their values. Returns the screen inside.
     /// </summary>
     public static Rect DeckBezel(Rect outer, string plate, float heat01, bool online, System.Action<int> onKey = null)
     {
         bool anim = NetrunMod.Settings.Animations;
         float time = Time.realtimeSinceStartup;
-        // Body: a darker shell with a lighter upper band, the outer edge lit.
-        Widgets.DrawBoxSolid(outer, DeckBody);
-        Widgets.DrawBoxSolid(new Rect(outer.x, outer.y, outer.width, DeckTop * 0.45f), new Color(1f, 1f, 1f, 0.025f));
-        Widgets.DrawBoxSolid(new Rect(outer.x, outer.yMax - DeckBottom * 0.35f, outer.width, DeckBottom * 0.35f), new Color(0f, 0f, 0f, 0.18f));
-        GUI.color = BezelLight;
-        Widgets.DrawBox(outer);
-        GUI.color = Color.white;
-
-        var screen = new Rect(outer.x + DeckSide, outer.y + DeckTop, outer.width - 2f * DeckSide, outer.height - DeckTop - DeckBottom);
-        // The screen sits in a recess: dark shadow on top and left, a lit lip below and right.
-        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.y - 3f, screen.width + 6f, 3f), new Color(0f, 0f, 0f, 0.7f));
-        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.y - 3f, 3f, screen.height + 6f), new Color(0f, 0f, 0f, 0.7f));
-        Widgets.DrawBoxSolid(new Rect(screen.x - 3f, screen.yMax, screen.width + 6f, 2f), BezelLight);
-        Widgets.DrawBoxSolid(new Rect(screen.xMax, screen.y - 3f, 2f, screen.height + 5f), BezelLight);
-
-        // Side rails: a recessed handle slot with grip ridges and two mounting blocks.
-        foreach (float rx in new[] { outer.x + DeckSide / 2f - 4f, outer.xMax - DeckSide / 2f - 4f })
+        float ease = anim ? Mathf.Clamp01(Time.unscaledDeltaTime * 3f) : 1f;
+        HeatLevel level = HeatLevelUtility.LevelOf(heat01 * HeatTracker.MaxHeat);
+        if (Event.current.type == EventType.Repaint)
         {
-            var slot = new Rect(rx, outer.y + 78f, 8f, outer.height - 156f);
-            if (slot.height < 40f)
-                continue;
-            Widgets.DrawBoxSolid(slot, new Color(0f, 0f, 0f, 0.55f));
-            for (float gy = slot.y + 30f; gy < slot.yMax - 30f; gy += 6f)
-                Widgets.DrawBoxSolid(new Rect(slot.x + 1f, gy, slot.width - 2f, 1f), new Color(1f, 1f, 1f, 0.06f));
-            foreach (float my in new[] { slot.y - 4f, slot.yMax - 10f })
+            _gaugeHeat = Mathf.Lerp(_gaugeHeat, heat01, ease);
+            float netTarget = online ? 0.62f + (anim ? 0.05f * Mathf.Sin(time * 2.3f) + 0.03f * Mathf.Sin(time * 7.1f) : 0f) : 0.03f;
+            _gaugeNet = Mathf.Lerp(_gaugeNet, netTarget, ease);
+            _knobHeat = Mathf.Lerp(_knobHeat, (int)level / 4f, ease);
+            _knobNet = Mathf.Lerp(_knobNet, online ? 1f : 0f, ease);
+            // The tuner's mark jumps to a new spot on every logged event, then glides there.
+            int logCount = HeatTracker.Get()?.Log.Count ?? 0;
+            if (logCount != _tunerLogCount)
             {
-                Widgets.DrawBoxSolid(new Rect(slot.x - 3f, my, slot.width + 6f, 14f), BezelLight);
-                GUI.color = new Color(0f, 0f, 0f, 0.6f);
-                GUI.DrawTexture(new Rect(slot.center.x - 2.5f, my + 4.5f, 5f, 5f), Disc);
-                GUI.color = Color.white;
+                if (_tunerLogCount >= 0)
+                    _tunerTarget = Rand.Range(0.1f, 0.9f);
+                _tunerLogCount = logCount;
             }
+            _tuner = Mathf.Lerp(_tuner, _tunerTarget, ease * 0.5f);
         }
 
-        // Rubber corner bumpers, each held by a bolt.
-        const float bump = 56f;
-        foreach ((float bx, float by, int sx, int sy) in new[]
-                 {
-                     (outer.x, outer.y, 1, 1), (outer.xMax, outer.y, -1, 1), (outer.x, outer.yMax, 1, -1), (outer.xMax, outer.yMax, -1, -1),
-                 })
+        // Rails outside the body: a metal tube on two brackets, the middle of each side.
+        var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
+        foreach (float tx in new[] { outer.x + 4f, outer.xMax - 18f })
         {
-            var h = new Rect(sx > 0 ? bx : bx - bump, sy > 0 ? by : by - (sy > 0 ? DeckTop : DeckBottom), bump, sy > 0 ? DeckTop : DeckBottom);
-            var v = new Rect(sx > 0 ? bx : bx - DeckSide, sy > 0 ? by : by - bump, DeckSide, bump);
-            Widgets.DrawBoxSolid(h, DeckRubber);
-            Widgets.DrawBoxSolid(v, DeckRubber);
-            Widgets.DrawBoxSolid(new Rect(h.x, sy > 0 ? h.y : h.yMax - 1f, h.width, 1f), new Color(1f, 1f, 1f, 0.08f));
-            var bolt = new Rect((sx > 0 ? bx + DeckSide / 2f : bx - DeckSide / 2f) - 4.5f, (sy > 0 ? by + Mathf.Min(DeckTop, DeckBottom) / 2f : by - Mathf.Min(DeckTop, DeckBottom) / 2f) - 4.5f, 9f, 9f);
-            GUI.color = BezelLight;
+            float top = outer.y + outer.height * 0.28f, bottom = outer.y + outer.height * 0.72f;
+            var tube = new Rect(tx, top, 14f, bottom - top);
+            Widgets.DrawBoxSolid(tube, Hex(0x4a525c));
+            Widgets.DrawBoxSolid(new Rect(tube.x + 3f, tube.y, 3f, tube.height), new Color(1f, 1f, 1f, 0.22f));
+            Widgets.DrawBoxSolid(new Rect(tube.xMax - 3f, tube.y, 2f, tube.height), new Color(0f, 0f, 0f, 0.35f));
+            foreach (float by in new[] { top - 6f, bottom - 10f })
+                Widgets.DrawBoxSolid(new Rect(tx < body.x ? tube.x : tube.x - 8f, by, 22f, 16f), DeckEdge);
+        }
+
+        // The body: a vertical gradient in bands, a lit edge.
+        const int bands = 12;
+        for (int i = 0; i < bands; i++)
+        {
+            float a = i / (float)(bands - 1);
+            Widgets.DrawBoxSolid(new Rect(body.x, body.y + body.height * i / bands, body.width, body.height / bands + 1f), Color.Lerp(DeckTopColor, DeckBottomColor, a));
+        }
+        GUI.color = DeckEdge;
+        Widgets.DrawBox(body);
+        GUI.color = Color.white;
+
+        var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);
+        Widgets.DrawBoxSolid(new Rect(screen.x - 4f, screen.y - 4f, screen.width + 8f, screen.height + 8f), new Color(0f, 0f, 0f, 0.6f));
+        Widgets.DrawBoxSolid(new Rect(screen.x - 4f, screen.yMax + 2f, screen.width + 8f, 2f), DeckEdge);
+
+        // Bumpers: ribbed rubber corners with a bolt.
+        const float bump = 78f;
+        foreach ((float bx, float by, int sx, int sy) in new[] { (body.x, body.y, 1, 1), (body.xMax, body.y, -1, 1), (body.x, body.yMax, 1, -1), (body.xMax, body.yMax, -1, -1) })
+        {
+            var b = new Rect(sx > 0 ? bx : bx - bump, sy > 0 ? by : by - bump, bump, bump);
+            // An L of rubber: the corner square minus the part over the screen.
+            float thick = sy > 0 ? DeckTop : DeckBottom;
+            var h = new Rect(b.x, sy > 0 ? b.y : b.yMax - thick, bump, thick);
+            var v = new Rect(sx > 0 ? b.x : b.xMax - DeckSide, b.y, DeckSide, bump);
+            foreach (Rect part in new[] { h, v })
+            {
+                Widgets.DrawBoxSolid(part, DeckRubber);
+                // Diagonal ribs.
+                GUI.BeginClip(part);
+                for (float d = -part.height; d < part.width; d += 7f)
+                    Widgets.DrawLine(new Vector2(d, part.height), new Vector2(d + part.height, 0f), new Color(1f, 1f, 1f, 0.05f), 2f);
+                GUI.EndClip();
+            }
+            var bolt = new Rect((sx > 0 ? bx + DeckSide / 2f : bx - DeckSide / 2f) - 4.5f, (sy > 0 ? by + 14f : by - 14f) - 4.5f, 9f, 9f);
+            GUI.color = DeckEdge;
             GUI.DrawTexture(bolt, Disc);
             GUI.color = new Color(0f, 0f, 0f, 0.75f);
             GUI.DrawTexture(new Rect(bolt.x + 1f, bolt.center.y - 0.75f, bolt.width - 2f, 1.5f), BaseContent.WhiteTex);
             GUI.color = Color.white;
         }
 
-        // Top: two gauges (Heat, the net), a tuning scale with a drifting marker, an antenna port on the right.
-        float gx = outer.x + bump + 12f;
-        float gd = DeckTop - 8f;
-        DeckGauge(new Rect(gx, outer.y + 4f, gd, gd), heat01, heat01 >= 0.6f ? Bad : heat01 >= 0.3f ? Warn : Ok, "NR_DeckGaugeHeat".Translate());
-        float net = online ? 0.55f + (anim ? 0.08f * Mathf.Sin(time * 2.3f) + 0.04f * Mathf.Sin(time * 7.1f) : 0f) : 0.02f;
-        DeckGauge(new Rect(gx + gd + 8f, outer.y + 4f, gd, gd), net, online ? Accent : Muted, "NR_DeckGaugeNet".Translate());
-        var scale = new Rect(gx + 2f * gd + 22f, outer.y + 9f, Mathf.Min(150f, outer.width * 0.18f), DeckTop - 18f);
-        Widgets.DrawBoxSolid(scale, new Color(0f, 0f, 0f, 0.55f));
-        for (int i = 0; i <= 20; i++)
+        // Top: two gauges, the tuner, the plate, three lights; the antenna on the right.
+        float gy = body.y + (DeckTop - 46f) / 2f;
+        float gx = body.x + bump + 10f;
+        DeckGauge(new Rect(gx, gy, 46f, 46f), _gaugeHeat, true, "NR_DeckGaugeHeat".Translate());
+        DeckGauge(new Rect(gx + 54f, gy, 46f, 46f), _gaugeNet, false, "NR_DeckGaugeNet".Translate());
+        var tuner = new Rect(gx + 112f, body.y + 14f, Mathf.Min(170f, body.width * 0.2f), DeckTop - 28f);
+        Widgets.DrawBoxSolid(tuner, new Color(0f, 0f, 0f, 0.6f));
+        for (int i = 0; i <= 24; i++)
         {
-            float tx = scale.x + 4f + (scale.width - 8f) * i / 20f;
-            Widgets.DrawBoxSolid(new Rect(tx, scale.yMax - (i % 5 == 0 ? 8f : 4f), 1f, i % 5 == 0 ? 8f : 4f), new Color(1f, 1f, 1f, 0.35f));
+            float tx = tuner.x + 4f + (tuner.width - 8f) * i / 24f;
+            Widgets.DrawBoxSolid(new Rect(tx, tuner.yMax - (i % 4 == 0 ? 10f : 5f), 1f, i % 4 == 0 ? 10f : 5f), new Color(1f, 1f, 1f, 0.35f));
         }
-        float drift = anim ? 0.5f + 0.42f * Mathf.Sin(time * 0.37f) : 0.5f;
-        Widgets.DrawBoxSolid(new Rect(scale.x + 4f + (scale.width - 8f) * drift - 1f, scale.y + 1f, 2f, scale.height - 2f), DeckOrange);
-        var port = new Rect(outer.xMax - bump - 30f, outer.y + 6f, DeckTop - 12f, DeckTop - 12f);
-        GUI.color = BezelLight;
-        GUI.DrawTexture(port, Disc);
-        GUI.color = DeckRubber;
-        GUI.DrawTexture(port.ContractedBy(4f), Disc);
-        GUI.color = new Color(1f, 1f, 1f, 0.5f);
-        GUI.DrawTexture(port.ContractedBy(7f), Disc);
-        GUI.color = Color.white;
-        Widgets.DrawBoxSolid(new Rect(port.xMax - 2f, port.center.y - 2f, outer.xMax - bump - port.xMax + 2f, 4f), DeckRubber);
-
-        // Bottom: the plate, three hardware keys, a vent grille, the orange key and the power light.
-        float by0 = outer.yMax - DeckBottom;
+        Widgets.DrawBoxSolid(new Rect(tuner.x + 4f + (tuner.width - 8f) * _tuner - 1f, tuner.y + 2f, 2f, tuner.height - 4f), DeckOrange);
+        Tip(tuner, "NR_DeckTuner".Translate());
+        float px = tuner.xMax + 14f;
         if (!plate.NullOrEmpty())
         {
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
             float pw = Text.CalcSize(plate).x + 18f;
-            var pr = new Rect(outer.x + bump + 10f, by0 + 7f, pw, DeckBottom - 14f);
+            var pr = new Rect(px, body.y + 14f, pw, DeckTop - 28f);
             Widgets.DrawBoxSolid(pr, new Color(0f, 0f, 0f, 0.4f));
-            Widgets.DrawBoxSolid(new Rect(pr.x, pr.yMax - 1f, pr.width, 1f), BezelLight);
-            Widgets.Label(new Rect(pr.x + 9f, pr.y, pr.width, pr.height), plate.Colorize(new Color(1f, 1f, 1f, 0.66f)));
+            Widgets.DrawBoxSolid(new Rect(pr.x, pr.yMax - 1f, pr.width, 1f), DeckEdge);
+            Widgets.Label(new Rect(pr.x + 9f, pr.y, pr.width, pr.height), plate.Colorize(new Color(1f, 1f, 1f, 0.7f)));
             Text.Anchor = TextAnchor.UpperLeft;
+            px = pr.xMax + 14f;
         }
-        string[] glyphs = ["◄", "●", "►"];
-        const float kw = 40f, kh = 22f;
-        float kx = outer.center.x - (3 * kw + 2 * 8f) / 2f;
+        // Looked up once a second, not every frame.
+        bool sick = Current.Game != null && Cached("deck.sick", () => PawnsFinder.AllMaps_FreeColonists.Any(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)), 1f);
+        bool pod = Current.Game != null && Cached("deck.pod", () => Find.Maps.Any(m => m.GetComponent<USH_HE.MapComponent_CyberpodManager>()?.Pods.Any(pp => pp.ContainedThing != null) == true), 1f);
+        (bool on, Color c, bool blink, string tip)[] lights =
+        [
+            (online, Ok, false, "NR_DeckLightNet".Translate()),
+            (sick, DeckOrange, true, "NR_DeckLightSick".Translate()),
+            (pod, Accent, false, "NR_DeckLightPod".Translate()),
+        ];
+        for (int i = 0; i < lights.Length; i++)
+        {
+            var l = new Rect(px + i * 16f, body.y + DeckTop / 2f - 4f, 8f, 8f);
+            float a = !lights[i].on ? 0.15f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
+            if (lights[i].on)
+                Glow(l, lights[i].c, a * 0.8f, 5f);
+            GUI.color = new Color(lights[i].c.r, lights[i].c.g, lights[i].c.b, Mathf.Max(0.2f, a));
+            GUI.DrawTexture(l, Disc);
+            GUI.color = Color.white;
+            Tip(l.ExpandedBy(4f), lights[i].tip);
+        }
+        // The antenna: a short whip standing on its port at the top right.
+        var port = new Rect(body.xMax - bump - 34f, body.y + 12f, 18f, 18f);
+        Widgets.DrawBoxSolid(new Rect(port.center.x - 2f, outer.y + 1f, 4f, port.y - outer.y), Hex(0x2a2f36));
+        Widgets.DrawBoxSolid(new Rect(port.center.x - 3f, outer.y, 6f, 4f), DeckEdge);
+        GUI.color = DeckEdge;
+        GUI.DrawTexture(port, Disc);
+        GUI.color = DeckRubber;
+        GUI.DrawTexture(port.ContractedBy(4f), Disc);
+        GUI.color = Color.white;
+
+        // Bottom: the vent grille, three hardware keys, two knobs.
+        float by0 = body.yMax - DeckBottom;
+        for (int i = 0; i < 12; i++)
+            Widgets.DrawBoxSolid(new Rect(body.x + bump + 10f + i * 8f, by0 + 16f, 4f, DeckBottom - 32f), new Color(0f, 0f, 0f, 0.6f));
+        string[] glyphs = ["◁", "○", "?"];
+        const float kw = 46f, kh = 28f;
+        float kx = body.center.x - (3 * kw + 2 * 10f) / 2f;
         for (int i = 0; i < 3; i++)
         {
-            var key = new Rect(kx + i * (kw + 8f), by0 + (DeckBottom - kh) / 2f, kw, kh);
+            var key = new Rect(kx + i * (kw + 10f), by0 + (DeckBottom - kh) / 2f, kw, kh);
             bool over = Mouse.IsOver(key);
-            Widgets.DrawBoxSolid(key, over ? Hex(0x2a2f36) : Hex(0x15181c));
-            Widgets.DrawBoxSolid(new Rect(key.x, key.y, key.width, 1f), new Color(1f, 1f, 1f, over ? 0.18f : 0.1f));
-            Widgets.DrawBoxSolid(new Rect(key.x, key.yMax - 2f, key.width, 2f), new Color(0f, 0f, 0f, 0.6f));
+            Color face = i == 1 ? DeckOrange : Hex(0x15181c);
+            Widgets.DrawBoxSolid(key, over ? Color.Lerp(face, Color.white, 0.12f) : face);
+            Widgets.DrawBoxSolid(new Rect(key.x, key.y, key.width, 1f), new Color(1f, 1f, 1f, 0.2f));
+            Widgets.DrawBoxSolid(new Rect(key.x, key.yMax - 3f, key.width, 3f), new Color(0f, 0f, 0f, 0.55f));
+            Text.Font = GameFont.Medium;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(key, glyphs[i].Colorize(over ? Accent : new Color(1f, 1f, 1f, 0.55f)));
+            Widgets.Label(key, glyphs[i].Colorize(i == 1 ? Hex(0x1b1e22) : over ? Accent : new Color(1f, 1f, 1f, 0.6f)));
             Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
             if (onKey != null)
             {
                 Tip(key, ("NR_DeckKey_" + i).Translate());
@@ -607,38 +666,75 @@ public static class NetrunUI
                 }
             }
         }
-        float vx = outer.xMax - bump - 150f;
-        for (int i = 0; i < 9; i++)
-            Widgets.DrawBoxSolid(new Rect(vx + i * 8f, by0 + 9f, 4f, DeckBottom - 18f), new Color(0f, 0f, 0f, 0.6f));
-        var orange = new Rect(vx + 9 * 8f + 10f, by0 + 10f, 14f, DeckBottom - 20f);
-        Widgets.DrawBoxSolid(orange, DeckOrange);
-        Widgets.DrawBoxSolid(new Rect(orange.x, orange.y, orange.width, 1f), new Color(1f, 1f, 1f, 0.35f));
-        float a = anim ? 0.6f + 0.4f * Mathf.Sin(time * 1.5f) : 1f;
-        Led(new Rect(orange.xMax + 14f, by0 + DeckBottom / 2f - 2f, 16f, 4f), new Color(Ok.r, Ok.g, Ok.b, a));
+        float knob = 44f;
+        var heatKnob = new Rect(body.xMax - bump - 2f * knob - 22f, by0 + (DeckBottom - knob) / 2f, knob, knob);
+        var netKnob = new Rect(heatKnob.xMax + 14f, heatKnob.y, knob, knob);
+        DeckKnob(heatKnob, Mathf.Lerp(-120f, 120f, _knobHeat),
+            [(-120f, HeatLevel.Shadow.Color()), (-60f, HeatLevel.Noticed.Color()), (0f, HeatLevel.Tracked.Color()), (60f, HeatLevel.Target.Color()), (120f, HeatLevel.RedZone.Color())],
+            "NR_DeckKnobHeat".Translate(level.Label(), (heat01 * HeatTracker.MaxHeat).ToString("0")));
+        DeckKnob(netKnob, Mathf.Lerp(-50f, 40f, _knobNet), [(-50f, Muted), (40f, Ok)],
+            (online ? "NR_DeckKnobNetOn" : "NR_DeckKnobNetOff").Translate());
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperCenter;
+        Widgets.Label(new Rect(netKnob.x - 14f, netKnob.y - 2f, 20f, 12f), "OFF".Colorize(new Color(1f, 1f, 1f, 0.4f)));
+        Widgets.Label(new Rect(netKnob.xMax - 4f, netKnob.y - 2f, 20f, 12f), "ON".Colorize(new Color(Ok.r, Ok.g, Ok.b, 0.7f)));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
         return screen;
     }
 
-    /// <summary>A round gauge in the casing: a black face, ticks and a needle from -135° to +135°.</summary>
-    private static void DeckGauge(Rect r, float value, Color needle, string tip)
+    /// <summary>A round gauge: a black face, the scale (Heat zones on the Heat gauge), a needle from -135° to +135°.</summary>
+    private static void DeckGauge(Rect r, float value, bool heatZones, string tip)
     {
-        GUI.color = BezelLight;
+        GUI.color = DeckEdge;
         GUI.DrawTexture(r, Disc);
         GUI.color = Hex(0x07080a);
         GUI.DrawTexture(r.ContractedBy(2f), Disc);
         GUI.color = Color.white;
         Vector2 c = r.center;
-        float rad = r.width / 2f - 3f;
-        for (int i = 0; i <= 6; i++)
+        float rad = r.width / 2f - 4f;
+        for (int i = 0; i <= 20; i++)
         {
-            float ang = Mathf.Deg2Rad * (-135f + 270f * i / 6f - 90f);
+            float f = i / 20f;
+            float ang = Mathf.Deg2Rad * (-135f + 270f * f - 90f);
             var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
-            Widgets.DrawLine(c + dir * (rad - 3f), c + dir * rad, new Color(1f, 1f, 1f, 0.45f), 1f);
+            Color tick = heatZones ? HeatLevelUtility.LevelOf(f * HeatTracker.MaxHeat).Color() : new Color(1f, 1f, 1f, 0.5f);
+            Widgets.DrawLine(c + dir * (rad - (i % 5 == 0 ? 5f : 3f)), c + dir * rad, tick, i % 5 == 0 ? 1.5f : 1f);
         }
         float va = Mathf.Deg2Rad * (-135f + 270f * Mathf.Clamp01(value) - 90f);
-        Widgets.DrawLine(c, c + new Vector2(Mathf.Cos(va), Mathf.Sin(va)) * (rad - 2f), needle, 1.5f);
-        GUI.color = BezelLight;
-        GUI.DrawTexture(new Rect(c.x - 2f, c.y - 2f, 4f, 4f), Disc);
+        Widgets.DrawLine(c, c + new Vector2(Mathf.Cos(va), Mathf.Sin(va)) * (rad - 3f), DeckOrange, 2f);
+        GUI.color = DeckEdge;
+        GUI.DrawTexture(new Rect(c.x - 3f, c.y - 3f, 6f, 6f), Disc);
         GUI.color = Color.white;
+        Tip(r, tip);
+    }
+
+    /// <summary>A ribbed knob: notches around it in their colours, the orange pointer at <paramref name="angle"/>.</summary>
+    private static void DeckKnob(Rect r, float angle, (float angle, Color color)[] notches, string tip)
+    {
+        Vector2 c = r.center;
+        float rad = r.width / 2f;
+        foreach ((float a, Color col) in notches)
+        {
+            float ang = Mathf.Deg2Rad * (a - 90f);
+            var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+            Widgets.DrawLine(c + dir * (rad - 2f), c + dir * (rad + 4f), col, 2f);
+        }
+        var face = r.ContractedBy(5f);
+        GUI.color = Hex(0x2a2f36);
+        GUI.DrawTexture(face, Disc);
+        GUI.color = Hex(0x1a1e23);
+        GUI.DrawTexture(face.ContractedBy(4f), Disc);
+        GUI.color = Color.white;
+        // Ribs around the rim.
+        for (int i = 0; i < 18; i++)
+        {
+            float ang = Mathf.Deg2Rad * (i * 20f);
+            var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
+            Widgets.DrawLine(c + dir * (face.width / 2f - 4f), c + dir * (face.width / 2f - 1f), new Color(1f, 1f, 1f, 0.12f), 1f);
+        }
+        float pa = Mathf.Deg2Rad * (angle - 90f);
+        Widgets.DrawLine(c + new Vector2(Mathf.Cos(pa), Mathf.Sin(pa)) * 3f, c + new Vector2(Mathf.Cos(pa), Mathf.Sin(pa)) * (face.width / 2f - 5f), DeckOrange, 2.5f);
         Tip(r, tip);
     }
 

@@ -41,7 +41,8 @@ public partial class Dialog_NetTerminal : Window
     private View _viewBeforeHelp = View.Map;
 
     /// <summary>Smallest size the player can drag the window down to.</summary>
-    private static readonly Vector2 MinSize = new(860f, 640f);
+    // The screen's minimum plus the field-deck casing around it.
+    private static readonly Vector2 MinSize = new(960f, 760f);
     /// <summary>The size the player left the window at (kept for the session).</summary>
     private static Vector2 _savedSize;
     /// <summary>Window.resizer is private; set it to give the window a minimum size.</summary>
@@ -51,7 +52,7 @@ public partial class Dialog_NetTerminal : Window
     {
         get
         {
-            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1000f, 760f);
+            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f);
             return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
                 Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
         }

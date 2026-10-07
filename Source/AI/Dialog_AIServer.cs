@@ -12,7 +12,7 @@ public class Dialog_AIServer : Window
     private readonly Map _map;
     private Vector2 _scroll;
 
-    public override Vector2 InitialSize => new(Mathf.Min(980f, UI.screenWidth - 40f), Mathf.Min(720f, UI.screenHeight - 40f));
+    public override Vector2 InitialSize => new(Mathf.Min(1080f, UI.screenWidth - 40f), Mathf.Min(840f, UI.screenHeight - 40f));
     protected override float Margin => 0f;
 
     public Dialog_AIServer(Map map)

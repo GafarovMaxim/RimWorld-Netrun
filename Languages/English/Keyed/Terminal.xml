@@ -292,4 +292,11 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckKey_0>Back</NR_DeckKey_0>
   <NR_DeckKey_1>Home: the network map</NR_DeckKey_1>
   <NR_DeckKey_2>Cyberpedia</NR_DeckKey_2>
+  <NR_DeckTuner>The tuner: its mark jumps on every new event in the net.</NR_DeckTuner>
+  <NR_DeckLightNet>Net: lit while the colony is online.</NR_DeckLightNet>
+  <NR_DeckLightSick>Netsick: blinks while a colonist has it.</NR_DeckLightSick>
+  <NR_DeckLightPod>Pod: lit while a netrunner lies in a cyberpod.</NR_DeckLightPod>
+  <NR_DeckKnobHeat>Heat: {0} ({1}).</NR_DeckKnobHeat>
+  <NR_DeckKnobNetOn>Net: online.</NR_DeckKnobNetOn>
+  <NR_DeckKnobNetOff>Net: offline.</NR_DeckKnobNetOff>
 </LanguageData>
