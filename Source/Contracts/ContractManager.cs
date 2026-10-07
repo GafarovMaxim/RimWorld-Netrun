@@ -136,6 +136,11 @@ public class ContractManager : GameComponent
         }
 
         FixerSettingsDef traits = NetrunDefOf.NR_Fixers;
+        if (fixer.Specialty == FixerSpecialty.Imperial)
+        {
+            contract.Favor = ImperialClients.FavorFor(contract.Reward);
+            contract.Reward = Mathf.RoundToInt(contract.Reward * traits.imperialSilverFactor);
+        }
         if (fixer.Trait == FixerTrait.Reliable)
             contract.Reward = Mathf.RoundToInt(contract.Reward * traits.reliableRewardFactor);
         else if (fixer.Trait == FixerTrait.Hothead)
@@ -339,6 +344,7 @@ public class ContractManager : GameComponent
             Find.LetterStack.ReceiveLetter("NR_UB_ContractBonusLabel".Translate(), "NR_UB_ContractBonus".Translate(fixerName, unique.label), LetterDefOf.PositiveEvent);
         }
         Record(contract, fixerName, success: true);
+        ImperialClients.GiveFavor(contract.Favor, fixerName);
         if (fixer != null)
         {
             fixer.GainReputation(Settings.contractReputation);

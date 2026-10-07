@@ -28,6 +28,8 @@ public class Contract : IExposable
     public int DeadlineTick = -1;
     /// <summary>Per type: the wanted braindance mood (CleanLab), ticks toward the next hour (Surveillance).</summary>
     public int Param;
+    /// <summary>Royal favor on top of the silver (an imperial client's contract).</summary>
+    public int Favor;
 
     public bool Accepted => DeadlineTick >= 0;
     public bool Done => Progress >= Goal;
@@ -50,6 +52,7 @@ public class Contract : IExposable
         Scribe_Values.Look(ref DurationTicks, "durationTicks");
         Scribe_Values.Look(ref DeadlineTick, "deadlineTick", -1);
         Scribe_Values.Look(ref Param, "param");
+        Scribe_Values.Look(ref Favor, "favor");
     }
 }
 

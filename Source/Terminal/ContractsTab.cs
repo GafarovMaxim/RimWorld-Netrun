@@ -272,6 +272,8 @@ public static class ContractsTab
                 tags.Add(("NR_BoardTag_Mood".Translate(contract.ParamText), NetrunUI.Accent, "NR_BoardTag_MoodTip".Translate(contract.ParamText)));
                 break;
         }
+        if (contract.Favor > 0)
+            tags.Add(("NR_BoardTag_Favor".Translate(contract.Favor), NetrunUI.Warn, "NR_BoardTag_FavorTip".Translate(contract.Favor)));
         if (fixer != null && fixer.TraitKnown)
             tags.Add((fixer.TraitLabel, FixersTab.TraitColor(fixer), fixer.TraitDescription));
 

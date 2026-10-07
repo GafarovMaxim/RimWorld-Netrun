@@ -11,6 +11,8 @@ public enum FixerSpecialty
     Broker,
     Cleaner,
     Fence,
+    /// <summary>An imperial client (Royalty): pays less silver, but adds royal favor.</summary>
+    Imperial,
 }
 
 // New traits are appended so old saves keep their values.
@@ -101,6 +103,8 @@ public class Fixer : IExposable
         {
             if (Trait == FixerTrait.Paranoid && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Tracked)
                 return "NR_FixerRefuseParanoid".Translate(Name, HeatLevel.Tracked.Label());
+            if (Specialty == FixerSpecialty.Imperial && !ImperialClients.EmpireFriendly)
+                return "NR_FixerRefuseImperial".Translate(Name);
             if (Trait == FixerTrait.Loyal && FixerManager.Get()?.Fixers.FirstOrDefault(f => f != this && f.Pinned && f.Specialty == Specialty) is { } rival)
                 return "NR_FixerRefuseLoyal".Translate(Name, rival.Name);
             return null;

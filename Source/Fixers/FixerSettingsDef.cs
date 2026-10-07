@@ -32,6 +32,12 @@ public class FixerSettingsDef : Def
     // Prices and discounts
     public float greedyPriceFactor = 1.25f;
 
+    // Royalty: imperial clients.
+    public float imperialChance = 0.2f;
+    public float imperialSilverFactor = 0.6f;
+    public float imperialSilverPerFavor = 150f;
+    public int imperialMaxFavor = 6;
+
     // New contracts (docs/CONCEPTS_7.md, part 5).
     public IntRange surveillanceHours = new(12, 30);
     public int surveillanceRewardPerHour = 25;

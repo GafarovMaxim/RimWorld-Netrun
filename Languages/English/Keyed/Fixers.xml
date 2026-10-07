@@ -116,4 +116,8 @@
   <NR_FixerRefuseLoyal>{0} does not work with you while {1} is your pinned fixer.</NR_FixerRefuseLoyal>
   <NR_FixerHotheadFail>{0} made noise over the failed job</NR_FixerHotheadFail>
   <NR_FixerParanoidWarning>{0}, the paranoid fixer, heard of it first and leaked their plans: they will come weaker.</NR_FixerParanoidWarning>
+  <NR_FixerSpecialty_Imperial>Imperial client</NR_FixerSpecialty_Imperial>
+  <NR_FixerSpecialtyDesc_Imperial>An agent of the Empire who needs deniable netrunners. Pays less silver, but each finished contract adds royal favor to your best-known colonist. Deals only with a colony at peace with the Empire.</NR_FixerSpecialtyDesc_Imperial>
+  <NR_FixerRefuseImperial>{0} does not deal with enemies of the Empire.</NR_FixerRefuseImperial>
+  <NR_ImperialFavor>{0} put in a word at court: {1} gains {2} royal favor.</NR_ImperialFavor>
 </LanguageData>

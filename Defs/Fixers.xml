@@ -29,6 +29,12 @@
 
     <!-- Prices: Greedy multiplier; discount from reputation (at 100), Cleaner bonus, total cap -->
     <greedyPriceFactor>1.25</greedyPriceFactor>
+    <!-- Royalty: chance a newcomer is an imperial client (only at peace with the Empire); their contracts pay this share
+         of the silver and one royal favor per this much of the full reward, up to the maximum -->
+    <imperialChance>0.2</imperialChance>
+    <imperialSilverFactor>0.6</imperialSilverFactor>
+    <imperialSilverPerFavor>150</imperialSilverPerFavor>
+    <imperialMaxFavor>6</imperialMaxFavor>
     <!-- Traits. Weights by specialty, in the order Greedy, Reliable, Rat, Paranoid, Gambler, Loyal, Veteran, Collector, Hothead -->
     <traitWeightsBroker><li>2</li><li>2</li><li>1</li><li>2</li><li>2</li><li>2</li><li>1</li><li>0</li><li>2</li></traitWeightsBroker>
     <traitWeightsCleaner><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>3</li><li>0</li><li>1</li></traitWeightsCleaner>

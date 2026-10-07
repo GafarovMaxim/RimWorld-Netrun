@@ -97,6 +97,7 @@ public static class NetrunTex
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_ShadowBroker"), // Broker
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Corp"),         // Cleaner
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Street"),       // Fence
+        ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Corp"),         // Imperial (until it has its own art)
     ];
 
     private static readonly Texture2D[] TabIcons =
@@ -110,7 +111,7 @@ public static class NetrunTex
     ];
 
     public static Texture2D HeatIcon(HeatLevel level) => HeatIcons[(int)level];
-    public static Texture2D Portrait(FixerSpecialty specialty) => FixerPortraits[(int)specialty];
+    public static Texture2D Portrait(FixerSpecialty specialty) => FixerPortraits[Mathf.Clamp((int)specialty, 0, FixerPortraits.Length - 1)];
 
     /// <summary>Indexed by Dialog_NetTerminal tab order.</summary>
     public static Texture2D TabIcon(int index) => TabIcons[index];

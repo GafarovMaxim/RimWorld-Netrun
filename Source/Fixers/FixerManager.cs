@@ -79,7 +79,8 @@ public class FixerManager : GameComponent
         var have = _fixers.Select(f => f.Specialty).Distinct().ToList();
         if (have.Count >= Settings.minSpecialties)
             return null;
-        var missing = Enum.GetValues(typeof(FixerSpecialty)).Cast<FixerSpecialty>().Where(s => !have.Contains(s)).ToList();
+        // The three street trades; an imperial client is never a "missing" one.
+        var missing = Enum.GetValues(typeof(FixerSpecialty)).Cast<FixerSpecialty>().Where(s => s != FixerSpecialty.Imperial && !have.Contains(s)).ToList();
         return missing.Count == 0 ? null : missing.RandomElement();
     }
 
@@ -165,7 +166,7 @@ public class FixerManager : GameComponent
             Id = _nextId++,
             Name = GenerateName(),
             JoinedTick = Find.TickManager.TicksGame,
-            Specialty = specialty ??= Gen.RandomEnumValue<FixerSpecialty>(disallowFirstValue: false),
+            Specialty = specialty ??= ImperialClients.RandomSpecialty(),
             Trait = RollTrait(specialty),
             CallCost = Settings.callCost.RandomInRange,
         };

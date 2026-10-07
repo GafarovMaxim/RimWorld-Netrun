@@ -96,4 +96,6 @@
   <NR_BoardDeliverFragment>Передать осколок ({0})</NR_BoardDeliverFragment>
   <NR_ContractNoFragment>На складе нет осколка ИИ.</NR_ContractNoFragment>
   <NR_ContractRookieReset>{0} провалил нырок: тренировка новичка начинается заново.</NR_ContractRookieReset>
+  <NR_BoardTag_Favor>+{0} расположения</NR_BoardTag_Favor>
+  <NR_BoardTag_FavorTip>Имперский заказ: кроме серебра, {0} ед. расположения получит колонист, которого Империя знает лучше всех.</NR_BoardTag_FavorTip>
 </LanguageData>

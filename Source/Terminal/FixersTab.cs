@@ -103,6 +103,7 @@ public static class FixersTab
     {
         FixerSpecialty.Broker => NetrunUI.Accent,
         FixerSpecialty.Cleaner => NetrunUI.Ok,
+        FixerSpecialty.Imperial => NetrunUI.Warn,
         _ => NetrunUI.Purple,
     };
 
