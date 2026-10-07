@@ -11,6 +11,7 @@ construction (every partial is a multiple of 1/length, noise is built in the fre
 click. A pack is a STYLE (timbre, scale, noise, reverb, click type) plus its own four ambient loops. Files are mono;
 one-shots 32 kHz, ambients 22.05 kHz, to keep the decoded audio small (RimWorld loads mod audio at start).
 """
+import zlib
 import os
 import subprocess
 import sys
@@ -910,6 +911,16 @@ def ui_close():
         return vfx(x, 0.3, -10)
     if k == "swell":
         return motif("heat_down", -12, 0.6)
+    if k == "saw":
+        # a power-down: four plucks falling a fifth apart, then a soft sub thump (the old saw sweep sounded odd)
+        x = np.zeros(int(SR * 0.9))
+        for i, f in enumerate((1047, 784, 523, 392)):
+            n = int(SR * 0.16)
+            mix_at(x, lp(vtone(nt(f), 0.16), 3000) * env_ad(n, 0.002, 0.06) * (1.0 - 0.12 * i), int(SR * 0.075 * i))
+        n = int(SR * 0.5)
+        sub = sine(np.linspace(110, 52, n), 0.5) * env_ad(n, 0.004, 0.18) * 0.7
+        mix_at(x, sub, int(SR * 0.3))
+        return vfx(x, 0.6, -10)
     d = 0.5
     n = int(SR * d)
     f = np.linspace(900, 80, n)
@@ -1062,20 +1073,20 @@ def amb_v3(pack, name):
     n = int(SR * T)
     t = np.arange(n) / SR
     y = np.zeros(n)
-    r = rng(hash((pack, name)) % 10000)
+    r = rng(zlib.crc32(f"{pack}/{name}".encode()) % 10000)
     am9 = [110, 164.81, 220, 329.63, 392]
     if pack == "Clean":
         if name == "terminal":
             y += swept_pad(am9, T, n, 380, 1500, 0.06) * 0.5 + part(55, T, n) * 0.15
-            sprinkle(y, T, 3, lambda rr: tone(rr.choice([1319.5, 1760, 2093]), 0.9, "bell") * env_ad(int(SR * 0.9), 0.003, 0.3) * 0.07, 41, 3.0)
             y += siren(T, n, 420, 640, 8.0, 0.025, 1.0)
         elif name == "cyberspace":
             y += swept_pad([f * 2 for f in am9], T, n, 500, 2200, 0.05, seed=2) * 0.45 + part(110, T, n) * 0.1
             step = T / 32
             for i in range(32):
                 f = [440, 659, 880, 659, 523, 659, 784, 988][i % 8]
-                b = tone(f, 0.3, "bell") * env_ad(int(SR * 0.3), 0.002, 0.07) * 0.045
-                mix_at(y, echo(b, 0.375, 0.4, 3), int(SR * step * i), 1.0, wrap=True)
+                # a dull pluck (no metallic ring): the same melody, without the bell
+                b = lp(tone(f, 0.3, "sine") + 0.25 * tone(f * 2, 0.3, "sine"), 2200) * env_ad(int(SR * 0.3), 0.004, 0.05) * 0.06
+                mix_at(y, echo(b, 0.375, 0.35, 3), int(SR * step * i), 1.0, wrap=True)
             y += siren(T, n, 500, 760, 10.0, 0.03, 4.0)
         elif name == "dive":
             y += swept_pad([110, 164.81, 207.65], T, n, 260, 900, 0.09, seed=3) * 0.5
@@ -1161,17 +1172,13 @@ def amb_v3(pack, name):
         bow = lambda fr, cutoff=450, amp=1.0: lp(saw_per(fr, T, n, 0.006), cutoff) * slow(T, n, 0.06, 0.5, int(fr)) * amp
         if name == "terminal":
             y += bow(55, 380, 0.5) + bow(82.41, 420, 0.4) + part(41.2, T, n) * 0.3
-            mix_at(y, bellp(98, 0.16, 3.0), int(SR * 2), 1.0, wrap=True)
-            mix_at(y, bellp(147, 0.12, 3.0), int(SR * 10), 1.0, wrap=True)
         elif name == "cyberspace":
             y += bow(110, 600, 0.35) + bow(146.83, 700, 0.3) + bow(220, 800, 0.2)
             y += siren(T, n, 300, 470, 12.0, 0.05, 2.0)
-            sprinkle(y, T, 4, lambda rr: bellp(rr.choice([659.25, 987.77, 1318.5, 1760]), 0.08, 2.0), 71, 3.0)
         elif name == "dive":
             pulse = (0.5 + 0.5 * np.sin(2 * np.pi * snap(0.25, T) * t - 1.5)) ** 3
             y += part(36.71, T, n) * 0.5 + bow(73.42, 500, 0.5) * pulse
             y += bow(77.78, 500, 0.3) * pulse
-            mix_at(y, bellp(220, 0.1, 3.0), int(SR * 5), 1.0, wrap=True)
         else:
             y += part(41.2, T, n) * 0.35 + bow(82.41, 300, 0.3)
     return rms_norm(y, STYLE_RMS[pack][name])
