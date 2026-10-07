@@ -464,7 +464,7 @@
     <order>50</order>
     <color>Accent</color>
     <label>Cyberspace</label>
-    <body>The Gateway is a map of external nodes in cyberspace. A netrunner in a cyberpod dives into a node to steal files. New nodes come every {dive.refresh} days; hidden ones can be found for {dive.search} cyberdata.\n&gt; open:Gateway|Open the Gateway</body>
+    <body>The Gateway is the map of foreign systems around your node. A netrunner in a cyberpod dives into a node, walks its steps and brings the loot home. Every step leaves a trace, and after the dive the trace turns into Heat. New nodes come every {dive.refresh} days; hidden ones can be found for {dive.search} cyberdata.\n## The Gateway map\nEach node shows its type by colour and icon. Click one to see its card: defense, risk, how much trace a step costs there and what it pays.\n[[gateway]]\n## How a dive goes\nSteps are crossed one by one: gates to hack, hidden steps to scan, files to download, ICE that strikes back. At a fork you pick the easy or the hard branch; you cannot step back out of it. Forgot the files? "Back" returns one step and costs the turn.\n[[dive]]\n## Hack chance\nThe netrunner's Intellectual helps, the strength of the gate hurts; programs, daemons and the runner's state add or take a little. Try it:\n[[hackchance]]\n## Trace and Heat\nThe trace of a dive is multiplied by the node type: corp nodes leave the most. Quiet news and stealth help.\n[[trace]]\n&gt; page:NR_Help_Gateway_Nodes|Node types in detail\n&gt; page:NR_Help_Gateway_Ice|ICE and Black ICE\n&gt; page:NR_Help_Gateway_Effects|What a dive leaves behind\n&gt; open:Gateway|Open the Gateway</body>
     <icon>Nodes/Home_Gateway</icon>
     <tips>
       <li>Middle mouse button on the Gateway field resets the camera.</li>

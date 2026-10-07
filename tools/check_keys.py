@@ -21,6 +21,7 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_HelpGwNote_": ["Market", "Archive", "Corp", "Abandoned", "DarkExchange", "CorpCore"],
     "NR_NewsFlavor_": [str(i) for i in range(32)],
     "NR_SoundPack_": SOUND_PACKS,
     "NR_SoundPackDesc_": SOUND_PACKS,

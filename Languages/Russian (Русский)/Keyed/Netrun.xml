@@ -125,4 +125,24 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAmbientServer>Гул сервера ИИ: {0}</NR_SettingsAmbientServer>
   <NR_SettingsResetGroup>Сбросить</NR_SettingsResetGroup>
   <NR_SettingsResetGroupTip>Вернуть настройки раздела «{0}» к значениям по умолчанию.</NR_SettingsResetGroupTip>
+  <NR_HelpGwNote_Market>Лёгкая добыча и мало следа. Хорошо для первых нырков.</NR_HelpGwNote_Market>
+  <NR_HelpGwNote_Archive>Знания: иногда исследование или опыт навыка.</NR_HelpGwNote_Archive>
+  <NR_HelpGwNote_Corp>Богатая добыча, но каждый шаг оставляет в 1.5 раза больше следа. Часто нода контракта (★).</NR_HelpGwNote_Corp>
+  <NR_HelpGwNote_Abandoned>Здесь водятся осколки ИИ, а иногда и дикий ИИ в памяти.</NR_HelpGwNote_Abandoned>
+  <NR_HelpGwNote_DarkExchange>Серебро и ценности. Её Black ICE бьёт больно: берите щит или ловушку.</NR_HelpGwNote_DarkExchange>
+  <NR_HelpGwNote_CorpCore>Появляется раз в несколько недель на пару дней. Когда оно падает, у корпораций неделя тревоги.</NR_HelpGwNote_CorpCore>
+  <NR_HelpGwHome>Ваш узел: отсюда начинается каждый нырок.</NR_HelpGwHome>
+  <NR_HelpGwHint>Щёлкните ноду</NR_HelpGwHint>
+  <NR_HelpHackSkill>Интеллект нетраннера: {0}</NR_HelpHackSkill>
+  <NR_HelpHackStrength>Сила ворот или ICE: {0}</NR_HelpHackStrength>
+  <NR_HelpHackSword>Программа «Меч» или демон «Жнец» (+{0})</NR_HelpHackSword>
+  <NR_HelpHackFlow>Сетевой поток после чистого нырка (+{0})</NR_HelpHackFlow>
+  <NR_HelpHackNatural>Прирождённый нетраннер (+5%)</NR_HelpHackNatural>
+  <NR_HelpHackBurned>Выжженный линк (−{0})</NR_HelpHackBurned>
+  <NR_HelpHackFormula>{0} + {1}×{2} − {3}×{4} и бонусы = {5}</NR_HelpHackFormula>
+  <NR_HelpHackClamp>Шанс всегда между 5% и 95%.</NR_HelpHackClamp>
+  <NR_HelpTraceAmount>След нырка (шаги и действия): {0}</NR_HelpTraceAmount>
+  <NR_HelpTraceQuiet>Новость «Сеть затихла» (×{0})</NR_HelpTraceQuiet>
+  <NR_HelpTraceStealth>Программа «Невидимка» или демон «Призрак» (след ×{0})</NR_HelpTraceStealth>
+  <NR_HelpTraceNote>Этот тип ноды умножает след на {0}. Кибер-капсула с ИИ-сопроцессором снижает его ещё.</NR_HelpTraceNote>
 </LanguageData>

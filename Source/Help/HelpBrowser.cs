@@ -11,7 +11,7 @@ namespace Netrun;
 /// Cyberpedia, drawn inside the terminal as one more screen (docs/HELP.md): topics on the left, the article on
 /// the right with back/forward next to its title, search on top. Keeps its own history.
 /// </summary>
-public class HelpBrowser
+public partial class HelpBrowser
 {
     private const float TreeWidth = 260f;
 
@@ -305,6 +305,12 @@ public class HelpBrowser
             return ScrubDemo(y, w);
         if (line == "[[netsick]]")
             return NetsickDemo(y, w);
+        if (line == "[[gateway]]")
+            return GatewayDemo(y, w);
+        if (line == "[[hackchance]]")
+            return HackChanceDemo(y, w);
+        if (line == "[[trace]]")
+            return TraceDemo(y, w);
         if (line.StartsWith("> page:"))
         {
             (string target, string text) = SplitLink(line.Substring(7));
