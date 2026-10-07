@@ -2,6 +2,18 @@
 
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
+## [Unreleased]
+### Added
+- Cyberspace map v2: districts, links walked in game time, sessions and exits, map events, the Old Net; Odyssey orbital nodes.
+- Corporations (Alert, Strength, hardening, patrols, intrusions along the map, captures, collapse), six runner crews, the top-100 of the net, Club v2 tabs.
+- Node defense: wall-mounted firewall, ICE tiers with upkeep, honeypot, watch duty, network isolation, intercepting intrusions.
+- Research projects in the Hacking Expansion tree; node alert and ICE patrols in dives; HE items as dive programs.
+- Pawns: dive traits, nine backstories, atrophy, dive stories and tales; DLC hooks (gene, learning desire, royal permit, Ideology issues, memes, rituals, role).
+- News v2 with node effects and choices; AI quests through the vanilla Quests tab, AI levels and second services.
+- Four scenarios; 26 achievements for Vanilla Achievements Expanded (optional folder).
+### Changed
+- AI balance: network noise, awakening needs research and cyberdata and can fail, fragments decay away from a server.
+
 ## [0.5.0] - 2026-10-06
 ### Added
 - Network terminal as a node map: Core (Heat ring, daily trend, alerts, resources, "Heat and trace" screen with a 7-day graph), Club, Board, Archive, Server room, Studio, Gateway.

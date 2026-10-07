@@ -715,4 +715,159 @@
     </keywords>
   </Netrun.HelpPageDef>
 
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Gateway_Map</defName>
+    <parent>NR_Help_Gateway</parent>
+    <order>9</order>
+    <color>Accent</color>
+    <label>The cyberspace map</label>
+    <body>The net is one map for the whole game: about 45 nodes in districts, joined by links. Each node holds a few branches: the targets you dive into.\n## Districts\n[[cards]]\n- !Node_NeutralZone Outskirts and Transit: Easy markets and archives near Home; the Transit is the crossroads of the map.\n- !Node_CorpVault Corporate districts: Each belongs to a corporation, with a fortress at its far end. Strong ICE, rich data.\n- !Node_Market Market quarter: Markets and dark exchanges.\n- !Node_AbandonedServer Ruins and the data dump: Abandoned servers, AI fragments, junk and traps.\n- !Node_Archive Campus and the entertainment quarter: Research data and celebrity chips.\n- !Node_DarkExchange Darknet hub: Hidden; dark links lead to it from the ruins, the dump and the market.\n- !Node_Locked Old Net: Behind a wall that opens after the first corporate core falls. Ancient ICE, the best finds.\n## Moving\nA runner in a pod connects at Home (or, for 1 cyberdata, at an exit point) and walks the links in game time: about an hour per link, half on fast links, double through a jam. HE's remote access port and natural netrunners walk faster. Passing an ICE patrol may cost a hit. Up to 3 runners can be connected at once.\n## Sessions\nA connected runner gains Netsick slowly (about 0.24 a day). Leave from Home or an exit; an emergency disconnect anywhere else costs Netsick, nausea and a chance of lockout.\n## What you can see\nBranches are known within 2 links of where your runners stood in the last 10 days. "Discover" reveals hidden ones around a node. A burned branch's slot fills again in 2-4 days.\n## !Daemon_Lens Orbit (Odyssey)\nWith Odyssey, 2-3 orbital backbone nodes sit at the top of the map. They are online only while a colony map is in space (a gravship in orbit with a pod on board): cyberdata there is x1.5 and the ICE is harder.</body>
+    <icon>Nodes/Home_Gateway</icon>
+    <contexts>
+      <li>Gateway</li>
+    </contexts>
+    <keywords>
+      <li>cyberspace map</li>
+      <li>districts</li>
+      <li>Orbit</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Defense</defName>
+    <order>55</order>
+    <color>Warn</color>
+    <label>Node defense</label>
+    <body>Network attacks on the colony are checked against your node defense. The total is on the Heat screen.\n## What adds defense\n[[cards]]\n- !Program_Shield Firewalls: Hang on a wall like a lamp. Each powered one adds 2, up to two of them (needs the «Network security» research).\n- !Dive_ICE ICE tier: Set on a firewall: firewall +1, ICE +2 (research «Active ICE»), black ICE +3 (research «Black ICE defense»). Paid every 15 days: 1 cyberdata, 3 cyberdata or 1 advanced cyberdata.\n- !Daemon_Hound Node watch: A netrunner on duty adds 1 per 4 Intellectual.\n- !AI/AI_Warden Warden AI: +2 on a powered server, +1 more at trust 60.\n- !Icon_Lock HE jammer: A jammer coprocessor linked to a pod adds 1.\n## How an attack ends\nDefense 3 or more above the attack's strength repels it; 3 or more below lets it through; in between it becomes an intrusion. Your black ICE burns repelled attackers, and that is noticed (+3 Heat).\n## Honeypot\nOne firewall can be a honeypot instead: it adds nothing, but after a repelled attack it traces the attacker back: 2-4 cyberdata or a revealed hidden node.\n## Isolation\nA firewall or the comms console can cut the colony off the net: attacks cannot reach you, but neither can dives, contracts, fixers or AI services.\n## Intrusions on the map\nWhen the cyberspace map is ready, a corporation's attack comes from its fortress as a red packet, about 2 hours per link. A runner on a node of its path can «Intercept» it with a short dive; a runner at Home adds +40% to repelling it.</body>
+    <icon>thing:NR_Firewall</icon>
+    <keywords>
+      <li>node defense</li>
+      <li>firewall</li>
+      <li>honeypot</li>
+      <li>isolation</li>
+      <li>intrusion</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Powers</defName>
+    <order>45</order>
+    <color>Bad</color>
+    <label>Corporations and crews</label>
+    <body>The net has its own powers. They live their own lives and remember you.\n&gt; page:NR_Help_Corps|Corporations\n&gt; page:NR_Help_Crews|Runner crews\n&gt; page:NR_Help_Top100|The top-100 of the net\n&gt; open:Club|Open the Club</body>
+    <icon>Factions/Corp_Security</icon>
+    <keywords>
+      <li>corporations</li>
+      <li>crews</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Corps</defName>
+    <parent>NR_Help_Powers</parent>
+    <order>1</order>
+    <color>Bad</color>
+    <label>Corporations</label>
+    <body>Three or four corporations own the corporate districts. Each has an Alert (how much it hates you) and a Strength. Their tab in the Club shows both, their territory and status.\n## Alert\nGrows with your dives into its branches (+3), its fortress (+10), its core (+25) and intercepted attacks (+5); cools by 2 a day. At 40 it hardens its nodes, at 60 its patrols walk its ground, at 80 it sends intrusions every 10-15 days (and sometimes mercenaries). Its goodwill follows the Alert.\n## Strength\nGrows by 1 a day; a strong, calm corporation (70+, Alert under 30) captures neighboring neutral nodes, up to 45% of the map. Fortresses (-10) and cores (-30) taken by anyone weaken it.\n## Collapse\nBelow 15 Strength for 10 days, with a core lost in the last 30 days, a corporation may collapse: its district becomes ruins for 15 days, then a newcomer takes it.</body>
+    <icon>Factions/Corp_Finance</icon>
+    <contexts>
+      <li>Club</li>
+    </contexts>
+    <keywords>
+      <li>corporation</li>
+      <li>Alert</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Crews</defName>
+    <parent>NR_Help_Powers</parent>
+    <order>2</order>
+    <color>Purple</color>
+    <label>Runner crews</label>
+    <body>Six crews of runners share the net with you. Each has a focus (corporations, markets, contracts or hunting), mastery, a home district and relations with the colony. Once a day a crew does something: breaks a branch, strikes a corporation, hunts a contract's target, sets a patrol trap, dumps data on the market, or fails.\n## What you can do\n[[cards]]\n- !Icon_HackerGroup Call for help: An allied crew sends fighters.\n- !Fixers/Handshake Hire a runner: 12 hours for silver and relations.\n- !Event_Rival Race: A dive against a rival crew for fame.\n- !Program_Killer Order: 300 silver to set a crew on a target.\nCrews also bring choices to the news: a race challenge, or a corporation's offer to sell a crew out.</body>
+    <icon>Factions/Crew_Spider</icon>
+    <contexts>
+      <li>Club</li>
+    </contexts>
+    <keywords>
+      <li>crew</li>
+      <li>crews</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Top100</defName>
+    <parent>NR_Help_Powers</parent>
+    <order>3</order>
+    <color>Accent</color>
+    <label>The top-100 of the net</label>
+    <body>The net keeps score. Crews, your runners and about 95 solo callsigns compete for fame: dives (10 per point of defense, more on hard branches), fortresses (100), cores (200), races (50), intercepted intrusions (30), a corporation's collapse (200). Fame fades by 1% a day; runners retire and newcomers arrive.\n## Why it matters\nA colony runner in the top-10 makes contracts pay 10% more, number one 20% more. But the top-3 and number one also warm the corporations' Alert.</body>
+    <icon>Fixers/Star</icon>
+    <contexts>
+      <li>Club</li>
+    </contexts>
+    <keywords>
+      <li>top-100</li>
+      <li>fame</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_AI_Quests</defName>
+    <parent>NR_Help_AI</parent>
+    <order>6</order>
+    <color>Purple</color>
+    <label>AI quests and levels</label>
+    <body>Every 10-14 days an AI with trust 30+ and hunger under 50 offers a quest in the vanilla Quests tab (2 days to accept). Each personality has its own quest; if it cannot happen now, the AI asks for a common one (a hungry channel, a quiet hour, foreign code). One quest per AI, two per colony.\nRefusing costs 5 trust; failing costs 15 and its service for 3 days.\n## Levels\nAfter its first quest the AI reaches level 2: its service is 25% stronger and its traits are open. After the third, level 3: a second service, once every 5 days, from the AI's card.</body>
+    <icon>Icon_AIRequest</icon>
+    <contexts>
+      <li>Server</li>
+    </contexts>
+    <keywords>
+      <li>AI quest</li>
+      <li>AI quests</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Ideology</defName>
+    <parent>NR_Help_Start</parent>
+    <order>6</order>
+    <color>Muted</color>
+    <label>Faith and the net (Ideology)</label>
+    <body>With Ideology the net enters belief.\n[[cards]]\n- !Ideo/Issue_AI Artificial minds: Revered, partners, tools or an abomination: moods near servers, at services and erasures.\n- !Ideo/Issue_Braindance Braindance: A sacred experience, allowed, or a vice.\n- !Ideo/Meme_MachineRevelation Machine revelation: AI trust grows faster; the ritual «Data litany» at the AI server.\n- !Ideo/Meme_NetAscension Net ascension: Flesh without a cyberlink feels like a cage; Netsick withdrawal is weaker; the ritual «Trace cleansing» at the comms console lowers Heat.\n- !Ideo/Meme_DigitalPurity Digital purity: The net is an abomination.\n- !Ideo/Role_NetArchon Net archon: A role for a netrunner: faster hacking, a better chance in dives, one more action in the first turn.</body>
+    <icon>Ideo/Meme_MachineRevelation</icon>
+    <keywords>
+      <li>Ideology</li>
+      <li>net archon</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Scenarios</defName>
+    <parent>NR_Help_Start</parent>
+    <order>5</order>
+    <color>Accent</color>
+    <label>Netrun starts</label>
+    <body>Four scenarios start the game inside the net.\n[[cards]]\n- !AI/AI_Echo The last node: One street netrunner, a pod, a dead AI server and the Echo of a partner. Hard.\n- !Heat/Heat_Target Corporate runaways: Three runaways, Heat 60, a corporation hunting them; its fortress is marked on the map.\n- !Reward_UniqueBraindance Pirate studio: Four colonists, braindance gear, the fixers' trust and a first contract.\n- !Daemon_Lens Flying node: A gravship with a pod on board and orbital nodes (Odyssey).</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <keywords>
+      <li>scenarios</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Achievements</defName>
+    <parent>NR_Help_Settings</parent>
+    <order>1</order>
+    <color>Ok</color>
+    <label>Achievements</label>
+    <body>With Vanilla Achievements Expanded the mod adds a «Netrun» tab of 26 achievements in an AI-chip frame: blue are common, gold are rare, purple are secret (their description is a riddle). Points go to VAE's shop. Without VAE nothing extra loads.\nThe colony keeps its counters in the save, so achievements also unlock for progress made before VAE was added.</body>
+    <icon>Fixers/Star</icon>
+    <keywords>
+      <li>achievements</li>
+    </keywords>
+  </Netrun.HelpPageDef>
+
 </Defs>

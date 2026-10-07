@@ -96,6 +96,14 @@ Complete closed-loop synthesis of virtual neural recordings:
 ### 6. Cyberspace Sickness (Netsick)
 Excessive pod immersion leads to chronic cyberspace dependency. Severe withdrawal can trigger erratic binges where netrunners recklessly dive into the net: 65% chance of brain trauma or coma, but 12% chance of a legendary breakthrough with rare data and AI fragments.
 
+### 7. The Living Net
+* **Cyberspace map:** one map per game with districts (corporate, markets, ruins, campus, darknet, the Old Net behind a wall), links walked in game time, sessions, exits and a daily life of outages, jams and new tenants. With Odyssey, orbital nodes open while your gravship is in space.
+* **Corporations and crews:** corporations with Alert and Strength that harden, patrol, send intrusions along the map, capture nodes and can collapse; six runner crews that race, help, hunt and get hired; a top-100 of the net.
+* **Node defense:** wall-mounted firewalls, your own ICE tiers, a honeypot, netrunners on watch duty, network isolation, intercepting intrusions with a dive.
+* **AI quests and levels:** each personality has its own quest in the vanilla Quests tab; levels unlock stronger and second services.
+* **Pawns and DLC:** dive traits, backstories, a gene, a braindance learning desire, a royal permit, Ideology issues, memes, rituals and the Net archon role.
+* **Starts and achievements:** four scenarios (The last node, Corporate runaways, Pirate studio, Flying node for Odyssey); 26 achievements with Vanilla Achievements Expanded (optional).
+
 ---
 
 ## 📦 Requirements & Load Order
@@ -105,6 +113,8 @@ Excessive pod immersion leads to chronic cyberspace dependency. Severe withdrawa
 3. **Vanilla Expanded Framework**
 4. **Ushanka's Hacking Expansion**
 5. **Hacking Expansion: Netrun** *(must load after Hacking Expansion)*
+
+*Optional: Vanilla Achievements Expanded adds the «Netrun» achievements tab; Royalty, Ideology, Biotech and Odyssey content loads only with its DLC.*
 
 ---
 
