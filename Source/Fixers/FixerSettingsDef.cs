@@ -32,6 +32,19 @@ public class FixerSettingsDef : Def
     // Prices and discounts
     public float greedyPriceFactor = 1.25f;
 
+    // New contracts (docs/CONCEPTS_7.md, part 5).
+    public IntRange surveillanceHours = new(12, 30);
+    public int surveillanceRewardPerHour = 25;
+    public float layLowMinHeat = 25f;
+    public IntRange layLowDrop = new(15, 30);
+    public int layLowRewardPerHeat = 18;
+    public int rookieMaxSkill = 6;
+    public int rookieDives = 2;
+    public int rookieReward = 450;
+    public int aiOrderReward = 650;
+    public IntRange cleanLabChips = new(1, 2);
+    public int cleanLabRewardPerChip = 300;
+
     // Traits: each one helps and hurts.
     /// <summary>How often each trait rolls, by specialty (Broker, Cleaner, Fence); the order follows FixerTrait.</summary>
     public List<float> traitWeightsBroker = [2f, 2f, 1f, 2f, 2f, 2f, 1f, 0f, 2f];

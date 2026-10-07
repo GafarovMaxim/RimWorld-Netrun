@@ -73,4 +73,27 @@
   <NR_BoardLeft>{0} left</NR_BoardLeft>
   <NR_BoardDeliverShort>⇩ Deliver ({0})</NR_BoardDeliverShort>
   <NR_BoardHistoryHead>History: last {0} contracts</NR_BoardHistoryHead>
+  <NR_Contract_Surveillance>Surveillance</NR_Contract_Surveillance>
+  <NR_Contract_LayLow>Lay low</NR_Contract_LayLow>
+  <NR_Contract_Rookie>Rookie training</NR_Contract_Rookie>
+  <NR_Contract_AIOrder>AI order</NR_Contract_AIOrder>
+  <NR_Contract_CleanLab>Clean lab</NR_Contract_CleanLab>
+  <NR_ContractDesc_Surveillance>Keep a netrunner in a cyberpod, listening in on a node, for {0} hours in total. Several pods count together.</NR_ContractDesc_Surveillance>
+  <NR_ContractDesc_LayLow>The fixer needs you quiet: bring your Heat down to {0} or lower before the deadline.</NR_ContractDesc_LayLow>
+  <NR_ContractDesc_Rookie>A colonist with Intellectual {2} or lower makes {0} dives in a row without a failure. A failed dive starts over.</NR_ContractDesc_Rookie>
+  <NR_ContractDesc_AIOrder>Sell the fixer an AI fragment: hand it over at the terminal.</NR_ContractDesc_AIOrder>
+  <NR_ContractDesc_CleanLab>Edit {0} {1} braindance chip(s) at the network console.</NR_ContractDesc_CleanLab>
+  <NR_BoardTag_Pod>Cyberpod time</NR_BoardTag_Pod>
+  <NR_BoardTag_PodTip>Every hour a colonist spends in a cyberpod counts, dive or not.</NR_BoardTag_PodTip>
+  <NR_BoardTag_LayLow>Heat ≤ {0}</NR_BoardTag_LayLow>
+  <NR_BoardTag_LayLowTip>Done the moment your Heat is {0} or lower. Scrubs, hiding and AI help all count.</NR_BoardTag_LayLowTip>
+  <NR_BoardTag_Rookie>Intellectual ≤ {0}</NR_BoardTag_Rookie>
+  <NR_BoardTag_RookieTip>Only dives by a colonist with Intellectual {0} or lower count.</NR_BoardTag_RookieTip>
+  <NR_BoardTag_Fragment>AI fragment</NR_BoardTag_Fragment>
+  <NR_BoardTag_FragmentTip>Hand over one AI fragment from storage. The AI inside goes to the fixer.</NR_BoardTag_FragmentTip>
+  <NR_BoardTag_Mood>Mood: {0}</NR_BoardTag_Mood>
+  <NR_BoardTag_MoodTip>Only chips edited from a {0} recording count.</NR_BoardTag_MoodTip>
+  <NR_BoardDeliverFragment>Hand over fragment ({0})</NR_BoardDeliverFragment>
+  <NR_ContractNoFragment>No AI fragment in storage.</NR_ContractNoFragment>
+  <NR_ContractRookieReset>{0} failed the dive: the rookie training starts over.</NR_ContractRookieReset>
 </LanguageData>

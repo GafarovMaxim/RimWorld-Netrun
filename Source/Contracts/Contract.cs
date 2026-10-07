@@ -8,6 +8,12 @@ public enum ContractType
     DataDelivery,
     SystemTap,
     QuietRun,
+    // New types are appended so old saves keep their values.
+    Surveillance,
+    LayLow,
+    Rookie,
+    AIOrder,
+    CleanLab,
 }
 
 public class Contract : IExposable
@@ -20,13 +26,18 @@ public class Contract : IExposable
     public int Reward;
     public int DurationTicks;
     public int DeadlineTick = -1;
+    /// <summary>Per type: the wanted braindance mood (CleanLab), ticks toward the next hour (Surveillance).</summary>
+    public int Param;
 
     public bool Accepted => DeadlineTick >= 0;
     public bool Done => Progress >= Goal;
     public int TicksLeft => Mathf.Max(0, DeadlineTick - Find.TickManager.TicksGame);
 
     public string Title => ("NR_Contract_" + Type).Translate();
-    public string Description => ("NR_ContractDesc_" + Type).Translate(Goal);
+    public string Description => ("NR_ContractDesc_" + Type).Translate(Goal, ParamText, NetrunDefOf.NR_Fixers.rookieMaxSkill);
+
+    /// <summary>The type's extra detail in words (the wanted mood of a CleanLab).</summary>
+    public string ParamText => Type == ContractType.CleanLab ? ("NR_BDMood_" + (BraindanceMood)Param).Translate().ToString() : string.Empty;
 
     public void ExposeData()
     {
@@ -38,6 +49,7 @@ public class Contract : IExposable
         Scribe_Values.Look(ref Reward, "reward");
         Scribe_Values.Look(ref DurationTicks, "durationTicks");
         Scribe_Values.Look(ref DeadlineTick, "deadlineTick", -1);
+        Scribe_Values.Look(ref Param, "param");
     }
 }
 

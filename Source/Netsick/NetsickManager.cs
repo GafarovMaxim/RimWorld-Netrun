@@ -36,6 +36,7 @@ public class NetsickManager : GameComponent
                     continue;
 
                 Hediff_Netsick netsick = AddNetsick(diver, Settings.podGainPerDay * DayFraction * PodFactor(pod));
+                ContractManager.Get()?.NotifyPodTicks(TickInterval);
                 netsick.LastConnectedTick = now;
 
                 // Resolved and waking: nothing more to do, unless the pod never lets the pawn out (then eject).

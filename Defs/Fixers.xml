@@ -118,6 +118,20 @@
     <systemTapGoal>2~5</systemTapGoal>
     <systemTapRewardPerHack>120</systemTapRewardPerHack>
 
+    <!-- Surveillance: netrunner-hours in a cyberpod, silver per hour. Lay low: offered at this Heat or more, bring it down by this much.
+         Rookie: dives without a failure by a colonist with Intellectual up to this. AI order: one AI fragment. Clean lab: chips of one mood. -->
+    <surveillanceHours>12~30</surveillanceHours>
+    <surveillanceRewardPerHour>25</surveillanceRewardPerHour>
+    <layLowMinHeat>25</layLowMinHeat>
+    <layLowDrop>15~30</layLowDrop>
+    <layLowRewardPerHeat>18</layLowRewardPerHeat>
+    <rookieMaxSkill>6</rookieMaxSkill>
+    <rookieDives>2</rookieDives>
+    <rookieReward>450</rookieReward>
+    <aiOrderReward>650</aiOrderReward>
+    <cleanLabChips>1~2</cleanLabChips>
+    <cleanLabRewardPerChip>300</cleanLabRewardPerChip>
+
     <!-- Quiet run: hacks wanted while Heat stays at Tracked or lower, silver per hack -->
     <quietRunGoal>2~4</quietRunGoal>
     <quietRunRewardPerHack>220</quietRunRewardPerHack>

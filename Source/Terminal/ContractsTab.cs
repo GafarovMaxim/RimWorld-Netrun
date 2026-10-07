@@ -209,6 +209,10 @@ public static class ContractsTab
     {
         ContractType.DataDelivery => NetrunTex.TabIcon(2),
         ContractType.SystemTap => NetrunTex.Cyberspace,
+        ContractType.Surveillance => NetrunTex.CyberIcon("Action_Scan") ?? NetrunTex.Cyberspace,
+        ContractType.Rookie => NetrunTex.CyberIcon("Icon_Xp") ?? NetrunTex.Cyberspace,
+        ContractType.AIOrder => NetrunTex.AIUse,
+        ContractType.CleanLab => NetrunTex.TabIconByName("Studio") ?? NetrunTex.Cyberspace,
         _ => NetrunTex.HeatIcon(HeatLevel.Shadow),
     };
 
@@ -219,7 +223,10 @@ public static class ContractsTab
         {
             ContractType.DataDelivery => Settings.dataDeliveryGoal,
             ContractType.SystemTap => Settings.systemTapGoal,
-            _ => Settings.quietRunGoal,
+            ContractType.Surveillance => Settings.surveillanceHours,
+            ContractType.CleanLab => Settings.cleanLabChips,
+            ContractType.QuietRun => Settings.quietRunGoal,
+            _ => new IntRange(1, 1),
         };
         float t = range.max > range.min ? (float)(contract.Goal - range.min) / (range.max - range.min) : 0.5f;
         return 1 + Mathf.Clamp(Mathf.RoundToInt(t * 2f), 0, 2);
@@ -248,6 +255,21 @@ public static class ContractsTab
                 break;
             case ContractType.QuietRun:
                 tags.Add(("NR_BoardTag_Quiet".Translate(HeatLevel.Tracked.Label()), NetrunUI.Bad, "NR_BoardTag_QuietTip".Translate(HeatLevel.Tracked.Label())));
+                break;
+            case ContractType.Surveillance:
+                tags.Add(("NR_BoardTag_Pod".Translate(), NetrunUI.Accent, "NR_BoardTag_PodTip".Translate()));
+                break;
+            case ContractType.LayLow:
+                tags.Add(("NR_BoardTag_LayLow".Translate(contract.Goal), NetrunUI.Ok, "NR_BoardTag_LayLowTip".Translate(contract.Goal)));
+                break;
+            case ContractType.Rookie:
+                tags.Add(("NR_BoardTag_Rookie".Translate(Settings.rookieMaxSkill), NetrunUI.Warn, "NR_BoardTag_RookieTip".Translate(Settings.rookieMaxSkill)));
+                break;
+            case ContractType.AIOrder:
+                tags.Add(("NR_BoardTag_Fragment".Translate(), NetrunUI.Purple, "NR_BoardTag_FragmentTip".Translate()));
+                break;
+            case ContractType.CleanLab:
+                tags.Add(("NR_BoardTag_Mood".Translate(contract.ParamText), NetrunUI.Accent, "NR_BoardTag_MoodTip".Translate(contract.ParamText)));
                 break;
         }
         if (fixer != null && fixer.TraitKnown)
@@ -338,6 +360,16 @@ public static class ContractsTab
             AcceptanceReport canDeliver = have > 0 ? true : (AcceptanceReport)"NR_NotEnoughCyberdata".Translate();
             if (NetrunUI.Button(new Rect(bx, by, dw, 30f), deliver, NetrunUI.Ok, canDeliver, "NR_ContractDeliverTip".Translate(Settings.advancedCyberdataWorth)))
                 contracts.Deliver(contract, map);
+        }
+        else if (contract.Type == ContractType.AIOrder)
+        {
+            int have = ContractManager.EmptyFragments(map).Sum(t => t.stackCount);
+            string deliver = "NR_BoardDeliverFragment".Translate(have);
+            float dw = NetrunUI.ButtonWidth(deliver);
+            bx -= dw + 8f;
+            AcceptanceReport canDeliver = have > 0 ? true : (AcceptanceReport)"NR_ContractNoFragment".Translate();
+            if (NetrunUI.Button(new Rect(bx, by, dw, 30f), deliver, NetrunUI.Ok, canDeliver, "NR_BoardTag_FragmentTip".Translate()))
+                contracts.DeliverFragment(contract, map);
         }
     }
 

@@ -59,6 +59,11 @@ public class ContractManager : GameComponent
         {
             if (contract.Type == ContractType.QuietRun && HeatTracker.Get()?.Level > HeatLevel.Tracked)
                 Fail(contract, "NR_ContractFailedLoud");
+            else if (contract.Type == ContractType.LayLow && (HeatTracker.Get()?.Heat ?? 0f) <= contract.Goal)
+            {
+                contract.Progress = contract.Goal;
+                Complete(contract);
+            }
             else if (Find.TickManager.TicksGame >= contract.DeadlineTick)
                 Fail(contract, "NR_ContractFailedExpired");
         }
@@ -79,7 +84,7 @@ public class ContractManager : GameComponent
 
     private Contract MakeOffer(Fixer fixer)
     {
-        var type = Gen.RandomEnumValue<ContractType>(disallowFirstValue: false);
+        ContractType type = OfferableTypes().RandomElement();
         var contract = new Contract
         {
             Id = _nextId++,
@@ -103,6 +108,31 @@ public class ContractManager : GameComponent
                 contract.Goal = Settings.quietRunGoal.RandomInRange;
                 contract.Reward = contract.Goal * Settings.quietRunRewardPerHack;
                 break;
+            case ContractType.Surveillance:
+                contract.Goal = Settings.surveillanceHours.RandomInRange;
+                contract.Reward = contract.Goal * Settings.surveillanceRewardPerHour;
+                break;
+            case ContractType.LayLow:
+            {
+                // The Heat to get down to: what it is now, minus a chunk.
+                int drop = Settings.layLowDrop.RandomInRange;
+                contract.Goal = Mathf.Max(1, Mathf.FloorToInt((HeatTracker.Get()?.Heat ?? 0f) - drop));
+                contract.Reward = drop * Settings.layLowRewardPerHeat;
+                break;
+            }
+            case ContractType.Rookie:
+                contract.Goal = Settings.rookieDives;
+                contract.Reward = Settings.rookieReward;
+                break;
+            case ContractType.AIOrder:
+                contract.Goal = 1;
+                contract.Reward = Settings.aiOrderReward;
+                break;
+            case ContractType.CleanLab:
+                contract.Goal = Settings.cleanLabChips.RandomInRange;
+                contract.Param = (int)Gen.RandomEnumValue<BraindanceMood>(disallowFirstValue: false);
+                contract.Reward = contract.Goal * Settings.cleanLabRewardPerChip;
+                break;
         }
 
         FixerSettingsDef traits = NetrunDefOf.NR_Fixers;
@@ -116,6 +146,79 @@ public class ContractManager : GameComponent
 
         return contract;
     }
+
+    /// <summary>Kinds of work a fixer can offer now: laying low only makes sense when the trace is hot, training needs a novice.</summary>
+    private static List<ContractType> OfferableTypes()
+    {
+        var types = new List<ContractType>
+        {
+            ContractType.DataDelivery, ContractType.SystemTap, ContractType.QuietRun,
+            ContractType.Surveillance, ContractType.AIOrder, ContractType.CleanLab,
+        };
+        if ((HeatTracker.Get()?.Heat ?? 0f) >= Settings.layLowMinHeat)
+            types.Add(ContractType.LayLow);
+        if (PawnsFinder.AllMaps_FreeColonists.Any(IsRookie))
+            types.Add(ContractType.Rookie);
+        return types;
+    }
+
+    private static bool IsRookie(Pawn pawn)
+        => pawn.skills?.GetSkill(SkillDefOf.Intellectual) is { TotallyDisabled: false } skill && skill.Level <= Settings.rookieMaxSkill;
+
+    /// <summary>Netrunner time in a pod (called per pod and check): every full hour counts for surveillance.</summary>
+    public void NotifyPodTicks(int ticks)
+    {
+        foreach (Contract contract in Active.Where(c => c.Type == ContractType.Surveillance).ToList())
+        {
+            contract.Param += ticks;
+            int hours = contract.Param / GenDate.TicksPerHour;
+            if (hours <= 0)
+                continue;
+            contract.Param -= hours * GenDate.TicksPerHour;
+            AddProgress(contract, hours);
+        }
+    }
+
+    /// <summary>A dive ended: a rookie's clean dive counts, a failed one starts the training over.</summary>
+    public void NotifyDive(Pawn runner, bool success)
+    {
+        if (runner == null || !IsRookie(runner))
+            return;
+        foreach (Contract contract in Active.Where(c => c.Type == ContractType.Rookie).ToList())
+        {
+            if (success)
+                AddProgress(contract, 1);
+            else if (contract.Progress > 0)
+            {
+                contract.Progress = 0;
+                Messages.Message("NR_ContractRookieReset".Translate(runner.LabelShort), MessageTypeDefOf.NegativeEvent, historical: true);
+            }
+        }
+    }
+
+    /// <summary>A braindance chip was edited: one of the wanted mood counts for a clean lab job.</summary>
+    public void NotifyChipEdited(BraindanceMood mood)
+    {
+        foreach (Contract contract in Active.Where(c => c.Type == ContractType.CleanLab && c.Param == (int)mood).ToList())
+            AddProgress(contract, 1);
+    }
+
+    /// <summary>Hands an AI fragment from storage to the fixer.</summary>
+    public void DeliverFragment(Contract contract, Map map)
+    {
+        // Only a blank fragment: one that holds a sleeping AI of the colony is not for sale.
+        Thing fragment = EmptyFragments(map).FirstOrDefault();
+        if (fragment == null)
+        {
+            Messages.Message("NR_ContractNoFragment".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        fragment.SplitOff(1).Destroy();
+        AddProgress(contract, 1);
+    }
+
+    public static IEnumerable<Thing> EmptyFragments(Map map)
+        => ColonyGoods.Available(map, NetrunDefOf.NR_AIFragment).Where(t => (t.TryGetComp<CompAIFragment>()?.StoredAIId ?? -1) < 0);
 
     public AcceptanceReport CanAccept(Contract contract, Fixer fixer)
     {

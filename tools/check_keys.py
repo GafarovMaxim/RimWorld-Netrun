@@ -19,6 +19,7 @@ PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", 
 FIXER_TRAITS = ["Greedy", "Reliable", "Rat", "Paranoid", "Gambler", "Loyal", "Veteran", "Collector", "Hothead"]
 AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Pacifist', 'NightOwl', 'Rebel', 'Nostalgic']
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
+CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
     "NR_SoundPack_": SOUND_PACKS,
     "NR_SoundPackDesc_": SOUND_PACKS,
@@ -56,8 +57,8 @@ DYNAMIC = {
     "NR_FixerSpecialtyDesc_": ["Broker", "Cleaner", "Fence"],
     "NR_FixerTrait_": FIXER_TRAITS,
     "NR_FixerTraitDesc_": FIXER_TRAITS,
-    "NR_Contract_": ["DataDelivery", "SystemTap", "QuietRun"],
-    "NR_ContractDesc_": ["DataDelivery", "SystemTap", "QuietRun"],
+    "NR_Contract_": CONTRACTS,
+    "NR_ContractDesc_": CONTRACTS,
     "NR_AIPersonality_": PERSONALITIES,
     "NR_AIPersonalityDesc_": PERSONALITIES,
     "NR_AIService_": PERSONALITIES,

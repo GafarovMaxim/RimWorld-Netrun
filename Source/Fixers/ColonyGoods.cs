@@ -32,7 +32,7 @@ public static class ColonyGoods
         return true;
     }
 
-    private static IEnumerable<Thing> Available(Map map, ThingDef def)
+    public static IEnumerable<Thing> Available(Map map, ThingDef def)
     {
         if (map == null || def == null)
             yield break;
