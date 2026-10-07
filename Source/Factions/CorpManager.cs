@@ -359,6 +359,13 @@ public class CorpManager : GameComponent, INetrunCleanable
         MapNode n = Net?.Map?.Nodes.Where(x => x.OwnerFaction == c.FactionId).RandomElementWithFallback();
         if (n != null)
             n.PatrolUntil = Mathf.Max(n.PatrolUntil, Now + GenDate.TicksPerDay);
+        // Now and then a node is closed off altogether: the way goes around it.
+        MapNode q = Net?.Map?.Nodes.Where(x => x.OwnerFaction == c.FactionId && !x.Fortress && !(Net.Runners.Any(r => r.NodeId == x.Id))).RandomElementWithFallback();
+        if (q != null && Rand.Chance(0.25f))
+        {
+            q.QuarantineUntil = Now + 2 * GenDate.TicksPerDay;
+            GatewayManager.Get()?.AddHeadline("NR_NewsQuarantine".Translate(c.Faction.Name, NetMapManager.NodeLabel(q)), 2);
+        }
     }
 
     private void MaybeIntrude(CorpState c, Faction f)

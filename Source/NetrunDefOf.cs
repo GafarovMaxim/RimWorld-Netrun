@@ -16,6 +16,7 @@ public static class NetrunDefOf
     public static IncidentDef NR_CrewHelp;
     public static CyberMapSettingsDef NR_CyberMap;
     public static CorpSettingsDef NR_Corporations;
+    public static LetterDef NR_ChoiceLetter;
     public static RankingSettingsDef NR_Ranking;
     public static IncidentDef NR_CrewRaid;
     public static DefenseSettingsDef NR_Defense;

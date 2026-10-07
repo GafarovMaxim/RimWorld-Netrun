@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- An important choice from the news, as a letter with options (Source/Cyberspace/NewsChoices.cs) -->
+  <LetterDef>
+    <defName>NR_ChoiceLetter</defName>
+    <letterClass>Netrun.NewsChoiceLetter</letterClass>
+    <color>(0.94, 0.75, 0.25)</color>
+    <flashColor>(0.94, 0.75, 0.25)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
+
+</Defs>

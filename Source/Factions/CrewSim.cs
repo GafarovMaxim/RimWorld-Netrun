@@ -113,7 +113,13 @@ public class CrewSim : GameComponent, INetrunCleanable
         actions.RandomElementByWeight(a => a.weight).run(c, f);
     }
 
-    private static bool Quiet(CrewState c, Faction f) => true;
+    private static bool Quiet(CrewState c, Faction f)
+    {
+        // A friendly crew may throw down a challenge.
+        if (!f.HostileTo(Faction.OfPlayer) && Rand.Chance(0.15f) && CrewDeals.CanRace(f).Accepted)
+            NewsChoices.Get()?.Offer(NewsChoiceKind.CrewChallenge, "NR_ChoiceChallengeText".Translate(f.Name), f.loadID, -1, 1f);
+        return true;
+    }
 
     private bool BurnBranch(CrewState c, Faction f)
     {
@@ -134,6 +140,14 @@ public class CrewSim : GameComponent, INetrunCleanable
         if (corp == null)
             return false;
         CorpManager.Get().NotifyRivalHit(corp);
+        // Now and then the corporation offers silver for the crew's names.
+        if (corp.Alert >= 40f && Rand.Chance(0.3f))
+            NewsChoices.Get()?.Offer(NewsChoiceKind.SellOutCrew, "NR_ChoiceSellOutText".Translate(corp.Faction.Name, f.Name), f.loadID, corp.FactionId, 2f);
+        // After the hit the fortress's outer gates are weaker for two days.
+        MapNode fortress = Net.Map.Nodes.FirstOrDefault(n => n.Fortress && n.OwnerFaction == corp.FactionId);
+        if (fortress != null)
+            foreach (ExternalNode b in Net.BranchesAt(fortress.Id))
+                b.OpenDoorUntil = Now + 2 * GenDate.TicksPerDay;
         NetRanking.Get()?.AddCrewFame(f, 40f + c.Skill * 8f);
         Report(c, "NR_CrewNewsHitCorp", f.Name.Named("CREW"), corp.Faction.Name.Named("CORP"));
         return true;
@@ -157,7 +171,7 @@ public class CrewSim : GameComponent, INetrunCleanable
         MapNode n = Net.Map.Nodes.Where(x => x.District is District.Transit or District.Market or District.Outskirts).RandomElementWithFallback();
         if (n == null)
             return false;
-        n.PatrolUntil = Mathf.Max(n.PatrolUntil, Now + Rand.RangeInclusive(1, 2) * GenDate.TicksPerDay);
+        n.RivalTrapUntil = Mathf.Max(n.RivalTrapUntil, Now + Rand.RangeInclusive(1, 2) * GenDate.TicksPerDay);
         c.LastAction = "NR_CrewActionHunt".Translate(NetMapManager.NodeLabel(n));
         return true;
     }

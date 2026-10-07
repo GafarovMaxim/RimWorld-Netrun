@@ -445,6 +445,14 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         float trace = HopTrace(node, link);
         if (trace > 0f)
             HeatTracker.Get()?.AddHeat(trace, "NR_MapHopTrace".Translate(NodeLabel(node)), HeatSource.Dive);
+        if (node.RivalTrap && Gateway?.DaemonsForDive.Contains(DiveDaemon.Lens) != true)
+        {
+            NetsickManager.AddNetsickFor(runner.Pawn, Settings.patrolNetsick * 1.5f);
+            if (DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceNausea") is { } nausea && !DiveTraits.NauseaImmune(runner.Pawn))
+                runner.Pawn.health.AddHediff(nausea, runner.Pawn.health.hediffSet.GetBrain());
+            node.RivalTrapUntil = -1;
+            Messages.Message("NR_MapRivalTrapHit".Translate(runner.Pawn.LabelShort, NodeLabel(node)), runner.Pawn, MessageTypeDefOf.NegativeEvent);
+        }
         if (node.Patrol && Rand.Chance(Settings.patrolHitChance))
         {
             NetsickManager.AddNetsickFor(runner.Pawn, Settings.patrolNetsick);

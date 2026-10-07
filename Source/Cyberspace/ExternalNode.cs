@@ -140,6 +140,8 @@ public class CyberspaceSettingsDef : Def
     public float honeypotChance = 0.12f;
     public float honeypotTrace = 8f;
     public float honeypotRewardShare = 0.5f;
+    /// <summary>An overloaded node falls over with this chance every node turn.</summary>
+    public float overloadCrashChance = 0.15f;
     public float honeypotShownReward = 1.5f;
     public float stormChance = 0.2f;
     public FloatRange stormDays = new(1f, 2f);
@@ -182,6 +184,41 @@ public class ExternalNode : IExposable
     public bool Deserted;
     /// <summary>Unreachable for a while (a crash, an outage), -1 none.</summary>
     public int OfflineUntil = -1;
+    // Node effects from the news (docs/CONCEPTS_10.md, section 13.1), ticks until; -1 none.
+    public int OverloadUntil = -1;
+    public int MirrorUntil = -1;
+    public int InterferenceUntil = -1;
+    public int AuctionUntil = -1;
+    public int OpenDoorUntil = -1;
+    /// <summary>A forgotten cache: an extra stash, found by a scan.</summary>
+    public bool ForgottenCache;
+
+    public bool Overloaded => Find.TickManager.TicksGame < OverloadUntil;
+    public bool Mirrored => Find.TickManager.TicksGame < MirrorUntil;
+    public bool Interference => Find.TickManager.TicksGame < InterferenceUntil;
+    public bool Auction => Find.TickManager.TicksGame < AuctionUntil;
+    public bool OpenDoor => Find.TickManager.TicksGame < OpenDoorUntil;
+
+    /// <summary>Short labels of the effects on this node, for the panel and the map.</summary>
+    public System.Collections.Generic.IEnumerable<string> EffectLabels
+    {
+        get
+        {
+            if (Overloaded)
+                yield return "NR_NodeEffect_Overload".Translate();
+            if (Mirrored)
+                yield return "NR_NodeEffect_Mirror".Translate();
+            if (Interference)
+                yield return "NR_NodeEffect_Interference".Translate();
+            if (Auction)
+                yield return "NR_NodeEffect_Auction".Translate();
+            if (OpenDoor)
+                yield return "NR_NodeEffect_OpenDoor".Translate();
+            if (ForgottenCache)
+                yield return "NR_NodeEffect_Cache".Translate();
+        }
+    }
+
     /// <summary>+1 defense from its corporation's Alert 40+ (taken back when the Alert drops).</summary>
     public bool AlertHardened;
     /// <summary>The intrusion packet this branch intercepts (a short dive on the packet's path), -1 none.</summary>
@@ -393,6 +430,12 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Deserted, "deserted");
         Scribe_Values.Look(ref OfflineUntil, "offlineUntil", -1);
         Scribe_Values.Look(ref AlertHardened, "alertHardened");
+        Scribe_Values.Look(ref OverloadUntil, "overloadUntil", -1);
+        Scribe_Values.Look(ref MirrorUntil, "mirrorUntil", -1);
+        Scribe_Values.Look(ref InterferenceUntil, "interferenceUntil", -1);
+        Scribe_Values.Look(ref AuctionUntil, "auctionUntil", -1);
+        Scribe_Values.Look(ref OpenDoorUntil, "openDoorUntil", -1);
+        Scribe_Values.Look(ref ForgottenCache, "forgottenCache");
         Scribe_Values.Look(ref InterceptPacketId, "interceptPacket", -1);
     }
 }

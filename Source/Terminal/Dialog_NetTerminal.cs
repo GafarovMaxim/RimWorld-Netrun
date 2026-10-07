@@ -624,7 +624,23 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(newsSeg.x + 8f, newsSeg.y, 60f, newsSeg.height), "NR_NewsTag".Translate().Colorize(NetrunUI.Accent));
             float tagW = Text.CalcSize("NR_NewsTag".Translate()).x + 16f;
             List<(string text, Color color)> news = NetrunUI.Cached("gateway.news", GatewayView.News, 2f);
-            NetrunUI.Ticker(new Rect(newsSeg.x + tagW, newsSeg.y, newsSeg.width - tagW - 6f, newsSeg.height), news);
+            // Pending choices: a chip at the right end of the line opens them.
+            int pending = NewsChoices.Get()?.Pending.Count ?? 0;
+            float chipW = 0f;
+            if (pending > 0)
+            {
+                string chip = "NR_ChoicesChip".Translate(pending);
+                chipW = Text.CalcSize(chip).x + 16f;
+                var chipRect = new Rect(newsSeg.xMax - chipW - 4f, newsSeg.y + 2f, chipW, newsSeg.height - 4f);
+                Widgets.DrawBoxSolid(chipRect, new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, Mouse.IsOver(chipRect) ? 0.35f : 0.2f));
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(chipRect, chip.Colorize(NetrunUI.Warn));
+                Text.Anchor = TextAnchor.MiddleLeft;
+                if (Widgets.ButtonInvisible(chipRect))
+                    Find.WindowStack.Add(new Dialog_NewsChoices());
+                chipW += 6f;
+            }
+            NetrunUI.Ticker(new Rect(newsSeg.x + tagW, newsSeg.y, newsSeg.width - tagW - 6f - chipW, newsSeg.height), news);
             Text.Font = GameFont.Small;
             NetrunUI.Tip(newsSeg, NetrunUI.Cached("gateway.effects", GatewayView.Effects, 1f));
         }

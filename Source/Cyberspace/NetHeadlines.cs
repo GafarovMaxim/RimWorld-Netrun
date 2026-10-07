@@ -106,6 +106,37 @@ public partial class GatewayManager
                 AddHeadline("NR_HeadlineLeak".Translate(leak.Name), 1);
             });
         }
+        int Days(float d) => now + (int)(d * GenDate.TicksPerDay);
+        if (OpenNodes.Where(n => !n.Overloaded).TryRandomElement(out ExternalNode overload))
+            options.Add(() =>
+            {
+                overload.OverloadUntil = Days(2f);
+                AddHeadline("NR_HeadlineOverload".Translate(overload.Name), 0);
+            });
+        if (OpenNodes.Where(n => !n.ForgottenCache).TryRandomElement(out ExternalNode cache))
+            options.Add(() =>
+            {
+                cache.ForgottenCache = true;
+                AddHeadline("NR_HeadlineCache".Translate(cache.Name), 1);
+            });
+        if (OpenNodes.Where(n => !n.Mirrored).TryRandomElement(out ExternalNode mirror))
+            options.Add(() =>
+            {
+                mirror.MirrorUntil = Days(2f);
+                AddHeadline("NR_HeadlineMirror".Translate(mirror.Name), 0);
+            });
+        if (OpenNodes.Where(n => !n.Interference).TryRandomElement(out ExternalNode noise))
+            options.Add(() =>
+            {
+                noise.InterferenceUntil = Days(2f);
+                AddHeadline("NR_HeadlineInterference".Translate(noise.Name), 2);
+            });
+        if (OpenNodes.Where(n => n.Type == ExternalNodeType.DarkExchange && !n.Auction).TryRandomElement(out ExternalNode auction))
+            options.Add(() =>
+            {
+                auction.AuctionUntil = Days(3f);
+                AddHeadline("NR_HeadlineAuction".Translate(auction.Name), 1);
+            });
         if (!GlutActive)
         {
             options.Add(() =>

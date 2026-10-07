@@ -66,6 +66,8 @@ public class MapNode : IExposable
     public int PatrolUntil = -1;
     public int TransitUntil = -1;
     public int QuarantineUntil = -1;
+    /// <summary>A rival crew's trap: strikes a passing runner like ICE unless the Lens daemon is along.</summary>
+    public int RivalTrapUntil = -1;
     /// <summary>Last tick a runner stood here (branches near it are visible for some days).</summary>
     public int LastVisitTick = -1;
 
@@ -76,6 +78,8 @@ public class MapNode : IExposable
     public bool Storm => Now < StormUntil;
     public bool Patrol => Now < PatrolUntil;
     public bool Transit => Now < TransitUntil;
+    public bool RivalTrap => Now < RivalTrapUntil;
+    public bool Quarantine => Now < QuarantineUntil;
 
     public void ExposeData()
     {
@@ -93,6 +97,7 @@ public class MapNode : IExposable
         Scribe_Values.Look(ref PatrolUntil, "patrolUntil", -1);
         Scribe_Values.Look(ref TransitUntil, "transitUntil", -1);
         Scribe_Values.Look(ref QuarantineUntil, "quarantineUntil", -1);
+        Scribe_Values.Look(ref RivalTrapUntil, "rivalTrapUntil", -1);
         Scribe_Values.Look(ref LastVisitTick, "lastVisit", -1);
     }
 }

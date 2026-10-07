@@ -153,6 +153,50 @@ public static partial class GatewayView
     /// <summary>Decorative news keys: the 32 NR_NewsFlavor_N lines plus the cloud session's 94 (ads, rumors, corps, street, culture, tips).</summary>
     private static readonly string[] FlavorKeys = [.. System.Linq.Enumerable.Range(0, 32).Select(i => "NR_NewsFlavor_" + i), "NR_Flavor_Ad_1", "NR_Flavor_Ad_2", "NR_Flavor_Ad_3", "NR_Flavor_Ad_4", "NR_Flavor_Ad_5", "NR_Flavor_Ad_6", "NR_Flavor_Ad_7", "NR_Flavor_Ad_8", "NR_Flavor_Ad_9", "NR_Flavor_Ad_10", "NR_Flavor_Ad_11", "NR_Flavor_Ad_12", "NR_Flavor_Ad_13", "NR_Flavor_Ad_14", "NR_Flavor_Ad_15", "NR_Flavor_Ad_16", "NR_Flavor_Ad_17", "NR_Flavor_Ad_18", "NR_Flavor_Ad_19", "NR_Flavor_Ad_20", "NR_Flavor_Rumor_1", "NR_Flavor_Rumor_2", "NR_Flavor_Rumor_3", "NR_Flavor_Rumor_4", "NR_Flavor_Rumor_5", "NR_Flavor_Rumor_6", "NR_Flavor_Rumor_7", "NR_Flavor_Rumor_8", "NR_Flavor_Rumor_9", "NR_Flavor_Rumor_10", "NR_Flavor_Rumor_11", "NR_Flavor_Rumor_12", "NR_Flavor_Rumor_13", "NR_Flavor_Rumor_14", "NR_Flavor_Rumor_15", "NR_Flavor_Rumor_16", "NR_Flavor_Rumor_17", "NR_Flavor_Rumor_18", "NR_Flavor_Rumor_19", "NR_Flavor_Rumor_20", "NR_Flavor_Corp_1", "NR_Flavor_Corp_2", "NR_Flavor_Corp_3", "NR_Flavor_Corp_4", "NR_Flavor_Corp_5", "NR_Flavor_Corp_6", "NR_Flavor_Corp_7", "NR_Flavor_Corp_8", "NR_Flavor_Corp_9", "NR_Flavor_Corp_10", "NR_Flavor_Corp_11", "NR_Flavor_Corp_12", "NR_Flavor_Corp_13", "NR_Flavor_Corp_14", "NR_Flavor_Street_1", "NR_Flavor_Street_2", "NR_Flavor_Street_3", "NR_Flavor_Street_4", "NR_Flavor_Street_5", "NR_Flavor_Street_6", "NR_Flavor_Street_7", "NR_Flavor_Street_8", "NR_Flavor_Street_9", "NR_Flavor_Street_10", "NR_Flavor_Street_11", "NR_Flavor_Street_12", "NR_Flavor_Street_13", "NR_Flavor_Street_14", "NR_Flavor_Street_15", "NR_Flavor_Street_16", "NR_Flavor_Culture_1", "NR_Flavor_Culture_2", "NR_Flavor_Culture_3", "NR_Flavor_Culture_4", "NR_Flavor_Culture_5", "NR_Flavor_Culture_6", "NR_Flavor_Culture_7", "NR_Flavor_Culture_8", "NR_Flavor_Culture_9", "NR_Flavor_Culture_10", "NR_Flavor_Culture_11", "NR_Flavor_Culture_12", "NR_Flavor_Tip_1", "NR_Flavor_Tip_2", "NR_Flavor_Tip_3", "NR_Flavor_Tip_4", "NR_Flavor_Tip_5", "NR_Flavor_Tip_6", "NR_Flavor_Tip_7", "NR_Flavor_Tip_8", "NR_Flavor_Tip_9", "NR_Flavor_Tip_10", "NR_Flavor_Tip_11", "NR_Flavor_Tip_12"];
 
+    private static readonly int[] FlavorV2Counts = [16, 15, 15, 15];
+    private static readonly string[] FlavorV2Prefix = ["NR_Flavor_Spam_", "NR_Flavor_Obit_", "NR_Flavor_FixerAd_", "NR_Flavor_CorpPR_"];
+
+    /// <summary>
+    /// One line from the newer categories: spam, an obituary with a callsign from the top 100, a fixer's ad, a corporation's
+    /// PR with its real name, a wanted notice when a colony runner is famous, or a traffic report from the jammed links.
+    /// </summary>
+    private static (string, Color)? FlavorV2(int slot)
+    {
+        var rnd = new System.Random(slot * 31337);
+        int pick = rnd.Next(6);
+        NetRanking ranking = NetRanking.Get();
+        Faction corp = NetFactions.Corps.OrderBy(f => f.loadID).Skip(rnd.Next(4)).FirstOrDefault() ?? NetFactions.Corps.FirstOrDefault();
+        switch (pick)
+        {
+            case 0:
+                return (FlavorV2Prefix[0] + (1 + rnd.Next(FlavorV2Counts[0])), NetrunUI.Muted).Translated();
+            case 1:
+            {
+                string callsign = ranking?.Entries.Where(e => e.Kind == RankKind.Solo).Skip(rnd.Next(80)).FirstOrDefault()?.Callsign ?? "Static Moth";
+                return ((FlavorV2Prefix[1] + (1 + rnd.Next(FlavorV2Counts[1]))).Translate(callsign), NetrunUI.Muted);
+            }
+            case 2:
+                return ((FlavorV2Prefix[2] + (1 + rnd.Next(FlavorV2Counts[2]))).Translate(), NetrunUI.Ok);
+            case 3:
+                return corp == null ? null : ((FlavorV2Prefix[3] + (1 + rnd.Next(FlavorV2Counts[3]))).Translate(corp.Name), NetrunUI.Purple);
+            case 4:
+            {
+                RankEntry star = ranking?.Entries.Where(e => e.Kind == RankKind.Colony).OrderByDescending(e => e.Fame).FirstOrDefault();
+                if (star == null || corp == null || ranking.PlaceOf(star) > 50)
+                    return null;
+                return (("NR_Flavor_Wanted_" + (1 + rnd.Next(6))).Translate(corp.Name, star.Callsign), NetrunUI.Bad);
+            }
+            default:
+            {
+                NetMapManager net = NetMapManager.Get();
+                MapLink jam = net?.Map?.Links.FirstOrDefault(l => l.Jammed);
+                return jam == null ? null : ("NR_Flavor_Traffic".Translate(NetMapManager.NodeLabel(net.Map.Node(jam.A))), NetrunUI.Accent);
+            }
+        }
+    }
+
+    private static (string, Color) Translated(this (string key, Color color) t) => (t.key.Translate(), t.color);
+
     public static List<(string text, Color color)> News()
     {
         var list = new List<(string, Color)>();
@@ -165,6 +209,9 @@ public static partial class GatewayView
         int slot = Find.TickManager.TicksGame / (GenDate.TicksPerHour * 3);
         for (int k = 0; k < 2; k++)
             list.Add((FlavorKeys[(int)((uint)(slot * 7919 + k * 104729) % (uint)FlavorKeys.Length)].Translate(), NetrunUI.Muted));
+        // The news v2 categories (docs/CONCEPTS_10.md, section 13.2): one line, names from this game.
+        if (FlavorV2(slot) is { } extra)
+            list.Add(extra);
         if (g.StormActive)
             list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
         if (g.Boss is { } boss)
@@ -544,6 +591,23 @@ public static partial class GatewayView
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };
             y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk_" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
+            List<string> effects = node.EffectLabels.ToList();
+            if (effects.Count > 0)
+            {
+                y += 4f;
+                float ex = inner.x;
+                foreach (string effect in effects)
+                {
+                    float w = Text.CalcSize(effect).x + 16f;
+                    if (ex + w > inner.xMax)
+                    {
+                        ex = inner.x;
+                        y += 24f;
+                    }
+                    ex += NetrunUI.Chip(ex, y, effect, NetrunUI.Purple, "NR_NodeEffectTip".Translate()) + 6f;
+                }
+                y += 24f;
+            }
             if (node.Contract || node.Rival)
             {
                 y += 4f;

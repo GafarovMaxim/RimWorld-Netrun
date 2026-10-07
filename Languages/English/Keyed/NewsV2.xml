@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_Flavor_Spam_1>YOU HAVE WON 500 CYBERDATA!!! Confirm your neural signature to claim.</NR_Flavor_Spam_1>
+  <NR_Flavor_Spam_2>Single netrunners in your sector want to sync with you.</NR_Flavor_Spam_2>
+  <NR_Flavor_Spam_3>Your cyberlink warranty is about to expire. Act now.</NR_Flavor_Spam_3>
+  <NR_Flavor_Spam_4>Doctors hate this one trick to cure Netsick overnight.</NR_Flavor_Spam_4>
+  <NR_Flavor_Spam_5>Grow your RAM by 300% with this ancient braindance.</NR_Flavor_Spam_5>
+  <NR_Flavor_Spam_6>URGENT: your fixer account has been suspended. Log in to restore.</NR_Flavor_Spam_6>
+  <NR_Flavor_Spam_7>Free ICE breaker! Just download free_icebreaker.exe.</NR_Flavor_Spam_7>
+  <NR_Flavor_Spam_8>Congratulations, you are visitor #1,000,000 of this node!</NR_Flavor_Spam_8>
+  <NR_Flavor_Spam_9>Hot Black ICE in your area tonight. No questions.</NR_Flavor_Spam_9>
+  <NR_Flavor_Spam_10>A deposed corp prince needs your help moving 10,000,000 silver.</NR_Flavor_Spam_10>
+  <NR_Flavor_Spam_11>Lose trace fast! Our miracle proxy hides you from everyone*. (*not everyone)</NR_Flavor_Spam_11>
+  <NR_Flavor_Spam_12>Upgrade to Neural Premium: ads beamed straight into dreams.</NR_Flavor_Spam_12>
+  <NR_Flavor_Spam_13>Your pod is infected with 37 viruses. Click to clean.</NR_Flavor_Spam_13>
+  <NR_Flavor_Spam_14>Re: re: re: fwd: fwd: you won't believe this node</NR_Flavor_Spam_14>
+  <NR_Flavor_Spam_15>Limited offer: second-hand cyberlinks, barely used, one owner.</NR_Flavor_Spam_15>
+  <NR_Flavor_Spam_16>Click here to see what the corporations don't want you to see.</NR_Flavor_Spam_16>
+  <NR_Flavor_Obit_1>The net remembers: runner {0}, three years in the trade, lost to black ICE.</NR_Flavor_Obit_1>
+  <NR_Flavor_Obit_2>The net remembers: {0} logged in and never logged out.</NR_Flavor_Obit_2>
+  <NR_Flavor_Obit_3>Farewell to {0}: the best hands in the market quarter.</NR_Flavor_Obit_3>
+  <NR_Flavor_Obit_4>{0} went past the Wall and did not come back. Rest in static.</NR_Flavor_Obit_4>
+  <NR_Flavor_Obit_5>The net remembers: {0}, who once took a corporate core alone.</NR_Flavor_Obit_5>
+  <NR_Flavor_Obit_6>{0} burned out on a job nobody will talk about.</NR_Flavor_Obit_6>
+  <NR_Flavor_Obit_7>A candle in the dark net for {0}.</NR_Flavor_Obit_7>
+  <NR_Flavor_Obit_8>The net remembers: {0}, killed in meat-space over a debt.</NR_Flavor_Obit_8>
+  <NR_Flavor_Obit_9>{0}'s pod went silent on Tuesday. Their daemons still answer.</NR_Flavor_Obit_9>
+  <NR_Flavor_Obit_10>The net remembers: {0}, gone in a data storm.</NR_Flavor_Obit_10>
+  <NR_Flavor_Obit_11>Goodbye, {0}. The leaderboard is a little emptier today.</NR_Flavor_Obit_11>
+  <NR_Flavor_Obit_12>{0} sold their last secret and left the net for good.</NR_Flavor_Obit_12>
+  <NR_Flavor_Obit_13>The net remembers: {0}, flatlined by a corporate hunter.</NR_Flavor_Obit_13>
+  <NR_Flavor_Obit_14>Nobody has heard from {0} in a month. The net assumes the worst.</NR_Flavor_Obit_14>
+  <NR_Flavor_Obit_15>{0} retired to a farm somewhere. Nobody believes it.</NR_Flavor_Obit_15>
+  <NR_Flavor_FixerAd_1>Looking for quiet hands for one night. No questions.</NR_Flavor_FixerAd_1>
+  <NR_Flavor_FixerAd_2>Need a runner who can read a fork. Pays well.</NR_Flavor_FixerAd_2>
+  <NR_Flavor_FixerAd_3>Courier wanted. Must not ask what is in the case.</NR_Flavor_FixerAd_3>
+  <NR_Flavor_FixerAd_4>Buying old braindance chips, any condition.</NR_Flavor_FixerAd_4>
+  <NR_Flavor_FixerAd_5>Short job, long silence. You know who to call.</NR_Flavor_FixerAd_5>
+  <NR_Flavor_FixerAd_6>Need someone to lose a corporation's logs. Discreetly.</NR_Flavor_FixerAd_6>
+  <NR_Flavor_FixerAd_7>Selling maps of the Ruins. Fresh, mostly.</NR_Flavor_FixerAd_7>
+  <NR_Flavor_FixerAd_8>Have a contract that pays in favors. Interested?</NR_Flavor_FixerAd_8>
+  <NR_Flavor_FixerAd_9>Looking for a crew that is not afraid of black ICE.</NR_Flavor_FixerAd_9>
+  <NR_Flavor_FixerAd_10>Clean lab needs a tester. Light work, strange dreams.</NR_Flavor_FixerAd_10>
+  <NR_Flavor_FixerAd_11>Will trade advanced cyberdata for silence.</NR_Flavor_FixerAd_11>
+  <NR_Flavor_FixerAd_12>Need a ghost for a quiet run. Trace kills the deal.</NR_Flavor_FixerAd_12>
+  <NR_Flavor_FixerAd_13>Fixer wanted: honest work, dishonest people.</NR_Flavor_FixerAd_13>
+  <NR_Flavor_FixerAd_14>Someone in the Campus pays for research data. Ask around.</NR_Flavor_FixerAd_14>
+  <NR_Flavor_FixerAd_15>Hiring: one runner, one night, one node. Details in person.</NR_Flavor_FixerAd_15>
+  <NR_Flavor_CorpPR_1>{0}: we care about your memories.</NR_Flavor_CorpPR_1>
+  <NR_Flavor_CorpPR_2>{0}. Tomorrow, today.</NR_Flavor_CorpPR_2>
+  <NR_Flavor_CorpPR_3>{0}: your trace is safe with us.</NR_Flavor_CorpPR_3>
+  <NR_Flavor_CorpPR_4>{0} reminds you: unauthorized access is a crime and a sin.</NR_Flavor_CorpPR_4>
+  <NR_Flavor_CorpPR_5>{0}: building a brighter net, one firewall at a time.</NR_Flavor_CorpPR_5>
+  <NR_Flavor_CorpPR_6>{0}. Trusted by eight out of ten governments.</NR_Flavor_CorpPR_6>
+  <NR_Flavor_CorpPR_7>{0}: because the future needs an owner.</NR_Flavor_CorpPR_7>
+  <NR_Flavor_CorpPR_8>{0} thanks you for your data.</NR_Flavor_CorpPR_8>
+  <NR_Flavor_CorpPR_9>{0}: we are hiring. Former netrunners welcome, no questions about the past.</NR_Flavor_CorpPR_9>
+  <NR_Flavor_CorpPR_10>{0}. Your mind, our mission.</NR_Flavor_CorpPR_10>
+  <NR_Flavor_CorpPR_11>{0}: proud sponsor of this news line.</NR_Flavor_CorpPR_11>
+  <NR_Flavor_CorpPR_12>{0}: secure, stable, smiling.</NR_Flavor_CorpPR_12>
+  <NR_Flavor_CorpPR_13>{0} announces record profits and a moment of silence for its competitors.</NR_Flavor_CorpPR_13>
+  <NR_Flavor_CorpPR_14>{0}: the ICE you can trust.</NR_Flavor_CorpPR_14>
+  <NR_Flavor_CorpPR_15>{0}. We never forget a face. Or a signature.</NR_Flavor_CorpPR_15>
+  <NR_Flavor_Wanted_1>{0}: reward for information on the runner called "{1}".</NR_Flavor_Wanted_1>
+  <NR_Flavor_Wanted_2>{0} has put a bounty on "{1}". Dead or offline.</NR_Flavor_Wanted_2>
+  <NR_Flavor_Wanted_3>Wanted by {0}: "{1}". Last seen in the backbone.</NR_Flavor_Wanted_3>
+  <NR_Flavor_Wanted_4>{0} security bulletin: "{1}" is a threat to public order.</NR_Flavor_Wanted_4>
+  <NR_Flavor_Wanted_5>"{1}" again? {0} doubles the reward.</NR_Flavor_Wanted_5>
+  <NR_Flavor_Wanted_6>{0} offers amnesty to anyone who gives up "{1}".</NR_Flavor_Wanted_6>
+  <NR_Flavor_Traffic>Traffic: the backbone at {0} is jammed, links there take twice as long.</NR_Flavor_Traffic>
+  <NR_NodeEffect_Overload>overload</NR_NodeEffect_Overload>
+  <NR_NodeEffect_Mirror>mirror</NR_NodeEffect_Mirror>
+  <NR_NodeEffect_Interference>interference</NR_NodeEffect_Interference>
+  <NR_NodeEffect_Auction>auction</NR_NodeEffect_Auction>
+  <NR_NodeEffect_OpenDoor>open door</NR_NodeEffect_OpenDoor>
+  <NR_NodeEffect_Cache>forgotten cache</NR_NodeEffect_Cache>
+  <NR_NodeEffectTip>Overload: +1 action a turn, but the node may fall over (15% a turn; the haul is kept).\nMirror: haul x2, trace x2.\nInterference: a scan takes two actions.\nAuction: silver x1.5.\nOpen door: gates 1 weaker.\nForgotten cache: an extra stash turns up on the first scan.</NR_NodeEffectTip>
+  <NR_HeadlineOverload>{0} is overloaded: slow ICE, shaky ground.</NR_HeadlineOverload>
+  <NR_HeadlineCache>Rumor: a forgotten cache in {0}.</NR_HeadlineCache>
+  <NR_HeadlineMirror>{0} is mirrored: double the data, double the noise.</NR_HeadlineMirror>
+  <NR_HeadlineInterference>Interference around {0}: scans are hard.</NR_HeadlineInterference>
+  <NR_HeadlineAuction>An auction at {0}: silver flows.</NR_HeadlineAuction>
+  <NR_NewsQuarantine>{0} has quarantined {1}.</NR_NewsQuarantine>
+  <NR_DiveLogForgottenCache>The scan turns up a forgotten cache: +{0} cyberdata.</NR_DiveLogForgottenCache>
+  <NR_DiveLogOverloadCrash>The overloaded node falls over. You are out, with what you took.</NR_DiveLogOverloadCrash>
+  <NR_MapStateRivalTrap>a rival's trap</NR_MapStateRivalTrap>
+  <NR_MapStateQuarantine>quarantine</NR_MapStateQuarantine>
+  <NR_MapRivalTrapHit>A rival crew's trap at {1} caught {0}.</NR_MapRivalTrapHit>
+  <NR_ChoicesChip>Choices: {0}</NR_ChoicesChip>
+  <NR_ChoicesTitle>Choices in the news</NR_ChoicesTitle>
+  <NR_ChoicesNone>Nothing to decide right now.</NR_ChoicesNone>
+  <NR_ChoiceLeft>{0} left</NR_ChoiceLeft>
+  <NR_ChoiceInLine>In the news: {0}. Answer in the news line.</NR_ChoiceInLine>
+  <NR_ChoiceTitle_Phishing>A suspicious file</NR_ChoiceTitle_Phishing>
+  <NR_ChoiceTitle_MapLeak>A map leak for sale</NR_ChoiceTitle_MapLeak>
+  <NR_ChoiceTitle_FixerTip>A fixer asks around</NR_ChoiceTitle_FixerTip>
+  <NR_ChoiceTitle_CrewChallenge>A challenge</NR_ChoiceTitle_CrewChallenge>
+  <NR_ChoiceTitle_SellOutCrew>An offer from a corporation</NR_ChoiceTitle_SellOutCrew>
+  <NR_ChoiceTitle_Intrusion>Intrusion</NR_ChoiceTitle_Intrusion>
+  <NR_ChoicePhishing>Your fixer {0} sent a file: "{1}". It looks like them. Mostly.</NR_ChoicePhishing>
+  <NR_ChoicePhishingOpen>Open it</NR_ChoicePhishingOpen>
+  <NR_ChoicePhishingOpenTip>Usually junk, sometimes a little data, sometimes a virus that breaks a machine.</NR_ChoicePhishingOpenTip>
+  <NR_ChoiceDelete>Delete</NR_ChoiceDelete>
+  <NR_ChoiceIgnore>Ignore</NR_ChoiceIgnore>
+  <NR_ChoiceAccept>Accept</NR_ChoiceAccept>
+  <NR_ChoiceDecline>Decline</NR_ChoiceDecline>
+  <NR_ChoiceLeak>Someone sells a leaked district map for {0} cyberdata.</NR_ChoiceLeak>
+  <NR_ChoiceLeakBuy>Buy ({0} cyberdata)</NR_ChoiceLeakBuy>
+  <NR_ChoiceLeakBuyTip>Shows hidden branches in one district, or a dark link.</NR_ChoiceLeakBuyTip>
+  <NR_ChoiceTip>A fixer asks if you have heard anything useful lately.</NR_ChoiceTip>
+  <NR_ChoiceTipGive>Tell them</NR_ChoiceTipGive>
+  <NR_ChoiceTipGiveTip>+5 reputation with a fixer, a little Heat.</NR_ChoiceTipGiveTip>
+  <NR_ChoiceChallengeText>{0} throws down a challenge: a race to a node, whoever takes it first wins fame.</NR_ChoiceChallengeText>
+  <NR_ChoiceDeclineChallengeTip>They will brag about it.</NR_ChoiceDeclineChallengeTip>
+  <NR_ChoiceSellOutText>{0} offers 300 silver for the names behind {1}'s latest hit.</NR_ChoiceSellOutText>
+  <NR_ChoiceSellOut>Sell them out ({0} silver)</NR_ChoiceSellOut>
+  <NR_ChoiceSellOutTip>The corporation eases off (Alert -10); the crew will hate you.</NR_ChoiceSellOutTip>
+  <NR_ChoiceIsolate>Isolate the network</NR_ChoiceIsolate>
+  <NR_ChoiceMeetIt>Let it come</NR_ChoiceMeetIt>
+  <NR_ChoiceMeetItTip>Meet it on the map, wait at Home, or trust the node defense.</NR_ChoiceMeetItTip>
+  <NR_PhishingJunk>The file was junk.</NR_PhishingJunk>
+  <NR_PhishingData>The file held a little data: 2 cyberdata.</NR_PhishingData>
+  <NR_PhishingVirus>The file was a virus: a machine broke down.</NR_PhishingVirus>
+  <NR_LeakShown>The leak shows {0} branches around {1}.</NR_LeakShown>
+  <NR_TipHeat>Talked to {0}</NR_TipHeat>
+  <NR_TipDone>{0} appreciates it.</NR_TipDone>
+  <NR_CrewGoodwillSoldOut>{0} knows who sold them: {1}.</NR_CrewGoodwillSoldOut>
+
+</LanguageData>

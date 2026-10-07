@@ -133,6 +133,7 @@ public class DiveSession : IExposable
     public int IceHits;
     /// <summary>Node alert: failed gate hacks; at the threshold an ICE patrol wakes up (docs/DIVE_BALANCE.md).</summary>
     public int NodeAlert;
+    private bool _cacheFound;
 
     /// <summary>Nodes this weak have no alert: training grounds of the Outskirts.</summary>
     public bool AlertApplies => Node != null && Node.Defense > Settings.alertFreeDefense;
@@ -148,7 +149,8 @@ public class DiveSession : IExposable
         get
         {
             float speed = Runner?.GetStatValue(StatDefOf.HackingSpeed) ?? 1f;
-            return speed < 0.8f ? 1 : speed < 1.3f ? 2 : 3;
+            // An overloaded node is slow to react: one more action a turn.
+            return (speed < 0.8f ? 1 : speed < 1.3f ? 2 : 3) + (Node?.Overloaded == true ? 1 : 0);
         }
     }
 
@@ -266,7 +268,7 @@ public class DiveSession : IExposable
 
     private static void Link(DiveElement from, int to) => from.Links.Add(to);
 
-    private int GateStrength(int delta) => Mathf.Max(1, Node.Defense + delta + Rand.RangeInclusive(0, 2) + (Storm ? 1 : 0));
+    private int GateStrength(int delta) => Mathf.Max(1, Node.Defense + delta + Rand.RangeInclusive(0, 2) + (Storm ? 1 : 0) - (Node.OpenDoor ? 1 : 0));
 
     /// <summary>
     /// Medium and large nodes (docs/DIVE_BRANCHING.md): the trunk splits into a hard branch (a stronger gate, a cache,
@@ -424,6 +426,17 @@ public class DiveSession : IExposable
     public void Scan()
     {
         NetrunSound.Play("UI_Scan");
+        // Interference: a scan takes two actions.
+        if (Node.Interference && ActionsLeft > 1)
+            ActionsLeft--;
+        // A forgotten cache turns up on the first scan.
+        if (Node.ForgottenCache && !_cacheFound)
+        {
+            _cacheFound = true;
+            int found = Rand.RangeInclusive(3, 6);
+            LootCyberdata += found;
+            AddLog("NR_DiveLogForgottenCache".Translate(found).Colorize(NetrunUI.Ok));
+        }
         if (AtUndecidedFork && !ForkScanned.Contains(Position))
         {
             ForkScanned.Add(Position);
@@ -822,7 +835,7 @@ public class DiveSession : IExposable
     private void Spend(float trace)
     {
         bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
-        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner);
+        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner) * (Node.Mirrored ? 2f : 1f);
         ActionsLeft--;
         if (ActionsLeft <= 0 && !Finished)
             NodeTurn();
@@ -830,6 +843,13 @@ public class DiveSession : IExposable
 
     private void NodeTurn()
     {
+        // An overloaded node may fall over: the dive ends, but what was taken is kept.
+        if (Node.Overloaded && Rand.Chance(Settings.overloadCrashChance))
+        {
+            AddLog("NR_DiveLogOverloadCrash".Translate().Colorize(NetrunUI.Warn));
+            End(success: false, keepShare: 1f);
+            return;
+        }
         bool iceNext = Next is { Kind: DiveElementKind.Ice, Cleared: false };
         bool iceNear = iceNext || Ahead(2) is { Kind: DiveElementKind.Ice, Cleared: false };
         if (iceNext && Rand.Chance(Settings.iceAttackChance))
@@ -1038,9 +1058,10 @@ public class DiveSession : IExposable
         if (map != null)
         {
             IntVec3 spot = Runner.PositionHeld;
-            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * (GatewayManager.Get()?.LootFactor ?? 1f)));
-            Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare));
-            Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare));
+            float mirror = Node.Mirrored ? 2f : 1f;
+            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * mirror * (GatewayManager.Get()?.LootFactor ?? 1f)));
+            Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare * mirror));
+            Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare * mirror * (Node.Auction ? 1.5f : 1f)));
             if (keepShare >= 1f)
             {
                 foreach (ThingDef item in LootItems)
@@ -1213,6 +1234,7 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Values.Look(ref IceHits, "iceHits");
         Scribe_Values.Look(ref NodeAlert, "nodeAlert");
+        Scribe_Values.Look(ref _cacheFound, "cacheFound");
         Scribe_Deep.Look(ref Report, "report");
         Scribe_Collections.Look(ref Visited, "visited", LookMode.Value);
         Scribe_Collections.Look(ref ForkIndex, "forkIndex", LookMode.Value);

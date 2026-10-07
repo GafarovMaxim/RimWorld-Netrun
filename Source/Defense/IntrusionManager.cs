@@ -74,8 +74,11 @@ public class IntrusionManager : GameComponent, INetrunCleanable
         };
         Packets.Add(packet);
         string from = corp?.Faction?.Name ?? (string)"NR_IntrusionUnknown".Translate();
-        Find.LetterStack.ReceiveLetter("NR_IntrusionLabel".Translate(attack.label), "NR_Intrusion".Translate(attack.label, from, NetMapManager.NodeLabel(start),
-            (path.Count * HoursPerLink).ToString("0")), LetterDefOf.ThreatSmall);
+        string text = "NR_Intrusion".Translate(attack.label, from, NetMapManager.NodeLabel(start), (path.Count * HoursPerLink).ToString("0"));
+        if (NewsChoices.Get() is { } choices)
+            choices.Offer(NewsChoiceKind.Intrusion, text, packet.Id, -1, path.Count * HoursPerLink / 24f);
+        else
+            Find.LetterStack.ReceiveLetter("NR_IntrusionLabel".Translate(attack.label), text, LetterDefOf.ThreatSmall);
         return true;
     }
 

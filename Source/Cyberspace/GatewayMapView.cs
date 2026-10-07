@@ -293,6 +293,10 @@ public static partial class GatewayView
             yield return "NR_MapStatePatrol".Translate();
         if (n.Transit)
             yield return "NR_MapStateTransit".Translate();
+        if (n.RivalTrap)
+            yield return "NR_MapStateRivalTrap".Translate();
+        if (n.Quarantine)
+            yield return "NR_MapStateQuarantine".Translate();
     }
 
     private static void DrawRunner(Rect local, NetRunner r, NetMapManager net, bool selected)
