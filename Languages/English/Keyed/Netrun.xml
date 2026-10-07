@@ -119,9 +119,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsAmbientVolume>Ambient: {0}</NR_SettingsAmbientVolume>
   <NR_HackHeatPreview>Trace if hacked: about +{0} Heat (less with hacking stealth or from a cyberpod)</NR_HackHeatPreview>
   <NR_SettingsAmbientEach>Each ambient on its own (share of the ambient volume):</NR_SettingsAmbientEach>
-  <NR_SettingsAmbientTerminal>Terminal hum: {0}</NR_SettingsAmbientTerminal>
-  <NR_SettingsAmbientCyberspace>Cyberspace (Gateway): {0}</NR_SettingsAmbientCyberspace>
-  <NR_SettingsAmbientDive>Dive: {0}</NR_SettingsAmbientDive>
+  <NR_SettingsAmbientCyberspace>Terminal ambient: {0}</NR_SettingsAmbientCyberspace>
   <NR_SettingsAmbientServer>AI server hum: {0}</NR_SettingsAmbientServer>
   <NR_SettingsResetGroup>Reset</NR_SettingsResetGroup>
   <NR_SettingsResetGroupTip>Put the settings of «{0}» back to their defaults.</NR_SettingsResetGroupTip>
@@ -304,4 +302,6 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpAwakenTraits>What wakes</NR_HelpAwakenTraits>
   <NR_HelpAwakenTraitsValue>a random archetype; {0} wake with no trait, the rest with one or two</NR_HelpAwakenTraitsValue>
   <NR_HelpMarketBlack>Black market goods (price ×{0})</NR_HelpMarketBlack>
+  <NR_HelpBDMoodDarkCombat>Dark / combat</NR_HelpBDMoodDarkCombat>
+  <NR_HelpFixerTraitsReveal>A fixer's trait shows at reputation {0}, or when the fixer gives themselves away.</NR_HelpFixerTraitsReveal>
 </LanguageData>

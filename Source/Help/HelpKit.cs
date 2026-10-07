@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -120,7 +121,7 @@ public partial class HelpBrowser
     private static float Slider(Rect area, float y, string label, ref float value, float min, float max, float roundTo = 1f)
     {
         y = Para(area, y, label, NetrunUI.Muted, GameFont.Tiny) - 2f;
-        value = Widgets.HorizontalSlider(new Rect(area.x, y, area.width, 18f), value, min, max, roundTo: roundTo);
+        value = NetrunUI.Slider(new Rect(area.x, y, area.width, 18f), value, min, max, roundTo);
         return y + 24f;
     }
 
@@ -130,13 +131,28 @@ public partial class HelpBrowser
     private static float Choices<T>(Rect area, float y, IEnumerable<T> items, Func<T, string> label, Func<T, bool> isOn, Action<T> pick,
         Func<T, Color> color = null, Func<T, Texture2D> icon = null, Func<T, string> tip = null)
     {
+        var list = items.ToList();
+        bool small = false;
+        // One row if it can be had: first in the normal font, then smaller and tighter; only then wrap.
+        float RowWidth(GameFont f)
+        {
+            Text.Font = f;
+            float sum = 0f;
+            foreach (T item in list)
+                sum += Width(item) + 6f;
+            return sum - 6f;
+        }
+        float Width(T item) => NetrunUI.ButtonWidth(label(item), icon?.Invoke(item) != null) - (small ? 10f : 0f);
+        if (RowWidth(GameFont.Small) > area.width)
+            small = true;
+        Text.Font = small ? GameFont.Tiny : GameFont.Small;
         float x = area.x;
-        const float h = 28f;
-        foreach (T item in items)
+        float h = small ? 24f : 28f;
+        foreach (T item in list)
         {
             string text = label(item);
             Texture2D tex = icon?.Invoke(item);
-            float bw = Mathf.Min(area.width, NetrunUI.ButtonWidth(text, tex != null));
+            float bw = Mathf.Min(area.width, Width(item));
             if (x > area.x && x + bw > area.xMax)
             {
                 x = area.x;
@@ -151,6 +167,7 @@ public partial class HelpBrowser
                 pick(item);
             x += bw + 6f;
         }
+        Text.Font = GameFont.Small;
         return y + h + 8f;
     }
 

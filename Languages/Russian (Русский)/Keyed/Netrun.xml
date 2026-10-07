@@ -119,9 +119,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
   <NR_HackHeatPreview>След при взломе: около +{0} Heat (меньше со скрытностью взлома или из кибер-капсулы)</NR_HackHeatPreview>
   <NR_SettingsAmbientEach>Каждый эмбиент отдельно (доля от общей громкости эмбиента):</NR_SettingsAmbientEach>
-  <NR_SettingsAmbientTerminal>Гул терминала: {0}</NR_SettingsAmbientTerminal>
-  <NR_SettingsAmbientCyberspace>Киберпространство (Шлюз): {0}</NR_SettingsAmbientCyberspace>
-  <NR_SettingsAmbientDive>Нырок: {0}</NR_SettingsAmbientDive>
+  <NR_SettingsAmbientCyberspace>Эмбиент терминала: {0}</NR_SettingsAmbientCyberspace>
   <NR_SettingsAmbientServer>Гул сервера ИИ: {0}</NR_SettingsAmbientServer>
   <NR_SettingsResetGroup>Сбросить</NR_SettingsResetGroup>
   <NR_SettingsResetGroupTip>Вернуть настройки раздела «{0}» к значениям по умолчанию.</NR_SettingsResetGroupTip>
@@ -304,4 +302,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpAwakenTraits>Кто проснётся</NR_HelpAwakenTraits>
   <NR_HelpAwakenTraitsValue>случайный архетип; {0} без черт, остальные с одной или двумя</NR_HelpAwakenTraitsValue>
   <NR_HelpMarketBlack>Товары чёрного рынка (цена ×{0})</NR_HelpMarketBlack>
+  <NR_HelpBDMoodDarkCombat>Тёмное / боевое</NR_HelpBDMoodDarkCombat>
+  <NR_HelpFixerTraitsReveal>Черта фиксера открывается при репутации {0} или когда фиксер сам себя выдаст.</NR_HelpFixerTraitsReveal>
 </LanguageData>

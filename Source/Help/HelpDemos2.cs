@@ -274,8 +274,10 @@ public partial class HelpBrowser
             }
             float t = inner.y + pathH + 10f;
             t = Columns(inner, t, 0.5f,
-                (l, top) => Choices(l, top, (BraindanceMood[])System.Enum.GetValues(typeof(BraindanceMood)),
-                    m => ((string)("NR_BDMood_" + m).Translate()).CapitalizeFirst(), m => m == _demoMood, m => _demoMood = m),
+                // Dark and combat make the same chip, so they are one choice here.
+                (l, top) => Choices(l, top, new[] { BraindanceMood.Bright, BraindanceMood.Dark },
+                    m => m == BraindanceMood.Bright ? ((string)"NR_BDMood_Bright".Translate()).CapitalizeFirst() : (string)"NR_HelpBDMoodDarkCombat".Translate(),
+                    m => m == _demoMood || (m == BraindanceMood.Dark && _demoMood == BraindanceMood.Combat), m => _demoMood = m),
                 (r, top) => Slider(r, top, "NR_HelpBDStrength".Translate(_demoStrength2.ToStringPercent()), ref _demoStrength2, 0f, 1f, 0.05f));
 
             int tier = _demoStrength2 >= 0.85f ? 2 : _demoStrength2 >= 0.55f ? 1 : 0;

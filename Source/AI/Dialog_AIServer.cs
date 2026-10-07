@@ -54,7 +54,7 @@ public class Dialog_AIServer : Window
         bool size = NetrunText.Push();
         try
         {
-            NetrunSound.Ambient("Ambient_Terminal");
+            NetrunSound.Ambient("Ambient_Cyberspace");
             Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen);
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);

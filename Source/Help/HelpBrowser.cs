@@ -349,6 +349,8 @@ public partial class HelpBrowser
             return AITraitsDemo(y, w);
         if (line == "[[aiawaken]]")
             return AIAwakenDemo(y, w);
+        if (line == "[[fixertraits]]")
+            return FixerTraitsDemo(y, w);
         if (line == "[[market]]")
             return MarketDemo(y, w);
         if (line == "[[checklist]]")
@@ -547,9 +549,9 @@ public partial class HelpBrowser
         Rect inner = box.ContractedBy(10f);
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(inner.x, inner.y, inner.width * 0.5f, 18f), "NR_HelpDemoHeat".Translate(_demoHeat.ToString("0")).Colorize(NetrunUI.Muted));
-        _demoHeat = Widgets.HorizontalSlider(new Rect(inner.x, inner.y + 18f, inner.width * 0.48f, 16f), _demoHeat, 0f, HeatTracker.MaxHeat, roundTo: 1f);
+        _demoHeat = NetrunUI.Slider(new Rect(inner.x, inner.y + 18f, inner.width * 0.48f, 16f), _demoHeat, 0f, HeatTracker.MaxHeat, 1f);
         Widgets.Label(new Rect(inner.x + inner.width * 0.52f, inner.y, inner.width * 0.48f, 18f), "NR_HelpDemoData".Translate(_demoData).Colorize(NetrunUI.Muted));
-        _demoData = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(inner.x + inner.width * 0.52f, inner.y + 18f, inner.width * 0.48f, 16f), _demoData, 0f, 60f, roundTo: 1f));
+        _demoData = Mathf.RoundToInt(NetrunUI.Slider(new Rect(inner.x + inner.width * 0.52f, inner.y + 18f, inner.width * 0.48f, 16f), _demoData, 0f, 60f, 1f));
 
         // Unit by unit, at the level the Heat stands at (a fixer with no discount).
         float heat = _demoHeat;

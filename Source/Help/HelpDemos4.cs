@@ -118,6 +118,27 @@ public partial class HelpBrowser
         });
     });
 
+    // ---- [[fixertraits]] ----
+
+    private FixerTrait _demoFixerTrait = FixerTrait.Greedy;
+
+    /// <summary>The fixers' traits like the AI traits: a row of names, the picked one with its plus and its minus.</summary>
+    private float FixerTraitsDemo(float y, float w) => Frame("fixertraits", y, w, NetrunUI.Warn, inner =>
+    {
+        float t = Choices(inner, inner.y, (FixerTrait[])System.Enum.GetValues(typeof(FixerTrait)), tr => ("NR_FixerTrait_" + tr).Translate(),
+            tr => tr == _demoFixerTrait, tr => _demoFixerTrait = tr, _ => NetrunUI.Warn);
+        return Panel("fixertraits.card", inner, t, NetrunUI.Warn, cr =>
+        {
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(cr.x, cr.y, cr.width, 32f), ((string)("NR_FixerTrait_" + _demoFixerTrait).Translate()).Colorize(NetrunUI.Warn));
+            Text.Font = GameFont.Small;
+            float u = cr.y + 36f;
+            foreach (string part in ((string)("NR_FixerTraitDesc_" + _demoFixerTrait).Translate()).Split('\n').Where(p => !p.NullOrEmpty()))
+                u = Para(cr, u, part, part.TrimStart().StartsWith("+") ? NetrunUI.Ok : NetrunUI.Bad);
+            return Para(cr, u + 4f, "NR_HelpFixerTraitsReveal".Translate(NetrunDefOf.NR_Fixers.traitRevealReputation.ToString("0")), NetrunUI.Muted, GameFont.Tiny);
+        });
+    });
+
     // ---- [[market]] ----
 
     private float _demoShopRep = 20f;

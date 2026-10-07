@@ -79,7 +79,8 @@ public partial class Dialog_NetTerminal : Window
         try
         {
             // The loop of this screen: the dive, the Gateway's open net, or the terminal's hum.
-            NetrunSound.Ambient(Dive != null ? "Ambient_Dive" : _view == View.Gateway ? "Ambient_Cyberspace" : "Ambient_Terminal");
+            // One continuous loop for the whole terminal (the cyberspace one): it never restarts when the screen changes.
+            NetrunSound.Ambient("Ambient_Cyberspace");
             DrawContents(inRect);
         }
         finally
@@ -109,6 +110,7 @@ public partial class Dialog_NetTerminal : Window
             else if (Dive == null)
                 GoHome();
         });
+        _guideScreen = inRect;
         GuideInput();
         GuideRegistry.Begin();
         DrawWindow(inRect);

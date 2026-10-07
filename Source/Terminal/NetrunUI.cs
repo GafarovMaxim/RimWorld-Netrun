@@ -429,6 +429,55 @@ public static class NetrunUI
         return screen;
     }
 
+    private static long _dragSlider;
+
+    /// <summary>
+    /// The terminal's slider: a recessed track, the filled part in the accent colour with notches, and a square
+    /// handle that glows when held. Drag anywhere on the track; the value snaps to <paramref name="roundTo"/>.
+    /// </summary>
+    public static float Slider(Rect rect, float value, float min, float max, float roundTo = 1f, Color? color = null)
+    {
+        Color c = color ?? Accent;
+        long key = Key(rect);
+        var track = new Rect(rect.x + 7f, rect.center.y - 3f, rect.width - 14f, 6f);
+        Event e = Event.current;
+        bool over = Mouse.IsOver(rect.ExpandedBy(0f, 4f));
+        if (e.type == EventType.MouseDown && e.button == 0 && over)
+        {
+            _dragSlider = key;
+            e.Use();
+        }
+        else if (e.rawType == EventType.MouseUp && _dragSlider == key)
+        {
+            _dragSlider = 0;
+            NetrunSound.Click();
+        }
+        bool held = _dragSlider == key;
+        if (held && (e.type == EventType.MouseDrag || e.type == EventType.MouseDown || e.type == EventType.Repaint))
+        {
+            float f = Mathf.Clamp01((e.mousePosition.x - track.x) / track.width);
+            float v = min + (max - min) * f;
+            if (roundTo > 0f)
+                v = Mathf.Round(v / roundTo) * roundTo;
+            if (!Mathf.Approximately(v, value) && e.type == EventType.MouseDrag)
+                NetrunSound.Type();
+            value = Mathf.Clamp(v, min, max);
+            if (e.type == EventType.MouseDrag)
+                e.Use();
+        }
+        float frac = max > min ? Mathf.Clamp01((value - min) / (max - min)) : 0f;
+        Widgets.DrawBoxSolid(track, new Color(0f, 0f, 0f, 0.55f));
+        Widgets.DrawBoxSolid(new Rect(track.x, track.y, track.width * frac, track.height), new Color(c.r, c.g, c.b, held || over ? 0.95f : 0.75f));
+        for (int i = 1; i < 10; i++)
+            Widgets.DrawBoxSolid(new Rect(track.x + track.width * i / 10f, track.yMax + 2f, 1f, 3f), new Color(1f, 1f, 1f, 0.18f));
+        var handle = new Rect(track.x + track.width * frac - 6f, rect.center.y - 8f, 12f, 16f);
+        if (held || over)
+            Glow(handle, c, held ? 0.9f : 0.5f, 6f);
+        Box(handle, BgWindow, c, 1);
+        Widgets.DrawBoxSolid(new Rect(handle.center.x - 0.5f, handle.y + 4f, 1f, handle.height - 8f), c);
+        return value;
+    }
+
     private static readonly Color DeckBody = Hex(0x1b1e22);
     private static readonly Color DeckRubber = Hex(0x0c0d0f);
     private static readonly Color DeckOrange = Hex(0xf08a24);

@@ -29,27 +29,35 @@ public partial class HelpBrowser
         int pick = Mathf.Clamp(_cardPick.TryGetValue(id, out int p) ? p : 0, 0, cards.Count - 1);
         return Frame("cards." + id, y, w, NetrunUI.Accent, inner =>
         {
-            int perRow = Mathf.Clamp(Mathf.FloorToInt(inner.width / 150f), 2, 4);
-            const float gap = 8f;
+            // Rows as even as possible: never one lonely tile under a full row.
+            int maxPerRow = Mathf.Clamp(Mathf.FloorToInt(inner.width / 112f), 2, 6);
+            int rowsNeeded = Mathf.CeilToInt(cards.Count / (float)maxPerRow);
+            int perRow = Mathf.CeilToInt(cards.Count / (float)rowsNeeded);
+            const float gap = 6f;
             float tileW = (inner.width - (perRow - 1) * gap) / perRow;
+            bool anyIcon = cards.Exists(c => c.icon != null);
+            // Titles in the normal font if they fit in two lines, else the small one.
             Text.Font = GameFont.Small;
-            float tileH = 0f;
+            bool tiny = cards.Exists(c => Text.CalcHeight(c.title, tileW - 12f) > Text.LineHeight * 2.2f);
+            Text.Font = tiny ? GameFont.Tiny : GameFont.Small;
+            float textH = 0f;
             foreach (var c in cards)
-                tileH = Mathf.Max(tileH, Text.CalcHeight(c.title, tileW - 16f));
-            tileH = Mathf.Max(84f, tileH + 58f);
+                textH = Mathf.Max(textH, Text.CalcHeight(c.title, tileW - 12f));
+            float iconS = anyIcon ? 30f : 0f;
+            float tileH = 10f + iconS + (anyIcon ? 4f : 0f) + textH + 8f;
             for (int i = 0; i < cards.Count; i++)
             {
                 var r = new Rect(inner.x + i % perRow * (tileW + gap), inner.y + i / perRow * (tileH + gap), tileW, tileH);
                 bool sel = i == pick;
                 bool over = Mouse.IsOver(r);
-                if (sel)
-                    NetrunUI.Glow(r, NetrunUI.Accent, 0.6f, 6f);
                 NetrunUI.Box(r, sel ? NetrunUI.BgCardAlt : NetrunUI.BgWindow, sel ? NetrunUI.Accent : new Color(1f, 1f, 1f, over ? 0.3f : 0.12f), sel ? 2 : 1);
                 if (cards[i].icon != null)
-                    NetrunUI.BrightIcon(new Rect(r.center.x - 20f, r.y + 8f, 40f, 40f), cards[i].icon);
+                    NetrunUI.BrightIcon(new Rect(r.center.x - iconS / 2f, r.y + 8f, iconS, iconS), cards[i].icon);
+                Text.Font = tiny ? GameFont.Tiny : GameFont.Small;
                 Text.Anchor = TextAnchor.UpperCenter;
-                Widgets.Label(new Rect(r.x + 8f, r.y + 52f, r.width - 16f, r.height - 54f), cards[i].title.Colorize(sel ? NetrunUI.Accent : NetrunUI.TextColor));
+                Widgets.Label(new Rect(r.x + 6f, r.y + 10f + iconS + (anyIcon ? 4f : 0f), r.width - 12f, textH + 4f), cards[i].title.Colorize(sel ? NetrunUI.Accent : NetrunUI.TextColor));
                 Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
                 if (Widgets.ButtonInvisible(r, doMouseoverSound: false))
                 {
                     _cardPick[id] = i;

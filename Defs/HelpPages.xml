@@ -41,7 +41,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Hacks and cyberdata</label>
-    <body>A hacker colonist (with a cyberlink) can hack devices on the map, or do it from a cyberpod. Each finished hack gives cyberdata and raises Heat. Try how much trace one hack leaves:\n[[hackheat]]\n## !thing:USH_Cyberdata Cyberdata\nThe currency of the net: dives, programs, scrubbing the trace with a fixer. Advanced cyberdata is worth three times more.</body>
+    <body>A hacker colonist (with a cyberlink) can hack devices on the map, or do it from a cyberpod. Each finished hack gives cyberdata and raises Heat. The stronger the target, the more trace; hacking stealth and a cyberpod make it less.\n## !thing:USH_Cyberdata Cyberdata\nThe currency of the net: dives, programs, scrubbing the trace with a fixer. Advanced cyberdata is worth three times more.</body>
     <icon>tex:UI/Gizmos/HackTarget</icon>
     <keywords>
       <li>cyberdata</li>
@@ -187,7 +187,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Specialties and traits</label>
-    <body>Every fixer has a specialty and a trait. Pick one to read it:\n[[cards]]\n- !Fixers/Fixer_ShadowBroker Broker: lives on contracts: more offers and better pay for data.\n- !Fixers/Fixer_Corp Cleaner: scrubs the trace cheaper than anyone.\n- !Fixers/Fixer_Street Fence: runs a shop: goods for silver, rare items for pinned contacts.\n- !Fixers/Fixer_Corp Imperial client: comes only while you are at peace with the Empire (Royalty). Pays less silver, but each finished contract adds royal favor to the colonist the Empire knows best.\n## Traits (each helps and hurts)\n[[cards]]\n- Greedy: more goods / everything a quarter dearer.\n- Reliable: forgives half a failure, sends no one after you / rewards −10%.\n- Rat: everything 20% cheaper / may sell you out (+Heat).\n- Paranoid: revenge raids come 25% weaker / no calls at Tracked or higher.\n- Gambler: the pay is rolled on completion (half to almost double).\n- Loyal: reputation twice as fast, extra discount once pinned / will not work while a rival of his trade is pinned.\n- Veteran: scrub 20% better / the call 30% dearer.\n- Collector: rare goods always in the shop / fewer ordinary ones.\n- Hothead: contracts pay 40% more / 40% shorter, a failure adds Heat.\nCleaners are often veterans, fences often collectors. A trait stays hidden until reputation {fixers.pin} or until the fixer gives themselves away.</body>
+    <body>Every fixer has a specialty and a trait. Pick one to read it:\n[[cards]]\n- !Fixers/Fixer_ShadowBroker Broker: lives on contracts: more offers and better pay for data.\n- !Fixers/Fixer_Corp Cleaner: scrubs the trace cheaper than anyone.\n- !Fixers/Fixer_Street Fence: runs a shop: goods for silver, rare items for pinned contacts.\n- !Fixers/Fixer_Corp Imperial client: comes only while you are at peace with the Empire (Royalty). Pays less silver, but each finished contract adds royal favor to the colonist the Empire knows best.\n## Traits (each helps and hurts)\n[[fixertraits]]\nCleaners are often veterans, fences often collectors.</body>
     <icon>Fixers/Fixer_Street</icon>
   </Netrun.HelpPageDef>
 
@@ -215,7 +215,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Scrubbing the trace</label>
-    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones. Try it:\n[[scrub]]\nReputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
+    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones.\nReputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Heat/Heat_Reduction</icon>
     <keywords>
       <li>scrub the trace</li>
@@ -268,7 +268,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Feeding and requests</label>
-    <body>Every archetype eats something of its own (see the archetypes). Hunger grows every day; above {ai.starving} the AI starves and loses trust. Play with the days:\n[[aihunger]]\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, silence. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
+    <body>Every archetype eats something of its own (see the archetypes). Hunger grows every day; above {ai.starving} the AI starves and loses trust. Feeding lowers hunger and adds a little trust; an isolated AI hungers twice as fast.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, silence. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
     <icon>Tabs/Tab_Events_AI</icon>
     <keywords>
       <li>trust</li>
@@ -520,7 +520,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>How a dive goes</label>
-    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack a gate or ICE.\n- !Action_Download Download files or memory.\n- !Action_Exit Exit from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks).\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.</body>
+    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move: to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack: a gate or ICE.\n- !Action_Download Download: files or memory.\n- !Action_Exit Exit: from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks).\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.</body>
     <icon>Gizmo_NetrunDive</icon>
     <contexts>
       <li>Dive</li>
@@ -669,7 +669,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Network attacks</label>
-    <body>Come from the storyteller as Heat grows.\n[[cards]]\n- Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
+    <body>Come from the storyteller as Heat grows.\n[[cards]]\n- !Event_Cyberspace_NeuralNoise Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
     <icon>Help/Header_NetworkAttacks</icon>
   </Netrun.HelpPageDef>
 
@@ -699,7 +699,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>AI events</label>
-    <body>Awakened AIs are not tools: they want things and act on their own. Now and then one of them does something, and what it does depends on who it is and how it feels.\n[[cards]]\n- !Icon_AIRequest What drives them: Trust: a trusting AI brings gifts, favors and help; a resentful one plays tricks and makes trouble. Hunger: a hungry AI gets restless, and its events turn darker. Home: an AI behaves differently on the server, in a cyberpod's coprocessor and inside a host.\n- !Gizmo_AI_Use Letters and choices: Most events come as a letter. Some simply happen; others offer up to three answers. Leaving a letter unanswered is an answer too.\n- Archetypes: Any AI can have the general events, and every archetype has several of its own that fit its character. A new archetype means new surprises.\n- What can change: Trust and hunger, Heat, your stores, your colonists' mood, skills and health, the work of your machines and sometimes your dealings with fixers. The letter always says what is at stake.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
+    <body>Awakened AIs are not tools: they want things and act on their own. Now and then one of them does something, and what it does depends on who it is and how it feels.\n[[cards]]\n- !Icon_AIRequest What drives them: Trust: a trusting AI brings gifts, favors and help; a resentful one plays tricks and makes trouble. Hunger: a hungry AI gets restless, and its events turn darker. Home: an AI behaves differently on the server, in a cyberpod's coprocessor and inside a host.\n- !Gizmo_AI_Use Letters and choices: Most events come as a letter. Some simply happen; others offer up to three answers. Leaving a letter unanswered is an answer too.\n- !Tabs/Tab_AI Archetypes: Any AI can have the general events, and every archetype has several of its own that fit its character. A new archetype means new surprises.\n- !Event_WildAI What can change: Trust and hunger, Heat, your stores, your colonists' mood, skills and health, the work of your machines and sometimes your dealings with fixers. The letter always says what is at stake.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
     <icon>Tabs/Tab_Events_AI</icon>
   </Netrun.HelpPageDef>
 
