@@ -37,9 +37,12 @@ public class HelpPageDef : Def
     [MustTranslate]
     public string lockHint;
 
+    /// <summary>Kept for links, but not listed in the Cyberpedia's tree (the AI archetypes live in one gallery).</summary>
+    public bool hideInTree;
+
     public bool IsTopic => parent == null;
 
-    public IEnumerable<HelpPageDef> Children => DefDatabase<HelpPageDef>.AllDefs.Where(p => p.parent == this).OrderBy(p => p.order);
+    public IEnumerable<HelpPageDef> Children => DefDatabase<HelpPageDef>.AllDefs.Where(p => p.parent == this && !p.hideInTree).OrderBy(p => p.order);
 
     public HelpPageDef Topic => parent == null ? this : parent.Topic;
 

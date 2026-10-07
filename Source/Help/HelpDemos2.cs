@@ -7,9 +7,9 @@ using Verse;
 namespace Netrun;
 
 /// <summary>
-/// More live Cyberpedia blocks, like the cyberspace article: [[aigallery]] (AI archetypes), [[fixerpool]] and
-/// [[contractflow]] (fixers and contracts), [[braindance]] (recording to chip), [[ice]] and [[loadout]] (ICE, programs,
-/// daemons). Text and numbers come from the game's own defs and settings.
+/// More live Cyberpedia blocks: [[aigallery]] (AI archetypes), [[fixerpool]] and [[contractflow]] (fixers and
+/// contracts), [[braindance]] (recording to chip), [[ice]] and [[loadout]] (ICE, programs, daemons). Text and numbers
+/// come from the game's own defs and settings; layout from HelpKit, so nothing spills out of its frame.
 /// </summary>
 public partial class HelpBrowser
 {
@@ -23,102 +23,81 @@ public partial class HelpBrowser
 
     private float AIGalleryDemo(float y, float w, string preset)
     {
-        // An archetype page opens the gallery on its own AI (once per visit).
+        // A link to one archetype opens the gallery on it (once per visit).
         if (preset != null && _aiPinnedFor != preset && System.Enum.TryParse(preset, out AIPersonality p0))
         {
             _demoAI = p0;
             _aiPinnedFor = preset;
         }
-        var all = (AIPersonality[])System.Enum.GetValues(typeof(AIPersonality));
-        const float tile = 54f;
-        int perRow = Mathf.Max(4, Mathf.FloorToInt((w - 20f + 6f) / (tile + 6f)));
-        int rows = Mathf.CeilToInt(all.Length / (float)perRow);
-        float cardH = 250f;
-        Rect inner = DemoBox(y, w, rows * (tile + 22f) + cardH + 30f, NetrunUI.Purple);
-        for (int i = 0; i < all.Length; i++)
+        return Frame("aigallery", y, w, NetrunUI.Purple, inner =>
         {
-            AIPersonality p = all[i];
-            bool known = AIKnown(p);
-            var r = new Rect(inner.x + i % perRow * (tile + 6f), inner.y + i / perRow * (tile + 22f), tile, tile);
-            bool sel = p == _demoAI;
-            Color c = known ? p.Color() : NetrunUI.Muted;
-            if (sel)
-                NetrunUI.Glow(r, c, 0.8f, 8f);
-            NetrunUI.Box(r, NetrunUI.BgWindow, new Color(c.r, c.g, c.b, sel ? 1f : 0.5f), sel ? 2 : 1);
-            if (known)
-                GUI.DrawTexture(r.ContractedBy(4f), NetrunTex.Portrait(p));
-            else
+            var all = (AIPersonality[])System.Enum.GetValues(typeof(AIPersonality));
+            const float tile = 56f, gap = 8f;
+            int perRow = Mathf.Max(4, Mathf.FloorToInt((inner.width + gap) / (tile + gap)));
+            float rowH = tile + 24f;
+            for (int i = 0; i < all.Length; i++)
             {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Text.Font = GameFont.Medium;
-                Widgets.Label(r, "???".Colorize(NetrunUI.Muted));
+                AIPersonality p = all[i];
+                bool known = AIKnown(p);
+                var r = new Rect(inner.x + i % perRow * (tile + gap), inner.y + i / perRow * rowH, tile, tile);
+                bool sel = p == _demoAI;
+                Color c = known ? p.Color() : NetrunUI.Muted;
+                if (sel)
+                    NetrunUI.Glow(r, c, 0.8f, 8f);
+                NetrunUI.Box(r, NetrunUI.BgWindow, new Color(c.r, c.g, c.b, sel ? 1f : 0.45f), sel ? 2 : 1);
+                if (known)
+                    GUI.DrawTexture(r.ContractedBy(4f), NetrunTex.Portrait(p));
+                else
+                {
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    Text.Font = GameFont.Medium;
+                    Widgets.Label(r, "?".Colorize(NetrunUI.Muted));
+                    Text.Font = GameFont.Small;
+                }
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.UpperCenter;
+                Widgets.Label(new Rect(r.x - gap / 2f, r.yMax + 3f, r.width + gap, 18f), (known ? p.Label() : "???").Truncate(r.width + gap).Colorize(sel ? c : NetrunUI.Muted));
+                Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
+                if (Widgets.ButtonInvisible(r, doMouseoverSound: false))
+                {
+                    _demoAI = p;
+                    NetrunSound.Click();
+                }
             }
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(new Rect(r.x - 6f, r.yMax + 2f, r.width + 12f, 18f), (known ? p.Label() : "???").Truncate(r.width + 12f).Colorize(sel ? c : NetrunUI.Muted));
-            Text.Anchor = TextAnchor.UpperLeft;
-            Text.Font = GameFont.Small;
-            if (Widgets.ButtonInvisible(r))
+            float top = inner.y + Mathf.CeilToInt(all.Length / (float)perRow) * rowH + 6f;
+            Color pc = AIKnown(_demoAI) ? _demoAI.Color() : NetrunUI.Muted;
+            return Panel("aigallery.card", inner, top, pc, cr =>
             {
-                _demoAI = p;
-                NetrunSound.Click();
-            }
-        }
-
-        var card = new Rect(inner.x, inner.y + rows * (tile + 22f) + 6f, inner.width, cardH);
-        Widgets.DrawBoxSolid(card, NetrunUI.BgWindow);
-        Rect cr = card.ContractedBy(10f);
-        if (!AIKnown(_demoAI))
-        {
-            Widgets.Label(cr, "NR_HelpAIUnknown".Translate().Colorize(NetrunUI.Muted));
-            return inner.yMax + 20f;
-        }
-        Color pc = _demoAI.Color();
-        Widgets.DrawBoxSolid(new Rect(card.x, card.y, 3f, card.height), pc);
-        GUI.DrawTexture(new Rect(cr.x, cr.y, 64f, 64f), NetrunTex.Portrait(_demoAI));
-        float tx = cr.x + 74f;
-        Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(tx, cr.y - 2f, cr.width - 74f, 30f), _demoAI.Label().Colorize(pc));
-        Text.Font = GameFont.Tiny;
-        string desc = _demoAI.Description();
-        Widgets.Label(new Rect(tx, cr.y + 28f, cr.width - 74f, 40f), desc.Truncate((cr.width - 74f) * 2f).Colorize(NetrunUI.TextColor));
-        float yy = cr.y + 72f;
-        void Row(string label, string value)
-        {
-            float h = Mathf.Max(18f, Text.CalcHeight(value, cr.width - 110f));
-            Widgets.Label(new Rect(cr.x, yy, 104f, h), label.Colorize(NetrunUI.Muted));
-            Widgets.Label(new Rect(cr.x + 108f, yy, cr.width - 108f, h), value);
-            yy += h + 3f;
-        }
-        Row("NR_HelpAIService".Translate(), AIBehavior.ServiceLabel(_demoAI) + " — " + ("NR_AIServiceDesc_" + _demoAI).Translate());
-        Row("NR_HelpAIFood".Translate(), AIBehavior.FoodText(_demoAI));
-
-        // Trust: what opens on the way from 0 to 100.
-        AISettingsDef s = NetrunDefOf.NR_AI;
-        yy += 4f;
-        Widgets.Label(new Rect(cr.x, yy, cr.width, 18f), "NR_HelpAITrust".Translate(_demoTrust.ToString("0")).Colorize(NetrunUI.Muted));
-        _demoTrust = Widgets.HorizontalSlider(new Rect(cr.x, yy + 18f, cr.width, 16f), _demoTrust, 0f, 100f, roundTo: 1f);
-        yy += 38f;
-        var steps = new List<(float at, string text, bool good)>
-        {
-            (s.betrayalTrust, "NR_HelpAITrustBetray".Translate(s.betrayalTrust.ToString("0")), false),
-            (s.escapeTrust, "NR_HelpAITrustEscape".Translate(s.escapeTrust.ToString("0"), s.escapeHunger.ToString("0")), false),
-            (s.minTrustForService, "NR_HelpAITrustService".Translate(s.minTrustForService.ToString("0")), true),
-            (s.traitRevealTrustFirst, "NR_HelpAITrustTrait1".Translate(s.traitRevealTrustFirst.ToString("0")), true),
-            (s.eventGoodTrust, "NR_HelpAITrustEvents".Translate(s.eventGoodTrust.ToString("0")), true),
-            (s.traitRevealTrustSecond, "NR_HelpAITrustTrait2".Translate(s.traitRevealTrustSecond.ToString("0")), true),
-        };
-        foreach ((float at, string text, bool good) in steps.OrderBy(t => t.at))
-        {
-            // Bad marks are in effect below their value, good ones from their value up.
-            bool on = good ? _demoTrust >= at : _demoTrust < at;
-            Color col = on ? good ? NetrunUI.Ok : NetrunUI.Bad : NetrunUI.Muted;
-            Widgets.Label(new Rect(cr.x, yy, cr.width, 18f), ((on ? "● " : "○ ") + text).Colorize(col));
-            yy += 17f;
-        }
-        Text.Font = GameFont.Small;
-        return inner.yMax + 20f;
+                if (!AIKnown(_demoAI))
+                    return Para(cr, cr.y, "NR_HelpAIUnknown".Translate(), NetrunUI.Muted);
+                GUI.DrawTexture(new Rect(cr.x, cr.y, 64f, 64f), NetrunTex.Portrait(_demoAI));
+                var head = new Rect(cr.x + 76f, cr.y, cr.width - 76f, 64f);
+                Text.Font = GameFont.Medium;
+                Widgets.Label(new Rect(head.x, head.y - 2f, head.width, 32f), _demoAI.Label().Colorize(pc));
+                float t = Mathf.Max(cr.y + 70f, Para(head, head.y + 30f, _demoAI.Description(), NetrunUI.TextColor));
+                t = KV(cr, t, "NR_HelpAIService".Translate(), AIBehavior.ServiceLabel(_demoAI) + ": " + ("NR_AIServiceDesc_" + _demoAI).Translate(), labelWidth: 110f);
+                t = KV(cr, t, "NR_HelpAIFood".Translate(), AIBehavior.FoodText(_demoAI), labelWidth: 110f);
+                t = Slider(cr, t + 8f, "NR_HelpAITrust".Translate(Mathf.RoundToInt(_demoTrust)), ref _demoTrust, 0f, 100f);
+                AISettingsDef s = NetrunDefOf.NR_AI;
+                var steps = new List<(float at, string text, bool good)>
+                {
+                    (s.betrayalTrust, "NR_HelpAITrustBetray".Translate(s.betrayalTrust.ToString("0")), false),
+                    (s.escapeTrust, "NR_HelpAITrustEscape".Translate(s.escapeTrust.ToString("0"), s.escapeHunger.ToString("0")), false),
+                    (s.minTrustForService, "NR_HelpAITrustService".Translate(s.minTrustForService.ToString("0")), true),
+                    (s.traitRevealTrustFirst, "NR_HelpAITrustTrait1".Translate(s.traitRevealTrustFirst.ToString("0")), true),
+                    (s.eventGoodTrust, "NR_HelpAITrustEvents".Translate(s.eventGoodTrust.ToString("0")), true),
+                    (s.traitRevealTrustSecond, "NR_HelpAITrustTrait2".Translate(s.traitRevealTrustSecond.ToString("0")), true),
+                };
+                foreach ((float at, string text, bool good) in steps.OrderBy(x => x.at))
+                {
+                    // Bad marks hold below their value, good ones from their value up.
+                    bool on = good ? _demoTrust >= at : _demoTrust < at;
+                    t = Para(cr, t, (on ? "● " : "○ ") + text, on ? good ? NetrunUI.Ok : NetrunUI.Bad : NetrunUI.Muted);
+                }
+                return t;
+            });
+        });
     }
 
     // ---- [[fixerpool]] ----
@@ -135,29 +114,28 @@ public partial class HelpBrowser
     private int _demoFixer = 1;
     private float _demoRep = 30f;
 
-    private float FixerPoolDemo(float y, float w)
+    private float FixerPoolDemo(float y, float w) => Frame("fixerpool", y, w, NetrunUI.Warn, inner =>
     {
         FixerSettingsDef s = NetrunDefOf.NR_Fixers;
-        float tileW = Mathf.Min(96f, (w - 20f - 4 * 6f) / 5f);
-        Rect inner = DemoBox(y, w, tileW + 34f + 210f, NetrunUI.Warn);
+        float tile = Mathf.Min(104f, (inner.width - 4 * 8f) / 5f);
         for (int i = 0; i < DemoFixers.Length; i++)
         {
             var f = DemoFixers[i];
-            var r = new Rect(inner.x + i * (tileW + 6f), inner.y, tileW, tileW);
+            var r = new Rect(inner.x + i * (tile + 8f), inner.y, tile, tile);
             Color c = FixersTab.SpecialtyColor(f.spec);
             bool sel = i == _demoFixer;
             if (sel)
                 NetrunUI.Glow(r, c, 0.8f, 8f);
-            NetrunUI.Box(r, NetrunUI.BgWindow, new Color(c.r, c.g, c.b, sel ? 1f : 0.5f), sel ? 2 : 1);
-            GUI.DrawTexture(r.ContractedBy(4f), NetrunTex.Portrait(f.spec));
+            NetrunUI.Box(r, NetrunUI.BgWindow, new Color(c.r, c.g, c.b, sel ? 1f : 0.45f), sel ? 2 : 1);
+            GUI.DrawTexture(r.ContractedBy(5f), NetrunTex.Portrait(f.spec));
             if (f.isNew)
-                NetrunUI.Chip(r.x + 3f, r.y + 3f, "NR_FixerNewTag".Translate(), NetrunUI.Accent);
+                NetrunUI.Chip(r.x + 4f, r.y + 4f, "NR_FixerNewTag".Translate(), NetrunUI.Accent);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(new Rect(r.x - 4f, r.yMax + 2f, r.width + 8f, 18f), ((string)("NR_FixerSpecialty_" + f.spec).Translate()).Colorize(sel ? c : NetrunUI.Muted));
+            Widgets.Label(new Rect(r.x - 4f, r.yMax + 3f, r.width + 8f, 18f), ((string)("NR_FixerSpecialty_" + f.spec).Translate()).Truncate(r.width + 8f).Colorize(sel ? c : NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            if (Widgets.ButtonInvisible(r))
+            if (Widgets.ButtonInvisible(r, doMouseoverSound: false))
             {
                 _demoFixer = i;
                 NetrunSound.Click();
@@ -165,79 +143,69 @@ public partial class HelpBrowser
         }
 
         var pick = DemoFixers[_demoFixer];
-        // A real fixer object, so prices and scrub rates come from the same code the game uses.
-        var fixer = new Fixer { Specialty = pick.spec, Trait = pick.trait, Reputation = _demoRep };
-        var card = new Rect(inner.x, inner.y + tileW + 28f, inner.width, 200f);
-        Widgets.DrawBoxSolid(card, NetrunUI.BgWindow);
-        Rect cr = card.ContractedBy(10f);
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(cr.x, cr.y, cr.width, 18f), "NR_HelpFixerRep".Translate(_demoRep.ToString("0")).Colorize(NetrunUI.Muted));
-        _demoRep = Widgets.HorizontalSlider(new Rect(cr.x, cr.y + 18f, cr.width, 16f), _demoRep, 0f, 100f, roundTo: 1f);
-        // Marks for the trait reveal and pinning on the slider.
-        foreach ((float at, Color mc) in new[] { (s.traitRevealReputation, NetrunUI.Purple), (s.pinnedReputation, NetrunUI.Warn) })
-            Widgets.DrawBoxSolid(new Rect(cr.x + cr.width * at / 100f - 1f, cr.y + 14f, 2f, 24f), mc);
-        float yy = cr.y + 44f;
-        void Line(string text, Color col)
+        // A real fixer object: prices, the scrub rate and the call come from the same code the game uses.
+        var fixer = new Fixer { Specialty = pick.spec, Trait = pick.trait, Reputation = _demoRep, CallCost = Mathf.RoundToInt(s.callCost.Average) };
+        Color sc = FixersTab.SpecialtyColor(pick.spec);
+        return Panel("fixerpool.card", inner, inner.y + tile + 30f, sc, cr =>
         {
-            float h = Mathf.Max(18f, Text.CalcHeight(text, cr.width));
-            Widgets.Label(new Rect(cr.x, yy, cr.width, h), text.Colorize(col));
-            yy += h + 2f;
-        }
-        bool traitSeen = _demoRep >= s.traitRevealReputation;
-        Line(traitSeen
-            ? "NR_HelpFixerTrait".Translate(("NR_FixerTrait_" + pick.trait).Translate(), ("NR_FixerTraitDesc_" + pick.trait).Translate())
-            : "NR_HelpFixerTraitHidden".Translate(Mathf.CeilToInt(s.traitRevealReputation - _demoRep)), traitSeen ? NetrunUI.TextColor : NetrunUI.Muted);
-        bool pinned = _demoRep >= s.pinnedReputation;
-        Line(pinned ? "NR_HelpFixerPinned".Translate(s.maxPinned) : "NR_HelpFixerToPin".Translate(Mathf.CeilToInt(s.pinnedReputation - _demoRep)), pinned ? NetrunUI.Warn : NetrunUI.Muted);
-        Line("NR_HelpFixerPrice".Translate(fixer.PriceFactor.ToStringPercent(), fixer.HeatPerUnitAt(0f, false).ToString("0.#"), fixer.EffectiveCallCost), NetrunUI.Ok);
-        if (pick.spec == FixerSpecialty.Fence)
-            Line(pinned || pick.trait == FixerTrait.Collector ? "NR_HelpFixerRareOn".Translate() : "NR_HelpFixerRareOff".Translate(), NetrunUI.Accent);
-        Text.Font = GameFont.Small;
-        return inner.yMax + 20f;
-    }
+            float t = cr.y;
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(cr.x, t, cr.width, 32f), ((string)("NR_FixerSpecialty_" + pick.spec).Translate()).Colorize(sc));
+            Text.Font = GameFont.Small;
+            t = Para(cr, t + 32f, ("NR_FixerSpecialtyDesc_" + pick.spec).Translate(), NetrunUI.TextColor);
+            float sliderY = t;
+            t = Slider(cr, t + 4f, "NR_HelpFixerRep".Translate(Mathf.RoundToInt(_demoRep)), ref _demoRep, 0f, 100f);
+            // Marks on the slider: the trait (purple) and pinning (gold).
+            foreach ((float at, Color mc) in new[] { (s.traitRevealReputation, NetrunUI.Purple), (s.pinnedReputation, NetrunUI.Warn) })
+                Widgets.DrawBoxSolid(new Rect(cr.x + cr.width * at / 100f - 1f, sliderY + 18f, 2f, 22f), mc);
+            fixer.Reputation = _demoRep;
+            bool traitSeen = _demoRep >= s.traitRevealReputation;
+            t = KV(cr, t, "NR_HelpFixerTraitLabel".Translate(), traitSeen
+                    ? ("NR_FixerTrait_" + pick.trait).Translate() + ". " + ("NR_FixerTraitDesc_" + pick.trait).Translate()
+                    : "NR_HelpFixerTraitHidden".Translate(Mathf.CeilToInt(s.traitRevealReputation - _demoRep)),
+                traitSeen ? NetrunUI.TextColor : NetrunUI.Muted);
+            bool pinned = _demoRep >= s.pinnedReputation;
+            t = KV(cr, t, "NR_HelpFixerPinLabel".Translate(), pinned ? "NR_HelpFixerPinned".Translate(s.maxPinned) : "NR_HelpFixerToPin".Translate(Mathf.CeilToInt(s.pinnedReputation - _demoRep)),
+                pinned ? NetrunUI.Warn : NetrunUI.Muted);
+            t = KV(cr, t, "NR_HelpFixerPriceLabel".Translate(), "×" + fixer.PriceFactor.ToStringPercent(), NetrunUI.Ok);
+            t = KV(cr, t, "NR_HelpFixerScrubLabel".Translate(), "NR_HelpFixerScrubValue".Translate(fixer.HeatPerUnitAt(0f, false).ToString("0.#")), NetrunUI.Ok);
+            t = KV(cr, t, "NR_HelpFixerCallLabel".Translate(), "NR_HelpContractFlat".Translate(fixer.EffectiveCallCost), NetrunUI.Ok);
+            if (pick.spec == FixerSpecialty.Fence)
+                t = KV(cr, t, "NR_HelpFixerRareLabel".Translate(), pinned || pick.trait == FixerTrait.Collector ? "NR_HelpFixerRareOn".Translate() : "NR_HelpFixerRareOff".Translate(), NetrunUI.Accent);
+            return t;
+        });
+    });
 
     // ---- [[contractflow]] ----
 
     private int _demoStage = -1;
     private ContractType _demoContract = ContractType.SystemTap;
+    private static readonly string[] Stages = ["Board", "Taken", "Work", "Pay"];
 
-    private float ContractFlowDemo(float y, float w)
+    private float ContractFlowDemo(float y, float w) => Frame("contractflow", y, w, NetrunUI.Ok, inner =>
     {
         FixerSettingsDef s = NetrunDefOf.NR_Fixers;
-        string[] stages = ["Board", "Taken", "Work", "Pay"];
-        var types = (ContractType[])System.Enum.GetValues(typeof(ContractType));
-        Rect inner = DemoBox(y, w, 330f, NetrunUI.Ok);
-        float bw = (inner.width - 3 * 22f) / 4f;
-        for (int i = 0; i < stages.Length; i++)
+        const float link = 20f;
+        float bw = (inner.width - 3 * link) / 4f;
+        for (int i = 0; i < Stages.Length; i++)
         {
-            var r = new Rect(inner.x + i * (bw + 22f), inner.y, bw, 34f);
-            bool sel = _demoStage == i;
+            var r = new Rect(inner.x + i * (bw + link), inner.y, bw, 34f);
             if (i > 0)
-                Widgets.DrawLineHorizontal(r.x - 20f, r.center.y, 18f);
-            if (NetrunUI.Button(r, ("NR_HelpContractStage_" + stages[i]).Translate(), sel ? NetrunUI.Ok : NetrunUI.Accent, true))
+                Widgets.DrawBoxSolid(new Rect(r.x - link, r.center.y - 1f, link, 2f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.5f));
+            bool sel = _demoStage == i;
+            if (sel)
+                Widgets.DrawBoxSolid(r, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.14f));
+            if (NetrunUI.Button(r, ("NR_HelpContractStage_" + Stages[i]).Translate(), sel ? NetrunUI.Ok : NetrunUI.Accent, true))
                 _demoStage = sel ? -1 : i;
         }
-        Text.Font = GameFont.Tiny;
-        string stageText = _demoStage < 0 ? "NR_HelpContractStageHint".Translate() : ("NR_HelpContractStageDesc_" + stages[_demoStage]).Translate(s.failReputationLoss.ToString("0"), s.failSilentDays);
-        Widgets.Label(new Rect(inner.x, inner.y + 40f, inner.width, 36f), stageText.Colorize(_demoStage < 0 ? NetrunUI.Muted : NetrunUI.TextColor));
-        Text.Font = GameFont.Small;
+        float t = inner.y + 42f;
+        t = Para(inner, t, _demoStage < 0
+                ? "NR_HelpContractStageHint".Translate()
+                : ("NR_HelpContractStageDesc_" + Stages[_demoStage]).Translate(s.failReputationLoss.ToString("0"), s.failSilentDays),
+            _demoStage < 0 ? NetrunUI.Muted : NetrunUI.TextColor);
+        t = Choices(inner, t + 6f, (ContractType[])System.Enum.GetValues(typeof(ContractType)), c => ("NR_Contract_" + c).Translate(),
+            c => c == _demoContract, c => _demoContract = c);
 
-        // The contract kinds, then an example card with the real numbers.
-        float x = inner.x, yy = inner.y + 82f;
-        foreach (ContractType t in types)
-        {
-            string label = ("NR_Contract_" + t).Translate();
-            float tw = NetrunUI.ButtonWidth(label);
-            if (x + tw > inner.xMax)
-            {
-                x = inner.x;
-                yy += 30f;
-            }
-            if (NetrunUI.Button(new Rect(x, yy, tw, 26f), label, t == _demoContract ? NetrunUI.Ok : NetrunUI.Muted, true))
-                _demoContract = t;
-            x += tw + 6f;
-        }
-        yy += 34f;
         (IntRange goal, string reward) = _demoContract switch
         {
             ContractType.DataDelivery => (s.dataDeliveryGoal, "NR_HelpContractPer".Translate(s.dataDeliveryRewardPerItem).ToString()),
@@ -249,19 +217,19 @@ public partial class HelpBrowser
             ContractType.AIOrder => (new IntRange(1, 1), "NR_HelpContractFlat".Translate(s.aiOrderReward).ToString()),
             _ => (s.cleanLabChips, "NR_HelpContractPer".Translate(s.cleanLabRewardPerChip).ToString()),
         };
-        var card = new Rect(inner.x, yy, inner.width, inner.yMax - yy);
-        Widgets.DrawBoxSolid(card, NetrunUI.BgWindow);
-        Widgets.DrawBoxSolid(new Rect(card.x, card.y, 3f, card.height), NetrunUI.Ok);
-        Rect cr = card.ContractedBy(10f);
         var sample = new Contract { Type = _demoContract, Goal = goal.max, Param = (int)BraindanceMood.Dark };
-        Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(cr.x, cr.y, cr.width, 28f), sample.Title.Colorize(NetrunUI.Ok));
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(cr.x, cr.y + 30f, cr.width, 40f), sample.Description);
-        Widgets.Label(new Rect(cr.x, cr.y + 72f, cr.width, 36f), "NR_HelpContractNumbers".Translate(goal.min, goal.max, reward, s.contractDays.min, s.contractDays.max, s.contractReputation.ToString("0")).Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        return inner.yMax + 20f;
-    }
+        return Panel("contractflow.card", inner, t, NetrunUI.Ok, cr =>
+        {
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(cr.x, cr.y, cr.width, 32f), sample.Title.Colorize(NetrunUI.Ok));
+            Text.Font = GameFont.Small;
+            float u = Para(cr, cr.y + 34f, sample.Description, NetrunUI.TextColor);
+            u = KV(cr, u + 4f, "NR_HelpContractGoal".Translate(), goal.min == goal.max ? goal.min.ToString() : $"{goal.min}–{goal.max}");
+            u = KV(cr, u, "NR_HelpContractPay".Translate(), reward, NetrunUI.Ok);
+            u = KV(cr, u, "NR_HelpContractDeadline".Translate(), "NR_HelpContractDays".Translate(s.contractDays.min, s.contractDays.max));
+            return KV(cr, u, "NR_HelpContractRep".Translate(), "+" + s.contractReputation.ToString("0"), NetrunUI.Warn);
+        });
+    });
 
     // ---- [[braindance]] / [[braindance:Dark]] ----
 
@@ -276,181 +244,143 @@ public partial class HelpBrowser
             _demoMood = m0;
             _moodPinnedFor = preset;
         }
-        Rect inner = DemoBox(y, w, 250f, NetrunUI.Accent);
-        // The path: raw recording → editing at the console → chip.
-        ThingDef chipDef = BraindanceEditing.ChipsFor(_demoMood).FirstOrDefault() ?? NetrunDefOf.NR_BraindanceChip;
-        (ThingDef def, string label)[] path =
-        [
-            (NetrunDefOf.NR_BraindanceRaw, "NR_HelpBDStepRaw".Translate()),
-            (ThingDefOf.CommsConsole, "NR_HelpBDStepEdit".Translate()),
-            (chipDef, chipDef.LabelCap),
-        ];
-        float step = (inner.width - 2 * 40f) / 3f;
-        for (int i = 0; i < path.Length; i++)
+        return Frame("braindance", y, w, NetrunUI.Accent, inner =>
         {
-            var r = new Rect(inner.x + i * (step + 40f), inner.y, step, 64f);
-            Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
-            if (path[i].def != null)
-                Widgets.ThingIcon(new Rect(r.x + 8f, r.y + 8f, 48f, 48f), path[i].def);
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(r.x + 62f, r.y, r.width - 66f, r.height), path[i].label);
-            Text.Anchor = TextAnchor.UpperLeft;
+            ThingDef chipDef = BraindanceEditing.ChipsFor(_demoMood).FirstOrDefault() ?? NetrunDefOf.NR_BraindanceChip;
+            (ThingDef def, string label)[] path =
+            [
+                (NetrunDefOf.NR_BraindanceRaw, "NR_HelpBDStepRaw".Translate()),
+                (ThingDefOf.CommsConsole, "NR_HelpBDStepEdit".Translate()),
+                (chipDef, chipDef.LabelCap),
+            ];
+            const float arrow = 34f;
+            float step = (inner.width - 2 * arrow) / 3f;
             Text.Font = GameFont.Small;
-            if (i > 0)
+            float pathH = path.Max(p => Mathf.Max(64f, Text.CalcHeight(p.label, step - 72f) + 12f));
+            for (int i = 0; i < path.Length; i++)
             {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(new Rect(r.x - 40f, r.y, 40f, r.height), "→".Colorize(NetrunUI.Accent));
+                var r = new Rect(inner.x + i * (step + arrow), inner.y, step, pathH);
+                Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
+                if (path[i].def != null)
+                    Widgets.ThingIcon(new Rect(r.x + 8f, r.center.y - 24f, 48f, 48f), path[i].def);
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(new Rect(r.x + 64f, r.y, r.width - 70f, r.height), path[i].label);
+                if (i > 0)
+                {
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    Widgets.Label(new Rect(r.x - arrow, r.y, arrow, r.height), "→".Colorize(NetrunUI.Accent));
+                }
                 Text.Anchor = TextAnchor.UpperLeft;
             }
-        }
-        // The mood switch and the strength of the moment.
-        float yy = inner.y + 74f, x = inner.x;
-        foreach (BraindanceMood mood in System.Enum.GetValues(typeof(BraindanceMood)))
-        {
-            string label = ((string)("NR_BDMood_" + mood).Translate()).CapitalizeFirst();
-            float bw = NetrunUI.ButtonWidth(label);
-            if (NetrunUI.Button(new Rect(x, yy, bw, 26f), label, mood == _demoMood ? NetrunUI.Ok : NetrunUI.Muted, true))
-                _demoMood = mood;
-            x += bw + 6f;
-        }
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(x + 10f, yy - 2f, inner.xMax - x - 10f, 16f), "NR_HelpBDStrength".Translate(_demoStrength2.ToStringPercent()).Colorize(NetrunUI.Muted));
-        _demoStrength2 = Widgets.HorizontalSlider(new Rect(x + 10f, yy + 14f, inner.xMax - x - 10f, 14f), _demoStrength2, 0f, 1f, roundTo: 0.05f);
-        yy += 36f;
+            float t = inner.y + pathH + 10f;
+            t = Columns(inner, t, 0.5f,
+                (l, top) => Choices(l, top, (BraindanceMood[])System.Enum.GetValues(typeof(BraindanceMood)),
+                    m => ((string)("NR_BDMood_" + m).Translate()).CapitalizeFirst(), m => m == _demoMood, m => _demoMood = m),
+                (r, top) => Slider(r, top, "NR_HelpBDStrength".Translate(_demoStrength2.ToStringPercent()), ref _demoStrength2, 0f, 1f, 0.05f));
 
-        // The chip card: what it does, from its defs.
-        int tier = _demoStrength2 >= 0.85f ? 2 : _demoStrength2 >= 0.55f ? 1 : 0;
-        var drug = chipDef.GetCompProperties<CompProperties_Drug>();
-        ThoughtDef high = DefDatabase<ThoughtDef>.GetNamedSilentFail(chipDef == NetrunDefOf.NR_BlackBraindanceChip ? "NR_BlackBraindanceHigh" : "NR_BraindanceHigh");
-        float mood2 = high?.stages?.FirstOrDefault()?.baseMoodEffect ?? 0f;
-        var card = new Rect(inner.x, yy, inner.width, inner.yMax - yy);
-        Widgets.DrawBoxSolid(card, NetrunUI.BgWindow);
-        Color cc = chipDef == NetrunDefOf.NR_BlackBraindanceChip ? NetrunUI.Bad : NetrunUI.Accent;
-        Widgets.DrawBoxSolid(new Rect(card.x, card.y, 3f, card.height), cc);
-        Rect cr = card.ContractedBy(10f);
-        Text.Font = GameFont.Small;
-        Widgets.Label(new Rect(cr.x, cr.y, cr.width, 22f), (chipDef.LabelCap + " · " + ("NR_BDQuality_" + tier).Translate()).Colorize(cc));
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(cr.x, cr.y + 24f, cr.width, cr.height - 24f),
-            "NR_HelpBDChipCard".Translate(chipDef.ingestible?.joy.ToStringPercent() ?? "-", mood2.ToString("+0;-0"), drug?.addictiveness.ToStringPercent() ?? "-",
-                ("NR_HelpBDTier_" + tier).Translate()));
-        Text.Font = GameFont.Small;
-        return inner.yMax + 20f;
+            int tier = _demoStrength2 >= 0.85f ? 2 : _demoStrength2 >= 0.55f ? 1 : 0;
+            var drug = chipDef.GetCompProperties<CompProperties_Drug>();
+            bool black = chipDef == NetrunDefOf.NR_BlackBraindanceChip;
+            ThoughtDef high = DefDatabase<ThoughtDef>.GetNamedSilentFail(black ? "NR_BlackBraindanceHigh" : "NR_BraindanceHigh");
+            float mood = high?.stages?.FirstOrDefault()?.baseMoodEffect ?? 0f;
+            Color cc = black ? NetrunUI.Bad : NetrunUI.Accent;
+            return Panel("braindance.card", inner, t, cc, cr =>
+            {
+                Widgets.ThingIcon(new Rect(cr.x, cr.y, 40f, 40f), chipDef);
+                Text.Font = GameFont.Medium;
+                Widgets.Label(new Rect(cr.x + 50f, cr.y + 2f, cr.width - 50f, 34f), (chipDef.LabelCap + " · " + ("NR_BDQuality_" + tier).Translate()).Colorize(cc));
+                Text.Font = GameFont.Small;
+                float u = cr.y + 46f;
+                u = KV(cr, u, "NR_HelpBDJoy".Translate(), chipDef.ingestible?.joy.ToStringPercent() ?? "-", NetrunUI.Ok);
+                u = KV(cr, u, "NR_HelpBDMoodLabel".Translate(), mood.ToString("+0;-0"), mood >= 0 ? NetrunUI.Ok : NetrunUI.Bad);
+                u = KV(cr, u, "NR_HelpBDAddiction".Translate(), drug?.addictiveness.ToStringPercent() ?? "-", black ? NetrunUI.Bad : NetrunUI.Warn);
+                return KV(cr, u, "NR_HelpBDQualityLabel".Translate(), ("NR_HelpBDTier_" + tier).Translate());
+            });
+        });
     }
 
     // ---- [[ice]] ----
 
-    private int _demoIceStep = -1;
+    private int _demoIceStep = 0;
+    private static readonly (string key, string icon)[] IceSteps =
+    [
+        ("Strike", "Dive_ICE"), ("Shield", "Program_Shield"), ("Decoy", "Program_Decoy"), ("Killer", "Program_Killer"), ("Hit", "Dive_BLACKICE"),
+    ];
 
-    private float IceDemo(float y, float w)
+    private static Color IceColor(int i) => i switch { 1 => NetrunUI.Accent, 2 => NetrunUI.Purple, 3 => NetrunUI.Warn, _ => NetrunUI.Bad };
+
+    private float IceDemo(float y, float w) => Frame("ice", y, w, NetrunUI.Bad, inner =>
     {
         CyberspaceSettingsDef s = Cyber;
-        Rect inner = DemoBox(y, w, 200f, NetrunUI.Bad);
-        (string key, string icon, Color c)[] steps =
-        [
-            ("Strike", "Dive_ICE", NetrunUI.Bad),
-            ("Shield", "Program_Shield", NetrunUI.Accent),
-            ("Decoy", "Program_Decoy", NetrunUI.Purple),
-            ("Killer", "Program_Killer", NetrunUI.Warn),
-            ("Hit", "Dive_BLACKICE", NetrunUI.Bad),
-        ];
-        float bw = (inner.width - 4 * 18f) / 5f;
-        for (int i = 0; i < steps.Length; i++)
+        const float arrow = 18f;
+        float bw = (inner.width - 4 * arrow) / 5f;
+        for (int i = 0; i < IceSteps.Length; i++)
         {
-            var r = new Rect(inner.x + i * (bw + 18f), inner.y, bw, 70f);
+            var r = new Rect(inner.x + i * (bw + arrow), inner.y, bw, 76f);
             bool sel = _demoIceStep == i;
+            Color c = IceColor(i);
             if (sel)
-                NetrunUI.Glow(r, steps[i].c, 0.8f, 8f);
+                NetrunUI.Glow(r, c, 0.8f, 8f);
             Widgets.DrawBoxSolid(r, NetrunUI.BgWindow);
-            NetrunUI.Brackets(r, steps[i].c, 2f, 10f);
-            if (NetrunTex.CyberIcon(steps[i].icon) is { } icon)
-                GUI.DrawTexture(new Rect(r.center.x - 18f, r.y + 6f, 36f, 36f), icon);
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(new Rect(r.x, r.y + 46f, r.width, 20f), ("NR_HelpIce_" + steps[i].key).Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
+            NetrunUI.Brackets(r, new Color(c.r, c.g, c.b, sel ? 1f : 0.6f), 2f, 10f);
+            if (NetrunTex.CyberIcon(IceSteps[i].icon) is { } icon)
+                GUI.DrawTexture(new Rect(r.center.x - 18f, r.y + 8f, 36f, 36f), icon);
             Text.Font = GameFont.Small;
+            Text.Anchor = TextAnchor.UpperCenter;
+            Widgets.Label(new Rect(r.x, r.y + 48f, r.width, 24f), ((string)("NR_HelpIce_" + IceSteps[i].key).Translate()).Truncate(r.width).Colorize(sel ? c : NetrunUI.TextColor));
             if (i > 0)
             {
                 Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(new Rect(r.x - 18f, r.y, 18f, r.height), "→".Colorize(NetrunUI.Muted));
-                Text.Anchor = TextAnchor.UpperLeft;
+                Widgets.Label(new Rect(r.x - arrow, r.y, arrow, r.height), "→".Colorize(NetrunUI.Muted));
             }
-            if (Widgets.ButtonInvisible(r))
-                _demoIceStep = sel ? -1 : i;
+            Text.Anchor = TextAnchor.UpperLeft;
+            if (Widgets.ButtonInvisible(r, doMouseoverSound: false))
+            {
+                _demoIceStep = i;
+                NetrunSound.Click();
+            }
         }
-        string text = _demoIceStep < 0
-            ? "NR_HelpIceHint".Translate()
-            : ("NR_HelpIceDesc_" + steps[_demoIceStep].key).Translate(s.iceAttackChance.ToStringPercent(), s.decoyChance.ToStringPercent(),
-                s.netsickPerIceHit.ToStringPercent(), s.blackIceCyberlinkLoss.ToStringPercent());
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(inner.x, inner.y + 80f, inner.width, inner.height - 80f), text.Colorize(_demoIceStep < 0 ? NetrunUI.Muted : NetrunUI.TextColor));
-        Text.Font = GameFont.Small;
-        return inner.yMax + 20f;
-    }
+        return Panel("ice.card", inner, inner.y + 84f, IceColor(_demoIceStep), cr =>
+            Para(cr, cr.y, ("NR_HelpIceDesc_" + IceSteps[_demoIceStep].key).Translate(s.iceAttackChance.ToStringPercent(), s.decoyChance.ToStringPercent(),
+                s.netsickPerIceHit.ToStringPercent(), s.blackIceCyberlinkLoss.ToStringPercent()), NetrunUI.TextColor));
+    });
 
     // ---- [[loadout]] ----
 
     private readonly HashSet<DiveProgram> _demoPrograms = [];
     private int _demoDaemon = -1;
 
-    private float LoadoutDemo(float y, float w)
+    private float LoadoutDemo(float y, float w) => Frame("loadout", y, w, NetrunUI.Accent, inner =>
     {
         CyberspaceSettingsDef s = Cyber;
-        Rect inner = DemoBox(y, w, 190f, NetrunUI.Accent);
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(inner.x, inner.y, inner.width, 18f),
-            "NR_HelpLoadoutPrograms".Translate(_demoPrograms.Count, s.programSlots, s.programCost).Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        float x = inner.x, yy = inner.y + 20f;
-        foreach (DiveProgram p in System.Enum.GetValues(typeof(DiveProgram)))
-        {
-            string label = ("NR_Program_" + p).Translate();
-            float bw = NetrunUI.ButtonWidth(label, icon: true);
-            if (x + bw > inner.xMax)
+        float t = Para(inner, inner.y, "NR_HelpLoadoutPrograms".Translate(_demoPrograms.Count, s.programSlots, s.programCost), NetrunUI.Muted, GameFont.Tiny);
+        t = Choices(inner, t, (DiveProgram[])System.Enum.GetValues(typeof(DiveProgram)), p => (_demoPrograms.Contains(p) ? "✓ " : "") + ("NR_Program_" + p).Translate(),
+            p => _demoPrograms.Contains(p),
+            p =>
             {
-                x = inner.x;
-                yy += 30f;
-            }
-            bool on = _demoPrograms.Contains(p);
-            AcceptanceReport can = on || _demoPrograms.Count < s.programSlots ? true : (AcceptanceReport)"NR_HelpLoadoutFull".Translate();
-            if (NetrunUI.Button(new Rect(x, yy, bw, 26f), (on ? "✓ " : "") + label, on ? NetrunUI.Ok : NetrunUI.TextColor, can,
-                    ("NR_ProgramDesc_" + p).Translate(), NetrunTex.CyberIcon("Program_" + p)))
-            {
-                if (on)
+                if (_demoPrograms.Contains(p))
                     _demoPrograms.Remove(p);
-                else
+                else if (_demoPrograms.Count < s.programSlots)
                     _demoPrograms.Add(p);
-            }
-            x += bw + 6f;
-        }
-        yy += 32f;
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(inner.x, yy, inner.width, 18f), "NR_HelpLoadoutDaemon".Translate().Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
-        yy += 18f;
-        x = inner.x;
-        foreach (DiveDaemon d in System.Enum.GetValues(typeof(DiveDaemon)))
-        {
-            string label = ("NR_Daemon_" + d).Translate();
-            float bw = NetrunUI.ButtonWidth(label, icon: true);
-            if (x + bw > inner.xMax)
-                break;
-            bool on = _demoDaemon == (int)d;
-            if (NetrunUI.Button(new Rect(x, yy, bw, 26f), (on ? "✓ " : "") + label, on ? NetrunUI.Purple : NetrunUI.TextColor, true,
-                    ("NR_DaemonDesc_" + d).Translate(), NetrunTex.DaemonIcon(d)))
-                _demoDaemon = on ? -1 : (int)d;
-            x += bw + 6f;
-        }
-        yy += 34f;
-        // The live result: hack chance against a strength-3 gate for a runner with Intellectual 8, and the trace factor.
+                else
+                    Messages.Message("NR_HelpLoadoutFull".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            },
+            icon: p => NetrunTex.CyberIcon("Program_" + p), tip: p => ("NR_ProgramDesc_" + p).Translate());
+        t = Para(inner, t, "NR_HelpLoadoutDaemon".Translate(), NetrunUI.Muted, GameFont.Tiny);
+        t = Choices(inner, t, (DiveDaemon[])System.Enum.GetValues(typeof(DiveDaemon)), d => (_demoDaemon == (int)d ? "✓ " : "") + ("NR_Daemon_" + d).Translate(),
+            d => _demoDaemon == (int)d, d => _demoDaemon = _demoDaemon == (int)d ? -1 : (int)d,
+            _ => NetrunUI.Purple, d => NetrunTex.DaemonIcon(d), d => ("NR_DaemonDesc_" + d).Translate());
+
+        // The live result: a runner with Intellectual 8 against a strength-3 gate.
         bool sword = _demoPrograms.Contains(DiveProgram.Sword) || _demoDaemon == (int)DiveDaemon.Blade;
         bool stealth = _demoPrograms.Contains(DiveProgram.Stealth) || _demoDaemon == (int)DiveDaemon.Wraith;
         float chance = Mathf.Clamp(s.hackBase + 8 * s.hackPerSkill - 3 * s.hackPerStrength + (sword ? s.swordBonus : 0f), 0.05f, 0.95f);
         int cost = s.diveBaseCost + _demoPrograms.Count * s.programCost;
-        Widgets.Label(new Rect(inner.x, yy, inner.width, 22f),
-            "NR_HelpLoadoutResult".Translate(chance.ToStringPercent(), (stealth ? s.stealthTraceFactor : 1f).ToStringPercent(), cost).Colorize(NetrunUI.Ok));
-        return inner.yMax + 20f;
-    }
+        return Panel("loadout.card", inner, t + 2f, NetrunUI.Ok, cr =>
+        {
+            float u = KV(cr, cr.y, "NR_HelpLoadoutChance".Translate(), chance.ToStringPercent(), chance >= 0.6f ? NetrunUI.Ok : NetrunUI.Warn);
+            u = KV(cr, u, "NR_HelpLoadoutTrace".Translate(), "×" + (stealth ? s.stealthTraceFactor : 1f).ToStringPercent(), NetrunUI.Ok);
+            return KV(cr, u, "NR_HelpLoadoutCost".Translate(), "NR_HelpLoadoutCostValue".Translate(cost), NetrunUI.Warn);
+        });
+    });
 }

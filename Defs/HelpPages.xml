@@ -241,7 +241,7 @@
     <order>40</order>
     <color>Purple</color>
     <label>AI and the server room</label>
-    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character, and up to two traits of its own. Archetypes you have met open in the gallery; the rest stay "???". Move the trust slider to see what an AI gives and when it turns against you.\n[[aigallery]]\n&gt; page:NR_Help_AI_Traits|AI traits\n&gt; open:Server|Open the server room</body>
+    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character, and up to two traits of its own. Archetypes you have met open in the gallery; the rest stay "???". Move the trust slider to see what an AI gives and when it turns against you.\n&gt; page:NR_Help_AI_Archetypes|AI archetypes\n&gt; page:NR_Help_AI_Traits|AI traits\n&gt; open:Server|Open the server room</body>
     <icon>Nodes/Home_Server</icon>
     <contexts>
       <li>Server</li>
@@ -291,6 +291,16 @@
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
+    <defName>NR_Help_AI_Archetypes</defName>
+    <parent>NR_Help_AI</parent>
+    <order>5</order>
+    <color>Accent</color>
+    <label>AI archetypes</label>
+    <body>Every awakened AI has one of thirteen archetypes. Archetypes you have met open here; the rest stay "?" until you wake one. Pick an archetype to see its service and food, then move the trust slider: it shows when the service works, when traits show, and when the AI turns against you.\n[[aigallery]]</body>
+    <icon>Tabs/Tab_AI</icon>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
     <defName>NR_Help_AI_DataHunter</defName>
     <parent>NR_Help_AI</parent>
     <order>10</order>
@@ -299,6 +309,7 @@
     <body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}</body>
     <icon>ai:DataHunter</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:DataHunter</unlockFlag>
   </Netrun.HelpPageDef>
@@ -312,6 +323,7 @@
     <body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}</body>
     <icon>ai:Ghost</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Ghost</unlockFlag>
   </Netrun.HelpPageDef>
@@ -325,6 +337,7 @@
     <body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}</body>
     <icon>ai:Muse</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Muse</unlockFlag>
   </Netrun.HelpPageDef>
@@ -338,6 +351,7 @@
     <body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}</body>
     <icon>ai:Predator</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Predator</unlockFlag>
   </Netrun.HelpPageDef>
@@ -351,6 +365,7 @@
     <body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}</body>
     <icon>ai:Warden</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Warden</unlockFlag>
   </Netrun.HelpPageDef>
@@ -364,6 +379,7 @@
     <body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}</body>
     <icon>ai:Oracle</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Oracle</unlockFlag>
   </Netrun.HelpPageDef>
@@ -377,6 +393,7 @@
     <body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}</body>
     <icon>ai:Forge</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Forge</unlockFlag>
   </Netrun.HelpPageDef>
@@ -390,6 +407,7 @@
     <body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}</body>
     <icon>ai:Siren</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Siren</unlockFlag>
   </Netrun.HelpPageDef>
@@ -403,6 +421,7 @@
     <body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}</body>
     <icon>ai:Trickster</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Trickster</unlockFlag>
   </Netrun.HelpPageDef>
@@ -416,6 +435,7 @@
     <body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}</body>
     <icon>ai:Echo</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Echo</unlockFlag>
   </Netrun.HelpPageDef>
@@ -429,6 +449,7 @@
     <body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}</body>
     <icon>ai:Doc</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Doc</unlockFlag>
   </Netrun.HelpPageDef>
@@ -442,6 +463,7 @@
     <body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}</body>
     <icon>ai:Archivist</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Archivist</unlockFlag>
   </Netrun.HelpPageDef>
@@ -455,6 +477,7 @@
     <body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}</body>
     <icon>ai:Seed</icon>
     <lockedTitle>true</lockedTitle>
+    <hideInTree>true</hideInTree>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
     <unlockFlag>ai:Seed</unlockFlag>
   </Netrun.HelpPageDef>

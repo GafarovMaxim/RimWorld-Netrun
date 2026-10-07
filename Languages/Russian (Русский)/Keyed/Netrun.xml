@@ -156,11 +156,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpAITrustEvents>С {0}: его события доброжелательные.</NR_HelpAITrustEvents>
   <NR_HelpAITrustTrait2>С {0}: видна вторая черта.</NR_HelpAITrustTrait2>
   <NR_HelpFixerRep>Репутация: {0} (фиолетовая метка — черта, золотая — закрепление)</NR_HelpFixerRep>
-  <NR_HelpFixerTrait>Черта: {0}. {1}</NR_HelpFixerTrait>
   <NR_HelpFixerTraitHidden>Черта: ??? (ещё {0} репутации, чтобы увидеть)</NR_HelpFixerTraitHidden>
   <NR_HelpFixerPinned>Закреплён: остаётся при смене пула (не больше {0} закреплённых).</NR_HelpFixerPinned>
   <NR_HelpFixerToPin>До закрепления ещё {0} репутации.</NR_HelpFixerToPin>
-  <NR_HelpFixerPrice>Цены ×{0}; одна cyberdata снимает {1} Heat в «Тени»; звонок стоит {2} серебра.</NR_HelpFixerPrice>
   <NR_HelpFixerRareOn>Редкие товары есть в магазине.</NR_HelpFixerRareOn>
   <NR_HelpFixerRareOff>Редкие товары появятся после закрепления.</NR_HelpFixerRareOff>
   <NR_HelpContractStage_Board>Доска</NR_HelpContractStage_Board>
@@ -174,11 +172,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpContractStageDesc_Pay>Серебро капсулой и репутация. Провал стоит {0} репутации и {1} дн. молчания.</NR_HelpContractStageDesc_Pay>
   <NR_HelpContractPer>{0} серебра за единицу</NR_HelpContractPer>
   <NR_HelpContractFlat>{0} серебра</NR_HelpContractFlat>
-  <NR_HelpContractNumbers>Цель {0}–{1}; оплата {2}; срок {3}–{4} дн.; +{5} репутации.</NR_HelpContractNumbers>
   <NR_HelpBDStepRaw>Сырая запись: очки ловят сильный момент.</NR_HelpBDStepRaw>
   <NR_HelpBDStepEdit>Монтаж у сетевой консоли (из Студии).</NR_HelpBDStepEdit>
   <NR_HelpBDStrength>Сила момента: {0}</NR_HelpBDStrength>
-  <NR_HelpBDChipCard>Отдых {0}; настроение {1}, пока действует; привыкание {2} за просмотр.\n{3}</NR_HelpBDChipCard>
   <NR_HelpBDTier_0>Обычное: без добавок.</NR_HelpBDTier_0>
   <NR_HelpBDTier_1>Отличное: хорошее воспоминание после просмотра.</NR_HelpBDTier_1>
   <NR_HelpBDTier_2>Мастерское: сильное воспоминание после просмотра.</NR_HelpBDTier_2>
@@ -187,7 +183,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpIce_Decoy>Приманка</NR_HelpIce_Decoy>
   <NR_HelpIce_Killer>Убийца</NR_HelpIce_Killer>
   <NR_HelpIce_Hit>Удар</NR_HelpIce_Hit>
-  <NR_HelpIceHint>Щёлкните шаг атаки ICE.</NR_HelpIceHint>
   <NR_HelpIceDesc_Strike>ICE впереди бьёт в конце хода с шансом {0}; проваленный взлом ICE тоже вызывает удар.</NR_HelpIceDesc_Strike>
   <NR_HelpIceDesc_Shield>Каждый заряд «Щита» полностью поглощает один удар.</NR_HelpIceDesc_Shield>
   <NR_HelpIceDesc_Decoy>Заряд «Приманки» уводит удар с шансом {1}.</NR_HelpIceDesc_Decoy>
@@ -196,8 +191,27 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} cyberdata</NR_HelpLoadoutPrograms>
   <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
   <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
-  <NR_HelpLoadoutResult>Шанс взлома (Интеллект 8 против ворот силы 3): {0}; след ×{1}; цена нырка {2} cyberdata.</NR_HelpLoadoutResult>
   <NR_DiagnosticsButton>Скопировать диагностику</NR_DiagnosticsButton>
   <NR_DiagnosticsTip>Версии, DLC, моды, изменённые настройки, состояние сети и последние ошибки Netrun копируются в буфер. Без личных данных. Вставьте это в сообщение о баге.</NR_DiagnosticsTip>
   <NR_DiagnosticsCopied>Диагностика скопирована в буфер.</NR_DiagnosticsCopied>
+  <NR_HelpFixerTraitLabel>Черта</NR_HelpFixerTraitLabel>
+  <NR_HelpFixerPinLabel>Закрепление</NR_HelpFixerPinLabel>
+  <NR_HelpFixerPriceLabel>Цены</NR_HelpFixerPriceLabel>
+  <NR_HelpFixerScrubLabel>Сброс следа</NR_HelpFixerScrubLabel>
+  <NR_HelpFixerScrubValue>{0} Heat за cyberdata в «Тени»</NR_HelpFixerScrubValue>
+  <NR_HelpFixerCallLabel>Звонок</NR_HelpFixerCallLabel>
+  <NR_HelpFixerRareLabel>Редкие товары</NR_HelpFixerRareLabel>
+  <NR_HelpContractGoal>Цель</NR_HelpContractGoal>
+  <NR_HelpContractPay>Оплата</NR_HelpContractPay>
+  <NR_HelpContractDeadline>Срок</NR_HelpContractDeadline>
+  <NR_HelpContractDays>{0}–{1} дн.</NR_HelpContractDays>
+  <NR_HelpContractRep>Репутация</NR_HelpContractRep>
+  <NR_HelpBDJoy>Отдых</NR_HelpBDJoy>
+  <NR_HelpBDMoodLabel>Настроение, пока действует</NR_HelpBDMoodLabel>
+  <NR_HelpBDAddiction>Привыкание за просмотр</NR_HelpBDAddiction>
+  <NR_HelpBDQualityLabel>Качество</NR_HelpBDQualityLabel>
+  <NR_HelpLoadoutChance>Шанс взлома (Интеллект 8 против ворот силы 3)</NR_HelpLoadoutChance>
+  <NR_HelpLoadoutTrace>След</NR_HelpLoadoutTrace>
+  <NR_HelpLoadoutCost>Цена нырка</NR_HelpLoadoutCost>
+  <NR_HelpLoadoutCostValue>{0} cyberdata</NR_HelpLoadoutCostValue>
 </LanguageData>

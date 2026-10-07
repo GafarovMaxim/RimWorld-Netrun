@@ -81,7 +81,7 @@
     <li>чёрный рынок</li>
   </NR_Help_Fixers_Market.keywords>
   <NR_Help_AI.label>ИИ и серверная</NR_Help_AI.label>
-  <NR_Help_AI.body>Осколок ИИ из киберпространства или со взлома можно пробудить на ИИ-сервере. У каждого ИИ свой архетип: своя услуга, еда и характер, и до двух собственных черт. Встреченные архетипы открываются в галерее; остальные остаются «???». Двигайте доверие, чтобы увидеть, что ИИ даёт и когда он обернётся против вас.\n[[aigallery]]\n&gt; page:NR_Help_AI_Traits|Черты ИИ\n&gt; open:Server|Открыть серверную</NR_Help_AI.body>
+  <NR_Help_AI.body>Осколок ИИ из киберпространства или со взлома можно пробудить на ИИ-сервере. У каждого ИИ свой архетип: своя услуга, еда и характер, и до двух собственных черт. Встреченные архетипы открываются в галерее; остальные остаются «???». Двигайте доверие, чтобы увидеть, что ИИ даёт и когда он обернётся против вас.\n&gt; page:NR_Help_AI_Archetypes|Архетипы ИИ\n&gt; page:NR_Help_AI_Traits|Черты ИИ\n&gt; open:Server|Открыть серверную</NR_Help_AI.body>
   <NR_Help_AI.keywords>
     <li>ИИ-сервер</li>
     <li>ИИ-сервере</li>
@@ -105,6 +105,8 @@
     <li>осколок ИИ</li>
     <li>осколки ИИ</li>
   </NR_Help_AI_Awaken.keywords>
+  <NR_Help_AI_Archetypes.label>Архетипы ИИ</NR_Help_AI_Archetypes.label>
+  <NR_Help_AI_Archetypes.body>У каждого пробуждённого ИИ один из тринадцати архетипов. Встреченные открываются здесь; остальные остаются «?», пока вы не разбудите такой ИИ. Выберите архетип, чтобы увидеть услугу и еду, и двигайте доверие: видно, когда работает услуга, когда открываются черты и когда ИИ оборачивается против вас.\n[[aigallery]]</NR_Help_AI_Archetypes.body>
   <NR_Help_AI_DataHunter.label>Архетип: Охотник за данными</NR_Help_AI_DataHunter.label>
   <NR_Help_AI_DataHunter.body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:DataHunter}</NR_Help_AI_DataHunter.body>
   <NR_Help_AI_DataHunter.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_DataHunter.lockHint>
