@@ -78,7 +78,8 @@ public class NetAI : IExposable
     public bool HasRequest => Request != AIRequestKind.None;
     public int SeedGrowth => SeedTowardDataHunter + SeedTowardMuse + SeedTowardPredator + SeedTowardGhost;
 
-    public void AddTrust(float amount) => Trust = Mathf.Clamp(Trust + amount, 0f, 100f);
+    /// <summary>Gains grow 25% faster for a colony of the Machine Revelation (Ideology).</summary>
+    public void AddTrust(float amount) => Trust = Mathf.Clamp(Trust + (amount > 0f ? amount * NetIdeo.TrustGainFactor : amount), 0f, 100f);
     public void AddHunger(float amount) => Hunger = Mathf.Clamp(Hunger + amount, 0f, 100f);
 
     public string LocationText

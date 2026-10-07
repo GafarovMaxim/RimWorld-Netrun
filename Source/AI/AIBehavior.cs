@@ -149,6 +149,7 @@ public static class AIBehavior
             return;
 
         ai.ServiceReadyTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Settings.serviceCooldownDays * GenDate.TicksPerDay);
+        NetIdeo.Record("NR_UsedAIService");
 
         // A Trickster answering a request for attention.
         if (ai.Request == AIRequestKind.Attention)

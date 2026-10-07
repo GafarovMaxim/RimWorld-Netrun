@@ -9,6 +9,9 @@ namespace Netrun;
 /// <summary>Withdrawal mood: only while the dependency is strong and the pawn has been offline for a while.</summary>
 public class ThoughtWorker_NetsickWithdrawal : ThoughtWorker
 {
+    /// <summary>Net Ascension: withdrawal weighs half as much.</summary>
+    public override float MoodMultiplier(Pawn p) => base.MoodMultiplier(p) * NetIdeo.NetsickMoodFactor(p);
+
     protected override ThoughtState CurrentStateInternal(Pawn p)
     {
         if (p.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is not Hediff_Netsick netsick || !netsick.Withdrawing)

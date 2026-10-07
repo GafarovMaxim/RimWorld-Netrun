@@ -314,4 +314,5 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_PermitCooldown>будет готово через {0} дн.</NR_PermitCooldown>
   <NR_PermitScrubLog>Имперская зачистка следа ({0})</NR_PermitScrubLog>
   <NR_PermitScrubDone>{0}: след колонии стёрт из публичных журналов, Heat −{1}.</NR_PermitScrubDone>
+  <NR_RitualCleansingLog>Ритуал очищения следа</NR_RitualCleansingLog>
 </LanguageData>

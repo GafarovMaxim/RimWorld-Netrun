@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_NetCulture.label>сетевая культура</NR_NetCulture.label>
+  <NR_AI.label>искусственные разумы</NR_AI.label>
+  <NR_Braindance.label>брейнданс</NR_Braindance.label>
 </LanguageData>

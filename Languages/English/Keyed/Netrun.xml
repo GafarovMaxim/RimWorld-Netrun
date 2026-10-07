@@ -314,4 +314,5 @@ Heat now: {8}</NR_EconomySummary>
   <NR_PermitCooldown>ready in {0} days</NR_PermitCooldown>
   <NR_PermitScrubLog>Imperial trace scrub ({0})</NR_PermitScrubLog>
   <NR_PermitScrubDone>{0} has wiped the colony's trace from public logs: Heat -{1}.</NR_PermitScrubDone>
+  <NR_RitualCleansingLog>Trace cleansing ritual</NR_RitualCleansingLog>
 </LanguageData>

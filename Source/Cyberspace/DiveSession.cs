@@ -164,7 +164,7 @@ public class DiveSession : IExposable
     {
         int extra = turn <= ExecTurns ? 1 : 0;
         if (turn == 1)
-            extra += DiveTraits.FirstTurnActions(Runner);
+            extra += DiveTraits.FirstTurnActions(Runner) + (Precept_NetArchon.Holds(Runner) ? 1 : 0);
         if (turn == 1 && DefDatabase<HediffDef>.GetNamedSilentFail("USH_InstalledOptimizationModule") is { } module
             && Runner?.health?.hediffSet?.HasHediff(module) == true)
             extra++;
@@ -1131,6 +1131,7 @@ public class DiveSession : IExposable
         ContractManager.Get()?.NotifyDive(Runner, success);
         NetCulture.RecordDive(Runner);
         DiveTraits.Check(Runner);
+        NetIdeo.AfterDive(Runner, Node.BlackIce, success);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))

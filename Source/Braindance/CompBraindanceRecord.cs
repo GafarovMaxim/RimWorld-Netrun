@@ -68,6 +68,7 @@ public class CompBraindanceRecord : ThingComp
     public override void PostIngested(Pawn ingester)
     {
         base.PostIngested(ingester);
+        NetIdeo.Record("NR_WatchedBraindance", ingester);
         if (QualityTier == 0 || ingester?.needs?.mood == null)
             return;
 

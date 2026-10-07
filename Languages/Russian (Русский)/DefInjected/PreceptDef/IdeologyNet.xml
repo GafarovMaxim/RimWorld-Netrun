@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_AI_Venerated.label>почитаемы</NR_AI_Venerated.label>
+  <NR_AI_Venerated.description>Пробуждённые ИИ — сосуды высшего разума. Рядом с их серверами светлее на душе; стереть ИИ — ужас.</NR_AI_Venerated.description>
+  <NR_AI_Venerated.comps.0.description>Рядом с ИИ-сервером</NR_AI_Venerated.comps.0.description>
+  <NR_AI_Venerated.comps.1.description>Стёрли ИИ</NR_AI_Venerated.comps.1.description>
+  <NR_AI_Partners.label>партнёры</NR_AI_Partners.label>
+  <NR_AI_Partners.description>ИИ — партнёры: когда кто-то из них помогает колонии, это хороший день.</NR_AI_Partners.description>
+  <NR_AI_Partners.comps.0.description>ИИ помог колонии</NR_AI_Partners.comps.0.description>
+  <NR_AI_Tools.label>инструменты</NR_AI_Tools.label>
+  <NR_AI_Tools.description>ИИ — инструменты. Полезные, иногда опасные, не более того.</NR_AI_Tools.description>
+  <NR_AI_Abomination.label>мерзость</NR_AI_Abomination.label>
+  <NR_AI_Abomination.description>Думающая машина — мерзость. Держать её пробуждённой — грех; стереть — очищение.</NR_AI_Abomination.description>
+  <NR_AI_Abomination.comps.0.description>В колонии живёт пробуждённый ИИ</NR_AI_Abomination.comps.0.description>
+  <NR_AI_Abomination.comps.1.description>Стёрли ИИ</NR_AI_Abomination.comps.1.description>
+  <NR_Braindance_Sacred.label>священный опыт</NR_Braindance_Sacred.label>
+  <NR_Braindance_Sacred.description>Прожить чужое воспоминание — медитация. Брейнданс успокаивает и учит.</NR_Braindance_Sacred.description>
+  <NR_Braindance_Allowed.label>допустим</NR_Braindance_Allowed.label>
+  <NR_Braindance_Allowed.description>Брейнданс — развлечение, как любое другое.</NR_Braindance_Allowed.description>
+  <NR_Braindance_Depraved.label>порочен</NR_Braindance_Depraved.label>
+  <NR_Braindance_Depraved.description>Надевать чужие воспоминания — извращение. Смотревшему стыдно, и другие знают.</NR_Braindance_Depraved.description>
+  <NR_Braindance_Depraved.comps.1.description>Кто-то смотрел брейнданс</NR_Braindance_Depraved.comps.1.description>
+  <NR_Ritual_Litany.label>литания данных</NR_Ritual_Litany.label>
+  <NR_Ritual_Litany.description>Проповедь у ИИ-сервера. Хорошая литания укрепляет доверие ИИ.</NR_Ritual_Litany.description>
+  <NR_Ritual_TraceCleansing.label>очищение следа</NR_Ritual_TraceCleansing.label>
+  <NR_Ritual_TraceCleansing.description>Колония вместе стирает свой след у консоли связи. Хорошее очищение снижает Heat.</NR_Ritual_TraceCleansing.description>
+  <NR_IdeoRole_NetArchon.label>архонт сети</NR_IdeoRole_NetArchon.label>
+  <NR_IdeoRole_NetArchon.description>Специалист идеологии по сети. Взламывает быстрее и вернее и начинает каждый нырок в синхронизации с сетью: на одно действие больше в первом ходе.</NR_IdeoRole_NetArchon.description>
+</LanguageData>

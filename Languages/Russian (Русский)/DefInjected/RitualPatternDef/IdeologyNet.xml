@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_RitualPattern_Litany.shortDescOverride>литания данных</NR_RitualPattern_Litany.shortDescOverride>
+  <NR_RitualPattern_Litany.descOverride>У ИИ-сервера оратор читает данные вслух, верующие слушают. Пробуждённые ИИ слушают тоже: хорошая литания заслуживает их доверие, плохая оставляет их неуслышанными и голодными.</NR_RitualPattern_Litany.descOverride>
+  <NR_RitualPattern_TraceCleansing.shortDescOverride>очищение следа</NR_RitualPattern_TraceCleansing.shortDescOverride>
+  <NR_RitualPattern_TraceCleansing.descOverride>Собравшись у консоли связи, колония вместе стирает свой след из сети, без фиксера. Раз в 15 дней.</NR_RitualPattern_TraceCleansing.descOverride>
+</LanguageData>

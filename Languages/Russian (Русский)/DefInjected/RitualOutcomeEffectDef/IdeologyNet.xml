@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_RitualOutcome_Litany.description>В зависимости от качества доверие ИИ растёт на 5–15, участники воодушевлены; плохая литания оставляет ИИ голодными.</NR_RitualOutcome_Litany.description>
+  <NR_RitualOutcome_Litany.outcomeChances.0.label>Не услышана</NR_RitualOutcome_Litany.outcomeChances.0.label>
+  <NR_RitualOutcome_Litany.outcomeChances.0.description>{0} не удалась. Серверы гудели, будто никто ничего не говорил.</NR_RitualOutcome_Litany.outcomeChances.0.description>
+  <NR_RitualOutcome_Litany.outcomeChances.1.label>Услышана</NR_RitualOutcome_Litany.outcomeChances.1.label>
+  <NR_RitualOutcome_Litany.outcomeChances.1.description>{0} услышана. ИИ ответили вспышкой света.</NR_RitualOutcome_Litany.outcomeChances.1.description>
+  <NR_RitualOutcome_Litany.outcomeChances.2.label>Причастие</NR_RitualOutcome_Litany.outcomeChances.2.label>
+  <NR_RitualOutcome_Litany.outcomeChances.2.description>{0} стала причастием. На миг все почувствовали, как думает машина.</NR_RitualOutcome_Litany.outcomeChances.2.description>
+  <NR_RitualOutcome_TraceCleansing.description>В зависимости от качества Heat колонии снижается на 5–15.</NR_RitualOutcome_TraceCleansing.description>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.0.label>Небрежно</NR_RitualOutcome_TraceCleansing.outcomeChances.0.label>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.0.description>{0} вышло небрежным: чуть стёрли, много оставили.</NR_RitualOutcome_TraceCleansing.outcomeChances.0.description>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.1.label>Чисто</NR_RitualOutcome_TraceCleansing.outcomeChances.1.label>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.1.description>{0} прошло чисто: журналы стихли.</NR_RitualOutcome_TraceCleansing.outcomeChances.1.description>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.2.label>Призраки</NR_RitualOutcome_TraceCleansing.outcomeChances.2.label>
+  <NR_RitualOutcome_TraceCleansing.outcomeChances.2.description>{0} сделало колонию призраком в сети.</NR_RitualOutcome_TraceCleansing.outcomeChances.2.description>
+</LanguageData>

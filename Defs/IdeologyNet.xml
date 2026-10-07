@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Ideology (only with the DLC): AIs and braindance as issues, three net memes (docs/CONCEPTS_10.md, section 7).
+       Events are recorded in Source/Ideology/NetIdeo.cs. -->
+
+  <HistoryEventDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_ErasedAI</defName>
+    <label>erased an AI</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_UsedAIService</defName>
+    <label>used an AI's service</label>
+  </HistoryEventDef>
+
+  <HistoryEventDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_WatchedBraindance</defName>
+    <label>watched a braindance</label>
+  </HistoryEventDef>
+
+  <!-- ===== Issue: AI ===== -->
+  <IssueDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI</defName>
+    <label>artificial minds</label>
+    <iconPath>UI/Netrun/Ideo/Issue_AI</iconPath>
+  </IssueDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Venerated</defName>
+    <issue>NR_AI</issue>
+    <label>venerated</label>
+    <description>Awakened AIs are vessels of a higher mind. Being near their servers uplifts; erasing one is a horror.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>40</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>NR_AI_NearServer</thought>
+        <description>Near an AI server</description>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_ErasedAI</eventDef>
+        <thought>NR_AI_Erased_Horror</thought>
+        <description>An AI was erased</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Partners</defName>
+    <issue>NR_AI</issue>
+    <label>partners</label>
+    <description>AIs are partners: when one of them helps the colony, it is a good day.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>30</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <comps>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_UsedAIService</eventDef>
+        <thought>NR_AI_Helped</thought>
+        <description>An AI helped the colony</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Tools</defName>
+    <issue>NR_AI</issue>
+    <label>tools</label>
+    <description>AIs are tools. Useful, sometimes dangerous, never more than that.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <defaultSelectionWeight>1</defaultSelectionWeight>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Abomination</defName>
+    <issue>NR_AI</issue>
+    <label>abomination</label>
+    <description>A thinking machine is an abomination. Keeping one awake is a sin; erasing one is a cleansing.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>10</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <comps>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>NR_AI_AwakeInColony</thought>
+        <description>An awakened AI lives in the colony</description>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_ErasedAI</eventDef>
+        <thought>NR_AI_Erased_Good</thought>
+        <description>An AI was erased</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- ===== Issue: Braindance ===== -->
+  <IssueDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance</defName>
+    <label>braindance</label>
+    <iconPath>UI/Netrun/Ideo/Issue_Braindance</iconPath>
+  </IssueDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Sacred</defName>
+    <issue>NR_Braindance</issue>
+    <label>sacred experience</label>
+    <description>Living another's memory is a meditation. Watching a braindance calms and teaches.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>30</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>NR_WatchedBraindance</eventDef>
+        <thought>NR_Braindance_Meditated</thought>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Allowed</defName>
+    <issue>NR_Braindance</issue>
+    <label>allowed</label>
+    <description>Braindance is entertainment like any other.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <defaultSelectionWeight>1</defaultSelectionWeight>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Depraved</defName>
+    <issue>NR_Braindance</issue>
+    <label>depraved</label>
+    <description>Wearing someone else's memories is a perversion. Those who do it feel the shame, and others know.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>10</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>NR_WatchedBraindance</eventDef>
+        <thought>NR_Braindance_Shame</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_WatchedBraindance</eventDef>
+        <thought>NR_Braindance_Know_Shame</thought>
+        <description>Someone watched a braindance</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <!-- ===== Thoughts ===== -->
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_NearServer</defName>
+    <workerClass>Netrun.ThoughtWorker_NearAIServer</workerClass>
+    <stages>
+      <li>
+        <label>near the server</label>
+        <description>The hum of the AI server. Something greater thinks here.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Erased_Horror</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>8</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>an AI was erased</label>
+        <description>We put out a mind. A sacred one.</description>
+        <baseMoodEffect>-8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Erased_Good</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>5</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>a machine mind erased</label>
+        <description>One less abomination in the world.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_Helped</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>our AI partner helped</label>
+        <description>Good to have friends on the other side of the screen.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_AI_AwakeInColony</defName>
+    <workerClass>Netrun.ThoughtWorker_AIAwakeInColony</workerClass>
+    <stages>
+      <li>
+        <label>a thinking machine among us</label>
+        <description>There is an awake AI in our colony. It is not right.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Meditated</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stages>
+      <li>
+        <label>braindance meditation</label>
+        <description>I lived someone else's moment, and came back calmer.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Shame</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stages>
+      <li>
+        <label>wore someone's memories</label>
+        <description>I put on another person's mind. Why did I do that?</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Braindance_Know_Shame</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>someone watched a braindance</label>
+        <description>Someone in the colony wore another's memories again.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NoCyberlink_Ascension</defName>
+    <workerClass>Netrun.ThoughtWorker_NoCyberlinkAscension</workerClass>
+    <stages>
+      <li>
+        <label>trapped in flesh</label>
+        <description>Without a cyberlink I cannot reach the net, our true home.</description>
+        <baseMoodEffect>-2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_CloserToTruth</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>4</durationDays>
+    <stages>
+      <li>
+        <label>closer to the truth</label>
+        <description>Past the black ICE, the net showed me what lies behind the flesh.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

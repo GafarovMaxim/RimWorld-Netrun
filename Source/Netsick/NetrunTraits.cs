@@ -41,5 +41,6 @@ public static class NetrunTraits
 
     /// <summary>Hack chance in dives.</summary>
     public static float HackBonus(Pawn pawn)
-        => (Natural is { } natural && pawn?.story?.traits?.HasTrait(natural) == true ? 0.05f : 0f) + DiveTraits.HackBonus(pawn);
+        => (Natural is { } natural && pawn?.story?.traits?.HasTrait(natural) == true ? 0.05f : 0f) + DiveTraits.HackBonus(pawn)
+           + (Precept_NetArchon.Holds(pawn) ? 0.05f : 0f);
 }

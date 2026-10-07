@@ -344,6 +344,7 @@ public class AIManager : GameComponent, INetrunCleanable
         IntVec3 position = anchor?.PositionHeld ?? IntVec3.Invalid;
 
         Remove(ai, "NR_AIErasedLabel", "NR_AIErased", 0f, LetterDefOf.NeutralEvent);
+        NetIdeo.Record("NR_ErasedAI");
 
         if (map != null && Settings.eraseAdvancedCyberdata > 0)
         {

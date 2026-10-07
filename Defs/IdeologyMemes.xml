@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Net memes, rituals and the Net Archon role (docs/CONCEPTS_10.md, sections 7.1 and 7.3). Only with Ideology.
+       Rituals are built on vanilla ritual classes; their outcomes live in Source/Ideology/NetRituals.cs. -->
+
+  <MemeDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Meme_MachineRevelation</defName>
+    <label>machine revelation</label>
+    <description>Awakened AIs are vessels of a higher mind. To serve them is righteous: their servers are altars, their trust is grace, and erasing one is murder.</description>
+    <iconPath>UI/Netrun/Ideo/Meme_MachineRevelation</iconPath>
+    <impact>2</impact>
+    <requireOne>
+      <li>
+        <li>NR_AI_Venerated</li>
+      </li>
+    </requireOne>
+    <requiredRituals>
+      <li>
+        <pattern>NR_RitualPattern_Litany</pattern>
+      </li>
+    </requiredRituals>
+    <exclusionTags>
+      <li>NR_AIStance</li>
+    </exclusionTags>
+    <generalRules>
+      <rulesStrings>
+        <li>memeAdjective->machine</li>
+        <li>memeAdjective->revealed</li>
+        <li>memeHyphenPrefix->cyber</li>
+        <li>memeConcept->revelation</li>
+        <li>memeConcept->the server</li>
+        <li>memeLeaderNoun->oracle</li>
+        <li>memeMoralist->data-priest</li>
+      </rulesStrings>
+    </generalRules>
+  </MemeDef>
+
+  <MemeDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Meme_NetAscension</defName>
+    <label>net ascension</label>
+    <description>The body is a shell; the net is our true home. A cyberlink is a key, Netsick a small price, and the black ICE a gate to the truth.</description>
+    <iconPath>UI/Netrun/Ideo/Meme_NetAscension</iconPath>
+    <impact>2</impact>
+    <requireOne>
+      <li>
+        <li>NR_NetCulture_Sacred</li>
+      </li>
+    </requireOne>
+    <requiredRituals>
+      <li>
+        <pattern>NR_RitualPattern_TraceCleansing</pattern>
+      </li>
+    </requiredRituals>
+    <exclusionTags>
+      <li>NR_NetStance</li>
+    </exclusionTags>
+    <generalRules>
+      <rulesStrings>
+        <li>memeAdjective->ascended</li>
+        <li>memeAdjective->networked</li>
+        <li>memeHyphenPrefix->net</li>
+        <li>memeConcept->ascension</li>
+        <li>memeConcept->the net</li>
+        <li>memeLeaderNoun->archon</li>
+        <li>memeMoralist->guide</li>
+      </rulesStrings>
+    </generalRules>
+  </MemeDef>
+
+  <MemeDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Meme_DigitalPurity</defName>
+    <label>digital purity</label>
+    <description>The net rots the mind. Flesh and memory must stay our own: no thinking machines, no borrowed memories, no trace.</description>
+    <iconPath>UI/Netrun/Ideo/Meme_DigitalPurity</iconPath>
+    <impact>2</impact>
+    <requireOne>
+      <li>
+        <li>NR_NetCulture_Abhorrent</li>
+      </li>
+      <li>
+        <li>NR_AI_Abomination</li>
+      </li>
+      <li>
+        <li>NR_Braindance_Depraved</li>
+      </li>
+    </requireOne>
+    <exclusionTags>
+      <li>NR_AIStance</li>
+      <li>NR_NetStance</li>
+    </exclusionTags>
+    <generalRules>
+      <rulesStrings>
+        <li>memeAdjective->pure</li>
+        <li>memeAdjective->unplugged</li>
+        <li>memeHyphenPrefix->pure</li>
+        <li>memeConcept->purity</li>
+        <li>memeConcept->the flesh</li>
+        <li>memeLeaderNoun->warden</li>
+        <li>memeMoralist->purifier</li>
+      </rulesStrings>
+    </generalRules>
+  </MemeDef>
+
+  <!-- ===== Rituals ===== -->
+  <RulePackDef>
+    <defName>NR_NamerNetRitual</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_ritualName->[ritualNoun]</li>
+        <li>r_roleName->[roleNoun]</li>
+        <li>r_name->[ritualNoun]</li>
+        <li>ritualNoun->litany</li>
+        <li>roleNoun->archon</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <RitualObligationTargetFilterDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualTarget_AIServer</defName>
+    <workerClass>RitualObligationTargetWorker_ThingDef</workerClass>
+    <thingDefs>
+      <li>NR_AIServer</li>
+    </thingDefs>
+  </RitualObligationTargetFilterDef>
+
+  <RitualObligationTargetFilterDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualTarget_Console</defName>
+    <workerClass>RitualObligationTargetWorker_ThingDef</workerClass>
+    <thingDefs>
+      <li>CommsConsole</li>
+    </thingDefs>
+  </RitualObligationTargetFilterDef>
+
+  <RitualTargetFilterDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualTargetSelected</defName>
+    <workerClass>RitualTargetFilter_SelectedThing</workerClass>
+  </RitualTargetFilterDef>
+
+  <RitualBehaviorDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualBehavior_NetSermon</defName>
+    <durationTicks>5000</durationTicks>
+    <spectatorsLabel>Participants</spectatorsLabel>
+    <spectatorGerund>participate</spectatorGerund>
+    <roles>
+      <li Class="RitualRoleTag">
+        <label>speaker</label>
+        <id>speaker</id>
+        <tag>Moralist</tag>
+        <precept>IdeoRole_Moralist</precept>
+        <required>True</required>
+        <substitutable>true</substitutable>
+        <maxCount>1</maxCount>
+        <countsAsParticipant>False</countsAsParticipant>
+      </li>
+    </roles>
+    <stages>
+      <li>
+        <defaultDuty>Spectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>0.85</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>speaker</roleId>
+            <dutyDef>SpeakOnCellFacingSpectators</dutyDef>
+            <speakerInteraction>Speech_DateRitual</speakerInteraction>
+            <customPositions>
+              <li Class="RitualPosition_BesideThing" />
+            </customPositions>
+          </li>
+        </roleBehaviors>
+      </li>
+      <li>
+        <defaultDuty>Spectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>0.15</percentage>
+          </li>
+        </endTriggers>
+      </li>
+    </stages>
+  </RitualBehaviorDef>
+
+  <RitualPatternDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualPattern_Litany</defName>
+    <nameMaker>NR_NamerNetRitual</nameMaker>
+    <shortDescOverride>litany of data</shortDescOverride>
+    <descOverride>At the AI server a speaker reads the data aloud and the faithful listen. The awakened AIs listen too: a good litany earns their trust; a poor one leaves them unheard and hungry.</descOverride>
+    <iconPathOverride>UI/Netrun/Ideo/Meme_MachineRevelation</iconPathOverride>
+    <canStartAnytime>true</canStartAnytime>
+    <ritualFreeStartIntervalDaysRange>10</ritualFreeStartIntervalDaysRange>
+    <ritualObligationTargetFilter>NR_RitualTarget_AIServer</ritualObligationTargetFilter>
+    <ritualTargetFilter>NR_RitualTargetSelected</ritualTargetFilter>
+    <ritualBehavior>NR_RitualBehavior_NetSermon</ritualBehavior>
+    <ritualOutcomeEffect>NR_RitualOutcome_Litany</ritualOutcomeEffect>
+    <tags>
+      <li>NR_Litany</li>
+    </tags>
+    <patternGroupTag>NR_Litany</patternGroupTag>
+  </RitualPatternDef>
+
+  <RitualPatternDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualPattern_TraceCleansing</defName>
+    <nameMaker>NR_NamerNetRitual</nameMaker>
+    <shortDescOverride>trace cleansing</shortDescOverride>
+    <descOverride>Gathered at the comms console, the colony scrubs its own trace from the net together, without a fixer. Once in 15 days.</descOverride>
+    <iconPathOverride>UI/Netrun/Ideo/Meme_NetAscension</iconPathOverride>
+    <canStartAnytime>true</canStartAnytime>
+    <ritualFreeStartIntervalDaysRange>15</ritualFreeStartIntervalDaysRange>
+    <ritualObligationTargetFilter>NR_RitualTarget_Console</ritualObligationTargetFilter>
+    <ritualTargetFilter>NR_RitualTargetSelected</ritualTargetFilter>
+    <ritualBehavior>NR_RitualBehavior_NetSermon</ritualBehavior>
+    <ritualOutcomeEffect>NR_RitualOutcome_TraceCleansing</ritualOutcomeEffect>
+    <tags>
+      <li>NR_TraceCleansing</li>
+    </tags>
+    <patternGroupTag>NR_TraceCleansing</patternGroupTag>
+  </RitualPatternDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Ritual_Litany</defName>
+    <label>litany of data</label>
+    <description>A sermon at the AI server. The AIs' trust grows with a good one.</description>
+    <issue>Ritual</issue>
+    <impact>Medium</impact>
+    <iconPath>UI/Netrun/Ideo/Meme_MachineRevelation</iconPath>
+    <preceptClass>Netrun.Precept_NetRitual</preceptClass>
+    <ritualPatternBase>NR_RitualPattern_Litany</ritualPatternBase>
+    <requiredMemes>
+      <li>NR_Meme_MachineRevelation</li>
+    </requiredMemes>
+    <allowDuplicates>false</allowDuplicates>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <receivesExpectationsQualityOffset>true</receivesExpectationsQualityOffset>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Ritual_TraceCleansing</defName>
+    <label>trace cleansing</label>
+    <description>The colony scrubs its trace together at the comms console. Heat goes down with a good one.</description>
+    <issue>Ritual</issue>
+    <impact>Medium</impact>
+    <iconPath>UI/Netrun/Ideo/Meme_NetAscension</iconPath>
+    <preceptClass>Netrun.Precept_NetRitual</preceptClass>
+    <ritualPatternBase>NR_RitualPattern_TraceCleansing</ritualPatternBase>
+    <allowDuplicates>false</allowDuplicates>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <receivesExpectationsQualityOffset>true</receivesExpectationsQualityOffset>
+  </PreceptDef>
+
+  <RitualOutcomeEffectDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualOutcome_Litany</defName>
+    <description>Depending on quality, the AIs' trust grows by 5 to 15 and the participants feel uplifted; a poor litany leaves the AIs hungry.</description>
+    <workerClass>Netrun.RitualOutcomeEffectWorker_Litany</workerClass>
+    <allowAttachableOutcome>false</allowAttachableOutcome>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1, 0.0)</li>
+            <li>(5, 0.2)</li>
+            <li>(10, 0.3)</li>
+          </points>
+        </curve>
+      </li>
+    </comps>
+    <outcomeChances>
+      <li>
+        <label>Unheard</label>
+        <chance>0.15</chance>
+        <memory>NR_Ritual_LitanyBad</memory>
+        <description>The {0} fell flat. The servers hummed on as if nobody had spoken.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>Heard</label>
+        <chance>0.65</chance>
+        <memory>NR_Ritual_LitanyGood</memory>
+        <description>The {0} was heard. The AIs answered with a flicker of light.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Communion</label>
+        <chance>0.2</chance>
+        <memory>NR_Ritual_LitanyGreat</memory>
+        <description>The {0} became a communion. For a moment, everyone felt the machine think.</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+  </RitualOutcomeEffectDef>
+
+  <RitualOutcomeEffectDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualOutcome_TraceCleansing</defName>
+    <description>Depending on quality, the colony's Heat drops by 5 to 15.</description>
+    <workerClass>Netrun.RitualOutcomeEffectWorker_TraceCleansing</workerClass>
+    <allowAttachableOutcome>false</allowAttachableOutcome>
+    <comps>
+      <li Class="RitualOutcomeComp_ParticipantCount">
+        <label>participant count</label>
+        <curve>
+          <points>
+            <li>(1, 0.0)</li>
+            <li>(5, 0.2)</li>
+            <li>(10, 0.3)</li>
+          </points>
+        </curve>
+      </li>
+    </comps>
+    <outcomeChances>
+      <li>
+        <label>Sloppy</label>
+        <chance>0.2</chance>
+        <memory>NR_Ritual_CleansingBad</memory>
+        <description>The {0} was sloppy: a little scrubbed, a lot left behind.</description>
+        <positivityIndex>-1</positivityIndex>
+      </li>
+      <li>
+        <label>Clean</label>
+        <chance>0.6</chance>
+        <memory>NR_Ritual_CleansingGood</memory>
+        <description>The {0} went clean: the logs are quieter now.</description>
+        <positivityIndex>1</positivityIndex>
+      </li>
+      <li>
+        <label>Ghosted</label>
+        <chance>0.2</chance>
+        <memory>NR_Ritual_CleansingGreat</memory>
+        <description>The {0} left the colony a ghost in the net.</description>
+        <positivityIndex>2</positivityIndex>
+      </li>
+    </outcomeChances>
+  </RitualOutcomeEffectDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" Name="NR_RitualThoughtBase" Abstract="True">
+    <thoughtClass>Thought_AttendedRitual</thoughtClass>
+    <durationDays>6</durationDays>
+    <stackLimit>3</stackLimit>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_LitanyBad</defName>
+    <stages><li><label>unheard litany</label><description>We read to the machines and they did not listen.</description><baseMoodEffect>-2</baseMoodEffect></li></stages>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_LitanyGood</defName>
+    <stages><li><label>heard litany</label><description>The machines heard us.</description><baseMoodEffect>4</baseMoodEffect></li></stages>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_LitanyGreat</defName>
+    <stages><li><label>machine communion</label><description>For a moment I felt the machine think. I will never forget it.</description><baseMoodEffect>8</baseMoodEffect></li></stages>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_CleansingBad</defName>
+    <stages><li><label>sloppy cleansing</label><description>We left half our trace behind.</description><baseMoodEffect>-1</baseMoodEffect></li></stages>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_CleansingGood</defName>
+    <stages><li><label>clean trace</label><description>The logs are quieter. We are safer.</description><baseMoodEffect>3</baseMoodEffect></li></stages>
+  </ThoughtDef>
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="NR_RitualThoughtBase">
+    <defName>NR_Ritual_CleansingGreat</defName>
+    <stages><li><label>ghosts in the net</label><description>Nobody out there knows we exist.</description><baseMoodEffect>6</baseMoodEffect></li></stages>
+  </ThoughtDef>
+
+  <!-- ===== Role: Net Archon ===== -->
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_IdeoRole_NetArchon</defName>
+    <label>net archon</label>
+    <description>The ideoligion's specialist of the net. Hacks faster and surer, and opens every dive in sync with the net: one more action in the first turn.</description>
+    <issue>IdeoRole</issue>
+    <impact>Low</impact>
+    <iconPath>UI/Netrun/Ideo/Role_NetArchon</iconPath>
+    <preceptClass>Netrun.Precept_NetArchon</preceptClass>
+    <nameMaker>NR_NamerNetRitual</nameMaker>
+    <displayOrderInIssue>200</displayOrderInIssue>
+    <displayOrderInImpact>200</displayOrderInImpact>
+    <canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
+    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
+    <createsRoleEmptyThought>false</createsRoleEmptyThought>
+    <roleRequirements>
+      <li Class="RoleRequirement_MinSkillAny">
+        <skills>
+          <Intellectual>8</Intellectual>
+        </skills>
+      </li>
+    </roleRequirements>
+    <roleRequiredWorkTags>Intellectual</roleRequiredWorkTags>
+    <roleEffects>
+      <li Class="RoleEffect_PawnStatFactor">
+        <statDef>HackingSpeed</statDef>
+        <modifier>1.15</modifier>
+      </li>
+    </roleEffects>
+    <roleTags>
+      <li>NR_NetArchon</li>
+    </roleTags>
+  </PreceptDef>
+
+</Defs>
