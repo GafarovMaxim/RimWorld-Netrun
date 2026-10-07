@@ -118,6 +118,44 @@ public partial class HelpBrowser
         });
     });
 
+    // ---- [[market]] ----
+
+    private float _demoShopRep = 20f;
+    private bool _demoShopBlack;
+
+    /// <summary>A fence's price list from the real settings and the real price code, with reputation and the black market.</summary>
+    private float MarketDemo(float y, float w) => Frame("market", y, w, NetrunUI.Ok, inner =>
+    {
+        FixerSettingsDef s = NetrunDefOf.NR_Fixers;
+        float t = Slider(inner, inner.y, "NR_HelpFixerRep".Translate(Mathf.RoundToInt(_demoShopRep)), ref _demoShopRep, 0f, 100f);
+        t = Toggle(inner, t, "NR_HelpMarketBlack".Translate(s.blackMarketMarkup.ToStringPercent()), ref _demoShopBlack);
+        var fixer = new Fixer { Specialty = FixerSpecialty.Fence, Trait = FixerTrait.Reliable, Reputation = _demoShopRep };
+        var items = s.shopItems.Take(6).ToList();
+        fixer.Stock = _demoShopBlack ? [] : items.ToList();
+        bool pinned = _demoShopRep >= s.pinnedReputation;
+        if (pinned)
+            items.AddRange(s.pinnedShopItems.Where(d => !items.Contains(d)).Take(3));
+        foreach (ThingDef def in items)
+        {
+            bool rare = s.pinnedShopItems.Contains(def);
+            Text.Font = GameFont.Small;
+            var row = new Rect(inner.x, t, inner.width, 32f);
+            if (Mouse.IsOver(row))
+                Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.04f));
+            Widgets.ThingIcon(new Rect(row.x + 2f, row.y + 3f, 26f, 26f), def);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(row.x + 36f, row.y, row.width - 160f, row.height), def.LabelCap.ToString().Truncate(row.width - 160f).Colorize(rare ? NetrunUI.Warn : NetrunUI.TextColor));
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(new Rect(row.xMax - 140f, row.y, 136f, row.height), "NR_HelpContractFlat".Translate(fixer.PriceOf(def)).Colorize(NetrunUI.Ok));
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = new Color(1f, 1f, 1f, 0.07f);
+            Widgets.DrawLineHorizontal(row.x, row.yMax, row.width);
+            GUI.color = Color.white;
+            t = row.yMax + 1f;
+        }
+        return Para(inner, t + 6f, pinned ? "NR_HelpFixerRareOn".Translate() : "NR_HelpFixerRareOff".Translate(), pinned ? NetrunUI.Warn : NetrunUI.Muted, GameFont.Tiny);
+    });
+
     // ---- [[aiawaken]] ----
 
     private static readonly string[] FragmentSources = ["Dive", "Memory", "WildAI", "Distress", "Market", "Hack"];

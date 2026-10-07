@@ -303,4 +303,5 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpAwakenNoiseValue>при Heat 50 шанс {0}, что заметят: +{1} Heat</NR_HelpAwakenNoiseValue>
   <NR_HelpAwakenTraits>Кто проснётся</NR_HelpAwakenTraits>
   <NR_HelpAwakenTraitsValue>случайный архетип; {0} без черт, остальные с одной или двумя</NR_HelpAwakenTraitsValue>
+  <NR_HelpMarketBlack>Товары чёрного рынка (цена ×{0})</NR_HelpMarketBlack>
 </LanguageData>

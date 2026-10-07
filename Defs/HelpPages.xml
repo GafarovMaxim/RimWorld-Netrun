@@ -90,7 +90,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Levels and their effects</label>
-    <body>## !heat:Shadow Shadow (0–24)\nNobody is looking. No attacks; fixers scrub at their best rate.\n## !heat:Noticed Noticed (25–49)\nNeural noise and data theft can come.\n## !heat:Tracked Tracked (50–74)\nMalware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod. Scrubbing gets less effective.\n## !heat:Target Target (75–94)\nRansomware, Black Book mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n## !heat:RedZone Red Zone (95–100)\nEverything from Target, with the worst scrub rate.\nThe exact list for your current level is on the Heat screen under "Level effects".</body>
+    <body>[[cards]]\n- !heat:Shadow Shadow (0–24): Nobody is looking. No attacks; fixers scrub at their best rate.\n- !heat:Noticed Noticed (25–49): Neural noise and data theft can come.\n- !heat:Tracked Tracked (50–74): Malware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod. Scrubbing gets less effective.\n- !heat:Target Target (75–94): Ransomware, Black Book mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n- !heat:RedZone Red Zone (95–100): Everything from Target, with the worst scrub rate. The exact list for your current level is on the Heat screen under "Level effects".</body>
     <icon>Dive_Lightning_Yellow</icon>
   </Netrun.HelpPageDef>
 
@@ -152,7 +152,7 @@
     <order>30</order>
     <color>Warn</color>
     <label>Fixers and contracts</label>
-    <body>Fixers are your contacts in the net. They scrub your trace, sell goods and give contracts. Calling a fixer costs silver and opens a channel for {fixers.channel} hours.</body>
+    <body>Fixers are your contacts in the net. They scrub your trace, sell goods and give contracts. Calling a fixer costs silver and opens a channel for {fixers.channel} hours.\n[[cards]]\n- !Fixers/Fixer_ShadowBroker The pool and reputation: five fixers, a slider shows what reputation opens. [[NR_Help_Fixers_Pool|Read]]\n- !Fixers/Fixer_Street Specialties and traits: who does what, and how each trait helps and hurts. [[NR_Help_Fixers_Types|Read]]\n- !Nodes/Home_Board Contracts: the stages of a job and every kind with real numbers. [[NR_Help_Fixers_Contracts|Read]]\n- !Heat/Heat_Reduction Scrubbing the trace: cyberdata for Heat, try the calculator. [[NR_Help_Fixers_Scrub|Read]]\n- !Fixers/Fixer_Shop Shop and black market: a fence's price list. [[NR_Help_Fixers_Market|Read]]</body>
     <icon>Fixers/Handshake</icon>
     <tips>
       <li>Hold a fixer you like so they stay through the rotation.</li>
@@ -187,7 +187,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Specialties and traits</label>
-    <body>## !Fixers/Fixer_ShadowBroker Broker\nLives on contracts: more offers and better pay.\n## !Fixers/Fixer_Corp Cleaner\nScrubs the trace cheaper than anyone.\n## !Fixers/Fixer_Street Fence\nRuns a shop: goods for silver, rare items for pinned contacts.\n## !Fixers/Fixer_Corp Imperial client (Royalty)\nComes only while you are at peace with the Empire. Pays less silver, but each finished contract adds royal favor to the colonist the Empire knows best.\n## Traits (each helps and hurts)\n- Greedy: more goods / everything a quarter dearer.\n- Reliable: forgives half a failure, sends no one after you / rewards −10%.\n- Rat: everything 20% cheaper / may sell you out (+Heat).\n- Paranoid: revenge raids come 25% weaker / no calls at Tracked or higher.\n- Gambler: the pay is rolled on completion (half to almost double).\n- Loyal: reputation twice as fast, extra discount once pinned / will not work while a rival of his trade is pinned.\n- Veteran: scrub 20% better / the call 30% dearer.\n- Collector: rare goods always in the shop / fewer ordinary ones.\n- Hothead: contracts pay 40% more / 40% shorter, a failure adds Heat.\nCleaners are often veterans, fences often collectors. A trait stays hidden until reputation {fixers.pin} or until the fixer gives themselves away.</body>
+    <body>Every fixer has a specialty and a trait. Pick one to read it:\n[[cards]]\n- !Fixers/Fixer_ShadowBroker Broker: lives on contracts: more offers and better pay for data.\n- !Fixers/Fixer_Corp Cleaner: scrubs the trace cheaper than anyone.\n- !Fixers/Fixer_Street Fence: runs a shop: goods for silver, rare items for pinned contacts.\n- !Fixers/Fixer_Corp Imperial client: comes only while you are at peace with the Empire (Royalty). Pays less silver, but each finished contract adds royal favor to the colonist the Empire knows best.\n## Traits (each helps and hurts)\n[[cards]]\n- Greedy: more goods / everything a quarter dearer.\n- Reliable: forgives half a failure, sends no one after you / rewards −10%.\n- Rat: everything 20% cheaper / may sell you out (+Heat).\n- Paranoid: revenge raids come 25% weaker / no calls at Tracked or higher.\n- Gambler: the pay is rolled on completion (half to almost double).\n- Loyal: reputation twice as fast, extra discount once pinned / will not work while a rival of his trade is pinned.\n- Veteran: scrub 20% better / the call 30% dearer.\n- Collector: rare goods always in the shop / fewer ordinary ones.\n- Hothead: contracts pay 40% more / 40% shorter, a failure adds Heat.\nCleaners are often veterans, fences often collectors. A trait stays hidden until reputation {fixers.pin} or until the fixer gives themselves away.</body>
     <icon>Fixers/Fixer_Street</icon>
   </Netrun.HelpPageDef>
 
@@ -215,7 +215,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Scrubbing the trace</label>
-    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones. Try it:\n[[scrub]] Reputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
+    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones. Try it:\n[[scrub]]\nReputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Heat/Heat_Reduction</icon>
     <keywords>
       <li>scrub the trace</li>
@@ -229,7 +229,7 @@
     <order>5</order>
     <color>Accent</color>
     <label>Shop and black market</label>
-    <body>Fences sell goods for silver; pinned fixers add rare items.\n## !Event_BlackMarket Black market\nDuring the black market event, fixers who trust you sell black braindance, AI fragments and sometimes core modules.</body>
+    <body>Fences sell goods for silver: the price is the item's value with the shop's markup, lower with reputation. Pinned fences add rare items, and in the black market event fixers who trust you sell what is not in their stock, dearer. Try it:\n[[market]]</body>
     <icon>Fixers/Fixer_Shop</icon>
     <keywords>
       <li>black market</li>
@@ -241,7 +241,7 @@
     <order>40</order>
     <color>Purple</color>
     <label>AI and the server room</label>
-    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character, and up to two traits of its own. Archetypes you have met open in the gallery; the rest stay "???". Move the trust slider to see what an AI gives and when it turns against you.\n&gt; page:NR_Help_AI_Archetypes|AI archetypes\n&gt; page:NR_Help_AI_Traits|AI traits\n&gt; open:Server|Open the server room</body>
+    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character, and up to two traits of its own. Archetypes you have met open in the gallery; the rest stay "???". Move the trust slider to see what an AI gives and when it turns against you.\n[[cards]]\n- !Tabs/Tab_AI AI archetypes: the gallery of the thirteen, with trust. [[NR_Help_AI_Archetypes|Read]]\n- !Gizmo_AI_Use Homes, trust and hunger: server, coprocessor or host. [[NR_Help_AI_Basics|Read]]\n- !Gizmo_AI_Feed Feeding and requests: hunger over the days. [[NR_Help_AI_Feeding|Read]]\n- !thing:NR_AIFragment Fragments and awakening: where they come from. [[NR_Help_AI_Awaken|Read]]\n- !Icon_AIRequest AI traits: ten traits, each with a plus and a minus. [[NR_Help_AI_Traits|Read]]\n&gt; open:Server|Open the server room</body>
     <icon>Nodes/Home_Server</icon>
     <contexts>
       <li>Server</li>
@@ -507,7 +507,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Node types</label>
-    <body>## !Node_Market Market\nEasy and quick: some cyberdata.\n## !Node_Archive Archive\nFiles and memory with data.\n## !Node_CorpVault Corporate vault\nStrong gates, advanced cyberdata, often Black ICE.\n## !Node_AbandonedServer Abandoned server\nWeak defense, memory units with AI fragments; sometimes a wild AI.\n## !Node_DarkExchange Dark exchange\nSilver on top of the data.\nBigger circles pay more. ★ marks a node a contract wants.\n## !Node_CorpCore Corporate core\nEvery {dive.boss} days a boss node appears for a few days: four gates and strong Black ICE. Cracking it gives a daemon (or a celebrity chip), maybe a core module, and a big haul.</body>
+    <body>[[cards]]\n- !Node_Market Market: Easy and quick: some cyberdata.\n- !Node_Archive Archive: Files and memory with data.\n- !Node_CorpVault Corporate vault: Strong gates, advanced cyberdata, often Black ICE.\n- !Node_AbandonedServer Abandoned server: Weak defense, memory units with AI fragments; sometimes a wild AI.\n- !Node_DarkExchange Dark exchange: Silver on top of the data. Bigger circles pay more. ★ marks a node a contract wants.\n- !Node_CorpCore Corporate core: Every {dive.boss} days a boss node appears for a few days: four gates and strong Black ICE. Cracking it gives a daemon (or a celebrity chip), maybe a core module, and a big haul.</body>
     <icon>Help/Header_Nodes</icon>
     <keywords>
       <li>corporate core</li>
@@ -520,7 +520,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>How a dive goes</label>
-    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n- !Action_Move Move to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack a gate or ICE.\n- !Action_Download Download files or memory.\n- !Action_Exit Exit from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks).\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.</body>
+    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack a gate or ICE.\n- !Action_Download Download files or memory.\n- !Action_Exit Exit from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks).\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.</body>
     <icon>Gizmo_NetrunDive</icon>
     <contexts>
       <li>Dive</li>
@@ -566,7 +566,7 @@
     <order>6</order>
     <color>Accent</color>
     <label>Rewards and the summary</label>
-    <body>!Reward_Valuables Files pay back the cost of the dive with a multiplier: more for stronger nodes, most with Black ICE. Corporate vaults add advanced cyberdata, dark exchanges silver, memory units AI fragments or core modules.\nOn a clean exit there is a chance of a special find: an AI fragment, research, a fixer's service, the hacker group's favor, a celebrity braindance, a daemon or a core module.\n!Icon_DiveReport After a dive the summary shows the haul, the costs, Heat and Netsick (can be turned off in the settings).</body>
+    <body>Files pay back the cost of the dive with a multiplier: more for stronger nodes, most with Black ICE. On a clean exit there is a chance of a special find:\n[[cards]]\n- !thing:NR_AIFragment AI fragment: a sleeping AI, waiting for your server.\n- !Tabs/Tab_Rewards Research: progress on the project you are researching.\n- !Fixer_Service_Reward A fixer's service: a free scrub of the trace from a fixer in the pool.\n- !Icon_GroupFavor The group's favor: a step toward calling the hacker group.\n- !thing:NR_BraindanceChip Celebrity braindance: a recorded memory of someone famous.\n- !Reward_DaemonProgram Daemon: a permanent program for every later dive.\n- !thing:NR_AICoreModule Core module: one more slot for the AI server.\n!Icon_DiveReport After a dive the summary shows the haul, the costs, Heat and Netsick (can be turned off in the settings).</body>
     <icon>Tabs/Tab_Rewards</icon>
   </Netrun.HelpPageDef>
 
@@ -591,7 +591,7 @@
     <order>60</order>
     <color>Studio</color>
     <label>Braindance</label>
-    <body>Braindance lets colonists live through someone else's memories.\n&gt; open:Studio|Open the Studio</body>
+    <body>Braindance lets colonists live through someone else's memories.\n[[cards]]\n- !Gizmo_BD_Record Goggles and recording: how a strong moment becomes a raw recording. [[NR_Help_BD_Record|Read]]\n- !thing:NR_BraindanceChip Editing and chips: the mood decides the chip; try it. [[NR_Help_BD_Chips|Read]]\n- !thing:NR_BlackBraindanceChip Black braindance: a stronger rush and a stronger hook. [[NR_Help_BD_Black|Read]]\n- !Reward_UniqueBraindance Unique recordings: eight named memories with effects of their own. [[NR_Help_BD_Unique|Read]]\n&gt; open:Studio|Open the Studio</body>
     <icon>Nodes/Home_Studio</icon>
     <contexts>
       <li>Studio</li>
@@ -608,7 +608,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Goggles and recording</label>
-    <body>Braindance goggles record their wearer's strongest moments by themselves. The result is a raw recording: a memory waiting to be edited.\n## !thing:NR_BraindanceGoggles Getting goggles\nCraft them at a fabrication bench (Crafting 5) and put them on a colonist. Only the goggles record; a cyberlink can watch chips but does not record.\n## !Gizmo_BD_Record What gets recorded\n- A strong feeling (a big mood swing, joy or grief) or a kill: the goggles capture it on their own.\n- The recording keeps the moment's mood (bright, dark or combat) and its strength.\n- At most one recording a day per colonist, so a bad day does not flood the storage.\n- The raw recording lies next to the colonist. It is not a chip yet and cannot be watched.\n## Where to see them\nThe Studio's "Raw recordings" tab lists every raw recording on the map with its author, mood and quality.\n&gt; page:NR_Help_BD_Chips|Editing and chips\n&gt; open:Studio|Open the Studio</body>
+    <body>Braindance goggles record their wearer's strongest moments by themselves. The result is a raw recording: a memory waiting to be edited.\n[[cards]]\n- !thing:NR_BraindanceGoggles Goggles: craft them at a fabrication bench (Crafting 5) and put them on a colonist. Only the goggles record; a cyberlink can watch chips but does not record.\n- !Gizmo_BD_Record What gets recorded: a strong feeling (a big mood swing, joy or grief) or a kill. The goggles capture it on their own.\n- !thing:NR_BraindanceRaw The raw recording: it keeps the moment's mood (bright, dark or combat) and its strength, and lies next to the colonist. It is not a chip yet and cannot be watched.\n- !Icon_Lock One a day: at most one recording a day per colonist, so a bad day does not flood the storage.\n- !Nodes/Home_Studio Where to see them: the Studio's "Raw recordings" tab lists every raw recording on the map with its author, mood and quality.\n&gt; page:NR_Help_BD_Chips|Editing and chips\n&gt; open:Studio|Open the Studio</body>
     <icon>Gizmo_BD_Record</icon>
   </Netrun.HelpPageDef>
 
@@ -640,7 +640,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Unique recordings</label>
-    <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight, and they are rare; the same one can turn up again.\n## Where to find them\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
+    <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight, and they are rare; the same one can turn up again.\n## Where to find them\n[[cards]]\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
     <icon>Reward_UniqueBraindance</icon>
     <keywords>
       <li>unique recordings</li>
@@ -653,7 +653,7 @@
     <order>70</order>
     <color>Muted</color>
     <label>Events</label>
-    <body>Netrun brings four groups of events. The frequency of each group can be changed in the mod settings; everything that touches your trace is logged in the Archive.\n&gt; open:Archive|Open the Archive</body>
+    <body>Netrun brings four groups of events. The frequency of each group can be changed in the mod settings; everything that touches your trace is logged in the Archive.\n[[cards]]\n- !Event_Cyberspace_Ransomware Network attacks: what the net throws at you as Heat grows. [[NR_Help_Events_Attacks|Read]]\n- !Event_MapEvents Map events: couriers, hunts, the black market, the distress signal. [[NR_Help_Events_Map|Read]]\n- !Tabs/Tab_Events_Cyberspace Cyberspace events: hunters, rivals, storms and the news. [[NR_Help_Events_Cyber|Read]]\n- !Tabs/Tab_Events_AI AI events: what your AIs do on their own. [[NR_Help_Events_AI|Read]]\n&gt; open:Archive|Open the Archive</body>
     <icon>Tabs/Tab_Events_Blue</icon>
     <contexts>
       <li>Archive</li>
@@ -669,7 +669,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Network attacks</label>
-    <body>Come from the storyteller as Heat grows.\n- Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
+    <body>Come from the storyteller as Heat grows.\n[[cards]]\n- Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
     <icon>Help/Header_NetworkAttacks</icon>
   </Netrun.HelpPageDef>
 
@@ -679,7 +679,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Map events</label>
-    <body>- !Event_DataCourier Data courier: a fixer's courier with cyberdata stays a day; mercenaries come for the data. Keep them alive for silver and reputation, or take the data: if the courier dies, the cyberdata is yours, but the job fails.\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: a quest in the Quests tab. An abandoned server sits in a sealed compound on the world map, guarded by turrets (and hunter drones with Odyssey); reach it and connect for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
+    <body>- !Event_DataCourier Data courier: a fixer's courier with cyberdata stays a day; mercenaries come for the data. Keep them alive for silver and reputation, or take the data: if the courier dies, the cyberdata is yours, but the job fails.\n[[cards]]\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: a quest in the Quests tab. An abandoned server sits in a sealed compound on the world map, guarded by turrets (and hunter drones with Odyssey); reach it and connect for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
     <icon>Event_MapEvents</icon>
   </Netrun.HelpPageDef>
 
@@ -689,7 +689,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Cyberspace events</label>
-    <body>- !Event_HunterICE ICE hunter (Target+): strikes every node turn; hack it or leave before it follows you home.\n- !Event_Rival Rival netrunner: takes the files after a few turns; be faster.\n- !Event_Honeypot Too good to be true: now and then a node looks richer than it should. Trust your scans more than your greed.\n- !Event_DataStorm Data storm: harder gates, bigger haul for a day or two.\n- !Event_WildAI Wild AI: in an abandoned server; tame it, erase it or sell it.\n- !Node_Counterhack Counter-hack: the node to free your hijacked turrets.\n## News that changes the net\nEvery few days the news line reports something with a real effect: a node hardens its ICE or has its codes leaked, data floods the market (more cyberdata from dives), the net goes quiet (less trace). When the corporate core falls, corp nodes go on lockdown for a week. A runaway AI hides in an abandoned node: dive there to find it.</body>
+    <body>- !Event_HunterICE ICE hunter (Target+): strikes every node turn; hack it or leave before it follows you home.\n[[cards]]\n- !Event_Rival Rival netrunner: takes the files after a few turns; be faster.\n- !Event_Honeypot Too good to be true: now and then a node looks richer than it should. Trust your scans more than your greed.\n- !Event_DataStorm Data storm: harder gates, bigger haul for a day or two.\n- !Event_WildAI Wild AI: in an abandoned server; tame it, erase it or sell it.\n- !Node_Counterhack Counter-hack: the node to free your hijacked turrets.\n## News that changes the net\nEvery few days the news line reports something with a real effect: a node hardens its ICE or has its codes leaked, data floods the market (more cyberdata from dives), the net goes quiet (less trace). When the corporate core falls, corp nodes go on lockdown for a week. A runaway AI hides in an abandoned node: dive there to find it.</body>
     <icon>Tabs/Tab_Events_Cyberspace</icon>
   </Netrun.HelpPageDef>
 
@@ -699,7 +699,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>AI events</label>
-    <body>Awakened AIs are not tools: they want things and act on their own. Now and then one of them does something, and what it does depends on who it is and how it feels.\n## !Icon_AIRequest What drives them\n- Trust: a trusting AI brings gifts, favors and help; a resentful one plays tricks and makes trouble.\n- Hunger: a hungry AI gets restless, and its events turn darker.\n- Home: an AI behaves differently on the server, in a cyberpod's coprocessor and inside a host.\n## !Gizmo_AI_Use Letters and choices\nMost events come as a letter. Some simply happen; others offer up to three answers. Leaving a letter unanswered is an answer too.\n## Archetypes\nAny AI can have the general events, and every archetype has several of its own that fit its character. A new archetype means new surprises.\n## What can change\nTrust and hunger, Heat, your stores, your colonists' mood, skills and health, the work of your machines and sometimes your dealings with fixers. The letter always says what is at stake.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
+    <body>Awakened AIs are not tools: they want things and act on their own. Now and then one of them does something, and what it does depends on who it is and how it feels.\n[[cards]]\n- !Icon_AIRequest What drives them: Trust: a trusting AI brings gifts, favors and help; a resentful one plays tricks and makes trouble. Hunger: a hungry AI gets restless, and its events turn darker. Home: an AI behaves differently on the server, in a cyberpod's coprocessor and inside a host.\n- !Gizmo_AI_Use Letters and choices: Most events come as a letter. Some simply happen; others offer up to three answers. Leaving a letter unanswered is an answer too.\n- Archetypes: Any AI can have the general events, and every archetype has several of its own that fit its character. A new archetype means new surprises.\n- What can change: Trust and hunger, Heat, your stores, your colonists' mood, skills and health, the work of your machines and sometimes your dealings with fixers. The letter always says what is at stake.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
     <icon>Tabs/Tab_Events_AI</icon>
   </Netrun.HelpPageDef>
 

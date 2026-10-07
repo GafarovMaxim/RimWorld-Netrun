@@ -256,8 +256,21 @@ public partial class HelpBrowser
         }
         else
         {
-            foreach (string raw in HelpPageDef.Tokens(_page.body ?? string.Empty).Split('\n'))
-                y = BodyLine(raw.TrimEnd(), y, w);
+            // "[[cards]]" turns the bullet list right after it into a set of tiles with a card for the picked one.
+            string[] lines = HelpPageDef.Tokens(_page.body ?? string.Empty).Split('\n');
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i].TrimEnd();
+                if (line == "[[cards]]")
+                {
+                    var items = new List<string>();
+                    while (i + 1 < lines.Length && lines[i + 1].TrimEnd().StartsWith("- "))
+                        items.Add(lines[++i].TrimEnd().Substring(2));
+                    y = CardsBlock(_page.defName + "." + i, items, y, w);
+                    continue;
+                }
+                y = BodyLine(line, y, w);
+            }
 
             if (_page.tips.Count > 0)
             {
@@ -336,6 +349,8 @@ public partial class HelpBrowser
             return AITraitsDemo(y, w);
         if (line == "[[aiawaken]]")
             return AIAwakenDemo(y, w);
+        if (line == "[[market]]")
+            return MarketDemo(y, w);
         if (line == "[[checklist]]")
             return ChecklistDemo(y, w);
         if (line == "[[terminalmap]]")

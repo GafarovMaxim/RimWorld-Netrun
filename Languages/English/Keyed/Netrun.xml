@@ -303,4 +303,5 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpAwakenNoiseValue>at Heat 50 a {0} chance someone notices: +{1} Heat</NR_HelpAwakenNoiseValue>
   <NR_HelpAwakenTraits>What wakes</NR_HelpAwakenTraits>
   <NR_HelpAwakenTraitsValue>a random archetype; {0} wake with no trait, the rest with one or two</NR_HelpAwakenTraitsValue>
+  <NR_HelpMarketBlack>Black market goods (price ×{0})</NR_HelpMarketBlack>
 </LanguageData>
