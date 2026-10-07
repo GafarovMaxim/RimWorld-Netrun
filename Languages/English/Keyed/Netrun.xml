@@ -214,4 +214,49 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpLoadoutTrace>Trace</NR_HelpLoadoutTrace>
   <NR_HelpLoadoutCost>Dive cost</NR_HelpLoadoutCost>
   <NR_HelpLoadoutCostValue>{0} cyberdata</NR_HelpLoadoutCostValue>
+  <NR_HelpTermNode_Core>Core</NR_HelpTermNode_Core>
+  <NR_HelpTermNodeDesc_Core>The ring is your Heat. Click it for the Heat screen: the scale, the graph of the week, what raised it and every way to bring it down. Around it, "Now" suggests the most useful action and "Alerts" lists what is burning.</NR_HelpTermNodeDesc_Core>
+  <NR_HelpTermNode_Club>Club</NR_HelpTermNode_Club>
+  <NR_HelpTermNodeDesc_Club>Fixers live here: the pool, reputation, calls, the shop, scrubbing the trace, and the hacker group.</NR_HelpTermNodeDesc_Club>
+  <NR_HelpTermNode_Board>Board</NR_HelpTermNode_Board>
+  <NR_HelpTermNodeDesc_Board>Contracts from the fixers: pick a job, follow its progress, collect the pay.</NR_HelpTermNodeDesc_Board>
+  <NR_HelpTermNode_Archive>Archive</NR_HelpTermNode_Archive>
+  <NR_HelpTermNodeDesc_Archive>The log of your trace: every hack, dive, scrub and event, with filters and the history of the week.</NR_HelpTermNodeDesc_Archive>
+  <NR_HelpTermNode_Server>Server room</NR_HelpTermNode_Server>
+  <NR_HelpTermNodeDesc_Server>Awakened AIs: their trust and hunger, services, requests, hosts and coprocessors.</NR_HelpTermNodeDesc_Server>
+  <NR_HelpTermNode_Studio>Studio</NR_HelpTermNode_Studio>
+  <NR_HelpTermNodeDesc_Studio>Braindance: raw recordings to edit, the chip library and the addiction of your colonists.</NR_HelpTermNodeDesc_Studio>
+  <NR_HelpTermNode_Gateway>Gateway</NR_HelpTermNode_Gateway>
+  <NR_HelpTermNodeDesc_Gateway>Cyberspace: the map of external nodes, the loadout before a dive, and the dive itself.</NR_HelpTermNodeDesc_Gateway>
+  <NR_HelpChecklist_Console>Build a comms console: it becomes the network console and opens the terminal.</NR_HelpChecklist_Console>
+  <NR_HelpChecklist_Pod>Build a cyberpod (Hacking Expansion's "Cyberspace" tab).</NR_HelpChecklist_Pod>
+  <NR_HelpChecklist_Link>Give a colonist a cyberlink: now they can hack.</NR_HelpChecklist_Link>
+  <NR_HelpChecklist_Hack>Hack any target: the first Heat appears and the Core opens.</NR_HelpChecklist_Hack>
+  <NR_HelpChecklist_Fixer>Call a fixer in the Club and make a first deal.</NR_HelpChecklist_Fixer>
+  <NR_HelpChecklist_Dive>Dive into a node from the Gateway.</NR_HelpChecklist_Dive>
+  <NR_HelpChecklist_AI>Wake an AI fragment on an AI server.</NR_HelpChecklist_AI>
+  <NR_HelpChecklistDone>{0} of {1} done</NR_HelpChecklistDone>
+  <NR_HelpHackDefence>Defense of the target: {0}</NR_HelpHackDefence>
+  <NR_HelpHackStealth>Hacking stealth of the hacker: {0}</NR_HelpHackStealth>
+  <NR_HelpHackInPod>From a cyberpod (trace ×{0})</NR_HelpHackInPod>
+  <NR_HelpHackHeatNote>One hack leaves between {0} and {1} Heat: more for a stronger target, less with stealth or from a pod.</NR_HelpHackHeatNote>
+  <NR_HelpNewcomerSetting>Newcomer protection</NR_HelpNewcomerSetting>
+  <NR_HelpNewcomerState>In this game</NR_HelpNewcomerState>
+  <NR_HelpNewcomerOpen>the colony is in the net: threats can come</NR_HelpNewcomerOpen>
+  <NR_HelpNewcomerClosed>not in the net yet: you are protected</NR_HelpNewcomerClosed>
+  <NR_HelpNewcomerBlocks>Held back</NR_HelpNewcomerBlocks>
+  <NR_HelpNewcomerBlocksList>network attacks, mercenaries, corporate hunts, the data courier</NR_HelpNewcomerBlocksList>
+  <NR_HelpNewcomerAlways>Can come anyway</NR_HelpNewcomerAlways>
+  <NR_HelpNewcomerAlwaysList>the black market, the distress signal</NR_HelpNewcomerAlwaysList>
+  <NR_HelpOn>on</NR_HelpOn>
+  <NR_HelpOff>off</NR_HelpOff>
+  <NR_HelpLowerHeatNow>Heat now: {0}</NR_HelpLowerHeatNow>
+  <NR_HelpLowerWait>Wait it out</NR_HelpLowerWait>
+  <NR_HelpLowerWaitValue>{0} days to zero</NR_HelpLowerWaitValue>
+  <NR_HelpLowerScrub>Scrub with a fixer</NR_HelpLowerScrub>
+  <NR_HelpLowerScrubValue>{0} cyberdata to zero (no discount)</NR_HelpLowerScrubValue>
+  <NR_HelpLowerGhost>A Ghost AI</NR_HelpLowerGhost>
+  <NR_HelpLowerGhostValue>−{0} per service, {1} services (every {2} days)</NR_HelpLowerGhostValue>
+  <NR_HelpLowerContract>"Lay low" contract</NR_HelpLowerContract>
+  <NR_HelpLowerContractValue>a fixer pays {0} silver for each point you bring down</NR_HelpLowerContractValue>
 </LanguageData>

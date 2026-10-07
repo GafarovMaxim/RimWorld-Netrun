@@ -328,6 +328,16 @@ public partial class HelpBrowser
             return BraindanceDemo(y, w, Preset(line));
         if (line == "[[ice]]")
             return IceDemo(y, w);
+        if (line == "[[checklist]]")
+            return ChecklistDemo(y, w);
+        if (line == "[[terminalmap]]")
+            return TerminalMapDemo(y, w);
+        if (line == "[[hackheat]]")
+            return HackHeatDemo(y, w);
+        if (line == "[[newcomer]]")
+            return NewcomerDemo(y, w);
+        if (line == "[[lowerheat]]")
+            return LowerHeatDemo(y, w);
         if (line == "[[loadout]]")
             return LoadoutDemo(y, w);
         if (line == "[[diagnostics]]")

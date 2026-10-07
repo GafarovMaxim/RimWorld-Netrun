@@ -7,7 +7,7 @@
     <order>10</order>
     <color>Accent</color>
     <label>Getting started</label>
-    <body>Netrun turns Hacking Expansion into a whole network game: your hacks leave a digital trace (Heat), fixers sell services and contracts, awakened AIs live on your servers, and netrunners dive into cyberspace for loot.\n## How to get online\n- !thing:CommsConsole Build a comms console: it becomes the network console and opens the terminal.\n- !thing:USH_Cyberpod Build a cyberpod (the "Cyberspace" tab).\n- !thing:USH_Cyberlink Give a colonist a cyberlink.\n- !tex:UI/Gizmos/HackTarget Hack any target on the map: the first Heat appears and the Core opens.\nUntil then Netrun's threats do not come (newcomer protection).</body>
+    <body>Netrun turns Hacking Expansion into a whole network game: your hacks leave a digital trace (Heat), fixers sell services and contracts, awakened AIs live on your servers, and netrunners dive into cyberspace for loot.\n## Your first steps\nTicked from your game as you go:\n[[checklist]]\nUntil the colony touches the net, Netrun's threats do not come (newcomer protection).</body>
     <icon>Icon_Cyberspace</icon>
     <tips>
       <li>F1 in the terminal opens the Cyberpedia on the current screen.</li>
@@ -24,7 +24,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>The terminal</label>
-    <body>The terminal is a map of nodes around the Core. Each node is a part of your network:\n- !Nodes/Home_Club Club: fixers, their services and the hacker group.\n- !Nodes/Home_Board Board: contracts from fixers.\n- !Nodes/Home_Archive Archive: the log of your trace.\n- !Nodes/Home_Server Server room: awakened AIs.\n- !Nodes/Home_Studio Studio: braindance recordings and chips.\n- !Nodes/Home_Gateway Gateway: cyberspace and dives.\nThe ring in the middle is your Heat; click it for the "Heat and trace" screen. On the right, "Now" suggests the most useful action, "Alerts" lists what is burning, and "Colony online" shows your resources.\nNodes open one by one as you meet them in the game.\n&gt; open:Core|Open the Core</body>
+    <body>The terminal is a map of nodes around the Core; each node is a part of your network. Click one to read what it holds. Nodes open one by one as you meet them in the game.\n[[terminalmap]]\n&gt; open:Core|Open the Core</body>
     <icon>Gizmo_NetTerminal</icon>
     <contexts>
       <li>Core</li>
@@ -41,7 +41,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Hacks and cyberdata</label>
-    <body>A hacker colonist (with a cyberlink) can hack devices on the map, or do it from a cyberpod. Each finished hack gives cyberdata and raises Heat: the stronger the target, the more trace. Hacking from a pod leaves less trace and sometimes gives extra data.\n## !thing:USH_Cyberdata Cyberdata\nThe currency of the net: dives, programs, scrubbing the trace with a fixer. Advanced cyberdata is worth three times more.</body>
+    <body>A hacker colonist (with a cyberlink) can hack devices on the map, or do it from a cyberpod. Each finished hack gives cyberdata and raises Heat. Try how much trace one hack leaves:\n[[hackheat]]\n## !thing:USH_Cyberdata Cyberdata\nThe currency of the net: dives, programs, scrubbing the trace with a fixer. Advanced cyberdata is worth three times more.</body>
     <icon>tex:UI/Gizmos/HackTarget</icon>
     <keywords>
       <li>cyberdata</li>
@@ -54,7 +54,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Newcomer protection</label>
-    <body>Until the colony touches the net (any Heat, a cyberpod or server built, a colonist with a cyberlink, or a dive), Netrun's attacks, mercenaries, corporate hunts and courier do not come. The black market and the distress signal can come at any time.\nThe protection can be turned off in the mod settings.</body>
+    <body>Until the colony touches the net (any Heat, a cyberpod or server built, a colonist with a cyberlink, or a dive), the heavy threats wait. Here is how it stands:\n[[newcomer]]\nThe protection can be turned off in the mod settings.</body>
     <icon>Icon_Lock</icon>
     <keywords>
       <li>newcomer protection</li>
@@ -100,7 +100,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>How to lower Heat</label>
-    <body>## !Fixers/Fixer_Corp Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours) and hand over cyberdata. The rate falls as Heat grows: from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone; advanced cyberdata counts triple.\n## !ai:Ghost A Ghost AI\nIts service wipes part of the trace for some trust.\n## !heat:Shadow Wait\nHeat cools on its own every day. Lie low and do not hack.\n&gt; page:NR_Help_Fixers_Scrub|How a scrub works\n&gt; open:Heat|Ways to lower on the Heat screen</body>
+    <body>Four ways down, compared for the Heat you pick (your own settings):\n[[lowerheat]]\n## !Fixers/Fixer_Corp Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours) and hand over cyberdata. The rate falls as Heat grows: from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone.\n&gt; page:NR_Help_Fixers_Scrub|How a scrub works\n&gt; open:Heat|Ways to lower on the Heat screen</body>
     <icon>Dive_Heat</icon>
   </Netrun.HelpPageDef>
 

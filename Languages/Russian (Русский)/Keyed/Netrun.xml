@@ -214,4 +214,49 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLoadoutTrace>След</NR_HelpLoadoutTrace>
   <NR_HelpLoadoutCost>Цена нырка</NR_HelpLoadoutCost>
   <NR_HelpLoadoutCostValue>{0} cyberdata</NR_HelpLoadoutCostValue>
+  <NR_HelpTermNode_Core>Core</NR_HelpTermNode_Core>
+  <NR_HelpTermNodeDesc_Core>Кольцо — ваш Heat. Клик открывает экран Heat: шкала, график недели, что его подняло, и все способы его сбить. Вокруг «Сейчас» подсказывает самое полезное действие, а «Тревоги» показывают, что горит.</NR_HelpTermNodeDesc_Core>
+  <NR_HelpTermNode_Club>Клуб</NR_HelpTermNode_Club>
+  <NR_HelpTermNodeDesc_Club>Здесь живут фиксеры: пул, репутация, звонки, магазин, сброс следа и хакерская группа.</NR_HelpTermNodeDesc_Club>
+  <NR_HelpTermNode_Board>Доска</NR_HelpTermNode_Board>
+  <NR_HelpTermNodeDesc_Board>Контракты от фиксеров: взять работу, следить за ходом, получить оплату.</NR_HelpTermNodeDesc_Board>
+  <NR_HelpTermNode_Archive>Архив</NR_HelpTermNode_Archive>
+  <NR_HelpTermNodeDesc_Archive>Журнал вашего следа: каждый взлом, нырок, сброс и событие, с фильтрами и историей недели.</NR_HelpTermNodeDesc_Archive>
+  <NR_HelpTermNode_Server>Серверная</NR_HelpTermNode_Server>
+  <NR_HelpTermNodeDesc_Server>Пробуждённые ИИ: доверие и голод, услуги, просьбы, носители и сопроцессоры.</NR_HelpTermNodeDesc_Server>
+  <NR_HelpTermNode_Studio>Студия</NR_HelpTermNode_Studio>
+  <NR_HelpTermNodeDesc_Studio>Брейнданс: сырые записи для монтажа, библиотека чипов и зависимость колонистов.</NR_HelpTermNodeDesc_Studio>
+  <NR_HelpTermNode_Gateway>Шлюз</NR_HelpTermNode_Gateway>
+  <NR_HelpTermNodeDesc_Gateway>Киберпространство: карта внешних нод, сборка перед нырком и сам нырок.</NR_HelpTermNodeDesc_Gateway>
+  <NR_HelpChecklist_Console>Постройте консоль связи: она станет сетевой консолью и откроет терминал.</NR_HelpChecklist_Console>
+  <NR_HelpChecklist_Pod>Постройте кибер-капсулу (меню «Киберпространство» из Hacking Expansion).</NR_HelpChecklist_Pod>
+  <NR_HelpChecklist_Link>Поставьте колонисту кибер-линк: теперь он может взламывать.</NR_HelpChecklist_Link>
+  <NR_HelpChecklist_Hack>Взломайте любую цель: появится первый Heat, и откроется Core.</NR_HelpChecklist_Hack>
+  <NR_HelpChecklist_Fixer>Позвоните фиксеру в Клубе и сделайте первую сделку.</NR_HelpChecklist_Fixer>
+  <NR_HelpChecklist_Dive>Нырните в ноду через Шлюз.</NR_HelpChecklist_Dive>
+  <NR_HelpChecklist_AI>Пробудите осколок ИИ на ИИ-сервере.</NR_HelpChecklist_AI>
+  <NR_HelpChecklistDone>Сделано {0} из {1}</NR_HelpChecklistDone>
+  <NR_HelpHackDefence>Защита цели: {0}</NR_HelpHackDefence>
+  <NR_HelpHackStealth>Скрытность взлома у хакера: {0}</NR_HelpHackStealth>
+  <NR_HelpHackInPod>Из кибер-капсулы (след ×{0})</NR_HelpHackInPod>
+  <NR_HelpHackHeatNote>Один взлом оставляет от {0} до {1} Heat: больше за сильную цель, меньше со скрытностью или из капсулы.</NR_HelpHackHeatNote>
+  <NR_HelpNewcomerSetting>Защита новичка</NR_HelpNewcomerSetting>
+  <NR_HelpNewcomerState>В этой игре</NR_HelpNewcomerState>
+  <NR_HelpNewcomerOpen>колония в сети: угрозы могут прийти</NR_HelpNewcomerOpen>
+  <NR_HelpNewcomerClosed>ещё не в сети: вы под защитой</NR_HelpNewcomerClosed>
+  <NR_HelpNewcomerBlocks>Не приходят</NR_HelpNewcomerBlocks>
+  <NR_HelpNewcomerBlocksList>сетевые атаки, наёмники, охота корпов, курьер данных</NR_HelpNewcomerBlocksList>
+  <NR_HelpNewcomerAlways>Приходят всегда</NR_HelpNewcomerAlways>
+  <NR_HelpNewcomerAlwaysList>чёрный рынок, сигнал бедствия</NR_HelpNewcomerAlwaysList>
+  <NR_HelpOn>включена</NR_HelpOn>
+  <NR_HelpOff>выключена</NR_HelpOff>
+  <NR_HelpLowerHeatNow>Heat сейчас: {0}</NR_HelpLowerHeatNow>
+  <NR_HelpLowerWait>Переждать</NR_HelpLowerWait>
+  <NR_HelpLowerWaitValue>{0} дн. до нуля</NR_HelpLowerWaitValue>
+  <NR_HelpLowerScrub>Сброс у фиксера</NR_HelpLowerScrub>
+  <NR_HelpLowerScrubValue>{0} cyberdata до нуля (без скидок)</NR_HelpLowerScrubValue>
+  <NR_HelpLowerGhost>ИИ «Призрак»</NR_HelpLowerGhost>
+  <NR_HelpLowerGhostValue>−{0} за услугу, {1} услуг (раз в {2} дн.)</NR_HelpLowerGhostValue>
+  <NR_HelpLowerContract>Контракт «Залечь на дно»</NR_HelpLowerContract>
+  <NR_HelpLowerContractValue>фиксер платит {0} серебра за каждый сбитый пункт</NR_HelpLowerContractValue>
 </LanguageData>
