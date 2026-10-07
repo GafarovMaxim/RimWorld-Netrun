@@ -585,6 +585,7 @@ public partial class Dialog_NetTerminal : Window
         else if (_view == View.Gateway && rect.xMax - 10f - x > 80f)
         {
             var newsSeg = new Rect(x, segY, rect.xMax - 10f - x, segHeight);
+            GuideRegistry.Area("terminal.news", newsSeg);
             NetrunUI.Box(newsSeg, NetrunUI.BgWindow, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;

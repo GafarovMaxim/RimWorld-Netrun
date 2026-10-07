@@ -73,8 +73,19 @@ public static class FixersTab
         if (pinned.Count > 0)
             GuideRegistry.InScroll("club.pinned", rect, scroll, new Rect(0f, gPin, width, y - gPin));
         float gPool = y;
+        float poolY = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight),
             "NR_ClubPool".Translate(pool.Count, manager.TicksUntilRotation.ToStringTicksToPeriod()));
+        // Not waiting for the rotation: a new pool now, for cyberdata.
+        int cost = NetrunDefOf.NR_Fixers.rotateNowCost;
+        string rotate = "NR_ClubRotateNow".Translate(cost);
+        float rw = NetrunUI.ButtonWidth(rotate);
+        AcceptanceReport can = ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= cost ? true : (AcceptanceReport)"NR_NotEnoughCyberdata".Translate();
+        if (NetrunUI.Button(new Rect(width - rw - 24f, poolY + 1f, rw, 24f), rotate, NetrunUI.Warn, can, "NR_ClubRotateNowTip".Translate(cost)))
+        {
+            if (ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost))
+                manager.Rotate(notify: true);
+        }
         GuideRegistry.InScroll("club.pool", rect, scroll, new Rect(0f, gPool, width, SectionHeight));
         bool first = true;
         foreach (Fixer fixer in pool)

@@ -227,4 +227,7 @@
   <NR_AICardRequestTip>Просьбы приходят раз в несколько дней. Выполните вовремя — +{0} доверия; пропустите срок — столько же минус.</NR_AICardRequestTip>
   <NR_AICardHistory>Было:</NR_AICardHistory>
   <NR_AICardNoRequestPlain>Сейчас просьб нет</NR_AICardNoRequestPlain>
+  <NR_AIServerGizmo>Комната ИИ</NR_AIServerGizmo>
+  <NR_AIServerGizmoDesc>Открыть карточки ИИ этого сервера: кормление, услуги, просьбы, перенос. Остальная сеть — в терминале.</NR_AIServerGizmoDesc>
+  <NR_AIServerWindowTitle>NETRUN // КОМНАТА ИИ</NR_AIServerWindowTitle>
 </LanguageData>

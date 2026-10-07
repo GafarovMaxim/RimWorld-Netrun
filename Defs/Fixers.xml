@@ -35,6 +35,8 @@
 
     <!-- Heat removed per data item before discounts -->
     <heatPerCyberdata>5</heatPerCyberdata>
+    <!-- Rotate the fixer pool now (pinned, held and fixers with a running contract stay), for this much cyberdata -->
+    <rotateNowCost>8</rotateNowCost>
     <!-- Black market goods cost this much more than the fixer's own stock -->
     <blackMarketMarkup>1.18</blackMarketMarkup>
     <heatPerAdvancedCyberdata>15</heatPerAdvancedCyberdata>

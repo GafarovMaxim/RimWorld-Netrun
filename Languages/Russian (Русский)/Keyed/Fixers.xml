@@ -89,4 +89,6 @@
   <NR_ShopTitleShort>МАГАЗИН //</NR_ShopTitleShort>
   <NR_ShopBlackTag>ЧЁРНЫЙ РЫНОК</NR_ShopBlackTag>
   <NR_ShopBlackTip>Продаётся только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>
+  <NR_ClubRotateNow>Новый пул ({0} cyberdata)</NR_ClubRotateNow>
+  <NR_ClubRotateNowTip>Сменить пул сейчас, не дожидаясь срока. Закреплённые, удержанные и фиксеры с идущим контрактом остаются. Стоит {0} cyberdata.</NR_ClubRotateNowTip>
 </LanguageData>

@@ -227,4 +227,7 @@
   <NR_AICardRequestTip>Requests come every few days. Do it in time for +{0} trust; if the deadline passes, trust drops by the same.</NR_AICardRequestTip>
   <NR_AICardHistory>Last:</NR_AICardHistory>
   <NR_AICardNoRequestPlain>No requests right now</NR_AICardNoRequestPlain>
+  <NR_AIServerGizmo>AI room</NR_AIServerGizmo>
+  <NR_AIServerGizmoDesc>Open the AI cards of this server: feed, services, requests, moving AIs. The rest of the network stays in the terminal.</NR_AIServerGizmoDesc>
+  <NR_AIServerWindowTitle>NETRUN // AI ROOM</NR_AIServerWindowTitle>
 </LanguageData>

@@ -120,6 +120,9 @@
   <NR_Guide_dive_haul.steps.0.text>Что вы уже несёте. Отступление из глубины теряет часть.</NR_Guide_dive_haul.steps.0.text>
   <NR_Guide_dive_log.label>Журнал</NR_Guide_dive_log.label>
   <NR_Guide_dive_log.steps.0.text>Терминал нырка: каждое действие и ответ ноды, новое внизу.</NR_Guide_dive_log.steps.0.text>
+  <NR_Guide_terminal_news.label>Лента новостей</NR_Guide_terminal_news.label>
+  <NR_Guide_terminal_news.steps.0.text>Что происходит в киберпространстве: штормы, корп-ядро, соперники, дикие ИИ, ноды контрактов, ваш последний нырок и когда придут новые ноды. Наведите — увидите, что действует прямо сейчас.</NR_Guide_terminal_news.steps.0.text>
+  <NR_Guide_terminal_news.steps.0.hint>наведите на ленту новостей.</NR_Guide_terminal_news.steps.0.hint>
   <NR_Guide_gateway_reports.label>Отчёты о нырках</NR_Guide_gateway_reports.label>
   <NR_Guide_gateway_reports.steps.0.text>Последние десять нырков в Архиве; «◄ Шлюз» вернёт сюда.</NR_Guide_gateway_reports.steps.0.text>
   <NR_Guide_terminal_back.label>Назад</NR_Guide_terminal_back.label>

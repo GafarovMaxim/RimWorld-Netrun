@@ -687,6 +687,21 @@
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
+    <defName>NR_Guide_terminal_news</defName>
+    <label>News line</label>
+    <area>terminal.news</area>
+    <screen>Gateway</screen>
+    <order>8</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>What is going on in cyberspace: storms, the corporate core, rivals, wild AIs, contract nodes, your last dive and when new nodes come. Hover it to see what is in effect right now.</text>
+        <hint>hover the news line.</hint>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
     <defName>NR_Guide_gateway_reports</defName>
     <label>Dive reports</label>
     <area>gateway.reports</area>

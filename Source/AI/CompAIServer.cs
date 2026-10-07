@@ -56,6 +56,22 @@ public class CompAIServer : ThingComp
         AIManager.Get()?.OnServerDestroyed((Building)parent, previousMap, parent.Position);
     }
 
+    /// <summary>The main server opens its AI room straight from the building (only the AIs, not the whole terminal).</summary>
+    public override IEnumerable<Gizmo> CompGetGizmosExtra()
+    {
+        foreach (Gizmo g in base.CompGetGizmosExtra())
+            yield return g;
+        if (IsCoprocessor || parent.Faction != Faction.OfPlayer)
+            yield break;
+        yield return new Command_Action
+        {
+            defaultLabel = "NR_AIServerGizmo".Translate(),
+            defaultDesc = "NR_AIServerGizmoDesc".Translate(),
+            icon = NetrunTex.AIUse,
+            action = () => Find.WindowStack.Add(new Dialog_AIServer(parent.Map)),
+        };
+    }
+
     public override string CompInspectStringExtra()
     {
         var lines = new List<string> { "NR_ServerSlots".Translate(Used, Slots) };

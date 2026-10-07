@@ -555,7 +555,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Goggles and recording</label>
-    <body>A colonist wearing braindance goggles can record strong moments of their life: fights, joy, grief. The recording becomes a raw recording.\n!Gizmo_BD_Record "Record" on the goggles starts it; a cyberlink works as well.</body>
+    <body>A colonist wearing braindance goggles (or with a cyberlink) can record a strong moment of their life. The result is a raw recording: a memory waiting to be edited.\n## !Gizmo_BD_Record How to record\n- Put the goggles on a colonist (craft them at a machining table) or use one with a cyberlink.\n- Press "Record" on the colonist: the next strong moment is captured.\n- Fights, joy and grief make good material: a recording keeps the moment's mood (bright, dark or combat) and its strength.\n- When the moment ends, a raw recording lies on the ground next to the colonist. It is not a chip yet and cannot be watched.\n## Where to see them\nThe Studio's "Raw recordings" tab lists every raw recording on the map with its author, mood and quality.\n&gt; page:NR_Help_BD_Chips|Editing and chips\n&gt; open:Studio|Open the Studio</body>
     <icon>thing:NR_BraindanceGoggles</icon>
   </Netrun.HelpPageDef>
 
@@ -565,7 +565,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Editing and chips</label>
-    <body>In the Studio a raw recording is edited into a chip. Chips have a mood and a quality:\n- Bright: mood and a warm afterglow.\n- Dark: grim but strong experience.\n- Combat: sharpens fighting skills.\nQuality: ordinary, great, masterful.\n!Gizmo_BD_Watch Watching a chip takes the goggles or a cyberlink.</body>
+    <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch.\n## How to edit\n- Open the Studio's "Raw recordings" tab and press "Edit into" on a recording (or right-click the network console with a colonist).\n- A colonist takes the recording to the network console and works on it for a while.\n- The finished chip appears next to the console.\n## Mood decides the chip\n- Bright: a good mood and a warm afterglow.\n- Dark: a grim but strong rush; dark recordings can also become black chips.\n- Combat: sharpens fighting skills for a while.\n## Quality\nOrdinary, great or masterful. It comes from the strength of the moment, and a good editor (Intellectual) makes it a little better.\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: it gives joy and a mood, and regular use builds tolerance. Set chips in the drug policy to decide who may watch them and how often.</body>
     <icon>thing:NR_BraindanceChip</icon>
   </Netrun.HelpPageDef>
 

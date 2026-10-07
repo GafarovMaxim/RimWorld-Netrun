@@ -89,4 +89,6 @@
   <NR_ShopTitleShort>SHOP //</NR_ShopTitleShort>
   <NR_ShopBlackTag>BLACK MARKET</NR_ShopBlackTag>
   <NR_ShopBlackTip>Sold only while the black market is open, one of each.</NR_ShopBlackTip>
+  <NR_ClubRotateNow>New pool ({0} cyberdata)</NR_ClubRotateNow>
+  <NR_ClubRotateNowTip>Call in a new pool now instead of waiting. Pinned and held fixers and those with a running contract stay. Costs {0} cyberdata.</NR_ClubRotateNowTip>
 </LanguageData>

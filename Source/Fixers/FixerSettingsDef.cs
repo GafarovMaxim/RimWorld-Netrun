@@ -37,6 +37,8 @@ public class FixerSettingsDef : Def
 
     // Heat scrubbing
     public float heatPerCyberdata = 5f;
+    /// <summary>Cyberdata to rotate the fixer pool now instead of waiting.</summary>
+    public int rotateNowCost = 8;
     /// <summary>Black market goods cost this much more than the fixer's own stock.</summary>
     public float blackMarketMarkup = 1.18f;
     public float heatPerAdvancedCyberdata = 15f;
