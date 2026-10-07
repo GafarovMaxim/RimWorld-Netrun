@@ -65,6 +65,8 @@ public class CyberspaceSettingsDef : Def
     public int branchExtraTurns = 3;
     public FloatRange failBurnDamage = new(1.5f, 3.5f);
     public float successXp = 400f;
+    /// <summary>Chance per Black ICE hit that the runner's cyberlink burns out for good.</summary>
+    public float blackIceCyberlinkLoss = 0.03f;
 
     // Living cyberspace: a headline every few days; data glut, quiet net and the corp lockdown after the core falls.
     public FloatRange newsIntervalDays = new(2f, 4f);

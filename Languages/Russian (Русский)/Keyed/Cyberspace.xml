@@ -304,4 +304,12 @@
   <NR_NewsEffectQuiet>Тихая сеть: след от нырков {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Тревога у корпораций: у корп-нод ICE сильнее.</NR_NewsEffectLockdown>
   <NR_ReportUnique>Уникальная запись: {0}.</NR_ReportUnique>
+  <NR_DiveAct_Back>Назад</NR_DiveAct_Back>
+  <NR_DiveActTip_Back>Шаг назад, на предыдущую ступень, если забыли забрать файлы. Забирает остаток хода. Из выбранной ветки назад не уйти.</NR_DiveActTip_Back>
+  <NR_DiveBackStart>Назад некуда.</NR_DiveBackStart>
+  <NR_DiveBackFork>Ветка выбрана: к развилке не вернуться.</NR_DiveBackFork>
+  <NR_DiveLogBack>Шаг назад: {0}. Ход потрачен.</NR_DiveLogBack>
+  <NR_DiveLogLinkLost>Black ICE выжег {1} у {0}!</NR_DiveLogLinkLost>
+  <NR_LinkLostLabel>Кибер-линк выжжен</NR_LinkLostLabel>
+  <NR_LinkLost>Black ICE ударил {0} так сильно, что {1} выгорел насовсем. Придётся ставить новый.</NR_LinkLost>
 </LanguageData>

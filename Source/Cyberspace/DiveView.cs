@@ -100,12 +100,30 @@ public static class DiveView
             float cx = elements[session.Position].Col * (ScrollBoxWidth + StepGap) + ScrollBoxWidth / 2f;
             _mapScroll.x = Mathf.Clamp(cx - rect.width / 2f, 0f, need - rect.width);
         }
+        DragMap(rect, need - rect.width);
         Widgets.BeginScrollView(rect, ref _mapScroll, view);
         DrawGraph(view, session, ScrollBoxWidth);
         Widgets.EndScrollView();
     }
 
     /// <summary>Faint grid, slow data rain and a rare scan sweep behind the steps.</summary>
+    private static bool _dragging;
+
+    /// <summary>Drag the step map sideways with the left or middle mouse button (the wheel still works too).</summary>
+    private static void DragMap(Rect rect, float maxScroll)
+    {
+        Event e = Event.current;
+        if (e.type == EventType.MouseDown && (e.button == 0 || e.button == 2) && Mouse.IsOver(rect))
+            _dragging = true;
+        else if (e.rawType == EventType.MouseUp)
+            _dragging = false;
+        if (_dragging && e.type == EventType.MouseDrag)
+        {
+            _mapScroll.x = Mathf.Clamp(_mapScroll.x - e.delta.x, 0f, Mathf.Max(0f, maxScroll));
+            e.Use();
+        }
+    }
+
     private static void DrawBackground(Rect rect)
     {
         var grid = new Color(0.22f, 0.78f, 0.38f, 0.05f);
@@ -425,6 +443,7 @@ public static class DiveView
                 index++;
             }
             Act("Move", NetrunUI.Accent, session.CanMove(), session.Move);
+            Act("Back", NetrunUI.Muted, session.CanBack(), session.Back);
             Act("Scan", NetrunUI.Ok, session.CanScan(), session.Scan);
             AcceptanceReport hack = session.CanHack();
             Act("Hack", NetrunUI.Warn, hack, session.Hack, hack.Accepted ? "NR_DiveActTip_HackChance".Translate(session.CurrentHackChance.ToStringPercent()) : null);

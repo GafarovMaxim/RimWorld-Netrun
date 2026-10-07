@@ -357,6 +357,32 @@ public class DiveSession : IExposable
         Spend(Settings.tracePerAction);
     }
 
+    /// <summary>The step the runner came from (-1 at the start).</summary>
+    private int PreviousIndex => Visited.Count >= 2 && Visited[Visited.Count - 1] == Position ? Visited[Visited.Count - 2] : -1;
+
+    /// <summary>A step back is allowed, but never back out of a branch already chosen at a fork.</summary>
+    public AcceptanceReport CanBack()
+    {
+        int prev = PreviousIndex;
+        if (prev < 0)
+            return "NR_DiveBackStart".Translate();
+        if (ForkIndex.Contains(prev))
+            return "NR_DiveBackFork".Translate();
+        return true;
+    }
+
+    /// <summary>One step back (to pick up files left behind); it takes the rest of the turn.</summary>
+    public void Back()
+    {
+        if (!CanBack().Accepted)
+            return;
+        Visited.RemoveAt(Visited.Count - 1);
+        Position = Visited[Visited.Count - 1];
+        AddLog("NR_DiveLogBack".Translate(ElementLabel(Current)));
+        ActionsLeft = 1;
+        Spend(Settings.tracePerAction);
+    }
+
     public AcceptanceReport CanScan()
         => Next is { Hidden: true } || (AtUndecidedFork && !ForkScanned.Contains(Position)) || (Node.Honeypot && !HoneypotRevealed)
             ? true : "NR_DiveNothingToScan".Translate();
@@ -793,6 +819,7 @@ public class DiveSession : IExposable
 
         AddNetsick(Settings.netsickPerIceHit);
         IceHits++;
+        TryBurnCyberlink();
         NetrunSound.Play("Dive_ICE");
         float roll = Rand.Value;
         if (roll < 0.6f)
@@ -812,6 +839,19 @@ public class DiveSession : IExposable
             AddLog("NR_DiveLogComa".Translate(Runner.LabelShort).Colorize(NetrunUI.Bad));
             End(success: false, keepShare: 0f);
         }
+    }
+
+    /// <summary>Black ICE can fry the cyberlink itself: a small chance per hit that the implant is gone.</summary>
+    private void TryBurnCyberlink()
+    {
+        if (!Node.BlackIce || Runner == null || Runner.Dead || !Rand.Chance(Settings.blackIceCyberlinkLoss))
+            return;
+        Hediff link = Runner.health.hediffSet.hediffs.FirstOrDefault(h => h.def.defName is "USH_InstalledCyberlink" or "USH_InstalledAdvancedCyberlink");
+        if (link == null)
+            return;
+        Runner.health.RemoveHediff(link);
+        AddLog("NR_DiveLogLinkLost".Translate(Runner.LabelShort, link.LabelBase).Colorize(NetrunUI.Bad));
+        Find.LetterStack.ReceiveLetter("NR_LinkLostLabel".Translate(), "NR_LinkLost".Translate(Runner.LabelShort, link.LabelBase), LetterDefOf.NegativeEvent, Runner);
     }
 
     /// <summary>Neural feedback from a failed dive: a few small burns on outer body parts.</summary>

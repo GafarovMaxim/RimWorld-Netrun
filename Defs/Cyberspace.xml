@@ -51,6 +51,8 @@
     <branchPassageBonus>0.1</branchPassageBonus>
     <branchExtraTurns>3</branchExtraTurns>
     <successXp>400</successXp>
+    <!-- Chance per Black ICE hit that the runner's cyberlink burns out and is gone (1-5% was asked) -->
+    <blackIceCyberlinkLoss>0.03</blackIceCyberlinkLoss>
     <!-- Living cyberspace: a headline every few days (scaled by the cyberspace event setting), shown for newsKeepDays.
          Data glut: dive cyberdata x1.3 for 2 days. Quiet net: dive trace x0.7 for a day. Corp lockdown after the core falls: corp nodes +1 defense for a week. -->
     <newsIntervalDays>2~4</newsIntervalDays>

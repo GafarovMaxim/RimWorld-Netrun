@@ -572,6 +572,62 @@ public static class NetrunUI
     /// <summary>A bordered button in the given color; disabled ones are muted and explain why.</summary>
     private static int _hoverKey;
 
+    private const string Glyphs = "01#$%&*+=?/|[]{}~^<>";
+    private static readonly System.Collections.Generic.Dictionary<long, float> RewriteStarts = [];
+    private static readonly System.Collections.Generic.Dictionary<string, (float start, int frame)> Appears = [];
+
+    /// <summary>Scrambled glyphs settling left to right: <paramref name="k"/> 0 all noise, 1 the plain text.</summary>
+    public static string Rewrite(string text, float k, int seed)
+    {
+        if (k >= 1f || text.NullOrEmpty())
+            return text;
+        int settled = Mathf.FloorToInt(text.Length * Mathf.Clamp01(k));
+        var rnd = new System.Random(seed ^ (Time.frameCount / 3));
+        var sb = new System.Text.StringBuilder(text.Length);
+        for (int i = 0; i < text.Length; i++)
+            sb.Append(i < settled || !char.IsLetterOrDigit(text[i]) ? text[i] : Glyphs[rnd.Next(Glyphs.Length)]);
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// A button's label rewrites itself when the mouse comes onto it: 0.25 s of glyphs, and at most once in
+    /// 4 seconds per button, so it never gets in the way of reading.
+    /// </summary>
+    private static string RewriteOnHover(string label, Rect hit)
+    {
+        if (!NetrunMod.Settings.Animations)
+            return label;
+        float t = HoverTime(hit);
+        if (t < 0f)
+            return label;
+        long key = Key(hit);
+        float now = Time.realtimeSinceStartup;
+        if (t < 0.05f && (!RewriteStarts.TryGetValue(key, out float last) || now - last > 4f))
+        {
+            if (RewriteStarts.Count > 300)
+                RewriteStarts.Clear();
+            RewriteStarts[key] = now - t;
+        }
+        return RewriteStarts.TryGetValue(key, out float start) && now - start < 0.25f ? Rewrite(label, (now - start) / 0.25f, (int)key) : label;
+    }
+
+    /// <summary>Text that decodes itself when it appears on screen (not seen in the last half second).</summary>
+    public static string RewriteOnAppear(string id, string text, float seconds = 0.35f)
+    {
+        if (!NetrunMod.Settings.Animations)
+            return text;
+        float now = Time.realtimeSinceStartup;
+        int frame = Time.frameCount;
+        if (!Appears.TryGetValue(id, out var a) || frame - a.frame > 30)
+        {
+            if (Appears.Count > 300)
+                Appears.Clear();
+            a = (now, frame);
+        }
+        Appears[id] = (a.start, frame);
+        return now - a.start < seconds ? Rewrite(text, (now - a.start) / seconds, id.GetHashCode()) : text;
+    }
+
     public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null, Texture2D icon = null)
     {
         bool active = report.Accepted;
@@ -601,7 +657,8 @@ public static class NetrunUI
                 textRect.xMin += size + 6f;
         }
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(textRect, label.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));
+        string shownLabel = active ? RewriteOnHover(label, hit) : label;
+        Widgets.Label(textRect, shownLabel.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));
         Text.Anchor = TextAnchor.UpperLeft;
 
         string fullTip = tip ?? string.Empty;
@@ -705,7 +762,7 @@ public static class NetrunUI
             Text.Font = GameFont.Tiny;
         string shown = Text.CalcSize(text).x > room ? text.Truncate(room) : text;
         var titleRect = new Rect(rect.x + 10f, rect.y, rect.width - 10f, 26f);
-        Widgets.Label(titleRect, shown.Colorize(Accent));
+        Widgets.Label(titleRect, RewriteOnAppear("section." + label, shown).Colorize(Accent));
         if (shown != text)
             Tip(titleRect, label);
         float tw = Text.CalcSize(shown).x;

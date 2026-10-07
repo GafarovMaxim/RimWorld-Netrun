@@ -633,31 +633,39 @@ public static class GatewayView
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,
         IEnumerable<Texture2D> valueIcons = null)
     {
-        const float labelWidth = 110f;
-        float s = NetrunUI.Icon(28f);
-        float h = Mathf.Max(s + 2f, 22f);
-        if (icon != null)
-            GUI.DrawTexture(new Rect(inner.x, y + 1f, s, s), icon);
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(inner.x + s + 6f, y, labelWidth - s - 6f, h), label.Colorize(NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
+        // Three columns: the icon, the label (muted, fixed width), the value (with its item icons first).
+        // Every line is centred in its row; a long value wraps inside its own column.
+        const float pad = 4f;
+        float s = NetrunUI.Icon(26f);
+        float labelWidth = Mathf.Min(120f, inner.width * 0.36f);
         float vx = inner.x + labelWidth;
-        if (valueIcons != null)
+        var icons = valueIcons?.Where(t => t != null).ToList();
+        float iconsW = icons == null || icons.Count == 0 ? 0f : icons.Count * (s - 2f) + 4f;
+        float valueW = inner.xMax - vx - iconsW - pad;
+        float h = Mathf.Max(s + 2f * pad, Text.CalcHeight(value, valueW) + 2f * pad);
+        var row = new Rect(inner.x, y, inner.width, h);
+        if (Mouse.IsOver(row))
+            Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.04f));
+        if (icon != null)
+            NetrunUI.BrightIcon(new Rect(inner.x + 2f, y + (h - s) / 2f, s, s), icon);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(inner.x + s + 8f, y, labelWidth - s - 10f, h), label.Colorize(NetrunUI.Muted));
+        if (icons != null)
         {
-            foreach (Texture2D tex in valueIcons.Where(t => t != null))
+            foreach (Texture2D tex in icons)
             {
-                GUI.DrawTexture(new Rect(vx, y + 1f, s - 4f, s - 4f), tex);
+                NetrunUI.BrightIcon(new Rect(vx, y + (h - (s - 4f)) / 2f, s - 4f, s - 4f), tex);
                 vx += s - 2f;
             }
-            vx += 2f;
+            vx += 4f;
         }
-        h = Mathf.Max(h, Text.CalcHeight(value, inner.xMax - vx));
-        Widgets.Label(new Rect(vx, y, inner.xMax - vx, h), value.Colorize(color));
-        NetrunUI.Tip(new Rect(inner.x, y, inner.width, h), tip);
-        GUI.color = new Color(1f, 1f, 1f, 0.08f);
-        Widgets.DrawLineHorizontal(inner.x, y + h + 1f, inner.width);
+        Widgets.Label(new Rect(vx, y, inner.xMax - vx - pad, h), value.Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        NetrunUI.Tip(row, tip);
+        GUI.color = new Color(1f, 1f, 1f, 0.07f);
+        Widgets.DrawLineHorizontal(inner.x, y + h, inner.width);
         GUI.color = Color.white;
-        return y + h + 3f;
+        return y + h + 1f;
     }
 
     /// <summary>Title chips for the Gateway: who would dive and whether a pod is ready.</summary>

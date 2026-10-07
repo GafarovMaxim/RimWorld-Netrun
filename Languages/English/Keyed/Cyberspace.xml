@@ -304,4 +304,12 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_NewsEffectQuiet>Quiet net: dive trace {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Corp lockdown: corp nodes have stronger ICE.</NR_NewsEffectLockdown>
   <NR_ReportUnique>A unique recording: {0}.</NR_ReportUnique>
+  <NR_DiveAct_Back>Back</NR_DiveAct_Back>
+  <NR_DiveActTip_Back>Step back to the previous step, for files left behind. It takes the rest of this turn. You cannot step back out of a branch you chose.</NR_DiveActTip_Back>
+  <NR_DiveBackStart>Nowhere to step back to.</NR_DiveBackStart>
+  <NR_DiveBackFork>The branch is chosen: no way back to the fork.</NR_DiveBackFork>
+  <NR_DiveLogBack>Stepped back to {0}. The turn is spent.</NR_DiveLogBack>
+  <NR_DiveLogLinkLost>Black ICE burned out {0}'s {1}!</NR_DiveLogLinkLost>
+  <NR_LinkLostLabel>Cyberlink burned out</NR_LinkLostLabel>
+  <NR_LinkLost>Black ICE hit {0} hard enough to burn the {1} out for good. A new one has to be installed.</NR_LinkLost>
 </LanguageData>
