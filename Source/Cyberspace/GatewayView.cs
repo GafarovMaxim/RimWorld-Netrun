@@ -145,6 +145,9 @@ public static class GatewayView
     }
 
     /// <summary>Short news of cyberspace for the bottom bar: storms, the corporate core, rivals, wild AIs, contracts, refresh.</summary>
+    /// <summary>How many NR_NewsFlavor_N lines there are.</summary>
+    private const int FlavorCount = 32;
+
     public static List<(string text, Color color)> News()
     {
         var list = new List<(string, Color)>();
@@ -153,6 +156,10 @@ public static class GatewayView
             return list;
         foreach (NetHeadline headline in g.RecentHeadlines)
             list.Add((headline.Text, headline.Color));
+        // Decoration: two lines of ads, rumors and street talk, changing every few hours of game time.
+        int slot = Find.TickManager.TicksGame / (GenDate.TicksPerHour * 3);
+        for (int k = 0; k < 2; k++)
+            list.Add((("NR_NewsFlavor_" + (int)((uint)(slot * 7919 + k * 104729) % FlavorCount)).Translate(), NetrunUI.Muted));
         if (g.StormActive)
             list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
         if (g.Boss is { } boss)

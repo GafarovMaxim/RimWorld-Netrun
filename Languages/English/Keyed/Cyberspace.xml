@@ -312,4 +312,36 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveLogLinkLost>Black ICE burned out {0}'s {1}!</NR_DiveLogLinkLost>
   <NR_LinkLostLabel>Cyberlink burned out</NR_LinkLostLabel>
   <NR_LinkLost>Black ICE hit {0} hard enough to burn the {1} out for good. A new one has to be installed.</NR_LinkLost>
+  <NR_NewsFlavor_0>AD // NeuroNap™ pods: sleep 4 hours, dream 40. Side effects are a myth.</NR_NewsFlavor_0>
+  <NR_NewsFlavor_1>AD // Tired of ICE? Melt it. Sharkfin Breakers, now 20% sharper.</NR_NewsFlavor_1>
+  <NR_NewsFlavor_2>AD // Your memories, our servers. MemoryVault: we never look. Probably.</NR_NewsFlavor_2>
+  <NR_NewsFlavor_3>AD // Synthmeat Deluxe: tastes like the real thing, if you never had the real thing.</NR_NewsFlavor_3>
+  <NR_NewsFlavor_4>AD // Lost a limb? Upgrade it. Kessler Prosthetics, payment plans for the brave.</NR_NewsFlavor_4>
+  <NR_NewsFlavor_5>AD // Join the Glittersworld lottery! Ticket price: one minor organ.</NR_NewsFlavor_5>
+  <NR_NewsFlavor_6>AD // Braindance of the week: "Sunset over a world that still exists". 4.9 stars.</NR_NewsFlavor_6>
+  <NR_NewsFlavor_7>AD // Need a fixer? You don't. You need a friend. FixerFriend™.</NR_NewsFlavor_7>
+  <NR_NewsFlavor_8>RUMOR // A runner swears a node near the rim sings at night. Nobody else hears it.</NR_NewsFlavor_8>
+  <NR_NewsFlavor_9>RUMOR // Someone is selling the source code of a corp core. It is probably a trap.</NR_NewsFlavor_9>
+  <NR_NewsFlavor_10>RUMOR // An AI keeps leaving poems in public archives. Signed: "still here".</NR_NewsFlavor_10>
+  <NR_NewsFlavor_11>RUMOR // Fixers say the market price of cyberdata will drop. Fixers always say that.</NR_NewsFlavor_11>
+  <NR_NewsFlavor_12>RUMOR // A pirate crew lost a whole ship to a phishing letter. The letter was very polite.</NR_NewsFlavor_12>
+  <NR_NewsFlavor_13>RUMOR // There is a node with no ICE at all. Everyone who found it is very quiet now.</NR_NewsFlavor_13>
+  <NR_NewsFlavor_14>RUMOR // A corp intern left the admin password on a public board. Again.</NR_NewsFlavor_14>
+  <NR_NewsFlavor_15>RUMOR // Somebody recorded a braindance of a mechanoid dreaming. It is just static. Or is it?</NR_NewsFlavor_15>
+  <NR_NewsFlavor_16>NET // Packet storm off the eastern relay. Expect lag, bad jokes and worse coffee.</NR_NewsFlavor_16>
+  <NR_NewsFlavor_17>NET // Archive-12 is back online after the outage. Its librarian AI is still offended.</NR_NewsFlavor_17>
+  <NR_NewsFlavor_18>NET // A dead satellite started broadcasting again. Only one word, every hour: "wait".</NR_NewsFlavor_18>
+  <NR_NewsFlavor_19>NET // Market-07 bans the word "discount". Prices unaffected.</NR_NewsFlavor_19>
+  <NR_NewsFlavor_20>NET // The Ancient Danger network sends its regards. Nobody knows how it is still running.</NR_NewsFlavor_20>
+  <NR_NewsFlavor_21>NET // Traffic down 3% while everyone watches the new braindance. Good time to dive.</NR_NewsFlavor_21>
+  <NR_NewsFlavor_22>NET // A honeypot node was caught being honest for a full day. Experts are worried.</NR_NewsFlavor_22>
+  <NR_NewsFlavor_23>CORP // Cobalt Systems denies everything, including things nobody asked about.</NR_NewsFlavor_23>
+  <NR_NewsFlavor_24>CORP // A corp security chief was fired for being too secure. Nobody could log in.</NR_NewsFlavor_24>
+  <NR_NewsFlavor_25>CORP // Quarterly report: profits up, ICE budget up, employee smiles mandatory.</NR_NewsFlavor_25>
+  <NR_NewsFlavor_26>CORP // The corps announce a "transparency initiative". The announcement is encrypted.</NR_NewsFlavor_26>
+  <NR_NewsFlavor_27>STREET // A street kid found a working cyberdeck in the trash. Now the trash has better security.</NR_NewsFlavor_27>
+  <NR_NewsFlavor_28>STREET // Local muffalo herd hacked? No. They just stand near the antenna a lot.</NR_NewsFlavor_28>
+  <NR_NewsFlavor_29>STREET // A runner jacked in for a minute and came back fluent in a dead language.</NR_NewsFlavor_29>
+  <NR_NewsFlavor_30>STREET // "Never trust a fixer who smiles" — every fixer, smiling.</NR_NewsFlavor_30>
+  <NR_NewsFlavor_31>STREET // Boomalope-powered server farm explodes. Investors call it "a learning experience".</NR_NewsFlavor_31>
 </LanguageData>
