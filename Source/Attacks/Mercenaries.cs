@@ -32,6 +32,19 @@ public static class Mercenaries
     /// Someone sold the colony out: with this chance a mercenary raid is queued for later,
     /// and the player is warned now.
     /// </summary>
+    /// <summary>Queues a mercenary raid in <paramref name="delayTicks"/> without a warning letter (a scenario's threat).</summary>
+    public static void QueueRaid(int delayTicks)
+    {
+        Map map = Find.AnyPlayerHomeMap;
+        if (map == null)
+            return;
+        IncidentParms parms = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
+        parms.forced = true;
+        parms.faction = Faction;
+        Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_MercRaid, null, parms),
+            Find.TickManager.TicksGame + delayTicks));
+    }
+
     public static void TryQueueRevenge(float chance, string reasonKey, params NamedArgument[] args)
     {
         Map map = Find.AnyPlayerHomeMap;

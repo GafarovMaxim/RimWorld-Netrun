@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The mod's starts (docs/CONCEPTS_10.md, section 4). Pawn kinds give the starting colonists their backstories
+     and cyberlinks; Netrun.ScenPart_NetrunStart sets up the mod's side once the game runs. -->
+<Defs>
+
+  <!-- The vanilla "pawns by kind" page under our own part def (its def name in vanilla is not checked from here). -->
+  <ScenPartDef>
+    <defName>NR_ConfigurePawnsKinds</defName>
+    <label>start with specific colonists</label>
+    <category>Fixed</category>
+    <scenPartClass>ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs</scenPartClass>
+    <pageClass>Page_ConfigureStartingPawns</pageClass>
+    <canBeRandomlyAdded>false</canBeRandomlyAdded>
+    <maxUses>1</maxUses>
+  </ScenPartDef>
+
+  <ScenPartDef>
+    <defName>NR_NetrunStart</defName>
+    <label>netrun start</label>
+    <category>Fixed</category>
+    <scenPartClass>Netrun.ScenPart_NetrunStart</scenPartClass>
+    <canBeRandomlyAdded>false</canBeRandomlyAdded>
+    <maxUses>1</maxUses>
+  </ScenPartDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenStreetNetrunner</defName>
+    <label>street netrunner</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_StreetNetrunner</li>
+    </fixedAdultBackstories>
+    <modExtensions>
+      <li Class="Netrun.NetPawnKindExtension">
+        <brainImplant>USH_InstalledAdvancedCyberlink</brainImplant>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenNetrunner</defName>
+    <label>netrunner</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_StreetNetrunner</li>
+    </fixedAdultBackstories>
+    <modExtensions>
+      <li Class="Netrun.NetPawnKindExtension">
+        <brainImplant>USH_InstalledCyberlink</brainImplant>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenCorpCoder</defName>
+    <label>corporate coder</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_CorpCoder</li>
+    </fixedAdultBackstories>
+    <modExtensions>
+      <li Class="Netrun.NetPawnKindExtension">
+        <brainImplant>USH_InstalledCyberlink</brainImplant>
+      </li>
+    </modExtensions>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenCorpGuard</defName>
+    <label>corporate guard</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_CorpGuard</li>
+    </fixedAdultBackstories>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenBraindanceTester</defName>
+    <label>braindance tester</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_BraindanceTester</li>
+    </fixedAdultBackstories>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenFormerFixer</defName>
+    <label>former fixer</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_FormerFixer</li>
+    </fixedAdultBackstories>
+  </PawnKindDef>
+
+  <PawnKindDef>
+    <defName>NR_ScenDataCourier</defName>
+    <label>data courier</label>
+    <race>Human</race>
+    <defaultFactionDef>PlayerColony</defaultFactionDef>
+    <combatPower>30</combatPower>
+    <isFighter>false</isFighter>
+    <minGenerationAge>20</minGenerationAge>
+    <forceNormalGearQuality>true</forceNormalGearQuality>
+    <apparelIgnoreSeasons>true</apparelIgnoreSeasons>
+    <chemicalAddictionChance>0</chemicalAddictionChance>
+    <backstoryCryptosleepCommonality>0</backstoryCryptosleepCommonality>
+    <apparelMoney>350~600</apparelMoney>
+    <apparelTags>
+      <li>IndustrialBasic</li>
+    </apparelTags>
+    <fixedAdultBackstories>
+      <li>NR_Bs_DataCourier</li>
+    </fixedAdultBackstories>
+  </PawnKindDef>
+
+  <ScenarioDef>
+    <defName>NR_Scen_LastNode</defName>
+    <label>The last node</label>
+    <description>A lone street netrunner with an advanced cyberlink holes up next to an abandoned AI server. In the fragment by the pod sleeps the imprint of a partner who did not make it out. Hard: one colonist, one ghost.</description>
+    <scenario>
+      <summary>One netrunner and the ghost of a partner. Hard.</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>PlayerColony</factionDef>
+      </playerFaction>
+      <parts>
+      <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
+        <def>NR_ConfigurePawnsKinds</def>
+        <pawnChoiceCount>6</pawnChoiceCount>
+        <kindCounts>
+          <li>
+            <kindDef>NR_ScenStreetNetrunner</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+        </kindCounts>
+      </li>
+      <li Class="ScenPart_PlayerPawnsArriveMethod">
+        <def>PlayerPawnsArriveMethod</def>
+        <method>Standing</method>
+      </li>
+      <li Class="Netrun.ScenPart_NetrunStart">
+        <def>NR_NetrunStart</def>
+        <start>LastNode</start>
+      </li>
+      <li Class="ScenPart_GameStartDialog">
+        <def>GameStartDialog</def>
+        <textKey>NR_ScenIntro_LastNode</textKey>
+        <closeSound>GameStartSting</closeSound>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_BasicCybertech</project>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_CybertechMachinery</project>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>USH_Cyberdata</thingDef>
+        <count>20</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Silver</thingDef>
+        <count>300</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MealSurvivalPack</thingDef>
+        <count>15</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MedicineIndustrial</thingDef>
+        <count>8</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>ComponentIndustrial</thingDef>
+        <count>8</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Gun_Autopistol</thingDef>
+        <count>1</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>Steel</thingDef>
+        <count>300</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>WoodLog</thingDef>
+        <count>200</count>
+      </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+  <ScenarioDef>
+    <defName>NR_Scen_CorpRunaways</defName>
+    <label>Corporate runaways</label>
+    <description>A corporate coder, a guard and a burned braindance tester walked out of a corporation with its secrets. The corporation wants them back: its first strike through the net comes in two weeks, mercenaries a little later. Lay low first, then take revenge: its fortress is marked on the cyberspace map.</description>
+    <scenario>
+      <summary>Three runaways with a corporation on their trail. Tense.</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>PlayerColony</factionDef>
+      </playerFaction>
+      <parts>
+      <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
+        <def>NR_ConfigurePawnsKinds</def>
+        <pawnChoiceCount>8</pawnChoiceCount>
+        <kindCounts>
+          <li>
+            <kindDef>NR_ScenCorpCoder</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>NR_ScenCorpGuard</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>NR_ScenBraindanceTester</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+        </kindCounts>
+      </li>
+      <li Class="ScenPart_PlayerPawnsArriveMethod">
+        <def>PlayerPawnsArriveMethod</def>
+        <method>DropPods</method>
+      </li>
+      <li Class="Netrun.ScenPart_NetrunStart">
+        <def>NR_NetrunStart</def>
+        <start>CorpRunaways</start>
+      </li>
+      <li Class="ScenPart_GameStartDialog">
+        <def>GameStartDialog</def>
+        <textKey>NR_ScenIntro_CorpRunaways</textKey>
+        <closeSound>GameStartSting</closeSound>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_BasicCybertech</project>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>NR_Res_NetSecurity</project>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>USH_AdvancedCyberdata</thingDef>
+        <count>5</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>ComponentSpacer</thingDef>
+        <count>4</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Gun_AssaultRifle</thingDef>
+        <count>1</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Gun_Autopistol</thingDef>
+        <count>1</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>NR_BraindanceGoggles</thingDef>
+        <count>1</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Silver</thingDef>
+        <count>500</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MealSurvivalPack</thingDef>
+        <count>20</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MedicineIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>ComponentIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>Steel</thingDef>
+        <count>400</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>WoodLog</thingDef>
+        <count>300</count>
+      </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+  <ScenarioDef>
+    <defName>NR_Scen_PirateStudio</defName>
+    <label>Pirate studio</label>
+    <description>A former fixer and a braindance tester set up a pirate studio with two friends who never touched the net. Nobody knows them yet, every fixer gives them a chance, and the first client already wants a batch of clean chips. A satellite black box fell nearby.</description>
+    <scenario>
+      <summary>Four colonists, a braindance studio and the fixers' trust. Economy first, dives later.</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>PlayerColony</factionDef>
+      </playerFaction>
+      <parts>
+      <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
+        <def>NR_ConfigurePawnsKinds</def>
+        <pawnChoiceCount>8</pawnChoiceCount>
+        <kindCounts>
+          <li>
+            <kindDef>NR_ScenFormerFixer</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>NR_ScenBraindanceTester</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>Colonist</kindDef>
+            <count>2</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+        </kindCounts>
+      </li>
+      <li Class="ScenPart_PlayerPawnsArriveMethod">
+        <def>PlayerPawnsArriveMethod</def>
+        <method>Standing</method>
+      </li>
+      <li Class="Netrun.ScenPart_NetrunStart">
+        <def>NR_NetrunStart</def>
+        <start>PirateStudio</start>
+      </li>
+      <li Class="ScenPart_GameStartDialog">
+        <def>GameStartDialog</def>
+        <textKey>NR_ScenIntro_PirateStudio</textKey>
+        <closeSound>GameStartSting</closeSound>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>NR_Res_Neurorecording</project>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>NR_BraindanceGoggles</thingDef>
+        <count>2</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>NR_BraindanceChip</thingDef>
+        <count>3</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Silver</thingDef>
+        <count>700</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Gun_Revolver</thingDef>
+        <count>1</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MealSurvivalPack</thingDef>
+        <count>20</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MedicineIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>ComponentIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>Steel</thingDef>
+        <count>400</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>WoodLog</thingDef>
+        <count>300</count>
+      </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+  <ScenarioDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>NR_Scen_FlyingNode</defName>
+    <label>Flying node</label>
+    <description>A netrunner crew lives on a gravship with a cyberpod on board. While the ship is in orbit, the orbital backbone nodes of cyberspace are in reach: richer data, harder ICE. (Odyssey)</description>
+    <scenario>
+      <summary>A gravship with a cyberpod on board. Orbital nodes from the start. (Odyssey)</summary>
+      <playerFaction>
+        <def>PlayerFaction</def>
+        <factionDef>PlayerColony</factionDef>
+      </playerFaction>
+      <parts>
+      <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
+        <def>NR_ConfigurePawnsKinds</def>
+        <pawnChoiceCount>8</pawnChoiceCount>
+        <kindCounts>
+          <li>
+            <kindDef>NR_ScenNetrunner</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>NR_ScenDataCourier</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+          <li>
+            <kindDef>Colonist</kindDef>
+            <count>1</count>
+            <requiredAtStart>true</requiredAtStart>
+          </li>
+        </kindCounts>
+      </li>
+      <li Class="ScenPart_PlayerPawnsArriveMethod">
+        <def>PlayerPawnsArriveMethod</def>
+        <method>Gravship</method>
+      </li>
+      <li Class="Netrun.ScenPart_NetrunStart">
+        <def>NR_NetrunStart</def>
+        <start>FlyingNode</start>
+      </li>
+      <li Class="ScenPart_GameStartDialog">
+        <def>GameStartDialog</def>
+        <textKey>NR_ScenIntro_FlyingNode</textKey>
+        <closeSound>GameStartSting</closeSound>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_BasicCybertech</project>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_CybertechMachinery</project>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>USH_Cyberdata</thingDef>
+        <count>15</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>Silver</thingDef>
+        <count>500</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MealSurvivalPack</thingDef>
+        <count>20</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>MedicineIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_StartingThing_Defined">
+        <def>StartingThing_Defined</def>
+        <thingDef>ComponentIndustrial</thingDef>
+        <count>10</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>Steel</thingDef>
+        <count>400</count>
+      </li>
+      <li Class="ScenPart_ScatterThingsNearPlayerStart">
+        <def>ScatterThingsNearPlayerStart</def>
+        <thingDef>WoodLog</thingDef>
+        <count>300</count>
+      </li>
+      </parts>
+    </scenario>
+  </ScenarioDef>
+
+</Defs>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_ScenSummary_LastNode>The Echo of a dead partner waits in a fragment by the pod: it wakes for free, without research, and asks its first quest at once. A cyberpod and an abandoned AI server stand nearby.</NR_ScenSummary_LastNode>
+  <NR_ScenSummary_CorpRunaways>Heat 60. A corporation hunts the colony: Alert 80 for the first month, an intrusion through the net in 10-15 days, mercenaries in 20-30. Its fortress is marked on the cyberspace map. A cleaner fixer already knows you (reputation 30).</NR_ScenSummary_CorpRunaways>
+  <NR_ScenSummary_PirateStudio>Heat 0. Every fixer starts with reputation 10, and the first client offers a «Clean lab» contract. Two unique braindance recordings and a fallen satellite black box.</NR_ScenSummary_PirateStudio>
+  <NR_ScenSummary_FlyingNode>A cyberpod on board the gravship. While the ship is in orbit, the orbital nodes of cyberspace are open.</NR_ScenSummary_FlyingNode>
+  <NR_ScenIntro_LastNode>You got out. Your partner did not.\n\nThe crew is gone, the contract burned, and all that is left of your partner is a humming fragment of code by the cyberpod. Next to the camp stands a dead AI server, waiting for power.\n\nWake the fragment. Find out who it still remembers.</NR_ScenIntro_LastNode>
+  <NR_ScenIntro_CorpRunaways>The corporation does not forgive people who walk out with its code.\n\nYour drop pods are already on its scanners. In two weeks its ICE will come knocking on your network; a little later, the mercenaries. Dig in, build a firewall, keep the trace cold.\n\nAnd when you are ready, its fortress is waiting on the map.</NR_ScenIntro_CorpRunaways>
+  <NR_ScenIntro_PirateStudio>The studio is two goggles, three blank chips and a lot of ambition.\n\nThe fixers have heard of you and are willing to try. The first client wants clean recordings, and somewhere nearby a satellite came down with its black box intact.\n\nRecord, edit, sell. The net can wait.</NR_ScenIntro_PirateStudio>
+  <NR_ScenIntro_FlyingNode>The ship hums, the pod glows on the deck, and below you the planet's net sleeps.\n\nFrom orbit you can reach the backbone nodes that no ground runner touches: richer data, harder ICE. Keep the pod powered and the hull sealed.</NR_ScenIntro_FlyingNode>
+  <NR_Scen_PartnerNames>Kestrel,Static,Moth,Juno,Vex,Rook,Saint,Halcyon,Wren,Cipher</NR_Scen_PartnerNames>
+  <NR_Scen_PartnerRecordEvent>the last run</NR_Scen_PartnerRecordEvent>
+  <NR_Scen_LastNodeLabel>Partner's echo</NR_Scen_LastNodeLabel>
+  <NR_Scen_LastNodeText>{0} did not make it out of the last run, but something of them stayed: an imprint in the AI fragment by the pod, and a raw braindance recording of that night.\n\nWake the fragment on the AI server (it needs power): an AI that already lived wakes without research and for free. It will want to know who it was.</NR_Scen_LastNodeText>
+  <NR_Scen_HeatReason>Runaways from a corporation</NR_Scen_HeatReason>
+  <NR_Scen_RunawaysLabel>They are looking for you</NR_Scen_RunawaysLabel>
+  <NR_Scen_Runaways>{0} has not forgotten you. Its Alert is at 80: the first intrusion through the net comes in 10-15 days, mercenaries in 20-30.\n\nA cleaner fixer, {1}, already knows you and can scrub the trace. When the cyberspace map opens, the corporation's fortress will be marked on it.</NR_Scen_Runaways>
+  <NR_Scen_StudioLabel>Studio open</NR_Scen_StudioLabel>
+  <NR_Scen_Studio>Every fixer is willing to give the studio a chance (reputation 10). {0} already wants clean chips: the «Clean lab» contract waits on the Club tab.\n\nTwo unique braindance recordings lie in the camp: watch them to learn what they are. A satellite's black box fell nearby: hack it.</NR_Scen_Studio>
+  <NR_Scen_FlyingLabel>Pod on board</NR_Scen_FlyingLabel>
+  <NR_Scen_Flying>The cyberpod is on the gravship's deck. While the ship is in orbit, the orbital backbone nodes appear on the cyberspace map: richer data (x1.5), harder ICE. On the ground they go offline.</NR_Scen_Flying>
+
+</LanguageData>

@@ -172,7 +172,7 @@ public class NewsChoices : GameComponent, INetrunCleanable
             return;
         if (Rand.Chance(0.35f) && net.DarkLinkFound())
             return;
-        MapNode n = net.Map.Nodes.Where(x => x.District is not (District.Home or District.OldNet)).RandomElement();
+        MapNode n = net.Map.Nodes.Where(x => x.District is not (District.Home or District.OldNet or District.Orbit)).RandomElement();
         int shown = net.RevealAround(n.Id, 2);
         Messages.Message("NR_LeakShown".Translate(shown, NetMapManager.NodeLabel(n)), MessageTypeDefOf.PositiveEvent, historical: false);
     }

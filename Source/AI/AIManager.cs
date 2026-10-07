@@ -84,6 +84,12 @@ public class AIManager : GameComponent, INetrunCleanable
         NetrunSignals.Increment("AIsAwakened");
         NetrunCounters.Get()?.MetPersonality(ai.Personality);
         TryDetectAwakening(ai);
+        if (ai.StartQuest >= 0)
+        {
+            var kind = (AIQuestKind)ai.StartQuest;
+            ai.StartQuest = -1;
+            AIQuests.Get()?.Offer(ai, kind);
+        }
         return ai;
     }
 
@@ -411,6 +417,25 @@ public class AIManager : GameComponent, INetrunCleanable
         Thing fragment = DropFragment(ai, map, pawn.PositionHeld);
         Find.LetterStack.ReceiveLetter("NR_EchoBornLabel".Translate(pawn.LabelShort), "NR_EchoBorn".Translate(pawn.LabelShort),
             LetterDefOf.NeutralEvent, new LookTargets(fragment));
+    }
+
+    /// <summary>
+    /// The "Last node" scenario: the imprint of a partner who died before the game began, waiting in a fragment.
+    /// It wakes for free (an AI that lived before) and asks its "Who am I" quest at once.
+    /// </summary>
+    public Thing CreateScenarioEcho(string partner, Map map, IntVec3 near)
+    {
+        var ai = new NetAI
+        {
+            Id = _nextId++,
+            Name = "NR_EchoName".Translate(partner),
+            Personality = AIPersonality.Echo,
+            AwakenedTick = Find.TickManager.TicksGame,
+            Trust = Settings.startTrust,
+            StartQuest = (int)AIQuestKind.WhoAmI,
+        };
+        _ais.Add(ai);
+        return DropFragment(ai, map, near);
     }
 
     private static Thing DropFragment(NetAI ai, Map map, IntVec3 position)

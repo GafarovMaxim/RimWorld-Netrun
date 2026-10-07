@@ -368,6 +368,7 @@ public class ExternalNode : IExposable
             District.Dump => (Rand.Bool ? ExternalNodeType.Abandoned : ExternalNodeType.Archive, 1, 3),
             District.Dark => (ExternalNodeType.DarkExchange, 3, 4),
             District.OldNet => (ExternalNodeType.Corp, 5, 5),
+            District.Orbit => (Rand.Bool ? ExternalNodeType.Corp : ExternalNodeType.Archive, 4, 5),
             _ => (node.Type, node.Defense, node.Defense),
         };
         node.Type = type;

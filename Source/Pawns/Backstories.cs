@@ -33,6 +33,7 @@ public static class Patch_PawnGenerator_Backstories
             Pawn pawn = __result;
             if (pawn?.story == null || !pawn.RaceProps.Humanlike)
                 return;
+            NetPawnKindExtension.Apply(pawn);
             PawnNetSettings s = NetrunDefOf.NR_Cyberspace.pawnNet;
 
             if ((NetrunBackstories.Has(pawn, "NR_Bs_BraindanceSubject") || NetrunBackstories.Has(pawn, "NR_Bs_StreetNetrunner"))

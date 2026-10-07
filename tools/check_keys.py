@@ -62,8 +62,10 @@ DYNAMIC = {
     "NR_DiveInfo_": ["Files", "Memory", "Lobby", "Exit"],
     "NR_DiveAct_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
     "NR_DiveActTip_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
-    "NR_District_": ["Home", "Outskirts", "Transit", "Corp", "Market", "Ruins", "Campus", "Entertainment", "Dump", "Dark", "OldNet"],
+    "NR_District_": ["Home", "Outskirts", "Transit", "Corp", "Market", "Ruins", "Campus", "Entertainment", "Dump", "Dark", "OldNet", "Orbit"],
     "NR_NetSize_": ["Small", "Normal", "Large"],
+    "NR_ScenIntro_": ["LastNode", "CorpRunaways", "PirateStudio", "FlyingNode"],  # textKey in Defs/Scenarios.xml
+    "NR_ScenSummary_": ["LastNode", "CorpRunaways", "PirateStudio", "FlyingNode"],
     "NR_NetSizeTip_": ["Small", "Normal", "Large"],
     "NR_NetLayout_": ["Ring", "Spine", "Archipelago", "Metro"],
     "NR_ClubTab_": ["Fixers", "Corps", "Crews", "Top"],

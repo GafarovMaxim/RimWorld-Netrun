@@ -67,6 +67,8 @@ public class NetAI : IExposable
     public bool DocBoost;
     /// <summary>Echo: thingIDNumber of the one who killed its colonist, -1 unknown.</summary>
     public int EchoKillerId = -1;
+    /// <summary>A quest (AIQuestKind) offered as soon as it awakens: the "Last node" scenario's Echo. -1 for none.</summary>
+    public int StartQuest = -1;
     public int SecondServiceReadyTick;
 
     public bool InServer => Server != null && !Server.Destroyed;
@@ -148,6 +150,7 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref Drilled, "drilled");
         Scribe_Values.Look(ref DocBoost, "docBoost");
         Scribe_Values.Look(ref EchoKillerId, "echoKiller", -1);
+        Scribe_Values.Look(ref StartQuest, "startQuest", -1);
         Scribe_Values.Look(ref SecondServiceReadyTick, "secondServiceReady");
         RequestHistory ??= [];
         Traits ??= [];

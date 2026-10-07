@@ -77,9 +77,11 @@ def pawn_kinds():
       <li>SimpleGun</li>
       <li>ShortShots</li>
     </weaponTags>
-    <techHediffsRequired>
-      <li>USH_Cyberlink</li>
-    </techHediffsRequired>
+    <modExtensions>
+      <li Class="Netrun.NetPawnKindExtension">
+        <brainImplant>USH_InstalledCyberlink</brainImplant>
+      </li>
+    </modExtensions>
     <initialWillRange>1~3</initialWillRange>
     <initialResistanceRange>10~18</initialResistanceRange>
   </PawnKindDef>
@@ -148,9 +150,11 @@ def pawn_kinds():
       <li>ShortShots</li>
       <li>IndustrialGunAdvanced</li>
     </weaponTags>
-    <techHediffsRequired>
-      <li>USH_Cyberlink</li>
-    </techHediffsRequired>
+    <modExtensions>
+      <li Class="Netrun.NetPawnKindExtension">
+        <brainImplant>USH_InstalledCyberlink</brainImplant>
+      </li>
+    </modExtensions>
     <initialWillRange>3~5</initialWillRange>
     <initialResistanceRange>18~30</initialResistanceRange>
   </PawnKindDef>

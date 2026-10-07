@@ -394,7 +394,7 @@ public class CorpManager : GameComponent, INetrunCleanable
         CyberMap map = Net?.Map;
         if (map == null || !Rand.Chance(0.3f))
             return;
-        var main = map.Nodes.Where(n => n.District is not (District.Home or District.Dark or District.OldNet)).ToList();
+        var main = map.Nodes.Where(n => n.District is not (District.Home or District.Dark or District.OldNet or District.Orbit)).ToList();
         if (main.Count(n => n.OwnerFaction >= 0) + 1 > main.Count * Settings.maxCorpShare)
             return;
         MapNode target = main.Where(n => n.OwnerFaction < 0 && n.District is not (District.Outskirts or District.Transit)

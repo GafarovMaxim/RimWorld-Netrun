@@ -18,6 +18,8 @@ public enum District
     Dump,
     Dark,
     OldNet,
+    /// <summary>Odyssey: orbital backbone nodes, open while a colony gravship is in space (appended for old saves).</summary>
+    Orbit,
 }
 
 public enum LinkKind
@@ -74,7 +76,7 @@ public class MapNode : IExposable
     public Vector2 Pos => new(X, Y);
 
     private static int Now => Find.TickManager.TicksGame;
-    public bool Offline => Now < OfflineUntil || Now < QuarantineUntil;
+    public bool Offline => Now < OfflineUntil || Now < QuarantineUntil || (District == District.Orbit && !NetMapManager.OrbitOpen);
     public bool Storm => Now < StormUntil;
     public bool Patrol => Now < PatrolUntil;
     public bool Transit => Now < TransitUntil;
@@ -305,7 +307,7 @@ public class CyberMap : IExposable
                     stack.Push(v);
             }
         }
-        return Nodes.Where(n => n.District is not (District.Dark or District.OldNet)).All(n => seen.Contains(n.Id));
+        return Nodes.Where(n => n.District is not (District.Dark or District.OldNet or District.Orbit)).All(n => seen.Contains(n.Id));
     }
 
     public void ExposeData()

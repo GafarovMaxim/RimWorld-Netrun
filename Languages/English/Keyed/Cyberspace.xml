@@ -300,6 +300,8 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HeadlineQuiet>The net goes quiet: dives leave {0} of the trace for {1} days.</NR_HeadlineQuiet>
   <NR_HeadlineLockdown>The corporate core fell. The corps are on lockdown: corp nodes +1 defense for {0} days.</NR_HeadlineLockdown>
   <NR_HeadlineRunaway>{0} was seen in «{1}». A dive there may find it.</NR_HeadlineRunaway>
+  <NR_HeadlineOrbitOpen>A colony gravship is in orbit: the orbital backbone nodes are in reach. Richer data, harder ICE.</NR_HeadlineOrbitOpen>
+  <NR_HeadlineOrbitClosed>The gravship has landed: the orbital nodes are out of reach again.</NR_HeadlineOrbitClosed>
   <NR_NewsEffectGlut>Data glut: cyberdata from dives {0}.</NR_NewsEffectGlut>
   <NR_NewsEffectQuiet>Quiet net: dive trace {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Corp lockdown: corp nodes have stronger ICE.</NR_NewsEffectLockdown>

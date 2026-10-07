@@ -300,6 +300,8 @@
   <NR_HeadlineQuiet>Сеть затихла: нырки оставляют {0} следа ещё {1} дн.</NR_HeadlineQuiet>
   <NR_HeadlineLockdown>Корпоративное ядро пало. У корпораций режим тревоги: корп-ноды +1 к защите на {0} дн.</NR_HeadlineLockdown>
   <NR_HeadlineRunaway>{0} замечен в «{1}». Нырок туда может его найти.</NR_HeadlineRunaway>
+  <NR_HeadlineOrbitOpen>Гравикорабль колонии на орбите: орбитальные магистральные ноды в зоне доступа. Данных больше, лёд жёстче.</NR_HeadlineOrbitOpen>
+  <NR_HeadlineOrbitClosed>Гравикорабль сел: орбитальные ноды снова вне досягаемости.</NR_HeadlineOrbitClosed>
   <NR_NewsEffectGlut>Избыток данных: cyberdata из нырков {0}.</NR_NewsEffectGlut>
   <NR_NewsEffectQuiet>Тихая сеть: след от нырков {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Тревога у корпораций: у корп-нод ICE сильнее.</NR_NewsEffectLockdown>

@@ -26,6 +26,9 @@ public class CyberMapSettingsDef : Def
     public float patrolNetsick = 0.02f;
     public IntRange eventIntervalDays = new(1, 2);
     public int permanentChangeDays = 15;
+    /// <summary>Odyssey: orbital backbone nodes on the map, their cyberdata factor.</summary>
+    public IntRange orbitNodes = new(2, 3);
+    public float orbitLoot = 1.5f;
 }
 
 /// <summary>
@@ -36,6 +39,8 @@ public class CyberMapSettingsDef : Def
 public partial class NetMapManager : GameComponent, INetrunCleanable
 {
     public CyberMap Map;
+    /// <summary>A node marked for the player (a scenario's target: the former owner's fortress), always visible.</summary>
+    public int MarkedNodeId = -1;
     public List<NetRunner> Runners = [];
     /// <summary>Slots waiting to fill again after a branch was burned out: node id and tick.</summary>
     private List<int> _refillNode = [];
@@ -62,6 +67,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         int seed = Find.World?.info?.Seed.GetHashCode() ?? Rand.Int;
         Map = CyberMapGenerator.Generate(size, seed);
+        MarkedNodeId = -1;
         Runners.Clear();
         _refillNode.Clear();
         _refillTick.Clear();
@@ -91,6 +97,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         NetFactions.Get()?.Ensure();
         CorpManager.Get()?.Sync();
         Map.Home.LastVisitTick = Find.TickManager.TicksGame;
+        EnsureOrbit();
         UpdateVisibility();
         _nextEventTick = Find.TickManager.TicksGame + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
         Log.Message($"[Netrun] cyberspace map: {Map.Size}, {Map.Layout}, {Map.Nodes.Count} nodes, {Map.Links.Count} links.");
@@ -131,7 +138,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
                 return true;
             }
         }
-        IEnumerable<MapNode> pool = Map.Nodes.Where(n => n.District is not (District.Home or District.OldNet) && FreeSlots(n) > 0);
+        IEnumerable<MapNode> pool = Map.Nodes.Where(n => n.District is not (District.Home or District.OldNet or District.Orbit) && FreeSlots(n) > 0);
         List<MapNode> preferred = prefer == null ? [] : pool.Where(n => prefer.Contains(n.District)).ToList();
         List<MapNode> choices = preferred.Count > 0 ? preferred : pool.ToList();
         if (choices.Count == 0)
@@ -171,6 +178,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             foreach (MapNode n in Map.Nodes)
                 if (!near.Contains(n.Id) && Map.Hops(id, n.Id, Settings.visibleHops) <= Settings.visibleHops)
                     near.Add(n.Id);
+        if (MarkedNodeId >= 0)
+            near.Add(MarkedNodeId);
         foreach (ExternalNode b in Gateway.AllBranches)
         {
             if (b.MapNodeId < 0 || b.IsBoss)
@@ -476,6 +485,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
 
     private void HourlyTick(int now)
     {
+        EnsureOrbit();
         for (int i = _refillTick.Count - 1; i >= 0; i--)
         {
             if (now < _refillTick[i])
@@ -521,6 +531,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         base.ExposeData();
         Scribe_Deep.Look(ref Map, "map");
+        ExposeOrbit();
+        Scribe_Values.Look(ref MarkedNodeId, "markedNode", -1);
         Scribe_Collections.Look(ref Runners, "runners", LookMode.Deep);
         Scribe_Collections.Look(ref _refillNode, "refillNode", LookMode.Value);
         Scribe_Collections.Look(ref _refillTick, "refillTick", LookMode.Value);

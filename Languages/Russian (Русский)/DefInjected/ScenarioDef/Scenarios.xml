@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Scen_LastNode.label>Последний узел</NR_Scen_LastNode.label>
+  <NR_Scen_LastNode.description>Одинокий уличный нетраннер с продвинутым кибер-линком прячется рядом с заброшенным ИИ-сервером. Во фрагменте у капсулы спит отпечаток напарника, который не выбрался. Сложно: один колонист и один призрак.</NR_Scen_LastNode.description>
+  <NR_Scen_LastNode.scenario.name>Последний узел</NR_Scen_LastNode.scenario.name>
+  <NR_Scen_LastNode.scenario.summary>Один нетраннер и призрак напарника. Сложно.</NR_Scen_LastNode.scenario.summary>
+  <NR_Scen_LastNode.scenario.description>Одинокий уличный нетраннер с продвинутым кибер-линком прячется рядом с заброшенным ИИ-сервером. Во фрагменте у капсулы спит отпечаток напарника, который не выбрался. Сложно: один колонист и один призрак.</NR_Scen_LastNode.scenario.description>
+
+  <NR_Scen_CorpRunaways.label>Корпоративные беглецы</NR_Scen_CorpRunaways.label>
+  <NR_Scen_CorpRunaways.description>Корп-кодер, охранник и выгоревший тестер брейнданса ушли из корпорации вместе с её секретами. Корпорация хочет их вернуть: первый удар по сети через две недели, наёмники чуть позже. Сначала залечь, потом мстить: её крепость отмечена на карте киберпространства.</NR_Scen_CorpRunaways.description>
+  <NR_Scen_CorpRunaways.scenario.name>Корпоративные беглецы</NR_Scen_CorpRunaways.scenario.name>
+  <NR_Scen_CorpRunaways.scenario.summary>Трое беглецов, по следу идёт корпорация. Напряжённо.</NR_Scen_CorpRunaways.scenario.summary>
+  <NR_Scen_CorpRunaways.scenario.description>Корп-кодер, охранник и выгоревший тестер брейнданса ушли из корпорации вместе с её секретами. Корпорация хочет их вернуть: первый удар по сети через две недели, наёмники чуть позже. Сначала залечь, потом мстить: её крепость отмечена на карте киберпространства.</NR_Scen_CorpRunaways.scenario.description>
+
+  <NR_Scen_PirateStudio.label>Пиратская студия</NR_Scen_PirateStudio.label>
+  <NR_Scen_PirateStudio.description>Бывший фиксер и тестер брейнданса открывают пиратскую студию с двумя друзьями, которые никогда не касались сети. Их пока никто не знает, каждый фиксер готов дать шанс, а первый клиент уже ждёт партию чистых чипов. Рядом упал чёрный ящик спутника.</NR_Scen_PirateStudio.description>
+  <NR_Scen_PirateStudio.scenario.name>Пиратская студия</NR_Scen_PirateStudio.scenario.name>
+  <NR_Scen_PirateStudio.scenario.summary>Четверо колонистов, студия брейнданса и доверие фиксеров. Сначала экономика, нырки потом.</NR_Scen_PirateStudio.scenario.summary>
+  <NR_Scen_PirateStudio.scenario.description>Бывший фиксер и тестер брейнданса открывают пиратскую студию с двумя друзьями, которые никогда не касались сети. Их пока никто не знает, каждый фиксер готов дать шанс, а первый клиент уже ждёт партию чистых чипов. Рядом упал чёрный ящик спутника.</NR_Scen_PirateStudio.scenario.description>
+
+  <NR_Scen_FlyingNode.label>Летающий узел</NR_Scen_FlyingNode.label>
+  <NR_Scen_FlyingNode.description>Команда нетраннеров живёт на гравикорабле с кибер-капсулой на борту. Пока корабль на орбите, доступны орбитальные магистральные ноды киберпространства: данных больше, лёд жёстче. (Odyssey)</NR_Scen_FlyingNode.description>
+  <NR_Scen_FlyingNode.scenario.name>Летающий узел</NR_Scen_FlyingNode.scenario.name>
+  <NR_Scen_FlyingNode.scenario.summary>Гравикорабль с капсулой на борту. Орбитальные ноды с самого начала. (Odyssey)</NR_Scen_FlyingNode.scenario.summary>
+  <NR_Scen_FlyingNode.scenario.description>Команда нетраннеров живёт на гравикорабле с кибер-капсулой на борту. Пока корабль на орбите, доступны орбитальные магистральные ноды киберпространства: данных больше, лёд жёстче. (Odyssey)</NR_Scen_FlyingNode.scenario.description>
+
+</LanguageData>

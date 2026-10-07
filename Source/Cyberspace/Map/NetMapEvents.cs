@@ -17,7 +17,7 @@ public partial class NetMapManager
     private static int Days(float d) => (int)(d * GenDate.TicksPerDay);
 
     private IEnumerable<MapLink> Backbone => Map.Links.Where(l => l.Kind is LinkKind.Normal or LinkKind.Fast);
-    private IEnumerable<MapNode> Playable => Map.Nodes.Where(n => n.District is not (District.Home or District.OldNet or District.Dark));
+    private IEnumerable<MapNode> Playable => Map.Nodes.Where(n => n.District is not (District.Home or District.OldNet or District.Dark or District.Orbit));
 
     private void Headline(string key, int tone, params NamedArgument[] args) => Gateway?.AddHeadline(key.Translate(args), tone);
 

@@ -33,6 +33,7 @@ public static partial class GatewayView
         District.Dump => new Color(0.59f, 0.67f, 0.35f),
         District.Dark => NetrunUI.Purple,
         District.OldNet => new Color(0.86f, 0.24f, 0.27f),
+        District.Orbit => new Color(0.78f, 0.86f, 1f),
         _ => NetrunUI.Muted,
     };
 
@@ -222,6 +223,11 @@ public static partial class GatewayView
         {
             GUI.color = NetrunUI.Bad;
             Widgets.DrawBox(rect.ExpandedBy(3f), 2);
+        }
+        if (n.Id == net?.MarkedNodeId)
+        {
+            GUI.color = NetrunUI.Accent;
+            GUI.DrawTexture(rect.ExpandedBy(9f), NetrunUI.ThinRing);
         }
         if (n.Exit && !home)
         {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_ScenStreetNetrunner.label>уличный нетраннер</NR_ScenStreetNetrunner.label>
+  <NR_ScenNetrunner.label>нетраннер</NR_ScenNetrunner.label>
+  <NR_ScenCorpCoder.label>корпоративный кодер</NR_ScenCorpCoder.label>
+  <NR_ScenCorpGuard.label>корпоративный охранник</NR_ScenCorpGuard.label>
+  <NR_ScenBraindanceTester.label>тестер брейнданса</NR_ScenBraindanceTester.label>
+  <NR_ScenFormerFixer.label>бывший фиксер</NR_ScenFormerFixer.label>
+  <NR_ScenDataCourier.label>курьер данных</NR_ScenDataCourier.label>
+</LanguageData>

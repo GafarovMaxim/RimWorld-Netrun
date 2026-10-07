@@ -93,9 +93,16 @@ public class ContractManager : GameComponent, INetrunCleanable
             _contracts.Add(MakeOffer(fixer));
     }
 
-    private Contract MakeOffer(Fixer fixer)
+    /// <summary>Puts an offer of this type on a fixer's list (a scenario's first contract).</summary>
+    public void OfferOfType(Fixer fixer, ContractType type)
     {
-        ContractType type = OfferableTypes().RandomElement();
+        if (fixer != null)
+            _contracts.Add(MakeOffer(fixer, type));
+    }
+
+    private Contract MakeOffer(Fixer fixer, ContractType? forced = null)
+    {
+        ContractType type = forced ?? OfferableTypes().RandomElement();
         var contract = new Contract
         {
             Id = _nextId++,

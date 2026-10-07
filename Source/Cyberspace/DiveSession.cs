@@ -1078,7 +1078,8 @@ public class DiveSession : IExposable
         {
             IntVec3 spot = Runner.PositionHeld;
             float mirror = Node.Mirrored ? 2f : 1f;
-            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * mirror * (GatewayManager.Get()?.LootFactor ?? 1f)));
+            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * mirror * (GatewayManager.Get()?.LootFactor ?? 1f)
+                * (Node.District == District.Orbit ? NetMapManager.Settings.orbitLoot : 1f)));
             Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare * mirror));
             Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare * mirror * (Node.Auction ? 1.5f : 1f)));
             if (keepShare >= 1f)
