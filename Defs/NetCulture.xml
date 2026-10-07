@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Ideology (only with the DLC): how an ideoligion sees the net. A dive is a history event the precepts react to;
+       the trace thoughts come from Netrun.ThoughtWorker_NetTrace (Source/Netsick/NetCulture.cs). -->
+
+  <IssueDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetCulture</defName>
+    <label>net culture</label>
+    <iconPath>UI/Netrun/Cyberspace/Node_NeutralZone</iconPath>
+  </IssueDef>
+
+  <HistoryEventDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet</defName>
+    <label>dove into the net</label>
+  </HistoryEventDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetCulture_Sacred</defName>
+    <issue>NR_NetCulture</issue>
+    <label>sacred</label>
+    <description>The net is where the mind is free. Diving into it is communion, and those who dive are honored.</description>
+    <impact>Medium</impact>
+    <displayOrderInIssue>30</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <exclusionTags>
+      <li>NR_NetCulture</li>
+    </exclusionTags>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Sacred</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Know_Sacred</thought>
+        <description>Someone dove into the net</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetCulture_Wary</defName>
+    <issue>NR_NetCulture</issue>
+    <label>wary</label>
+    <description>The net is a tool, and a dangerous one. A digital trace is a shame: it brings hunters to the door.</description>
+    <impact>Low</impact>
+    <displayOrderInIssue>20</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <exclusionTags>
+      <li>NR_NetCulture</li>
+    </exclusionTags>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Wary</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>NR_NetTrace_Wary</thought>
+        <description>The colony's trace is high</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetCulture_Abhorrent</defName>
+    <issue>NR_NetCulture</issue>
+    <label>abhorrent</label>
+    <description>The net eats souls. Plugging a mind into it is a disgrace, and any trace we leave is a stain.</description>
+    <impact>High</impact>
+    <displayOrderInIssue>10</displayOrderInIssue>
+    <displayOrderInImpact>1000</displayOrderInImpact>
+    <exclusionTags>
+      <li>NR_NetCulture</li>
+    </exclusionTags>
+    <comps>
+      <li Class="PreceptComp_SelfTookMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Know_Abhorrent_Mood</thought>
+        <description>Someone dove into the net</description>
+      </li>
+      <li Class="PreceptComp_KnowsMemoryThought">
+        <eventDef>NR_DoveIntoNet</eventDef>
+        <thought>NR_DoveIntoNet_Know_Abhorrent</thought>
+      </li>
+      <li Class="PreceptComp_SituationalThought">
+        <thought>NR_NetTrace_Abhorrent</thought>
+        <description>The colony leaves a trace in the net</description>
+      </li>
+    </comps>
+  </PreceptDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Sacred</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stages>
+      <li>
+        <label>communed with the net</label>
+        <description>I went into the net and it took me in. I feel whole.</description>
+        <baseMoodEffect>6</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Know_Sacred</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stackLimit>3</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>one of us communed with the net</label>
+        <description>One of us went into the net today. It is good to be among the faithful.</description>
+        <baseMoodEffect>2</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Wary</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>2</durationDays>
+    <stages>
+      <li>
+        <label>uneasy about the net</label>
+        <description>I did what had to be done in there, but I do not like what it leaves behind.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Abhorrent</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>4</durationDays>
+    <stages>
+      <li>
+        <label>plugged into the net</label>
+        <description>I gave my mind to the net. I feel dirty.</description>
+        <baseMoodEffect>-10</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Know_Abhorrent_Mood</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>4</durationDays>
+    <stackLimit>5</stackLimit>
+    <stackedEffectMultiplier>0.75</stackedEffectMultiplier>
+    <stages>
+      <li>
+        <label>someone plugged into the net</label>
+        <description>Someone gave their mind to the net. Disgraceful.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_DoveIntoNet_Know_Abhorrent</defName>
+    <thoughtClass>Thought_MemorySocial</thoughtClass>
+    <durationDays>15</durationDays>
+    <stages>
+      <li>
+        <label>plugged into the net</label>
+        <description>Gave their mind to the net.</description>
+        <baseOpinionOffset>-10</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetTrace_Wary</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>Netrun.ThoughtWorker_NetTraceWary</workerClass>
+    <stages>
+      <li>
+        <label>our trace is everywhere</label>
+        <description>Every hunter in the net knows where we are. We should have been more careful.</description>
+        <baseMoodEffect>-4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+  <ThoughtDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_NetTrace_Abhorrent</defName>
+    <thoughtClass>Thought_Situational</thoughtClass>
+    <workerClass>Netrun.ThoughtWorker_NetTraceAbhorrent</workerClass>
+    <stages>
+      <li>
+        <label>the net stains us</label>
+        <description>We leave a trace in the net. It stains us all.</description>
+        <baseMoodEffect>-3</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

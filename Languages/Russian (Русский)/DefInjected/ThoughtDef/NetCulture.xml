@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_DoveIntoNet_Sacred.stages.0.label>причастился к сети</NR_DoveIntoNet_Sacred.stages.0.label>
+  <NR_DoveIntoNet_Sacred.stages.0.description>Я ушёл в сеть, и она приняла меня. Я чувствую себя цельным.</NR_DoveIntoNet_Sacred.stages.0.description>
+  <NR_DoveIntoNet_Know_Sacred.stages.0.label>один из нас причастился к сети</NR_DoveIntoNet_Know_Sacred.stages.0.label>
+  <NR_DoveIntoNet_Know_Sacred.stages.0.description>Сегодня один из нас ушёл в сеть. Хорошо быть среди верных.</NR_DoveIntoNet_Know_Sacred.stages.0.description>
+  <NR_DoveIntoNet_Wary.stages.0.label>не по себе от сети</NR_DoveIntoNet_Wary.stages.0.label>
+  <NR_DoveIntoNet_Wary.stages.0.description>Я сделал там то, что нужно, но мне не нравится то, что после этого остаётся.</NR_DoveIntoNet_Wary.stages.0.description>
+  <NR_DoveIntoNet_Abhorrent.stages.0.label>подключался к сети</NR_DoveIntoNet_Abhorrent.stages.0.label>
+  <NR_DoveIntoNet_Abhorrent.stages.0.description>Я отдал разум сети. Чувствую себя грязным.</NR_DoveIntoNet_Abhorrent.stages.0.description>
+  <NR_DoveIntoNet_Know_Abhorrent_Mood.stages.0.label>кто-то подключался к сети</NR_DoveIntoNet_Know_Abhorrent_Mood.stages.0.label>
+  <NR_DoveIntoNet_Know_Abhorrent_Mood.stages.0.description>Кто-то отдал разум сети. Позор.</NR_DoveIntoNet_Know_Abhorrent_Mood.stages.0.description>
+  <NR_DoveIntoNet_Know_Abhorrent.stages.0.label>подключался к сети</NR_DoveIntoNet_Know_Abhorrent.stages.0.label>
+  <NR_DoveIntoNet_Know_Abhorrent.stages.0.description>Отдал разум сети.</NR_DoveIntoNet_Know_Abhorrent.stages.0.description>
+  <NR_NetTrace_Wary.stages.0.label>наш след повсюду</NR_NetTrace_Wary.stages.0.label>
+  <NR_NetTrace_Wary.stages.0.description>Каждый охотник в сети знает, где мы. Надо было быть осторожнее.</NR_NetTrace_Wary.stages.0.description>
+  <NR_NetTrace_Abhorrent.stages.0.label>сеть пятнает нас</NR_NetTrace_Abhorrent.stages.0.label>
+  <NR_NetTrace_Abhorrent.stages.0.description>Мы оставляем след в сети. Это пятно на всех нас.</NR_NetTrace_Abhorrent.stages.0.description>
+</LanguageData>

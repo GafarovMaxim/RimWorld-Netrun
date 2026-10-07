@@ -944,6 +944,7 @@ public class DiveSession : IExposable
         Report = BuildReport(success, keepShare, HunterActive && map != null);
         DiveEffects.Apply(this, success, Report);
         ContractManager.Get()?.NotifyDive(Runner, success);
+        NetCulture.RecordDive(Runner);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))

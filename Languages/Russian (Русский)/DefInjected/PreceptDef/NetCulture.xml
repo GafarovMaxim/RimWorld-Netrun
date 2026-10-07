@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_NetCulture_Sacred.label>священна</NR_NetCulture_Sacred.label>
+  <NR_NetCulture_Sacred.description>Сеть — место, где разум свободен. Нырок в неё — причастие, а ныряющих почитают.</NR_NetCulture_Sacred.description>
+  <NR_NetCulture_Sacred.comps.1.description>Кто-то нырнул в сеть</NR_NetCulture_Sacred.comps.1.description>
+  <NR_NetCulture_Wary.label>настороженность</NR_NetCulture_Wary.label>
+  <NR_NetCulture_Wary.description>Сеть — инструмент, и опасный. Цифровой след — позор: он приводит охотников к порогу.</NR_NetCulture_Wary.description>
+  <NR_NetCulture_Wary.comps.1.description>След колонии высок</NR_NetCulture_Wary.comps.1.description>
+  <NR_NetCulture_Abhorrent.label>отвратительна</NR_NetCulture_Abhorrent.label>
+  <NR_NetCulture_Abhorrent.description>Сеть пожирает души. Подключить к ней разум — позор, и любой оставленный след — пятно.</NR_NetCulture_Abhorrent.description>
+  <NR_NetCulture_Abhorrent.comps.1.description>Кто-то нырнул в сеть</NR_NetCulture_Abhorrent.comps.1.description>
+  <NR_NetCulture_Abhorrent.comps.3.description>Колония оставляет след в сети</NR_NetCulture_Abhorrent.comps.3.description>
+</LanguageData>
