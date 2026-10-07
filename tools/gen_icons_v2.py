@@ -140,20 +140,6 @@ def skull(ic, cx, cy, s, light=W_LIGHT, shade=W_SHADE):
         ic.line(m_line([(cx + k * 0.05 * s, cy + 0.15 * s), (cx + k * 0.05 * s, cy + 0.22 * s)], lw(2) * s))
 
 
-def plug(ic, x0, y0, x1, y1, w, light=W_LIGHT, shade=W_SHADE):
-    """A cable from (x0,y0) to a jack at (x1,y1)."""
-    ic.part(m_line([(x0, y0), (x1, y1)], w), G_LIGHT, G_SHADE)
-    ang = math.atan2(y1 - y0, x1 - x0)
-    hx, hy = math.cos(ang), math.sin(ang)
-    L, Wd = 0.11, 0.065
-    pts = [(x1 - hx * 0.02 + -hy * Wd / 2, y1 - hy * 0.02 + hx * Wd / 2), (x1 + hx * L + -hy * Wd / 2, y1 + hy * L + hx * Wd / 2),
-           (x1 + hx * L + hy * Wd / 2, y1 + hy * L - hx * Wd / 2), (x1 - hx * 0.02 + hy * Wd / 2, y1 - hy * 0.02 - hx * Wd / 2)]
-    ic.part(m_poly(pts), light, shade)
-    for k in (-1, 1):
-        px, py = x1 + hx * L + -hy * k * Wd * 0.25, y1 + hy * L + hx * k * Wd * 0.25
-        ic.part(m_line([(px, py), (px + hx * 0.05, py + hy * 0.05)], 0.018), G_LIGHT, G_SHADE)
-
-
 def chip(ic, cx, cy, h, light=W_LIGHT, shade=W_SHADE, pins=3):
     for side in range(4):
         for k in range(pins):
@@ -167,77 +153,107 @@ def chip(ic, cx, cy, h, light=W_LIGHT, shade=W_SHADE, pins=3):
 
 # ---------------------------------------------------------------- runner crews (manner A)
 
-def crew_skull_cables():
+def tapered(x0, y0, x1, y1, w0, w1):
+    """A limb that narrows from w0 to w1 (a polygon, not a wire)."""
+    ang = math.atan2(y1 - y0, x1 - x0)
+    nx, ny = -math.sin(ang), math.cos(ang)
+    return m_poly([(x0 + nx * w0 / 2, y0 + ny * w0 / 2), (x1 + nx * w1 / 2, y1 + ny * w1 / 2),
+                   (x1 - nx * w1 / 2, y1 - ny * w1 / 2), (x0 - nx * w0 / 2, y0 - ny * w0 / 2)])
+
+
+def crew_spider():
     ic = Icon()
-    plug(ic, 0.30, 0.78, 0.13, 0.20, 0.06)
-    plug(ic, 0.70, 0.78, 0.87, 0.20, 0.06)
-    skull(ic, 0.5, 0.50, 1.25)
-    ic.part(m_rrect(0.60, 0.33, 0.70, 0.40, 0.015), G_LIGHT, G_SHADE)   # temple port
+    legs = blank()
+    for side in (-1, 1):
+        for k, (ya, kx, ky, fx, fy) in enumerate([(0.40, 0.30, 0.20, 0.40, 0.08), (0.46, 0.36, 0.34, 0.46, 0.40),
+                                                 (0.52, 0.36, 0.56, 0.46, 0.66), (0.58, 0.28, 0.74, 0.38, 0.92)]):
+            x0, y0 = 0.5 + side * 0.06, ya
+            kxx, kyy = 0.5 + side * kx, ky
+            fxx, fyy = 0.5 + side * fx, fy
+            legs = union(legs, tapered(x0, y0, kxx, kyy, 0.06, 0.05), tapered(kxx, kyy, fxx, fyy, 0.05, 0.025),
+                         m_ellipse(kxx - 0.028, kyy - 0.028, kxx + 0.028, kyy + 0.028))
+    ic.part(legs, G_LIGHT, G_SHADE)
+    ic.part(m_ellipse(0.40, 0.30, 0.60, 0.50))                       # head and thorax
+    ic.part(m_ellipse(0.34, 0.46, 0.66, 0.86))                       # abdomen
+    ic.line(m_poly([(0.44, 0.56), (0.56, 0.56), (0.52, 0.66), (0.56, 0.76), (0.44, 0.76), (0.48, 0.66)]))   # hourglass
+    for dx in (-1, 1):
+        ic.line(m_ellipse(0.5 + dx * 0.045 - 0.022, 0.34, 0.5 + dx * 0.045 + 0.022, 0.384))
     return ic
 
 
-def crew_hood_visor():
+def crew_kitsune():
     ic = Icon()
-    hood = m_poly([(0.5, 0.12), (0.72, 0.26), (0.78, 0.55), (0.88, 0.88), (0.12, 0.88), (0.22, 0.55), (0.28, 0.26)])
-    ic.part(hood)
-    face = m_poly([(0.5, 0.26), (0.64, 0.36), (0.65, 0.58), (0.5, 0.68), (0.35, 0.58), (0.36, 0.36)])
-    ic.part(face, G_LIGHT, G_SHADE)
-    ic.line(m_poly([(0.37, 0.43), (0.63, 0.43), (0.61, 0.50), (0.39, 0.50)]))
-    ic.line(m_line([(0.5, 0.70), (0.5, 0.86)], lw(2.5)))
-    return ic
-
-
-def crew_crow():
-    ic = Icon()
-    # raven head in profile with ragged neck feathers and a cyber eye
-    neck = m_poly([(0.30, 0.50), (0.60, 0.56), (0.66, 0.70), (0.60, 0.74), (0.66, 0.84), (0.56, 0.82), (0.58, 0.92),
-                   (0.46, 0.84), (0.40, 0.93), (0.36, 0.82), (0.26, 0.90), (0.26, 0.76), (0.16, 0.80), (0.22, 0.64)])
-    head = m_ellipse(0.20, 0.18, 0.62, 0.62)
-    ic.part(union(head, neck))
-    beak = m_poly([(0.56, 0.30), (0.94, 0.44), (0.58, 0.52)])
-    ic.part(beak, G_LIGHT, G_SHADE)
-    ic.line(m_line([(0.58, 0.42), (0.90, 0.44)], lw(2)))
-    ic.part(m_ellipse(0.38, 0.28, 0.52, 0.42), G_LIGHT, G_SHADE)
-    ic.line(m_ellipse(0.42, 0.32, 0.48, 0.38))
-    ic.line(m_line([(0.30, 0.44), (0.40, 0.44), (0.44, 0.40)], lw(2)))   # circuit under the eye
-    ic.line(m_line([(0.28, 0.56), (0.42, 0.62)], lw(2)))
-    return ic
-
-
-def crew_fist_cable():
-    ic = Icon()
-    plug(ic, 0.18, 0.86, 0.62, 0.12, 0.06)
-    fist = m_rrect(0.30, 0.38, 0.70, 0.74, 0.06)
-    thumb = m_rrect(0.24, 0.46, 0.40, 0.66, 0.05)
-    wrist = m_rrect(0.36, 0.70, 0.64, 0.90, 0.03)
-    ic.part(union(fist, wrist))
-    ic.part(thumb)
-    for k in range(1, 4):
-        x = 0.30 + k * 0.10
-        ic.line(m_line([(x, 0.38), (x, 0.52)], lw(2)))
-    ic.line(m_line([(0.36, 0.78), (0.64, 0.78)], lw(2)))
-    return ic
-
-
-def crew_cracked_mask():
-    ic = Icon()
-    mask = m_poly([(0.5, 0.10), (0.76, 0.20), (0.80, 0.50), (0.66, 0.82), (0.5, 0.90), (0.34, 0.82), (0.20, 0.50), (0.24, 0.20)])
+    mask = m_poly([(0.16, 0.10), (0.36, 0.30), (0.64, 0.30), (0.84, 0.10), (0.84, 0.46), (0.74, 0.66),
+                   (0.56, 0.88), (0.5, 0.92), (0.44, 0.88), (0.26, 0.66), (0.16, 0.46)])
     ic.part(mask)
     for dx in (-1, 1):
-        ic.line(m_poly([(0.5 + dx * 0.05, 0.42), (0.5 + dx * 0.22, 0.37), (0.5 + dx * 0.20, 0.47), (0.5 + dx * 0.07, 0.49)]))
-    ic.line(m_line([(0.42, 0.66), (0.58, 0.66)], lw(2.5)))
-    ic.line(m_line([(0.56, 0.10), (0.52, 0.24), (0.60, 0.32), (0.54, 0.40)], lw(2.2)))   # crack
-    ic.part(m_rrect(0.70, 0.28, 0.80, 0.34, 0.01), G_LIGHT, G_SHADE)   # implant
+        ic.part(m_poly([(0.5 + dx * 0.30, 0.16), (0.5 + dx * 0.20, 0.30), (0.5 + dx * 0.31, 0.36)]), G_LIGHT, G_SHADE)  # inner ears
+        ic.line(m_poly([(0.5 + dx * 0.06, 0.48), (0.5 + dx * 0.26, 0.42), (0.5 + dx * 0.22, 0.52), (0.5 + dx * 0.08, 0.53)]))
+        ic.part(m_poly([(0.5 + dx * 0.16, 0.58), (0.5 + dx * 0.30, 0.56), (0.5 + dx * 0.20, 0.64)]), G_LIGHT, G_SHADE)  # cheek marks
+    ic.part(m_poly([(0.5, 0.30), (0.56, 0.40), (0.5, 0.44), (0.44, 0.40)]), G_LIGHT, G_SHADE)    # forehead mark
+    ic.line(m_ellipse(0.46, 0.80, 0.54, 0.86))
     return ic
 
 
-def crew_broken_link():
+def crew_spades():
     ic = Icon()
-    a = minus(m_rrect(0.12, 0.30, 0.50, 0.62, 0.16), m_rrect(0.20, 0.38, 0.42, 0.54, 0.08))
-    b = minus(m_rrect(0.50, 0.38, 0.88, 0.70, 0.16), m_rrect(0.58, 0.46, 0.80, 0.62, 0.08))
-    ic.part(a); ic.part(b)
-    for k, (x, y) in enumerate([(0.50, 0.24), (0.58, 0.30), (0.42, 0.76), (0.50, 0.82)]):
-        ic.part(m_poly([(x, y - 0.05), (x + 0.03, y), (x, y + 0.05), (x - 0.03, y)]), G_LIGHT, G_SHADE)
+    card = m_rrect(0.20, 0.10, 0.80, 0.90, 0.06)
+    ic.part(card)
+    spade = union(m_ellipse(0.29, 0.42, 0.53, 0.66), m_ellipse(0.47, 0.42, 0.71, 0.66),
+                  m_poly([(0.5, 0.20), (0.70, 0.52), (0.30, 0.52)]), m_poly([(0.5, 0.58), (0.60, 0.80), (0.40, 0.80)]))
+    ic.part(spade, G_LIGHT, G_SHADE)
+    ic.line(m_rrect(0.46, 0.46, 0.54, 0.54, 0.01))                    # a small chip in the pip
+    for (x, y, f) in [(0.29, 0.17, 1), (0.71, 0.83, -1)]:
+        ic.line(m_poly([(x, y - 0.035 * f), (x + 0.03, y + 0.02 * f), (x - 0.03, y + 0.02 * f)]))
+    return ic
+
+
+def crew_rat():
+    ic = Icon()
+    for dx in (-1, 1):
+        ic.part(m_ellipse(0.5 + dx * 0.24 - 0.15, 0.10, 0.5 + dx * 0.24 + 0.15, 0.40))
+        ic.part(m_ellipse(0.5 + dx * 0.24 - 0.09, 0.16, 0.5 + dx * 0.24 + 0.09, 0.34), G_LIGHT, G_SHADE)
+    head = union(m_ellipse(0.26, 0.24, 0.74, 0.66), m_poly([(0.30, 0.52), (0.70, 0.52), (0.56, 0.86), (0.44, 0.86)]))
+    ic.part(head)
+    ic.part(m_ellipse(0.44, 0.80, 0.56, 0.90), G_LIGHT, G_SHADE)     # nose
+    ic.line(m_ellipse(0.35, 0.44, 0.43, 0.52))
+    ic.part(m_rrect(0.55, 0.42, 0.67, 0.53, 0.015), G_LIGHT, G_SHADE)  # implant eye
+    ic.line(m_ellipse(0.585, 0.455, 0.625, 0.495))
+    ic.line(m_line([(0.47, 0.70), (0.5, 0.74), (0.53, 0.70)], lw(1.8)))
+    return ic
+
+
+def crew_bat():
+    ic = Icon()
+    wing = []
+    for side in (-1, 1):
+        pts = [(0.5, 0.40), (0.5 + side * 0.18, 0.30), (0.5 + side * 0.34, 0.22), (0.5 + side * 0.46, 0.30),
+               (0.5 + side * 0.44, 0.54), (0.5 + side * 0.36, 0.48), (0.5 + side * 0.30, 0.62), (0.5 + side * 0.22, 0.54),
+               (0.5 + side * 0.14, 0.68), (0.5, 0.60)]
+        wing.append(m_poly(pts))
+    ic.part(union(*wing), G_LIGHT, G_SHADE)
+    body = union(m_ellipse(0.40, 0.30, 0.60, 0.78), m_poly([(0.42, 0.34), (0.40, 0.16), (0.48, 0.28)]),
+                 m_poly([(0.58, 0.34), (0.60, 0.16), (0.52, 0.28)]))
+    ic.part(body)
+    for dx in (-1, 1):
+        ic.line(m_poly([(0.5 + dx * 0.02, 0.38), (0.5 + dx * 0.075, 0.36), (0.5 + dx * 0.065, 0.42)]))
+    for side in (-1, 1):
+        ic.line(m_line([(0.5 + side * 0.10, 0.40), (0.5 + side * 0.34, 0.26)], lw(1.6)))
+        ic.line(m_line([(0.5 + side * 0.10, 0.44), (0.5 + side * 0.30, 0.58)], lw(1.6)))
+    return ic
+
+
+def crew_wolf():
+    ic = Icon()
+    head = m_poly([(0.5, 0.92), (0.30, 0.72), (0.18, 0.46), (0.20, 0.10), (0.36, 0.30), (0.5, 0.26),
+                   (0.64, 0.30), (0.80, 0.10), (0.82, 0.46), (0.70, 0.72)])
+    ic.part(head)
+    for dx in (-1, 1):
+        ic.part(m_poly([(0.5 + dx * 0.27, 0.18), (0.5 + dx * 0.16, 0.32), (0.5 + dx * 0.28, 0.36)]), G_LIGHT, G_SHADE)
+        ic.part(m_poly([(0.5 + dx * 0.32, 0.46), (0.5 + dx * 0.20, 0.72), (0.5, 0.92), (0.5, 0.62)]), G_LIGHT, G_SHADE)  # facet
+        ic.line(m_poly([(0.5 + dx * 0.08, 0.46), (0.5 + dx * 0.24, 0.42), (0.5 + dx * 0.20, 0.50)]))
+    ic.part(m_poly([(0.42, 0.74), (0.58, 0.74), (0.5, 0.86)]))       # nose
+    ic.line(m_line([(0.5, 0.30), (0.5, 0.40)], lw(2)))
     return ic
 
 
@@ -276,13 +292,63 @@ def corp_biotech():
 
 
 def corp_neurotech():
+    """A neuron: soma with tapered dendrites and an axon (no wires)."""
     ic = Icon()
-    brain = union(m_ellipse(0.20, 0.22, 0.56, 0.66), m_ellipse(0.42, 0.20, 0.80, 0.64), m_ellipse(0.30, 0.44, 0.72, 0.76))
-    ic.part(brain, W_LIGHT, W_SHADE)
-    ic.line(m_line([(0.5, 0.24), (0.48, 0.40), (0.52, 0.56), (0.50, 0.72)], lw(2.2)))
-    ic.line(m_arc(0.26, 0.34, 0.44, 0.52, 200, 340, lw(2)))
-    ic.line(m_arc(0.56, 0.32, 0.74, 0.50, 200, 340, lw(2)))
-    plug(ic, 0.5, 0.74, 0.50, 0.86, 0.05)
+    arms = blank()
+    for k, ang in enumerate([-150, -105, -60, -20, 200, 160]):
+        a_ = math.radians(ang)
+        x1, y1 = 0.5 + math.cos(a_) * 0.36, 0.42 + math.sin(a_) * 0.32
+        arms = union(arms, tapered(0.5, 0.42, x1, y1, 0.16, 0.06), m_ellipse(x1 - 0.045, y1 - 0.045, x1 + 0.045, y1 + 0.045))
+        bx, by = 0.5 + math.cos(a_) * 0.24, 0.42 + math.sin(a_) * 0.21
+        a2 = a_ + (0.6 if k % 2 else -0.6)
+        arms = union(arms, tapered(bx, by, bx + math.cos(a2) * 0.10, by + math.sin(a2) * 0.10, 0.07, 0.04))
+    arms = union(arms, tapered(0.5, 0.42, 0.5, 0.82, 0.13, 0.08))
+    ic.part(arms, G_LIGHT, G_SHADE)
+    for k in (-1, 0, 1):
+        ic.part(m_ellipse(0.5 + k * 0.07 - 0.04, 0.82, 0.5 + k * 0.07 + 0.04, 0.90), G_LIGHT, G_SHADE)
+    ic.part(m_ellipse(0.36, 0.28, 0.64, 0.56))
+    ic.part(m_ellipse(0.44, 0.36, 0.56, 0.48), G_LIGHT, G_SHADE)
+    return ic
+
+
+def corp_neuro_brainchip():
+    """Neurotech B: a brain whose right half is a chip."""
+    ic = Icon()
+    left = union(m_ellipse(0.16, 0.24, 0.54, 0.62), m_ellipse(0.22, 0.44, 0.56, 0.80))
+    ic.part(minus(left, m_rrect(0.50, 0.0, 1.0, 1.0, 0)))
+    ic.line(m_arc(0.22, 0.32, 0.42, 0.52, 200, 340, lw(2)))
+    ic.line(m_arc(0.26, 0.54, 0.46, 0.74, 200, 340, lw(2)))
+    chip(ic, 0.66, 0.52, 0.17, pins=3)
+    ic.line(m_line([(0.56, 0.44), (0.66, 0.44), (0.70, 0.50)], lw(2)))
+    ic.line(m_line([(0.56, 0.60), (0.72, 0.60)], lw(2)))
+    ic.line(m_ellipse(0.69, 0.47, 0.75, 0.53))
+    ic.line(m_line([(0.50, 0.26), (0.50, 0.80)], lw(2.4)))
+    return ic
+
+
+def corp_neuro_profile():
+    """Neurotech C: a head in profile with a glowing chip where the brain is."""
+    ic = Icon()
+    head = m_poly([(0.30, 0.90), (0.30, 0.74), (0.20, 0.62), (0.20, 0.40), (0.30, 0.20), (0.50, 0.12), (0.68, 0.16),
+                   (0.80, 0.30), (0.82, 0.44), (0.88, 0.56), (0.80, 0.60), (0.80, 0.70), (0.70, 0.74), (0.66, 0.90)])
+    ic.part(head)
+    chip(ic, 0.50, 0.38, 0.12, pins=2)
+    ic.line(m_rrect(0.46, 0.34, 0.54, 0.42, 0.01))
+    ic.line(m_line([(0.66, 0.66), (0.78, 0.66)], lw(2)))
+    return ic
+
+
+def corp_neuro_lobes():
+    """Neurotech D: a brain with circuit traces on the lobes."""
+    ic = Icon()
+    brain = union(m_ellipse(0.14, 0.24, 0.54, 0.70), m_ellipse(0.46, 0.24, 0.86, 0.70), m_ellipse(0.26, 0.48, 0.74, 0.84))
+    ic.part(brain)
+    ic.line(m_line([(0.50, 0.26), (0.50, 0.82)], lw(2.4)))
+    for side in (-1, 1):
+        ic.line(m_line([(0.5 + side * 0.06, 0.36), (0.5 + side * 0.20, 0.36), (0.5 + side * 0.26, 0.44)], lw(2)))
+        ic.line(m_ellipse(0.5 + side * 0.26 - 0.03, 0.44 - 0.03, 0.5 + side * 0.26 + 0.03, 0.44 + 0.03))
+        ic.line(m_line([(0.5 + side * 0.06, 0.56), (0.5 + side * 0.16, 0.56), (0.5 + side * 0.22, 0.66)], lw(2)))
+        ic.line(m_ellipse(0.5 + side * 0.22 - 0.03, 0.66 - 0.03, 0.5 + side * 0.22 + 0.03, 0.66 + 0.03))
     return ic
 
 
@@ -386,16 +452,21 @@ def issue_braindance():
 
 
 def role_archon():
+    """Robed figure holding a chip, with a halo of data blocks."""
     ic = Icon()
-    body = m_poly([(0.16, 0.92), (0.22, 0.70), (0.36, 0.62), (0.64, 0.62), (0.78, 0.70), (0.84, 0.92)])
-    ic.part(body, G_LIGHT, G_SHADE)
-    head = m_ellipse(0.34, 0.20, 0.66, 0.60)
-    ic.part(head)
-    ic.part(m_rrect(0.32, 0.34, 0.68, 0.44, 0.03), G_LIGHT, G_SHADE)    # visor
-    ic.line(m_line([(0.36, 0.39), (0.64, 0.39)], lw(1.5)))
-    plug(ic, 0.70, 0.36, 0.86, 0.14, 0.04)                              # cable from the temple
-    ic.line(m_line([(0.5, 0.66), (0.5, 0.90)], lw(2.2)))
-    ic.part(m_ellipse(0.46, 0.72, 0.54, 0.80))                         # pendant
+    for k in range(9):
+        ang = math.pi + (k + 0.5) * math.pi / 9
+        x, y = 0.5 + math.cos(ang) * 0.33, 0.36 + math.sin(ang) * 0.26
+        r = 0.028
+        ic.part(m_rrect(x - r, y - r, x + r, y + r, 0.004), G_LIGHT if k % 2 else W_LIGHT, G_SHADE if k % 2 else W_SHADE)
+    robe = m_poly([(0.5, 0.18), (0.66, 0.28), (0.70, 0.50), (0.84, 0.94), (0.16, 0.94), (0.30, 0.50), (0.34, 0.28)])
+    ic.part(robe, G_LIGHT, G_SHADE)
+    ic.part(m_ellipse(0.40, 0.26, 0.60, 0.50))                      # face in the hood
+    ic.line(m_rrect(0.42, 0.34, 0.58, 0.40, 0.01))                   # visor
+    chip(ic, 0.5, 0.70, 0.11, pins=2)
+    ic.line(m_rrect(0.46, 0.66, 0.54, 0.74, 0.01))
+    for dx in (-1, 1):
+        ic.part(m_ellipse(0.5 + dx * 0.15 - 0.05, 0.64, 0.5 + dx * 0.15 + 0.05, 0.76))   # hands
     return ic
 
 
@@ -466,20 +537,23 @@ def meme_purity():
 
 
 GROUPS = [
-    ("Команды раннеров: иконки фракций (белые, игра красит в цвет фракции)", [
-        ("Crew_SkullCables", "Череп и кабели", crew_skull_cables), ("Crew_HoodVisor", "Капюшон и визор", crew_hood_visor),
-        ("Crew_Crow", "Ворон", crew_crow), ("Crew_FistCable", "Кулак с кабелем", crew_fist_cable),
-        ("Crew_CrackedMask", "Треснувшая маска", crew_cracked_mask), ("Crew_BrokenLink", "Разорванное звено", crew_broken_link),
+    ("Команды раннеров v3, без проводов (белые, под цвет фракции)", [
+        ("Crew_Spider", "Пауки", crew_spider), ("Crew_Kitsune", "Лисы", crew_kitsune), ("Crew_Spades", "Пики", crew_spades),
+        ("Crew_Rat", "Крысы", crew_rat), ("Crew_Bat", "Нетопыри", crew_bat), ("Crew_Wolf", "Волки", crew_wolf),
     ]),
     ("Корпорации: иконки фракций по тематикам (пул)", [
         ("Corp_Security", "Охранная", corp_security), ("Corp_Media", "Медиа", corp_media), ("Corp_Biotech", "Биотех", corp_biotech),
-        ("Corp_Neurotech", "Нейротех", corp_neurotech), ("Corp_Finance", "Финансы", corp_finance), ("Corp_Logistics", "Логистика", corp_logistics),
+        ("Corp_Neurotech", "Нейротех (v3)", corp_neurotech), ("Corp_Finance", "Финансы", corp_finance), ("Corp_Logistics", "Логистика", corp_logistics),
         ("Corp_Arms", "Оружейная", corp_arms), ("Corp_Energy", "Энергетика", corp_energy), ("Corp_Pharma", "Фарма", corp_pharma),
         ("Corp_DataBroker", "Дата-брокер", corp_databroker), ("Corp_Orbital", "Орбитальная", corp_orbital),
     ]),
+    ("Нейротех: варианты на выбор", [
+        ("Corp_Neurotech", "A: нейрон", corp_neurotech), ("Corp_Neurotech_B", "B: мозг-чип", corp_neuro_brainchip),
+        ("Corp_Neurotech_C", "C: профиль с чипом", corp_neuro_profile), ("Corp_Neurotech_D", "D: мозг со схемой", corp_neuro_lobes),
+    ]),
     ("Ideology: вопросы, роль; наёмники (перерисовка в белом)", [
         ("Issue_AI", "Вопрос «ИИ»", issue_ai), ("Issue_Braindance", "Вопрос «Брейнданс»", issue_braindance),
-        ("Role_NetArchon", "Роль «Архонт сети»", role_archon), ("Faction_Mercenaries_v2", "Наёмники", faction_mercs),
+        ("Role_NetArchon", "Роль «Архонт» (v3)", role_archon), ("Faction_Mercenaries_v2", "Наёмники", faction_mercs),
     ]),
     ("Мемы (иллюстрации, приглушённые цвета)", [
         ("Meme_MachineRevelation", "Машинное откровение", meme_machine), ("Meme_NetAscension", "Сетевое восхождение", meme_ascension),
