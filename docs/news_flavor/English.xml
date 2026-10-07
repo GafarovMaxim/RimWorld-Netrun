@@ -14,6 +14,14 @@
   <NR_Flavor_Ad_10>Braindance Palace: feel what it's like to be a pirate lord. Refunds not available after waking.</NR_Flavor_Ad_10>
   <NR_Flavor_Ad_11>Need a fixer? Everyone needs a fixer. Ours has a 4.7 rating and only two lawsuits.</NR_Flavor_Ad_11>
   <NR_Flavor_Ad_12>ICE-BREAKER pills for your mood. Side effects: confidence, rapid heartbeat, a sudden tax audit.</NR_Flavor_Ad_12>
+  <NR_Flavor_Ad_13>Rimstone Bank: loans for pirates, no questions. Collateral: your name and one eye.</NR_Flavor_Ad_13>
+  <NR_Flavor_Ad_14>Sleep is for people who can't afford to be awake. Try WAKEFUL-3.</NR_Flavor_Ad_14>
+  <NR_Flavor_Ad_15>SIGNAL &amp; SONS: three generations of antenna repair. We never ask what you listen to.</NR_Flavor_Ad_15>
+  <NR_Flavor_Ad_16>Ghost Mode™: your Heat, but quieter. Not a guarantee. Not legal advice.</NR_Flavor_Ad_16>
+  <NR_Flavor_Ad_17>Hire a decoy! Our freelancers will be seen in your place. Rates by the hour, scars by the week.</NR_Flavor_Ad_17>
+  <NR_Flavor_Ad_18>Fresh cyberdata, hand-picked, ethically stolen.</NR_Flavor_Ad_18>
+  <NR_Flavor_Ad_19>Your AI is lonely. Give it a bedtime story. Premium Narrator pack: 9 silver.</NR_Flavor_Ad_19>
+  <NR_Flavor_Ad_20>TOWER 13 capsule hotel: a bed, a cable, a lock. The lock is optional.</NR_Flavor_Ad_20>
 
   <!-- Rumor: tone Purple -->
   <NR_Flavor_Rumor_1>They say a corp wiped an entire archive node and blamed a squirrel.</NR_Flavor_Rumor_1>
@@ -28,6 +36,14 @@
   <NR_Flavor_Rumor_10>An AI in the east sector refuses to work weekends. Management is aware.</NR_Flavor_Rumor_10>
   <NR_Flavor_Rumor_11>Somebody is selling the same braindance to three different colonies. It is always the one about the sunset.</NR_Flavor_Rumor_11>
   <NR_Flavor_Rumor_12>They say if you hold a link long enough, you start to hear the net breathe.</NR_Flavor_Rumor_12>
+  <NR_Flavor_Rumor_13>A runner swears the Corp core was humming a lullaby. Nobody asked which one.</NR_Flavor_Rumor_13>
+  <NR_Flavor_Rumor_14>They say there is a node nobody has ever entered, because every map shows it in a different place.</NR_Flavor_Rumor_14>
+  <NR_Flavor_Rumor_15>A pirate band is trying to learn to hack. Reports say the cyberpod ended up in the soup.</NR_Flavor_Rumor_15>
+  <NR_Flavor_Rumor_16>The Warden AI of a far colony reportedly gave every raider a polite warning. Twice.</NR_Flavor_Rumor_16>
+  <NR_Flavor_Rumor_17>Fixers are quietly buying up old comm consoles. Nobody knows why. Prices rise.</NR_Flavor_Rumor_17>
+  <NR_Flavor_Rumor_18>Some say Heat has a memory: it forgives, but only after being asked three times.</NR_Flavor_Rumor_18>
+  <NR_Flavor_Rumor_19>A tribe three valleys over put a cyberpod in their temple. It is, reportedly, working.</NR_Flavor_Rumor_19>
+  <NR_Flavor_Rumor_20>A stolen braindance shows a whole market day in the net, with no people. Just the voices.</NR_Flavor_Rumor_20>
 
   <!-- Corp: tone Warn -->
   <NR_Flavor_Corp_1>MERIDIAN DYNAMICS reminds all employees: unauthorized dives are a firing offense. And a legal one.</NR_Flavor_Corp_1>
@@ -38,6 +54,12 @@
   <NR_Flavor_Corp_6>Reminder: every mandatory fun event is logged, scored and compared against last year's fun.</NR_Flavor_Corp_6>
   <NR_Flavor_Corp_7>Press release: the breach was «a planned stress test of public trust». Trust failed the test.</NR_Flavor_Corp_7>
   <NR_Flavor_Corp_8>Lost and found: one neural link, slightly used, one owner, wanted for questioning.</NR_Flavor_Corp_8>
+  <NR_Flavor_Corp_9>Notice: please stop naming the server room printers. They are not pets.</NR_Flavor_Corp_9>
+  <NR_Flavor_Corp_10>Security update: all passwords must now be longer than the employee's contract.</NR_Flavor_Corp_10>
+  <NR_Flavor_Corp_11>MERIDIAN DYNAMICS values your privacy. We keep it in a very safe place, with all the rest.</NR_Flavor_Corp_11>
+  <NR_Flavor_Corp_12>Internal memo: «cyber» is no longer a word. Please use «digital assets and their friends».</NR_Flavor_Corp_12>
+  <NR_Flavor_Corp_13>Kestrel Vault reminds clients that its guarantees are guaranteed in the sense of the guarantee.</NR_Flavor_Corp_13>
+  <NR_Flavor_Corp_14>The break room coffee has been declared a data breach. Investigation ongoing.</NR_Flavor_Corp_14>
 
   <!-- Street: tone Muted -->
   <NR_Flavor_Street_1>The net is quiet tonight. Too quiet. Or the cat is on the cable again.</NR_Flavor_Street_1>
@@ -48,6 +70,14 @@
   <NR_Flavor_Street_6>The noodle stall at the old node district now accepts cyberdata. Exchange rate: a bowl per shard.</NR_Flavor_Street_6>
   <NR_Flavor_Street_7>Graffiti found in the cache: «the real ICE was the friends we made.»</NR_Flavor_Street_7>
   <NR_Flavor_Street_8>A node somewhere is playing the same eight bars of music on a loop. Nobody can find which one.</NR_Flavor_Street_8>
+  <NR_Flavor_Street_9>The net smells of ozone and cold noodles tonight.</NR_Flavor_Street_9>
+  <NR_Flavor_Street_10>A street musician is playing modem tones for coins. The coins are cyberdata.</NR_Flavor_Street_10>
+  <NR_Flavor_Street_11>Somebody painted a door on the firewall. Nobody has tried it yet.</NR_Flavor_Street_11>
+  <NR_Flavor_Street_12>Lost: one trace, brown, medium size, answers to «Heat». If found, do not return.</NR_Flavor_Street_12>
+  <NR_Flavor_Street_13>Fixers are in a good mood today. That is never a good sign.</NR_Flavor_Street_13>
+  <NR_Flavor_Street_14>A cleaning drone has been scrubbing the same node for six hours. Nobody has the heart to stop it.</NR_Flavor_Street_14>
+  <NR_Flavor_Street_15>It rains in the net again. Packets hide under the awnings.</NR_Flavor_Street_15>
+  <NR_Flavor_Street_16>Overheard in a queue: «I'd sell my soul, but the price of souls has crashed.»</NR_Flavor_Street_16>
 
   <!-- Culture: tone Muted -->
   <NR_Flavor_Culture_1>Chart-topper: «Static Heart» by the Lost Packets. Critics call it «a mood».</NR_Flavor_Culture_1>
@@ -56,6 +86,12 @@
   <NR_Flavor_Culture_4>Fashion: chrome is out, matte is in, and a single glowing wire behind the ear is «classic».</NR_Flavor_Culture_4>
   <NR_Flavor_Culture_5>Bounty report: three pirates, one mimic, and a surprisingly angry turkey.</NR_Flavor_Culture_5>
   <NR_Flavor_Culture_6>The weather in the net: light data drizzle, a chance of corporate fog after midnight.</NR_Flavor_Culture_6>
+  <NR_Flavor_Culture_7>The Lost Packets announce a farewell tour. Their third. Tickets are cyberdata.</NR_Flavor_Culture_7>
+  <NR_Flavor_Culture_8>Cyber-poetry slam: a human vs. three AIs. The human won by crying first.</NR_Flavor_Culture_8>
+  <NR_Flavor_Culture_9>Weather in the net: ICE showers in the corp quarter, bring a shield.</NR_Flavor_Culture_9>
+  <NR_Flavor_Culture_10>Review: «Last Train To Nowhere» — a masterpiece, if you like trains. Or nowhere.</NR_Flavor_Culture_10>
+  <NR_Flavor_Culture_11>Fashion: this season's must-have is one unplugged cable, worn proudly.</NR_Flavor_Culture_11>
+  <NR_Flavor_Culture_12>Sports: the Rust Devils beat the Hollow Ridge Hackers 6:2 in cyber-polo.</NR_Flavor_Culture_12>
 
   <!-- Tip: tone Ok -->
   <NR_Flavor_Tip_1>Tip: Heat decays on its own. Scrubbing it is for when you cannot wait.</NR_Flavor_Tip_1>
@@ -64,5 +100,11 @@
   <NR_Flavor_Tip_4>Tip: an AI that trusts you will say so. An AI that does not will tell you in other ways.</NR_Flavor_Tip_4>
   <NR_Flavor_Tip_5>Tip: Black ICE does not forgive. Read the gate before you touch it.</NR_Flavor_Tip_5>
   <NR_Flavor_Tip_6>Tip: take a break. Even runners need a real sky now and then.</NR_Flavor_Tip_6>
+  <NR_Flavor_Tip_7>Tip: a node with a star wants something. Fixers pay more for what they asked for.</NR_Flavor_Tip_7>
+  <NR_Flavor_Tip_8>Tip: the Scan action is cheap. Dives without it are for the brave and the lucky.</NR_Flavor_Tip_8>
+  <NR_Flavor_Tip_9>Tip: an AI in a coprocessor is quieter than an AI on a server. Both listen.</NR_Flavor_Tip_9>
+  <NR_Flavor_Tip_10>Tip: braindance edits live in the Studio. The comms console just takes the calls.</NR_Flavor_Tip_10>
+  <NR_Flavor_Tip_11>Tip: if the net feels loud, wait. The net always gets bored first.</NR_Flavor_Tip_11>
+  <NR_Flavor_Tip_12>Tip: Netsick is not weakness. It is a bill, and bills can be paid in sleep.</NR_Flavor_Tip_12>
 
 </LanguageData>
