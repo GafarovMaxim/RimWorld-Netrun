@@ -104,7 +104,12 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             else if (_nextRefreshTick < 0 || now >= _nextRefreshTick)
                 Refresh();
             // The boss leaves when its time is up (unless someone is inside), and comes back every few weeks.
-            _nodes.RemoveAll(n => n.ExpireTick >= 0 && now >= n.ExpireTick && (Session == null || n.Id != Session.Node.Id));
+            foreach (ExternalNode gone in _nodes.Where(n => n.ExpireTick >= 0 && now >= n.ExpireTick && (Session == null || n.Id != Session.Node.Id)).ToList())
+            {
+                if (gone.InterceptPacketId < 0)
+                    NetMapManager.Get()?.NotifyBurned(gone);
+                _nodes.Remove(gone);
+            }
             if (_nextBossTick < 0)
                 _nextBossTick = now + (int)(Settings.bossIntervalDays * GenDate.TicksPerDay);
             else if (now >= _nextBossTick)

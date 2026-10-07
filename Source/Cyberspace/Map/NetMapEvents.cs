@@ -108,7 +108,7 @@ public partial class NetMapManager
         MapNode n = Playable.Where(x => FreeSlots(x) > 0).RandomElementWithFallback();
         if (n == null || Gateway == null)
             return;
-        ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), n.District);
+        ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), BranchDistrict(n));
         Attach(branch, n);
         branch.Hidden = false;
         Headline("NR_MapNewsNewBranch", 1, branch.Name.Named("BRANCH"), NodeLabel(n).Named("NODE"));

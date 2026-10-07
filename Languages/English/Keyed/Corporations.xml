@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_ClubTab_Fixers>Fixers</NR_ClubTab_Fixers>
+  <NR_ClubTab_Corps>Corporations</NR_ClubTab_Corps>
+  <NR_ClubTab_Crews>Crews</NR_ClubTab_Crews>
+  <NR_ClubTab_Top>Top 100</NR_ClubTab_Top>
+  <NR_ClubNoCorps>No corporations play in the net yet.</NR_ClubNoCorps>
+  <NR_ClubOnMap>On the map</NR_ClubOnMap>
+  <NR_ClubCorpTerritory>Territory: {0} nodes</NR_ClubCorpTerritory>
+  <NR_ClubCorpAlert>Alert {0}</NR_ClubCorpAlert>
+  <NR_ClubCorpStrength>Strength {0}</NR_ClubCorpStrength>
+  <NR_ClubCorpBarsTip>Alert: how hard the corporation looks for the colony. +3 for a branch, +10 the fortress, +25 the core; -2 a day. At 40 its ICE hardens and walking its ground leaves trace, at 60 ICE patrols, at 80 intrusions, mercenaries and raids.\n\nStrength: how rich it is. Strong and calm, it captures neighboring nodes; weak for long, it may collapse.</NR_ClubCorpBarsTip>
+  <NR_ClubCorpIntrusion>Intrusion on the way: {0}, about {1} h to Home</NR_ClubCorpIntrusion>
+  <NR_ClubCorpsHelp>Corporations live in their districts on the cyberspace map. Taking their branches, fortress and core raises their Alert; a corporation broken twice in a month or weak for long may collapse, and a new one takes its district.</NR_ClubCorpsHelp>
+  <NR_CorpStatus_Calm>calm</NR_CorpStatus_Calm>
+  <NR_CorpStatus_Wary>on guard</NR_CorpStatus_Wary>
+  <NR_CorpStatus_Hunting>hunting</NR_CorpStatus_Hunting>
+  <NR_CorpStatus_Lockdown>lockdown</NR_CorpStatus_Lockdown>
+  <NR_CorpStatus_Expanding>expanding</NR_CorpStatus_Expanding>
+  <NR_CorpStatus_Brink>on the brink</NR_CorpStatus_Brink>
+  <NR_ClubCrewRelation>relations {0}</NR_ClubCrewRelation>
+  <NR_ClubCrewSkill>skill {0}/10</NR_ClubCrewSkill>
+  <NR_ClubCrewFame>fame {0} (#{1})</NR_ClubCrewFame>
+  <NR_ClubCrewLast>Last:</NR_ClubCrewLast>
+  <NR_ClubCrewCall>Call for help</NR_ClubCrewCall>
+  <NR_ClubCrewNotBest>Only the friendliest crew answers.</NR_ClubCrewNotBest>
+  <NR_ClubCrewHire>Lend a runner</NR_ClubCrewHire>
+  <NR_ClubCrewHireTip>A connected runner works a job for the crew for {0} hours: silver and better relations, a small risk.</NR_ClubCrewHireTip>
+  <NR_ClubCrewRace>Race</NR_ClubCrewRace>
+  <NR_ClubCrewRaceTip>The crew posts a node; whoever takes it first wins fame. Two days.</NR_ClubCrewRaceTip>
+  <NR_ClubCrewOrder>Order a hit ({0} silver)</NR_ClubCrewOrder>
+  <NR_ClubCrewOrderTip>Pay a fixer to wreck one of the crew's jobs: they lose fame. Sometimes they find out who paid.</NR_ClubCrewOrderTip>
+  <NR_CrewFocus_Corps>hits corporations</NR_CrewFocus_Corps>
+  <NR_CrewFocus_Markets>works the markets</NR_CrewFocus_Markets>
+  <NR_CrewFocus_Contracts>takes contracts</NR_CrewFocus_Contracts>
+  <NR_CrewFocus_Hunters>hunts runners</NR_CrewFocus_Hunters>
+  <NR_ClubTopAll>All</NR_ClubTopAll>
+  <NR_ClubTopCrews>Crews</NR_ClubTopCrews>
+  <NR_ClubTopYours>Yours</NR_ClubTopYours>
+  <NR_ClubTopFirst>Your runner is #1 in the net.</NR_ClubTopFirst>
+  <NR_ClubTopNext>To place #{0}: {1} fame</NR_ClubTopNext>
+  <NR_ClubTopNotIn>Not in the top 100 yet: #100 has {0} fame</NR_ClubTopNotIn>
+  <NR_ClubTopHelp>Fame: a clean dive gives defense x10 (+50% on a hard branch), a fortress +100, a core +200, a won race +50, a stopped intrusion +30. It cools 1% a day. Top 10: +10% contract rewards; top 3: corporations pay more attention; #1: +20% rewards.</NR_ClubTopHelp>
+  <NR_RankKind_Solo>solo</NR_RankKind_Solo>
+  <NR_RankKind_Crew>crew</NR_RankKind_Crew>
+  <NR_RankKind_Colony>yours</NR_RankKind_Colony>
+  <NR_RankTitle_1>Ghost #1</NR_RankTitle_1>
+  <NR_RankTitle_3>Legend of the net</NR_RankTitle_3>
+  <NR_RankTitle_10>Legend of the district</NR_RankTitle_10>
+  <NR_RankTitle_50>Known</NR_RankTitle_50>
+  <NR_RankTitle_100>Newcomer</NR_RankTitle_100>
+  <NR_RankNewsClimb>{0} climbs to #{1} in the net.</NR_RankNewsClimb>
+  <NR_RankNewsRetired>The net remembers: {0} has logged off for good.</NR_RankNewsRetired>
+  <NR_CorpNewsHarden>{0} hardens its ICE.</NR_CorpNewsHarden>
+  <NR_CorpNewsCapture>{0} expands: it takes {1}.</NR_CorpNewsCapture>
+  <NR_CorpNewsAssets>{0} is losing assets.</NR_CorpNewsAssets>
+  <NR_CorpNewsCollapse>Collapse of {0}.</NR_CorpNewsCollapse>
+  <NR_CorpNewsNewcomer>A new player in the net: {0}.</NR_CorpNewsNewcomer>
+  <NR_CorpCollapseLabel>{0} collapses</NR_CorpCollapseLabel>
+  <NR_CorpCollapse>{0} has collapsed. Its fortress is ruins now: deserted branches, weaker ICE, and rival crews flocking in. Its district stays empty for a while ({1} days of ruins), then a new corporation moves in.</NR_CorpCollapse>
+  <NR_FameCollapse>The collapse of {0}</NR_FameCollapse>
+  <NR_MercReasonCorp>{0} has put a price on the colony.</NR_MercReasonCorp>
+  <NR_IntrusionLabel>Intrusion: {0}</NR_IntrusionLabel>
+  <NR_Intrusion>An attack ({0}) set off from {1} at {2} and is walking the backbone toward Home: about {3} hours.\n\nA runner can meet it on the way and stop it with a short dive (it shows on the cyberspace map), wait for it at Home, or rely on the node defense. Isolating the network stops it at the wall.</NR_Intrusion>
+  <NR_IntrusionUnknown>someone</NR_IntrusionUnknown>
+  <NR_IntrusionTip>Intrusion: {0}, {1} h to Home</NR_IntrusionTip>
+  <NR_IntrusionHere>Intrusion here: {0}</NR_IntrusionHere>
+  <NR_IntrusionIntercept>Intercept</NR_IntrusionIntercept>
+  <NR_IntrusionInterceptTip>A short dive into the attack's spearhead. Win and the attack never reaches Home.</NR_IntrusionInterceptTip>
+  <NR_IntrusionStopped>The intrusion ({0}) was stopped on the way.</NR_IntrusionStopped>
+  <NR_IntrusionWall>The intrusion ({0}) hit the wall of an isolated network.</NR_IntrusionWall>
+  <NR_CrewNewsBurn>{CREW} cracked {BRANCH}.</NR_CrewNewsBurn>
+  <NR_CrewNewsHitCorp>{CREW} hit {CORP}.</NR_CrewNewsHitCorp>
+  <NR_CrewNewsSteal>Rumor: {CREW} is going after {BRANCH}.</NR_CrewNewsSteal>
+  <NR_CrewNewsSell>{CREW} dumped a batch of data on the market.</NR_CrewNewsSell>
+  <NR_CrewNewsFail>{CREW} got caught on a job.</NR_CrewNewsFail>
+  <NR_CrewNewsDisband>{0} has broken up.</NR_CrewNewsDisband>
+  <NR_CrewNewsOrdered>Someone wrecked a job of {0}.</NR_CrewNewsOrdered>
+  <NR_CrewActionHunt>set a trap at {0}</NR_CrewActionHunt>
+  <NR_CrewStealLabel>{0} wants your target</NR_CrewStealLabel>
+  <NR_CrewSteal>{0} is going after {1}, the node of your contract. You have a day or two to get there first.</NR_CrewSteal>
+  <NR_CrewRaceLabel>Race with {0}</NR_CrewRaceLabel>
+  <NR_CrewRace>{0} posted a race: {1}. Whoever takes it first in two days wins fame.</NR_CrewRace>
+  <NR_CrewRaceRunning>A race is already on.</NR_CrewRaceRunning>
+  <NR_CrewHostile>The crew is hostile.</NR_CrewHostile>
+  <NR_CrewNeedFriends>Needs relations 25+.</NR_CrewNeedFriends>
+  <NR_CrewRunnerBusy>The runner is busy.</NR_CrewRunnerBusy>
+  <NR_CrewHired>{0} works a job for {1} for {2} hours.</NR_CrewHired>
+  <NR_CrewHireBack>{0} is back from the job with {1}: {2} silver.</NR_CrewHireBack>
+  <NR_CrewHireBackHurt>{0} is back from the job with {1}: {2} silver, but the job left its mark.</NR_CrewHireBackHurt>
+  <NR_CrewGoodwillRace>{0} did not like losing the race: {1}.</NR_CrewGoodwillRace>
+  <NR_CrewGoodwillOrder>{0} found out who paid: {1}.</NR_CrewGoodwillOrder>
+
+</LanguageData>

@@ -152,6 +152,8 @@ public class ContractManager : GameComponent, INetrunCleanable
             contract.Favor = ImperialClients.FavorFor(contract.Reward);
             contract.Reward = Mathf.RoundToInt(contract.Reward * traits.imperialSilverFactor);
         }
+        // A famous colony is paid more (top 10 +10%, #1 +20%, docs/CONCEPTS_10.md, section 12).
+        contract.Reward = Mathf.RoundToInt(contract.Reward * (NetRanking.Get()?.ContractRewardFactor ?? 1f));
         if (fixer.Trait == FixerTrait.Reliable)
             contract.Reward = Mathf.RoundToInt(contract.Reward * traits.reliableRewardFactor);
         else if (fixer.Trait == FixerTrait.Hothead)

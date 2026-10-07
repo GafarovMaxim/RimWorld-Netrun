@@ -87,6 +87,9 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         }
         foreach (MapNode n in Map.Nodes)
             n.LastVisitTick = -1;
+        // A large map has a fourth corporate district: the factions and their districts follow the map.
+        NetFactions.Get()?.Ensure();
+        CorpManager.Get()?.Sync();
         Map.Home.LastVisitTick = Find.TickManager.TicksGame;
         UpdateVisibility();
         _nextEventTick = Find.TickManager.TicksGame + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
@@ -196,7 +199,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
 
     public NetRunner RunnerOf(Pawn pawn) => Runners.FirstOrDefault(r => r.Pawn == pawn);
 
-    public NetRunner RunnerAt(int nodeId) => Runners.FirstOrDefault(r => r.NodeId == nodeId && !r.Moving);
+    public NetRunner RunnerAt(int nodeId) => Runners.FirstOrDefault(r => r.NodeId == nodeId && !r.Moving && !r.Busy);
 
     /// <summary>Pawns in the colony's powered pods who could connect now.</summary>
     public static IEnumerable<(Pawn pawn, Building_Cyberpod pod)> PodPawns(Map map)
@@ -245,6 +248,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         if (runner == null)
             return "NR_MapNoRunner".Translate();
+        if (runner.Busy)
+            return "NR_CrewRunnerBusy".Translate();
         if (Gateway?.Session is { Finished: false } s && s.Runner == runner.Pawn)
             return "NR_IsolationDiveActive".Translate();
         if (target == runner.NodeId && !runner.Moving)
@@ -341,13 +346,10 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     }
 
     /// <summary>The corporation playing in a corp district (by its slot), if any (stage 9 keeps this in step with crashes).</summary>
-    public Faction CorpOfSlot(int slot)
-    {
-        if (slot < 0)
-            return null;
-        List<Faction> corps = NetFactions.Corps.OrderBy(f => f.loadID).ToList();
-        return slot < corps.Count ? corps[slot] : null;
-    }
+    public Faction CorpOfSlot(int slot) => slot < 0 ? null : CorpManager.Get()?.CorpOfSlot(slot);
+
+    /// <summary>The district a node's new branches belong to: a corporation's captured node grows corporate vaults.</summary>
+    public static District BranchDistrict(MapNode n) => n.OwnerFaction >= 0 && n.District is not (District.OldNet or District.Dark) ? District.Corp : n.District;
 
     /// <summary>Dev: every walking runner jumps to the end of its route.</summary>
     public void DevArriveAll()
@@ -396,6 +398,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
                 Runners.Remove(runner);
                 continue;
             }
+            if (runner.BusyCrew >= 0 && !runner.Busy)
+                CrewSim.Get()?.FinishHire(runner);
             if (!runner.Moving)
                 continue;
             if (Gateway?.Session is { Finished: false } s && s.Runner == runner.Pawn)
@@ -473,7 +477,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             _refillTick.RemoveAt(i);
             if (n != null && FreeSlots(n) > 0 && Gateway != null)
             {
-                ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), n.District);
+                ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), BranchDistrict(n));
                 branch.Hidden = true;
                 Attach(branch, n);
             }

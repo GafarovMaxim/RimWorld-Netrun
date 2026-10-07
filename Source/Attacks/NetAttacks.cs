@@ -45,6 +45,10 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         if (!CanHit(map))
             return false;
 
+        // With the cyberspace map the attack walks the backbone first (docs/CONCEPTS_10.md, section 1.2).
+        if (IntrusionManager.Active && IntrusionManager.Get()?.Launch(def, map) == true)
+            return true;
+
         if (Repelled(map))
             return true;
 
@@ -74,7 +78,8 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         {
             AttackOutcome.Repelled => true,
             AttackOutcome.Hit => false,
-            _ => Rand.Chance(Mathf.Clamp01(IntrusionBase + IntrusionPerPoint * (defense - Strength) + DefenseChance(map, out defender))),
+            _ => Rand.Chance(Mathf.Clamp01(IntrusionBase + IntrusionPerPoint * (defense - Strength) + DefenseChance(map, out defender)
+                + (NetMapManager.Get() is { Ready: true } net && net.RunnerAt(net.Map.HomeId) != null ? HomeRunnerBonus : 0f))),
         };
         if (!repelled)
             return false;
@@ -87,6 +92,8 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
     }
 
     private const float IntrusionBase = 0.3f;
+    /// <summary>A runner standing at Home when the intrusion arrives fights it at the node.</summary>
+    private const float HomeRunnerBonus = 0.4f;
     private const float IntrusionPerPoint = 0.1f;
 
     public static float DefenseChance(Map map, out string defender)

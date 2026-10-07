@@ -237,7 +237,7 @@ public partial class Dialog_NetTerminal : Window
                     page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)), () => OpenNode(View.Archive));
                 break;
             case View.Club:
-                FixersTab.Draw(content, _map, ref _fixersScroll);
+                ClubTabs.Draw(content, _map, ref _fixersScroll);
                 break;
             case View.Board:
                 ContractsTab.Draw(content, _map, ref _contractsScroll, page => OpenHelp(DefDatabase<HelpPageDef>.GetNamedSilentFail(page)));
@@ -346,6 +346,13 @@ public partial class Dialog_NetTerminal : Window
     }
 
     /// <summary>The Gateway's home node: back to the main screen.</summary>
+    /// <summary>Opens the Gateway with a map node selected (from the Club's "On the map").</summary>
+    public void OpenGatewayAt(int mapNodeId)
+    {
+        GatewayView.SelectMapNode(mapNodeId);
+        OpenNode(View.Gateway);
+    }
+
     public void GoHome()
     {
         _view = View.Map;

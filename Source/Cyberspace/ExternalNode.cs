@@ -182,6 +182,10 @@ public class ExternalNode : IExposable
     public bool Deserted;
     /// <summary>Unreachable for a while (a crash, an outage), -1 none.</summary>
     public int OfflineUntil = -1;
+    /// <summary>+1 defense from its corporation's Alert 40+ (taken back when the Alert drops).</summary>
+    public bool AlertHardened;
+    /// <summary>The intrusion packet this branch intercepts (a short dive on the packet's path), -1 none.</summary>
+    public int InterceptPacketId = -1;
 
     public bool IsBoss => Type == ExternalNodeType.CorpCore;
     public bool Offline => Find.TickManager.TicksGame < OfflineUntil;
@@ -388,5 +392,7 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Ancient, "ancient");
         Scribe_Values.Look(ref Deserted, "deserted");
         Scribe_Values.Look(ref OfflineUntil, "offlineUntil", -1);
+        Scribe_Values.Look(ref AlertHardened, "alertHardened");
+        Scribe_Values.Look(ref InterceptPacketId, "interceptPacket", -1);
     }
 }

@@ -38,6 +38,9 @@ public partial class GatewayManager
     private int _lockdownUntilTick = -1;
 
     public bool GlutActive => Find.TickManager.TicksGame < _glutUntilTick;
+
+    /// <summary>Someone dumped a batch of data on the market (a rival crew's sale): the glut effect.</summary>
+    public void StartGlut() => _glutUntilTick = Find.TickManager.TicksGame + (int)(Settings.newsGlutDays * GenDate.TicksPerDay);
     public bool QuietActive => Find.TickManager.TicksGame < _quietUntilTick;
     public bool LockdownActive => Find.TickManager.TicksGame < _lockdownUntilTick;
 

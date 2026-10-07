@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Corporations' logic (docs/CONCEPTS_10.md, section 11; Source/Factions/CorpManager.cs) -->
+  <Netrun.CorpSettingsDef>
+    <defName>NR_Corporations</defName>
+    <startStrength>50</startStrength>
+    <newcomerStrength>40</newcomerStrength>
+    <!-- Alert: +3 a branch, +10 the fortress, +25 the core, +5 an intercepted intrusion; -2 a day -->
+    <alertDecayPerDay>2</alertDecayPerDay>
+    <alertPerBranch>3</alertPerBranch>
+    <alertPerFortress>10</alertPerFortress>
+    <alertPerCore>25</alertPerCore>
+    <alertPerIntercept>5</alertPerIntercept>
+    <strengthGrowthPerDay>1</strengthGrowthPerDay>
+    <strengthLossFortress>10</strengthLossFortress>
+    <strengthLossCore>30</strengthLossCore>
+    <!-- Alert 40+: its branches +1 defense and trace on its ground; 60+: ICE patrols there; 80+: intrusions every 10-15 days, mercenaries, raids -->
+    <hardenAlert>40</hardenAlert>
+    <patrolAlert>60</patrolAlert>
+    <intrusionAlert>80</intrusionAlert>
+    <intrusionIntervalDays>10~15</intrusionIntervalDays>
+    <mercChanceAtIntrusion>0.3</mercChanceAtIntrusion>
+    <traceAlert40>0.5</traceAlert40>
+    <traceAlert80>1</traceAlert80>
+    <!-- Strength 70+ and Alert under 30: captures a neighboring neutral node, corporations hold at most 45% of the map -->
+    <captureStrength>70</captureStrength>
+    <captureMaxAlert>30</captureMaxAlert>
+    <maxCorpShare>0.45</maxCorpShare>
+    <!-- Collapse: Strength under 15 for 10 days or the core taken twice in 30 days; then 50%, at most once a year -->
+    <collapseStrength>15</collapseStrength>
+    <collapseLowDays>10</collapseLowDays>
+    <collapseCoreWindowDays>30</collapseCoreWindowDays>
+    <collapseChance>0.5</collapseChance>
+    <replacementDays>15~30</replacementDays>
+    <ruinsDays>15</ruinsDays>
+    <!-- Goodwill follows the Alert: -30 - 0.7 x Alert (hostile around Alert 65) -->
+    <goodwillBase>-30</goodwillBase>
+    <goodwillPerAlert>0.7</goodwillPerAlert>
+  </Netrun.CorpSettingsDef>
+
+  <!-- The net's top 100 (docs/CONCEPTS_10.md, section 12; Source/Factions/NetRanking.cs) -->
+  <Netrun.RankingSettingsDef>
+    <defName>NR_Ranking</defName>
+    <famePerDefense>10</famePerDefense>
+    <hardBranchBonus>0.5</hardBranchBonus>
+    <fameFortress>100</fameFortress>
+    <fameCore>200</fameCore>
+    <fameRace>50</fameRace>
+    <fameIntrusion>30</fameIntrusion>
+    <fameCollapse>200</fameCollapse>
+    <decayPerDay>0.01</decayPerDay>
+    <dailyChanges>5</dailyChanges>
+    <retireChance>0.03</retireChance>
+    <topFameMin>150</topFameMin>
+    <topFameMax>5000</topFameMax>
+  </Netrun.RankingSettingsDef>
+
+  <IncidentDef>
+    <defName>NR_CorpRaid</defName>
+    <label>corporate raid</label>
+    <category>ThreatBig</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_CorpRaid</workerClass>
+    <baseChance>0.5</baseChance>
+    <minRefireDays>15</minRefireDays>
+    <tale>Raid</tale>
+    <pointsScaleable>true</pointsScaleable>
+  </IncidentDef>
+
+</Defs>

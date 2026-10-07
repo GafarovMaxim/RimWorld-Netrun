@@ -36,6 +36,12 @@ public static partial class GatewayView
         _ => NetrunUI.Muted,
     };
 
+    public static void SelectMapNode(int id)
+    {
+        _selectedMapNode = id;
+        _selectedId = -1;
+    }
+
     private static NetRunner SelectedRunner(NetMapManager net)
         => net.Runners.Count == 0 ? null : net.Runners[Mathf.Clamp(_selectedRunner, 0, net.Runners.Count - 1)];
 
@@ -101,6 +107,10 @@ public static partial class GatewayView
                 continue;
             DrawMapNode(local, n, net);
         }
+
+        // Intrusion packets walking toward Home.
+        foreach (IntrusionPacket packet in IntrusionManager.Get()?.Packets ?? [])
+            DrawPacket(local, packet, map);
 
         // Runners.
         foreach (NetRunner r in net.Runners)
@@ -312,6 +322,21 @@ public static partial class GatewayView
             _selectedRunner = net.Runners.IndexOf(r);
     }
 
+    private static void DrawPacket(Rect local, IntrusionPacket p, CyberMap map)
+    {
+        Vector2 pos = ToScreen(local, map.Node(p.NodeId).Pos);
+        if (p.Path.Count > 0 && map.Node(p.Path[0]) is { } next)
+            pos = Vector2.Lerp(pos, ToScreen(local, next.Pos), Mathf.Clamp01(p.Progress / 2f));
+        float s = 7f * Mathf.Sqrt(_zoom);
+        var rect = new Rect(pos.x - s, pos.y - s, s * 2f, s * 2f);
+        float pulse = NetrunMod.Settings.Animations ? 0.6f + 0.4f * Mathf.Sin(Time.realtimeSinceStartup * 5f) : 1f;
+        NetrunUI.Glow(rect, NetrunUI.Bad, pulse, 10f);
+        GUI.color = NetrunUI.Bad;
+        GUI.DrawTexture(rect, NetrunUI.Disc);
+        GUI.color = Color.white;
+        TooltipHandler.TipRegion(rect, "NR_IntrusionTip".Translate(p.Attack?.label ?? "?", (p.Path.Count * 2f - p.Progress).ToString("0.#")));
+    }
+
     // ---- Panel ----
 
     /// <summary>Runners and the selected map node, above the branch panel.</summary>
@@ -429,6 +454,24 @@ public static partial class GatewayView
                 }
                 y += 32f;
             }
+        }
+
+        // An intrusion packet here or about to come: a runner standing here can go out to meet it.
+        if (IntrusionManager.Get()?.At(node.Id) is { } packet)
+        {
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(inner.x, y, inner.width, 18f), "NR_IntrusionHere".Translate(packet.Attack?.label ?? "?").Colorize(NetrunUI.Bad));
+            Text.Font = GameFont.Small;
+            y += 20f;
+            bool runnerHere = net.RunnerAt(node.Id) != null;
+            if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_IntrusionIntercept".Translate(), NetrunUI.Bad,
+                    runnerHere ? true : (AcceptanceReport)"NR_MapNeedRunnerHere".Translate(), "NR_IntrusionInterceptTip".Translate()))
+            {
+                ExternalNode branch = IntrusionManager.Get().OpenIntercept(packet, node.Id);
+                if (branch != null)
+                    _selectedId = branch.Id;
+            }
+            y += 34f;
         }
 
         // Branches of the node: rows to pick the dive target.

@@ -25,6 +25,19 @@ public class NetFactions : GameComponent
 
     public static NetFactions Get() => Current.Game?.GetComponent<NetFactions>();
 
+    /// <summary>Corporations wanted now: one per corporate district of the map (four on a large map), three before it.</summary>
+    public static int WantedCorps
+    {
+        get
+        {
+            NetMapManager net = NetMapManager.Get();
+            if (net is not { Ready: true })
+                return CorpCount;
+            int slots = net.Map.Nodes.Where(n => n.District == District.Corp).Select(n => n.CorpSlot).Distinct().Count();
+            return System.Math.Max(1, slots) - (CorpManager.Get()?.PendingReplacements ?? 0);
+        }
+    }
+
     public static bool IsCrewDef(FactionDef def) => def != null && def.defName.StartsWith(CrewPrefix);
     public static bool IsCorpDef(FactionDef def) => def != null && def.defName.StartsWith(CorpPrefix);
 
@@ -60,7 +73,7 @@ public class NetFactions : GameComponent
             foreach (FactionDef def in UnusedDefs(IsCrewDef).Take(System.Math.Max(0, CrewCount - crews)))
                 Create(def, 0);
             int corps = Corps.Count();
-            foreach (FactionDef def in UnusedDefs(IsCorpDef).Take(System.Math.Max(0, CorpCount - corps)))
+            foreach (FactionDef def in UnusedDefs(IsCorpDef).Take(System.Math.Max(0, WantedCorps - corps)))
                 Create(def, CorpStartGoodwill);
         }
         catch (System.Exception e)
@@ -72,7 +85,7 @@ public class NetFactions : GameComponent
     /// <summary>Defs of this kind no faction uses yet (alive or defeated), shuffled.</summary>
     public static List<FactionDef> UnusedDefs(System.Func<FactionDef, bool> kind)
     {
-        var used = new HashSet<FactionDef>(Find.FactionManager.AllFactions.Select(f => f.def));
+        var used = new HashSet<FactionDef>(Find.FactionManager.AllFactions.Where(f => !f.defeated).Select(f => f.def));
         return DefDatabase<FactionDef>.AllDefs.Where(d => kind(d) && !used.Contains(d)).InRandomOrder().ToList();
     }
 

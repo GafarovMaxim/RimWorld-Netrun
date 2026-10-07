@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_ClubTab_Fixers>Фиксеры</NR_ClubTab_Fixers>
+  <NR_ClubTab_Corps>Корпорации</NR_ClubTab_Corps>
+  <NR_ClubTab_Crews>Команды</NR_ClubTab_Crews>
+  <NR_ClubTab_Top>Топ-100</NR_ClubTab_Top>
+  <NR_ClubNoCorps>В сети пока не играет ни одна корпорация.</NR_ClubNoCorps>
+  <NR_ClubOnMap>На карте</NR_ClubOnMap>
+  <NR_ClubCorpTerritory>Территория: {0} узлов</NR_ClubCorpTerritory>
+  <NR_ClubCorpAlert>Тревога {0}</NR_ClubCorpAlert>
+  <NR_ClubCorpStrength>Сила {0}</NR_ClubCorpStrength>
+  <NR_ClubCorpBarsTip>Тревога: насколько корпорация ищет колонию. +3 за ответвление, +10 за крепость, +25 за ядро; −2 в день. На 40 её ICE крепнет и проход по её земле оставляет след, на 60 патрули ICE, на 80 вторжения, наёмники и рейды.\n\nСила: насколько она богата. Сильная и спокойная захватывает соседние узлы; долго слабая может рухнуть.</NR_ClubCorpBarsTip>
+  <NR_ClubCorpIntrusion>Идёт вторжение: {0}, около {1} ч до Дома</NR_ClubCorpIntrusion>
+  <NR_ClubCorpsHelp>Корпорации живут в своих районах на карте киберпространства. Взломы их ответвлений, крепости и ядра поднимают Тревогу; корпорация, сломанная дважды за месяц или долго слабая, может рухнуть, и её район займёт новая.</NR_ClubCorpsHelp>
+  <NR_CorpStatus_Calm>спокойна</NR_CorpStatus_Calm>
+  <NR_CorpStatus_Wary>настороже</NR_CorpStatus_Wary>
+  <NR_CorpStatus_Hunting>охотится</NR_CorpStatus_Hunting>
+  <NR_CorpStatus_Lockdown>локдаун</NR_CorpStatus_Lockdown>
+  <NR_CorpStatus_Expanding>расширяется</NR_CorpStatus_Expanding>
+  <NR_CorpStatus_Brink>на грани краха</NR_CorpStatus_Brink>
+  <NR_ClubCrewRelation>отношения {0}</NR_ClubCrewRelation>
+  <NR_ClubCrewSkill>мастерство {0}/10</NR_ClubCrewSkill>
+  <NR_ClubCrewFame>слава {0} (№{1})</NR_ClubCrewFame>
+  <NR_ClubCrewLast>Последнее:</NR_ClubCrewLast>
+  <NR_ClubCrewCall>Позвать на помощь</NR_ClubCrewCall>
+  <NR_ClubCrewNotBest>Откликается только самая дружелюбная команда.</NR_ClubCrewNotBest>
+  <NR_ClubCrewHire>Одолжить раннера</NR_ClubCrewHire>
+  <NR_ClubCrewHireTip>Подключённый раннер {0} ч работает на команду: серебро и лучше отношения, небольшой риск.</NR_ClubCrewHireTip>
+  <NR_ClubCrewRace>Гонка</NR_ClubCrewRace>
+  <NR_ClubCrewRaceTip>Команда выставляет ноду; кто возьмёт первым, получает славу. Два дня.</NR_ClubCrewRaceTip>
+  <NR_ClubCrewOrder>Заказать ({0} серебра)</NR_ClubCrewOrder>
+  <NR_ClubCrewOrderTip>Заплатить фиксеру, чтобы сорвать операцию команды: она теряет славу. Иногда узнаёт, кто заплатил.</NR_ClubCrewOrderTip>
+  <NR_CrewFocus_Corps>бьёт корпорации</NR_CrewFocus_Corps>
+  <NR_CrewFocus_Markets>работает на рынках</NR_CrewFocus_Markets>
+  <NR_CrewFocus_Contracts>берёт контракты</NR_CrewFocus_Contracts>
+  <NR_CrewFocus_Hunters>охотится на раннеров</NR_CrewFocus_Hunters>
+  <NR_ClubTopAll>Все</NR_ClubTopAll>
+  <NR_ClubTopCrews>Команды</NR_ClubTopCrews>
+  <NR_ClubTopYours>Ваши</NR_ClubTopYours>
+  <NR_ClubTopFirst>Ваш раннер — №1 в сети.</NR_ClubTopFirst>
+  <NR_ClubTopNext>До места №{0}: {1} славы</NR_ClubTopNext>
+  <NR_ClubTopNotIn>Пока не в топ-100: у №100 {0} славы</NR_ClubTopNotIn>
+  <NR_ClubTopHelp>Слава: чистый нырок даёт защита ×10 (+50% на сложной ветке), крепость +100, ядро +200, выигранная гонка +50, остановленное вторжение +30. Остывает на 1% в день. Топ-10: +10% к наградам контрактов; топ-3: корпорации внимательнее; №1: +20% к наградам.</NR_ClubTopHelp>
+  <NR_RankKind_Solo>одиночка</NR_RankKind_Solo>
+  <NR_RankKind_Crew>команда</NR_RankKind_Crew>
+  <NR_RankKind_Colony>ваш</NR_RankKind_Colony>
+  <NR_RankTitle_1>Призрак №1</NR_RankTitle_1>
+  <NR_RankTitle_3>Легенда сети</NR_RankTitle_3>
+  <NR_RankTitle_10>Легенда района</NR_RankTitle_10>
+  <NR_RankTitle_50>Известный</NR_RankTitle_50>
+  <NR_RankTitle_100>Новичок сети</NR_RankTitle_100>
+  <NR_RankNewsClimb>{0} поднимается на №{1} в сети.</NR_RankNewsClimb>
+  <NR_RankNewsRetired>Сеть помнит: {0} отключился навсегда.</NR_RankNewsRetired>
+  <NR_CorpNewsHarden>{0} усилила ICE.</NR_CorpNewsHarden>
+  <NR_CorpNewsCapture>{0} расширяется: забирает {1}.</NR_CorpNewsCapture>
+  <NR_CorpNewsAssets>{0} теряет активы.</NR_CorpNewsAssets>
+  <NR_CorpNewsCollapse>Крах {0}.</NR_CorpNewsCollapse>
+  <NR_CorpNewsNewcomer>Новый игрок в сети: {0}.</NR_CorpNewsNewcomer>
+  <NR_CorpCollapseLabel>Крах: {0}</NR_CorpCollapseLabel>
+  <NR_CorpCollapse>{0} рухнула. Её крепость теперь руины: брошенные ответвления, слабый ICE, туда слетаются команды соперников. Район на время пустеет ({1} дн. руин), потом его займёт новая корпорация.</NR_CorpCollapse>
+  <NR_FameCollapse>Крах {0}</NR_FameCollapse>
+  <NR_MercReasonCorp>{0} назначила цену за колонию.</NR_MercReasonCorp>
+  <NR_IntrusionLabel>Вторжение: {0}</NR_IntrusionLabel>
+  <NR_Intrusion>Атака ({0}) вышла от {1} из узла {2} и идёт по магистрали к Дому: около {3} ч.\n\nРаннер может выйти навстречу и остановить её коротким нырком (она видна на карте киберпространства), ждать у Дома или положиться на защиту узла. Изоляция сети останавливает её у стены.</NR_Intrusion>
+  <NR_IntrusionUnknown>кого-то</NR_IntrusionUnknown>
+  <NR_IntrusionTip>Вторжение: {0}, {1} ч до Дома</NR_IntrusionTip>
+  <NR_IntrusionHere>Здесь вторжение: {0}</NR_IntrusionHere>
+  <NR_IntrusionIntercept>Перехватить</NR_IntrusionIntercept>
+  <NR_IntrusionInterceptTip>Короткий нырок в острие атаки. Победа — и атака не дойдёт до Дома.</NR_IntrusionInterceptTip>
+  <NR_IntrusionStopped>Вторжение ({0}) остановлено в пути.</NR_IntrusionStopped>
+  <NR_IntrusionWall>Вторжение ({0}) упёрлось в стену изолированной сети.</NR_IntrusionWall>
+  <NR_CrewNewsBurn>{CREW} вскрыли {BRANCH}.</NR_CrewNewsBurn>
+  <NR_CrewNewsHitCorp>{CREW} ударили по {CORP}.</NR_CrewNewsHitCorp>
+  <NR_CrewNewsSteal>Слух: {CREW} идут за {BRANCH}.</NR_CrewNewsSteal>
+  <NR_CrewNewsSell>{CREW} сбросили партию данных на рынок.</NR_CrewNewsSell>
+  <NR_CrewNewsFail>{CREW} попались на деле.</NR_CrewNewsFail>
+  <NR_CrewNewsDisband>{0} распались.</NR_CrewNewsDisband>
+  <NR_CrewNewsOrdered>Кто-то сорвал операцию {0}.</NR_CrewNewsOrdered>
+  <NR_CrewActionHunt>поставили ловушку у {0}</NR_CrewActionHunt>
+  <NR_CrewStealLabel>{0} охотятся за вашей целью</NR_CrewStealLabel>
+  <NR_CrewSteal>{0} идут за {1}, нодой вашего контракта. У вас день-два, чтобы успеть первыми.</NR_CrewSteal>
+  <NR_CrewRaceLabel>Гонка с {0}</NR_CrewRaceLabel>
+  <NR_CrewRace>{0} предлагают гонку: {1}. Кто возьмёт первым за два дня, получит славу.</NR_CrewRace>
+  <NR_CrewRaceRunning>Гонка уже идёт.</NR_CrewRaceRunning>
+  <NR_CrewHostile>Команда враждебна.</NR_CrewHostile>
+  <NR_CrewNeedFriends>Нужны отношения 25+.</NR_CrewNeedFriends>
+  <NR_CrewRunnerBusy>Раннер занят.</NR_CrewRunnerBusy>
+  <NR_CrewHired>{0} {2} ч работает на {1}.</NR_CrewHired>
+  <NR_CrewHireBack>{0} вернулся с дела {1}: {2} серебра.</NR_CrewHireBack>
+  <NR_CrewHireBackHurt>{0} вернулся с дела {1}: {2} серебра, но дело оставило след.</NR_CrewHireBackHurt>
+  <NR_CrewGoodwillRace>{0} не понравилось проиграть гонку: {1}.</NR_CrewGoodwillRace>
+  <NR_CrewGoodwillOrder>{0} узнали, кто заплатил: {1}.</NR_CrewGoodwillOrder>
+
+</LanguageData>

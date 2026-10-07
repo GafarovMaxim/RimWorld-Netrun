@@ -1098,6 +1098,12 @@ public class DiveSession : IExposable
             }
         }
         PawnNetState.Get()?.NotifyDive(Runner, IceHits);
+        CorpManager.Get()?.NotifyDive(Node, success);
+        NetRanking.Get()?.NotifyDive(this, success);
+        if (Node.Rival)
+            CrewSim.Get()?.NotifyRace(this, success && !RivalTook);
+        if (success && Node.InterceptPacketId >= 0)
+            IntrusionManager.Get()?.Intercepted(Node.InterceptPacketId, Runner);
 
         Report = BuildReport(success, keepShare, HunterActive && map != null);
         DiveEffects.Apply(this, success, Report);
