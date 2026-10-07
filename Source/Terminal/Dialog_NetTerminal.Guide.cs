@@ -37,7 +37,7 @@ public partial class Dialog_NetTerminal
         if (GuideIcon != null)
         {
             GUI.color = c;
-            GUI.DrawTexture(rect.ContractedBy(5f), GuideIcon);
+            GUI.DrawTexture(rect.ContractedBy(1f), GuideIcon);
             GUI.color = Color.white;
         }
         return clicked;

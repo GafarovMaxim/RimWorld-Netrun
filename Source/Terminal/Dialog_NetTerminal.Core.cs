@@ -313,7 +313,7 @@ public partial class Dialog_NetTerminal
         GUI.color = Color.white;
 
         // Inside: the level icon over the number, the level and the trend.
-        GUI.DrawTexture(new Rect(c.x - 18f, c.y - 47f, 36f, 36f), NetrunTex.HeatIcon(current));
+        GUI.DrawTexture(new Rect(c.x - 15f, c.y - 43f, 30f, 30f), NetrunTex.HeatIcon(current));
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
         Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), shown.ToString("0").Colorize(lc));
@@ -329,15 +329,22 @@ public partial class Dialog_NetTerminal
         }
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(c.x - 55f, c.y + 12f, 110f, 16f), current.Label().ToUpper().Colorize(lc));
+        // The day's trend as a small pill: an arrow icon and the change per day.
         float trend = HeatTrendPerDay(tracker);
-        string trendText = trend > 0.05f
-            ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")).Colorize(NetrunUI.Bad)
-            : trend < -0.05f
-                ? ("▼ " + "NR_CoreTrendDown".Translate((-trend).ToString("0.#"))).Colorize(NetrunUI.Ok)
-                : "NR_CoreTrendFlat".Translate().Colorize(NetrunUI.Muted);
-        Widgets.Label(new Rect(c.x - 55f, c.y + 27f, 110f, 16f), trendText);
-        if (trend > 0.05f && NetrunTex.HeatRise is { } rise)
-            GUI.DrawTexture(new Rect(c.x - Text.CalcSize(trendText.StripTags()).x / 2f - 17f, c.y + 27f, 15f, 15f), rise);
+        bool up = trend > 0.05f, down = trend < -0.05f;
+        Color tc = up ? NetrunUI.Bad : down ? NetrunUI.Ok : NetrunUI.Muted;
+        string trendText = up || down ? "NR_CoreTrendShort".Translate((up ? "+" : "−") + Mathf.Abs(trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
+        Texture2D arrow = up ? NetrunTex.HeatRise : down ? NetrunTex.HeatReduction : null;
+        float pw = Text.CalcSize(trendText).x + (arrow != null ? 20f : 0f) + 12f;
+        var pill = new Rect(c.x - pw / 2f, c.y + 28f, pw, 17f);
+        Widgets.DrawBoxSolid(pill, new Color(tc.r, tc.g, tc.b, 0.14f));
+        GUI.color = new Color(tc.r, tc.g, tc.b, 0.5f);
+        Widgets.DrawBox(pill);
+        GUI.color = Color.white;
+        if (arrow != null)
+            GUI.DrawTexture(new Rect(pill.x + 5f, pill.y + 1f, 15f, 15f), arrow);
+        Widgets.Label(new Rect(pill.x + (arrow != null ? 22f : 6f), pill.y, pill.width, pill.height), trendText.Colorize(tc));
+        NetrunUI.Tip(pill, up ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : down ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate());
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 
@@ -363,7 +370,7 @@ public partial class Dialog_NetTerminal
         GUI.color = new Color(line.r, line.g, line.b, 0.35f);
         GUI.DrawTexture(outer, NetrunUI.ThinRing);
         GUI.color = Color.white;
-        float drift = NetrunUI.AnimTime * (red ? 20f : 5f) % 360f;
+        float drift = NetrunUI.AnimTime * (red ? 8f : 2f) % 360f;
         (float angle, float length)[] notches = [(-78f, 9f), (17f, 6f), (124f, 11f), (203f, 6f)];
         var col = new Color(line.r, line.g, line.b, blink);
         foreach ((float angle, float length) in notches)

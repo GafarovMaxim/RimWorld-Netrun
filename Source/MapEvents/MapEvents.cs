@@ -102,6 +102,10 @@ public class MapEventsManager : GameComponent
 
     // ---- Black market ----
 
+    private List<ThingDef> _marketSold = [];
+
+    public void MarkBlackMarketSold(ThingDef def) => _marketSold.Add(def);
+
     /// <summary>A unique braindance recording on sale at this black market, or null.</summary>
     public ThingDef BlackMarketUnique;
 
@@ -112,6 +116,7 @@ public class MapEventsManager : GameComponent
     {
         _blackMarketUntilTick = Find.TickManager.TicksGame + (int)(Settings.blackMarketDays * GenDate.TicksPerDay);
         BlackMarketCore = Rand.Chance(Settings.blackMarketCoreChance);
+        _marketSold.Clear();
         BlackMarketUnique = Rand.Chance(NetrunDefOf.NR_UniqueBraindance.blackMarketChance) ? UniqueBraindanceManager.Get()?.RandomUnfound() : null;
     }
 
@@ -120,12 +125,15 @@ public class MapEventsManager : GameComponent
     {
         if (!BlackMarketOpen || fixer.Reputation < Settings.blackMarketReputation)
             yield break;
-        yield return NetrunDefOf.NR_BlackBraindanceChip;
-        yield return NetrunDefOf.NR_AIFragment;
-        if (BlackMarketCore)
+        // Each black market item sells once per market.
+        if (!_marketSold.Contains(NetrunDefOf.NR_BlackBraindanceChip))
+            yield return NetrunDefOf.NR_BlackBraindanceChip;
+        if (!_marketSold.Contains(NetrunDefOf.NR_AIFragment))
+            yield return NetrunDefOf.NR_AIFragment;
+        if (BlackMarketCore && !_marketSold.Contains(NetrunDefOf.NR_AICoreModule))
             yield return NetrunDefOf.NR_AICoreModule;
         // Rarely, one unique recording, at its (high) market value; gone once bought.
-        if (BlackMarketUnique != null && UniqueBraindanceManager.Get()?.IsFound(BlackMarketUnique) == false)
+        if (BlackMarketUnique != null && !_marketSold.Contains(BlackMarketUnique))
             yield return BlackMarketUnique;
     }
 
@@ -237,6 +245,8 @@ public class MapEventsManager : GameComponent
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
         Scribe_Values.Look(ref _blackMarketUntilTick, "blackMarketUntilTick", -1);
         Scribe_Defs.Look(ref BlackMarketUnique, "blackMarketUnique");
+        Scribe_Collections.Look(ref _marketSold, "marketSold", LookMode.Def);
+        _marketSold ??= [];
         Scribe_Values.Look(ref BlackMarketCore, "blackMarketCore");
         Scribe_Collections.Look(ref _hijacked, "hijacked", LookMode.Reference);
         Scribe_Values.Look(ref _counterUntilTick, "counterUntilTick", -1);

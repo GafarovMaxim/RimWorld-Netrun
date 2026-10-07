@@ -40,7 +40,7 @@ public class CompNetTerminal : ThingComp
         {
             defaultLabel = "NR_CommandAwakenAI".Translate(),
             defaultDesc = "NR_CommandAwakenAIDesc".Translate(),
-            icon = NetrunTex.AIEmbody,
+            icon = NetrunTex.AIAwaken,
             action = () => AIAwakening.OpenMenu(parent.Map),
         };
         AcceptanceReport report = AIAwakening.CanAwaken(parent.Map);

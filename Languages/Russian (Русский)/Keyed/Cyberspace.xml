@@ -131,22 +131,22 @@
   <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Итого: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
-  <NR_GatewayRisk_0>низкий</NR_GatewayRisk_0>
-  <NR_GatewayRisk_1>средний: сильные ворота, нырок дольше</NR_GatewayRisk_1>
-  <NR_GatewayRisk_2>высокий: тошнота, блокировка, кома</NR_GatewayRisk_2>
+  <NR_GatewayRisk_0>низкий: слабые ворота, без Black ICE</NR_GatewayRisk_0>
+  <NR_GatewayRisk_1>средний: крепкие ворота и развилка; сложный путь стережёт Black ICE</NR_GatewayRisk_1>
+  <NR_GatewayRisk_2>высокий: Black ICE (тошнота, блокировка или кома); проваленный нырок оставляет ожоги</NR_GatewayRisk_2>
   <NR_GatewayTipType>Тип ноды: от него зависят добыча и шум нырка.</NR_GatewayTipType>
   <NR_GatewayTipDefense>Кодовые ворота на пути внутрь; уровень делает каждые сложнее.</NR_GatewayTipDefense>
   <NR_GatewayTipIce>Белый лёд только мешает. Black ICE бьёт нетраннера, если подойти близко или провалить взлом.</NR_GatewayTipIce>
   <NR_GatewayTipReward>Что можно скачать из файлов и хранилища.</NR_GatewayTipReward>
   <NR_GatewayTipTrace>Сколько Heat добавляет каждое сетевое действие до модификаторов программ и сопроцессора.</NR_GatewayTipTrace>
-  <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний. Красный: Black ICE и исходы Hacking Expansion.</NR_GatewayTipRisk>
+  <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний, риск на сложном пути. Красный: Black ICE; его удары — исходы Hacking Expansion, а провал нырка обжигает раннера.</NR_GatewayTipRisk>
   <NR_GatewayZoomIn>Приблизить (колесо мыши)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Отдалить (колесо мыши)</NR_GatewayZoomOut>
   <NR_GatewayZoomReset>Сбросить масштаб и положение (или средняя кнопка мыши на поле). Поле можно таскать мышью.</NR_GatewayZoomReset>
   <NR_DiveLogSpecial>У выхода ждало что-то особенное.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Корп-ядро-{0}</NR_ExtNodeName_CorpCore>
   <NR_ExtNodeType_CorpCore>корпоративное ядро (босс)</NR_ExtNodeType_CorpCore>
-  <NR_ExtNodeReward_CorpCore>демон или чип знаменитости, часто модуль ядра ИИ, много данных</NR_ExtNodeReward_CorpCore>
+  <NR_ExtNodeReward_CorpCore>демон или редкая уникальная запись, иногда модуль ядра ИИ, много данных</NR_ExtNodeReward_CorpCore>
   <NR_BossNodeLabel>Корпоративное ядро в Шлюзе</NR_BossNodeLabel>
   <NR_BossNode>{0} всплыло в Шлюзе на {1} дня: максимальная защита, сильный Black ICE и награда, которая стоит риска.</NR_BossNode>
   <NR_DiveLogBoss>Хранилище ядра открыто.</NR_DiveLogBoss>

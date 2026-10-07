@@ -351,7 +351,7 @@ public static class StudioTab
         if (badKey.CanTranslate())
             Widgets.Label(new Rect(x, r.y + 59f, w, 16f), ("▼ " + badKey.Translate()).Truncate(w).Colorize(NetrunUI.Bad));
         Text.Font = GameFont.Small;
-        NetrunUI.Tip(r, def.description);
+        NetrunUI.Tip(r, HelpPageDef.StripModName(def.description));
         if (Widgets.ButtonInvisible(r))
         {
             SoundDefOf.Click.PlayOneShotOnCamera();
@@ -397,7 +397,7 @@ public static class StudioTab
             UniqueBraindanceExtension ext = UniqueBraindance.Ext(_picked);
             string badKey = "NR_UB_Bad_" + ext.effect;
             Text.Font = GameFont.Tiny;
-            string desc = _picked.description;
+            string desc = HelpPageDef.StripModName(_picked.description);
             float dh = Text.CalcHeight(desc, inner.width - 20f);
             string good = ("NR_UB_Good_" + ext.effect).Translate();
             float gh = Text.CalcHeight(good, inner.width - 20f);

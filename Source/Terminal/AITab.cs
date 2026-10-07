@@ -130,7 +130,7 @@ public static class AITab
         float nameWidth = NetrunUI.NamePlate(x, y, ai.Name, NetrunTex.PersonalityColor(ai.Personality), GameFont.Medium, width * 0.6f);
         (string status, Color statusColor) = Status(ai);
         NetrunUI.Chip(x + nameWidth + 10f, y + 6f, status.ToUpper(), statusColor, ai.LocationText);
-        y += 30f;
+        y += 37f;
 
         // Archetype tag (icon, personality color) and the request, if any.
         float tagX = x;

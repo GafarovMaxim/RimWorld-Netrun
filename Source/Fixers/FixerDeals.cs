@@ -32,8 +32,38 @@ public static class FixerDeals
     }
 
     /// <summary>Heat removed for the given amount of data at this fixer's rates.</summary>
+    /// <summary>
+    /// Heat a scrub removes, unit by unit: each unit is priced at the level the Heat stands at when it is spent
+    /// (advanced first). One big scrub and many small ones now cost the same.
+    /// </summary>
     public static float ScrubAmount(Fixer fixer, int cyberdata, int advanced)
-        => cyberdata * fixer.HeatPerCyberdata + advanced * fixer.HeatPerAdvancedCyberdata;
+    {
+        float start = HeatTracker.Get()?.Heat ?? 0f;
+        float heat = Spend(fixer, start, advanced, true);
+        heat = Spend(fixer, heat, cyberdata, false);
+        return start - heat;
+    }
+
+    private static float Spend(Fixer fixer, float heat, int units, bool advanced)
+    {
+        for (int i = 0; i < units && heat > 0f; i++)
+            heat = Mathf.Max(0f, heat - fixer.HeatPerUnitAt(heat, advanced));
+        return heat;
+    }
+
+    /// <summary>How many units of one kind clear the Heat to zero, given the other kind already chosen (capped).</summary>
+    public static int UnitsToClear(Fixer fixer, bool advanced, int otherUnits, int cap)
+    {
+        float heat = HeatTracker.Get()?.Heat ?? 0f;
+        heat = advanced ? Spend(fixer, heat, otherUnits, false) : Spend(fixer, heat, otherUnits, true);
+        int n = 0;
+        while (heat > 0.01f && n < cap)
+        {
+            heat = Mathf.Max(0f, heat - fixer.HeatPerUnitAt(heat, advanced));
+            n++;
+        }
+        return n;
+    }
 
     public static void Scrub(Fixer fixer, Map map, int cyberdata, int advanced)
     {
@@ -71,7 +101,8 @@ public static class FixerDeals
         IntVec3 dropSpot = DropCellFinder.TradeDropSpot(map);
         DropPodUtility.DropThingsNear(dropSpot, map, [thing], forbid: false);
 
-        fixer.Stock.Remove(def);
+        if (!fixer.Stock.Remove(def))
+            MapEventsManager.Get()?.MarkBlackMarketSold(def);
         fixer.GainReputation(Settings.reputationPerPurchase);
         Messages.Message("NR_FixerDelivery".Translate(fixer.Name, def.label),
             new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent, historical: true);

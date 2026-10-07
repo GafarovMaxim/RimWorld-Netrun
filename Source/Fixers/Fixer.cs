@@ -77,15 +77,18 @@ public class Fixer : IExposable
     public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
     /// <summary>The scrub gets less effective as the colony's trace grows.</summary>
-    private static float ScrubLevelFactor
+    private static float ScrubLevelFactor => LevelFactor(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
+
+    private static float LevelFactor(HeatLevel level)
     {
-        get
-        {
-            int level = (int)(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
-            List<float> factors = Settings.scrubFactorByLevel;
-            return factors.NullOrEmpty() ? 1f : factors[Mathf.Clamp(level, 0, factors.Count - 1)];
-        }
+        List<float> factors = Settings.scrubFactorByLevel;
+        return factors.NullOrEmpty() ? 1f : factors[Mathf.Clamp((int)level, 0, factors.Count - 1)];
     }
+
+    /// <summary>Heat one cyberdata (or one advanced) removes when the Heat stands at <paramref name="heat"/>.</summary>
+    public float HeatPerUnitAt(float heat, bool advanced)
+        => (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(HeatLevelUtility.LevelOf(heat))
+           * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
     public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor);
 

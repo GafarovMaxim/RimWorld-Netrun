@@ -224,7 +224,7 @@ public static class NetrunUI
         bool known = Sweeps.TryGetValue(key, out float start);
         bool running = known && now - start < duration;
         // A new sweep only when the mouse comes in again and the last one has had a moment to rest.
-        if (!running && HoverTime(r) is >= 0f and < 0.05f && (!known || now - start > duration + 0.6f))
+        if (!running && HoverTime(r) >= 0f && (!known || now - start > duration + 0.6f))
         {
             if (Sweeps.Count > 300)
                 Sweeps.Clear();

@@ -99,6 +99,7 @@ public static class HyperText
         float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
         foreach (Segment seg in segments)
         {
+            float lastEnd = -1f, lastRow = -1f;
             string[] words = seg.Text.Split(' ');
             for (int i = 0; i < words.Length; i++)
             {
@@ -126,8 +127,12 @@ public static class HyperText
                         Color c = hover ? Color.white : NetrunUI.Accent;
                         Widgets.Label(r, word.Colorize(c));
                         GUI.color = new Color(c.r, c.g, c.b, 0.5f);
-                        Widgets.DrawLineHorizontal(r.x, r.yMax - 3f, ww);
+                        // The underline bridges the space to the previous word of the same link on this row.
+                        float from = lastEnd >= 0f && Mathf.Approximately(lastRow, cy) ? x + lastEnd : r.x;
+                        Widgets.DrawLineHorizontal(from, r.yMax - 3f, r.x + ww - from);
                         GUI.color = Color.white;
+                        lastEnd = cx + ww;
+                        lastRow = cy;
                         NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(seg.Link.LabelCap));
                         if (Widgets.ButtonInvisible(r))
                             go(seg.Link);

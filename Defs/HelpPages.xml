@@ -234,8 +234,8 @@
     <order>2</order>
     <color>Accent</color>
     <label>Feeding and requests</label>
-    <body>## !Tabs/Tab_Events_AI Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
-    <icon>Tabs/Tab_AI</icon>
+    <body>## !Gizmo_AI_Feed Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
+    <icon>Tabs/Tab_Events_AI</icon>
     <keywords>
       <li>trust</li>
       <li>hunger</li>

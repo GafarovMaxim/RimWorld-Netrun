@@ -16,7 +16,7 @@ public static class NetrunText
     private static float Scale => Mathf.Clamp(NetrunMod.Settings?.TextScale ?? 1f, 0.85f, 1.25f);
 
     /// <summary>Line height of the current font at the current size (Text.LineHeight is cached at the base size).</summary>
-    public static float LineHeight => Text.CurFontStyle.lineHeight;
+    public static float LineHeight => Text.CalcSize("Ag").y;
 
     public static bool Push()
     {

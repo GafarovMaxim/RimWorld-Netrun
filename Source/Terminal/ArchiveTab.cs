@@ -429,7 +429,7 @@ public static class ArchiveTab
         HeatSource.Scrub => NetrunTex.TabIcon(1),
         HeatSource.AI => NetrunTex.CyberIcon("Icon_AIRequest"),
         HeatSource.Raid => NetrunTex.CyberIcon("Event_CorpHunt"),
-        HeatSource.Event => NetrunTex.EventIcon("DataCourier"),
+        HeatSource.Event => NetrunTex.CyberIcon("Event_MapEvents") ?? NetrunTex.EventIcon("DataCourier"),
         _ => NetrunTex.CyberIcon("Dive_Heat") ?? NetrunTex.HeatIcon(tracker?.Level ?? HeatLevel.Shadow),
     };
 

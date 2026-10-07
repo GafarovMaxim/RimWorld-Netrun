@@ -284,8 +284,10 @@ public class Dialog_DiveReport : Window
                 Texture2D icon = bar > 0 ? Icon(e.Substring(0, bar)) : null;
                 string text = bar > 0 ? e.Substring(bar + 1) : e;
                 var cell = new Rect((j - i) * (colW + 10f), y, colW, rowH);
+                bool path = bar > 0 && e.StartsWith("Path_");
+                float s = path ? 30f : 22f;
                 if (icon != null)
-                    GUI.DrawTexture(new Rect(cell.x, cell.y + 1f, 22f, 22f), icon);
+                    GUI.DrawTexture(new Rect(cell.x, cell.y + (path ? -3f : 1f), s, s), icon);
                 Widgets.Label(new Rect(cell.x + 28f, cell.y + 3f, cell.width - 30f, cell.height), text);
             }
             y += rowH + 4f;

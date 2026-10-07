@@ -70,8 +70,8 @@ public static class DiveView
     /// The node as a graph (docs/DIVE_BRANCHING.md): steps on a grid of columns and lanes (hard branch on top, easy at the
     /// bottom), elbow links, the walked path lit green with a packet running along it, the branch not taken dimmed.
     /// </summary>
-    private const float StepGap = 36f;
-    private const float ScrollBoxWidth = 136f;
+    private const float StepGap = 18f;
+    private const float ScrollBoxWidth = 112f;
     private static Vector2 _mapScroll;
     private static int _scrolledFor = -1;
 
@@ -87,7 +87,7 @@ public static class DiveView
         DrawBackground(rect);
         int cols = elements.Max(e => e.Col) + 1;
         float fit = (rect.width - (cols - 1) * StepGap) / cols;
-        if (fit >= 120f)
+        if (fit >= 100f)
         {
             DrawGraph(rect, session, Mathf.Min(fit, MaxBoxWidth));
             return;
@@ -165,7 +165,8 @@ public static class DiveView
 
         bool branched = session.Forks > 0;
         float stepX = cols > 1 ? (rect.width - boxW) / (cols - 1) : 0f;
-        float lane = Mathf.Max(0f, (rect.height - boxH - 60f) / 2f) * (branched ? 1f : 0.45f);
+        // Lanes no farther apart than a box and a bit: the branches stay close to the trunk.
+        float lane = Mathf.Min(Mathf.Max(0f, (rect.height - boxH - 60f) / 2f), boxH + 26f) * (branched ? 1f : 0.45f);
         float midY = rect.center.y + 12f;
         var boxes = new Rect[n];
         for (int i = 0; i < n; i++)

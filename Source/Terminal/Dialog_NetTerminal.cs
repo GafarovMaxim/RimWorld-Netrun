@@ -394,7 +394,7 @@ public partial class Dialog_NetTerminal : Window
         if (NetrunUI.Button(help, wiki == null ? "?" : string.Empty, NetrunUI.Accent, true, (_view == View.Help ? "NR_HelpLeaveTip" : "NR_HelpButtonTip").Translate()))
             OpenHelp();
         if (wiki != null)
-            GUI.DrawTexture(help.ContractedBy(4f), wiki);
+            GUI.DrawTexture(help.ContractedBy(1f), wiki);
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
         if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
@@ -432,7 +432,7 @@ public partial class Dialog_NetTerminal : Window
             string awaken = "NR_CommandAwakenAI".Translate();
             float bw = NetrunUI.ButtonWidth(awaken, icon: true);
             if (NetrunUI.Button(new Rect(x - bw, y - 3f, bw, 30f), awaken, NetrunUI.Accent, AIAwakening.CanAwaken(_map),
-                    "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIEmbody))
+                    "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIAwaken))
                 AIAwakening.OpenMenu(_map);
             x -= bw + 8f;
             x = NetrunUI.HeaderChip(x, y, "NR_ChipFragments".Translate(AIAwakening.Fragments(_map).Count())) - 8f;
@@ -607,8 +607,16 @@ public partial class Dialog_NetTerminal : Window
 
         Text.Anchor = TextAnchor.UpperLeft;
         float since = Time.realtimeSinceStartup - _titleChangedAt;
-        if (NetrunMod.Settings.Animations && since < 0.3f)
-            NetrunUI.Glitch(rect, since / 0.3f, (int)_view * 31 + 7, 5);
+        if (NetrunMod.Settings.Animations && since < 0.45f)
+        {
+            float k = since / 0.45f;
+            float bx = rect.x + rect.width * k;
+            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.10f * (1f - k));
+            GUI.DrawTexture(new Rect(bx - 120f, rect.y, 120f, rect.height), NetrunUI.GlowTex);
+            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f * (1f - k));
+            GUI.DrawTexture(new Rect(bx, rect.y + 2f, 1f, rect.height - 4f), BaseContent.WhiteTex);
+            GUI.color = Color.white;
+        }
     }
 
     /// <summary>From the Gateway's report button: the Archive on the dive reports tab.</summary>

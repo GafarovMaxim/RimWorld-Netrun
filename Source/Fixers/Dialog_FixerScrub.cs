@@ -65,8 +65,10 @@ public class Dialog_FixerScrub : Window
             "NR_ScrubRates".Translate(_fixer.HeatPerCyberdata.ToString("0.#"), _fixer.HeatPerAdvancedCyberdata.ToString("0.#")).Colorize(NetrunUI.Muted));
         y += 30f;
 
-        y = AmountRow(new Rect(r.x, y, r.width, RowHeight), NetrunDefOf.USH_Cyberdata, ref _data, ref _dataBuffer, _availableData) + 8f;
-        y = AmountRow(new Rect(r.x, y, r.width, RowHeight), NetrunDefOf.USH_AdvancedCyberdata, ref _advanced, ref _advancedBuffer, _availableAdvanced) + 12f;
+        int needData = FixerDeals.UnitsToClear(_fixer, false, _advanced, _availableData);
+        int needAdvanced = FixerDeals.UnitsToClear(_fixer, true, _data, _availableAdvanced);
+        y = AmountRow(new Rect(r.x, y, r.width, RowHeight), NetrunDefOf.USH_Cyberdata, ref _data, ref _dataBuffer, _availableData, needData) + 8f;
+        y = AmountRow(new Rect(r.x, y, r.width, RowHeight), NetrunDefOf.USH_AdvancedCyberdata, ref _advanced, ref _advancedBuffer, _availableAdvanced, needAdvanced) + 12f;
 
         // Heat now and after, on one bar.
         float heat = HeatTracker.Get()?.Heat ?? 0f;
@@ -95,7 +97,7 @@ public class Dialog_FixerScrub : Window
     }
 
     /// <summary>Icon, name, then "min", -, an exact number field, +, and "max".</summary>
-    private static float AmountRow(Rect rect, ThingDef def, ref int value, ref string buffer, int available)
+    private static float AmountRow(Rect rect, ThingDef def, ref int value, ref string buffer, int available, int needed)
     {
         NetrunUI.Card(rect, NetrunUI.Accent);
         GUI.DrawTexture(new Rect(rect.x + 12f, rect.y + 6f, 32f, 32f), def.uiIcon);
@@ -106,9 +108,10 @@ public class Dialog_FixerScrub : Window
         float x = rect.xMax - 10f - 60f;
         float cy = rect.y + 7f;
         AcceptanceReport any = available > 0 ? true : (AcceptanceReport)"NR_ScrubNone".Translate();
-        if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMax".Translate(), NetrunUI.Ok, any))
+        if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMax".Translate(), NetrunUI.Ok, any, "NR_ScrubMaxTip".Translate()))
         {
-            value = available;
+            // Just enough to bring the Heat to zero (or all there is).
+            value = Mathf.Min(available, Mathf.Max(needed, 0));
             buffer = null;
         }
         x -= 36f;
@@ -126,7 +129,7 @@ public class Dialog_FixerScrub : Window
             buffer = null;
         }
         x -= 66f;
-        if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMin".Translate(), NetrunUI.Muted, value > 0 ? true : (AcceptanceReport)false))
+        if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMin".Translate(), NetrunUI.TextColor, value > 0 ? true : (AcceptanceReport)false))
         {
             value = 0;
             buffer = null;

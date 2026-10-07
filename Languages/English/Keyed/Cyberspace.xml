@@ -131,22 +131,22 @@
   <NR_DiveCostPassenger>AI passenger in the netrunner: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>DIVE</NR_GatewayDive>
-  <NR_GatewayRisk_0>low</NR_GatewayRisk_0>
-  <NR_GatewayRisk_1>medium: strong gates, longer dive</NR_GatewayRisk_1>
-  <NR_GatewayRisk_2>high: nausea, lockout, coma</NR_GatewayRisk_2>
+  <NR_GatewayRisk_0>low: weak gates, no Black ICE</NR_GatewayRisk_0>
+  <NR_GatewayRisk_1>medium: strong gates and a fork; the hard path is guarded by Black ICE</NR_GatewayRisk_1>
+  <NR_GatewayRisk_2>high: Black ICE (nausea, lockout or coma); a failed dive leaves burns</NR_GatewayRisk_2>
   <NR_GatewayTipType>What kind of node it is: it decides the haul and how loud a dive is.</NR_GatewayTipType>
   <NR_GatewayTipDefense>Code gates to break on the way in; the level makes each one harder.</NR_GatewayTipDefense>
   <NR_GatewayTipIce>White ICE only blocks. Black ICE strikes the netrunner when you get close and fail.</NR_GatewayTipIce>
   <NR_GatewayTipReward>What downloading the files and the memory unit can give.</NR_GatewayTipReward>
   <NR_GatewayTipTrace>Heat added per network action, before program and coprocessor modifiers.</NR_GatewayTipTrace>
-  <NR_GatewayTipRisk>Grey: low. Yellow: medium. Red: Black ICE and Hacking Expansion outcomes.</NR_GatewayTipRisk>
+  <NR_GatewayTipRisk>Grey: low. Yellow: medium, the risk is on the hard path. Red: Black ICE; its strikes use Hacking Expansion outcomes, and a failed dive burns the runner.</NR_GatewayTipRisk>
   <NR_GatewayZoomIn>Zoom in (mouse wheel)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Zoom out (mouse wheel)</NR_GatewayZoomOut>
   <NR_GatewayZoomReset>Reset zoom and position (or click the middle mouse button on the field). Drag the field with the mouse to move it.</NR_GatewayZoomReset>
   <NR_DiveLogSpecial>Something special was waiting at the exit.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Corp core-{0}</NR_ExtNodeName_CorpCore>
   <NR_ExtNodeType_CorpCore>corporate core (boss)</NR_ExtNodeType_CorpCore>
-  <NR_ExtNodeReward_CorpCore>a daemon or a celebrity chip, often an AI core module, lots of data</NR_ExtNodeReward_CorpCore>
+  <NR_ExtNodeReward_CorpCore>a daemon or a rare unique recording, sometimes an AI core module, lots of data</NR_ExtNodeReward_CorpCore>
   <NR_BossNodeLabel>Corporate core in the Gateway</NR_BossNodeLabel>
   <NR_BossNode>{0} has surfaced in the Gateway for {1} days: top defense, strong Black ICE, and a reward worth the risk.</NR_BossNode>
   <NR_DiveLogBoss>The core's vault is open.</NR_DiveLogBoss>

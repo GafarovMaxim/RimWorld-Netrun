@@ -118,6 +118,7 @@ public static class NetrunTex
     public static readonly Texture2D AIFeed = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Feed");
     public static readonly Texture2D AIIsolate = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Isolate");
     public static readonly Texture2D AIEmbody = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Embody");
+    public static readonly Texture2D AIAwaken = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Awaken", reportFailure: false) ?? AIEmbody;
     public static readonly Texture2D AIErase = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Erase");
     public static readonly Texture2D AIToCoprocessor = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_CoprocessorUpload");
     public static readonly Texture2D AIReturnServer = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_ReturnServer");

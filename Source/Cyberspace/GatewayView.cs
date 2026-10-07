@@ -540,8 +540,11 @@ public static class GatewayView
             }
             AcceptanceReport report = unlocked ? true : (AcceptanceReport)"NR_GatewayDaemonLocked".Translate();
             string tip = ("NR_DaemonDesc_" + d).Translate() + "\n\n" + "NR_GatewayDaemonOne".Translate();
-            if (NetrunUI.Button(new Rect(x, y, w, 28f), (on ? "✓ " : string.Empty) + label, on ? NetrunUI.Purple : NetrunUI.TextColor, report, tip, unlocked ? icon : null))
+            var dr = new Rect(x, y, w, 28f);
+            if (NetrunUI.Button(dr, (on ? "✓ " : string.Empty) + label, on ? NetrunUI.Purple : NetrunUI.TextColor, report, tip, unlocked ? icon : null))
                 gateway.SelectedDaemon = on ? -1 : (int)d;
+            if (unlocked && !on && gateway.SelectedDaemon >= 0)
+                Widgets.DrawBoxSolid(dr.ContractedBy(1f), new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.45f));
             x += w + 6f;
         }
         y += 36f;
