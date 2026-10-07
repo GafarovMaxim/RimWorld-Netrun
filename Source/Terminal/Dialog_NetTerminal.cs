@@ -41,7 +41,8 @@ public partial class Dialog_NetTerminal : Window
     private View _viewBeforeHelp = View.Map;
 
     /// <summary>Smallest size the player can drag the window down to.</summary>
-    private static readonly Vector2 MinSize = new(860f, 640f);
+    // The screen's minimum plus the field-deck casing around it.
+    private static readonly Vector2 MinSize = new(960f, 760f);
     /// <summary>The size the player left the window at (kept for the session).</summary>
     private static Vector2 _savedSize;
     /// <summary>Window.resizer is private; set it to give the window a minimum size.</summary>
@@ -51,7 +52,7 @@ public partial class Dialog_NetTerminal : Window
     {
         get
         {
-            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1000f, 760f);
+            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f);
             return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
                 Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
         }
@@ -79,7 +80,8 @@ public partial class Dialog_NetTerminal : Window
         try
         {
             // The loop of this screen: the dive, the Gateway's open net, or the terminal's hum.
-            NetrunSound.Ambient(Dive != null ? "Ambient_Dive" : _view == View.Gateway ? "Ambient_Cyberspace" : "Ambient_Terminal");
+            // One continuous loop for the whole terminal (the cyberspace one): it never restarts when the screen changes.
+            NetrunSound.Ambient("Ambient_Cyberspace");
             DrawContents(inRect);
         }
         finally
@@ -97,8 +99,19 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
             Event.current.Use();
         }
-        // The cyberdeck casing outside, the interface on its screen.
-        inRect = NetrunUI.Bezel(inRect, 20f, "NR_DeckPlate".Translate());
+        // The rugged cyberdeck casing outside (gauges show Heat and the net), the interface on its screen.
+        // Its hardware keys: back (out of the Cyberpedia or a node), home, the Cyberpedia.
+        HeatTracker heat = HeatTracker.Get();
+        inRect = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (heat?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen, key =>
+        {
+            if (key == 2)
+                OpenHelp();
+            else if (_view == View.Help)
+                LeaveHelp();
+            else if (Dive == null)
+                GoHome();
+        });
+        _guideScreen = inRect;
         GuideInput();
         GuideRegistry.Begin();
         DrawWindow(inRect);

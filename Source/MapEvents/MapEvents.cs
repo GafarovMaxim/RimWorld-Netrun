@@ -14,6 +14,8 @@ public class MapEventsSettingsDef : Def
     public float courierDays = 1f;
     public IntRange courierHuntersHours = new(4, 8);
     public float courierHuntersPoints = 0.5f;
+    /// <summary>Cyberdata in the courier's pack: the colony's if the courier dies.</summary>
+    public IntRange courierCyberdata = new(6, 10);
     public int courierSilver = 250;
     public float courierReputation = 10f;
     public float courierFailHeat = 10f;
@@ -24,8 +26,6 @@ public class MapEventsSettingsDef : Def
     public float blackMarketCoreChance = 0.3f;
 
     public float distressWorkHours = 2f;
-    /// <summary>Days the distress site stays on the world map.</summary>
-    public IntRange distressSiteDays = new(8, 14);
     public float distressFragmentChance = 0.7f;
     public int distressSteel = 30;
 
@@ -281,6 +281,10 @@ public class IncidentWorker_DataCourier : IncidentWorker
             return false;
 
         Pawn courier = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Villager, faction));
+        // The hot data rides in the courier's pack: it falls out if the courier falls.
+        Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
+        data.stackCount = Settings.courierCyberdata.RandomInRange;
+        courier.inventory?.TryAddItemNotForSale(data);
         GenSpawn.Spawn(courier, entry, map);
         IntVec3 chill = DropCellFinder.TradeDropSpot(map);
         LordMaker.MakeNewLord(faction, new LordJob_VisitColony(faction, chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
@@ -294,7 +298,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
             Find.TickManager.TicksGame + Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour));
 
         HeatTracker.Get()?.Note("NR_CourierLabel".Translate(), HeatSource.Event);
-        SendStandardLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver), LetterDefOf.NeutralEvent, parms, courier);
+        SendStandardLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver, data.stackCount), LetterDefOf.NeutralEvent, parms, courier);
         return true;
     }
 }
@@ -337,22 +341,24 @@ public class IncidentWorker_BlackMarket : IncidentWorker
 /// </summary>
 public class IncidentWorker_DistressSignal : IncidentWorker
 {
+    private static QuestScriptDef Quest => DefDatabase<QuestScriptDef>.GetNamedSilentFail("NR_DistressQuest");
+
     protected override bool CanFireNowSub(IncidentParms parms)
-        => parms.target is Map map && DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite") != null
+        => parms.target is Map map && Quest != null && DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite") != null
            && RimWorld.Planet.TileFinder.TryFindNewSiteTile(out RimWorld.Planet.PlanetTile _, map.Tile, 2, 10);
 
+    /// <summary>A vanilla quest: it shows in the Quests tab, has its own letter, timeout and site.</summary>
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
         var map = (Map)parms.target;
-        SitePartDef part = DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite");
-        if (part == null || !RimWorld.Planet.TileFinder.TryFindNewSiteTile(out RimWorld.Planet.PlanetTile tile, map.Tile, 2, 10))
+        var slate = new RimWorld.QuestGen.Slate();
+        slate.Set("points", parms.points);
+        slate.Set("map", map);
+        Quest quest = QuestUtility.GenerateQuestAndMakeAvailable(Quest, slate);
+        if (quest == null)
             return false;
-        RimWorld.Planet.Site site = RimWorld.Planet.SiteMaker.MakeSite(part, tile, null);
-        int days = NetrunDefOf.NR_MapEvents.distressSiteDays.RandomInRange;
-        site.GetComponent<RimWorld.Planet.TimeoutComp>()?.StartTimeout(days * GenDate.TicksPerDay);
-        Find.WorldObjects.Add(site);
+        QuestUtility.SendLetterQuestAvailable(quest);
         HeatTracker.Get()?.Note("NR_DistressLabel".Translate(), HeatSource.Event);
-        SendStandardLetter("NR_DistressLabel".Translate(), "NR_DistressSiteLetter".Translate(days), LetterDefOf.PositiveEvent, parms, new LookTargets(site));
         return true;
     }
 }
@@ -371,6 +377,7 @@ public class GenStep_DistressServer : GenStep
                 foreach (Thing t in c.GetThingList(map).Where(t => t.def.destroyable && (t.def.category == ThingCategory.Building || t.def.category == ThingCategory.Plant)).ToList())
                     t.Destroy();
         Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
+        BuildCompound(map, server);
         // A couple of dead racks around it.
         ThingDef rackDef = DefDatabase<ThingDef>.GetNamedSilentFail("NR_DistressRack");
         if (rackDef != null)
@@ -380,10 +387,97 @@ public class GenStep_DistressServer : GenStep
             foreach (IntVec3 c in around)
                 GenSpawn.Spawn(ThingMaker.MakeThing(rackDef), c, map);
         }
-        // The area around the server is in sight when the caravan arrives.
-        foreach (IntVec3 c in GenRadial.RadialCellsAround(server.Position, 8f, true))
+        // The way in is in sight when the caravan arrives; the inside stays dark until someone opens the door.
+        foreach (IntVec3 c in GenRadial.RadialCellsAround(server.Position + new IntVec3(0, 0, -CompoundHalfZ - 3), 6f, true))
             if (c.InBounds(map))
                 map.fogGrid.Unfog(c);
+    }
+
+    private const int CompoundHalfX = 6;
+    private const int CompoundHalfZ = 5;
+
+    /// <summary>
+    /// A sealed steel compound around the server: walls, one door on the south side, a metal floor, turrets inside
+    /// and by the door (Odyssey's armored turrets when it is there, otherwise mechanoid auto mini-turrets), all hostile;
+    /// with Odyssey, a few dormant hunter drones hidden outside.
+    /// </summary>
+    private static void BuildCompound(Map map, Thing server)
+    {
+        IntVec3 c = server.Position;
+        var rect = new CellRect(c.x - CompoundHalfX, c.z - CompoundHalfZ, CompoundHalfX * 2 + 1, CompoundHalfZ * 2 + 1);
+        if (!rect.ExpandedBy(4).InBounds(map))
+            return;
+        Faction hostile = Faction.OfAncientsHostile ?? Faction.OfMechanoids;
+
+        // Clear the ground (keep the server and its racks).
+        foreach (IntVec3 cell in rect.ExpandedBy(1))
+            foreach (Thing t in cell.GetThingList(map).Where(t => t != server && t.def.defName != "NR_DistressRack" && t.def.destroyable
+                         && (t.def.category is ThingCategory.Building or ThingCategory.Plant or ThingCategory.Item)).ToList())
+                t.Destroy();
+        TerrainDef floor = DefDatabase<TerrainDef>.GetNamedSilentFail("MetalTile") ?? TerrainDefOf.Concrete;
+        foreach (IntVec3 cell in rect)
+            if (map.terrainGrid.TerrainAt(cell).affordances?.Contains(TerrainAffordanceDefOf.Heavy) == true || map.terrainGrid.TerrainAt(cell).passability != Traversability.Impassable)
+                map.terrainGrid.SetTerrain(cell, floor);
+
+        IntVec3 door = new(c.x, 0, rect.minZ);
+        foreach (IntVec3 cell in rect.EdgeCells)
+        {
+            if (cell == door)
+                continue;
+            Thing wall = ThingMaker.MakeThing(ThingDefOf.Wall, ThingDefOf.Steel);
+            GenSpawn.Spawn(wall, cell, map);
+        }
+        Thing d = ThingMaker.MakeThing(ThingDefOf.Door, ThingDefOf.Steel);
+        GenSpawn.Spawn(d, door, map);
+        d.SetFaction(hostile);
+
+        // Turrets: two inside the far corners, two outside by the door.
+        ThingDef turret = DefDatabase<ThingDef>.GetNamedSilentFail("Turret_AncientArmoredTurret") ?? DefDatabase<ThingDef>.GetNamedSilentFail("Turret_AutoMiniTurret");
+        if (turret != null)
+        {
+            IntVec3[] spots =
+            [
+                new(rect.minX + 2, 0, rect.maxZ - 2), new(rect.maxX - 2, 0, rect.maxZ - 2),
+                new(door.x - 3, 0, door.z - 3), new(door.x + 3, 0, door.z - 3),
+            ];
+            foreach (IntVec3 spot in spots)
+            {
+                if (!spot.InBounds(map) || !spot.Standable(map) || spot.GetFirstBuilding(map) != null)
+                    continue;
+                Thing t = ThingMaker.MakeThing(turret, turret.MadeFromStuff ? GenStuff.DefaultStuffFor(turret) : null);
+                t.SetFaction(hostile);
+                GenSpawn.Spawn(t, spot, map);
+            }
+        }
+
+        // Odyssey: dormant hunter drones in the approach, never right next to each other.
+        if (ModsConfig.OdysseyActive && DefDatabase<ThingDef>.GetNamedSilentFail("HunterDroneTrap") is { } trap)
+        {
+            var placed = new List<IntVec3>();
+            foreach (IntVec3 spot in GenRadial.RadialCellsAround(door, 9f, false).Where(x => x.z < door.z - 1).InRandomOrder())
+            {
+                if (placed.Count >= 3)
+                    break;
+                if (!spot.InBounds(map) || !spot.Standable(map) || spot.GetFirstBuilding(map) != null || placed.Any(p => p.DistanceTo(spot) < 3f))
+                    continue;
+                Thing t = ThingMaker.MakeThing(trap, trap.MadeFromStuff ? GenStuff.DefaultStuffFor(trap) : null);
+                t.SetFaction(hostile);
+                GenSpawn.Spawn(t, spot, map);
+                placed.Add(spot);
+            }
+        }
+    }
+}
+
+/// <summary>Removes Hacking Expansion's random data center from the distress map: one AI find per event.</summary>
+public class GenStep_DistressCleanup : GenStep
+{
+    public override int SeedPart => 0x4E52_4443;
+
+    public override void Generate(Map map, GenStepParams parms)
+    {
+        foreach (Thing t in map.listerThings.AllThings.Where(t => t.def.defName is "USH_DataCenter" or "USH_RewardDataCenter").ToList())
+            t.Destroy();
     }
 }
 

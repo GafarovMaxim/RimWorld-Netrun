@@ -37,9 +37,12 @@ public class HelpPageDef : Def
     [MustTranslate]
     public string lockHint;
 
+    /// <summary>Kept for links, but not listed in the Cyberpedia's tree (the AI archetypes live in one gallery).</summary>
+    public bool hideInTree;
+
     public bool IsTopic => parent == null;
 
-    public IEnumerable<HelpPageDef> Children => DefDatabase<HelpPageDef>.AllDefs.Where(p => p.parent == this).OrderBy(p => p.order);
+    public IEnumerable<HelpPageDef> Children => DefDatabase<HelpPageDef>.AllDefs.Where(p => p.parent == this && !p.hideInTree).OrderBy(p => p.order);
 
     public HelpPageDef Topic => parent == null ? this : parent.Topic;
 
@@ -100,6 +103,7 @@ public class HelpPageDef : Def
             ["ai.serviceTrust"] = ai.serviceTrustCost.ToString("0"),
             ["ai.serviceHunger"] = ai.serviceHungerCost.ToString("0"),
             ["ai.cooldown"] = ai.serviceCooldownDays.ToString("0.#"),
+            ["ai.starving"] = ai.starvingHunger.ToString("0"),
         };
         foreach (KeyValuePair<string, string> kv in values)
             text = text.Replace("{" + kv.Key + "}", kv.Value);
@@ -142,6 +146,9 @@ public class HelpProgress : GameComponent
         get => _helpOpened;
         set => _helpOpened = value;
     }
+
+    /// <summary>Has the player met this (an "ai:Ghost", "group", ...)?</summary>
+    public bool Has(string flag) => _flags.Contains(flag) || _flags.Contains("all");
 
     public bool Unlocked(HelpPageDef page) => page.unlockFlag.NullOrEmpty() || _flags.Contains(page.unlockFlag) || _flags.Contains("all");
     public bool IsNew(HelpPageDef page) => !page.unlockFlag.NullOrEmpty() && Unlocked(page) && !_seen.Contains(page.defName);

@@ -119,9 +119,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
   <NR_HackHeatPreview>След при взломе: около +{0} Heat (меньше со скрытностью взлома или из кибер-капсулы)</NR_HackHeatPreview>
   <NR_SettingsAmbientEach>Каждый эмбиент отдельно (доля от общей громкости эмбиента):</NR_SettingsAmbientEach>
-  <NR_SettingsAmbientTerminal>Гул терминала: {0}</NR_SettingsAmbientTerminal>
-  <NR_SettingsAmbientCyberspace>Киберпространство (Шлюз): {0}</NR_SettingsAmbientCyberspace>
-  <NR_SettingsAmbientDive>Нырок: {0}</NR_SettingsAmbientDive>
+  <NR_SettingsAmbientCyberspace>Эмбиент терминала: {0}</NR_SettingsAmbientCyberspace>
   <NR_SettingsAmbientServer>Гул сервера ИИ: {0}</NR_SettingsAmbientServer>
   <NR_SettingsResetGroup>Сбросить</NR_SettingsResetGroup>
   <NR_SettingsResetGroupTip>Вернуть настройки раздела «{0}» к значениям по умолчанию.</NR_SettingsResetGroupTip>
@@ -145,4 +143,165 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpTraceQuiet>Новость «Сеть затихла» (×{0})</NR_HelpTraceQuiet>
   <NR_HelpTraceStealth>Программа «Невидимка» или демон «Призрак» (след ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>Этот тип ноды умножает след на {0}. Кибер-капсула с ИИ-сопроцессором снижает его ещё.</NR_HelpTraceNote>
+  <NR_HelpAIUnknown>Вы ещё не встречали этот архетип. Пробудите такой ИИ, чтобы увидеть его карточку.</NR_HelpAIUnknown>
+  <NR_HelpAIService>Услуга</NR_HelpAIService>
+  <NR_HelpAIFood>Еда</NR_HelpAIFood>
+  <NR_HelpAITrust>Доверие: {0} (двигайте, чтобы увидеть, что открывается)</NR_HelpAITrust>
+  <NR_HelpAITrustBetray>Ниже {0}: сдаёт колонию и уходит.</NR_HelpAITrustBetray>
+  <NR_HelpAITrustEscape>Ниже {0} при голоде выше {1}: пытается сбежать.</NR_HelpAITrustEscape>
+  <NR_HelpAITrustService>С {0}: услуга работает.</NR_HelpAITrustService>
+  <NR_HelpAITrustTrait1>С {0}: видна первая черта (плюс и минус).</NR_HelpAITrustTrait1>
+  <NR_HelpAITrustEvents>С {0}: его события доброжелательные.</NR_HelpAITrustEvents>
+  <NR_HelpAITrustTrait2>С {0}: видна вторая черта.</NR_HelpAITrustTrait2>
+  <NR_HelpFixerRep>Репутация: {0} (фиолетовая метка — черта, золотая — закрепление)</NR_HelpFixerRep>
+  <NR_HelpFixerTraitHidden>Черта: ??? (ещё {0} репутации, чтобы увидеть)</NR_HelpFixerTraitHidden>
+  <NR_HelpFixerPinned>Закреплён: остаётся при смене пула (не больше {0} закреплённых).</NR_HelpFixerPinned>
+  <NR_HelpFixerToPin>До закрепления ещё {0} репутации.</NR_HelpFixerToPin>
+  <NR_HelpFixerRareOn>Редкие товары есть в магазине.</NR_HelpFixerRareOn>
+  <NR_HelpFixerRareOff>Редкие товары появятся после закрепления.</NR_HelpFixerRareOff>
+  <NR_HelpContractStage_Board>Доска</NR_HelpContractStage_Board>
+  <NR_HelpContractStage_Taken>Взяли</NR_HelpContractStage_Taken>
+  <NR_HelpContractStage_Work>Дело</NR_HelpContractStage_Work>
+  <NR_HelpContractStage_Pay>Оплата</NR_HelpContractStage_Pay>
+  <NR_HelpContractStageHint>Щёлкните этап.</NR_HelpContractStageHint>
+  <NR_HelpContractStageDesc_Board>У каждого фиксера без текущей работы есть предложение. Звонок открывает канал, чтобы его взять.</NR_HelpContractStageDesc_Board>
+  <NR_HelpContractStageDesc_Taken>Одна работа на фиксера за раз. Срок пошёл.</NR_HelpContractStageDesc_Taken>
+  <NR_HelpContractStageDesc_Work>Взломы, нырки, доставки — что просит работа. Нырок в ноду со ★ засчитывается дважды.</NR_HelpContractStageDesc_Work>
+  <NR_HelpContractStageDesc_Pay>Серебро капсулой и репутация. Провал стоит {0} репутации и {1} дн. молчания.</NR_HelpContractStageDesc_Pay>
+  <NR_HelpContractPer>{0} серебра за единицу</NR_HelpContractPer>
+  <NR_HelpContractFlat>{0} серебра</NR_HelpContractFlat>
+  <NR_HelpBDStepRaw>Сырая запись: очки ловят сильный момент.</NR_HelpBDStepRaw>
+  <NR_HelpBDStepEdit>Монтаж у сетевой консоли (из Студии).</NR_HelpBDStepEdit>
+  <NR_HelpBDStrength>Сила момента: {0}</NR_HelpBDStrength>
+  <NR_HelpBDTier_0>Обычное: без добавок.</NR_HelpBDTier_0>
+  <NR_HelpBDTier_1>Отличное: хорошее воспоминание после просмотра.</NR_HelpBDTier_1>
+  <NR_HelpBDTier_2>Мастерское: сильное воспоминание после просмотра.</NR_HelpBDTier_2>
+  <NR_HelpIce_Strike>ICE бьёт</NR_HelpIce_Strike>
+  <NR_HelpIce_Shield>Щит</NR_HelpIce_Shield>
+  <NR_HelpIce_Decoy>Приманка</NR_HelpIce_Decoy>
+  <NR_HelpIce_Killer>Убийца</NR_HelpIce_Killer>
+  <NR_HelpIce_Hit>Удар</NR_HelpIce_Hit>
+  <NR_HelpIceDesc_Strike>ICE впереди бьёт в конце хода с шансом {0}; проваленный взлом ICE тоже вызывает удар.</NR_HelpIceDesc_Strike>
+  <NR_HelpIceDesc_Shield>Каждый заряд «Щита» полностью поглощает один удар.</NR_HelpIceDesc_Shield>
+  <NR_HelpIceDesc_Decoy>Заряд «Приманки» уводит удар с шансом {1}.</NR_HelpIceDesc_Decoy>
+  <NR_HelpIceDesc_Killer>Заряд «Убийцы» сразу ломает следующие ворота или ICE: удара от них уже не будет.</NR_HelpIceDesc_Killer>
+  <NR_HelpIceDesc_Hit>Пробивший удар: +{2} Netsick, затем тошнота (60%), выброс (30%, нырок кончается) или кома (10%). Black ICE может ещё выжечь кибер-линк ({3} за удар).</NR_HelpIceDesc_Hit>
+  <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} cyberdata</NR_HelpLoadoutPrograms>
+  <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
+  <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
+  <NR_DiagnosticsButton>Скопировать диагностику</NR_DiagnosticsButton>
+  <NR_DiagnosticsTip>Версии, DLC, моды, изменённые настройки, состояние сети и последние ошибки Netrun копируются в буфер. Без личных данных. Вставьте это в сообщение о баге.</NR_DiagnosticsTip>
+  <NR_DiagnosticsCopied>Диагностика скопирована в буфер.</NR_DiagnosticsCopied>
+  <NR_HelpFixerTraitLabel>Черта</NR_HelpFixerTraitLabel>
+  <NR_HelpFixerPinLabel>Закрепление</NR_HelpFixerPinLabel>
+  <NR_HelpFixerPriceLabel>Цены</NR_HelpFixerPriceLabel>
+  <NR_HelpFixerScrubLabel>Сброс следа</NR_HelpFixerScrubLabel>
+  <NR_HelpFixerScrubValue>{0} Heat за cyberdata в «Тени»</NR_HelpFixerScrubValue>
+  <NR_HelpFixerCallLabel>Звонок</NR_HelpFixerCallLabel>
+  <NR_HelpFixerRareLabel>Редкие товары</NR_HelpFixerRareLabel>
+  <NR_HelpContractGoal>Цель</NR_HelpContractGoal>
+  <NR_HelpContractPay>Оплата</NR_HelpContractPay>
+  <NR_HelpContractDeadline>Срок</NR_HelpContractDeadline>
+  <NR_HelpContractDays>{0}–{1} дн.</NR_HelpContractDays>
+  <NR_HelpContractRep>Репутация</NR_HelpContractRep>
+  <NR_HelpBDJoy>Отдых</NR_HelpBDJoy>
+  <NR_HelpBDMoodLabel>Настроение, пока действует</NR_HelpBDMoodLabel>
+  <NR_HelpBDAddiction>Привыкание за просмотр</NR_HelpBDAddiction>
+  <NR_HelpBDQualityLabel>Качество</NR_HelpBDQualityLabel>
+  <NR_HelpLoadoutChance>Шанс взлома (Интеллект 8 против ворот силы 3)</NR_HelpLoadoutChance>
+  <NR_HelpLoadoutTrace>След</NR_HelpLoadoutTrace>
+  <NR_HelpLoadoutCost>Цена нырка</NR_HelpLoadoutCost>
+  <NR_HelpLoadoutCostValue>{0} cyberdata</NR_HelpLoadoutCostValue>
+  <NR_HelpTermNode_Core>Core</NR_HelpTermNode_Core>
+  <NR_HelpTermNodeDesc_Core>Кольцо — ваш Heat. Клик открывает экран Heat: шкала, график недели, что его подняло, и все способы его сбить. Вокруг «Сейчас» подсказывает самое полезное действие, а «Тревоги» показывают, что горит.</NR_HelpTermNodeDesc_Core>
+  <NR_HelpTermNode_Club>Клуб</NR_HelpTermNode_Club>
+  <NR_HelpTermNodeDesc_Club>Здесь живут фиксеры: пул, репутация, звонки, магазин, сброс следа и хакерская группа.</NR_HelpTermNodeDesc_Club>
+  <NR_HelpTermNode_Board>Доска</NR_HelpTermNode_Board>
+  <NR_HelpTermNodeDesc_Board>Контракты от фиксеров: взять работу, следить за ходом, получить оплату.</NR_HelpTermNodeDesc_Board>
+  <NR_HelpTermNode_Archive>Архив</NR_HelpTermNode_Archive>
+  <NR_HelpTermNodeDesc_Archive>Журнал вашего следа: каждый взлом, нырок, сброс и событие, с фильтрами и историей недели.</NR_HelpTermNodeDesc_Archive>
+  <NR_HelpTermNode_Server>Серверная</NR_HelpTermNode_Server>
+  <NR_HelpTermNodeDesc_Server>Пробуждённые ИИ: доверие и голод, услуги, просьбы, носители и сопроцессоры.</NR_HelpTermNodeDesc_Server>
+  <NR_HelpTermNode_Studio>Студия</NR_HelpTermNode_Studio>
+  <NR_HelpTermNodeDesc_Studio>Брейнданс: сырые записи для монтажа, библиотека чипов и зависимость колонистов.</NR_HelpTermNodeDesc_Studio>
+  <NR_HelpTermNode_Gateway>Шлюз</NR_HelpTermNode_Gateway>
+  <NR_HelpTermNodeDesc_Gateway>Киберпространство: карта внешних нод, сборка перед нырком и сам нырок.</NR_HelpTermNodeDesc_Gateway>
+  <NR_HelpChecklist_Console>Постройте консоль связи: она станет сетевой консолью и откроет терминал.</NR_HelpChecklist_Console>
+  <NR_HelpChecklist_Pod>Постройте кибер-капсулу (меню «Киберпространство» из Hacking Expansion).</NR_HelpChecklist_Pod>
+  <NR_HelpChecklist_Link>Поставьте колонисту кибер-линк: теперь он может взламывать.</NR_HelpChecklist_Link>
+  <NR_HelpChecklist_Hack>Взломайте любую цель: появится первый Heat, и откроется Core.</NR_HelpChecklist_Hack>
+  <NR_HelpChecklist_Fixer>Позвоните фиксеру в Клубе и сделайте первую сделку.</NR_HelpChecklist_Fixer>
+  <NR_HelpChecklist_Dive>Нырните в ноду через Шлюз.</NR_HelpChecklist_Dive>
+  <NR_HelpChecklist_AI>Пробудите осколок ИИ на ИИ-сервере.</NR_HelpChecklist_AI>
+  <NR_HelpChecklistDone>Сделано {0} из {1}</NR_HelpChecklistDone>
+  <NR_HelpHackDefence>Защита цели: {0}</NR_HelpHackDefence>
+  <NR_HelpHackStealth>Скрытность взлома у хакера: {0}</NR_HelpHackStealth>
+  <NR_HelpHackInPod>Из кибер-капсулы (след ×{0})</NR_HelpHackInPod>
+  <NR_HelpHackHeatNote>Один взлом оставляет от {0} до {1} Heat: больше за сильную цель, меньше со скрытностью или из капсулы.</NR_HelpHackHeatNote>
+  <NR_HelpNewcomerSetting>Защита новичка</NR_HelpNewcomerSetting>
+  <NR_HelpNewcomerState>В этой игре</NR_HelpNewcomerState>
+  <NR_HelpNewcomerOpen>колония в сети: угрозы могут прийти</NR_HelpNewcomerOpen>
+  <NR_HelpNewcomerClosed>ещё не в сети: вы под защитой</NR_HelpNewcomerClosed>
+  <NR_HelpNewcomerBlocks>Не приходят</NR_HelpNewcomerBlocks>
+  <NR_HelpNewcomerBlocksList>сетевые атаки, наёмники, охота корпов, курьер данных</NR_HelpNewcomerBlocksList>
+  <NR_HelpNewcomerAlways>Приходят всегда</NR_HelpNewcomerAlways>
+  <NR_HelpNewcomerAlwaysList>чёрный рынок, сигнал бедствия</NR_HelpNewcomerAlwaysList>
+  <NR_HelpOn>включена</NR_HelpOn>
+  <NR_HelpOff>выключена</NR_HelpOff>
+  <NR_HelpLowerHeatNow>Heat сейчас: {0}</NR_HelpLowerHeatNow>
+  <NR_HelpLowerWait>Переждать</NR_HelpLowerWait>
+  <NR_HelpLowerWaitValue>{0} дн. до нуля</NR_HelpLowerWaitValue>
+  <NR_HelpLowerScrub>Сброс у фиксера</NR_HelpLowerScrub>
+  <NR_HelpLowerScrubValue>{0} cyberdata до нуля (без скидок)</NR_HelpLowerScrubValue>
+  <NR_HelpLowerGhost>ИИ «Призрак»</NR_HelpLowerGhost>
+  <NR_HelpLowerGhostValue>−{0} за услугу, {1} услуг (раз в {2} дн.)</NR_HelpLowerGhostValue>
+  <NR_HelpLowerContract>Контракт «Залечь на дно»</NR_HelpLowerContract>
+  <NR_HelpLowerContractValue>фиксер платит {0} серебра за каждый сбитый пункт</NR_HelpLowerContractValue>
+  <NR_HelpAIHome_Server>ИИ-сервер</NR_HelpAIHome_Server>
+  <NR_HelpAIHomeService_Server>Да: услуги работают только с главного сервера.</NR_HelpAIHomeService_Server>
+  <NR_HelpAIHomeHunger_Server>Растёт каждый день на {1}; вы кормите.</NR_HelpAIHomeHunger_Server>
+  <NR_HelpAIHomeGives_Server>Услугу архетипа, просьбы и события. Стойки добавляют слоты, до трёх.</NR_HelpAIHomeGives_Server>
+  <NR_HelpAIHome_Coprocessor>Сопроцессор</NR_HelpAIHome_Coprocessor>
+  <NR_HelpAIHomeService_Coprocessor>Услуги нет: он работает на связанную кибер-капсулу.</NR_HelpAIHomeService_Coprocessor>
+  <NR_HelpAIHomeHunger_Coprocessor>Растёт как на сервере; кормите.</NR_HelpAIHomeHunger_Coprocessor>
+  <NR_HelpAIHomeGives_Coprocessor>Помощь в нырках: меньше следа, меньше Netsick, дешевле нырок, свой бонус по архетипу.</NR_HelpAIHomeGives_Coprocessor>
+  <NR_HelpAIHome_Host>Носитель</NR_HelpAIHome_Host>
+  <NR_HelpAIHomeService_Host>Услуги нет: из гнезда нет аплинка.</NR_HelpAIHomeService_Host>
+  <NR_HelpAIHomeHunger_Host>Падает на {0} в день: он питается от носителя.</NR_HelpAIHomeHunger_Host>
+  <NR_HelpAIHomeGives_Host>Пассивный бонус носителю по архетипу. Пока он внутри, просьб нет.</NR_HelpAIHomeGives_Host>
+  <NR_HelpAwakenSrc_Dive>Нырки</NR_HelpAwakenSrc_Dive>
+  <NR_HelpAwakenSrcDesc_Dive>Находка при чистом выходе, чаще в заброшенном сервере.</NR_HelpAwakenSrcDesc_Dive>
+  <NR_HelpAwakenSrc_Memory>Блоки памяти</NR_HelpAwakenSrc_Memory>
+  <NR_HelpAwakenSrcDesc_Memory>Скачайте ступень памяти в нырке.</NR_HelpAwakenSrcDesc_Memory>
+  <NR_HelpAwakenSrc_WildAI>Дикие ИИ</NR_HelpAwakenSrc_WildAI>
+  <NR_HelpAwakenSrcDesc_WildAI>Приручите встреченного в памяти ноды.</NR_HelpAwakenSrcDesc_WildAI>
+  <NR_HelpAwakenSrc_Distress>Сигнал бедствия</NR_HelpAwakenSrc_Distress>
+  <NR_HelpAwakenSrcDesc_Distress>Подключитесь к брошенному серверу в комплексе.</NR_HelpAwakenSrcDesc_Distress>
+  <NR_HelpAwakenSrc_Market>Чёрный рынок</NR_HelpAwakenSrc_Market>
+  <NR_HelpAwakenSrcDesc_Market>Доверяющие вам фиксеры продают осколки.</NR_HelpAwakenSrcDesc_Market>
+  <NR_HelpAwakenSrc_Hack>Сильные взломы</NR_HelpAwakenSrc_Hack>
+  <NR_HelpAwakenSrcDesc_Hack>Иногда за Black ICE или командным ICE.</NR_HelpAwakenSrcDesc_Hack>
+  <NR_HelpAIHomeService>Услуга</NR_HelpAIHomeService>
+  <NR_HelpAIHomeHunger>Голод</NR_HelpAIHomeHunger>
+  <NR_HelpAIHomeGives>Что даёт</NR_HelpAIHomeGives>
+  <NR_HelpAIHungerDays>Дней без еды: {0}</NR_HelpAIHungerDays>
+  <NR_HelpAIHungerFed>Потом накормили (−{0} голода, +{1} доверия)</NR_HelpAIHungerFed>
+  <NR_HelpAIHungerIsolated>Изолирован (голод ×{0}, и доверие тает)</NR_HelpAIHungerIsolated>
+  <NR_HelpAIHungerHoarder>Черта «Запасливый» (голод ×{0})</NR_HelpAIHungerHoarder>
+  <NR_HelpAIHungerValue>Голод {0}</NR_HelpAIHungerValue>
+  <NR_HelpAIHungerTrust>Доверие</NR_HelpAIHungerTrust>
+  <NR_HelpAIHungerFine>Доволен: работает и ждёт следующей еды.</NR_HelpAIHungerFine>
+  <NR_HelpAIHungerStarving>Голодает: каждый день теряет доверие, пока не накормят.</NR_HelpAIHungerStarving>
+  <NR_HelpAIHungerRun>Голодный и недоверчивый: вот-вот сбежит в сеть.</NR_HelpAIHungerRun>
+  <NR_HelpAITraitsReveal>Каждый ИИ просыпается с чертами, до двух; первая открывается при доверии {0}, вторая при {1}.</NR_HelpAITraitsReveal>
+  <NR_HelpAwakenSources>Откуда берутся осколки:</NR_HelpAwakenSources>
+  <NR_HelpAwakenWork>Пробуждение</NR_HelpAwakenWork>
+  <NR_HelpAwakenWorkValue>около {0} ч работы у сервера, быстрее с высокой скоростью взлома</NR_HelpAwakenWorkValue>
+  <NR_HelpAwakenNoise>Это шумно</NR_HelpAwakenNoise>
+  <NR_HelpAwakenNoiseValue>при Heat 50 шанс {0}, что заметят: +{1} Heat</NR_HelpAwakenNoiseValue>
+  <NR_HelpAwakenTraits>Кто проснётся</NR_HelpAwakenTraits>
+  <NR_HelpAwakenTraitsValue>случайный архетип; {0} без черт, остальные с одной или двумя</NR_HelpAwakenTraitsValue>
+  <NR_HelpMarketBlack>Товары чёрного рынка (цена ×{0})</NR_HelpMarketBlack>
+  <NR_HelpBDMoodDarkCombat>Тёмное / боевое</NR_HelpBDMoodDarkCombat>
+  <NR_HelpFixerTraitsReveal>Черта фиксера открывается при репутации {0} или когда фиксер сам себя выдаст.</NR_HelpFixerTraitsReveal>
 </LanguageData>

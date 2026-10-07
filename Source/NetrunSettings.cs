@@ -251,7 +251,7 @@ public class NetrunSettings : ModSettings
         var frame = new Rect(12f, _y, _w - 12f, 50f);
         NetrunUI.Box(frame, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.1f));
         Widgets.Label(new Rect(frame.x + 8f, frame.y + 4f, frame.width - 16f, 22f), label);
-        float v = Widgets.HorizontalSlider(new Rect(frame.x + 8f, frame.y + 28f, frame.width - 16f, 16f), value, min, max, roundTo: 0.05f);
+        float v = NetrunUI.Slider(new Rect(frame.x + 8f, frame.y + 28f, frame.width - 16f, 16f), value, min, max, 0.05f);
         _y += 56f;
         return v;
     }
@@ -366,9 +366,7 @@ public class NetrunSettings : ModSettings
             if (AmbientVolume > 0f)
             {
                 Label("NR_SettingsAmbientEach".Translate(), NetrunUI.Muted);
-                AmbientTerminal = Slider("NR_SettingsAmbientTerminal".Translate(AmbientTerminal.ToStringPercent()), AmbientTerminal, 0f, 1.5f);
                 AmbientCyberspace = Slider("NR_SettingsAmbientCyberspace".Translate(AmbientCyberspace.ToStringPercent()), AmbientCyberspace, 0f, 1.5f);
-                AmbientDive = Slider("NR_SettingsAmbientDive".Translate(AmbientDive.ToStringPercent()), AmbientDive, 0f, 1.5f);
                 AmbientServer = Slider("NR_SettingsAmbientServer".Translate(AmbientServer.ToStringPercent()), AmbientServer, 0f, 1.5f);
             }
             if (!Mathf.Approximately(ui, UiVolume))
@@ -391,7 +389,7 @@ public class NetrunSettings : ModSettings
         Label("NR_SettingsReportInfoDesc".Translate(), NetrunUI.Muted);
         if (NetrunUI.Button(new Rect(12f, _y, 300f, 30f), "NR_SettingsReportInfo".Translate(), NetrunUI.Accent, true))
         {
-            GUIUtility.systemCopyBuffer = ReportInfo();
+            GUIUtility.systemCopyBuffer = NetrunDiagnostics.Build();
             Messages.Message("NR_SettingsReportCopied".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
         }
         _y += 40f;

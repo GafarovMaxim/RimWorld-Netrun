@@ -12,7 +12,7 @@ public class Dialog_AIServer : Window
     private readonly Map _map;
     private Vector2 _scroll;
 
-    public override Vector2 InitialSize => new(Mathf.Min(980f, UI.screenWidth - 40f), Mathf.Min(720f, UI.screenHeight - 40f));
+    public override Vector2 InitialSize => new(Mathf.Min(1080f, UI.screenWidth - 40f), Mathf.Min(840f, UI.screenHeight - 40f));
     protected override float Margin => 0f;
 
     public Dialog_AIServer(Map map)
@@ -54,8 +54,8 @@ public class Dialog_AIServer : Window
         bool size = NetrunText.Push();
         try
         {
-            NetrunSound.Ambient("Ambient_Terminal");
-            Rect screen = NetrunUI.Bezel(inRect, 18f, "NR_DeckPlate".Translate());
+            NetrunSound.Ambient("Ambient_Cyberspace");
+            Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen);
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);
             Text.Font = GameFont.Medium;

@@ -287,4 +287,16 @@
   <NR_HelpDemoSick_Severe>Тяжёлая (85%+): хуже настроение и чаще срывы.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Наведите на стадию, чтобы прочитать, что она делает. Метка показывает, как Netsick ползёт вверх при ежедневных нырках.</NR_HelpDemoSickHint>
   <NR_DeckPlate>NETRUN // КИБЕРДЕКА MK-II</NR_DeckPlate>
+  <NR_DeckGaugeHeat>Датчик Heat: насколько горячий ваш след.</NR_DeckGaugeHeat>
+  <NR_DeckGaugeNet>Датчик сети: сигнал аплинка.</NR_DeckGaugeNet>
+  <NR_DeckKey_0>Назад</NR_DeckKey_0>
+  <NR_DeckKey_1>Домой: карта сети</NR_DeckKey_1>
+  <NR_DeckKey_2>Киберпедия</NR_DeckKey_2>
+  <NR_DeckTuner>Тюнер: метка прыгает на каждом новом событии в сети.</NR_DeckTuner>
+  <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
+  <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
+  <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
+  <NR_DeckKnobHeat>Heat: {0} ({1}).</NR_DeckKnobHeat>
+  <NR_DeckKnobNetOn>Сеть: онлайн.</NR_DeckKnobNetOn>
+  <NR_DeckKnobNetOff>Сеть: офлайн.</NR_DeckKnobNetOff>
 </LanguageData>

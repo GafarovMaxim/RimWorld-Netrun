@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_CourierLabel>Data courier</NR_CourierLabel>
-  <NR_Courier>A fixer's courier, {0}, is passing through with hot data and will stay for a day. Mercenaries are already on the way for it. Keep {0} on their feet: a safe courier pays {1} silver and the fixer's goodwill.</NR_Courier>
+  <NR_Courier>A fixer's courier, {0}, is passing through with hot data ({2} cyberdata) and will stay for a day. Mercenaries are already on the way for it.\n\nYour choice: keep {0} on their feet and the fixer pays {1} silver and remembers it; or take the data yourself. If the courier dies, the cyberdata is yours, but the job fails, the trail leads to you and the fixers will not forget.</NR_Courier>
   <NR_CourierDoneLabel>Courier safe</NR_CourierDoneLabel>
   <NR_CourierDone>{0} left with the data. {1} silver is on its way; {2} is grateful (+{3} reputation).</NR_CourierDone>
   <NR_CourierLostLabel>Courier lost</NR_CourierLostLabel>
@@ -21,5 +21,4 @@
   <NR_CounterHackWonLabel>Turrets back</NR_CounterHackWonLabel>
   <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
   <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
-  <NR_DistressSiteLetter>A weak distress signal comes from an abandoned server somewhere in the region. It is marked on the world map.\n\nSend a caravan with a hacker to connect to it: an AI fragment may still be alive inside (or the server's ICE bites back). The signal will die out in {0} days.</NR_DistressSiteLetter>
 </LanguageData>

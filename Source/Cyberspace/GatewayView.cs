@@ -92,7 +92,7 @@ public static class GatewayView
             var slotPos = new Vector2(local.width * slot.x, local.height * slot.y + bob);
             // Slots sit a little further apart, and circles scale with the zoom like the spacing, so they never touch.
             var pos = center + (slotPos - center) * (1.12f * _zoom) + _pan;
-            float radius = (node.Hidden ? 34f : Mathf.Lerp(42f, 62f, Mathf.Clamp01(node.RewardScore))) * _zoom;
+            float radius = (node.Hidden ? 26f : Mathf.Lerp(30f, 42f, Mathf.Clamp01(node.RewardScore))) * _zoom;
             placed.Add((node, pos, radius));
         }
 
@@ -145,8 +145,8 @@ public static class GatewayView
     }
 
     /// <summary>Short news of cyberspace for the bottom bar: storms, the corporate core, rivals, wild AIs, contracts, refresh.</summary>
-    /// <summary>How many NR_NewsFlavor_N lines there are.</summary>
-    private const int FlavorCount = 32;
+    /// <summary>Decorative news keys: the 32 NR_NewsFlavor_N lines plus the cloud session's 94 (ads, rumors, corps, street, culture, tips).</summary>
+    private static readonly string[] FlavorKeys = [.. System.Linq.Enumerable.Range(0, 32).Select(i => "NR_NewsFlavor_" + i), "NR_Flavor_Ad_1", "NR_Flavor_Ad_2", "NR_Flavor_Ad_3", "NR_Flavor_Ad_4", "NR_Flavor_Ad_5", "NR_Flavor_Ad_6", "NR_Flavor_Ad_7", "NR_Flavor_Ad_8", "NR_Flavor_Ad_9", "NR_Flavor_Ad_10", "NR_Flavor_Ad_11", "NR_Flavor_Ad_12", "NR_Flavor_Ad_13", "NR_Flavor_Ad_14", "NR_Flavor_Ad_15", "NR_Flavor_Ad_16", "NR_Flavor_Ad_17", "NR_Flavor_Ad_18", "NR_Flavor_Ad_19", "NR_Flavor_Ad_20", "NR_Flavor_Rumor_1", "NR_Flavor_Rumor_2", "NR_Flavor_Rumor_3", "NR_Flavor_Rumor_4", "NR_Flavor_Rumor_5", "NR_Flavor_Rumor_6", "NR_Flavor_Rumor_7", "NR_Flavor_Rumor_8", "NR_Flavor_Rumor_9", "NR_Flavor_Rumor_10", "NR_Flavor_Rumor_11", "NR_Flavor_Rumor_12", "NR_Flavor_Rumor_13", "NR_Flavor_Rumor_14", "NR_Flavor_Rumor_15", "NR_Flavor_Rumor_16", "NR_Flavor_Rumor_17", "NR_Flavor_Rumor_18", "NR_Flavor_Rumor_19", "NR_Flavor_Rumor_20", "NR_Flavor_Corp_1", "NR_Flavor_Corp_2", "NR_Flavor_Corp_3", "NR_Flavor_Corp_4", "NR_Flavor_Corp_5", "NR_Flavor_Corp_6", "NR_Flavor_Corp_7", "NR_Flavor_Corp_8", "NR_Flavor_Corp_9", "NR_Flavor_Corp_10", "NR_Flavor_Corp_11", "NR_Flavor_Corp_12", "NR_Flavor_Corp_13", "NR_Flavor_Corp_14", "NR_Flavor_Street_1", "NR_Flavor_Street_2", "NR_Flavor_Street_3", "NR_Flavor_Street_4", "NR_Flavor_Street_5", "NR_Flavor_Street_6", "NR_Flavor_Street_7", "NR_Flavor_Street_8", "NR_Flavor_Street_9", "NR_Flavor_Street_10", "NR_Flavor_Street_11", "NR_Flavor_Street_12", "NR_Flavor_Street_13", "NR_Flavor_Street_14", "NR_Flavor_Street_15", "NR_Flavor_Street_16", "NR_Flavor_Culture_1", "NR_Flavor_Culture_2", "NR_Flavor_Culture_3", "NR_Flavor_Culture_4", "NR_Flavor_Culture_5", "NR_Flavor_Culture_6", "NR_Flavor_Culture_7", "NR_Flavor_Culture_8", "NR_Flavor_Culture_9", "NR_Flavor_Culture_10", "NR_Flavor_Culture_11", "NR_Flavor_Culture_12", "NR_Flavor_Tip_1", "NR_Flavor_Tip_2", "NR_Flavor_Tip_3", "NR_Flavor_Tip_4", "NR_Flavor_Tip_5", "NR_Flavor_Tip_6", "NR_Flavor_Tip_7", "NR_Flavor_Tip_8", "NR_Flavor_Tip_9", "NR_Flavor_Tip_10", "NR_Flavor_Tip_11", "NR_Flavor_Tip_12"];
 
     public static List<(string text, Color color)> News()
     {
@@ -159,7 +159,7 @@ public static class GatewayView
         // Decoration: two lines of ads, rumors and street talk, changing every few hours of game time.
         int slot = Find.TickManager.TicksGame / (GenDate.TicksPerHour * 3);
         for (int k = 0; k < 2; k++)
-            list.Add((("NR_NewsFlavor_" + (int)((uint)(slot * 7919 + k * 104729) % FlavorCount)).Translate(), NetrunUI.Muted));
+            list.Add((FlavorKeys[(int)((uint)(slot * 7919 + k * 104729) % (uint)FlavorKeys.Length)].Translate(), NetrunUI.Muted));
         if (g.StormActive)
             list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
         if (g.Boss is { } boss)
@@ -414,28 +414,43 @@ public static class GatewayView
         GUI.DrawTexture(rect, Ring);
         GUI.color = Color.white;
 
-        Text.Anchor = TextAnchor.MiddleCenter;
+        // Inside the circle only the icon, sized to it; the name and defense sit on a plate under the circle,
+        // so text never spills over the ring or the links whatever the zoom.
+        float icon = radius * 1.05f;
+        var iconRect = new Rect(rect.center.x - icon / 2f, rect.center.y - icon / 2f, icon, icon);
+        string name, sub;
+        Color subColor;
         if (node.Hidden)
         {
             GUI.color = new Color(1f, 1f, 1f, 0.45f);
-            GUI.DrawTexture(new Rect(rect.center.x - 18f, rect.center.y - 26f, 36f, 36f), NetrunTex.HiddenNode);
+            GUI.DrawTexture(iconRect, NetrunTex.HiddenNode);
             GUI.color = Color.white;
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(rect.x, rect.center.y + 10f, rect.width, 18f), "NR_GatewayHidden".Translate().Colorize(NetrunUI.Muted));
+            name = "NR_GatewayHidden".Translate();
+            sub = null;
+            subColor = NetrunUI.Muted;
         }
         else
         {
             if (node.Icon != null)
-                GUI.DrawTexture(new Rect(rect.center.x - 20f, rect.center.y - 44f, 40f, 40f), node.Icon);
-            Widgets.Label(new Rect(rect.x - 6f, rect.center.y - 4f, rect.width + 12f, 22f), node.Name.Colorize(color));
-            Text.Font = GameFont.Tiny;
-            string sub = node.BlackIce ? "NR_GatewayBlackIce".Translate(node.Defense) : "NR_GatewayDefense".Translate(node.Defense);
+                GUI.DrawTexture(iconRect, node.Icon);
+            name = node.Name;
+            sub = node.BlackIce ? "NR_GatewayBlackIce".Translate(node.Defense) : "NR_GatewayDefense".Translate(node.Defense);
             if (node.Contract)
                 sub += " · ★";
             if (node.Rival)
                 sub += " · ⚔";
-            Widgets.Label(new Rect(rect.x - 10f, rect.center.y + 16f, rect.width + 20f, 18f), sub.Colorize(node.BlackIce ? NetrunUI.Bad : color));
+            subColor = node.BlackIce ? NetrunUI.Bad : color;
         }
+        Text.Font = GameFont.Tiny;
+        float nameW = Text.CalcSize(name).x, subW = sub == null ? 0f : Text.CalcSize(sub).x;
+        float plateW = Mathf.Max(nameW, subW) + 12f;
+        var plate = new Rect(rect.center.x - plateW / 2f, rect.yMax + 3f, plateW, sub == null ? 18f : 32f);
+        Widgets.DrawBoxSolid(plate, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.88f));
+        Widgets.DrawBoxSolid(new Rect(plate.x, plate.y, plate.width, 1f), new Color(color.r, color.g, color.b, selected || hover ? 0.9f : 0.45f));
+        Text.Anchor = TextAnchor.UpperCenter;
+        Widgets.Label(new Rect(plate.x, plate.y + 1f, plate.width, 16f), name.Colorize(selected || hover ? NetrunUI.TextColor : new Color(0.85f, 0.87f, 0.82f)));
+        if (sub != null)
+            Widgets.Label(new Rect(plate.x, plate.y + 15f, plate.width, 16f), sub.Colorize(subColor));
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 
@@ -640,34 +655,34 @@ public static class GatewayView
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,
         IEnumerable<Texture2D> valueIcons = null)
     {
-        // Three columns: the icon, the label (muted, fixed width), the value (with its item icons first).
-        // Every line is centred in its row; a long value wraps inside its own column.
-        const float pad = 4f;
-        float s = NetrunUI.Icon(26f);
-        float labelWidth = Mathf.Min(120f, inner.width * 0.36f);
-        float vx = inner.x + labelWidth;
+        // Two tiers, so nothing breaks mid-word in the narrow panel: the icon and the label (small, muted) on top,
+        // the value under them across the whole width (its item icons first).
+        float s = NetrunUI.Icon(22f);
         var icons = valueIcons?.Where(t => t != null).ToList();
-        float iconsW = icons == null || icons.Count == 0 ? 0f : icons.Count * (s - 2f) + 4f;
-        float valueW = inner.xMax - vx - iconsW - pad;
-        float h = Mathf.Max(s + 2f * pad, Text.CalcHeight(value, valueW) + 2f * pad);
+        float vx = inner.x + s + 6f;
+        float iconsW = icons == null || icons.Count == 0 ? 0f : icons.Count * (s + 2f) + 4f;
+        Text.Font = GameFont.Small;
+        float valueH = Mathf.Max(iconsW > 0f ? s : 0f, Text.CalcHeight(value, inner.xMax - vx - iconsW));
+        float h = 4f + 16f + valueH + 6f;
         var row = new Rect(inner.x, y, inner.width, h);
         if (Mouse.IsOver(row))
             Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.04f));
         if (icon != null)
-            NetrunUI.BrightIcon(new Rect(inner.x + 2f, y + (h - s) / 2f, s, s), icon);
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(inner.x + s + 8f, y, labelWidth - s - 10f, h), label.Colorize(NetrunUI.Muted));
+            NetrunUI.BrightIcon(new Rect(inner.x, y + 4f, s, s), icon);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(vx, y + 4f, inner.xMax - vx, 16f), ((string)label).ToUpper().Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        float vy = y + 20f;
         if (icons != null)
         {
             foreach (Texture2D tex in icons)
             {
-                NetrunUI.BrightIcon(new Rect(vx, y + (h - (s - 4f)) / 2f, s - 4f, s - 4f), tex);
-                vx += s - 2f;
+                NetrunUI.BrightIcon(new Rect(vx, vy, s, s), tex);
+                vx += s + 2f;
             }
             vx += 4f;
         }
-        Widgets.Label(new Rect(vx, y, inner.xMax - vx - pad, h), value.Colorize(color));
-        Text.Anchor = TextAnchor.UpperLeft;
+        Widgets.Label(new Rect(vx, vy, inner.xMax - vx, valueH), value.Colorize(color));
         NetrunUI.Tip(row, tip);
         GUI.color = new Color(1f, 1f, 1f, 0.07f);
         Widgets.DrawLineHorizontal(inner.x, y + h, inner.width);

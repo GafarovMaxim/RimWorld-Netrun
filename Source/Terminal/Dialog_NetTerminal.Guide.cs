@@ -21,6 +21,8 @@ public partial class Dialog_NetTerminal
     // Hit areas of the guide card from the last frame (handled by hand, before the screen draws).
     private Rect _guideCard;
     private Rect _guideBack, _guideNext, _guideHelp, _guideExit;
+    /// <summary>The terminal's screen inside the casing (set each frame before the guide reads clicks).</summary>
+    private Rect _guideScreen;
 
     private static readonly Texture2D GuideIcon = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Guide", reportFailure: false);
 
@@ -83,8 +85,8 @@ public partial class Dialog_NetTerminal
             return false;
         // The window can still be dragged and resized by its edges; everything else belongs to the guide.
         Vector2 m = e.mousePosition;
-        // The title bar stays live: drag the window, "?" and "Guide".
-        if (m.y < TitleHeight)
+        // The casing and the title bar stay live: its keys, dragging the window, "?" and "Guide".
+        if (!_guideScreen.Contains(m) || m.y < _guideScreen.y + TitleHeight)
             return false;
         if (e.type == EventType.MouseDown && e.button == 0)
         {
@@ -168,7 +170,7 @@ public partial class Dialog_NetTerminal
                 Widgets.DrawBoxSolid(rect, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.15f * (0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 4f))));
             if (hover || active)
             {
-                GUI.color = Color.white;
+                GUI.color = c;
                 Widgets.DrawBox(rect, 2);
                 GUI.color = Color.white;
             }
@@ -237,8 +239,9 @@ public partial class Dialog_NetTerminal
         _guideCard = card;
 
         Widgets.DrawBoxSolid(card, NetrunUI.BgWindow);
-        GUI.color = Color.white;
+        GUI.color = NetrunUI.Accent;
         Widgets.DrawBox(card, 2);
+        GUI.color = Color.white;
         Rect r = card.ContractedBy(12f);
         float cy = r.y;
         Text.Font = GameFont.Tiny;

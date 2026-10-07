@@ -256,8 +256,21 @@ public partial class HelpBrowser
         }
         else
         {
-            foreach (string raw in HelpPageDef.Tokens(_page.body ?? string.Empty).Split('\n'))
-                y = BodyLine(raw.TrimEnd(), y, w);
+            // "[[cards]]" turns the bullet list right after it into a set of tiles with a card for the picked one.
+            string[] lines = HelpPageDef.Tokens(_page.body ?? string.Empty).Split('\n');
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i].TrimEnd();
+                if (line == "[[cards]]")
+                {
+                    var items = new List<string>();
+                    while (i + 1 < lines.Length && lines[i + 1].TrimEnd().StartsWith("- "))
+                        items.Add(lines[++i].TrimEnd().Substring(2));
+                    y = CardsBlock(_page.defName + "." + i, items, y, w);
+                    continue;
+                }
+                y = BodyLine(line, y, w);
+            }
 
             if (_page.tips.Count > 0)
             {
@@ -287,6 +300,13 @@ public partial class HelpBrowser
         Widgets.EndScrollView();
     }
 
+    /// <summary>"[[name:Preset]]" → "Preset" (null without one).</summary>
+    private static string Preset(string line)
+    {
+        int colon = line.IndexOf(':');
+        return colon < 0 ? null : line.Substring(colon + 1).TrimEnd(']');
+    }
+
     private float BodyLine(string line, float y, float w)
     {
         if (line.Length == 0)
@@ -311,6 +331,46 @@ public partial class HelpBrowser
             return HackChanceDemo(y, w);
         if (line == "[[trace]]")
             return TraceDemo(y, w);
+        if (line.StartsWith("[[aigallery"))
+            return AIGalleryDemo(y, w, Preset(line));
+        if (line == "[[fixerpool]]")
+            return FixerPoolDemo(y, w);
+        if (line == "[[contractflow]]")
+            return ContractFlowDemo(y, w);
+        if (line.StartsWith("[[braindance"))
+            return BraindanceDemo(y, w, Preset(line));
+        if (line == "[[ice]]")
+            return IceDemo(y, w);
+        if (line == "[[aihomes]]")
+            return AIHomesDemo(y, w);
+        if (line == "[[aihunger]]")
+            return AIHungerDemo(y, w);
+        if (line == "[[aitraits]]")
+            return AITraitsDemo(y, w);
+        if (line == "[[aiawaken]]")
+            return AIAwakenDemo(y, w);
+        if (line == "[[fixertraits]]")
+            return FixerTraitsDemo(y, w);
+        if (line == "[[market]]")
+            return MarketDemo(y, w);
+        if (line == "[[checklist]]")
+            return ChecklistDemo(y, w);
+        if (line == "[[terminalmap]]")
+            return TerminalMapDemo(y, w);
+        if (line == "[[hackheat]]")
+            return HackHeatDemo(y, w);
+        if (line == "[[newcomer]]")
+            return NewcomerDemo(y, w);
+        if (line == "[[lowerheat]]")
+            return LowerHeatDemo(y, w);
+        if (line == "[[loadout]]")
+            return LoadoutDemo(y, w);
+        if (line == "[[diagnostics]]")
+        {
+            if (NetrunUI.Button(new Rect(0f, y, Mathf.Min(w, 360f), 34f), "NR_DiagnosticsButton".Translate(), NetrunUI.Accent, true, "NR_DiagnosticsTip".Translate()))
+                NetrunDiagnostics.CopyToClipboard();
+            return y + 44f;
+        }
         if (line.StartsWith("> page:"))
         {
             (string target, string text) = SplitLink(line.Substring(7));
@@ -489,9 +549,9 @@ public partial class HelpBrowser
         Rect inner = box.ContractedBy(10f);
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(inner.x, inner.y, inner.width * 0.5f, 18f), "NR_HelpDemoHeat".Translate(_demoHeat.ToString("0")).Colorize(NetrunUI.Muted));
-        _demoHeat = Widgets.HorizontalSlider(new Rect(inner.x, inner.y + 18f, inner.width * 0.48f, 16f), _demoHeat, 0f, HeatTracker.MaxHeat, roundTo: 1f);
+        _demoHeat = NetrunUI.Slider(new Rect(inner.x, inner.y + 18f, inner.width * 0.48f, 16f), _demoHeat, 0f, HeatTracker.MaxHeat, 1f);
         Widgets.Label(new Rect(inner.x + inner.width * 0.52f, inner.y, inner.width * 0.48f, 18f), "NR_HelpDemoData".Translate(_demoData).Colorize(NetrunUI.Muted));
-        _demoData = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(inner.x + inner.width * 0.52f, inner.y + 18f, inner.width * 0.48f, 16f), _demoData, 0f, 60f, roundTo: 1f));
+        _demoData = Mathf.RoundToInt(NetrunUI.Slider(new Rect(inner.x + inner.width * 0.52f, inner.y + 18f, inner.width * 0.48f, 16f), _demoData, 0f, 60f, 1f));
 
         // Unit by unit, at the level the Heat stands at (a fixer with no discount).
         float heat = _demoHeat;
