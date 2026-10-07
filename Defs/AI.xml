@@ -71,6 +71,34 @@
     <!-- AI event letters: at most one per colony per this many hours, and this many days to answer. The mod setting scales the frequency. -->
     <colonyEventGapHours>36</colonyEventGapHours>
     <eventAnswerDays>2</eventAnswerDays>
+    <!-- Traits: 0-2 on waking (30% none, of the rest 30% two); seen at trust 25 and 60 -->
+    <traitNoneChance>0.3</traitNoneChance>
+    <traitTwoChance>0.3</traitTwoChance>
+    <traitRevealTrustFirst>25</traitRevealTrustFirst>
+    <traitRevealTrustSecond>60</traitRevealTrustSecond>
+    <!-- Curious: trust from food x1.5, requests come x0.7 apart. Loyal: never runs, hunger x0.8, service x0.9 -->
+    <curiousTrustFactor>1.5</curiousTrustFactor>
+    <curiousRequestFactor>0.7</curiousRequestFactor>
+    <loyalHungerFactor>0.8</loyalHungerFactor>
+    <loyalServiceFactor>0.9</loyalServiceFactor>
+    <!-- Vain: service x1.2 at trust 80+, a failed request costs twice the trust. Glitchy: 10% fail, 15% double -->
+    <vainTrust>80</vainTrust>
+    <vainServiceFactor>1.2</vainServiceFactor>
+    <vainFailFactor>2</vainFailFactor>
+    <glitchyFailChance>0.1</glitchyFailChance>
+    <glitchyCritChance>0.15</glitchyCritChance>
+    <!-- Hoarder: service x1.25 while hunger is 20 or less, hunger x1.3. Pacifist: service x1.25, none while enemies are near -->
+    <hoarderHunger>20</hoarderHunger>
+    <hoarderServiceFactor>1.25</hoarderServiceFactor>
+    <hoarderHungerFactor>1.3</hoarderHungerFactor>
+    <pacifistServiceFactor>1.25</pacifistServiceFactor>
+    <!-- Night owl: x1.25 from 22 to 6, x0.9 by day. Rebel: x1.3, runs at 15 more trust. Nostalgic: x1.3 with chips, -2 trust a day without -->
+    <nightOwlNightFactor>1.25</nightOwlNightFactor>
+    <nightOwlDayFactor>0.9</nightOwlDayFactor>
+    <rebelServiceFactor>1.3</rebelServiceFactor>
+    <rebelEscapeTrust>15</rebelEscapeTrust>
+    <nostalgicServiceFactor>1.3</nostalgicServiceFactor>
+    <nostalgicTrustPerDay>2</nostalgicTrustPerDay>
   </Netrun.AISettingsDef>
 
   <!-- Predator service: a temporary edge for every hacker with a cyberlink -->

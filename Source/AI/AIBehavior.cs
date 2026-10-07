@@ -59,6 +59,8 @@ public static class AIBehavior
             return "NR_AIRefuses".Translate(ai.Name);
         if (!ai.ServiceReady)
             return "NR_AICooldown".Translate(ai.ServiceTicksLeft.ToStringTicksToPeriod());
+        if (AITraitUtility.ServiceRefusal(ai, ai.Server?.Map) is { } refusal)
+            return refusal;
         return true;
     }
 
@@ -103,7 +105,7 @@ public static class AIBehavior
     public static void FedDelivered(NetAI ai, AIPersonality seedGrows)
     {
         ai.AddHunger(-Settings.feedHungerRelief);
-        ai.AddTrust(Settings.feedTrust);
+        ai.AddTrust(Settings.feedTrust * AITraitUtility.FeedTrustFactor(ai));
         Messages.Message("NR_AIFed".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: false);
 
         if (ai.Personality == AIPersonality.Seed)
@@ -154,7 +156,21 @@ public static class AIBehavior
             ai.AddHunger(Settings.serviceHungerCost);
         ai.AddTrust(-Settings.serviceTrustCost);
 
-        Perform(ai, ai.Personality, map);
+        float power = AITraitUtility.ServicePower(ai, map);
+        if (ai.Has(AITrait.Glitchy))
+        {
+            if (Rand.Chance(Settings.glitchyFailChance))
+            {
+                Messages.Message("NR_AIGlitchFail".Translate(ai.Name), MessageTypeDefOf.NegativeEvent, historical: true);
+                return;
+            }
+            if (Rand.Chance(Settings.glitchyCritChance))
+            {
+                power *= 2f;
+                Messages.Message("NR_AIGlitchCrit".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: false);
+            }
+        }
+        Perform(ai, ai.Personality, map, power);
     }
 
     /// <summary>A free use of the AI's service, without cooldown: used by random events.</summary>
@@ -164,22 +180,23 @@ public static class AIBehavior
             Perform(ai, ai.Personality, map);
     }
 
-    private static void Perform(NetAI ai, AIPersonality personality, Map map)
+    /// <param name="power">Service strength from the AI's traits: scales every number the service gives.</param>
+    private static void Perform(NetAI ai, AIPersonality personality, Map map, float power = 1f)
     {
         switch (personality)
         {
             case AIPersonality.DataHunter:
             {
                 Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
-                data.stackCount = Settings.dataHunterData.RandomInRange;
+                data.stackCount = Mathf.Max(1, Mathf.RoundToInt(Settings.dataHunterData.RandomInRange * power));
                 Drop(map, ai, data);
                 HeatTracker.Get()?.AddHeat(Settings.dataHunterHeat, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
                 Report("NR_AIDidDataHunter", ai, data.stackCount);
                 break;
             }
             case AIPersonality.Ghost:
-                HeatTracker.Get()?.ReduceHeat(Settings.ghostHeatScrub, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
-                Report("NR_AIDidGhost", ai, Settings.ghostHeatScrub.ToString("0"));
+                HeatTracker.Get()?.ReduceHeat(Settings.ghostHeatScrub * power, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
+                Report("NR_AIDidGhost", ai, (Settings.ghostHeatScrub * power).ToString("0"));
                 break;
             case AIPersonality.Muse:
             {
@@ -203,8 +220,8 @@ public static class AIBehavior
             case AIPersonality.Warden:
             {
                 foreach (NetAI other in AIManager.Get().AIs.Where(a => a != ai && a.Housed))
-                    other.AddTrust(Settings.wardenTrust);
-                Report("NR_AIDidWarden", ai, Settings.wardenTrust.ToString("0"));
+                    other.AddTrust(Settings.wardenTrust * power);
+                Report("NR_AIDidWarden", ai, (Settings.wardenTrust * power).ToString("0"));
                 break;
             }
             case AIPersonality.Oracle:
@@ -212,8 +229,8 @@ public static class AIBehavior
                 foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
                     fixer.TraitRevealed = true;
                 foreach (Contract contract in ContractManager.Get()?.Active ?? [])
-                    contract.DeadlineTick += Settings.oracleDeadlineDays * GenDate.TicksPerDay;
-                Report("NR_AIDidOracle", ai, Settings.oracleDeadlineDays);
+                    contract.DeadlineTick += Mathf.RoundToInt(Settings.oracleDeadlineDays * power * GenDate.TicksPerDay);
+                Report("NR_AIDidOracle", ai, (Settings.oracleDeadlineDays * power).ToString("0.#"));
                 break;
             }
             case AIPersonality.Forge:
@@ -221,7 +238,7 @@ public static class AIBehavior
                 ResearchProjectDef project = Find.ResearchManager.GetProject();
                 if (project != null)
                 {
-                    Find.ResearchManager.AddProgress(project, Settings.forgeResearch, null);
+                    Find.ResearchManager.AddProgress(project, Settings.forgeResearch * power, null);
                     Report("NR_AIDidForge", ai, project.LabelCap);
                 }
                 else
@@ -233,8 +250,8 @@ public static class AIBehavior
             case AIPersonality.Siren:
             {
                 foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
-                    fixer.GainReputation(Settings.sirenReputation);
-                Report("NR_AIDidSiren", ai, Settings.sirenReputation.ToString("0"));
+                    fixer.GainReputation(Settings.sirenReputation * power);
+                Report("NR_AIDidSiren", ai, (Settings.sirenReputation * power).ToString("0"));
                 break;
             }
             case AIPersonality.Trickster:
@@ -245,7 +262,7 @@ public static class AIBehavior
                 }
                 else
                 {
-                    Perform(ai, AIPersonalityUtility.Borrowable.RandomElement(), map);
+                    Perform(ai, AIPersonalityUtility.Borrowable.RandomElement(), map, power);
                 }
                 break;
             case AIPersonality.Doc:
@@ -261,7 +278,7 @@ public static class AIBehavior
                     }
                     Hediff netsick = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
                     if (netsick != null)
-                        netsick.Severity -= Settings.docNetsickRelief;
+                        netsick.Severity -= Settings.docNetsickRelief * power;
                 }
                 Report("NR_AIDidDoc", ai, healed);
                 break;
@@ -272,7 +289,7 @@ public static class AIBehavior
                 SkillRecord skill = pawn?.skills.skills.Where(s => !s.TotallyDisabled).MaxByWithFallback(s => s.Level);
                 if (skill != null)
                 {
-                    skill.Learn(Settings.archivistXp, direct: true);
+                    skill.Learn(Settings.archivistXp * power, direct: true);
                     Report("NR_AIDidArchivist", ai, $"{pawn.LabelShort}, {skill.def.label}");
                 }
                 else
@@ -282,8 +299,8 @@ public static class AIBehavior
                 break;
             }
             case AIPersonality.Seed:
-                HeatTracker.Get()?.ReduceHeat(Settings.seedHeatScrub, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
-                Report("NR_AIDidSeed", ai, Settings.seedHeatScrub.ToString("0"));
+                HeatTracker.Get()?.ReduceHeat(Settings.seedHeatScrub * power, "NR_LogAIService".Translate(ai.Name), HeatSource.AI);
+                Report("NR_AIDidSeed", ai, (Settings.seedHeatScrub * power).ToString("0"));
                 break;
             case AIPersonality.Echo:
                 foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)

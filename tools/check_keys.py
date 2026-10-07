@@ -17,7 +17,10 @@ NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 FIXER_TRAITS = ["Greedy", "Reliable", "Rat", "Paranoid", "Gambler", "Loyal", "Veteran", "Collector", "Hothead"]
+AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Pacifist', 'NightOwl', 'Rebel', 'Nostalgic']
 DYNAMIC = {
+    "NR_AITrait_": AI_TRAITS,
+    "NR_AITraitDesc_": AI_TRAITS,
     "NR_StudioTab_": ["Summary", "Raw", "Library", "Addiction"],
     "NR_UB_Author_": ["Concert", "ZeroRun", "Morton", "NightMarket", "Confession", "StreetRunner", "EchoLullaby", "Oracle"],
     "NR_UB_Good_": ["Concert", "ZeroRun", "Morton", "NightMarket", "Confession", "StreetRunner", "EchoLullaby", "Oracle"],

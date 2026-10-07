@@ -88,6 +88,31 @@ public class AISettingsDef : Def
     // Echo: chance that a colonist dying with a cyberlink leaves a digital imprint.
     public float echoChance = 0.35f;
 
+    // Traits: how many on waking, when they are seen, and what they do.
+    public float traitNoneChance = 0.3f;
+    public float traitTwoChance = 0.3f;
+    public float traitRevealTrustFirst = 25f;
+    public float traitRevealTrustSecond = 60f;
+    public float curiousTrustFactor = 1.5f;
+    public float curiousRequestFactor = 0.7f;
+    public float loyalHungerFactor = 0.8f;
+    public float loyalServiceFactor = 0.9f;
+    public float vainTrust = 80f;
+    public float vainServiceFactor = 1.2f;
+    public float vainFailFactor = 2f;
+    public float glitchyFailChance = 0.1f;
+    public float glitchyCritChance = 0.15f;
+    public float hoarderHunger = 20f;
+    public float hoarderServiceFactor = 1.25f;
+    public float hoarderHungerFactor = 1.3f;
+    public float pacifistServiceFactor = 1.25f;
+    public float nightOwlNightFactor = 1.25f;
+    public float nightOwlDayFactor = 0.9f;
+    public float rebelServiceFactor = 1.3f;
+    public float rebelEscapeTrust = 15f;
+    public float nostalgicServiceFactor = 1.3f;
+    public float nostalgicTrustPerDay = 2f;
+
     // Hosted Data Hunter: extra cyberdata chance per hack by its host.
     public float hostedDataHunterBonusChance = 0.25f;
 }

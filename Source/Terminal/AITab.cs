@@ -135,6 +135,14 @@ public static class AITab
         // Archetype tag (icon, personality color) and the request, if any.
         float tagX = x;
         tagX += NetrunUI.Chip(tagX, y + 1f, ai.Personality.Label().ToUpper(), ai.Personality.Color(), ai.Personality.Description()) + 6f;
+        // Traits: seen ones with their plus and minus, the rest as "???" until trust opens them.
+        for (int i = 0; i < ai.Traits.Count; i++)
+        {
+            if (i < ai.TraitsRevealed)
+                tagX += NetrunUI.Chip(tagX, y + 1f, ai.Traits[i].Label().ToUpper(), NetrunUI.Purple, ai.Traits[i].Description()) + 6f;
+            else
+                tagX += NetrunUI.Chip(tagX, y + 1f, "???", NetrunUI.Muted, "NR_AITraitHiddenDesc".Translate(AITraitUtility.RevealTrust(i).ToString("0"))) + 6f;
+        }
         if (ai.HasRequest)
         {
             string left = ai.RequestDeadlineTick > Find.TickManager.TicksGame
@@ -253,7 +261,10 @@ public static class AITab
         void Add(string label, Color color, AcceptanceReport report, string tip, Texture2D icon, System.Action action)
             => list.Add(new ButtonSpec { Label = label, Color = color, Report = report, Tip = tip, Icon = icon, Action = action });
 
-        Add(AIBehavior.ServiceLabel(ai.Personality), NetrunUI.Accent, AIBehavior.CanUseService(ai), AIBehavior.ServiceDescription(ai.Personality),
+        float power = AITraitUtility.ServicePower(ai, map);
+        string serviceTip = AIBehavior.ServiceDescription(ai.Personality)
+            + (Mathf.Abs(power - 1f) > 0.01f ? "\n" + "NR_AIServicePower".Translate(power.ToStringPercent()) : string.Empty);
+        Add(AIBehavior.ServiceLabel(ai.Personality), NetrunUI.Accent, AIBehavior.CanUseService(ai), serviceTip,
             NetrunTex.AIUse, () => AIBehavior.UseService(ai, map));
         Add("NR_AIFeed".Translate(), NetrunUI.Warn, AIBehavior.CanFeed(ai, map), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
             NetrunTex.AIFeed, () => AIBehavior.Feed(ai, map));

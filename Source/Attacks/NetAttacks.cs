@@ -72,8 +72,9 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         AIManager manager = AIManager.Get();
         if (manager != null)
         {
+            // Guards and hunters, and any paranoid AI watching the lines.
             foreach (NetAI ai in manager.AIs.Where(a => a.InMainServer && a.Active
-                         && (a.Personality == AIPersonality.Warden || a.Personality == AIPersonality.Predator)))
+                         && (a.Personality == AIPersonality.Warden || a.Personality == AIPersonality.Predator || a.Has(AITrait.Paranoid))))
             {
                 chance += AIDefense;
                 names.Add(ai.Name);

@@ -51,6 +51,10 @@ public class NetAI : IExposable
 
     public int NextEventTick;
 
+    /// <summary>0-2 traits; the first is seen at trust 25, the second at 60, and stays seen.</summary>
+    public List<AITrait> Traits = [];
+    public int TraitsRevealed;
+
     public bool InServer => Server != null && !Server.Destroyed;
     public bool InHost => Host != null && !Host.Dead;
     public bool InCoprocessor => InServer && Server.GetComp<CompAIServer>()?.IsCoprocessor == true;
@@ -119,6 +123,9 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref SeedLastQuietDayTick, "seedLastQuietDayTick");
         Scribe_Values.Look(ref NextEventTick, "nextEventTick");
         Scribe_Collections.Look(ref RequestHistory, "requestHistory", LookMode.Value);
+        Scribe_Collections.Look(ref Traits, "traits", LookMode.Value);
+        Scribe_Values.Look(ref TraitsRevealed, "traitsRevealed");
         RequestHistory ??= [];
+        Traits ??= [];
     }
 }

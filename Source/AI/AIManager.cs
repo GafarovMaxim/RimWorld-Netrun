@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Netrun;
@@ -46,13 +47,14 @@ public class AIManager : GameComponent
                 AwakenedTick = Find.TickManager.TicksGame,
                 Trust = Settings.startTrust,
             };
+            ai.Traits = AITraitUtility.Roll(ai.Personality);
             _ais.Add(ai);
         }
 
         ai.Server = server;
         ai.EscapeAtTick = -1;
         ai.UnpoweredSinceTick = -1;
-        ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;
+        ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
         fragment.Destroy();
 
         Find.LetterStack.ReceiveLetter(
@@ -101,12 +103,18 @@ public class AIManager : GameComponent
                     : Settings.hungerPerDay;
             if (ai.Isolated && hunger > 0f)
                 hunger *= Settings.isolatedHungerFactor;
+            if (hunger > 0f)
+                hunger *= AITraitUtility.HungerFactor(ai);
             ai.AddHunger(hunger * dayFraction);
 
             if (ai.Hunger >= Settings.starvingHunger)
                 ai.AddTrust(-Settings.starvingTrustPerDay * dayFraction);
             if (ai.Isolated)
                 ai.AddTrust(-Settings.isolatedTrustPerDay * dayFraction);
+            // A nostalgic AI pines when the colony keeps no recordings.
+            if (ai.Active && ai.Has(AITrait.Nostalgic) && !AITraitUtility.HasChips(ai.Anchor?.Map ?? Find.AnyPlayerHomeMap))
+                ai.AddTrust(-Settings.nostalgicTrustPerDay * dayFraction);
+            RevealTraits(ai);
 
             if (ai.Active)
                 UpdateRequest(ai, now);
@@ -186,6 +194,19 @@ public class AIManager : GameComponent
         return false;
     }
 
+    /// <summary>Days to the next request, shorter for a curious AI.</summary>
+    private static int RequestDelay(NetAI ai)
+        => Mathf.RoundToInt(Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay * AITraitUtility.RequestIntervalFactor(ai));
+
+    /// <summary>Trust opens the AI's traits one by one; once seen, a trait stays seen.</summary>
+    private static void RevealTraits(NetAI ai)
+    {
+        if (ai.TraitsRevealed >= ai.Traits.Count || ai.Trust < AITraitUtility.RevealTrust(ai.TraitsRevealed))
+            return;
+        AITrait trait = ai.Traits[ai.TraitsRevealed++];
+        Messages.Message("NR_AITraitRevealed".Translate(ai.Name, trait.Label(), trait.Description()), MessageTypeDefOf.NeutralEvent, historical: true);
+    }
+
     /// <summary>Starving and distrustful AIs try to leave; deeply distrustful ones sell the colony out.</summary>
     private void UpdateLoyalty(NetAI ai, int now)
     {
@@ -208,7 +229,8 @@ public class AIManager : GameComponent
             return;
         }
 
-        bool wantsOut = ai.Trust < Settings.escapeTrust && ai.Hunger > Settings.escapeHunger;
+        // A loyal AI never runs; a rebel runs sooner.
+        bool wantsOut = !ai.Has(AITrait.Loyal) && ai.Trust < AITraitUtility.EscapeTrust(ai) && ai.Hunger > Settings.escapeHunger;
         if (!wantsOut)
         {
             CancelEscape(ai);
@@ -364,6 +386,10 @@ public class AIManager : GameComponent
         ai.Personality = grown;
         if (ai.InHost)
             AIHosting.AddPassengerHediff(ai, ai.Host);
+        // What it was fed most leaves a mark.
+        AITrait mark = AITraitUtility.FromSeedPath(grown);
+        if (ai.Traits.Count < 2 && !ai.Has(mark))
+            ai.Traits.Add(mark);
 
         Find.LetterStack.ReceiveLetter("NR_AISeedEvolvedLabel".Translate(ai.Name),
             "NR_AISeedEvolved".Translate(ai.Name, grown.Label(), grown.Description()),
@@ -473,7 +499,7 @@ public class AIManager : GameComponent
         Remember(ai, true);
         ai.Request = AIRequestKind.None;
         ai.AddTrust(Settings.requestTrust);
-        ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;
+        ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
         Messages.Message("NR_AIRequestDone".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: true);
     }
 
@@ -481,8 +507,8 @@ public class AIManager : GameComponent
     {
         Remember(ai, false);
         ai.Request = AIRequestKind.None;
-        ai.AddTrust(-Settings.requestTrust);
-        ai.NextRequestTick = Find.TickManager.TicksGame + Settings.requestIntervalDays.RandomInRange * GenDate.TicksPerDay;
+        ai.AddTrust(-Settings.requestTrust * AITraitUtility.FailTrustFactor(ai));
+        ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
         Messages.Message("NR_AIRequestFailed".Translate(ai.Name), MessageTypeDefOf.NegativeEvent, historical: true);
     }
 

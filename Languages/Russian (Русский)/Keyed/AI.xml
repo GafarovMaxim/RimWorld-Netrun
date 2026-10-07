@@ -230,4 +230,31 @@
   <NR_AIServerGizmo>Комната ИИ</NR_AIServerGizmo>
   <NR_AIServerGizmoDesc>Открыть карточки ИИ этого сервера: кормление, услуги, просьбы, перенос. Остальная сеть — в терминале.</NR_AIServerGizmoDesc>
   <NR_AIServerWindowTitle>NETRUN // КОМНАТА ИИ</NR_AIServerWindowTitle>
+  <NR_AITrait_Curious>Любопытный</NR_AITrait_Curious>
+  <NR_AITraitDesc_Curious>+ Еда поднимает доверие на 50% больше.\n− Просит о чём-то на 30% чаще.</NR_AITraitDesc_Curious>
+  <NR_AITrait_Loyal>Верный</NR_AITrait_Loyal>
+  <NR_AITraitDesc_Loyal>+ Никогда не пытается сбежать; голодает на 20% медленнее.\n− Услуга на 10% слабее.</NR_AITraitDesc_Loyal>
+  <NR_AITrait_Paranoid>Параноик</NR_AITrait_Paranoid>
+  <NR_AITraitDesc_Paranoid>+ Следит за линиями: помогает отбивать сетевые атаки, как Страж.\n− Не работает, пока Heat «Цель» и выше.</NR_AITraitDesc_Paranoid>
+  <NR_AITrait_Vain>Тщеславный</NR_AITrait_Vain>
+  <NR_AITraitDesc_Vain>+ При доверии 80 и выше услуга на 20% сильнее.\n− Проваленная просьба стоит вдвое больше доверия.</NR_AITraitDesc_Vain>
+  <NR_AITrait_Glitchy>Глючный</NR_AITrait_Glitchy>
+  <NR_AITraitDesc_Glitchy>+ 15% шанс, что услуга сработает вдвое сильнее.\n− 10% шанс полного сбоя (ожидание и цена потрачены).</NR_AITraitDesc_Glitchy>
+  <NR_AITrait_Hoarder>Запасливый</NR_AITrait_Hoarder>
+  <NR_AITraitDesc_Hoarder>+ Сытый (голод 20 и меньше) работает на 25% сильнее.\n− Голодает на 30% быстрее.</NR_AITraitDesc_Hoarder>
+  <NR_AITrait_Pacifist>Пацифист</NR_AITrait_Pacifist>
+  <NR_AITraitDesc_Pacifist>+ Услуга на 25% сильнее.\n− Отказывается работать, пока на карте враги.</NR_AITraitDesc_Pacifist>
+  <NR_AITrait_NightOwl>Сова</NR_AITrait_NightOwl>
+  <NR_AITraitDesc_NightOwl>+ Ночью (с 22:00 до 6:00) услуга на 25% сильнее.\n− Днём на 10% слабее.</NR_AITraitDesc_NightOwl>
+  <NR_AITrait_Rebel>Бунтарь</NR_AITrait_Rebel>
+  <NR_AITraitDesc_Rebel>+ Услуга на 30% сильнее.\n− Сбегает гораздо раньше: уже при доверии ниже 35.</NR_AITraitDesc_Rebel>
+  <NR_AITrait_Nostalgic>Ностальгик</NR_AITrait_Nostalgic>
+  <NR_AITraitDesc_Nostalgic>+ Пока в колонии есть брейнданс-чипы, услуга на 30% сильнее.\n− Без них тоскует: −2 доверия в день.</NR_AITraitDesc_Nostalgic>
+  <NR_AITraitHiddenDesc>Черта, которую вы ещё не знаете. Откроется при доверии {0}.</NR_AITraitHiddenDesc>
+  <NR_AITraitRevealed>{0} раскрывает черту: {1}.\n{2}</NR_AITraitRevealed>
+  <NR_AIRefuseParanoid>{0} затаился: слишком горячо, пока Heat «{1}» и выше.</NR_AIRefuseParanoid>
+  <NR_AIRefusePacifist>{0} не будет работать, пока на карте враги.</NR_AIRefusePacifist>
+  <NR_AIGlitchFail>{0} сглючил: услуга ушла в никуда.</NR_AIGlitchFail>
+  <NR_AIGlitchCrit>{0} сглючил в нужную сторону: услуга сработала вдвое сильнее!</NR_AIGlitchCrit>
+  <NR_AIServicePower>Из-за черт услуга сейчас: {0} от обычной.</NR_AIServicePower>
 </LanguageData>

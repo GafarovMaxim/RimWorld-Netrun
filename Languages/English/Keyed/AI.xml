@@ -230,4 +230,31 @@
   <NR_AIServerGizmo>AI room</NR_AIServerGizmo>
   <NR_AIServerGizmoDesc>Open the AI cards of this server: feed, services, requests, moving AIs. The rest of the network stays in the terminal.</NR_AIServerGizmoDesc>
   <NR_AIServerWindowTitle>NETRUN // AI ROOM</NR_AIServerWindowTitle>
+  <NR_AITrait_Curious>Curious</NR_AITrait_Curious>
+  <NR_AITraitDesc_Curious>+ Food raises its trust 50% more.\n− Asks for things 30% more often.</NR_AITraitDesc_Curious>
+  <NR_AITrait_Loyal>Loyal</NR_AITrait_Loyal>
+  <NR_AITraitDesc_Loyal>+ Never tries to run away; gets hungry 20% slower.\n− Its service is 10% weaker.</NR_AITraitDesc_Loyal>
+  <NR_AITrait_Paranoid>Paranoid</NR_AITrait_Paranoid>
+  <NR_AITraitDesc_Paranoid>+ Watches the lines: helps block net attacks, like a Warden.\n− Will not serve while your Heat is Target or higher.</NR_AITraitDesc_Paranoid>
+  <NR_AITrait_Vain>Vain</NR_AITrait_Vain>
+  <NR_AITraitDesc_Vain>+ At trust 80 or more, its service is 20% stronger.\n− A failed request costs twice the trust.</NR_AITraitDesc_Vain>
+  <NR_AITrait_Glitchy>Glitchy</NR_AITrait_Glitchy>
+  <NR_AITraitDesc_Glitchy>+ 15% chance its service works twice as well.\n− 10% chance it fails outright (the wait and the cost are spent).</NR_AITraitDesc_Glitchy>
+  <NR_AITrait_Hoarder>Hoarder</NR_AITrait_Hoarder>
+  <NR_AITraitDesc_Hoarder>+ Well fed (hunger 20 or less), its service is 25% stronger.\n− Gets hungry 30% faster.</NR_AITraitDesc_Hoarder>
+  <NR_AITrait_Pacifist>Pacifist</NR_AITrait_Pacifist>
+  <NR_AITraitDesc_Pacifist>+ Its service is 25% stronger.\n− Refuses to work while enemies are on the map.</NR_AITraitDesc_Pacifist>
+  <NR_AITrait_NightOwl>Night owl</NR_AITrait_NightOwl>
+  <NR_AITraitDesc_NightOwl>+ At night (22:00 to 6:00) its service is 25% stronger.\n− By day it is 10% weaker.</NR_AITraitDesc_NightOwl>
+  <NR_AITrait_Rebel>Rebel</NR_AITrait_Rebel>
+  <NR_AITraitDesc_Rebel>+ Its service is 30% stronger.\n− Runs away much sooner: already at trust below 35.</NR_AITraitDesc_Rebel>
+  <NR_AITrait_Nostalgic>Nostalgic</NR_AITrait_Nostalgic>
+  <NR_AITraitDesc_Nostalgic>+ While the colony keeps braindance chips, its service is 30% stronger.\n− Without them it pines: −2 trust a day.</NR_AITraitDesc_Nostalgic>
+  <NR_AITraitHiddenDesc>A trait you have not seen yet. It shows at {0} trust.</NR_AITraitHiddenDesc>
+  <NR_AITraitRevealed>{0} shows a trait: {1}.\n{2}</NR_AITraitRevealed>
+  <NR_AIRefuseParanoid>{0} has gone quiet: too hot while your Heat is {1} or higher.</NR_AIRefuseParanoid>
+  <NR_AIRefusePacifist>{0} will not work while enemies are on the map.</NR_AIRefusePacifist>
+  <NR_AIGlitchFail>{0} glitched: the service came to nothing.</NR_AIGlitchFail>
+  <NR_AIGlitchCrit>{0} glitched the right way: the service works twice as well!</NR_AIGlitchCrit>
+  <NR_AIServicePower>Its traits make the service {0} as strong right now.</NR_AIServicePower>
 </LanguageData>
