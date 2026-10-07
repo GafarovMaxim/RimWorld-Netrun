@@ -7,12 +7,12 @@
     <!-- Map events (courier, black market, distress signal, turret hijack) come from their own schedule, not the storyteller:
          one every this many days on average, divided by the "map events" frequency in the mod settings. -->
     <mapEventMtbDays>5</mapEventMtbDays>
-    <!-- The distress site stays on the world map this many days -->
-    <distressSiteDays>8~14</distressSiteDays>
     <courierDays>1</courierDays>
     <courierHuntersHours>4~8</courierHuntersHours>
     <courierHuntersPoints>0.5</courierHuntersPoints>
     <courierSilver>250</courierSilver>
+    <!-- Cyberdata the courier carries: it drops if the courier is killed (the job fails) -->
+    <courierCyberdata>6~10</courierCyberdata>
     <courierReputation>10</courierReputation>
     <courierFailHeat>10</courierFailHeat>
     <courierFailReputation>5</courierFailReputation>

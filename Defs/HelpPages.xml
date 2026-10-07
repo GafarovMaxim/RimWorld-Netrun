@@ -656,7 +656,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Map events</label>
-    <body>- !Event_DataCourier Data courier: a fixer's courier stays a day; mercenaries come for the data. Keep them alive for silver and reputation.\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: an abandoned server on your land; connect to it for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
+    <body>- !Event_DataCourier Data courier: a fixer's courier with cyberdata stays a day; mercenaries come for the data. Keep them alive for silver and reputation, or take the data: if the courier dies, the cyberdata is yours, but the job fails.\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: a quest in the Quests tab. An abandoned server sits in a sealed compound on the world map, guarded by turrets (and hunter drones with Odyssey); reach it and connect for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
     <icon>Event_MapEvents</icon>
   </Netrun.HelpPageDef>
 
