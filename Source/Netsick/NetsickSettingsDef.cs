@@ -23,6 +23,8 @@ public class NetsickSettingsDef : Def
 
     // "Net craving" break: an emotional dive lasts this long, then the outcome is rolled.
     public float emotionalDiveHours = 2f;
+    /// <summary>After an emotional dive, no new net craving for this many days.</summary>
+    public float cravingCooldownDays = 3f;
     public float emotionalFailChance = 0.65f;
     public float emotionalJackpotChance = 0.12f;
     public IntRange jackpotAdvancedData = new(3, 5);

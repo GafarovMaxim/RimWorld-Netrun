@@ -138,10 +138,11 @@ public partial class Dialog_NetTerminal : Window
     {
         if (!NetrunMod.Settings.Animations || HeatTracker.Get()?.Level != HeatLevel.RedZone)
             return;
-        float f = Time.realtimeSinceStartup / 9f;
-        float t = (f - Mathf.Floor(f)) * 9f;
-        if (t < 0.12f)
-            NetrunUI.Glitch(rect, t / 0.12f, Mathf.FloorToInt(f), 5);
+        // Rarely and briefly: a soft flicker every 14 seconds or so.
+        float f = Time.realtimeSinceStartup / 14f;
+        float t = (f - Mathf.Floor(f)) * 14f;
+        if (t < 0.25f)
+            NetrunUI.Glitch(rect, t / 0.25f, Mathf.FloorToInt(f), 3);
     }
 
     /// <summary>
@@ -445,7 +446,7 @@ public partial class Dialog_NetTerminal : Window
         if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
-            Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.1f + 0.2f * gp));
+            Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.1f + 0.2f * gp));
         }
         if (_view != View.Help && GuideIconButton(guideRect))
             ToggleGuide();

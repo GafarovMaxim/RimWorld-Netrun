@@ -114,10 +114,21 @@ public class FixerManager : GameComponent
         }
     }
 
+    /// <summary>Holding is paid at once (the first rotation), then at every rotation; releasing is free.</summary>
     public void ToggleHold(Fixer fixer)
     {
-        if (CanHold(fixer).Accepted)
-            fixer.Held = !fixer.Held;
+        if (!CanHold(fixer).Accepted)
+            return;
+        if (!fixer.Held)
+        {
+            if (!ColonyGoods.TryTake(Find.CurrentMap ?? Find.AnyPlayerHomeMap, ThingDefOf.Silver, Settings.holdCost))
+            {
+                Messages.Message("NR_NotEnoughSilver".Translate(Settings.holdCost), MessageTypeDefOf.RejectInput, historical: false);
+                return;
+            }
+            Messages.Message("NR_FixerHoldPaidMsg".Translate(fixer.Name, Settings.holdCost), MessageTypeDefOf.NeutralEvent, historical: false);
+        }
+        fixer.Held = !fixer.Held;
     }
 
     /// <summary>

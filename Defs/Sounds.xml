@@ -428,11 +428,14 @@
     <defName>NR_Clean_Ambient_Terminal</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Terminal</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -444,11 +447,14 @@
     <defName>NR_Clean_Ambient_Cyberspace</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Cyberspace</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -460,11 +466,14 @@
     <defName>NR_Clean_Ambient_Dive</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Dive</clipPath></li></grains>
         <volumeRange>60~60</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -476,13 +485,18 @@
     <defName>NR_Clean_Ambient_Server</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Server</clipPath></li></grains>
-        <volumeRange>45~45</volumeRange>
+        <volumeRange>14~14</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
-        <distRange>0~14</distRange>
+        <distRange>4~26</distRange>
+        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -912,11 +926,14 @@
     <defName>NR_Minimal_Ambient_Terminal</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Terminal</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -928,11 +945,14 @@
     <defName>NR_Minimal_Ambient_Cyberspace</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Cyberspace</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -944,11 +964,14 @@
     <defName>NR_Minimal_Ambient_Dive</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Dive</clipPath></li></grains>
         <volumeRange>60~60</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -960,13 +983,18 @@
     <defName>NR_Minimal_Ambient_Server</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Server</clipPath></li></grains>
-        <volumeRange>45~45</volumeRange>
+        <volumeRange>14~14</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
-        <distRange>0~14</distRange>
+        <distRange>4~26</distRange>
+        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -1396,11 +1424,14 @@
     <defName>NR_Neon_Ambient_Terminal</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Terminal</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1412,11 +1443,14 @@
     <defName>NR_Neon_Ambient_Cyberspace</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Cyberspace</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1428,11 +1462,14 @@
     <defName>NR_Neon_Ambient_Dive</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Dive</clipPath></li></grains>
         <volumeRange>60~60</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1444,13 +1481,18 @@
     <defName>NR_Neon_Ambient_Server</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Server</clipPath></li></grains>
-        <volumeRange>45~45</volumeRange>
+        <volumeRange>14~14</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
-        <distRange>0~14</distRange>
+        <distRange>4~26</distRange>
+        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -1880,11 +1922,14 @@
     <defName>NR_RetroDeck_Ambient_Terminal</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Terminal</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1896,11 +1941,14 @@
     <defName>NR_RetroDeck_Ambient_Cyberspace</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Cyberspace</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1912,11 +1960,14 @@
     <defName>NR_RetroDeck_Ambient_Dive</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Dive</clipPath></li></grains>
         <volumeRange>60~60</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -1928,13 +1979,18 @@
     <defName>NR_RetroDeck_Ambient_Server</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Server</clipPath></li></grains>
-        <volumeRange>45~45</volumeRange>
+        <volumeRange>14~14</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
-        <distRange>0~14</distRange>
+        <distRange>4~26</distRange>
+        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -2364,11 +2420,14 @@
     <defName>NR_Deep_Ambient_Terminal</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Terminal</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -2380,11 +2439,14 @@
     <defName>NR_Deep_Ambient_Cyberspace</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Cyberspace</clipPath></li></grains>
         <volumeRange>55~55</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -2396,11 +2458,14 @@
     <defName>NR_Deep_Ambient_Dive</defName>
     <context>Any</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Dive</clipPath></li></grains>
         <volumeRange>60~60</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <onCamera>true</onCamera>
       </li>
@@ -2412,13 +2477,18 @@
     <defName>NR_Deep_Ambient_Server</defName>
     <context>MapOnly</context>
     <sustain>true</sustain>
+    <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Server</clipPath></li></grains>
-        <volumeRange>45~45</volumeRange>
+        <volumeRange>14~14</volumeRange>
+        <sustainAttack>1.6</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
-        <distRange>0~14</distRange>
+        <distRange>4~26</distRange>
+        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>

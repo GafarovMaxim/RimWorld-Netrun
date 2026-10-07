@@ -29,7 +29,7 @@ public partial class Dialog_NetTerminal
     /// <summary>The book button; lit and pulsing while the guide is on (pressing it leaves the guide).</summary>
     private bool GuideIconButton(Rect rect)
     {
-        Color c = _guide ? NetrunUI.Warn : NetrunUI.Ok;
+        Color c = _guide ? NetrunUI.Warn : NetrunUI.Accent;
         if (_guide)
         {
             float p = NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 4f) : 1f;

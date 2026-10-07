@@ -173,6 +173,7 @@ public class NetsickManager : GameComponent
     private static void ResolveEmotionalDive(Pawn diver, Building_Cyberpod pod, Hediff_Netsick netsick)
     {
         netsick.EmotionalDiveUntilTick = -1;
+        netsick.LastCravingTick = Find.TickManager.TicksGame;
         float roll = Rand.Value;
 
         if (roll < Settings.emotionalJackpotChance)

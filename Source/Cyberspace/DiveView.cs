@@ -442,8 +442,8 @@ public static class DiveView
                     action();
                 index++;
             }
+            Act("Back", NetrunUI.Accent, session.CanBack(), session.Back);
             Act("Move", NetrunUI.Accent, session.CanMove(), session.Move);
-            Act("Back", NetrunUI.Muted, session.CanBack(), session.Back);
             Act("Scan", NetrunUI.Ok, session.CanScan(), session.Scan);
             AcceptanceReport hack = session.CanHack();
             Act("Hack", NetrunUI.Warn, hack, session.Hack, hack.Accepted ? "NR_DiveActTip_HackChance".Translate(session.CurrentHackChance.ToStringPercent()) : null);

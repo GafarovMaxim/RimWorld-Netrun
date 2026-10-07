@@ -67,7 +67,7 @@
   <NR_FixerHeldTag>HELD</NR_FixerHeldTag>
   <NR_FixerHeldTip>Stays through rotations until you let go.</NR_FixerHeldTip>
   <NR_FixerRelease>Let go</NR_FixerRelease>
-  <NR_FixerHoldTip>Keep this fixer through the pool rotations for {1} silver per rotation (paid when the pool changes; if you cannot pay, the hold lapses). Up to {0} unpinned fixers at once.</NR_FixerHoldTip>
+  <NR_FixerHoldTip>Keep this fixer through the pool rotations for {1} silver per rotation: the first is paid now, the next when the pool changes (if you cannot pay, the hold lapses). Up to {0} unpinned fixers at once.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Already holding {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Break ties</NR_FixerBreak>
   <NR_FixerBreakTip>Drop this fixer: reputation is lost, offers are cancelled; walking out on a running contract makes them take cyberdata from your storage (or leak your trace); a new fixer takes the place. They won't be back for {0} days.</NR_FixerBreakTip>
@@ -121,4 +121,5 @@
   <NR_FixerRefuseImperial>{0} does not deal with enemies of the Empire.</NR_FixerRefuseImperial>
   <NR_ImperialFavor>{0} put in a word at court: {1} gains {2} royal favor.</NR_ImperialFavor>
   <NR_FixerPinFull>(pin places full: {0})</NR_FixerPinFull>
+  <NR_FixerHoldPaidMsg>{0} stays in the pool through the next rotation. Paid {1} silver.</NR_FixerHoldPaidMsg>
 </LanguageData>

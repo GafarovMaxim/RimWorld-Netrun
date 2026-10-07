@@ -129,6 +129,7 @@ public static class NetrunTex
     /// <summary>Pinned-fixer mark: our own art when it exists, the vanilla pin until then.</summary>
     public static readonly Texture2D Pinned = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Pinned", reportFailure: false)
         ?? ContentFinder<Texture2D>.Get("UI/Icons/Pin");
+    public static readonly Texture2D PinVertical = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Pin_Vertical", reportFailure: false) ?? Pinned;
     public static readonly Texture2D BDRecord = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_BD_Record");
 
     private static readonly System.Collections.Generic.Dictionary<AIPersonality, Texture2D> Portraits = [];
