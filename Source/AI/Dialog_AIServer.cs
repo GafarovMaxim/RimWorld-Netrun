@@ -46,7 +46,7 @@ public class Dialog_AIServer : Window
         try
         {
             NetrunSound.Ambient("Ambient_Terminal");
-            Rect screen = NetrunUI.Bezel(inRect, 10f, "NR_DeckPlate".Translate());
+            Rect screen = NetrunUI.Bezel(inRect, 18f, "NR_DeckPlate".Translate());
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);
             Text.Font = GameFont.Medium;

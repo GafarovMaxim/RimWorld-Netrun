@@ -56,11 +56,17 @@ public static class HeatScreen
         DrawRaised(raised, tracker);
     }
 
-    private static Rect Card(Rect rect, string title)
+    private static Rect Card(Rect rect, string title, Texture2D icon = null)
     {
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.1f));
         Rect inner = rect.ContractedBy(10f);
-        float y = NetrunUI.Section(new Rect(inner.x, inner.y - 4f, inner.width, 32f), title);
+        float shift = 0f;
+        if (icon != null)
+        {
+            GUI.DrawTexture(new Rect(inner.x, inner.y - 2f, 22f, 22f), icon);
+            shift = 28f;
+        }
+        float y = NetrunUI.Section(new Rect(inner.x + shift, inner.y - 4f, inner.width - shift, 32f), title);
         return new Rect(inner.x, y, inner.width, inner.yMax - y);
     }
 
@@ -72,8 +78,10 @@ public static class HeatScreen
         Rect r = rect.ContractedBy(12f);
         HeatLevel level = tracker.Level;
 
+        // The level's icon leads the title.
+        GUI.DrawTexture(new Rect(r.x, r.y + 1f, 30f, 30f), NetrunTex.HeatIcon(level));
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(r.x, r.y, r.width * 0.55f, 32f), $"{tracker.Heat:0} · {level.Label().ToUpper()}".Colorize(level.Color()));
+        Widgets.Label(new Rect(r.x + 38f, r.y, r.width * 0.55f - 38f, 32f), $"{tracker.Heat:0} · {level.Label().ToUpper()}".Colorize(level.Color()));
         Text.Font = GameFont.Small;
 
         float week = WeekChange(tracker);
@@ -82,7 +90,7 @@ public static class HeatScreen
         Widgets.Label(new Rect(r.x + r.width * 0.45f, r.y + 6f, r.width * 0.55f, 24f), trend.Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
         // Which way the week went: Heat_Rise or Heat_Reduction before the line.
-        if ((week > 0.05f ? NetrunTex.HeatRise : week < -0.05f ? NetrunTex.HeatReduction : null) is { } weekIcon)
+        if ((week > 0.05f ? NetrunTex.HeatRise : week < -0.05f ? NetrunTex.HeatIcon(HeatLevel.Shadow) : null) is { } weekIcon)
             GUI.DrawTexture(new Rect(r.xMax - Text.CalcSize(trend).x - 24f, r.y + 7f, 20f, 20f), weekIcon);
 
         var bar = new Rect(r.x, r.y + 38f, r.width, 14f);
@@ -238,8 +246,8 @@ public static class HeatScreen
         string cardTitle = "NR_HeatV2Effects".Translate(level.Label().ToUpper());
         if (!current)
             cardTitle += " · " + "NR_HeatV2NotCurrent".Translate();
-        Rect r = Card(rect, cardTitle);
-        GUI.DrawTexture(new Rect(rect.xMax - 34f, rect.y + 8f, 22f, 22f), NetrunTex.HeatIcon(level));
+        // The level icon goes first in the card's title.
+        Rect r = Card(rect, cardTitle, NetrunTex.HeatIcon(level));
         Text.Font = GameFont.Tiny;
         if (!current && NetrunUI.Button(new Rect(rect.xMax - 44f - 70f, rect.y + 8f, 66f, 22f), "NR_HeatV2BackToCurrent".Translate(), NetrunUI.Muted, true))
             _shownLevel = null;

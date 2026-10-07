@@ -98,7 +98,7 @@ public partial class Dialog_NetTerminal : Window
             Event.current.Use();
         }
         // The cyberdeck casing outside, the interface on its screen.
-        inRect = NetrunUI.Bezel(inRect, 12f, "NR_DeckPlate".Translate());
+        inRect = NetrunUI.Bezel(inRect, 20f, "NR_DeckPlate".Translate());
         GuideInput();
         GuideRegistry.Begin();
         DrawWindow(inRect);

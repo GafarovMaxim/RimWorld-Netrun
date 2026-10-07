@@ -11,6 +11,7 @@ public class FixerSettingsDef : Def
     public IntRange rotationDays = new(7, 10);
     /// <summary>Unpinned fixers the player can hold through a rotation.</summary>
     public int maxHeld = 2;
+    public int maxPinned = 2;
     /// <summary>Silver paid per held fixer at every rotation; without it the hold lapses.</summary>
     public int holdCost = 100;
     /// <summary>After breaking ties a fixer does not come back for this many days.</summary>

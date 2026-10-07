@@ -166,7 +166,7 @@ public class FixerManager : GameComponent
             Id = _nextId++,
             Name = GenerateName(),
             JoinedTick = Find.TickManager.TicksGame,
-            Specialty = specialty ??= ImperialClients.RandomSpecialty(),
+            Specialty = specialty ??= SpreadSpecialty(),
             Trait = RollTrait(specialty),
             CallCost = Settings.callCost.RandomInRange,
         };
@@ -175,6 +175,19 @@ public class FixerManager : GameComponent
             fixer.Stock = RollStock(fixer);
 
         return fixer;
+    }
+
+    /// <summary>
+    /// A newcomer's specialty, spread out: one of the trades the pool has least of (never a third of one kind while
+    /// another is missing); an imperial client now and then, at most one.
+    /// </summary>
+    private FixerSpecialty SpreadSpecialty()
+    {
+        if (ImperialClients.RandomSpecialty() == FixerSpecialty.Imperial && _fixers.All(f => f.Specialty != FixerSpecialty.Imperial))
+            return FixerSpecialty.Imperial;
+        FixerSpecialty[] trades = [FixerSpecialty.Broker, FixerSpecialty.Cleaner, FixerSpecialty.Fence];
+        int fewest = trades.Min(s => _fixers.Count(f => f.Specialty == s));
+        return trades.Where(s => _fixers.Count(f => f.Specialty == s) == fewest).RandomElement();
     }
 
     /// <summary>The trait, weighted by specialty: cleaners are often veterans, fences often collectors.</summary>

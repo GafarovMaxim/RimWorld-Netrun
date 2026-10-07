@@ -66,4 +66,12 @@
     </match>
   </Operation>
 
+  <!-- Cyberdata is a data chip: Hacking Expansion gives it 0.8 kg, heavier than steel. -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>Defs/ThingDef[@Name="USH_CyberdataBase"]/statBases/Mass</xpath>
+    <value>
+      <Mass>0.05</Mass>
+    </value>
+  </Operation>
+
 </Patch>

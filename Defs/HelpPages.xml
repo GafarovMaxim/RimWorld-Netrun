@@ -133,8 +133,8 @@
     <order>7</order>
     <color>Accent</color>
     <label>What a dive leaves behind</label>
-    <body>Besides Netsick and burns, a dive can leave a mark on the netrunner. Every one shows in the dive summary.\n## Good\n- !Dive_Lightning_Yellow Net flow: a clean exit with no ICE hits. A day of faster learning and research, hacks in dives +5%.\n- !Icon_Xp Digital memory: sometimes a successful dive brings back experience in a random skill.\n- !Dive_ICE Survived the ICE: a success after an ICE hit lifts the mood.\n## Bad\n- !Event_Cyberspace_NeuralNoise Digital migraine: a long dive (9 turns or more). Pain and less consciousness for half a day.\n- !Dive_BLACKICE Phantom signals: at strong Netsick the runner may see ICE in the real world and wander off.\n- !Dive_Lightning_Red Burned link: a failed Black ICE dive after a hit. Hacks in dives −10% for three days.</body>
-    <icon>Icon_DiveReport</icon>
+    <body>Besides Netsick and burns, a dive can leave a mark on the netrunner. Every one shows in the dive summary.\n## Good\n- Net flow: a clean exit with no ICE hits. A day of faster learning and research, hacks in dives +5%.\n- Digital memory: sometimes a successful dive brings back experience in a random skill.\n- Survived the ICE: a success after an ICE hit lifts the mood.\n## Bad\n- Digital migraine: a long dive (9 turns or more). Pain and less consciousness for half a day.\n- Phantom signals: at strong Netsick the runner may see ICE in the real world and wander off.\n- Burned link: a failed Black ICE dive after a hit. Hacks in dives −10% for three days.</body>
+    <icon>Dive_GATE_Failed</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -618,7 +618,7 @@
     <color>Accent</color>
     <label>Unique recordings</label>
     <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight, and they are rare; the same one can turn up again.\n## Where to find them\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
-    <icon>tex:Things/Item/Drug/NR_UniqueBraindance</icon>
+    <icon>Reward_UniqueBraindance</icon>
     <keywords>
       <li>unique recordings</li>
       <li>unique recording</li>
@@ -646,7 +646,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Network attacks</label>
-    <body>Come from the storyteller as Heat grows.\n- !Event_Cyberspace_NeuralNoise Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
+    <body>Come from the storyteller as Heat grows.\n- Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
     <icon>Help/Header_NetworkAttacks</icon>
   </Netrun.HelpPageDef>
 

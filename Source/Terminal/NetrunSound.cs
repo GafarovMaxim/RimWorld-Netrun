@@ -65,7 +65,8 @@ public static class NetrunSound
     public static void Hover()
     {
         float now = Time.realtimeSinceStartup;
-        if (now - _lastHover < 0.08f)
+        // A soft tick when the mouse settles on a button, never a stream of them while it slides across a row.
+        if (now - _lastHover < 0.45f)
             return;
         _lastHover = now;
         Play("UI_Hover");

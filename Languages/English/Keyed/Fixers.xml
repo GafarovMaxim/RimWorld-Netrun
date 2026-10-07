@@ -120,4 +120,5 @@
   <NR_FixerSpecialtyDesc_Imperial>An agent of the Empire who needs deniable netrunners. Pays less silver, but each finished contract adds royal favor to your best-known colonist. Deals only with a colony at peace with the Empire.</NR_FixerSpecialtyDesc_Imperial>
   <NR_FixerRefuseImperial>{0} does not deal with enemies of the Empire.</NR_FixerRefuseImperial>
   <NR_ImperialFavor>{0} put in a word at court: {1} gains {2} royal favor.</NR_ImperialFavor>
+  <NR_FixerPinFull>(pin places full: {0})</NR_FixerPinFull>
 </LanguageData>

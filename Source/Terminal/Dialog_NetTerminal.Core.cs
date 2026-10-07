@@ -322,42 +322,55 @@ public partial class Dialog_NetTerminal
         Text.Anchor = TextAnchor.MiddleCenter;
         Text.Font = GameFont.Medium;
         Widgets.Label(new Rect(c.x - 50f, c.y - 14f, 100f, 30f), shown.ToString("0").Colorize(lc));
-        if (NetrunMod.Settings.Animations && since < 1.2f && Mathf.Abs(jump) >= 1.5f)
-        {
-            Text.Font = GameFont.Small;
-            float f = since / 1.2f;
-            Color jc = jump > 0f ? NetrunUI.Bad : NetrunUI.Ok;
-            GUI.color = new Color(1f, 1f, 1f, 1f - f);
-            Widgets.Label(new Rect(rect.xMax - 10f, rect.y + 10f - 24f * f, 60f, 24f), ((jump > 0f ? "+" : "") + jump.ToString("0")).Colorize(jc));
-            GUI.color = Color.white;
-            Text.Font = GameFont.Medium;
-        }
+        if (NetrunMod.Settings.Animations && since < 1.8f && Mathf.Abs(jump) >= 1.5f)
+            DrawHeatJump(new Vector2(c.x, rect.y - 6f), jump, since / 1.8f);
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(c.x - 55f, c.y + 12f, 110f, 16f), current.Label().ToUpper().Colorize(lc));
-        // The day's trend as a small pill: an arrow icon and the change per day.
-        float trend = HeatTrendPerDay(tracker);
-        bool up = trend > 0.05f, down = trend < -0.05f;
-        Color tc = up ? NetrunUI.Bad : down ? NetrunUI.Ok : NetrunUI.Muted;
-        string trendText = up || down ? "NR_CoreTrendShort".Translate((up ? "+" : "−") + Mathf.Abs(trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
-        Texture2D arrow = up ? NetrunTex.HeatRise : down ? NetrunTex.HeatReduction : null;
-        float pw = Text.CalcSize(trendText).x + (arrow != null ? 14f : 0f) + 8f;
-        var pill = new Rect(c.x - pw / 2f, c.y + 27f, pw, 15f);
-        Widgets.DrawBoxSolid(pill, new Color(tc.r, tc.g, tc.b, 0.14f));
-        GUI.color = new Color(tc.r, tc.g, tc.b, 0.5f);
-        Widgets.DrawBox(pill);
-        GUI.color = Color.white;
-        if (arrow != null)
-            GUI.DrawTexture(new Rect(pill.x + 3f, pill.y + 1f, 13f, 13f), arrow);
-        Widgets.Label(new Rect(pill.x + (arrow != null ? 16f : 4f), pill.y - 1f, pill.width, pill.height + 2f), trendText.Colorize(tc));
-        NetrunUI.Tip(pill, up ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : down ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate());
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 
         DrawNodeLabel(new Vector2(c.x, 0f), rect.yMax + 8f, NodeLabel(View.Core).ToUpper(), NetrunUI.Accent, "NR_NodeSub_Core".Translate());
 
-        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()));
+        // The day's trend lives in the tooltip now; the ring itself only shows the value.
+        float trend = HeatTrendPerDay(tracker);
+        string trendTip = trend > 0.05f ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : trend < -0.05f ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
+        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()) + "\n\n" + trendTip);
         if (Widgets.ButtonInvisible(rect))
             OpenNode(View.Core);
+    }
+
+    /// <summary>
+    /// A Heat change floats up from the top of the ring as a badge: the arrow icon, the signed number, a glow that
+    /// fades; it pops in, rises a little and dissolves.
+    /// </summary>
+    private static void DrawHeatJump(Vector2 anchor, float jump, float f)
+    {
+        bool up = jump > 0f;
+        Color jc = up ? NetrunUI.Bad : NetrunUI.Ok;
+        string text = (up ? "+" : "−") + Mathf.Abs(jump).ToString("0");
+        float pop = f < 0.12f ? Mathf.SmoothStep(0.6f, 1.08f, f / 0.12f) : f < 0.2f ? Mathf.Lerp(1.08f, 1f, (f - 0.12f) / 0.08f) : 1f;
+        float alpha = f < 0.7f ? 1f : 1f - (f - 0.7f) / 0.3f;
+        Text.Font = GameFont.Medium;
+        float tw = Text.CalcSize(text).x;
+        float w = (tw + 40f) * pop, h = 30f * pop;
+        var box = new Rect(anchor.x - w / 2f, anchor.y - h - 18f * f, w, h);
+        GUI.color = new Color(jc.r, jc.g, jc.b, 0.25f * alpha);
+        GUI.DrawTexture(box.ExpandedBy(10f, 6f), NetrunUI.Disc);
+        GUI.color = Color.white;
+        Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.92f * alpha));
+        GUI.color = new Color(jc.r, jc.g, jc.b, alpha);
+        Widgets.DrawBox(box);
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), jc);
+        if ((up ? NetrunTex.HeatRise : NetrunTex.HeatIcon(HeatLevel.Shadow)) is { } icon)
+        {
+            GUI.color = new Color(1f, 1f, 1f, alpha);
+            GUI.DrawTexture(new Rect(box.x + 7f, box.center.y - 9f * pop, 18f * pop, 18f * pop), icon);
+        }
+        GUI.color = new Color(1f, 1f, 1f, alpha);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(box.x + 28f * pop, box.y, box.width, box.height), text.Colorize(jc));
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.MiddleCenter;
     }
 
     /// <summary>

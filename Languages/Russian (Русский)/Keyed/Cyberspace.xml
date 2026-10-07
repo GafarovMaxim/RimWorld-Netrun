@@ -303,4 +303,5 @@
   <NR_NewsEffectGlut>Избыток данных: cyberdata из нырков {0}.</NR_NewsEffectGlut>
   <NR_NewsEffectQuiet>Тихая сеть: след от нырков {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Тревога у корпораций: у корп-нод ICE сильнее.</NR_NewsEffectLockdown>
+  <NR_ReportUnique>Уникальная запись: {0}.</NR_ReportUnique>
 </LanguageData>

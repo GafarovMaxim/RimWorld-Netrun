@@ -90,8 +90,9 @@ public static class GatewayView
             float bob = NetrunMod.Settings.Animations ? Mathf.Sin(time * 0.8f + node.Id) * 4f : 0f;
             // Zoom spreads the slots around the field centre; circles grow with it.
             var slotPos = new Vector2(local.width * slot.x, local.height * slot.y + bob);
-            var pos = center + (slotPos - center) * _zoom + _pan;
-            float radius = (node.Hidden ? 36f : Mathf.Lerp(46f, 68f, Mathf.Clamp01(node.RewardScore))) * Mathf.Sqrt(_zoom);
+            // Slots sit a little further apart, and circles scale with the zoom like the spacing, so they never touch.
+            var pos = center + (slotPos - center) * (1.12f * _zoom) + _pan;
+            float radius = (node.Hidden ? 34f : Mathf.Lerp(42f, 62f, Mathf.Clamp01(node.RewardScore))) * _zoom;
             placed.Add((node, pos, radius));
         }
 

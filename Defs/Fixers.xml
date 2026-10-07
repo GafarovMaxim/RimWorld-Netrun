@@ -7,7 +7,9 @@
 
     <!-- Pool: size, rotation period in days, reputation that pins a fixer for good,
          reputation that reveals the fixer's trait -->
-    <poolSize>4</poolSize>
+    <poolSize>5</poolSize>
+    <!-- At most this many pinned fixers at once (the next one waits for a free place) -->
+    <maxPinned>2</maxPinned>
     <rotationDays>7~10</rotationDays>
     <!-- Fixers v2 (docs/FIXERS_V2.md): unpinned fixers the player can hold through a rotation, days a dropped fixer stays away,
          days a newcomer is marked "new", specialties the pool always keeps -->

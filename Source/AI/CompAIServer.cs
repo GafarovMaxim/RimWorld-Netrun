@@ -67,7 +67,7 @@ public class CompAIServer : ThingComp
         {
             defaultLabel = "NR_AIServerGizmo".Translate(),
             defaultDesc = "NR_AIServerGizmoDesc".Translate(),
-            icon = NetrunTex.AIUse,
+            icon = parent.def.uiIcon ?? NetrunTex.AIUse,
             action = () => Find.WindowStack.Add(new Dialog_AIServer(parent.Map)),
         };
     }

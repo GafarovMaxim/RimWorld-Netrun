@@ -277,7 +277,6 @@
   <NR_HelpDiveStepDesc_EXIT>Порт ввода-вывода: уходите со всем найденным. Чистый выход может принести особую находку.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Ночной рынок −{0}</NR_ChipMarketDiscount>
-  <NR_CoreTrendShort>{0}/д</NR_CoreTrendShort>
   <NR_HelpDemoHeat>Heat сейчас: {0}</NR_HelpDemoHeat>
   <NR_HelpDemoData>Потратить cyberdata: {0}</NR_HelpDemoData>
   <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>

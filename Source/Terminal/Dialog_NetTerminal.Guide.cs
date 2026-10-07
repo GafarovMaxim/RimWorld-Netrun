@@ -107,7 +107,7 @@ public partial class Dialog_NetTerminal
             }
             else
             {
-                GuideAreaDef hit = AreasNow().Where(a => a.rect.Contains(m)).Select(a => a.def).LastOrDefault();
+                GuideAreaDef hit = AreasNow().Where(a => a.rect.Contains(m)).OrderBy(a => a.rect.width * a.rect.height).Select(a => a.def).FirstOrDefault();
                 if (hit != null)
                 {
                     _guideArea = hit;
@@ -149,11 +149,15 @@ public partial class Dialog_NetTerminal
         Vector2 mouse = Event.current.mousePosition;
         string pulse = _guideArea != null && _guideStep < _guideArea.steps.Count ? _guideArea.steps[_guideStep].highlight : null;
         HelpProgress progress = HelpProgress.Get();
+        // Only the smallest area under the mouse is hovered: a part inside a bigger one (the news line in the bottom bar).
+        GuideAreaDef hovered = _guideArea == null
+            ? areas.Where(a => a.rect.Contains(mouse)).OrderBy(a => a.rect.width * a.rect.height).Select(a => a.def).FirstOrDefault()
+            : null;
 
         for (int i = 0; i < areas.Count; i++)
         {
             (GuideAreaDef def, Rect rect) = areas[i];
-            bool hover = _guideArea == null && rect.Contains(mouse);
+            bool hover = def == hovered;
             bool active = _guideArea == def;
             bool pulsing = pulse != null && def.area == pulse;
             bool areaSeen = progress?.GuideAreaSeen(def) == true;

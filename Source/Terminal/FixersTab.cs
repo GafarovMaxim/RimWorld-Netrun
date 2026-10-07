@@ -132,7 +132,8 @@ public static class FixersTab
         GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Portrait(fixer.Specialty));
         if (fixer.Pinned)
         {
-            var pinRect = new Rect(portraitRect.xMax - 14f, portraitRect.y - 8f, 22f, 22f);
+            float ps = NetrunUI.Icon(28f);
+            var pinRect = new Rect(portraitRect.xMax - ps * 0.65f, portraitRect.y - ps * 0.4f, ps, ps);
             GUI.color = NetrunUI.Warn;
             GUI.DrawTexture(pinRect, NetrunTex.Star ?? NetrunTex.Pinned);
             GUI.color = Color.white;
@@ -152,7 +153,8 @@ public static class FixersTab
             chipX += NetrunUI.Chip(chipX, y + 4f, "NR_FixerNewTag".Translate(), NetrunUI.Accent, "NR_FixerNewTip".Translate()) + 6f;
         if (fixer.Held && !fixer.Pinned)
         {
-            var heldRect = new Rect(portraitRect.xMax - 14f, portraitRect.y - 8f, 22f, 22f);
+            float hs = NetrunUI.Icon(28f);
+            var heldRect = new Rect(portraitRect.xMax - hs * 0.65f, portraitRect.y - hs * 0.4f, hs, hs);
             GUI.color = NetrunUI.Warn;
             GUI.DrawTexture(heldRect, NetrunTex.Pinned);
             GUI.color = Color.white;
@@ -196,7 +198,9 @@ public static class FixersTab
         Widgets.DrawBoxSolid(new Rect(Mathf.Round(barRect.x + barRect.width * pinAt / 100f) - 1f, barRect.y - 3f, 2f, barRect.height + 6f), NetrunUI.Warn);
         string repText = fixer.Reputation.ToString("0").Colorize(repColor);
         if (!fixer.Pinned)
-            repText += "  " + "NR_FixerToPin".Translate(Mathf.CeilToInt(pinAt - fixer.Reputation)).Colorize(NetrunUI.Muted);
+            repText += "  " + (fixer.WaitsForPin
+                ? "NR_FixerPinFull".Translate(NetrunDefOf.NR_Fixers.maxPinned)
+                : "NR_FixerToPin".Translate(Mathf.CeilToInt(pinAt - fixer.Reputation))).Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(barRect.xMax + 8f, y, width - (barRect.xMax + 8f - x), lineHeight), repText);
         Text.Anchor = TextAnchor.UpperLeft;
         NetrunUI.Tip(new Rect(x, y, width, 22f), "NR_FixerReputationTip".Translate(pinAt.ToString("0")));

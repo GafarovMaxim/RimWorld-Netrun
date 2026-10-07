@@ -51,7 +51,13 @@ public class Fixer : IExposable
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
 
-    public bool Pinned => Reputation >= Settings.pinnedReputation;
+    /// <summary>-1 unknown (an old save: decided by reputation on load), 0 not pinned, 1 pinned.</summary>
+    private int _pinned = -1;
+
+    /// <summary>Pinned: enough reputation and a free place (at most maxPinned at once).</summary>
+    public bool Pinned => _pinned == 1;
+    /// <summary>Reputation is there, but all pinned places are taken.</summary>
+    public bool WaitsForPin => _pinned != 1 && Reputation >= Settings.pinnedReputation;
     public bool TraitKnown => TraitRevealed || Reputation >= Settings.traitRevealReputation;
     public bool HasShop => Specialty == FixerSpecialty.Fence;
     public bool IsNew => Find.TickManager.TicksGame - JoinedTick < Settings.newcomerDays * GenDate.TicksPerDay;
@@ -137,9 +143,22 @@ public class Fixer : IExposable
         if (amount > 0f && Trait == FixerTrait.Loyal)
             amount *= Settings.loyalReputationFactor;
         Reputation = Mathf.Clamp(Reputation + amount, 0f, MaxReputation);
+        UpdatePin();
 
         if (!wasPinned && Pinned)
             Messages.Message("NR_FixerPinned".Translate(Name), MessageTypeDefOf.PositiveEvent, historical: false);
+    }
+
+    /// <summary>Pinned once reputation reaches the mark and a place is free; unpinned when it falls below.</summary>
+    public void UpdatePin()
+    {
+        if (Reputation < Settings.pinnedReputation)
+            _pinned = 0;
+        else if (_pinned != 1)
+        {
+            int taken = FixerManager.Get()?.Fixers.Count(f => f != this && f.Pinned) ?? 0;
+            _pinned = taken < Settings.maxPinned ? 1 : 0;
+        }
     }
 
     /// <summary>Called after every deal. A rat sometimes sells the colony out.</summary>
@@ -173,10 +192,13 @@ public class Fixer : IExposable
         Scribe_Collections.Look(ref Stock, "stock", LookMode.Def);
         Scribe_Values.Look(ref FreeScrubs, "freeScrubs");
         Scribe_Values.Look(ref Held, "held");
+        Scribe_Values.Look(ref _pinned, "pinned", -1);
         Scribe_Values.Look(ref JoinedTick, "joinedTick", -999999);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
+            if (_pinned < 0)
+                _pinned = Reputation >= Settings.pinnedReputation ? 1 : 0;
             Stock ??= [];
             Stock.RemoveAll(d => d == null);
         }

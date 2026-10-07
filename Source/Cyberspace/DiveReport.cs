@@ -227,6 +227,8 @@ public class Dialog_DiveReport : Window
 
         if (d.Special)
             y = Line(r, y, Icon("Reward_DaemonProgram"), "NR_ReportSpecial".Translate(), NetrunUI.Ok);
+        if (d.Items.FirstOrDefault(t => t.HasModExtension<UniqueBraindanceExtension>()) is { } unique)
+            y = Line(r, y, Icon("Reward_UniqueBraindance"), "NR_ReportUnique".Translate(unique.label), NetrunUI.Purple);
         if (d.LostCyberdata + d.LostAdvanced + d.LostSilver + d.LostItems > 0)
             Line(r, y, Icon("Dive_Lightning_Red"), "NR_ReportLost".Translate(d.LostCyberdata, d.LostAdvanced, d.LostSilver, d.LostItems), NetrunUI.Bad);
     }

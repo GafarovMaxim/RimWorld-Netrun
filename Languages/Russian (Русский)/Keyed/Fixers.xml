@@ -120,4 +120,5 @@
   <NR_FixerSpecialtyDesc_Imperial>Агент Империи, которому нужны нетраннеры без лишних вопросов. Платит меньше серебра, но каждый выполненный контракт приносит имперское расположение самому известному вашему колонисту. Работает только с колонией, которая в мире с Империей.</NR_FixerSpecialtyDesc_Imperial>
   <NR_FixerRefuseImperial>{0} не работает с врагами Империи.</NR_FixerRefuseImperial>
   <NR_ImperialFavor>{0} замолвил словечко при дворе: {1} получает {2} ед. расположения.</NR_ImperialFavor>
+  <NR_FixerPinFull>(места для закреплённых заняты: {0})</NR_FixerPinFull>
 </LanguageData>

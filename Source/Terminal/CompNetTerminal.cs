@@ -71,8 +71,6 @@ public class CompNetTerminal : ThingComp
 
         yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(terminal, () =>
             selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_UseNetTerminal, parent), JobTag.Misc), NetrunTex.NetTerminal, Color.white), selPawn, parent);
-
-        foreach (FloatMenuOption option in BraindanceEditing.FloatOptions(selPawn, (Building)parent))
-            yield return option;
+        // Editing braindance is done from the Studio now, not from the console's menu.
     }
 }

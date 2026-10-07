@@ -404,12 +404,24 @@ public static class NetrunUI
         Widgets.DrawBoxSolid(new Rect(outer.xMax - 160f, outer.yMax - 3f, 120f, 2f), new Color(c.r, c.g, c.b, 0.55f));
         if (plate != null && thickness >= 10f)
         {
-            Text.Font = GameFont.Tiny;
+            Text.Font = thickness >= 16f ? GameFont.Small : GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            var pr = new Rect(outer.x + thickness + 8f, outer.yMax - thickness - 1f, 300f, thickness + 1f);
-            Widgets.Label(pr, plate.Colorize(new Color(1f, 1f, 1f, 0.28f)));
+            float pw = Text.CalcSize(plate).x + 16f;
+            var pr = new Rect(outer.x + thickness + 8f, outer.yMax - thickness, pw, thickness);
+            // An engraved plate: a darker inlay with a lit lower edge.
+            Widgets.DrawBoxSolid(pr.ContractedBy(0f, 3f), new Color(0f, 0f, 0f, 0.35f));
+            Widgets.DrawBoxSolid(new Rect(pr.x, pr.yMax - 3f, pr.width, 1f), BezelLight);
+            Widgets.Label(new Rect(pr.x + 8f, pr.y, pr.width, pr.height), plate.Colorize(new Color(1f, 1f, 1f, 0.62f)));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+            if (thickness >= 16f)
+            {
+                // Vent slots on the right and a row of port marks on top.
+                for (int i = 0; i < 6; i++)
+                    Widgets.DrawBoxSolid(new Rect(outer.xMax - thickness - 120f + i * 9f, outer.yMax - thickness + 5f, 5f, thickness - 10f), new Color(0f, 0f, 0f, 0.55f));
+                for (int i = 0; i < 4; i++)
+                    Widgets.DrawBoxSolid(new Rect(outer.x + 130f + i * 16f, outer.y + thickness / 2f - 2f, 10f, 4f), new Color(c.r, c.g, c.b, 0.18f + 0.1f * (i % 2)));
+            }
             // The power light breathes.
             float a = NetrunMod.Settings.Animations ? 0.6f + 0.4f * Mathf.Sin(Time.realtimeSinceStartup * 1.5f) : 1f;
             Led(new Rect(outer.xMax - thickness - 26f, outer.yMax - thickness / 2f - 1.5f, 14f, 3f), new Color(Ok.r, Ok.g, Ok.b, a));
@@ -417,12 +429,49 @@ public static class NetrunUI
         return screen;
     }
 
-    /// <summary>Faint CRT lines over a screen (one draw call).</summary>
+    private static readonly System.Collections.Generic.List<(Rect screen, Texture2D tex, Color color)> LateIcons = [];
+    private static int _lateFrame;
+    private static readonly System.Reflection.PropertyInfo VisibleRect =
+        typeof(GUI).Assembly.GetType("UnityEngine.GUIClip")?.GetProperty("visibleRect", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+    /// <summary>
+    /// Draws an icon and remembers it, so the CRT lines drawn over the screen afterwards do not dim it. Only icons that
+    /// are fully visible (not cut by a scroll view) are redrawn.
+    /// </summary>
+    public static void BrightIcon(Rect rect, Texture2D tex)
+    {
+        if (tex == null)
+            return;
+        GUI.DrawTexture(rect, tex);
+        if (Event.current.type != EventType.Repaint)
+            return;
+        if (_lateFrame != Time.frameCount)
+        {
+            LateIcons.Clear();
+            _lateFrame = Time.frameCount;
+        }
+        if (VisibleRect?.GetValue(null) is Rect visible && !(visible.Contains(rect.min) && visible.Contains(rect.max)))
+            return;
+        LateIcons.Add((new Rect(GUIUtility.GUIToScreenPoint(rect.position), rect.size), tex, GUI.color));
+    }
+
+    /// <summary>Faint CRT lines over a screen (one draw call); the bright icons go back on top.</summary>
     public static void Scanlines(Rect screen)
     {
         if (Event.current.type != EventType.Repaint)
             return;
         GUI.DrawTextureWithTexCoords(screen, ScanlineTex, new Rect(0f, 0f, 1f, screen.height / 3f));
+        if (_lateFrame == Time.frameCount)
+        {
+            Color old = GUI.color;
+            foreach ((Rect r, Texture2D tex, Color color) in LateIcons)
+            {
+                GUI.color = color;
+                GUI.DrawTexture(new Rect(GUIUtility.ScreenToGUIPoint(r.position), r.size), tex);
+            }
+            GUI.color = old;
+        }
+        LateIcons.Clear();
     }
 
     /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
@@ -544,7 +593,7 @@ public static class NetrunUI
         {
             float size = Mathf.Min(rect.height - 4f, Icon(rect.height - 8f));
             GUI.color = active ? Color.white : new Color(1f, 1f, 1f, 0.4f);
-            GUI.DrawTexture(new Rect(rect.x + 5f, rect.center.y - size / 2f, size, size), icon);
+            BrightIcon(new Rect(rect.x + 5f, rect.center.y - size / 2f, size, size), icon);
             GUI.color = Color.white;
             // Keep the label centred on the whole button when the icon fits beside it.
             float labelWidth = Text.CalcSize(label).x;
@@ -650,8 +699,17 @@ public static class NetrunUI
         Widgets.DrawBoxSolid(new Rect(rect.x, rect.y + 6f, 3f, 15f), Accent);
         Text.Anchor = TextAnchor.MiddleLeft;
         string text = label.ToUpper();
-        Widgets.Label(new Rect(rect.x + 10f, rect.y, rect.width - 10f, 26f), text.Colorize(Accent));
-        float tw = Text.CalcSize(text).x;
+        GameFont font = Text.Font;
+        float room = rect.width - 14f;
+        if (Text.CalcSize(text).x > room)
+            Text.Font = GameFont.Tiny;
+        string shown = Text.CalcSize(text).x > room ? text.Truncate(room) : text;
+        var titleRect = new Rect(rect.x + 10f, rect.y, rect.width - 10f, 26f);
+        Widgets.Label(titleRect, shown.Colorize(Accent));
+        if (shown != text)
+            Tip(titleRect, label);
+        float tw = Text.CalcSize(shown).x;
+        Text.Font = font;
         if (rect.x + 10f + tw + 30f < rect.xMax)
             Widgets.Label(new Rect(rect.x + 10f + tw + 8f, rect.y, 30f, 26f), "//".Colorize(new Color(Accent.r, Accent.g, Accent.b, 0.35f)));
         Text.Anchor = TextAnchor.UpperLeft;
@@ -689,9 +747,12 @@ public static class NetrunUI
         if (shown <= 0f)
             return;
         Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+        // Measure in the tooltip's font, then give the caller its font back: rows drawn after a hovered one keep their size.
+        GameFont callerFont = Text.Font;
         Text.Font = GameFont.Small;
         float w = Mathf.Min(TipMaxWidth, Text.CalcSize(text.StripTags()).x + 4f);
         float h = Text.CalcHeight(text, w);
+        Text.Font = callerFont;
         var box = new Rect(mouse.x + 18f, mouse.y + 18f, w + 22f, h + 14f);
         if (box.xMax > UI.screenWidth - 4f)
             box.x = mouse.x - box.width - 8f;
