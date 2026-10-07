@@ -97,7 +97,7 @@ public static class NetrunSound
         if (Event.current.type != EventType.Repaint || _ambientFrame == Time.frameCount)
             return;
         _ambientFrame = Time.frameCount;
-        float volume = Settings.AmbientVolume;
+        float volume = Settings.AmbientVolumeOf(id);
         string key = Pack + "_" + id;
         if (_ambient != null && (_ambient.Ended || _ambientId != key || !Mathf.Approximately(_ambientVolume, volume)))
             EndAmbient();
@@ -136,7 +136,8 @@ public static class NetrunSound
             EndServerHum();
             _humGame = Current.Game;
         }
-        string key = Enabled && Settings.AmbientVolume > 0f ? Pack + "_" + Settings.AmbientVolume.ToString("0.00") : null;
+        float hum = Settings.AmbientVolumeOf("Ambient_Server");
+        string key = Enabled && hum > 0f ? Pack + "_" + hum.ToString("0.00") : null;
         foreach (Thing server in ServerHum.Keys.ToList())
         {
             (Sustainer sustainer, string playing) = ServerHum[server];
@@ -156,7 +157,7 @@ public static class NetrunSound
                 if (ServerHum.ContainsKey(server) || server.GetComp<CompAIServer>()?.Powered != true)
                     continue;
                 SoundInfo info = SoundInfo.InMap(new TargetInfo(server), MaintenanceType.None);
-                info.volumeFactor = Settings.AmbientVolume;
+                info.volumeFactor = hum;
                 if (def.TrySpawnSustainer(info) is { } sustainer)
                     ServerHum[server] = (sustainer, key);
             }

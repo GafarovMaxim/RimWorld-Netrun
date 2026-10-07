@@ -60,6 +60,21 @@ public class NetrunSettings : ModSettings
     public string SoundPack = "Clean";
     public float UiVolume = 0.6f;
     public float AmbientVolume = 0.6f;
+    /// <summary>Each ambient loop on its own, on top of the ambient volume (1 = as the pack made it).</summary>
+    public float AmbientTerminal = 1f;
+    public float AmbientCyberspace = 1f;
+    public float AmbientDive = 1f;
+    public float AmbientServer = 1f;
+
+    /// <summary>The volume of one ambient loop ("Ambient_Terminal" and so on).</summary>
+    public float AmbientVolumeOf(string id) => AmbientVolume * id switch
+    {
+        "Ambient_Terminal" => AmbientTerminal,
+        "Ambient_Cyberspace" => AmbientCyberspace,
+        "Ambient_Dive" => AmbientDive,
+        "Ambient_Server" => AmbientServer,
+        _ => 1f,
+    };
 
     private static readonly float[] Frequencies = [0f, 0.5f, 1f, 2f];
 
@@ -338,6 +353,14 @@ public class NetrunSettings : ModSettings
             float ui = UiVolume, ambient = AmbientVolume;
             UiVolume = Slider("NR_SettingsUiVolume".Translate(UiVolume.ToStringPercent()), UiVolume, 0f, 1f);
             AmbientVolume = Slider("NR_SettingsAmbientVolume".Translate(AmbientVolume.ToStringPercent()), AmbientVolume, 0f, 1f);
+            if (AmbientVolume > 0f)
+            {
+                Label("NR_SettingsAmbientEach".Translate(), NetrunUI.Muted);
+                AmbientTerminal = Slider("NR_SettingsAmbientTerminal".Translate(AmbientTerminal.ToStringPercent()), AmbientTerminal, 0f, 1.5f);
+                AmbientCyberspace = Slider("NR_SettingsAmbientCyberspace".Translate(AmbientCyberspace.ToStringPercent()), AmbientCyberspace, 0f, 1.5f);
+                AmbientDive = Slider("NR_SettingsAmbientDive".Translate(AmbientDive.ToStringPercent()), AmbientDive, 0f, 1.5f);
+                AmbientServer = Slider("NR_SettingsAmbientServer".Translate(AmbientServer.ToStringPercent()), AmbientServer, 0f, 1.5f);
+            }
             if (!Mathf.Approximately(ui, UiVolume))
                 NetrunSound.Hover();
         }
@@ -403,6 +426,7 @@ public class NetrunSettings : ModSettings
         TerminalFont = true;
         SoundPack = "Clean";
         UiVolume = AmbientVolume = 0.6f;
+        AmbientTerminal = AmbientCyberspace = AmbientDive = AmbientServer = 1f;
         NetrunSound.SettingsChanged();
     }
 
@@ -428,6 +452,10 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref SoundPack, "soundPack", "Clean");
         Scribe_Values.Look(ref UiVolume, "uiVolume", 0.6f);
         Scribe_Values.Look(ref AmbientVolume, "ambientVolume", 0.6f);
+        Scribe_Values.Look(ref AmbientTerminal, "ambientTerminal", 1f);
+        Scribe_Values.Look(ref AmbientCyberspace, "ambientCyberspace", 1f);
+        Scribe_Values.Look(ref AmbientDive, "ambientDive", 1f);
+        Scribe_Values.Look(ref AmbientServer, "ambientServer", 1f);
         if (SoundPack != NetrunSound.Off && !NetrunSound.Packs.Contains(SoundPack))
             SoundPack = "Clean";
         if (AIEventFrequency < 0f)

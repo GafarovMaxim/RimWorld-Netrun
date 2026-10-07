@@ -118,4 +118,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsUiVolume>Interface sounds: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Ambient: {0}</NR_SettingsAmbientVolume>
   <NR_HackHeatPreview>Trace if hacked: about +{0} Heat (less with hacking stealth or from a cyberpod)</NR_HackHeatPreview>
+  <NR_SettingsAmbientEach>Each ambient on its own (share of the ambient volume):</NR_SettingsAmbientEach>
+  <NR_SettingsAmbientTerminal>Terminal hum: {0}</NR_SettingsAmbientTerminal>
+  <NR_SettingsAmbientCyberspace>Cyberspace (Gateway): {0}</NR_SettingsAmbientCyberspace>
+  <NR_SettingsAmbientDive>Dive: {0}</NR_SettingsAmbientDive>
+  <NR_SettingsAmbientServer>AI server hum: {0}</NR_SettingsAmbientServer>
 </LanguageData>

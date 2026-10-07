@@ -118,4 +118,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsUiVolume>Звуки интерфейса: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
   <NR_HackHeatPreview>След при взломе: около +{0} Heat (меньше со скрытностью взлома или из кибер-капсулы)</NR_HackHeatPreview>
+  <NR_SettingsAmbientEach>Каждый эмбиент отдельно (доля от общей громкости эмбиента):</NR_SettingsAmbientEach>
+  <NR_SettingsAmbientTerminal>Гул терминала: {0}</NR_SettingsAmbientTerminal>
+  <NR_SettingsAmbientCyberspace>Киберпространство (Шлюз): {0}</NR_SettingsAmbientCyberspace>
+  <NR_SettingsAmbientDive>Нырок: {0}</NR_SettingsAmbientDive>
+  <NR_SettingsAmbientServer>Гул сервера ИИ: {0}</NR_SettingsAmbientServer>
 </LanguageData>
