@@ -7,6 +7,8 @@
     <!-- Map events (courier, black market, distress signal, turret hijack) come from their own schedule, not the storyteller:
          one every this many days on average, divided by the "map events" frequency in the mod settings. -->
     <mapEventMtbDays>5</mapEventMtbDays>
+    <!-- The distress site stays on the world map this many days -->
+    <distressSiteDays>8~14</distressSiteDays>
     <courierDays>1</courierDays>
     <courierHuntersHours>4~8</courierHuntersHours>
     <courierHuntersPoints>0.5</courierHuntersPoints>
@@ -102,6 +104,28 @@
       <li Class="Netrun.CompProperties_DistressServer" />
     </comps>
   </ThingDef>
+
+  <!-- The distress signal's site on the world map -->
+  <SitePartDef>
+    <defName>NR_DistressSite</defName>
+    <label>abandoned server</label>
+    <description>An old server, still sending a weak distress signal. Something may be alive inside.</description>
+    <workerClass>SitePartWorker</workerClass>
+    <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
+    <expandingIconTexture>UI/Netrun/Cyberspace/Event_DistressSignal</expandingIconTexture>
+    <applyFactionColorToSiteTexture>false</applyFactionColorToSiteTexture>
+    <requiresFaction>false</requiresFaction>
+    <tags>
+      <li>NR_DistressSite</li>
+    </tags>
+  </SitePartDef>
+
+  <GenStepDef>
+    <defName>NR_DistressSite</defName>
+    <linkWithSite>NR_DistressSite</linkWithSite>
+    <order>450</order>
+    <genStep Class="Netrun.GenStep_DistressServer" />
+  </GenStepDef>
 
   <!-- Dead racks around the abandoned server: decoration, deconstruct for a little steel -->
   <ThingDef ParentName="BuildingBase">

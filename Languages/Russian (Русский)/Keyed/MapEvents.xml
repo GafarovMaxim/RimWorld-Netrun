@@ -13,7 +13,6 @@
   <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Чёрный рынок</NR_FixerShopBlack>
   <NR_DistressLabel>Сигнал бедствия</NR_DistressLabel>
-  <NR_Distress>Брошенный сервер на вашей земле подаёт слабый сигнал бедствия. Колонист может подключиться (правый щелчок): внутри может быть ИИ, а может и ICE.</NR_Distress>
   <NR_DistressConnect>Подключиться к серверу</NR_DistressConnect>
   <NR_DistressFragment>{0} вытащил(а) из старого сервера осколок ИИ.</NR_DistressFragment>
   <NR_DistressBacklash>Старый сервер ударил {0} ICE-отдачей.</NR_DistressBacklash>
@@ -22,4 +21,5 @@
   <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
   <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
   <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>
+  <NR_DistressSiteLetter>Слабый сигнал бедствия идёт от заброшенного сервера где-то в округе. Он отмечен на карте мира.\n\nОтправьте караван с хакером, чтобы подключиться к нему: внутри может уцелеть осколок ИИ (или ICE сервера огрызнётся). Сигнал угаснет через {0} дн.</NR_DistressSiteLetter>
 </LanguageData>

@@ -24,6 +24,8 @@ public class MapEventsSettingsDef : Def
     public float blackMarketCoreChance = 0.3f;
 
     public float distressWorkHours = 2f;
+    /// <summary>Days the distress site stays on the world map.</summary>
+    public IntRange distressSiteDays = new(8, 14);
     public float distressFragmentChance = 0.7f;
     public int distressSteel = 30;
 
@@ -329,26 +331,59 @@ public class IncidentWorker_BlackMarket : IncidentWorker
 }
 
 /// <summary>An abandoned server turns up on the map; a colonist can connect to it.</summary>
+/// <summary>
+/// The distress signal: an abandoned server somewhere on the world map, a few days away. Send a caravan with a hacker to
+/// connect to it before the signal dies out.
+/// </summary>
 public class IncidentWorker_DistressSignal : IncidentWorker
 {
+    protected override bool CanFireNowSub(IncidentParms parms)
+        => parms.target is Map map && DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite") != null
+           && RimWorld.Planet.TileFinder.TryFindNewSiteTile(out RimWorld.Planet.PlanetTile _, map.Tile, 2, 10);
+
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
         var map = (Map)parms.target;
-        if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => GenAdj.OccupiedRect(c, Rot4.North, NetrunDefOf.NR_DistressServer.size).All(x => x.InBounds(map) && x.Standable(map) && !x.Fogged(map) && x.GetFirstBuilding(map) == null), map, out IntVec3 cell))
+        SitePartDef part = DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite");
+        if (part == null || !RimWorld.Planet.TileFinder.TryFindNewSiteTile(out RimWorld.Planet.PlanetTile tile, map.Tile, 2, 10))
             return false;
+        RimWorld.Planet.Site site = RimWorld.Planet.SiteMaker.MakeSite(part, tile, null);
+        int days = NetrunDefOf.NR_MapEvents.distressSiteDays.RandomInRange;
+        site.GetComponent<RimWorld.Planet.TimeoutComp>()?.StartTimeout(days * GenDate.TicksPerDay);
+        Find.WorldObjects.Add(site);
+        HeatTracker.Get()?.Note("NR_DistressLabel".Translate(), HeatSource.Event);
+        SendStandardLetter("NR_DistressLabel".Translate(), "NR_DistressSiteLetter".Translate(days), LetterDefOf.PositiveEvent, parms, new LookTargets(site));
+        return true;
+    }
+}
+
+/// <summary>On the distress site's map: the abandoned server near the centre with a couple of dead racks around it.</summary>
+public class GenStep_DistressServer : GenStep
+{
+    public override int SeedPart => 0x4E52_4453;
+
+    public override void Generate(Map map, GenStepParams parms)
+    {
+        if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(c => GenAdj.OccupiedRect(c, Rot4.North, NetrunDefOf.NR_DistressServer.size).All(x => x.InBounds(map) && x.Standable(map) && x.GetFirstBuilding(map) == null), map, out IntVec3 cell))
+            cell = map.Center;
+        foreach (IntVec3 c in GenAdj.OccupiedRect(cell, Rot4.North, NetrunDefOf.NR_DistressServer.size).ExpandedBy(1))
+            if (c.InBounds(map))
+                foreach (Thing t in c.GetThingList(map).Where(t => t.def.destroyable && (t.def.category == ThingCategory.Building || t.def.category == ThingCategory.Plant)).ToList())
+                    t.Destroy();
         Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
         // A couple of dead racks around it.
         ThingDef rackDef = DefDatabase<ThingDef>.GetNamedSilentFail("NR_DistressRack");
         if (rackDef != null)
         {
             var around = GenAdj.OccupiedRect(cell, Rot4.North, NetrunDefOf.NR_DistressServer.size).ExpandedBy(1).EdgeCells
-                .Where(c => c.InBounds(map) && c.Standable(map) && c.GetFirstBuilding(map) == null && !c.Fogged(map)).InRandomOrder().Take(2).ToList();
+                .Where(c => c.InBounds(map) && c.Standable(map) && c.GetFirstBuilding(map) == null).InRandomOrder().Take(2).ToList();
             foreach (IntVec3 c in around)
                 GenSpawn.Spawn(ThingMaker.MakeThing(rackDef), c, map);
         }
-        HeatTracker.Get()?.Note("NR_DistressLabel".Translate(), HeatSource.Event);
-        SendStandardLetter("NR_DistressLabel".Translate(), "NR_Distress".Translate(), LetterDefOf.PositiveEvent, parms, server);
-        return true;
+        // The area around the server is in sight when the caravan arrives.
+        foreach (IntVec3 c in GenRadial.RadialCellsAround(server.Position, 8f, true))
+            if (c.InBounds(map))
+                map.fogGrid.Unfog(c);
     }
 }
 

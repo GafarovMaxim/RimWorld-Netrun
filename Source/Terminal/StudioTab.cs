@@ -458,18 +458,7 @@ public static class StudioTab
         NetrunUI.Card(row, color);
         GUI.DrawTexture(new Rect(row.x + 10f, row.y + 4f, 32f, 32f), raw.def.uiIcon);
 
-        float x = row.x + 50f;
-        Text.Anchor = TextAnchor.MiddleLeft;
-        string text = rec == null ? raw.LabelCap : $"{rec.Author}: {rec.Event}";
-        Widgets.Label(new Rect(x, row.y, row.width * 0.45f, row.height), text.Truncate(row.width * 0.45f));
-        Text.Anchor = TextAnchor.UpperLeft;
-        if (rec != null)
-        {
-            float cx = x + row.width * 0.45f + 6f;
-            cx += NetrunUI.Chip(cx, row.y + 11f, ((string)("NR_BDMood_" + rec.Mood).Translate()).ToUpper(), color) + 6f;
-            NetrunUI.Chip(cx, row.y + 11f, ((string)("NR_BDQuality_" + rec.QualityTier).Translate()).ToUpper(), NetrunUI.Warn);
-        }
-
+        // Right to left: the edit buttons, then the tags, then the text in the room that is left.
         float bx = row.xMax - 8f;
         foreach (ThingDef chip in rec == null ? Enumerable.Empty<ThingDef>() : BraindanceEditing.ChipsFor(rec.Mood))
         {
@@ -478,8 +467,27 @@ public static class StudioTab
             bx -= w;
             if (NetrunUI.Button(new Rect(bx, row.y + 5f, w, 30f), label, NetrunUI.Accent, true, "NR_StudioEditTip".Translate()))
                 BraindanceEditing.OpenEditorMenu(raw, chip);
-            bx -= 6f;
+            bx -= 8f;
         }
+        if (rec != null)
+        {
+            string mood = ((string)("NR_BDMood_" + rec.Mood).Translate()).ToUpper();
+            string quality = ((string)("NR_BDQuality_" + rec.QualityTier).Translate()).ToUpper();
+            Text.Font = GameFont.Tiny;
+            float qw = Text.CalcSize(quality).x + 12f, mw = Text.CalcSize(mood).x + 12f;
+            Text.Font = GameFont.Small;
+            bx -= qw;
+            NetrunUI.Chip(bx, row.y + 11f, quality, NetrunUI.Warn);
+            bx -= mw + 6f;
+            NetrunUI.Chip(bx, row.y + 11f, mood, color);
+            bx -= 8f;
+        }
+        float x = row.x + 50f;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        string text = rec == null ? raw.LabelCap : $"{rec.Author}: {rec.Event}";
+        Widgets.Label(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text.Truncate(Mathf.Max(0f, bx - x)));
+        Text.Anchor = TextAnchor.UpperLeft;
+        NetrunUI.Tip(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text);
         return row.yMax + 4f;
     }
 

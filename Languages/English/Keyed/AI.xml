@@ -35,7 +35,7 @@
   <NR_AIFellBackToFragment>The server was destroyed. {0} fell back into a fragment.</NR_AIFellBackToFragment>
 
   <!-- Awakening -->
-  <NR_CommandAwakenAI>Awaken AI</NR_CommandAwakenAI>
+  <NR_CommandAwakenAI>Awake AI</NR_CommandAwakenAI>
   <NR_CommandAwakenAIDesc>Have a colonist work at the network console to wake an AI fragment and move it into a free AI server. Faster with higher hacking speed. With high Heat, the awakening may be noticed.</NR_CommandAwakenAIDesc>
   <NR_AwakenNoFragment>No AI fragment in the colony.</NR_AwakenNoFragment>
   <NR_AwakenNoServer>Needs a powered AI server with a free slot.</NR_AwakenNoServer>

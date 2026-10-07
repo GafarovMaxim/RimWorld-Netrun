@@ -37,6 +37,8 @@ public class FixerSettingsDef : Def
 
     // Heat scrubbing
     public float heatPerCyberdata = 5f;
+    /// <summary>Black market goods cost this much more than the fixer's own stock.</summary>
+    public float blackMarketMarkup = 1.18f;
     public float heatPerAdvancedCyberdata = 15f;
     /// <summary>Scrub efficiency by Heat level (index = HeatLevel): the louder the colony, the dearer the scrub.</summary>
     public List<float> scrubFactorByLevel = [0.6f, 0.6f, 0.4f, 0.3f, 0.2f];

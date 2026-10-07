@@ -72,8 +72,12 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
     public override bool FactionCanBeGroupSource(Faction f, IncidentParms parms, bool desperate = false)
         => f?.def == NetrunDefOf.NR_Mercenaries;
 
+    /// <summary>Below this many raid points only grenadiers fit the budget, and the raid comes without guns.</summary>
+    private const float MinPoints = 300f;
+
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
+        parms.points = UnityEngine.Mathf.Max(parms.points, MinPoints);
         if (!base.TryExecuteWorker(parms))
             return false;
         HeatTracker.Get()?.Note("NR_LogMercRaid".Translate(def.LabelCap), HeatSource.Raid);

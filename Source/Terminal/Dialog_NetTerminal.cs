@@ -95,13 +95,15 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
             Event.current.Use();
         }
+        // The cyberdeck casing outside, the interface on its screen.
+        inRect = NetrunUI.Bezel(inRect, 12f, "NR_DeckPlate".Translate());
         GuideInput();
         GuideRegistry.Begin();
         DrawWindow(inRect);
         GuideRegistry.End();
+        NetrunUI.Scanlines(inRect);
         DrawGuideOverlay(inRect);
         DrawAmbientGlitch(inRect);
-        NetrunUI.WindowFrame(inRect);
         if (Prefs.DevMode && Event.current.type == EventType.Repaint)
         {
             _drawMs = Mathf.Lerp(_drawMs, (float)_drawTimer.Elapsed.TotalMilliseconds, 0.1f);
@@ -125,6 +127,24 @@ public partial class Dialog_NetTerminal : Window
         float t = (f - Mathf.Floor(f)) * 9f;
         if (t < 0.12f)
             NetrunUI.Glitch(rect, t / 0.12f, Mathf.FloorToInt(f), 5);
+    }
+
+    /// <summary>
+    /// The bottom bar re-reads itself when the screen changes: for a moment its words are scrambled glyphs that settle
+    /// letter by letter from the left.
+    /// </summary>
+    private string Decode(string text)
+    {
+        float k = (Time.realtimeSinceStartup - _titleChangedAt) / 0.4f;
+        if (!NetrunMod.Settings.Animations || k >= 1f || text.NullOrEmpty())
+            return text;
+        const string glyphs = "01#$%&*+=?/|[]{}~^";
+        int settled = Mathf.FloorToInt(text.Length * Mathf.Clamp01(k));
+        var rnd = new System.Random(Time.frameCount / 3 + text.Length);
+        var sb = new System.Text.StringBuilder(text.Length);
+        for (int i = 0; i < text.Length; i++)
+            sb.Append(i < settled || char.IsWhiteSpace(text[i]) ? text[i] : glyphs[rnd.Next(glyphs.Length)]);
+        return sb.ToString();
     }
 
     private View _titleView;
@@ -502,7 +522,7 @@ public partial class Dialog_NetTerminal : Window
             GUI.DrawTexture(new Rect(sx, seg.center.y - 9f, 18f, 18f), NetrunTex.HeatIcon(level));
             sx += 24f;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(sx, seg.y, labelW + 2f, seg.height), ((string)"NR_StatusTrace".Translate()).ToUpper().Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(sx, seg.y, labelW + 2f, seg.height), Decode(((string)"NR_StatusTrace".Translate()).ToUpper()).Colorize(NetrunUI.Muted));
             sx += labelW + 8f;
             Text.Font = GameFont.Small;
             NetrunUI.Bar(new Rect(sx, seg.center.y - 5f, 100f, 10f), tracker.Heat / HeatTracker.MaxHeat, levelColor);
@@ -510,7 +530,7 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(sx, seg.y, valueW + 4f, seg.height), value.Colorize(levelColor));
             sx += valueW + 6f;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(sx, seg.y, levelW + 4f, seg.height), levelLabel.Colorize(levelColor));
+            Widgets.Label(new Rect(sx, seg.y, levelW + 4f, seg.height), Decode(levelLabel).Colorize(levelColor));
             Text.Font = GameFont.Small;
             NetrunUI.Tip(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
             if (Widgets.ButtonInvisible(seg))
@@ -526,7 +546,7 @@ public partial class Dialog_NetTerminal : Window
             GUI.color = netColor;
             GUI.DrawTexture(new Rect(netSeg.x + 8f, netSeg.center.y - 5f, 10f, 10f), NetrunUI.Disc);
             GUI.color = Color.white;
-            Widgets.Label(new Rect(netSeg.x + 24f, netSeg.y, netW + 4f, netSeg.height), net.Colorize(netColor));
+            Widgets.Label(new Rect(netSeg.x + 24f, netSeg.y, netW + 4f, netSeg.height), Decode(net).Colorize(netColor));
             Text.Font = GameFont.Small;
             NetrunUI.Tip(netSeg, "NR_TipNet".Translate());
         }
@@ -543,7 +563,7 @@ public partial class Dialog_NetTerminal : Window
         Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
         if (sickIcon != null)
             GUI.DrawTexture(new Rect(sickSeg.x + 6f, sickSeg.center.y - 11f, 22f, 22f), sickIcon);
-        Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), sickText.Colorize(sickColor));
+        Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), Decode(sickText).Colorize(sickColor));
         Text.Font = GameFont.Small;
         string sickTip = "NR_HeatScreenNetsickTip".Translate();
         if (sick.Count > 0)
@@ -594,7 +614,7 @@ public partial class Dialog_NetTerminal : Window
                 GUI.DrawTexture(new Rect(eventSeg.x + 4f, eventSeg.center.y - 9f, 18f, 18f), trend);
             else
                 Widgets.Label(new Rect(eventSeg.x + 8f, eventSeg.y, 14f, eventSeg.height), "▸".Colorize(NetrunUI.Accent));
-            Widgets.Label(new Rect(eventSeg.x + 22f, eventSeg.y, textW, eventSeg.height), entry.Text.Truncate(textW));
+            Widgets.Label(new Rect(eventSeg.x + 22f, eventSeg.y, textW, eventSeg.height), Decode(entry.Text.Truncate(textW)));
             if (amount.Length > 0)
                 Widgets.Label(new Rect(eventSeg.x + 22f + textW + 4f, eventSeg.y, amountW, eventSeg.height), amount);
             // A wider rect anchored right: fractional window positions while dragging can no longer wrap it.
@@ -609,16 +629,7 @@ public partial class Dialog_NetTerminal : Window
 
         Text.Anchor = TextAnchor.UpperLeft;
         float since = Time.realtimeSinceStartup - _titleChangedAt;
-        if (NetrunMod.Settings.Animations && since < 0.45f)
-        {
-            float k = since / 0.45f;
-            float bx = rect.x + rect.width * k;
-            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.10f * (1f - k));
-            GUI.DrawTexture(new Rect(bx - 120f, rect.y, 120f, rect.height), NetrunUI.GlowTex);
-            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f * (1f - k));
-            GUI.DrawTexture(new Rect(bx, rect.y + 2f, 1f, rect.height - 4f), BaseContent.WhiteTex);
-            GUI.color = Color.white;
-        }
+        _ = since;
     }
 
     /// <summary>From the Gateway's report button: the Archive on the dive reports tab.</summary>

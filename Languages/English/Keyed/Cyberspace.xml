@@ -165,7 +165,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_AlliesNeedFavor>needs the group's favor: {0}/{1}</NR_AlliesNeedFavor>
   <NR_AlliesCooldown>the group can help again in {0}</NR_AlliesCooldown>
   <NR_AlliesNoFaction>No allied faction can come, so the hacker group sent data instead.</NR_AlliesNoFaction>
-  <NR_Daemon_Blade>Blade</NR_Daemon_Blade>
+  <NR_Daemon_Blade>Reaper</NR_Daemon_Blade>
   <NR_DaemonDesc_Blade>Hacking +30% in every dive, without the Sword's double trace.</NR_DaemonDesc_Blade>
   <NR_Daemon_Aegis>Aegis</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>One Shield charge in every dive.</NR_DaemonDesc_Aegis>
@@ -277,7 +277,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_NewsContract>A fixer wants {0} cracked</NR_NewsContract>
   <NR_NewsLastDive>Last dive: {0} at {1}, {2}</NR_NewsLastDive>
   <NR_NewsRefresh>New nodes surface in {0}</NR_NewsRefresh>
-  <NR_GatewayDaemonPick>Daemon (one per dive, {0} found)</NR_GatewayDaemonPick>
+  <NR_GatewayDaemonPick>Daemon · 1 per dive ({0} found)</NR_GatewayDaemonPick>
   <NR_GatewayDaemonLocked>Not found yet: daemons come from the corporate core and rare finds.</NR_GatewayDaemonLocked>
   <NR_GatewayDaemonOne>One daemon per dive: picking another swaps it. Free, takes no program slot.</NR_GatewayDaemonOne>
   <NR_NewsEffectsHeader>In effect in cyberspace now:</NR_NewsEffectsHeader>

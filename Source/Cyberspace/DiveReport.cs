@@ -104,8 +104,9 @@ public class Dialog_DiveReport : Window
         bool size = NetrunText.Push();
         try
         {
-            DrawContents(inRect);
-            NetrunUI.WindowFrame(inRect);
+            Rect screen = NetrunUI.Bezel(inRect, 8f);
+            DrawContents(screen);
+            NetrunUI.Scanlines(screen);
         }
         finally
         {

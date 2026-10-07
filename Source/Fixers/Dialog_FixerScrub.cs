@@ -43,8 +43,9 @@ public class Dialog_FixerScrub : Window
         bool font = NetrunFont.Push();
         try
         {
-            DrawContents(inRect);
-            NetrunUI.WindowFrame(inRect);
+            Rect screen = NetrunUI.Bezel(inRect, 8f);
+            DrawContents(screen);
+            NetrunUI.Scanlines(screen);
         }
         finally
         {

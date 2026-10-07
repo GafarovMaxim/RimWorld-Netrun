@@ -26,7 +26,7 @@ public static class NetrunTex
     }
 
     // ---- Optional art (docs/ART_NEEDED_4.md): used when the file exists in Textures/UI/Netrun/Cyberspace/, otherwise null ----
-    public static Texture2D DaemonIcon(DiveDaemon daemon) => CyberIcon("Daemon_" + daemon);
+    public static Texture2D DaemonIcon(DiveDaemon daemon) => CyberIcon("Daemon_" + (daemon == DiveDaemon.Blade ? "Reaper" : daemon.ToString()));
     public static Texture2D EventIcon(string name) => CyberIcon("Event_" + name);
     public static Texture2D HackerGroup => CyberIcon("Icon_HackerGroup");
     public static Texture2D GroupFavor => CyberIcon("Icon_GroupFavor");
@@ -63,6 +63,7 @@ public static class NetrunTex
     public static Texture2D ReportFail => CyberIcon("Dive_GATE_Failed");
     public static readonly Texture2D Disconnect = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Disconnect", reportFailure: false);
     public static readonly Texture2D Shop = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Shop", reportFailure: false);
+    public static readonly Texture2D Star = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Star", reportFailure: false);
     public static readonly Texture2D Handshake = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Handshake", reportFailure: false);
     public static readonly Texture2D HeatReduction = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Reduction", reportFailure: false);
     public static readonly Texture2D HeatRise = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Rise", reportFailure: false);

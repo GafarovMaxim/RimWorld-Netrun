@@ -340,15 +340,15 @@ public partial class Dialog_NetTerminal
         Color tc = up ? NetrunUI.Bad : down ? NetrunUI.Ok : NetrunUI.Muted;
         string trendText = up || down ? "NR_CoreTrendShort".Translate((up ? "+" : "−") + Mathf.Abs(trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
         Texture2D arrow = up ? NetrunTex.HeatRise : down ? NetrunTex.HeatReduction : null;
-        float pw = Text.CalcSize(trendText).x + (arrow != null ? 20f : 0f) + 12f;
-        var pill = new Rect(c.x - pw / 2f, c.y + 28f, pw, 17f);
+        float pw = Text.CalcSize(trendText).x + (arrow != null ? 14f : 0f) + 8f;
+        var pill = new Rect(c.x - pw / 2f, c.y + 27f, pw, 15f);
         Widgets.DrawBoxSolid(pill, new Color(tc.r, tc.g, tc.b, 0.14f));
         GUI.color = new Color(tc.r, tc.g, tc.b, 0.5f);
         Widgets.DrawBox(pill);
         GUI.color = Color.white;
         if (arrow != null)
-            GUI.DrawTexture(new Rect(pill.x + 5f, pill.y + 1f, 15f, 15f), arrow);
-        Widgets.Label(new Rect(pill.x + (arrow != null ? 22f : 6f), pill.y, pill.width, pill.height), trendText.Colorize(tc));
+            GUI.DrawTexture(new Rect(pill.x + 3f, pill.y + 1f, 13f, 13f), arrow);
+        Widgets.Label(new Rect(pill.x + (arrow != null ? 16f : 4f), pill.y - 1f, pill.width, pill.height + 2f), trendText.Colorize(tc));
         NetrunUI.Tip(pill, up ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : down ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate());
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;

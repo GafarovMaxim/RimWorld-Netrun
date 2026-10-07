@@ -176,6 +176,13 @@ public partial class Dialog_NetTerminal
             GUI.DrawTexture(badge.ExpandedBy(2f), NetrunUI.Disc);
             GUI.color = c;
             GUI.DrawTexture(badge, NetrunUI.Disc);
+            // Not looked at yet: a slow ring breathes around the number.
+            if (!areaSeen && NetrunMod.Settings.Animations)
+            {
+                float f = Time.realtimeSinceStartup / 1.4f % 1f;
+                GUI.color = new Color(c.r, c.g, c.b, 0.6f * (1f - f));
+                GUI.DrawTexture(badge.ExpandedBy(2f + 8f * f), NetrunUI.Ring);
+            }
             GUI.color = Color.white;
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleCenter;
@@ -194,18 +201,6 @@ public partial class Dialog_NetTerminal
                 Text.Anchor = TextAnchor.UpperLeft;
             }
         }
-
-        // Bottom-left: the mode line and how many areas were seen.
-        int seen = areas.Count(a => progress?.GuideAreaSeen(a.def) == true);
-        string line = "NR_GuideModeLine".Translate(seen, areas.Count);
-        Text.Font = GameFont.Tiny;
-        float lw = Text.CalcSize(line).x + 20f;
-        var lineRect = new Rect(inRect.center.x - lw / 2f, inRect.y + TitleHeight + 6f, lw, 26f);
-        NetrunUI.Box(lineRect, NetrunUI.BgWindow, NetrunUI.Accent);
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(lineRect, line);
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
 
         if (_guideArea != null)
         {

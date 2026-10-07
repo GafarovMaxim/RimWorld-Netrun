@@ -90,7 +90,8 @@ public class Fixer : IExposable
         => (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(HeatLevelUtility.LevelOf(heat))
            * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
-    public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor);
+    public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor
+                                                       * (Stock.Contains(def) ? 1f : Settings.blackMarketMarkup));
 
     public void GainReputation(float amount)
     {

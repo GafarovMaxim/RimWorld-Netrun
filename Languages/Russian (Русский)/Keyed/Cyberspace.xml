@@ -165,7 +165,7 @@
   <NR_AlliesNeedFavor>нужна благосклонность группы: {0}/{1}</NR_AlliesNeedFavor>
   <NR_AlliesCooldown>группа сможет помочь снова через {0}</NR_AlliesCooldown>
   <NR_AlliesNoFaction>Союзной фракции рядом нет, поэтому хакерская группа прислала данные.</NR_AlliesNoFaction>
-  <NR_Daemon_Blade>Клинок</NR_Daemon_Blade>
+  <NR_Daemon_Blade>Жнец</NR_Daemon_Blade>
   <NR_DaemonDesc_Blade>Взлом +30% в каждом нырке, без двойного следа Меча.</NR_DaemonDesc_Blade>
   <NR_Daemon_Aegis>Эгида</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>Один заряд Щита в каждом нырке.</NR_DaemonDesc_Aegis>
@@ -277,7 +277,7 @@
   <NR_NewsContract>Фиксер хочет взлома {0}</NR_NewsContract>
   <NR_NewsLastDive>Последний нырок: {0}, {1}, {2}</NR_NewsLastDive>
   <NR_NewsRefresh>Новые ноды всплывут через {0}</NR_NewsRefresh>
-  <NR_GatewayDaemonPick>Демон (один на нырок, найдено: {0})</NR_GatewayDaemonPick>
+  <NR_GatewayDaemonPick>Демон · 1 на нырок ({0})</NR_GatewayDaemonPick>
   <NR_GatewayDaemonLocked>Ещё не найден: демоны выпадают из корп-ядра и редких находок.</NR_GatewayDaemonLocked>
   <NR_GatewayDaemonOne>Один демон на нырок: выбор другого заменяет его. Бесплатно, слот программы не занимает.</NR_GatewayDaemonOne>
   <NR_NewsEffectsHeader>Сейчас в киберпространстве действует:</NR_NewsEffectsHeader>

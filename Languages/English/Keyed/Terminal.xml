@@ -167,7 +167,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatV2AdviceClean>no trace. A good time for a dive.</NR_HeatV2AdviceClean>
   <NR_HelpCtx_DiveReport>Dive summary</NR_HelpCtx_DiveReport>
   <NR_GuideButtonTip>Screen guide: areas light up, click one for a short walkthrough.</NR_GuideButtonTip>
-  <NR_GuideModeLine>GUIDE: hover over an area and click · book button or Esc to leave · seen {0}/{1}</NR_GuideModeLine>
   <NR_GuideCardHeader>SCREEN GUIDE · {0} / {1}</NR_GuideCardHeader>
   <NR_GuideStep>step {0}/{1}</NR_GuideStep>
   <NR_GuideTry>Try:</NR_GuideTry>
@@ -278,7 +277,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDiveStepDesc_EXIT>The I/O port: leave with everything you found. A clean exit can bring a special find.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>A node is a path of steps. Hover a step to see what it is, click to pin the text here.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Night market −{0}</NR_ChipMarketDiscount>
-  <NR_CoreTrendShort>{0}/day</NR_CoreTrendShort>
+  <NR_CoreTrendShort>{0}/d</NR_CoreTrendShort>
   <NR_HelpDemoHeat>Heat now: {0}</NR_HelpDemoHeat>
   <NR_HelpDemoData>Cyberdata to spend: {0}</NR_HelpDemoData>
   <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
@@ -288,4 +287,5 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDemoSick_Strong>Strong (60%+): a little less consciousness, "net craving" breaks every few days.</NR_HelpDemoSick_Strong>
   <NR_HelpDemoSick_Severe>Severe (85%+): worse mood and more frequent breaks.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Hover a stage to read what it does. The marker shows Netsick creeping up with daily dives.</NR_HelpDemoSickHint>
+  <NR_DeckPlate>NETRUN // CYBERDECK MK-II</NR_DeckPlate>
 </LanguageData>

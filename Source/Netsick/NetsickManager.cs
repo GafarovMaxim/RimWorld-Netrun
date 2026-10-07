@@ -38,13 +38,23 @@ public class NetsickManager : GameComponent
                 Hediff_Netsick netsick = AddNetsick(diver, Settings.podGainPerDay * DayFraction * PodFactor(pod));
                 netsick.LastConnectedTick = now;
 
+                // Resolved and waking: nothing more to do, unless the pod never lets the pawn out (then eject).
+                if (netsick.WakeRequestedTick >= 0)
+                {
+                    if (now - netsick.WakeRequestedTick > 3 * GenDate.TicksPerHour)
+                        pod.EjectContents();
+                    continue;
+                }
                 // A craving that brought the pawn here starts its dive now (the break may have ended on the way).
                 if (netsick.CravingSinceTick >= 0 && netsick.EmotionalDiveUntilTick < 0)
                     BeginEmotionalDive(diver, netsick);
                 if (netsick.EmotionalDiveUntilTick >= 0 && now >= netsick.EmotionalDiveUntilTick)
                 {
+                    // Once: the outcome, then the pod wakes the netrunner up (Hacking Expansion's own waking, about an hour).
                     ResolveEmotionalDive(diver, pod, netsick);
-                    // The craving is over: the pod wakes the netrunner up (Hacking Expansion's own waking, about an hour).
+                    netsick.EmotionalDiveUntilTick = -1;
+                    netsick.CravingSinceTick = -1;
+                    netsick.WakeRequestedTick = now;
                     StartWaking(pod);
                 }
             }
@@ -59,6 +69,7 @@ public class NetsickManager : GameComponent
 
             // Left the pod mid-dive: the emotional dive simply ends. A craving that never reached a pod is dropped after a day.
             netsick.EmotionalDiveUntilTick = -1;
+            netsick.WakeRequestedTick = -1;
             if (netsick.CravingSinceTick >= 0 && Find.TickManager.TicksGame - netsick.CravingSinceTick > GenDate.TicksPerDay)
                 netsick.CravingSinceTick = -1;
             netsick.Severity -= Settings.decayPerDay * DayFraction;

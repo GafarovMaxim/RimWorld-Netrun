@@ -116,7 +116,7 @@ public static class FixersTab
         {
             var pinRect = new Rect(portraitRect.xMax - 14f, portraitRect.y - 8f, 22f, 22f);
             GUI.color = NetrunUI.Warn;
-            GUI.DrawTexture(pinRect, NetrunTex.Pinned);
+            GUI.DrawTexture(pinRect, NetrunTex.Star ?? NetrunTex.Pinned);
             GUI.color = Color.white;
             NetrunUI.Tip(pinRect, "NR_FixerPinnedTag".Translate());
         }
@@ -133,7 +133,14 @@ public static class FixersTab
         if (fixer.IsNew)
             chipX += NetrunUI.Chip(chipX, y + 4f, "NR_FixerNewTag".Translate(), NetrunUI.Accent, "NR_FixerNewTip".Translate()) + 6f;
         if (fixer.Held && !fixer.Pinned)
+        {
+            var heldRect = new Rect(portraitRect.xMax - 14f, portraitRect.y - 8f, 22f, 22f);
+            GUI.color = NetrunUI.Warn;
+            GUI.DrawTexture(heldRect, NetrunTex.Pinned);
+            GUI.color = Color.white;
+            NetrunUI.Tip(heldRect, "NR_FixerHeldTip".Translate());
             NetrunUI.Chip(chipX, y + 4f, "NR_FixerHeldTag".Translate(), NetrunUI.Warn, "NR_FixerHeldTip".Translate());
+        }
 
         // Top right: hold through rotation (unpinned only) and break ties.
         FixerManager manager = FixerManager.Get();

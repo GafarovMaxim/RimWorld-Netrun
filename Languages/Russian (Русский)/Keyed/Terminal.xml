@@ -167,7 +167,6 @@
   <NR_HeatV2AdviceClean>следа нет. Хорошее время для нырка.</NR_HeatV2AdviceClean>
   <NR_HelpCtx_DiveReport>Итоги вылазки</NR_HelpCtx_DiveReport>
   <NR_GuideButtonTip>Гайд по экрану: области подсвечиваются, клик по области — короткий разбор.</NR_GuideButtonTip>
-  <NR_GuideModeLine>ГАЙД: наведите на область и кликните · кнопка-книжка или Esc — выход · просмотрено {0}/{1}</NR_GuideModeLine>
   <NR_GuideCardHeader>ГАЙД ПО ЭКРАНУ · {0} / {1}</NR_GuideCardHeader>
   <NR_GuideStep>шаг {0}/{1}</NR_GuideStep>
   <NR_GuideTry>Попробуйте:</NR_GuideTry>
@@ -278,7 +277,7 @@
   <NR_HelpDiveStepDesc_EXIT>Порт ввода-вывода: уходите со всем найденным. Чистый выход может принести особую находку.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Ночной рынок −{0}</NR_ChipMarketDiscount>
-  <NR_CoreTrendShort>{0}/сут</NR_CoreTrendShort>
+  <NR_CoreTrendShort>{0}/д</NR_CoreTrendShort>
   <NR_HelpDemoHeat>Heat сейчас: {0}</NR_HelpDemoHeat>
   <NR_HelpDemoData>Потратить cyberdata: {0}</NR_HelpDemoData>
   <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
@@ -288,4 +287,5 @@
   <NR_HelpDemoSick_Strong>Сильная (60%+): чуть меньше сознания, срывы «тяга к сети» раз в несколько дней.</NR_HelpDemoSick_Strong>
   <NR_HelpDemoSick_Severe>Тяжёлая (85%+): хуже настроение и чаще срывы.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Наведите на стадию, чтобы прочитать, что она делает. Метка показывает, как Netsick ползёт вверх при ежедневных нырках.</NR_HelpDemoSickHint>
+  <NR_DeckPlate>NETRUN // КИБЕРДЕКА MK-II</NR_DeckPlate>
 </LanguageData>

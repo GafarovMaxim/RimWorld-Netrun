@@ -357,14 +357,72 @@ public static class NetrunUI
         Widgets.DrawBoxSolid(new Rect(rect.xMax - 6f, rect.y + 1f, 6f, rect.height - 2f), new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.8f));
     }
 
-    /// <summary>The window frame of the terminal style: a thin accent line and uneven corner brackets just inside the edge.</summary>
-    public static void WindowFrame(Rect rect, Color? color = null)
+    private static readonly Color BezelColor = Hex(0x15171a);
+    private static readonly Color BezelLight = Hex(0x2c3036);
+    private static readonly Texture2D ScanlineTex = MakeScanlines();
+
+    private static Texture2D MakeScanlines()
     {
-        Color c = color ?? Accent;
-        GUI.color = new Color(c.r, c.g, c.b, 0.35f);
-        Widgets.DrawBox(rect.ContractedBy(1f));
+        var tex = new Texture2D(1, 3, TextureFormat.ARGB32, false) { filterMode = FilterMode.Point, wrapMode = TextureWrapMode.Repeat };
+        tex.SetPixel(0, 0, new Color(0f, 0f, 0f, 0.16f));
+        tex.SetPixel(0, 1, new Color(0f, 0f, 0f, 0f));
+        tex.SetPixel(0, 2, new Color(0f, 0f, 0f, 0f));
+        tex.Apply();
+        return tex;
+    }
+
+    /// <summary>
+    /// The casing of a retro cyberdeck around the screen: a dark bezel with a lit inner bevel, corner screws, a maker's
+    /// plate and a power light. Returns the screen inside it, where the interface draws.
+    /// </summary>
+    public static Rect Bezel(Rect outer, float thickness, string plate = null, Color? accent = null)
+    {
+        Color c = accent ?? Accent;
+        Widgets.DrawBoxSolid(outer, BezelColor);
+        // Outer edge and inner bevel: a light line on top/left, a dark one at the screen.
+        GUI.color = BezelLight;
+        Widgets.DrawBox(outer);
         GUI.color = Color.white;
-        Brackets(rect.ContractedBy(4f), new Color(c.r, c.g, c.b, 0.85f), 2f, 26f);
+        Rect screen = outer.ContractedBy(thickness);
+        Widgets.DrawBoxSolid(new Rect(screen.x - 2f, screen.y - 2f, screen.width + 4f, 2f), new Color(0f, 0f, 0f, 0.6f));
+        Widgets.DrawBoxSolid(new Rect(screen.x - 2f, screen.y - 2f, 2f, screen.height + 4f), new Color(0f, 0f, 0f, 0.6f));
+        Widgets.DrawBoxSolid(new Rect(screen.x - 2f, screen.yMax, screen.width + 4f, 2f), BezelLight);
+        Widgets.DrawBoxSolid(new Rect(screen.xMax, screen.y - 2f, 2f, screen.height + 4f), BezelLight);
+        // Corner screws.
+        float s = Mathf.Min(6f, thickness * 0.5f);
+        foreach (Vector2 p in new[] { new Vector2(outer.x + thickness / 2f, outer.y + thickness / 2f), new Vector2(outer.xMax - thickness / 2f, outer.y + thickness / 2f),
+                     new Vector2(outer.x + thickness / 2f, outer.yMax - thickness / 2f), new Vector2(outer.xMax - thickness / 2f, outer.yMax - thickness / 2f) })
+        {
+            GUI.color = BezelLight;
+            GUI.DrawTexture(new Rect(p.x - s / 2f, p.y - s / 2f, s, s), Disc);
+            GUI.color = new Color(0f, 0f, 0f, 0.7f);
+            GUI.DrawTexture(new Rect(p.x - s / 2f, p.y - 0.5f, s, 1f), BaseContent.WhiteTex);
+        }
+        GUI.color = Color.white;
+        // Accent ticks on the casing, uneven like the node frames.
+        Widgets.DrawBoxSolid(new Rect(outer.x + 40f, outer.y + 1f, 60f, 2f), new Color(c.r, c.g, c.b, 0.55f));
+        Widgets.DrawBoxSolid(new Rect(outer.xMax - 160f, outer.yMax - 3f, 120f, 2f), new Color(c.r, c.g, c.b, 0.55f));
+        if (plate != null && thickness >= 10f)
+        {
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            var pr = new Rect(outer.x + thickness + 8f, outer.yMax - thickness - 1f, 300f, thickness + 1f);
+            Widgets.Label(pr, plate.Colorize(new Color(1f, 1f, 1f, 0.28f)));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            // The power light breathes.
+            float a = NetrunMod.Settings.Animations ? 0.6f + 0.4f * Mathf.Sin(Time.realtimeSinceStartup * 1.5f) : 1f;
+            Led(new Rect(outer.xMax - thickness - 26f, outer.yMax - thickness / 2f - 1.5f, 14f, 3f), new Color(Ok.r, Ok.g, Ok.b, a));
+        }
+        return screen;
+    }
+
+    /// <summary>Faint CRT lines over a screen (one draw call).</summary>
+    public static void Scanlines(Rect screen)
+    {
+        if (Event.current.type != EventType.Repaint)
+            return;
+        GUI.DrawTextureWithTexCoords(screen, ScanlineTex, new Rect(0f, 0f, 1f, screen.height / 3f));
     }
 
     /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>

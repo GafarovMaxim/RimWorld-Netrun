@@ -97,49 +97,62 @@ public static class HyperText
         float lineH = NetrunText.LineHeight;
         float cx = 0f, cy = 0f;
         float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
-        foreach (Segment seg in segments)
+        // Lay out first: every word with its rect and the segment it belongs to.
+        var words = new List<(Rect r, string word, int seg)>();
+        for (int s = 0; s < segments.Count; s++)
         {
-            float lastEnd = -1f, lastRow = -1f;
-            string[] words = seg.Text.Split(' ');
-            for (int i = 0; i < words.Length; i++)
+            string[] parts = segments[s].Text.Split(' ');
+            for (int i = 0; i < parts.Length; i++)
             {
-                string word = words[i];
                 if (i > 0)
                     cx += space;
-                if (word.Length == 0)
+                if (parts[i].Length == 0)
                     continue;
-                float ww = Text.CalcSize(word).x;
+                float ww = Text.CalcSize(parts[i]).x;
                 if (cx > 0f && cx + ww > width)
                 {
                     cx = 0f;
                     cy += lineH;
                 }
-                if (draw)
-                {
-                    var r = new Rect(x + cx, y + cy, ww + 1f, lineH);
-                    if (seg.Link == null || go == null)
-                    {
-                        Widgets.Label(r, textColor is { } tc ? word.Colorize(tc) : word);
-                    }
-                    else
-                    {
-                        bool hover = Mouse.IsOver(r);
-                        Color c = hover ? Color.white : NetrunUI.Accent;
-                        Widgets.Label(r, word.Colorize(c));
-                        GUI.color = new Color(c.r, c.g, c.b, 0.5f);
-                        // The underline bridges the space to the previous word of the same link on this row.
-                        float from = lastEnd >= 0f && Mathf.Approximately(lastRow, cy) ? x + lastEnd : r.x;
-                        Widgets.DrawLineHorizontal(from, r.yMax - 3f, r.x + ww - from);
-                        GUI.color = Color.white;
-                        lastEnd = cx + ww;
-                        lastRow = cy;
-                        NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(seg.Link.LabelCap));
-                        if (Widgets.ButtonInvisible(r))
-                            go(seg.Link);
-                    }
-                }
+                words.Add((new Rect(x + cx, y + cy, ww + 1f, lineH), parts[i], s));
                 cx += ww;
             }
+        }
+        if (!draw)
+            return cy + lineH;
+
+        // A link is one thing: hovering any of its words lights the whole phrase, one tooltip, one click.
+        int hovered = -1;
+        foreach ((Rect r, string _, int seg) in words)
+            if (segments[seg].Link != null && go != null && Mouse.IsOver(r))
+                hovered = seg;
+        for (int k = 0; k < words.Count; k++)
+        {
+            (Rect r, string word, int seg) = words[k];
+            HelpPageDef link = go == null ? null : segments[seg].Link;
+            if (link == null)
+            {
+                Widgets.Label(r, textColor is { } tc ? word.Colorize(tc) : word);
+                continue;
+            }
+            Color c = hovered == seg ? Color.white : NetrunUI.Accent;
+            Widgets.Label(r, word.Colorize(c));
+            // The underline bridges the space to the previous word of the same link on this row.
+            bool joined = k > 0 && words[k - 1].seg == seg && Mathf.Approximately(words[k - 1].r.y, r.y);
+            float from = joined ? words[k - 1].r.xMax - 1f : r.x;
+            GUI.color = new Color(c.r, c.g, c.b, 0.5f);
+            Widgets.DrawLineHorizontal(from, r.yMax - 3f, r.xMax - 1f - from);
+            GUI.color = Color.white;
+            if (joined)
+            {
+                var gap = new Rect(from, r.y, r.x - from, r.height);
+                NetrunUI.Tip(gap, "NR_HelpLinkTip".Translate(link.LabelCap));
+                if (Widgets.ButtonInvisible(gap))
+                    go(link);
+            }
+            NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(link.LabelCap));
+            if (Widgets.ButtonInvisible(r))
+                go(link);
         }
         return cy + lineH;
     }

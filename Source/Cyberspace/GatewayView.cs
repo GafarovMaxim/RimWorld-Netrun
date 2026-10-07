@@ -24,7 +24,8 @@ public static class GatewayView
     private static readonly Vector2[] Slots =
     [
         new(0.45f, 0.25f), new(0.75f, 0.55f), new(0.25f, 0.62f), new(0.55f, 0.82f),
-        new(0.12f, 0.28f), new(0.80f, 0.20f), new(0.88f, 0.85f),
+        new(0.12f, 0.28f), new(0.80f, 0.20f), new(0.88f, 0.85f), new(0.28f, 0.90f),
+        new(0.66f, 0.10f), new(0.95f, 0.45f), new(0.08f, 0.55f),
     ];
 
     private static int _selectedId = -1;
@@ -80,9 +81,11 @@ public static class GatewayView
         float time = Time.realtimeSinceStartup;
 
         var placed = new List<(ExternalNode node, Vector2 pos, float radius)>();
-        for (int i = 0; i < nodes.Count && i < Slots.Length; i++)
+        // The boss, a counter-hack and contract nodes are never the ones left without a slot.
+        List<ExternalNode> ordered = nodes.OrderByDescending(n => n.IsBoss).ThenByDescending(n => n.CounterHack).ThenByDescending(n => n.Contract).ToList();
+        for (int i = 0; i < ordered.Count && i < Slots.Length; i++)
         {
-            ExternalNode node = nodes[i];
+            ExternalNode node = ordered[i];
             Vector2 slot = Slots[i];
             float bob = NetrunMod.Settings.Animations ? Mathf.Sin(time * 0.8f + node.Id) * 4f : 0f;
             // Zoom spreads the slots around the field centre; circles grow with it.
@@ -96,7 +99,7 @@ public static class GatewayView
         {
             // The line leaves the home node's edge and stops at the circle's rim.
             Vector2 dir = (p.pos - hub).normalized;
-            DrawLink(hub + dir * 44f, p.pos - dir * p.radius, p.node.Color, p.node.Id);
+            DrawLink(hub + dir * (54f * Mathf.Sqrt(_zoom)), p.pos - dir * p.radius, p.node.Color, p.node.Id);
         }
         DrawHome(hub);
 
@@ -337,7 +340,7 @@ public static class GatewayView
     private static void DrawHome(Vector2 hub)
     {
         HeatTracker tracker = HeatTracker.Get();
-        const float size = 66f;
+        float size = 96f * Mathf.Sqrt(_zoom);
         var r = new Rect(hub.x - size / 2f, hub.y - size / 2f, size, size);
         float lit = NetrunUI.HoverFade(r);
         HeatLevel level = tracker?.Level ?? HeatLevel.Shadow;
@@ -360,11 +363,12 @@ public static class GatewayView
             var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
             Widgets.DrawLine(outer.center + dir * (outer.width / 2f - length * 0.4f), outer.center + dir * (outer.width / 2f + length * 0.6f), NetrunUI.Accent, 2f);
         }
-        GUI.DrawTexture(new Rect(hub.x - 13f, hub.y - 18f, 26f, 26f), NetrunTex.HeatIcon(level));
+        float ic = size * 0.36f;
+        GUI.DrawTexture(new Rect(hub.x - ic / 2f, hub.y - ic * 0.75f, ic, ic), NetrunTex.HeatIcon(level));
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.UpperCenter;
         if (tracker != null)
-            Widgets.Label(new Rect(hub.x - 30f, hub.y + 6f, 60f, 16f), tracker.Heat.ToString("0").Colorize(c));
+            Widgets.Label(new Rect(hub.x - 30f, hub.y + ic * 0.3f, 60f, 16f), tracker.Heat.ToString("0").Colorize(c));
         Widgets.Label(new Rect(r.x - 40f, outer.yMax + 2f, r.width + 80f, 18f), ((string)"NR_GatewayHome".Translate()).ToUpper().Colorize(NetrunUI.Accent));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
@@ -484,11 +488,12 @@ public static class GatewayView
             int rewardCost = gateway.DiveCost(map, node, out _);
             foreach ((ThingDef def, string amount) in node.RewardLines(rewardCost))
             {
-                var line = new Rect(inner.x + 24f, y, inner.width - 24f, 22f);
-                Widgets.ThingIcon(new Rect(line.x, line.y + 1f, 20f, 20f), def);
+                float s = NetrunUI.Icon(26f);
+                var line = new Rect(inner.x + 24f, y, inner.width - 24f, s + 2f);
+                Widgets.ThingIcon(new Rect(line.x, line.y + 1f, s, s), def);
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(new Rect(line.x + 26f, line.y, line.width - 90f, line.height), def.LabelCap.ToString().Truncate(line.width - 90f));
+                Widgets.Label(new Rect(line.x + s + 6f, line.y, line.width - 90f, line.height), def.LabelCap.ToString().Truncate(line.width - 90f));
                 Text.Anchor = TextAnchor.MiddleRight;
                 Widgets.Label(new Rect(line.xMax - 64f, line.y, 64f, line.height), amount.Colorize(NetrunUI.Ok));
                 Text.Anchor = TextAnchor.UpperLeft;
@@ -619,21 +624,25 @@ public static class GatewayView
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,
         IEnumerable<Texture2D> valueIcons = null)
     {
-        const float labelWidth = 102f;
+        const float labelWidth = 110f;
+        float s = NetrunUI.Icon(28f);
+        float h = Mathf.Max(s + 2f, 22f);
         if (icon != null)
-            GUI.DrawTexture(new Rect(inner.x, y + 1f, 20f, 20f), icon);
-        Widgets.Label(new Rect(inner.x + 24f, y, labelWidth - 24f, 22f), label.Colorize(NetrunUI.Muted));
+            GUI.DrawTexture(new Rect(inner.x, y + 1f, s, s), icon);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(inner.x + s + 6f, y, labelWidth - s - 6f, h), label.Colorize(NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperLeft;
         float vx = inner.x + labelWidth;
         if (valueIcons != null)
         {
             foreach (Texture2D tex in valueIcons.Where(t => t != null))
             {
-                GUI.DrawTexture(new Rect(vx, y + 1f, 20f, 20f), tex);
-                vx += 22f;
+                GUI.DrawTexture(new Rect(vx, y + 1f, s - 4f, s - 4f), tex);
+                vx += s - 2f;
             }
             vx += 2f;
         }
-        float h = Mathf.Max(22f, Text.CalcHeight(value, inner.xMax - vx));
+        h = Mathf.Max(h, Text.CalcHeight(value, inner.xMax - vx));
         Widgets.Label(new Rect(vx, y, inner.xMax - vx, h), value.Colorize(color));
         NetrunUI.Tip(new Rect(inner.x, y, inner.width, h), tip);
         GUI.color = new Color(1f, 1f, 1f, 0.08f);

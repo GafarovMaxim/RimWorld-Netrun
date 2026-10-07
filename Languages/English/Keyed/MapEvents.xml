@@ -13,7 +13,6 @@
   <NR_BlackMarketNobody>nobody yet (needs {0} reputation)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Black market</NR_FixerShopBlack>
   <NR_DistressLabel>Distress signal</NR_DistressLabel>
-  <NR_Distress>An abandoned server on your land is sending a weak distress signal. A colonist can connect to it (right-click): maybe there is an AI inside, maybe ICE.</NR_Distress>
   <NR_DistressConnect>Connect to the server</NR_DistressConnect>
   <NR_DistressFragment>{0} pulled an AI fragment out of the old server.</NR_DistressFragment>
   <NR_DistressBacklash>The old server hit {0} with ICE backlash.</NR_DistressBacklash>
@@ -22,4 +21,5 @@
   <NR_CounterHackWonLabel>Turrets back</NR_CounterHackWonLabel>
   <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
   <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
+  <NR_DistressSiteLetter>A weak distress signal comes from an abandoned server somewhere in the region. It is marked on the world map.\n\nSend a caravan with a hacker to connect to it: an AI fragment may still be alive inside (or the server's ICE bites back). The signal will die out in {0} days.</NR_DistressSiteLetter>
 </LanguageData>
