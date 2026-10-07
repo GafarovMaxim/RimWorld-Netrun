@@ -170,7 +170,7 @@
   <NR_Daemon_Aegis>Эгида</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>Один заряд Щита в каждом нырке.</NR_DaemonDesc_Aegis>
   <NR_Daemon_Wraith>Морок</NR_Daemon_Wraith>
-  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как Призрак.</NR_DaemonDesc_Wraith>
+  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как Призрак. Патрулю нужна на одну неудачу больше, чтобы проснуться.</NR_DaemonDesc_Wraith>
   <NR_Daemon_Hound>Гончая</NR_Daemon_Hound>
   <NR_DaemonDesc_Hound>Один заряд Убийцы в каждом нырке.</NR_DaemonDesc_Hound>
   <NR_Daemon_Lens>Линза</NR_Daemon_Lens>
@@ -439,4 +439,20 @@
   <NR_Flavor_Tip_10>Совет: правка брейнданса живёт в Студии. Консоль связи только принимает звонки.</NR_Flavor_Tip_10>
   <NR_Flavor_Tip_11>Совет: если сеть шумит, подождите. Сеть всегда устаёт первой.</NR_Flavor_Tip_11>
   <NR_Flavor_Tip_12>Совет: Netsick это не слабость. Это счёт, а счета оплачиваются сном.</NR_Flavor_Tip_12>
+  <NR_DiveLogAlert>Тревога ноды {0}/{1}: проваленные ворота заметили.</NR_DiveLogAlert>
+  <NR_DiveLogPatrolAwake>Тревога ноды на максимуме: проснулся патруль ICE и прочёсывает ноду.</NR_DiveLogPatrolAwake>
+  <NR_DiveLogPatrolShield>Патруль ICE ударил: щит принял удар.</NR_DiveLogPatrolShield>
+  <NR_DiveLogPatrolStrike>Патруль ICE нашёл {0} и выбросил из ноды. Половина добычи потеряна.</NR_DiveLogPatrolStrike>
+  <NR_DiveHudAlert>Тревога ноды</NR_DiveHudAlert>
+  <NR_DiveHudPatrol>патруль</NR_DiveHudPatrol>
+  <NR_DiveHudAlertTip>Каждый проваленный взлом ворот поднимает тревогу ноды (провал на ICE не поднимает). На {0} просыпается патруль ICE: каждый ход ноды он бьёт с шансом {1}. Удар выбрасывает раннера с половиной добычи и тошнотой; щит или Эгида принимают удар на себя.\n\nДемон Морок пропускает ещё одну неудачу. На нодах защиты 1 тревоги нет.</NR_DiveHudAlertTip>
+  <NR_Program_IceBreaker>Ледоруб</NR_Program_IceBreaker>
+  <NR_ProgramDesc_IceBreaker>Ледоруб Hacking Expansion как программа: ломает одни ворота без проверки, но это действие оставляет двойной след. Сжигает один ледоруб, без cyberdata. Один предмет HE на нырок.</NR_ProgramDesc_IceBreaker>
+  <NR_Program_Exec>Exec</NR_Program_Exec>
+  <NR_ProgramDesc_Exec>Exec data как программа: +1 действие в каждом из трёх первых ходов. Сжигает одну exec data, без cyberdata. Один предмет HE на нырок.</NR_ProgramDesc_Exec>
+  <NR_HeProgramNoResearch>Нужно исследование «{0}».</NR_HeProgramNoResearch>
+  <NR_HeProgramOnlyOne>Только один предмет Hacking Expansion на нырок.</NR_HeProgramOnlyOne>
+  <NR_HeProgramNoItem>В колонии нет: {0}.</NR_HeProgramNoItem>
+  <NR_DiveLogBreaker>Ледоруб прорвал {0}. Громко: двойной след.</NR_DiveLogBreaker>
+  <NR_DiveCostPodFuel>Сначала из очков взлома капсулы: {0}</NR_DiveCostPodFuel>
 </LanguageData>

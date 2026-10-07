@@ -561,14 +561,18 @@ public static class GatewayView
         {
             bool on = gateway.SelectedPrograms.Contains(program);
             string label = ("NR_Program_" + program).Translate();
-            Texture2D programIcon = NetrunTex.CyberIcon("Program_" + program);
+            if (HePrograms.IsHeItem(program) && NetrunDefOf.NR_Res_ExecPrograms?.IsFinished != true && !on)
+                continue;
+            Texture2D programIcon = NetrunTex.CyberIcon("Program_" + program) ?? HePrograms.IconDef(program)?.uiIcon;
             float w = NetrunUI.ButtonWidth(label, programIcon != null);
             if (x + w > inner.xMax)
             {
                 x = inner.x;
                 y += 34f;
             }
-            AcceptanceReport report = on || gateway.SelectedPrograms.Count < slots ? true : (AcceptanceReport)"NR_GatewayNoSlots".Translate();
+            AcceptanceReport report = on ? true
+                : gateway.SelectedPrograms.Count >= slots ? (AcceptanceReport)"NR_GatewayNoSlots".Translate()
+                : HePrograms.CanSelect(map, program, gateway.SelectedPrograms);
             Color color = on ? NetrunUI.Ok : NetrunUI.Muted;
             if (NetrunUI.Button(new Rect(x, y, w, 28f), (on ? "✓ " : string.Empty) + label, on ? color : NetrunUI.TextColor, report,
                     ("NR_ProgramDesc_" + program).Translate(NetrunDefOf.NR_Cyberspace.programCost), programIcon))

@@ -262,19 +262,46 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         if (Runner(map, out _) == null)
             return "NR_GatewayNoPod".Translate();
         int cost = DiveCost(map, node, out _);
-        if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) < cost)
+        Runner(map, out Building_Cyberpod pod);
+        if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) + PodFuelCyberdata(pod) < cost)
             return "NR_AINoFood".Translate(cost, NetrunDefOf.USH_Cyberdata.label);
+        foreach (DiveProgram program in SelectedPrograms.Where(HePrograms.IsHeItem))
+            if (HePrograms.Available(map, program) <= 0)
+                return "NR_HeProgramNoItem".Translate(HePrograms.IconDef(program)?.label ?? "?");
         return true;
+    }
+
+    /// <summary>The pod's hack points, counted in whole cyberdata (HE refuels 1 cyberdata = 40 hack points).</summary>
+    public static int PodFuelCyberdata(Building_Cyberpod pod)
+    {
+        CompRefuelable fuel = pod?.GetComp<CompRefuelable>();
+        if (fuel == null || fuel.Props.FuelMultiplierCurrentDifficulty <= 0f)
+            return 0;
+        return UnityEngine.Mathf.FloorToInt(fuel.Fuel / fuel.Props.FuelMultiplierCurrentDifficulty);
+    }
+
+    /// <summary>A dive is paid from the pod's hack points first, the rest in cyberdata (docs/CONCEPTS_10.md, section 8).</summary>
+    private static void Pay(Map map, Building_Cyberpod pod, int cost)
+    {
+        int fromPod = System.Math.Min(cost, PodFuelCyberdata(pod));
+        if (fromPod > 0)
+        {
+            CompRefuelable fuel = pod.GetComp<CompRefuelable>();
+            fuel.ConsumeFuel(fromPod * fuel.Props.FuelMultiplierCurrentDifficulty);
+        }
+        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost - fromPod);
     }
 
     public void Dive(Map map, ExternalNode node)
     {
         NetworkGate.Notify();
-        Pawn runner = Runner(map, out _);
+        Pawn runner = Runner(map, out Building_Cyberpod pod);
         if (runner == null)
             return;
         int cost = DiveCost(map, node, out _);
-        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
+        Pay(map, pod, cost);
+        // HE items are burnt at the start; one that went missing since the pick just drops out.
+        SelectedPrograms.RemoveAll(p => HePrograms.IsHeItem(p) && !HePrograms.TryConsume(map, p));
         Session = DiveSession.Start(node, runner, SelectedPrograms, cost, DaemonsForDive);
         EconomyTracker.Get()?.Note(spent: cost, dive: true);
         SelectedPrograms = [];
@@ -287,18 +314,22 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     public int DiveCost(Map map, ExternalNode node, out string breakdown)
     {
         int entry = node == null ? 0 : Settings.diveBaseCost + node.Defense / 2;
-        int programs = SelectedPrograms.Count * Settings.programCost;
+        int paidPrograms = SelectedPrograms.Count(p => !HePrograms.IsHeItem(p));
+        int programs = paidPrograms * Settings.programCost;
         Pawn runner = Runner(map, out Building_Cyberpod pod);
         int coprocessor = pod != null && CyberpodUtility.CoprocessorAI(pod) != null ? Settings.coprocessorDiscount : 0;
         int passenger = runner != null && AIManager.Get()?.AIs.Any(a => a.Host == runner) == true ? Settings.passengerDiscount : 0;
         int total = System.Math.Max(0, entry + programs - coprocessor - passenger);
 
-        var lines = new List<string> { "NR_DiveCostEntry".Translate(entry), "NR_DiveCostPrograms".Translate(SelectedPrograms.Count, programs) };
+        var lines = new List<string> { "NR_DiveCostEntry".Translate(entry), "NR_DiveCostPrograms".Translate(paidPrograms, programs) };
         if (coprocessor > 0)
             lines.Add("NR_DiveCostCoprocessor".Translate(coprocessor));
         if (passenger > 0)
             lines.Add("NR_DiveCostPassenger".Translate(passenger));
         lines.Add("NR_DiveCostTotal".Translate(total));
+        int podFuel = PodFuelCyberdata(pod);
+        if (podFuel > 0 && total > 0)
+            lines.Add("NR_DiveCostPodFuel".Translate(System.Math.Min(total, podFuel)));
         breakdown = lines.ToLineList();
         return total;
     }

@@ -24,6 +24,10 @@ public enum DiveProgram
     Decoy,
     Stealth,
     Killer,
+    /// <summary>HE black ICE breaker: breaks one gate without a roll, but that action leaves double trace.</summary>
+    IceBreaker,
+    /// <summary>HE exec data: +1 action in each of the first turns.</summary>
+    Exec,
 }
 
 /// <summary>One element of a node's architecture (Data Fortress style): a box on the dive map.</summary>
@@ -92,6 +96,9 @@ public class DiveSession : IExposable
     public int ShieldCharges;
     public int DecoyCharges;
     public int KillerCharges;
+    public int BreakerCharges;
+    /// <summary>Turns (from the first) that get an extra action from an exec data.</summary>
+    public int ExecTurns;
     public int LootCyberdata;
     public int LootAdvanced;
     public int LootSilver;
@@ -124,6 +131,16 @@ public class DiveSession : IExposable
     public bool Retreated;
     /// <summary>ICE hits that got through (not stopped by a shield or a decoy).</summary>
     public int IceHits;
+    /// <summary>Node alert: failed gate hacks; at the threshold an ICE patrol wakes up (docs/DIVE_BALANCE.md).</summary>
+    public int NodeAlert;
+
+    /// <summary>Nodes this weak have no alert: training grounds of the Outskirts.</summary>
+    public bool AlertApplies => Node != null && Node.Defense > Settings.alertFreeDefense;
+
+    /// <summary>Wraith (stealth daemon) lets one more failure slip by.</summary>
+    public int AlertThreshold => Settings.alertThreshold + (Daemons.Contains(DiveDaemon.Wraith) ? 1 : 0);
+
+    public bool PatrolAwake => AlertApplies && NodeAlert >= AlertThreshold;
     public DiveReport Report;
 
     public int ActionsPerTurn
@@ -136,6 +153,19 @@ public class DiveSession : IExposable
     }
 
     public DiveElement Current => Elements[Position];
+
+    /// <summary>
+    /// Extra actions in a turn: an exec data in the first turns, and HE's optimization module in the first turn only
+    /// (the module already speeds up hacking; in a dive it only helps the opening move).
+    /// </summary>
+    public int ExtraActions(int turn)
+    {
+        int extra = turn <= ExecTurns ? 1 : 0;
+        if (turn == 1 && DefDatabase<HediffDef>.GetNamedSilentFail("USH_InstalledOptimizationModule") is { } module
+            && Runner?.health?.hediffSet?.HasHediff(module) == true)
+            extra++;
+        return extra;
+    }
 
     /// <summary>The step ahead: the only link, or the chosen branch at a fork; null at an undecided fork or the end.</summary>
     public DiveElement Next => NextIndex(Position) is var i and >= 0 ? Elements[i] : null;
@@ -201,6 +231,8 @@ public class DiveSession : IExposable
             session.ShieldCharges++;
         if (session.Daemons.Contains(DiveDaemon.Hound))
             session.KillerCharges++;
+        session.BreakerCharges = programs.Count(p => p == DiveProgram.IceBreaker);
+        session.ExecTurns = programs.Contains(DiveProgram.Exec) ? Settings.execExtraActionTurns : 0;
         session.Storm = GatewayManager.Get()?.StormActive == true;
         session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
@@ -217,7 +249,7 @@ public class DiveSession : IExposable
             session.HoneypotRevealed = node.Honeypot;
             session.AddLog("NR_DiveLogConfession".Translate().Colorize(NetrunUI.Warn));
         }
-        session.ActionsLeft = session.ActionsPerTurn;
+        session.ActionsLeft = session.ActionsPerTurn + session.ExtraActions(1);
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
         return session;
     }
@@ -423,11 +455,14 @@ public class DiveSession : IExposable
     {
         int skill = Runner?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
         float chance = Settings.hackBase + skill * Settings.hackPerSkill - target.Strength * Settings.hackPerStrength;
+        float bonus = 0f;
         if (Programs.Contains(DiveProgram.Sword) || Daemons.Contains(DiveDaemon.Blade))
-            chance += Settings.swordBonus;
+            bonus += Settings.swordBonus;
         if (DefDatabase<HediffDef>.GetNamedSilentFail("NR_UBH_ZeroRun") is { } zero && Runner?.health.hediffSet.HasHediff(zero) == true)
-            chance += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
-        chance += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner);
+            bonus += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
+        bonus += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner);
+        // Bonuses stack up to a cap, so gear never makes the hardest nodes trivial; penalties are not capped.
+        chance += Mathf.Min(bonus, Settings.hackBonusCap);
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 
@@ -440,6 +475,14 @@ public class DiveSession : IExposable
         }
         DiveElement target = Next;
         bool sword = Programs.Contains(DiveProgram.Sword);
+        if (target.Kind == DiveElementKind.Gate && BreakerCharges > 0)
+        {
+            BreakerCharges--;
+            target.Cleared = true;
+            AddLog("NR_DiveLogBreaker".Translate(ElementLabel(target)));
+            Spend(Settings.tracePerAction * 2f);
+            return;
+        }
         if (KillerCharges > 0)
         {
             KillerCharges--;
@@ -457,8 +500,41 @@ public class DiveSession : IExposable
             AddLog("NR_DiveLogHackFail".Translate(ElementLabel(target)).Colorize(NetrunUI.Bad));
             if (target.Kind == DiveElementKind.Ice)
                 IceAttack();
+            else if (target.Kind == DiveElementKind.Gate)
+                RaiseAlert();
         }
         Spend(Settings.tracePerAction * (sword ? 2f : 1f));
+    }
+
+    /// <summary>A failed gate raises the node alert; the patrol wakes at the threshold.</summary>
+    private void RaiseAlert()
+    {
+        if (!AlertApplies || PatrolAwake)
+            return;
+        NodeAlert++;
+        if (PatrolAwake)
+            AddLog("NR_DiveLogPatrolAwake".Translate().Colorize(NetrunUI.Bad));
+        else
+            AddLog("NR_DiveLogAlert".Translate(NodeAlert, AlertThreshold).Colorize(NetrunUI.Warn));
+    }
+
+    /// <summary>
+    /// The ICE patrol strikes: a shield (or Aegis) takes it, otherwise the runner is thrown out with half the haul
+    /// and HE nausea. No coma and no lockout: only Black ICE does that.
+    /// </summary>
+    private void PatrolStrike()
+    {
+        if (ShieldCharges > 0)
+        {
+            ShieldCharges--;
+            AddLog("NR_DiveLogPatrolShield".Translate());
+            return;
+        }
+        NetrunSound.Play("Dive_ICE");
+        AddHediff("USH_CyberspaceNausea");
+        AddLog("NR_DiveLogPatrolStrike".Translate(Runner?.LabelShort ?? "?").Colorize(NetrunUI.Bad));
+        Retreated = true;
+        End(success: false, keepShare: Settings.alertPatrolKeepShare);
     }
 
     private void HackHunter()
@@ -750,6 +826,8 @@ public class DiveSession : IExposable
             AddLog("NR_DiveLogHunterStrikes".Translate().Colorize(NetrunUI.Bad));
             IceAttack();
         }
+        if (!Finished && PatrolAwake && Rand.Chance(Settings.alertPatrolChance))
+            PatrolStrike();
         if (!Finished)
             NodeEvents();
 
@@ -757,7 +835,7 @@ public class DiveSession : IExposable
             return;
 
         Turn++;
-        ActionsLeft = ActionsPerTurn;
+        ActionsLeft = ActionsPerTurn + ExtraActions(Turn);
         if (Turn > MaxTurns)
         {
             AddLog("NR_DiveLogTimeout".Translate().Colorize(NetrunUI.Bad));
@@ -1084,6 +1162,8 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref ShieldCharges, "shield");
         Scribe_Values.Look(ref DecoyCharges, "decoy");
         Scribe_Values.Look(ref KillerCharges, "killer");
+        Scribe_Values.Look(ref BreakerCharges, "breaker");
+        Scribe_Values.Look(ref ExecTurns, "execTurns");
         Scribe_Values.Look(ref LootCyberdata, "lootCyberdata");
         Scribe_Values.Look(ref LootAdvanced, "lootAdvanced");
         Scribe_Values.Look(ref LootSilver, "lootSilver");
@@ -1101,6 +1181,7 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Values.Look(ref IceHits, "iceHits");
+        Scribe_Values.Look(ref NodeAlert, "nodeAlert");
         Scribe_Deep.Look(ref Report, "report");
         Scribe_Collections.Look(ref Visited, "visited", LookMode.Value);
         Scribe_Collections.Look(ref ForkIndex, "forkIndex", LookMode.Value);

@@ -34,6 +34,8 @@ public class CyberspaceSettingsDef : Def
     public int searchCost = 5;
     public int programCost = 1;
     public int programSlots = 2;
+    /// <summary>An exec data program: +1 action in each of this many first turns.</summary>
+    public int execExtraActionTurns = 3;
     /// <summary>Entry cost of any dive; the node adds one per two defense levels.</summary>
     public int diveBaseCost = 1;
     /// <summary>Discounts on the dive cost: an AI in the pod's coprocessor, an AI riding in the netrunner.</summary>
@@ -41,9 +43,14 @@ public class CyberspaceSettingsDef : Def
     public int passengerDiscount = 1;
     public int maxTurns = 8;
 
-    public float hackBase = 0.35f;
-    public float hackPerSkill = 0.03f;
-    public float hackPerStrength = 0.06f;
+    public float hackBase = 0.30f;
+    public float hackPerSkill = 0.035f;
+    public float hackPerStrength = 0.065f;
+    public float hackBonusCap = 0.30f;
+    public int alertThreshold = 3;
+    public float alertPatrolChance = 0.15f;
+    public int alertFreeDefense = 1;
+    public float alertPatrolKeepShare = 0.5f;
     public float swordBonus = 0.3f;
 
     public float tracePerAction = 1f;

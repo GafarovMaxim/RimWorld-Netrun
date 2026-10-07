@@ -26,9 +26,17 @@
     <coprocessorDiscount>1</coprocessorDiscount>
     <passengerDiscount>1</passengerDiscount>
     <maxTurns>8</maxTurns>
-    <hackBase>0.35</hackBase>
-    <hackPerSkill>0.03</hackPerSkill>
-    <hackPerStrength>0.06</hackPerStrength>
+    <hackBase>0.30</hackBase>
+    <hackPerSkill>0.035</hackPerSkill>
+    <hackPerStrength>0.065</hackPerStrength>
+    <!-- Sum of all hack bonuses (programs, daemons, traits, AI, HE, recordings) is capped (docs/DIVE_BALANCE.md) -->
+    <hackBonusCap>0.30</hackBonusCap>
+    <!-- Node alert: every failed gate hack raises it; at the threshold an ICE patrol wakes up and may strike each
+         node turn, throwing the runner out with half the haul. Defense this low or lower has no alert. -->
+    <alertThreshold>3</alertThreshold>
+    <alertPatrolChance>0.15</alertPatrolChance>
+    <alertFreeDefense>1</alertFreeDefense>
+    <alertPatrolKeepShare>0.5</alertPatrolKeepShare>
     <swordBonus>0.3</swordBonus>
     <tracePerAction>1</tracePerAction>
     <stealthTraceFactor>0.5</stealthTraceFactor>

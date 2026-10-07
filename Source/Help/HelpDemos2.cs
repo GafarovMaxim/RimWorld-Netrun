@@ -356,7 +356,7 @@ public partial class HelpBrowser
     {
         CyberspaceSettingsDef s = Cyber;
         float t = Para(inner, inner.y, "NR_HelpLoadoutPrograms".Translate(_demoPrograms.Count, s.programSlots, s.programCost), NetrunUI.Muted, GameFont.Tiny);
-        t = Choices(inner, t, (DiveProgram[])System.Enum.GetValues(typeof(DiveProgram)), p => (_demoPrograms.Contains(p) ? "✓ " : "") + ("NR_Program_" + p).Translate(),
+        t = Choices(inner, t, ((DiveProgram[])System.Enum.GetValues(typeof(DiveProgram))).Where(p => !HePrograms.IsHeItem(p)).ToArray(), p => (_demoPrograms.Contains(p) ? "✓ " : "") + ("NR_Program_" + p).Translate(),
             p => _demoPrograms.Contains(p),
             p =>
             {

@@ -465,6 +465,8 @@ public static class DiveView
             float heat = session.Trace * session.Node.HeatPerTrace;
             y = Gauge(inner, y, "NR_DiveHudTrace".Translate(session.Trace.ToString("0.#"), heat.ToString("0.#")), session.Trace / TraceGaugeMax,
                 HeatLevelUtility.LevelOf(Mathf.Min(99f, session.Trace / TraceGaugeMax * 100f)).Color(), "NR_DiveHudTraceTip".Translate());
+            if (session.AlertApplies)
+                y = AlertRow(inner, y, session);
 
             GuideRegistry.InScroll("dive.gauges", top, _panelScroll, new Rect(inner.x, gGauge, inner.width, y - gGauge));
             float gProg = y;
@@ -487,10 +489,12 @@ public static class DiveView
                         DiveProgram.Shield => session.ShieldCharges,
                         DiveProgram.Decoy => session.DecoyCharges,
                         DiveProgram.Killer => session.KillerCharges,
+                        DiveProgram.IceBreaker => session.BreakerCharges,
+                        DiveProgram.Exec => System.Math.Max(0, session.ExecTurns - session.Turn + 1),
                         _ => -1,
                     };
                     string label = ("NR_Program_" + p).Translate() + (charges >= 0 ? " ×" + charges : string.Empty);
-                    Chip(inner, ref x, ref y, NetrunTex.CyberIcon("Program_" + p), label, charges != 0, ("NR_ProgramDesc_" + p).Translate(NetrunDefOf.NR_Cyberspace.programCost));
+                    Chip(inner, ref x, ref y, NetrunTex.CyberIcon("Program_" + p) ?? HePrograms.IconDef(p)?.uiIcon, label, charges != 0, ("NR_ProgramDesc_" + p).Translate(NetrunDefOf.NR_Cyberspace.programCost));
                 }
                 foreach (DiveDaemon d in session.Daemons)
                     Chip(inner, ref x, ref y, NetrunTex.DaemonIcon(d), ("NR_Daemon_" + d).Translate(), true, ("NR_DaemonDesc_" + d).Translate());
@@ -599,6 +603,26 @@ public static class DiveView
         Widgets.DrawLineHorizontal(inner.x, y + 22f, inner.width);
         GUI.color = Color.white;
         return y + 28f;
+    }
+
+    /// <summary>Node alert: one pip per failed gate; the last one blinks once the patrol is awake.</summary>
+    private static float AlertRow(Rect inner, float y, DiveSession session)
+    {
+        int threshold = session.AlertThreshold;
+        bool awake = session.PatrolAwake;
+        bool blink = awake && (!NetrunMod.Settings.Animations || Mathf.FloorToInt(Time.realtimeSinceStartup * 2f) % 2 == 0);
+        string pips = new string('●', Mathf.Min(session.NodeAlert, threshold - (awake ? 1 : 0))).Colorize(NetrunUI.Warn)
+            + (awake ? "●".Colorize(blink ? NetrunUI.Bad : NetrunUI.Warn) : "")
+            + new string('○', Mathf.Max(0, threshold - session.NodeAlert)).Colorize(NetrunUI.Muted);
+        Text.Font = GameFont.Tiny;
+        var row = new Rect(inner.x, y, inner.width, 18f);
+        Widgets.Label(row, ((string)"NR_DiveHudAlert".Translate() + (awake ? ": " + (string)"NR_DiveHudPatrol".Translate() : "")).Colorize(awake ? NetrunUI.Bad : NetrunUI.Muted));
+        Text.Anchor = TextAnchor.UpperRight;
+        Widgets.Label(row, pips);
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        NetrunUI.Tip(row, "NR_DiveHudAlertTip".Translate(threshold, NetrunDefOf.NR_Cyberspace.alertPatrolChance.ToStringPercent()));
+        return y + 22f;
     }
 
     private static string Pips(int left, int total, Color color)
