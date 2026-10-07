@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Neurostabilizer.label>нейростабилизатор</NR_Neurostabilizer.label>
+  <NR_Neurostabilizer.description>Автоинъектор нейтроамина с нейробуфером, настроенным на cyberdata. Глушит тягу к сети: зависимость немного слабеет, и два дня человек не чувствует себя отрезанным и не срывается в капсулу.\n\nСлегка затягивает, примерно как дымолист: при частом употреблении сам становится потребностью.</NR_Neurostabilizer.description>
+  <NR_Neurostabilizer.ingestible.ingestCommandString>Вколоть {0}</NR_Neurostabilizer.ingestible.ingestCommandString>
+  <NR_Neurostabilizer.ingestible.ingestReportString>Вкалывает {0}.</NR_Neurostabilizer.ingestible.ingestReportString>
+</LanguageData>

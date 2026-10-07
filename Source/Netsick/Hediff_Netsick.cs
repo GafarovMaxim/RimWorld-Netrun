@@ -16,7 +16,8 @@ public class Hediff_Netsick : HediffWithComps
     private static NetsickSettingsDef Settings => NetrunDefOf.NR_NetsickSettings;
 
     public bool Withdrawing
-        => Severity >= Settings.withdrawalMinSeverity
+        => !NeurostabilizerUtility.Stabilized(pawn)
+           && Severity >= Settings.withdrawalMinSeverity
            && Find.TickManager.TicksGame - LastConnectedTick > Settings.withdrawalAfterDays * GenDate.TicksPerDay;
 
     public override string LabelInBrackets => Withdrawing ? "NR_NetsickWithdrawalTag".Translate() : base.LabelInBrackets;

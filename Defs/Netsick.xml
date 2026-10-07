@@ -14,6 +14,18 @@
     <!-- Recovery per day while disconnected -->
     <decayPerDay>0.04</decayPerDay>
 
+    <!-- "A living day off": recovery is this many times faster while the pawn enjoys live leisure of these kinds
+         (talking, walks and meditation, games, the telescope, art). Screens and drugs do not count. -->
+    <liveLeisureDecayFactor>2</liveLeisureDecayFactor>
+    <liveJoyKinds>
+      <li>Social</li>
+      <li>Meditative</li>
+      <li>Gaming_Dexterity</li>
+      <li>Gaming_Cerebral</li>
+      <li>Telescope</li>
+      <li>HighCulture</li>
+    </liveJoyKinds>
+
     <!-- Withdrawal: offline for this many days while at least this severe -->
     <withdrawalAfterDays>1</withdrawalAfterDays>
     <withdrawalMinSeverity>0.3</withdrawalMinSeverity>

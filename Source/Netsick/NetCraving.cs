@@ -36,7 +36,8 @@ public static class NetCravingUtility
 public class MentalStateWorker_NetCraving : MentalStateWorker
 {
     public override bool StateCanOccur(Pawn pawn)
-        => base.StateCanOccur(pawn) && pawn.Spawned && pawn.IsHacker() && NetCravingUtility.FreePod(pawn) != null;
+        => base.StateCanOccur(pawn) && pawn.Spawned && pawn.IsHacker() && !NeurostabilizerUtility.Stabilized(pawn)
+           && NetCravingUtility.FreePod(pawn) != null;
 }
 
 /// <summary>"Net craving": the pawn heads for a cyberpod and dives on emotion.</summary>

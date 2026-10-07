@@ -13,6 +13,10 @@ public class NetsickSettingsDef : Def
     // Recovery while disconnected.
     public float decayPerDay = 0.04f;
 
+    // "A living day off": while the pawn is busy with live leisure (talk, walks, games, the sky), recovery is faster.
+    public float liveLeisureDecayFactor = 2f;
+    public System.Collections.Generic.List<RimWorld.JoyKindDef> liveJoyKinds = [];
+
     // Withdrawal: disconnected for this long while at least this severe.
     public float withdrawalAfterDays = 1f;
     public float withdrawalMinSeverity = 0.3f;

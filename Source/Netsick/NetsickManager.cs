@@ -72,8 +72,15 @@ public class NetsickManager : GameComponent
             netsick.WakeRequestedTick = -1;
             if (netsick.CravingSinceTick >= 0 && Find.TickManager.TicksGame - netsick.CravingSinceTick > GenDate.TicksPerDay)
                 netsick.CravingSinceTick = -1;
-            netsick.Severity -= Settings.decayPerDay * DayFraction;
+            netsick.Severity -= Settings.decayPerDay * DayFraction * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
         }
+    }
+
+    /// <summary>Busy with live leisure: a talk, a walk, a game, the stars. Screens and drugs do not count.</summary>
+    public static bool LiveLeisure(Pawn pawn)
+    {
+        JoyKindDef kind = pawn.CurJob?.def?.joyKind;
+        return kind != null && Settings.liveJoyKinds.Contains(kind);
     }
 
     private static readonly HarmonyLib.AccessTools.FieldRef<Building_Cyberpod, bool> IsWakingUp =
