@@ -280,4 +280,12 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_GatewayDaemonPick>Daemon (one per dive, {0} found)</NR_GatewayDaemonPick>
   <NR_GatewayDaemonLocked>Not found yet: daemons come from the corporate core and rare finds.</NR_GatewayDaemonLocked>
   <NR_GatewayDaemonOne>One daemon per dive: picking another swaps it. Free, takes no program slot.</NR_GatewayDaemonOne>
+  <NR_NewsEffectsHeader>In effect in cyberspace now:</NR_NewsEffectsHeader>
+  <NR_NewsEffectStorm>Data storm: gates and ICE one stronger, hauls {0}</NR_NewsEffectStorm>
+  <NR_NewsEffectHunters>Your Heat is at Target or higher: ICE hunters may follow you in dives</NR_NewsEffectHunters>
+  <NR_NewsEffectBoss>A corporate core is open: a boss node with a big haul</NR_NewsEffectBoss>
+  <NR_NewsEffectDaemon>Daemon {0}: {1}</NR_NewsEffectDaemon>
+  <NR_NewsEffectPrograms>Programs loaded for the next dive: {0}</NR_NewsEffectPrograms>
+  <NR_NewsEffectConfession>A watched confession: the next dive shows everything hidden</NR_NewsEffectConfession>
+  <NR_NewsEffectNone>Nothing special.</NR_NewsEffectNone>
 </LanguageData>

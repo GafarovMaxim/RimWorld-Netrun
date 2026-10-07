@@ -110,6 +110,30 @@ public static class GatewayView
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
     }
 
+    /// <summary>What is in effect in cyberspace right now, for the news line's tooltip.</summary>
+    public static string Effects()
+    {
+        GatewayManager g = GatewayManager.Get();
+        var lines = new List<string> { "NR_NewsEffectsHeader".Translate().Colorize(NetrunUI.Accent) };
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        if (g?.StormActive == true)
+            lines.Add("• " + "NR_NewsEffectStorm".Translate(s.stormRewardMult.ToStringPercent()));
+        HeatLevel level = HeatTracker.Get()?.Level ?? HeatLevel.Shadow;
+        if (level >= HeatLevel.Target)
+            lines.Add("• " + "NR_NewsEffectHunters".Translate());
+        if (g?.Boss != null)
+            lines.Add("• " + "NR_NewsEffectBoss".Translate());
+        if (g != null && g.SelectedDaemon >= 0 && g.Daemons.Contains((DiveDaemon)g.SelectedDaemon))
+            lines.Add("• " + "NR_NewsEffectDaemon".Translate(("NR_Daemon_" + (DiveDaemon)g.SelectedDaemon).Translate(), ("NR_DaemonDesc_" + (DiveDaemon)g.SelectedDaemon).Translate()));
+        if (g?.SelectedPrograms.Count > 0)
+            lines.Add("• " + "NR_NewsEffectPrograms".Translate(g.SelectedPrograms.Select(p => (string)("NR_Program_" + p).Translate()).ToCommaList()));
+        if (UniqueBraindanceManager.Get()?.RevealNextDive == true)
+            lines.Add("• " + "NR_NewsEffectConfession".Translate());
+        if (lines.Count == 1)
+            lines.Add("NR_NewsEffectNone".Translate().Colorize(NetrunUI.Muted));
+        return string.Join("\n", lines);
+    }
+
     /// <summary>Short news of cyberspace for the bottom bar: storms, the corporate core, rivals, wild AIs, contracts, refresh.</summary>
     public static List<(string text, Color color)> News()
     {

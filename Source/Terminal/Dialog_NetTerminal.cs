@@ -101,6 +101,7 @@ public partial class Dialog_NetTerminal : Window
         GuideRegistry.End();
         DrawGuideOverlay(inRect);
         DrawAmbientGlitch(inRect);
+        NetrunUI.WindowFrame(inRect);
         if (Prefs.DevMode && Event.current.type == EventType.Repaint)
         {
             _drawMs = Mathf.Lerp(_drawMs, (float)_drawTimer.Elapsed.TotalMilliseconds, 0.1f);
@@ -572,6 +573,7 @@ public partial class Dialog_NetTerminal : Window
             List<(string text, Color color)> news = NetrunUI.Cached("gateway.news", GatewayView.News, 2f);
             NetrunUI.Ticker(new Rect(newsSeg.x + tagW, newsSeg.y, newsSeg.width - tagW - 6f, newsSeg.height), news);
             Text.Font = GameFont.Small;
+            NetrunUI.Tip(newsSeg, NetrunUI.Cached("gateway.effects", GatewayView.Effects, 1f));
         }
         // The latest trace event fills the rest; a click opens the Archive.
         else if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)

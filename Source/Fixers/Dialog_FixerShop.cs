@@ -52,7 +52,7 @@ public class Dialog_FixerShop : Window
     private void DrawContents(Rect inRect)
     {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
-        NetrunUI.Brackets(inRect.ContractedBy(3f), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.6f), 2f, 22f);
+        NetrunUI.WindowFrame(inRect, NetrunUI.Ok);
         Rect r = inRect.ContractedBy(16f);
         int silver = ColonyGoods.Count(_map, ThingDefOf.Silver);
 

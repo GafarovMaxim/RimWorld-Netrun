@@ -279,4 +279,13 @@
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Ночной рынок −{0}</NR_ChipMarketDiscount>
   <NR_CoreTrendShort>{0}/сут</NR_CoreTrendShort>
+  <NR_HelpDemoHeat>Heat сейчас: {0}</NR_HelpDemoHeat>
+  <NR_HelpDemoData>Потратить cyberdata: {0}</NR_HelpDemoData>
+  <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
+  <NR_HelpDemoNeeded>Cyberdata до нуля отсюда: {0} (фиксер без скидок).</NR_HelpDemoNeeded>
+  <NR_HelpDemoSick_Mild>Лёгкая (до 30%): пока без эффекта.</NR_HelpDemoSick_Mild>
+  <NR_HelpDemoSick_Noticeable>Заметная (30%+): после суток без сети падает настроение, реальность кажется плоской.</NR_HelpDemoSick_Noticeable>
+  <NR_HelpDemoSick_Strong>Сильная (60%+): чуть меньше сознания, срывы «тяга к сети» раз в несколько дней.</NR_HelpDemoSick_Strong>
+  <NR_HelpDemoSick_Severe>Тяжёлая (85%+): хуже настроение и чаще срывы.</NR_HelpDemoSick_Severe>
+  <NR_HelpDemoSickHint>Наведите на стадию, чтобы прочитать, что она делает. Метка показывает, как Netsick ползёт вверх при ежедневных нырках.</NR_HelpDemoSickHint>
 </LanguageData>

@@ -8,6 +8,8 @@
   <NR_Help_Start_Terminal.body>Терминал — карта узлов вокруг Ядра. Каждый узел — часть вашей сети:\n- !Nodes/Home_Club Клуб: фиксеры, их услуги и хакерская группа.\n- !Nodes/Home_Board Доска: контракты от фиксеров.\n- !Nodes/Home_Archive Архив: журнал вашего следа.\n- !Nodes/Home_Server Серверная: пробуждённые ИИ.\n- !Nodes/Home_Studio Студия: брейнданс-записи и чипы.\n- !Nodes/Home_Gateway Шлюз: киберпространство и нырки.\nКольцо в центре — ваш Heat; клик по нему открывает экран «Heat и след». Справа «Сейчас» подсказывает самое полезное действие, «Тревоги» — что горит, «Колония в сети» — ваши ресурсы.\nУзлы открываются по одному, по мере того как вы встречаете их в игре.\n&gt; open:Core|Открыть Core</NR_Help_Start_Terminal.body>
   <NR_Help_Start_Terminal.keywords>
     <li>терминал</li>
+    <li>Ядро</li>
+    <li>Ядра</li>
   </NR_Help_Start_Terminal.keywords>
   <NR_Help_Start_Hacking.label>Взломы и cyberdata</NR_Help_Start_Hacking.label>
   <NR_Help_Start_Hacking.body>Колонист-хакер (с кибер-линком) взламывает устройства на карте или делает это из кибер-капсулы. Каждый завершённый взлом даёт cyberdata и поднимает Heat: чем сильнее цель, тем больше след. Взлом из капсулы оставляет меньше следа и иногда даёт лишние данные.\n## !thing:USH_Cyberdata Cyberdata\nВалюта сети: нырки, программы, сброс следа у фиксера. Продвинутые cyberdata стоят втрое больше.</NR_Help_Start_Hacking.body>
@@ -31,7 +33,7 @@
   <NR_Help_Heat_Lower.label>Как снизить Heat</NR_Help_Heat_Lower.label>
   <NR_Help_Heat_Lower.body>## !Fixers/Fixer_Corp Через фиксера\nПозвоните фиксеру в Клубе (серебро открывает канал на {fixers.channel} ч) и отдайте cyberdata. Курс падает с ростом Heat: от {heat.scrubBest} Heat за cyberdata в «Тени» до {heat.scrubWorst} в «Красной зоне»; продвинутая считается втрое.\n## !ai:Ghost ИИ «Призрак»\nЕго услуга стирает часть следа за доверие.\n## !heat:Shadow Переждать\nHeat остывает сам каждый день. Затаитесь и не взламывайте.\n&gt; page:NR_Help_Fixers_Scrub|Как работает сброс\n&gt; open:Heat|Способы снизить на экране Heat</NR_Help_Heat_Lower.body>
   <NR_Help_Heat_Netsick.label>Netsick</NR_Help_Heat_Netsick.label>
-  <NR_Help_Heat_Netsick.body>Netsick — зависимость нетраннера от киберпространства. Растёт от времени в капсуле, нырков ({netsick.dive} за нырок) и ударов Black ICE, спадает офлайн.\n## Стадии\n- Лёгкая: пока без эффекта.\n- Заметная (30%+): после суток без сети падает настроение («реальность кажется плоской»).\n- Сильная (60%+): немного меньше сознания, срывы «тяга к сети» раз в несколько дней.\n- Тяжёлая (85%+): хуже настроение и чаще срывы.\n## Лечение\nЛечит время без сети. ИИ «Врач» облегчает её; ИИ в ИИ-сопроцессоре уменьшает рост. Нырок раз в 2–3 дня держит Netsick на месте; ежедневные нырки дают сильную зависимость.\nНижняя строка терминала показывает, у скольких колонистов она есть.</NR_Help_Heat_Netsick.body>
+  <NR_Help_Heat_Netsick.body>Netsick — зависимость нетраннера от киберпространства. Растёт от времени в капсуле, нырков ({netsick.dive} за нырок) и ударов Black ICE, спадает офлайн.\n[[netsick]]\n## Стадии\n- Лёгкая: пока без эффекта.\n- Заметная (30%+): после суток без сети падает настроение («реальность кажется плоской»).\n- Сильная (60%+): немного меньше сознания, срывы «тяга к сети» раз в несколько дней.\n- Тяжёлая (85%+): хуже настроение и чаще срывы.\n## Лечение\nЛечит время без сети. ИИ «Врач» облегчает её; ИИ в ИИ-сопроцессоре уменьшает рост. Нырок раз в 2–3 дня держит Netsick на месте; ежедневные нырки дают сильную зависимость.\nНижняя строка терминала показывает, у скольких колонистов она есть.</NR_Help_Heat_Netsick.body>
   <NR_Help_Heat_Netsick.keywords>
     <li>Netsick</li>
   </NR_Help_Heat_Netsick.keywords>
@@ -42,6 +44,8 @@
     <li>фиксера</li>
     <li>фиксеру</li>
     <li>фиксер</li>
+    <li>Клуб</li>
+    <li>Клубе</li>
   </NR_Help_Fixers.keywords>
   <NR_Help_Fixers.tips.0>Удержите полюбившегося фиксера, чтобы он не ушёл при смене пула.</NR_Help_Fixers.tips.0>
   <NR_Help_Fixers.tips.1>Фиксер-«крыса» может слить ваши сделки: следите за чертой.</NR_Help_Fixers.tips.1>
@@ -55,9 +59,12 @@
     <li>контракты</li>
     <li>контракта</li>
     <li>контракт</li>
+    <li>Доска</li>
+    <li>Доске</li>
+    <li>Доску</li>
   </NR_Help_Fixers_Contracts.keywords>
   <NR_Help_Fixers_Scrub.label>Сброс следа</NR_Help_Fixers_Scrub.label>
-  <NR_Help_Fixers_Scrub.body>С открытым каналом «Сбросить след» в Клубе (или на экране Heat) позволяет выбрать, сколько cyberdata отдать. Каждая cyberdata снимает {heat.scrubBest} Heat в «Тени» и лишь {heat.scrubWorst} в «Красной зоне»; продвинутая считается втрое. Репутация и «Чистильщик» дают скидку, жадный фиксер берёт больше.\n!Fixer_Service_Reward Услуга фиксера, найденная в киберпространстве, — это бесплатный сброс.</NR_Help_Fixers_Scrub.body>
+  <NR_Help_Fixers_Scrub.body>С открытым каналом «Сбросить след» в Клубе (или на экране Heat) позволяет выбрать, сколько cyberdata отдать. Каждая cyberdata снимает {heat.scrubBest} Heat в «Тени» и лишь {heat.scrubWorst} в «Красной зоне»; продвинутая считается втрое. Каждая единица считается по курсу того уровня, на котором Heat в момент траты, поэтому один большой сброс стоит столько же, сколько много маленьких. Попробуйте:\n[[scrub]] Репутация и «Чистильщик» дают скидку, жадный фиксер берёт больше.\n!Fixer_Service_Reward Услуга фиксера, найденная в киберпространстве, — это бесплатный сброс.</NR_Help_Fixers_Scrub.body>
   <NR_Help_Fixers_Scrub.keywords>
     <li>сброс следа</li>
     <li>сбросить след</li>
@@ -72,6 +79,9 @@
   <NR_Help_AI.keywords>
     <li>ИИ-сервер</li>
     <li>ИИ-сервере</li>
+    <li>Серверная</li>
+    <li>серверной</li>
+    <li>серверную</li>
   </NR_Help_AI.keywords>
   <NR_Help_AI_Basics.label>Дом, доверие и голод</NR_Help_AI_Basics.label>
   <NR_Help_AI_Basics.body>## !thing:NR_AIServer Сервер\nГлавный дом; услуги работают только оттуда. Стойки добавляют слоты.\n## !thing:NR_NetrunCoprocessor Сопроцессор\nИИ, связанный с капсулой, помогает нетраннеру в нырках.\n## !Gizmo_AI_Embody Носитель\nКолонист с ИИ-гнездом носит ИИ и получает его пассивный бонус. ИИ питается от носителя: пока он внутри, голод понемногу спадает.\n## !Gizmo_AI_Use Доверие и услуги\nУслуга требует {ai.minTrust} доверия, стоит {ai.serviceTrust} доверия и {ai.serviceHunger} голода и отдыхает {ai.cooldown} дн. Голодный или обиженный ИИ пакостит и может сбежать в сеть.</NR_Help_AI_Basics.body>
@@ -177,6 +187,9 @@
   <NR_Help_Braindance.keywords>
     <li>брейнданс</li>
     <li>брейнданса</li>
+    <li>Студия</li>
+    <li>Студии</li>
+    <li>Студию</li>
   </NR_Help_Braindance.keywords>
   <NR_Help_BD_Record.label>Очки и запись</NR_Help_BD_Record.label>
   <NR_Help_BD_Record.body>Колонист в брейнданс-очках может записывать яркие моменты своей жизни: бои, радость, горе. Получается сырая запись.\n!Gizmo_BD_Record «Записать» на очках начинает запись; кибер-линк тоже подходит.</NR_Help_BD_Record.body>
@@ -194,6 +207,10 @@
   </NR_Help_BD_Unique.keywords>
   <NR_Help_Events.label>События</NR_Help_Events.label>
   <NR_Help_Events.body>Netrun приносит четыре группы событий. Частоту каждой группы можно менять в настройках мода; всё, что касается следа, записывается в Архив.\n&gt; open:Archive|Открыть Архив</NR_Help_Events.body>
+  <NR_Help_Events.keywords>
+    <li>Архив</li>
+    <li>Архиве</li>
+  </NR_Help_Events.keywords>
   <NR_Help_Events_Attacks.label>Сетевые атаки</NR_Help_Events_Attacks.label>
   <NR_Help_Events_Attacks.body>Приходят от рассказчика по мере роста Heat.\n- !Event_Cyberspace_NeuralNoise Нейрошум («Замечен»+): разум хакера заливает мусорный сигнал. Снизьте Heat или переждите.\n- !Event_Cyberspace_DataTheft Кража данных («Замечен»+): cyberdata исчезает со склада.\n- !Event_Cyberspace_MalwareBreakdown Вирусная поломка («Отслеживается»+): ломаются машины; держите компоненты.\n- !Event_Cyberspace_PowerSurge Скачок напряжения («Отслеживается»+): садятся батареи, искрят устройства.\n- !Event_Cyberspace_Ransomware Вымогатель («Цель»+): заплатите серебром или потеряете больше.\n- !Faction_Mercenaries Рейды наёмников («Цель»+ или как месть): приходит вооружённая «Чёрная книга».</NR_Help_Events_Attacks.body>
   <NR_Help_Events_Map.label>События на карте</NR_Help_Events_Map.label>

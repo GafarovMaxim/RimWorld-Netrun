@@ -357,6 +357,16 @@ public static class NetrunUI
         Widgets.DrawBoxSolid(new Rect(rect.xMax - 6f, rect.y + 1f, 6f, rect.height - 2f), new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.8f));
     }
 
+    /// <summary>The window frame of the terminal style: a thin accent line and uneven corner brackets just inside the edge.</summary>
+    public static void WindowFrame(Rect rect, Color? color = null)
+    {
+        Color c = color ?? Accent;
+        GUI.color = new Color(c.r, c.g, c.b, 0.35f);
+        Widgets.DrawBox(rect.ContractedBy(1f));
+        GUI.color = Color.white;
+        Brackets(rect.ContractedBy(4f), new Color(c.r, c.g, c.b, 0.85f), 2f, 26f);
+    }
+
     /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
     public static string Prompt(string text)
     {

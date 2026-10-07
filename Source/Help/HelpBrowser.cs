@@ -301,6 +301,10 @@ public class HelpBrowser
             return LevelTiles(y, w);
         if (line == "[[dive]]")
             return DiveSchema(y, w);
+        if (line == "[[scrub]]")
+            return ScrubDemo(y, w);
+        if (line == "[[netsick]]")
+            return NetsickDemo(y, w);
         if (line.StartsWith("> page:"))
         {
             (string target, string text) = SplitLink(line.Substring(7));
@@ -462,6 +466,93 @@ public class HelpBrowser
         Widgets.DrawBoxSolid(box, NetrunUI.BgCard);
         Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), _diveStep >= 0 ? NetrunUI.Accent : NetrunUI.Muted);
         Widgets.Label(new Rect(box.x + 12f, box.y + 7f, w - 24f, th), _diveStep >= 0 ? text : text.Colorize(NetrunUI.Muted));
+        return box.yMax + 10f;
+    }
+
+    // ---- [[scrub]]: a calculator. Pick a Heat and the cyberdata to spend; see where the Heat lands. ----
+
+    private float _demoHeat = 80f;
+    private int _demoData = 10;
+
+    private float ScrubDemo(float y, float w)
+    {
+        FixerSettingsDef s = NetrunDefOf.NR_Fixers;
+        var box = new Rect(0f, y, w, 132f);
+        Widgets.DrawBoxSolid(box, NetrunUI.BgCard);
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), NetrunUI.Accent);
+        Rect inner = box.ContractedBy(10f);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(inner.x, inner.y, inner.width * 0.5f, 18f), "NR_HelpDemoHeat".Translate(_demoHeat.ToString("0")).Colorize(NetrunUI.Muted));
+        _demoHeat = Widgets.HorizontalSlider(new Rect(inner.x, inner.y + 18f, inner.width * 0.48f, 16f), _demoHeat, 0f, HeatTracker.MaxHeat, roundTo: 1f);
+        Widgets.Label(new Rect(inner.x + inner.width * 0.52f, inner.y, inner.width * 0.48f, 18f), "NR_HelpDemoData".Translate(_demoData).Colorize(NetrunUI.Muted));
+        _demoData = Mathf.RoundToInt(Widgets.HorizontalSlider(new Rect(inner.x + inner.width * 0.52f, inner.y + 18f, inner.width * 0.48f, 16f), _demoData, 0f, 60f, roundTo: 1f));
+
+        // Unit by unit, at the level the Heat stands at (a fixer with no discount).
+        float heat = _demoHeat;
+        int needed = -1;
+        for (int i = 0; i < 200 && heat > 0.01f; i++)
+        {
+            if (i == _demoData)
+                break;
+            float factor = s.scrubFactorByLevel.NullOrEmpty() ? 1f : s.scrubFactorByLevel[Mathf.Clamp((int)HeatLevelUtility.LevelOf(heat), 0, s.scrubFactorByLevel.Count - 1)];
+            heat = Mathf.Max(0f, heat - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier);
+        }
+        float h2 = _demoHeat;
+        for (int i = 0; i < 400 && h2 > 0.01f; i++)
+        {
+            float factor = s.scrubFactorByLevel.NullOrEmpty() ? 1f : s.scrubFactorByLevel[Mathf.Clamp((int)HeatLevelUtility.LevelOf(h2), 0, s.scrubFactorByLevel.Count - 1)];
+            h2 = Mathf.Max(0f, h2 - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier);
+            needed = i + 1;
+        }
+
+        var bar = new Rect(inner.x, inner.y + 46f, inner.width, 16f);
+        NetrunUI.Bar(bar, _demoHeat / HeatTracker.MaxHeat, NetrunUI.Bad);
+        Widgets.DrawBoxSolid(new Rect(bar.x, bar.y, bar.width * heat / HeatTracker.MaxHeat, bar.height), HeatLevelUtility.LevelOf(heat).Color());
+        Widgets.Label(new Rect(inner.x, inner.y + 68f, inner.width, 18f),
+            "NR_HelpDemoResult".Translate(_demoHeat.ToString("0"), heat.ToString("0"), HeatLevelUtility.LevelOf(heat).Label()).Colorize(NetrunUI.TextColor));
+        Widgets.Label(new Rect(inner.x, inner.y + 88f, inner.width, 18f),
+            "NR_HelpDemoNeeded".Translate(Mathf.Max(0, needed)).Colorize(NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        return box.yMax + 10f;
+    }
+
+    // ---- [[netsick]]: the stages on a bar; hover a stage to read it, a marker shows how it creeps up. ----
+
+    private float NetsickDemo(float y, float w)
+    {
+        (float from, float to, string key, Color color)[] stages =
+        [
+            (0f, 0.3f, "NR_HelpDemoSick_Mild", NetrunUI.Ok),
+            (0.3f, 0.6f, "NR_HelpDemoSick_Noticeable", NetrunUI.Warn),
+            (0.6f, 0.85f, "NR_HelpDemoSick_Strong", new Color(1f, 0.55f, 0.2f)),
+            (0.85f, 1f, "NR_HelpDemoSick_Severe", NetrunUI.Bad),
+        ];
+        var bar = new Rect(0f, y + 4f, w, 26f);
+        string hovered = null;
+        foreach ((float from, float to, string key, Color color) in stages)
+        {
+            var seg = new Rect(bar.x + bar.width * from + 1f, bar.y, bar.width * (to - from) - 2f, bar.height);
+            bool hover = Mouse.IsOver(seg);
+            Widgets.DrawBoxSolid(seg, new Color(color.r, color.g, color.b, hover ? 0.55f : 0.28f));
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(seg, $"{from:P0}".Colorize(Color.white));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            if (hover)
+                hovered = key;
+        }
+        if (NetrunMod.Settings.Animations)
+        {
+            float f = Time.realtimeSinceStartup / 8f % 1f;
+            float mx = bar.x + bar.width * f;
+            Widgets.DrawBoxSolid(new Rect(mx - 1f, bar.y - 4f, 2f, bar.height + 8f), Color.white);
+        }
+        string text = (hovered ?? "NR_HelpDemoSickHint").Translate();
+        float th = Text.CalcHeight(text, w - 16f) + 10f;
+        var box = new Rect(0f, bar.yMax + 6f, w, th);
+        Widgets.DrawBoxSolid(box, NetrunUI.BgCard);
+        Widgets.Label(new Rect(box.x + 8f, box.y + 5f, w - 16f, th), hovered == null ? text.Colorize(NetrunUI.Muted) : text);
         return box.yMax + 10f;
     }
 

@@ -31,6 +31,7 @@
     </contexts>
     <keywords>
       <li>terminal</li>
+      <li>Core</li>
     </keywords>
   </Netrun.HelpPageDef>
 
@@ -109,7 +110,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Netsick</label>
-    <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure. A Doc AI eases it; an AI in a AI coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\nThe bottom bar of the terminal shows how many colonists have it.</body>
+    <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n[[netsick]]\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure. A Doc AI eases it; an AI in a AI coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\nThe bottom bar of the terminal shows how many colonists have it.</body>
     <icon>Icon_Netsick</icon>
     <keywords>
       <li>Netsick</li>
@@ -133,6 +134,7 @@
     <keywords>
       <li>fixers</li>
       <li>fixer</li>
+      <li>Club</li>
     </keywords>
   </Netrun.HelpPageDef>
 
@@ -173,6 +175,7 @@
     <keywords>
       <li>contracts</li>
       <li>contract</li>
+      <li>Board</li>
     </keywords>
   </Netrun.HelpPageDef>
 
@@ -182,7 +185,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Scrubbing the trace</label>
-    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Reputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
+    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones. Try it:\n[[scrub]] Reputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Heat/Heat_Reduction</icon>
     <keywords>
       <li>scrub the trace</li>
@@ -215,6 +218,7 @@
     </contexts>
     <keywords>
       <li>AI server</li>
+      <li>server room</li>
     </keywords>
   </Netrun.HelpPageDef>
 
@@ -541,6 +545,7 @@
     </contexts>
     <keywords>
       <li>braindance</li>
+      <li>Studio</li>
     </keywords>
   </Netrun.HelpPageDef>
 
@@ -600,6 +605,9 @@
     <contexts>
       <li>Archive</li>
     </contexts>
+    <keywords>
+      <li>Archive</li>
+    </keywords>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>

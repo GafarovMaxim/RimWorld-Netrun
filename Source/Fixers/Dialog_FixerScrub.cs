@@ -44,6 +44,7 @@ public class Dialog_FixerScrub : Window
         try
         {
             DrawContents(inRect);
+            NetrunUI.WindowFrame(inRect);
         }
         finally
         {

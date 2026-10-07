@@ -279,4 +279,13 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDiveSchemaHint>A node is a path of steps. Hover a step to see what it is, click to pin the text here.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Night market −{0}</NR_ChipMarketDiscount>
   <NR_CoreTrendShort>{0}/day</NR_CoreTrendShort>
+  <NR_HelpDemoHeat>Heat now: {0}</NR_HelpDemoHeat>
+  <NR_HelpDemoData>Cyberdata to spend: {0}</NR_HelpDemoData>
+  <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
+  <NR_HelpDemoNeeded>Cyberdata to reach zero from here: {0} (a fixer without discounts).</NR_HelpDemoNeeded>
+  <NR_HelpDemoSick_Mild>Mild (below 30%): no effect yet.</NR_HelpDemoSick_Mild>
+  <NR_HelpDemoSick_Noticeable>Noticeable (30%+): after a day offline the mood drops, reality feels flat.</NR_HelpDemoSick_Noticeable>
+  <NR_HelpDemoSick_Strong>Strong (60%+): a little less consciousness, "net craving" breaks every few days.</NR_HelpDemoSick_Strong>
+  <NR_HelpDemoSick_Severe>Severe (85%+): worse mood and more frequent breaks.</NR_HelpDemoSick_Severe>
+  <NR_HelpDemoSickHint>Hover a stage to read what it does. The marker shows Netsick creeping up with daily dives.</NR_HelpDemoSickHint>
 </LanguageData>

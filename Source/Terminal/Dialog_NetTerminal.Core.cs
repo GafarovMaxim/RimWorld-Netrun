@@ -38,7 +38,12 @@ public partial class Dialog_NetTerminal
         if (view != View.Core)
             _lastNode = view;
         if (view == View.Archive)
-            _seenLogCount = HeatTracker.Get()?.Log.Count ?? 0;
+        {
+            IReadOnlyList<HeatLogEntry> log = HeatTracker.Get()?.Log;
+            if (log != null && _seenLogCount >= 0)
+                ArchiveTab.MarkFresh(log.Skip(_seenLogCount));
+            _seenLogCount = log?.Count ?? 0;
+        }
         if (view == View.Gateway)
             _seenNodeId = GatewayManager.Get()?.Nodes.Select(n => n.Id).DefaultIfEmpty(0).Max() ?? 0;
     }

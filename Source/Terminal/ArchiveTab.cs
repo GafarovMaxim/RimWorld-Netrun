@@ -45,6 +45,15 @@ public static class ArchiveTab
     private static float _flashAt = -10f;
     private static float _tabLineX = -1f, _tabLineW;
 
+    private static readonly HashSet<HeatLogEntry> Fresh = [];
+
+    /// <summary>Lines that came in since the Archive was last open: they glow until the mouse passes over them.</summary>
+    public static void MarkFresh(IEnumerable<HeatLogEntry> entries)
+    {
+        foreach (HeatLogEntry e in entries)
+            Fresh.Add(e);
+    }
+
     /// <summary>Open the Archive on a tab; on the reports tab the newest report is picked.</summary>
     public static void Open(Tab tab)
     {
@@ -461,6 +470,14 @@ public static class ArchiveTab
                 Widgets.DrawBoxSolid(r, new Color(c.r, c.g, c.b, 0.35f * (1f - flash / 0.35f)));
         }
 
+        if (Fresh.Contains(e))
+        {
+            float p = NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 2.5f) : 1f;
+            Widgets.DrawBoxSolid(r, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.06f + 0.06f * p));
+            Widgets.DrawBoxSolid(new Rect(r.xMax - 4f, r.y, 4f, r.height), NetrunUI.Accent);
+            if (Mouse.IsOver(r))
+                Fresh.Remove(e);
+        }
         var iconBox = new Rect(r.x + 12f, r.y + 9f, 30f, 30f);
         NetrunUI.Box(iconBox, NetrunUI.BgWindow, c);
         // Lines that are about Heat itself show which way it went.

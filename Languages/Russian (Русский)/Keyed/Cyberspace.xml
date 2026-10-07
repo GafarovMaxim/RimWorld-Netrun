@@ -280,4 +280,12 @@
   <NR_GatewayDaemonPick>Демон (один на нырок, найдено: {0})</NR_GatewayDaemonPick>
   <NR_GatewayDaemonLocked>Ещё не найден: демоны выпадают из корп-ядра и редких находок.</NR_GatewayDaemonLocked>
   <NR_GatewayDaemonOne>Один демон на нырок: выбор другого заменяет его. Бесплатно, слот программы не занимает.</NR_GatewayDaemonOne>
+  <NR_NewsEffectsHeader>Сейчас в киберпространстве действует:</NR_NewsEffectsHeader>
+  <NR_NewsEffectStorm>Шторм данных: ворота и ICE на 1 сильнее, добыча {0}</NR_NewsEffectStorm>
+  <NR_NewsEffectHunters>Ваш Heat на «Цели» или выше: в нырках могут появиться охотники ICE</NR_NewsEffectHunters>
+  <NR_NewsEffectBoss>Открыто корп-ядро: босс-нода с большой добычей</NR_NewsEffectBoss>
+  <NR_NewsEffectDaemon>Демон {0}: {1}</NR_NewsEffectDaemon>
+  <NR_NewsEffectPrograms>Программы на следующий нырок: {0}</NR_NewsEffectPrograms>
+  <NR_NewsEffectConfession>Просмотренная исповедь: следующий нырок покажет всё скрытое</NR_NewsEffectConfession>
+  <NR_NewsEffectNone>Ничего особенного.</NR_NewsEffectNone>
 </LanguageData>

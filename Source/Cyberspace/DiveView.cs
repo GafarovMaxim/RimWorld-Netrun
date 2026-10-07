@@ -322,8 +322,10 @@ public static class DiveView
         // Body: the info, a little larger spacing; strength as pips under it.
         string info = ElementInfo(e);
         var body = new Rect(box.x + 8f, header.yMax + 6f, box.width - 16f, box.yMax - header.yMax - 10f);
+        // Terminal style: a prompt mark, the text, numbers in the step's colour.
         Text.Font = GameFont.Small;
-        Widgets.Label(body, info.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
+        string styled = System.Text.RegularExpressions.Regex.Replace(info, @"\d+", m => m.Value.Colorize(passed ? NetrunUI.Muted : color));
+        Widgets.Label(body, ">".Colorize(new Color(color.r, color.g, color.b, 0.6f * alpha)) + " " + styled.Colorize(passed ? NetrunUI.Muted : NetrunUI.TextColor));
         Text.Font = GameFont.Tiny;
         if (!e.Hidden && !e.Cleared && e.Strength > 0 && e.Kind is DiveElementKind.Gate or DiveElementKind.Ice)
         {

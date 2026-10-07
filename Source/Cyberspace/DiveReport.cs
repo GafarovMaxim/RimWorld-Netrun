@@ -105,6 +105,7 @@ public class Dialog_DiveReport : Window
         try
         {
             DrawContents(inRect);
+            NetrunUI.WindowFrame(inRect);
         }
         finally
         {
