@@ -6,7 +6,7 @@
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_Neurostabilizer</defName>
     <label>neurostabilizer</label>
-    <description>An autoinjector of neutroamine laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, and for two days the user does not feel cut off and does not break for a pod.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
+    <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, and for two days the user does not feel cut off and does not break for a pod.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_NeurostabilizerHigh</HediffDef>
       <HediffDef>NR_NeurostabilizerAddiction</HediffDef>
@@ -41,15 +41,16 @@
     <ingestible>
       <drugCategory>Medical</drugCategory>
       <foodType>Processed</foodType>
-      <baseIngestTicks>120</baseIngestTicks>
-      <ingestSound>Ingest_Inject</ingestSound>
+      <baseIngestTicks>100</baseIngestTicks>
+      <ingestSound>Ingest_Pill</ingestSound>
+      <ingestHoldUsesTable>false</ingestHoldUsesTable>
       <ingestHoldOffsetStanding>
         <northDefault>
           <offset>(0.18,0,0)</offset>
         </northDefault>
       </ingestHoldOffsetStanding>
-      <ingestCommandString>Inject {0}</ingestCommandString>
-      <ingestReportString>Injecting {0}.</ingestReportString>
+      <ingestCommandString>Take {0}</ingestCommandString>
+      <ingestReportString>Taking {0}.</ingestReportString>
       <useEatingSpeedStat>false</useEatingSpeedStat>
       <chairSearchRadius>0</chairSearchRadius>
       <outcomeDoers>
@@ -108,14 +109,14 @@
     <defName>Chemical_NR_Neurostabilizer</defName>
     <needClass>Need_Chemical</needClass>
     <label>neurostabilizer</label>
-    <description>Because of a neurostabilizer dependence, this person needs regular injections to avoid withdrawal symptoms.</description>
+    <description>Because of a neurostabilizer dependence, this person needs regular doses to avoid withdrawal symptoms.</description>
     <listPriority>25</listPriority>
   </NeedDef>
 
   <HediffDef ParentName="DrugToleranceBase">
     <defName>NR_NeurostabilizerTolerance</defName>
     <label>neurostabilizer tolerance</label>
-    <description>A built-up tolerance to the neurostabilizer. The more severe it is, the less an injection does.</description>
+    <description>A built-up tolerance to the neurostabilizer. The more severe it is, the less a dose does.</description>
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
         <severityPerDay>-0.015</severityPerDay>
@@ -130,7 +131,7 @@
     <defName>NR_NeurostabilizerAddiction</defName>
     <hediffClass>Hediff_Addiction</hediffClass>
     <label>neurostabilizer dependence</label>
-    <description>The brain got used to the neural buffer and now itches without it.\n\nWithout regular injections, withdrawal symptoms will begin. Extended abstinence will slowly resolve the dependence.</description>
+    <description>The brain got used to the neural buffer and now itches without it.\n\nWithout regular doses, withdrawal symptoms will begin. Extended abstinence will slowly resolve the dependence.</description>
     <chemicalNeed>Chemical_NR_Neurostabilizer</chemicalNeed>
     <comps>
       <li Class="HediffCompProperties_SeverityPerDay">
@@ -174,7 +175,7 @@
       </li>
       <li>
         <label>neurostabilizer withdrawal</label>
-        <description>My head buzzes like a bad uplink. One more shot and it would all go quiet.</description>
+        <description>My head buzzes like a bad uplink. One more capsule and it would all go quiet.</description>
         <baseMoodEffect>-20</baseMoodEffect>
       </li>
     </stages>
