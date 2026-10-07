@@ -29,6 +29,27 @@
 
     <!-- Prices: Greedy multiplier; discount from reputation (at 100), Cleaner bonus, total cap -->
     <greedyPriceFactor>1.25</greedyPriceFactor>
+    <!-- Traits. Weights by specialty, in the order Greedy, Reliable, Rat, Paranoid, Gambler, Loyal, Veteran, Collector, Hothead -->
+    <traitWeightsBroker><li>2</li><li>2</li><li>1</li><li>2</li><li>2</li><li>2</li><li>1</li><li>0</li><li>2</li></traitWeightsBroker>
+    <traitWeightsCleaner><li>1</li><li>2</li><li>1</li><li>2</li><li>1</li><li>2</li><li>3</li><li>0</li><li>1</li></traitWeightsCleaner>
+    <traitWeightsFence><li>2</li><li>1</li><li>2</li><li>1</li><li>1</li><li>1</li><li>1</li><li>3</li><li>1</li></traitWeightsFence>
+    <!-- Greedy: more goods in the shop. Reliable: rewards x0.9, but a failure is forgiven by half. Rat: everything x0.8 -->
+    <greedyExtraStock>2</greedyExtraStock>
+    <reliableRewardFactor>0.9</reliableRewardFactor>
+    <ratPriceFactor>0.8</ratPriceFactor>
+    <!-- Paranoid: revenge raids against the colony come weaker. Gambler: the reward is rolled on completion -->
+    <paranoidRaidFactor>0.75</paranoidRaidFactor>
+    <gamblerRewardFactor>0.5~1.8</gamblerRewardFactor>
+    <!-- Loyal: reputation grows faster, extra discount once pinned. Veteran: better scrub, dearer call -->
+    <loyalReputationFactor>2</loyalReputationFactor>
+    <loyalPinnedDiscount>0.1</loyalPinnedDiscount>
+    <veteranScrubFactor>1.2</veteranScrubFactor>
+    <veteranCallFactor>1.3</veteranCallFactor>
+    <!-- Collector: always rare goods, fewer ordinary ones. Hothead: short contracts, bigger pay, Heat on failure -->
+    <collectorStockPenalty>2</collectorStockPenalty>
+    <hotheadDurationFactor>0.6</hotheadDurationFactor>
+    <hotheadRewardFactor>1.4</hotheadRewardFactor>
+    <hotheadFailHeat>10</hotheadFailHeat>
     <maxReputationDiscount>0.5</maxReputationDiscount>
     <cleanerDiscount>0.25</cleanerDiscount>
     <maxDiscount>0.75</maxDiscount>

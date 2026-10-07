@@ -105,6 +105,15 @@ public class ContractManager : GameComponent
                 break;
         }
 
+        FixerSettingsDef traits = NetrunDefOf.NR_Fixers;
+        if (fixer.Trait == FixerTrait.Reliable)
+            contract.Reward = Mathf.RoundToInt(contract.Reward * traits.reliableRewardFactor);
+        else if (fixer.Trait == FixerTrait.Hothead)
+        {
+            contract.Reward = Mathf.RoundToInt(contract.Reward * traits.hotheadRewardFactor);
+            contract.DurationTicks = Mathf.Max(2 * GenDate.TicksPerDay, Mathf.RoundToInt(contract.DurationTicks * traits.hotheadDurationFactor));
+        }
+
         return contract;
     }
 
@@ -204,6 +213,13 @@ public class ContractManager : GameComponent
         Fixer fixer = FixerManager.Get()?.ById(contract.FixerId);
         Map map = Find.AnyPlayerHomeMap;
 
+        // A gambler rolls the pay when the job is done.
+        if (fixer?.Trait == FixerTrait.Gambler)
+        {
+            fixer.TraitRevealed = true;
+            contract.Reward = Mathf.Max(1, Mathf.RoundToInt(contract.Reward * NetrunDefOf.NR_Fixers.gamblerRewardFactor.RandomInRange));
+        }
+
         if (map != null)
         {
             Thing silver = ThingMaker.MakeThing(ThingDefOf.Silver);
@@ -240,11 +256,20 @@ public class ContractManager : GameComponent
         string fixerName = fixer?.Name ?? "?";
         Record(contract, fixerName, success: false);
 
+        bool reliable = fixer?.Trait == FixerTrait.Reliable;
         if (fixer != null)
         {
-            fixer.GainReputation(-Settings.failReputationLoss);
-            fixer.SilentUntilTick = Find.TickManager.TicksGame + Settings.failSilentDays * GenDate.TicksPerDay;
+            // A reliable fixer forgives half of it.
+            float forgive = reliable ? 0.5f : 1f;
+            fixer.GainReputation(-Settings.failReputationLoss * forgive);
+            fixer.SilentUntilTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Settings.failSilentDays * GenDate.TicksPerDay * forgive);
             fixer.ChannelOpenUntilTick = 0;
+
+            if (fixer.Trait == FixerTrait.Hothead)
+            {
+                fixer.TraitRevealed = true;
+                HeatTracker.Get()?.AddHeat(NetrunDefOf.NR_Fixers.hotheadFailHeat, "NR_FixerHotheadFail".Translate(fixer.Name), HeatSource.Event);
+            }
 
             if (fixer.Trait == FixerTrait.Rat && Rand.Chance(Settings.ratFailLeakChance))
             {
@@ -254,7 +279,8 @@ public class ContractManager : GameComponent
         }
 
         // Whoever lost money on the job may send someone to collect.
-        Mercenaries.TryQueueRevenge(MercRevengeChance, "NR_MercReasonContract", fixerName);
+        if (!reliable)
+            Mercenaries.TryQueueRevenge(MercRevengeChance, "NR_MercReasonContract", fixerName);
 
         Find.LetterStack.ReceiveLetter(
             "NR_ContractFailedLabel".Translate(),

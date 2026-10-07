@@ -10,12 +10,6 @@
   <NR_FixerSpecialtyDesc_Fence>Moves hardware. Sells cyberware and hacking gear, delivered by drop pod.</NR_FixerSpecialtyDesc_Fence>
 
   <!-- Traits -->
-  <NR_FixerTrait_Greedy>Greedy</NR_FixerTrait_Greedy>
-  <NR_FixerTrait_Reliable>Reliable</NR_FixerTrait_Reliable>
-  <NR_FixerTrait_Rat>Rat</NR_FixerTrait_Rat>
-  <NR_FixerTraitDesc_Greedy>Everything costs a quarter more.</NR_FixerTraitDesc_Greedy>
-  <NR_FixerTraitDesc_Reliable>No surprises. Deals go exactly as agreed.</NR_FixerTraitDesc_Reliable>
-  <NR_FixerTraitDesc_Rat>Sometimes sells you out after a deal, adding to your Heat.</NR_FixerTraitDesc_Rat>
   <NR_FixerTraitUnknown>unknown</NR_FixerTraitUnknown>
   <NR_FixerTraitUnknownDesc>You don't know this fixer well enough yet. The trait is revealed at {0} reputation.</NR_FixerTraitUnknownDesc>
 
@@ -91,4 +85,35 @@
   <NR_ShopBlackTip>Sold only while the black market is open, one of each.</NR_ShopBlackTip>
   <NR_ClubRotateNow>New pool ({0} cyberdata)</NR_ClubRotateNow>
   <NR_ClubRotateNowTip>Call in a new pool now instead of waiting. Pinned and held fixers and those with a running contract stay. Costs {0} cyberdata.</NR_ClubRotateNowTip>
+  <NR_FixerTrait_Greedy>Greedy</NR_FixerTrait_Greedy>
+  <NR_FixerTraitDesc_Greedy>+ More goods in his shop.
+− Everything costs a quarter more, the call too.</NR_FixerTraitDesc_Greedy>
+  <NR_FixerTrait_Reliable>Reliable</NR_FixerTrait_Reliable>
+  <NR_FixerTraitDesc_Reliable>+ Forgives a failed contract by half (shorter silence, smaller reputation loss) and never sends anyone after you.
+− Contract rewards are 10% lower.</NR_FixerTraitDesc_Reliable>
+  <NR_FixerTrait_Rat>Rat</NR_FixerTrait_Rat>
+  <NR_FixerTraitDesc_Rat>+ Cheap: everything and the call cost 20% less.
+− Sometimes sells the colony out after a deal (+10 Heat), more often after a failed contract.</NR_FixerTraitDesc_Rat>
+  <NR_FixerTrait_Paranoid>Paranoid</NR_FixerTrait_Paranoid>
+  <NR_FixerTraitDesc_Paranoid>+ While he is in the pool, revenge raids against the colony come 25% weaker: he leaks their plans.
+− Does not pick up the phone while your Heat is Tracked or higher.</NR_FixerTraitDesc_Paranoid>
+  <NR_FixerTrait_Gambler>Gambler</NR_FixerTrait_Gambler>
+  <NR_FixerTraitDesc_Gambler>+ The pay is rolled when the job is done: from half to almost double, a bit more on average.
+− Nothing is guaranteed.</NR_FixerTraitDesc_Gambler>
+  <NR_FixerTrait_Loyal>Loyal</NR_FixerTrait_Loyal>
+  <NR_FixerTraitDesc_Loyal>+ Reputation grows twice as fast; once pinned, an extra 10% discount.
+− Will not work for you while a pinned fixer of his trade is in the pool.</NR_FixerTraitDesc_Loyal>
+  <NR_FixerTrait_Veteran>Veteran</NR_FixerTrait_Veteran>
+  <NR_FixerTraitDesc_Veteran>+ The scrub is 20% more effective.
+− The call costs 30% more.</NR_FixerTraitDesc_Veteran>
+  <NR_FixerTrait_Collector>Collector</NR_FixerTrait_Collector>
+  <NR_FixerTraitDesc_Collector>+ Always keeps his rare goods in the shop, even before you are pinned.
+− Fewer ordinary goods.</NR_FixerTraitDesc_Collector>
+  <NR_FixerTrait_Hothead>Hothead</NR_FixerTrait_Hothead>
+  <NR_FixerTraitDesc_Hothead>+ Contracts pay 40% more.
+− They are 40% shorter, and a failure adds 10 Heat.</NR_FixerTraitDesc_Hothead>
+  <NR_FixerRefuseParanoid>{0} does not pick up: too hot for him while your Heat is {1} or higher.</NR_FixerRefuseParanoid>
+  <NR_FixerRefuseLoyal>{0} does not work with you while {1} is your pinned fixer.</NR_FixerRefuseLoyal>
+  <NR_FixerHotheadFail>{0} made noise over the failed job</NR_FixerHotheadFail>
+  <NR_FixerParanoidWarning>{0}, the paranoid fixer, heard of it first and leaked their plans: they will come weaker.</NR_FixerParanoidWarning>
 </LanguageData>

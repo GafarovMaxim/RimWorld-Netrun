@@ -16,6 +16,7 @@ NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
+FIXER_TRAITS = ["Greedy", "Reliable", "Rat", "Paranoid", "Gambler", "Loyal", "Veteran", "Collector", "Hothead"]
 DYNAMIC = {
     "NR_StudioTab_": ["Summary", "Raw", "Library", "Addiction"],
     "NR_UB_Author_": ["Concert", "ZeroRun", "Morton", "NightMarket", "Confession", "StreetRunner", "EchoLullaby", "Oracle"],
@@ -47,8 +48,8 @@ DYNAMIC = {
     "NR_NodeTip_": ["Core", "Club", "Board", "Archive", "Server", "Studio", "Gateway"],
     "NR_FixerSpecialty_": ["Broker", "Cleaner", "Fence"],
     "NR_FixerSpecialtyDesc_": ["Broker", "Cleaner", "Fence"],
-    "NR_FixerTrait_": ["Greedy", "Reliable", "Rat"],
-    "NR_FixerTraitDesc_": ["Greedy", "Reliable", "Rat"],
+    "NR_FixerTrait_": FIXER_TRAITS,
+    "NR_FixerTraitDesc_": FIXER_TRAITS,
     "NR_Contract_": ["DataDelivery", "SystemTap", "QuietRun"],
     "NR_ContractDesc_": ["DataDelivery", "SystemTap", "QuietRun"],
     "NR_AIPersonality_": PERSONALITIES,

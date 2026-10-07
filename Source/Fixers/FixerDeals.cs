@@ -18,6 +18,12 @@ public static class FixerDeals
             return;
         }
 
+        if (fixer.CallRefusal is { } refusal)
+        {
+            Reject(refusal);
+            return;
+        }
+
         int cost = fixer.EffectiveCallCost;
         if (!ColonyGoods.TryTake(map, ThingDefOf.Silver, cost))
         {

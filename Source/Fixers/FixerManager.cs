@@ -165,8 +165,8 @@ public class FixerManager : GameComponent
             Id = _nextId++,
             Name = GenerateName(),
             JoinedTick = Find.TickManager.TicksGame,
-            Specialty = specialty ?? Gen.RandomEnumValue<FixerSpecialty>(disallowFirstValue: false),
-            Trait = Gen.RandomEnumValue<FixerTrait>(disallowFirstValue: false),
+            Specialty = specialty ??= Gen.RandomEnumValue<FixerSpecialty>(disallowFirstValue: false),
+            Trait = RollTrait(specialty),
             CallCost = Settings.callCost.RandomInRange,
         };
 
@@ -176,11 +176,30 @@ public class FixerManager : GameComponent
         return fixer;
     }
 
-    /// <summary>Random stock; fixers who trust the colony also offer their rare goods.</summary>
+    /// <summary>The trait, weighted by specialty: cleaners are often veterans, fences often collectors.</summary>
+    private static FixerTrait RollTrait(FixerSpecialty? specialty)
+    {
+        List<float> weights = specialty switch
+        {
+            FixerSpecialty.Cleaner => Settings.traitWeightsCleaner,
+            FixerSpecialty.Fence => Settings.traitWeightsFence,
+            _ => Settings.traitWeightsBroker,
+        };
+        var traits = (FixerTrait[])System.Enum.GetValues(typeof(FixerTrait));
+        return traits.RandomElementByWeight(t => weights != null && (int)t < weights.Count ? weights[(int)t] : 1f);
+    }
+
+    /// <summary>Random stock; fixers who trust the colony (and collectors) also offer their rare goods.</summary>
     private static List<ThingDef> RollStock(Fixer fixer)
     {
-        List<ThingDef> stock = Settings.shopItems.InRandomOrder().Take(Settings.shopStockSize).ToList();
-        if (fixer.Pinned)
+        int size = Settings.shopStockSize + fixer.Trait switch
+        {
+            FixerTrait.Greedy => Settings.greedyExtraStock,
+            FixerTrait.Collector => -Settings.collectorStockPenalty,
+            _ => 0,
+        };
+        List<ThingDef> stock = Settings.shopItems.InRandomOrder().Take(System.Math.Max(1, size)).ToList();
+        if (fixer.Pinned || fixer.Trait == FixerTrait.Collector)
             stock.AddRange(Settings.pinnedShopItems);
         return stock;
     }

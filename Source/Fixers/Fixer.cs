@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -12,11 +13,18 @@ public enum FixerSpecialty
     Fence,
 }
 
+// New traits are appended so old saves keep their values.
 public enum FixerTrait
 {
     Greedy,
     Reliable,
     Rat,
+    Paranoid,
+    Gambler,
+    Loyal,
+    Veteran,
+    Collector,
+    Hothead,
 }
 
 public class Fixer : IExposable
@@ -58,10 +66,14 @@ public class Fixer : IExposable
             float discount = Reputation / MaxReputation * Settings.maxReputationDiscount;
             if (Specialty == FixerSpecialty.Cleaner)
                 discount += Settings.cleanerDiscount;
+            if (Trait == FixerTrait.Loyal && Pinned)
+                discount += Settings.loyalPinnedDiscount;
 
             float factor = 1f - Mathf.Min(discount, Settings.maxDiscount);
             if (Trait == FixerTrait.Greedy)
                 factor *= Settings.greedyPriceFactor;
+            else if (Trait == FixerTrait.Rat)
+                factor *= Settings.ratPriceFactor;
             // A watched "night market" recording: the colony knows how to haggle for a few days.
             if (UniqueBraindanceManager.Get()?.MarketDiscountActive == true)
                 factor *= 1f - NetrunDefOf.NR_UniqueBraindance.marketDiscount;
@@ -71,10 +83,32 @@ public class Fixer : IExposable
     }
 
     /// <summary>Calls never get the Cleaner discount.</summary>
-    public int EffectiveCallCost => Mathf.CeilToInt(CallCost * (Trait == FixerTrait.Greedy ? Settings.greedyPriceFactor : 1f));
+    public int EffectiveCallCost => Mathf.CeilToInt(CallCost * Trait switch
+    {
+        FixerTrait.Greedy => Settings.greedyPriceFactor,
+        FixerTrait.Rat => Settings.ratPriceFactor,
+        FixerTrait.Veteran => Settings.veteranCallFactor,
+        _ => 1f,
+    });
 
-    public float HeatPerCyberdata => Settings.heatPerCyberdata * ScrubLevelFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
-    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+    /// <summary>A veteran knows which logs to burn: every cyberdata clears more.</summary>
+    private float TraitScrubFactor => Trait == FixerTrait.Veteran ? Settings.veteranScrubFactor : 1f;
+
+    /// <summary>Why the fixer will not pick up a call now (null when he will), beyond being silent.</summary>
+    public string CallRefusal
+    {
+        get
+        {
+            if (Trait == FixerTrait.Paranoid && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Tracked)
+                return "NR_FixerRefuseParanoid".Translate(Name, HeatLevel.Tracked.Label());
+            if (Trait == FixerTrait.Loyal && FixerManager.Get()?.Fixers.FirstOrDefault(f => f != this && f.Pinned && f.Specialty == Specialty) is { } rival)
+                return "NR_FixerRefuseLoyal".Translate(Name, rival.Name);
+            return null;
+        }
+    }
+
+    public float HeatPerCyberdata => Settings.heatPerCyberdata * ScrubLevelFactor * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
     /// <summary>The scrub gets less effective as the colony's trace grows.</summary>
     private static float ScrubLevelFactor => LevelFactor(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
@@ -88,7 +122,7 @@ public class Fixer : IExposable
     /// <summary>Heat one cyberdata (or one advanced) removes when the Heat stands at <paramref name="heat"/>.</summary>
     public float HeatPerUnitAt(float heat, bool advanced)
         => (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(HeatLevelUtility.LevelOf(heat))
-           * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+           * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
     public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor
                                                        * (Stock.Contains(def) ? 1f : Settings.blackMarketMarkup));
@@ -96,6 +130,8 @@ public class Fixer : IExposable
     public void GainReputation(float amount)
     {
         bool wasPinned = Pinned;
+        if (amount > 0f && Trait == FixerTrait.Loyal)
+            amount *= Settings.loyalReputationFactor;
         Reputation = Mathf.Clamp(Reputation + amount, 0f, MaxReputation);
 
         if (!wasPinned && Pinned)

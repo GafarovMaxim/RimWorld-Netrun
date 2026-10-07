@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -41,12 +42,21 @@ public static class Mercenaries
         parms.forced = true;
         parms.faction = Faction;
 
+        // A paranoid fixer in the pool hears of it first and leaks their plan: they come weaker.
+        string tip = string.Empty;
+        if (FixerManager.Get()?.Fixers.FirstOrDefault(f => f.Trait == FixerTrait.Paranoid) is { } paranoid)
+        {
+            parms.points *= NetrunDefOf.NR_Fixers.paranoidRaidFactor;
+            paranoid.TraitRevealed = true;
+            tip = "\n\n" + "NR_FixerParanoidWarning".Translate(paranoid.Name);
+        }
+
         int delay = (int)(RevengeDelayDays.RandomInRange * GenDate.TicksPerDay);
         Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_MercRaid, null, parms),
             Find.TickManager.TicksGame + delay));
 
         Find.LetterStack.ReceiveLetter("NR_MercWarningLabel".Translate(),
-            reasonKey.Translate(args) + "\n\n" + "NR_MercWarning".Translate(Faction.Name),
+            reasonKey.Translate(args) + "\n\n" + "NR_MercWarning".Translate(Faction.Name) + tip,
             LetterDefOf.ThreatSmall);
     }
 }

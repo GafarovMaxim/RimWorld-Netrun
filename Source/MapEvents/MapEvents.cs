@@ -324,7 +324,7 @@ public class IncidentWorker_BlackMarket : IncidentWorker
         List<Fixer> trusted = FixerManager.Get().Fixers.Where(f => f.Reputation >= rep).ToList();
         string who = trusted.Count == 0 ? "NR_BlackMarketNobody".Translate(rep.ToString("0")) : trusted.Select(f => f.Name).ToCommaList();
         HeatTracker.Get()?.Note("NR_BlackMarketLabel".Translate(), HeatSource.Event);
-        SendStandardLetter("NR_BlackMarketLabel".Translate(), "NR_BlackMarket".Translate(NetrunDefOf.NR_MapEvents.blackMarketDays.ToString("0"), who),
+        SendStandardLetter("NR_BlackMarketLabel".Translate(), "NR_BlackMarketLetter".Translate(NetrunDefOf.NR_MapEvents.blackMarketDays.ToString("0"), who),
             LetterDefOf.PositiveEvent, parms, LookTargets.Invalid);
         return true;
     }
@@ -405,7 +405,7 @@ public class IncidentWorker_MapHack : IncidentWorker
             return false;
         GatewayManager.Get()?.AddCounterHackNode(NetrunDefOf.NR_MapEvents.mapHackHours);
         HeatTracker.Get()?.Note("NR_MapHackLabel".Translate(), HeatSource.Raid);
-        SendStandardLetter("NR_MapHackLabel".Translate(), "NR_MapHack".Translate(count, NetrunDefOf.NR_MapEvents.mapHackHours.ToString("0")),
+        SendStandardLetter("NR_MapHackLabel".Translate(), "NR_MapHackLetter".Translate(count, NetrunDefOf.NR_MapEvents.mapHackHours.ToString("0")),
             LetterDefOf.ThreatSmall, parms, LookTargets.Invalid);
         return true;
     }

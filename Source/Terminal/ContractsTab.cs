@@ -250,8 +250,8 @@ public static class ContractsTab
                 tags.Add(("NR_BoardTag_Quiet".Translate(HeatLevel.Tracked.Label()), NetrunUI.Bad, "NR_BoardTag_QuietTip".Translate(HeatLevel.Tracked.Label())));
                 break;
         }
-        if (fixer != null && fixer.TraitKnown && fixer.Trait != FixerTrait.Reliable)
-            tags.Add((fixer.TraitLabel, NetrunUI.Bad, fixer.TraitDescription));
+        if (fixer != null && fixer.TraitKnown)
+            tags.Add((fixer.TraitLabel, FixersTab.TraitColor(fixer), fixer.TraitDescription));
 
         foreach ((string text, Color color, string tip) in tags)
         {

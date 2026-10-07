@@ -9,7 +9,7 @@
   <NR_CourierLostLog>Курьер данных пал</NR_CourierLostLog>
   <NR_CorpHuntIntro>Корпоративная группа пришла за вашим ИИ-сервером. Защищайте его: они попробуют унести или разбить сервер.</NR_CorpHuntIntro>
   <NR_BlackMarketLabel>Чёрный рынок</NR_BlackMarketLabel>
-  <NR_BlackMarket>На {0} дня открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarket>
+  <NR_BlackMarketLetter>На {0} дня открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarketLetter>
   <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Чёрный рынок</NR_FixerShopBlack>
   <NR_DistressLabel>Сигнал бедствия</NR_DistressLabel>
@@ -17,7 +17,7 @@
   <NR_DistressFragment>{0} вытащил(а) из старого сервера осколок ИИ.</NR_DistressFragment>
   <NR_DistressBacklash>Старый сервер ударил {0} ICE-отдачей.</NR_DistressBacklash>
   <NR_MapHackLabel>Турели захвачены</NR_MapHackLabel>
-  <NR_MapHack>Хакеры захватили и выключили турели: {0}. В Шлюзе на {1} часов появилась нода «Контрвзлом»: нырните и выйдите чисто, чтобы вернуть их.</NR_MapHack>
+  <NR_MapHackLetter>Хакеры захватили и выключили турели: {0}. В Шлюзе на {1} часов появилась нода «Контрвзлом»: нырните и выйдите чисто, чтобы вернуть их.</NR_MapHackLetter>
   <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
   <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
   <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>

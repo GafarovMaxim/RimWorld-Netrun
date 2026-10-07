@@ -110,7 +110,13 @@ public static class FixersTab
     {
         if (!fixer.TraitKnown)
             return NetrunUI.Muted;
-        return fixer.Trait == FixerTrait.Reliable ? NetrunUI.Ok : NetrunUI.Bad;
+        // Every trait helps and hurts; the colour hints which side weighs more.
+        return fixer.Trait switch
+        {
+            FixerTrait.Reliable or FixerTrait.Loyal or FixerTrait.Veteran => NetrunUI.Ok,
+            FixerTrait.Rat or FixerTrait.Hothead => NetrunUI.Bad,
+            _ => NetrunUI.Warn,
+        };
     }
 
     private static void DrawFixer(Rect rect, Fixer fixer, Map map)
@@ -221,7 +227,8 @@ public static class FixersTab
             return clicked;
         }
 
-        AcceptanceReport silent = fixer.IsSilent ? (AcceptanceReport)StatusText(fixer) : true;
+        AcceptanceReport silent = fixer.IsSilent ? (AcceptanceReport)StatusText(fixer)
+            : fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
 
         if (!fixer.ChannelOpen)
         {

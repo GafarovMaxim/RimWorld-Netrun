@@ -31,6 +31,25 @@ public class FixerSettingsDef : Def
 
     // Prices and discounts
     public float greedyPriceFactor = 1.25f;
+
+    // Traits: each one helps and hurts.
+    /// <summary>How often each trait rolls, by specialty (Broker, Cleaner, Fence); the order follows FixerTrait.</summary>
+    public List<float> traitWeightsBroker = [2f, 2f, 1f, 2f, 2f, 2f, 1f, 0f, 2f];
+    public List<float> traitWeightsCleaner = [1f, 2f, 1f, 2f, 1f, 2f, 3f, 0f, 1f];
+    public List<float> traitWeightsFence = [2f, 1f, 2f, 1f, 1f, 1f, 1f, 3f, 1f];
+    public int greedyExtraStock = 2;
+    public float reliableRewardFactor = 0.9f;
+    public float ratPriceFactor = 0.8f;
+    public float paranoidRaidFactor = 0.75f;
+    public FloatRange gamblerRewardFactor = new(0.5f, 1.8f);
+    public float loyalReputationFactor = 2f;
+    public float loyalPinnedDiscount = 0.1f;
+    public float veteranScrubFactor = 1.2f;
+    public float veteranCallFactor = 1.3f;
+    public int collectorStockPenalty = 2;
+    public float hotheadDurationFactor = 0.6f;
+    public float hotheadRewardFactor = 1.4f;
+    public float hotheadFailHeat = 10f;
     public float maxReputationDiscount = 0.5f;
     public float cleanerDiscount = 0.25f;
     public float maxDiscount = 0.75f;

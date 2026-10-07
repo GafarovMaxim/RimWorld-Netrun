@@ -10,12 +10,6 @@
   <NR_FixerSpecialtyDesc_Fence>Достаёт железо. Продаёт кибер-импланты и снаряжение для взлома, доставка дроп-подом.</NR_FixerSpecialtyDesc_Fence>
 
   <!-- Черты -->
-  <NR_FixerTrait_Greedy>Жадный</NR_FixerTrait_Greedy>
-  <NR_FixerTrait_Reliable>Надёжный</NR_FixerTrait_Reliable>
-  <NR_FixerTrait_Rat>Крыса</NR_FixerTrait_Rat>
-  <NR_FixerTraitDesc_Greedy>Всё на четверть дороже.</NR_FixerTraitDesc_Greedy>
-  <NR_FixerTraitDesc_Reliable>Без сюрпризов. Сделки идут ровно так, как договорились.</NR_FixerTraitDesc_Reliable>
-  <NR_FixerTraitDesc_Rat>Иногда сливает вас после сделки, и ваш след растёт.</NR_FixerTraitDesc_Rat>
   <NR_FixerTraitUnknown>неизвестна</NR_FixerTraitUnknown>
   <NR_FixerTraitUnknownDesc>Вы пока плохо знаете этого фиксера. Черта откроется при репутации {0}.</NR_FixerTraitUnknownDesc>
 
@@ -91,4 +85,35 @@
   <NR_ShopBlackTip>Продаётся только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>
   <NR_ClubRotateNow>Новый пул ({0} cyberdata)</NR_ClubRotateNow>
   <NR_ClubRotateNowTip>Сменить пул сейчас, не дожидаясь срока. Закреплённые, удержанные и фиксеры с идущим контрактом остаются. Стоит {0} cyberdata.</NR_ClubRotateNowTip>
+  <NR_FixerTrait_Greedy>Жадный</NR_FixerTrait_Greedy>
+  <NR_FixerTraitDesc_Greedy>+ Больше товаров в магазине.
+− Всё на четверть дороже, звонок тоже.</NR_FixerTraitDesc_Greedy>
+  <NR_FixerTrait_Reliable>Надёжный</NR_FixerTrait_Reliable>
+  <NR_FixerTraitDesc_Reliable>+ Прощает проваленный контракт наполовину (молчит меньше, репутация падает меньше) и никого не посылает следом.
+− Награды контрактов на 10% меньше.</NR_FixerTraitDesc_Reliable>
+  <NR_FixerTrait_Rat>Крыса</NR_FixerTrait_Rat>
+  <NR_FixerTraitDesc_Rat>+ Дёшево: всё и звонок на 20% дешевле.
+− Иногда сливает колонию после сделки (+10 Heat), после проваленного контракта чаще.</NR_FixerTraitDesc_Rat>
+  <NR_FixerTrait_Paranoid>Параноик</NR_FixerTrait_Paranoid>
+  <NR_FixerTraitDesc_Paranoid>+ Пока он в пуле, рейды мести на колонию на 25% слабее: он сливает их планы.
+− Не берёт трубку, пока Heat «Отслеживается» и выше.</NR_FixerTraitDesc_Paranoid>
+  <NR_FixerTrait_Gambler>Игрок</NR_FixerTrait_Gambler>
+  <NR_FixerTraitDesc_Gambler>+ Плата бросается при сдаче работы: от половины до почти двойной, в среднем чуть больше.
+− Ничего не гарантировано.</NR_FixerTraitDesc_Gambler>
+  <NR_FixerTrait_Loyal>Верный</NR_FixerTrait_Loyal>
+  <NR_FixerTraitDesc_Loyal>+ Репутация растёт вдвое быстрее; закреплённый даёт ещё 10% скидки.
+− Не работает на вас, пока в пуле закреплён фиксер его профиля.</NR_FixerTraitDesc_Loyal>
+  <NR_FixerTrait_Veteran>Ветеран</NR_FixerTrait_Veteran>
+  <NR_FixerTraitDesc_Veteran>+ Сброс Heat на 20% эффективнее.
+− Звонок на 30% дороже.</NR_FixerTraitDesc_Veteran>
+  <NR_FixerTrait_Collector>Коллекционер</NR_FixerTrait_Collector>
+  <NR_FixerTraitDesc_Collector>+ Всегда держит редкие товары в магазине, даже без закрепления.
+− Обычных товаров меньше.</NR_FixerTraitDesc_Collector>
+  <NR_FixerTrait_Hothead>Горячая голова</NR_FixerTrait_Hothead>
+  <NR_FixerTraitDesc_Hothead>+ Контракты платят на 40% больше.
+− Они на 40% короче, а провал добавляет 10 Heat.</NR_FixerTraitDesc_Hothead>
+  <NR_FixerRefuseParanoid>{0} не берёт трубку: слишком горячо, пока Heat «{1}» и выше.</NR_FixerRefuseParanoid>
+  <NR_FixerRefuseLoyal>{0} не работает с вами, пока {1} у вас в закреплённых.</NR_FixerRefuseLoyal>
+  <NR_FixerHotheadFail>{0} нашумел из-за проваленной работы</NR_FixerHotheadFail>
+  <NR_FixerParanoidWarning>{0}, фиксер-параноик, узнал первым и слил их планы: придут слабее.</NR_FixerParanoidWarning>
 </LanguageData>
