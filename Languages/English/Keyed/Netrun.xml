@@ -117,4 +117,5 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SoundPackDesc_Off>No mod sounds: only the game's own click.</NR_SoundPackDesc_Off>
   <NR_SettingsUiVolume>Interface sounds: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Ambient: {0}</NR_SettingsAmbientVolume>
+  <NR_HackHeatPreview>Trace if hacked: about +{0} Heat (less with hacking stealth or from a cyberpod)</NR_HackHeatPreview>
 </LanguageData>
