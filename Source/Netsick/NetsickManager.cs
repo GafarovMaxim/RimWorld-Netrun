@@ -73,7 +73,8 @@ public class NetsickManager : GameComponent
             netsick.WakeRequestedTick = -1;
             if (netsick.CravingSinceTick >= 0 && Find.TickManager.TicksGame - netsick.CravingSinceTick > GenDate.TicksPerDay)
                 netsick.CravingSinceTick = -1;
-            netsick.Severity -= Settings.decayPerDay * DayFraction * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
+            netsick.Severity -= Settings.decayPerDay * DayFraction * NetrunTraits.DecayFactor(pawn)
+                                * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
         }
     }
 
@@ -152,7 +153,7 @@ public class NetsickManager : GameComponent
             pawn.health.AddHediff(netsick);
         }
 
-        netsick.Severity += amount;
+        netsick.Severity += amount > 0f ? amount * NetrunTraits.GainFactor(pawn) : amount;
         return netsick;
     }
 

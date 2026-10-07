@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- A born netrunner: the net does not grip as hard, and hacks in dives land more often (Source/Netsick/NetrunTraits.cs) -->
+  <TraitDef>
+    <defName>NR_NaturalNetrunner</defName>
+    <commonality>0.5</commonality>
+    <degreeDatas>
+      <li>
+        <label>natural netrunner</label>
+        <description>{PAWN_nameDef} took to the net like others take to walking. Cyberspace does not get under {PAWN_possessive} skin as deep: Netsick grows 40% slower, and {PAWN_possessive} hacks in dives land 5% more often.</description>
+        <skillGains>
+          <Intellectual>2</Intellectual>
+        </skillGains>
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+</Defs>

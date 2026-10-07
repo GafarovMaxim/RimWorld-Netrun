@@ -401,7 +401,7 @@ public class DiveSession : IExposable
             chance += Settings.swordBonus;
         if (DefDatabase<HediffDef>.GetNamedSilentFail("NR_UBH_ZeroRun") is { } zero && Runner?.health.hediffSet.HasHediff(zero) == true)
             chance += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
-        chance += DiveEffects.HackBonus(Runner);
+        chance += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner);
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 
@@ -849,7 +849,7 @@ public class DiveSession : IExposable
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
         Hediff netsick = Runner.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
                          ?? Runner.health.AddHediff(NetrunDefOf.NR_Netsick);
-        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor);
+        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor) * NetrunTraits.GainFactor(Runner);
     }
 
     /// <summary>Dev: end the dive at once, as a clean exit (with the special roll) or a failure.</summary>
