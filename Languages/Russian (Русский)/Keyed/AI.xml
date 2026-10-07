@@ -275,4 +275,5 @@
   <NR_AIFragmentDecaying>Распадается: осталось {0} дн. Держите его рядом с запитанным ИИ-сервером.</NR_AIFragmentDecaying>
   <NR_AIFragmentStable>Стабилен рядом с ИИ-сервером (вдали осталось бы {0} дн.).</NR_AIFragmentStable>
   <NR_NoiseFloorLine>Сетевой шум: {0} активных ИИ, Heat не остывает ниже {1}.</NR_NoiseFloorLine>
+  <NR_AwakenNoResearch>Для новых осколков нужно исследование «{0}».</NR_AwakenNoResearch>
 </LanguageData>

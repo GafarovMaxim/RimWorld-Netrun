@@ -27,7 +27,7 @@
     </costList>
     <recipeMaker>
       <unfinishedThingDef>UnfinishedTechArmor</unfinishedThingDef>
-      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+      <researchPrerequisite>NR_Res_Neurorecording</researchPrerequisite>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <workSkill>Crafting</workSkill>
       <effectWorking>Smith</effectWorking>

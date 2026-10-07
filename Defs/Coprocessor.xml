@@ -31,7 +31,7 @@
       </li>
     </comps>
     <researchPrerequisites>
-      <li>USH_CybertechMachinery</li>
+      <li>NR_Res_AIArchitecture</li>
     </researchPrerequisites>
   </ThingDef>
 

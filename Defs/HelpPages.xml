@@ -282,7 +282,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Fragments and awakening</label>
-    <body>A fragment is a sleeping AI. A colonist carries it to a powered AI server with a free slot and wakes it there; the archetype is revealed at waking.\nA fresh fragment costs 10 cyberdata to wake. Seven in ten wake up; two in ten are empty shells that fall apart into 3 cyberdata; one in ten slips out into the net and hides in an abandoned node, where a dive can find it. An AI that already lived with you wakes for free.\nAn unwoken fragment falls apart in 30 days unless it lies near a powered AI server.\nEvery awake AI after the first makes network noise: Heat does not cool below 5 per such AI (Ghost half, Predator double). AIs on an isolated server are silent.\n[[aiawaken]]\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
+    <body>A fragment is a sleeping AI. A colonist carries it to a powered AI server with a free slot and wakes it there; the archetype is revealed at waking.\nA fresh fragment needs the "AI awakening" research and 10 cyberdata to wake. Seven in ten wake up; two in ten are empty shells that fall apart into 3 cyberdata; one in ten slips out into the net and hides in an abandoned node, where a dive can find it. An AI that already lived with you wakes for free.\nAn unwoken fragment falls apart in 30 days unless it lies near a powered AI server.\nEvery awake AI after the first makes network noise: Heat does not cool below 5 per such AI (Ghost half, Predator double). AIs on an isolated server are silent.\n[[aiawaken]]\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
     <icon>thing:NR_AIFragment</icon>
     <keywords>
       <li>AI fragment</li>

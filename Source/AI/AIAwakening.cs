@@ -29,11 +29,15 @@ public static class AIAwakening
             return "NR_AwakenNoFragment".Translate();
         if (FreeServer(map) == null)
             return "NR_AwakenNoServer".Translate();
-        // AIs that already lived with the colony come back for free; fresh fragments cost cyberdata.
+        // AIs that already lived with the colony come back for free; fresh fragments need the research and cyberdata.
+        if (!Fragments(map).Any(f => IsStored(f) || Researched))
+            return "NR_AwakenNoResearch".Translate(NetrunDefOf.NR_Res_AIAwakening.LabelCap);
         if (!Fragments(map).Any(f => IsStored(f) || Affordable(map)))
             return "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost);
         return true;
     }
+
+    public static bool Researched => NetrunDefOf.NR_Res_AIAwakening.IsFinished;
 
     private static bool IsStored(Thing fragment) => fragment.TryGetComp<CompAIFragment>()?.StoredAI != null;
 
@@ -60,9 +64,12 @@ public static class AIAwakening
             if (stored == null)
             {
                 string label = "NR_AwakenFragmentUnknown".Translate() + " (" + "NR_AwakenCost".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost) + ")";
-                options.Add(Affordable(map)
-                    ? new FloatMenuOption(label, () => OpenWorkerMenu(map, fragment))
-                    : new FloatMenuOption(label + ": " + "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost), null));
+                if (!Researched)
+                    options.Add(new FloatMenuOption(label + ": " + "NR_AwakenNoResearch".Translate(NetrunDefOf.NR_Res_AIAwakening.LabelCap), null));
+                else if (!Affordable(map))
+                    options.Add(new FloatMenuOption(label + ": " + "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost), null));
+                else
+                    options.Add(new FloatMenuOption(label, () => OpenWorkerMenu(map, fragment)));
             }
             else
             {

@@ -18,7 +18,7 @@
       <MaxInstallCount>1</MaxInstallCount>
     </statBases>
     <recipeMaker>
-      <researchPrerequisite>USH_AdvancedCybertech</researchPrerequisite>
+      <researchPrerequisite>NR_Res_AIArchitecture</researchPrerequisite>
     </recipeMaker>
     <comps>
       <li Class="USH_HE.CompProperties_UsableExpanded">

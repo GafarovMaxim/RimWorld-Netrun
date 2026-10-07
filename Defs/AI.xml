@@ -231,7 +231,7 @@
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <designationCategory>NR_Cyberspace</designationCategory>
     <researchPrerequisites>
-      <li>USH_AdvancedCybertech</li>
+      <li>NR_Res_AIAwakening</li>
     </researchPrerequisites>
     <building>
       <destroySound>BuildingDestroyed_Metal_Medium</destroySound>
@@ -285,7 +285,7 @@
     <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <designationCategory>NR_Cyberspace</designationCategory>
     <researchPrerequisites>
-      <li>USH_AdvancedCybertech</li>
+      <li>NR_Res_AIArchitecture</li>
     </researchPrerequisites>
     <placeWorkers>
       <li>PlaceWorker_ShowFacilitiesConnections</li>

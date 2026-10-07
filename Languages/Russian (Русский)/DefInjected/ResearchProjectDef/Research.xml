@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_Res_NetSecurity.label>сетевая безопасность</NR_Res_NetSecurity.label>
+  <NR_Res_NetSecurity.description>Защита собственной ноды колонии. Открывает брандмауэр, защитный ICE первой ступени и режим ловушки, который нарочно впускает атакующих.</NR_Res_NetSecurity.description>
+
+  <NR_Res_Neurorecording.label>нейрозапись</NR_Res_Neurorecording.label>
+  <NR_Res_Neurorecording.description>Запись того, что разум чувствует, а не только видит. Открывает очки брейнданса и нейростабилизатор.</NR_Res_Neurorecording.description>
+
+  <NR_Res_ActiveICE.label>активный ICE</NR_Res_ActiveICE.label>
+  <NR_Res_ActiveICE.description>Защитные программы, которые бьют в ответ. Открывают ICE второй ступени и режим капсулы «Охрана узла»: нетраннер охраняет колонию изнутри сети.</NR_Res_ActiveICE.description>
+
+  <NR_Res_AIAwakening.label>пробуждение ИИ</NR_Res_AIAwakening.label>
+  <NR_Res_AIAwakening.description>Как вернуть спящий осколок ИИ к жизни и не потерять его. Открывает ИИ-сервер и пробуждение осколков. Хранить и продавать осколки можно и без этого.</NR_Res_AIAwakening.description>
+
+  <NR_Res_AIArchitecture.label>ИИ-архитектура</NR_Res_AIArchitecture.label>
+  <NR_Res_AIArchitecture.description>Дом не для одного разума. Открывает серверные стойки, ИИ-сопроцессор и имплант ИИ-сокет.</NR_Res_AIArchitecture.description>
+
+  <NR_Res_BlackICEDefense.label>чёрный лёд</NR_Res_BlackICEDefense.label>
+  <NR_Res_BlackICEDefense.description>Собственный Black ICE колонии: защитные программы, выжигающие разум взломщика. Открывает ICE третьей ступени.</NR_Res_BlackICEDefense.description>
+
+  <NR_Res_ExecPrograms.label>боевые исполняемые</NR_Res_ExecPrograms.label>
+  <NR_Res_ExecPrograms.description>Упаковка exec data и ледорубов в одноразовые программы, которые нетраннер запускает прямо в нырке.</NR_Res_ExecPrograms.description>
+
+</LanguageData>

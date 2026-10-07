@@ -12,6 +12,15 @@ public static class NetrunDefOf
     public static FixerSettingsDef NR_Fixers;
     public static AISettingsDef NR_AI;
     public static ThingDef NR_AIFragment;
+
+    // Research woven into the HE tree (Defs/Research.xml).
+    public static ResearchProjectDef NR_Res_NetSecurity;
+    public static ResearchProjectDef NR_Res_Neurorecording;
+    public static ResearchProjectDef NR_Res_ActiveICE;
+    public static ResearchProjectDef NR_Res_AIAwakening;
+    public static ResearchProjectDef NR_Res_AIArchitecture;
+    public static ResearchProjectDef NR_Res_BlackICEDefense;
+    public static ResearchProjectDef NR_Res_ExecPrograms;
     public static ThingDef NR_AICoreModule;
     public static ThingDef NR_AIServer;
     public static JobDef NR_AwakenAI;

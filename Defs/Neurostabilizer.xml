@@ -31,7 +31,7 @@
       <USH_Cyberdata>2</USH_Cyberdata>
     </costList>
     <recipeMaker>
-      <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+      <researchPrerequisite>NR_Res_Neurorecording</researchPrerequisite>
       <recipeUsers>
         <li>DrugLab</li>
       </recipeUsers>

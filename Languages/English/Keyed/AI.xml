@@ -275,4 +275,5 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AIFragmentDecaying>Falling apart: {0} days left. Keep it near a powered AI server.</NR_AIFragmentDecaying>
   <NR_AIFragmentStable>Stable near the AI server ({0} days left elsewhere).</NR_AIFragmentStable>
   <NR_NoiseFloorLine>Network noise: {0} awake AIs, Heat does not cool below {1}.</NR_NoiseFloorLine>
+  <NR_AwakenNoResearch>Fresh fragments need the "{0}" research.</NR_AwakenNoResearch>
 </LanguageData>
