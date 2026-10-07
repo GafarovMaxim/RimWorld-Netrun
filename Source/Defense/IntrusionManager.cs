@@ -159,7 +159,7 @@ public class IntrusionManager : GameComponent, INetrunCleanable
             return;
         Packets.Remove(p);
         Map map = Find.Maps.FirstOrDefault(m => m.uniqueID == p.MapId) ?? Find.AnyPlayerHomeMap;
-        NodeDefense.Get()?.OnRepelled(map, p.Attack?.label ?? "?");
+        NodeDefense.Get()?.OnRepelled(map, p.Attack?.label ?? "?", intercepted: true);
         CorpManager.Get()?.NotifyIntercept(p.SourceFaction);
         NetRanking.Get()?.AddColonyFame(runner, NetRanking.Settings.fameIntrusion, "intercept");
         Messages.Message("NR_IntrusionStopped".Translate(p.Attack?.label ?? "?"), MessageTypeDefOf.PositiveEvent, historical: true);

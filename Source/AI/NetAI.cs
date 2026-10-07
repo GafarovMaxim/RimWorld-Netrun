@@ -57,6 +57,16 @@ public class NetAI : IExposable
     public List<AITrait> Traits = [];
     public int TraitsRevealed;
 
+    // AI quests (docs/CONCEPTS_10.md, section 16): level 1-3, quests done, the next offer, rewards for good.
+    public int Level = 1;
+    public int QuestsDone;
+    public int NextQuestTick = -1;
+    /// <summary>Warden's drills: +1 node defense for good.</summary>
+    public bool Drilled;
+    /// <summary>Doc's patient: the service heals 50% more for good.</summary>
+    public bool DocBoost;
+    public int SecondServiceReadyTick;
+
     public bool InServer => Server != null && !Server.Destroyed;
     public bool InHost => Host != null && !Host.Dead;
     public bool InCoprocessor => InServer && Server.GetComp<CompAIServer>()?.IsCoprocessor == true;
@@ -79,7 +89,8 @@ public class NetAI : IExposable
     public int SeedGrowth => SeedTowardDataHunter + SeedTowardMuse + SeedTowardPredator + SeedTowardGhost;
 
     /// <summary>Gains grow 25% faster for a colony of the Machine Revelation (Ideology).</summary>
-    public void AddTrust(float amount) => Trust = Mathf.Clamp(Trust + (amount > 0f ? amount * NetIdeo.TrustGainFactor : amount), 0f, 100f);
+    public void AddTrust(float amount)
+        => Trust = Mathf.Clamp(Trust + (amount > 0f ? amount * NetIdeo.TrustGainFactor * (Traits.Contains(AITrait.Remembering) ? 1.1f : 1f) : amount), 0f, 100f);
     public void AddHunger(float amount) => Hunger = Mathf.Clamp(Hunger + amount, 0f, 100f);
 
     public string LocationText
@@ -129,6 +140,12 @@ public class NetAI : IExposable
         Scribe_Collections.Look(ref RequestHistory, "requestHistory", LookMode.Value);
         Scribe_Collections.Look(ref Traits, "traits", LookMode.Value);
         Scribe_Values.Look(ref TraitsRevealed, "traitsRevealed");
+        Scribe_Values.Look(ref Level, "level", 1);
+        Scribe_Values.Look(ref QuestsDone, "questsDone");
+        Scribe_Values.Look(ref NextQuestTick, "nextQuestTick", -1);
+        Scribe_Values.Look(ref Drilled, "drilled");
+        Scribe_Values.Look(ref DocBoost, "docBoost");
+        Scribe_Values.Look(ref SecondServiceReadyTick, "secondServiceReady");
         RequestHistory ??= [];
         Traits ??= [];
     }

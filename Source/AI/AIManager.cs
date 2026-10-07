@@ -21,6 +21,8 @@ public class AIManager : GameComponent, INetrunCleanable
     private int _nextId = 1;
     private int _lastHackTick = -1;
 
+    public int LastHackTick => _lastHackTick;
+
     public AIManager(Game game) { }
 
     public static AIManager Get() => Current.Game?.GetComponent<AIManager>();

@@ -14,6 +14,7 @@ public enum NewsChoiceKind
     CrewChallenge,
     SellOutCrew,
     Intrusion,
+    TricksterJoke,
 }
 
 public class NewsChoice : IExposable
@@ -25,7 +26,7 @@ public class NewsChoice : IExposable
     public int B = -1;
     public string Text;
 
-    public bool Important => Kind is NewsChoiceKind.CrewChallenge or NewsChoiceKind.SellOutCrew or NewsChoiceKind.Intrusion;
+    public bool Important => Kind is NewsChoiceKind.CrewChallenge or NewsChoiceKind.SellOutCrew or NewsChoiceKind.Intrusion or NewsChoiceKind.TricksterJoke;
 
     public void ExposeData()
     {
@@ -103,6 +104,11 @@ public class NewsChoices : GameComponent, INetrunCleanable
             case NewsChoiceKind.SellOutCrew:
                 list.Add(("NR_ChoiceSellOut".Translate(300), () => SellOut(map, c), "NR_ChoiceSellOutTip".Translate()));
                 list.Add(("NR_ChoiceDecline".Translate(), () => { }, null));
+                break;
+            case NewsChoiceKind.TricksterJoke:
+                list.Add(("NR_ChoiceJokeGift".Translate(), () => AIQuests.TricksterChose(c.A, 0), null));
+                list.Add(("NR_ChoiceJokePrank".Translate(), () => AIQuests.TricksterChose(c.A, 1), null));
+                list.Add(("NR_ChoiceJokeBoth".Translate(), () => AIQuests.TricksterChose(c.A, 2), null));
                 break;
             case NewsChoiceKind.Intrusion:
                 list.Add(("NR_ChoiceIsolate".Translate(), () => { if (!NetworkIsolation.Active) NodeDefense.Get()?.ToggleIsolation(); }, "NR_IsolationGizmoDesc".Translate()));

@@ -18,6 +18,8 @@ public enum AITrait
     NightOwl,
     Rebel,
     Nostalgic,
+    /// <summary>Echo's quest reward only: remembers who it was; trust grows 10% faster.</summary>
+    Remembering,
 }
 
 public static class AITraitUtility
@@ -32,7 +34,7 @@ public static class AITraitUtility
     {
         int count = Rand.Value < Settings.traitNoneChance ? 0 : Rand.Value < Settings.traitTwoChance ? 2 : 1;
         var pool = ((AITrait[])System.Enum.GetValues(typeof(AITrait)))
-            .Where(t => !(t == AITrait.Pacifist && personality == AIPersonality.Predator)).ToList();
+            .Where(t => t != AITrait.Remembering && !(t == AITrait.Pacifist && personality == AIPersonality.Predator)).ToList();
         return pool.InRandomOrder().Take(count).ToList();
     }
 
@@ -72,7 +74,8 @@ public static class AITraitUtility
     /// <summary>How strong the service is right now: every trait that touches it, multiplied.</summary>
     public static float ServicePower(NetAI ai, Map map)
     {
-        float power = 1f;
+        // Level 2 and up: the service is 25% stronger (docs/CONCEPTS_10.md, section 16.1).
+        float power = ai.Level >= 2 ? 1.25f : 1f;
         foreach (AITrait trait in ai.Traits)
         {
             power *= trait switch

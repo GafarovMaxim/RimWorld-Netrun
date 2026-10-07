@@ -48,6 +48,8 @@ public class Fixer : IExposable
     /// <summary>Held by the player: stays through the next rotations.</summary>
     public bool Held;
     public int JoinedTick;
+    /// <summary>A Siren AI talked this fixer round: 20% off everything for good.</summary>
+    public bool SirenDiscount;
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
 
@@ -85,6 +87,8 @@ public class Fixer : IExposable
             // A watched "night market" recording: the colony knows how to haggle for a few days.
             if (UniqueBraindanceManager.Get()?.MarketDiscountActive == true)
                 factor *= 1f - NetrunDefOf.NR_UniqueBraindance.marketDiscount;
+            if (SirenDiscount)
+                factor *= 0.8f;
 
             return factor;
         }
@@ -185,6 +189,7 @@ public class Fixer : IExposable
         Scribe_Values.Look(ref Specialty, "specialty");
         Scribe_Values.Look(ref Trait, "trait");
         Scribe_Values.Look(ref Reputation, "reputation");
+        Scribe_Values.Look(ref SirenDiscount, "sirenDiscount");
         Scribe_Values.Look(ref CallCost, "callCost");
         Scribe_Values.Look(ref ChannelOpenUntilTick, "channelOpenUntilTick");
         Scribe_Values.Look(ref SilentUntilTick, "silentUntilTick");

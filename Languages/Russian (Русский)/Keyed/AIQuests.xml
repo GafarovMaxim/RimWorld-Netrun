@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_AIQ_Progress>Шаг {0} из {1}:</NR_AIQ_Progress>
+  <NR_AIQ_Terms>{0} дн. после принятия. Провал стоит 15 доверия и услуги на 3 дня; если не принять вовремя, −5 доверия. Первый квест поднимает ИИ до 2 уровня (+25% к услуге), третий — до 3 (вторая услуга).</NR_AIQ_Terms>
+  <NR_AIQ_StepDone>{0}: шаг выполнен. Дальше: {1}</NR_AIQ_StepDone>
+  <NR_AIQ_PartsTaken>{0} забрал компоненты.</NR_AIQ_PartsTaken>
+  <NR_AIQ_Fed>{0} забрал cyberdata.</NR_AIQ_Fed>
+  <NR_AIQ_JokeText>{0} предлагает шутку: подарок, розыгрыш или оба?</NR_AIQ_JokeText>
+  <NR_AIQ_ForecastNamed>{0} называет ноду: {1}. Два дня.</NR_AIQ_ForecastNamed>
+  <NR_AIQ_Prank>Розыгрыш {0}</NR_AIQ_Prank>
+  <NR_AIQ_PrankDone>{0} разыграл колонию: сеть на миг услышала о ней.</NR_AIQ_PrankDone>
+  <NR_AIQ_GiftFound>Подарок {0} ждал в ответвлении.</NR_AIQ_GiftFound>
+  <NR_AIQ_LevelLabel>{0}: уровень {1}</NR_AIQ_LevelLabel>
+  <NR_AIQ_Level_2>{0} больше доверяет колонии: услуга сильнее на 25%, черты открыты.</NR_AIQ_Level_2>
+  <NR_AIQ_Level_3>{0} раскрылся полностью: доступна вторая услуга.</NR_AIQ_Level_3>
+  <NR_AIQ_RewardLog>Квест {0}</NR_AIQ_RewardLog>
+  <NR_AIQ_LegendLabel>{0} вспомнил</NR_AIQ_LegendLabel>
+  <NR_AIQ_Legend>{0} нашёл себя в старой записи и вспомнил, кем был. Колония долго будет рассказывать эту историю.</NR_AIQ_Legend>
+  <NR_AIQ_NoMercs>Рейд наёмников не идёт: прогнозу нечего откладывать.</NR_AIQ_NoMercs>
+  <NR_AIQ_MercsDelayed>Следующий рейд наёмников отложен: он придёт через {0}.</NR_AIQ_MercsDelayed>
+  <NR_AIQ_SkillUp>{0}: навык «{1}» вырос.</NR_AIQ_SkillUp>
+  <NR_AIQ_PickColonist>Кому достанется том?</NR_AIQ_PickColonist>
+  <NR_ChoiceTitle_TricksterJoke>Шутка Трикстера</NR_ChoiceTitle_TricksterJoke>
+  <NR_ChoiceJokeGift>Подарок</NR_ChoiceJokeGift>
+  <NR_ChoiceJokePrank>Розыгрыш</NR_ChoiceJokePrank>
+  <NR_ChoiceJokeBoth>Оба</NR_ChoiceJokeBoth>
+  <NR_AI2Locked>Откроется на 3 уровне.</NR_AI2Locked>
+  <NR_AI2Cooldown>Будет готово через {0}.</NR_AI2Cooldown>
+  <NR_AI2Used>{0}: вторая услуга выполнена ({1}).</NR_AI2Used>
+  <NR_AI2Nothing>сейчас нечего делать</NR_AI2Nothing>
+  <NR_AI2R_DataHunter>кэш в {0}</NR_AI2R_DataHunter>
+  <NR_AI2R_Ghost>след перенесён</NR_AI2R_Ghost>
+  <NR_AI2R_Predator>вторжение остановлено</NR_AI2R_Predator>
+  <NR_AI2R_Warden>вторжение задержано на 6 ч</NR_AI2R_Warden>
+  <NR_AI2R_Oracle>следующей: {0} (Тревога {1}), через {2}</NR_AI2R_Oracle>
+  <NR_AI2R_Seed>Heat −5</NR_AI2R_Seed>
+  <NR_AI2News_Ghost>Кто-то повесил свежий след на {0}.</NR_AI2News_Ghost>
+  <NR_AI2News_Trickster>{0} день гонялись за ложной наводкой.</NR_AI2News_Trickster>
+  <NR_AI2Tip>Вторая услуга ИИ 3 уровня. Раз в {0} дн.</NR_AI2Tip>
+  <NR_AILevelTip>Уровень {0} (выполнено квестов: {1}). 2 уровень после первого квеста: услуга +25%, черты открыты. 3 уровень после третьего: вторая услуга.</NR_AILevelTip>
+  <NR_AIQuestChip>квест {0}/{1}</NR_AIQuestChip>
+  <NR_AIOpenQuest>Квест</NR_AIOpenQuest>
+  <NR_AITrait_Remembering>Помнящий</NR_AITrait_Remembering>
+  <NR_AITraitDesc_Remembering>+ Помнит, кем был: доверие растёт на 10% быстрее.\n− Ничего.</NR_AITraitDesc_Remembering>
+  <NR_AIQ_Name_BloodOfCorp>Кровь {0}</NR_AIQ_Name_BloodOfCorp>
+  <NR_AIQ_Desc_BloodOfCorp>{0} хочет попробовать данные {1} на вкус.</NR_AIQ_Desc_BloodOfCorp>
+  <NR_AIQ_BloodOfCorp_Step1>Взломать 2 ответвления {0}.</NR_AIQ_BloodOfCorp_Step1>
+  <NR_AIQ_BloodOfCorp_Step2>Взять ответвление в крепости {0}.</NR_AIQ_BloodOfCorp_Step2>
+  <NR_AIQ_Name_AnotherName>Чужое имя</NR_AIQ_Name_AnotherName>
+  <NR_AIQ_Desc_AnotherName>{0} хочет на время исчезнуть и вернуться под другим именем.</NR_AIQ_Desc_AnotherName>
+  <NR_AIQ_AnotherName_Step1>Держать Heat в Тени 5 дней подряд.</NR_AIQ_AnotherName_Step1>
+  <NR_AIQ_AnotherName_Step2>Нырнуть в брошенное или задетое соперником ответвление и выйти без удара ICE.</NR_AIQ_AnotherName_Step2>
+  <NR_AIQ_Name_AnotherMemory>Чужая память</NR_AIQ_Name_AnotherMemory>
+  <NR_AIQ_Desc_AnotherMemory>{0} хочет почувствовать что-то {1} через человеческий разум.</NR_AIQ_Desc_AnotherMemory>
+  <NR_AIQ_AnotherMemory_Step1>Записать брейнданс настроения «{0}».</NR_AIQ_AnotherMemory_Step1>
+  <NR_AIQ_AnotherMemory_Step2>Смонтировать из него чип хорошего качества.</NR_AIQ_AnotherMemory_Step2>
+  <NR_AIQ_AnotherMemory_Step3>Показать запись «{0}» трём колонистам ({1}/3).</NR_AIQ_AnotherMemory_Step3>
+  <NR_AIQ_Name_Retaliation>Ответный удар</NR_AIQ_Name_Retaliation>
+  <NR_AIQ_Desc_Retaliation>{0} хочет ударить в ответ по {1}.</NR_AIQ_Desc_Retaliation>
+  <NR_AIQ_Retaliation_Step1>Отбить вторжение, пока ИИ в сети.</NR_AIQ_Retaliation_Step1>
+  <NR_AIQ_Retaliation_Step2>Взять ответвление в крепости {0}.</NR_AIQ_Retaliation_Step2>
+  <NR_AIQ_Name_Drills>Учения</NR_AIQ_Name_Drills>
+  <NR_AIQ_Desc_Drills>{0} хочет посмотреть, что выдержит узел колонии.</NR_AIQ_Desc_Drills>
+  <NR_AIQ_Drills_Step1>Поднять защиту узла до 6.</NR_AIQ_Drills_Step1>
+  <NR_AIQ_Drills_Step2>Остановить вторжение перехватом на магистрали.</NR_AIQ_Drills_Step2>
+  <NR_AIQ_Name_Forecast>Прогноз</NR_AIQ_Name_Forecast>
+  <NR_AIQ_Desc_Forecast>{0} увидел кое-что в числах: {1}.</NR_AIQ_Desc_Forecast>
+  <NR_AIQ_Forecast_Step1>Нырнуть в {0} за 2 дня, пока прогноз верен.</NR_AIQ_Forecast_Step1>
+  <NR_AIQ_Name_MissingPart>Недостающая деталь</NR_AIQ_Name_MissingPart>
+  <NR_AIQ_Desc_MissingPart>{0} нужно тело больше одного сервера.</NR_AIQ_Desc_MissingPart>
+  <NR_AIQ_MissingPart_Step1>Построить ИИ-сопроцессор или серверную стойку.</NR_AIQ_MissingPart_Step1>
+  <NR_AIQ_MissingPart_Step2>Отдать 5 продвинутых компонентов (заберутся со склада).</NR_AIQ_MissingPart_Step2>
+  <NR_AIQ_Name_HeartToHeart>Разговор по душам</NR_AIQ_Name_HeartToHeart>
+  <NR_AIQ_Desc_HeartToHeart>{0} хочет найти подход к {1}.</NR_AIQ_Desc_HeartToHeart>
+  <NR_AIQ_HeartToHeart_Step1>Поднять репутацию у {0} до 40.</NR_AIQ_HeartToHeart_Step1>
+  <NR_AIQ_HeartToHeart_Step2>Выполнить контракт {0}.</NR_AIQ_HeartToHeart_Step2>
+  <NR_AIQ_Name_ChoiceOfJoke>Выбор шутки</NR_AIQ_Name_ChoiceOfJoke>
+  <NR_AIQ_Desc_ChoiceOfJoke>{0} приготовил для колонии шутку. Или подарок. Или и то и другое.</NR_AIQ_Desc_ChoiceOfJoke>
+  <NR_AIQ_ChoiceOfJoke_Step1>Выбрать: подарок, розыгрыш или оба (письмо).</NR_AIQ_ChoiceOfJoke_Step1>
+  <NR_AIQ_ChoiceOfJoke_Step2>Найти подарок в следующем чистом нырке.</NR_AIQ_ChoiceOfJoke_Step2>
+  <NR_AIQ_Name_Patient>Пациент</NR_AIQ_Name_Patient>
+  <NR_AIQ_Desc_Patient>{0} хочет как следует вылечить Netsick у {1}.</NR_AIQ_Desc_Patient>
+  <NR_AIQ_Patient_Step1>Снизить Netsick у {0} до лёгкой стадии.</NR_AIQ_Patient_Step1>
+  <NR_AIQ_Patient_Step2>{0} не ныряет 3 дня.</NR_AIQ_Patient_Step2>
+  <NR_AIQ_Name_MissingVolume>Недостающий том</NR_AIQ_Name_MissingVolume>
+  <NR_AIQ_Desc_MissingVolume>{0} не хватает одного тома в архиве.</NR_AIQ_Desc_MissingVolume>
+  <NR_AIQ_MissingVolume_Step1>Сделать особую находку в ответвлении-архиве.</NR_AIQ_MissingVolume_Step1>
+  <NR_AIQ_Name_FirstStep>Первый шаг</NR_AIQ_Name_FirstStep>
+  <NR_AIQ_Desc_FirstStep>{0} хочет кем-то стать.</NR_AIQ_Desc_FirstStep>
+  <NR_AIQ_FirstStep_Step1>Кормить его одним путём несколько дней.</NR_AIQ_FirstStep_Step1>
+  <NR_AIQ_FirstStep_Step2>Нырнуть с ним в сопроцессоре капсулы.</NR_AIQ_FirstStep_Step2>
+  <NR_AIQ_Name_WhoAmI>Кто я</NR_AIQ_Name_WhoAmI>
+  <NR_AIQ_Desc_WhoAmI>{0} хочет вспомнить, кем был.</NR_AIQ_Desc_WhoAmI>
+  <NR_AIQ_WhoAmI_Step1>Найти запись брейнданса, автор которой — тот, кем он был.</NR_AIQ_WhoAmI_Step1>
+  <NR_AIQ_WhoAmI_Step2>Показать эту запись кому-нибудь.</NR_AIQ_WhoAmI_Step2>
+  <NR_AIQ_Name_HungryChannel>Голодный канал</NR_AIQ_Name_HungryChannel>
+  <NR_AIQ_Desc_HungryChannel>{0} изголодался по данным.</NR_AIQ_Desc_HungryChannel>
+  <NR_AIQ_HungryChannel_Step1>Иметь 10 cyberdata на складе (заберутся).</NR_AIQ_HungryChannel_Step1>
+  <NR_AIQ_Name_QuietHour>Тихий час</NR_AIQ_Name_QuietHour>
+  <NR_AIQ_Desc_QuietHour>{0} просит тишины.</NR_AIQ_Desc_QuietHour>
+  <NR_AIQ_QuietHour_Step1>Ни одного взлома 2 дня.</NR_AIQ_QuietHour_Step1>
+  <NR_AIQ_Name_ForeignCode>Чужой код</NR_AIQ_Name_ForeignCode>
+  <NR_AIQ_Desc_ForeignCode>{0} чувствует в сети другой разум.</NR_AIQ_Desc_ForeignCode>
+  <NR_AIQ_ForeignCode_Step1>Нырнуть в ноду с диким ИИ.</NR_AIQ_ForeignCode_Step1>
+  <NR_AI2_DataHunter>Наводка</NR_AI2_DataHunter>
+  <NR_AI2Desc_DataHunter>Раскрывает забытый кэш в известном ответвлении.</NR_AI2Desc_DataHunter>
+  <NR_AI2_Ghost>Подменить след</NR_AI2_Ghost>
+  <NR_AI2Desc_Ghost>Переносит 15 Heat на команду-соперника.</NR_AI2Desc_Ghost>
+  <NR_AI2_Muse>Творческая искра</NR_AI2_Muse>
+  <NR_AI2Desc_Muse>Колонист получает вдохновение на творчество.</NR_AI2Desc_Muse>
+  <NR_AI2_Predator>Контратака</NR_AI2_Predator>
+  <NR_AI2Desc_Predator>Бьёт по идущему вторжению заранее: оно остановлено.</NR_AI2Desc_Predator>
+  <NR_AI2_Warden>Карантин</NR_AI2_Warden>
+  <NR_AI2Desc_Warden>Перекрывает путь идущему вторжению на 6 часов.</NR_AI2Desc_Warden>
+  <NR_AI2_Oracle>Карта охоты</NR_AI2_Oracle>
+  <NR_AI2Desc_Oracle>Показывает, какая корпорация ударит следующей и когда.</NR_AI2Desc_Oracle>
+  <NR_AI2_Forge>Разгон</NR_AI2_Forge>
+  <NR_AI2Desc_Forge>День исследований разом.</NR_AI2Desc_Forge>
+  <NR_AI2_Siren>Переговоры с командой</NR_AI2_Siren>
+  <NR_AI2Desc_Siren>+15 к отношениям с командой раннеров.</NR_AI2Desc_Siren>
+  <NR_AI2_Trickster>Ложная новость</NR_AI2_Trickster>
+  <NR_AI2Desc_Trickster>Команда-соперник тратит день на погоню за ложью: теряет славу.</NR_AI2Desc_Trickster>
+  <NR_AI2_Doc>Стабилизация</NR_AI2_Doc>
+  <NR_AI2Desc_Doc>Снимает киберкому или блокировку с одного колониста.</NR_AI2Desc_Doc>
+  <NR_AI2_Archivist>Копия знания</NR_AI2_Archivist>
+  <NR_AI2Desc_Archivist>Колонист получает уровень случайного навыка.</NR_AI2Desc_Archivist>
+  <NR_AI2_Seed>Болезнь роста</NR_AI2_Seed>
+  <NR_AI2Desc_Seed>Понемногу всего: Heat −5.</NR_AI2Desc_Seed>
+  <NR_AI2_Echo>Голос близкого</NR_AI2_Echo>
+  <NR_AI2Desc_Echo>Снимает горе по умершему у одного колониста.</NR_AI2Desc_Echo>
+
+</LanguageData>

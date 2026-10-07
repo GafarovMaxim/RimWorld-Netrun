@@ -178,6 +178,16 @@ public class UniqueBraindanceManager : GameComponent
     private List<ThingDef> _found = [];
     private int _discountUntil = -1;
     public bool RevealNextDive;
+
+    /// <summary>Drops a unique recording the colony has not found yet (an AI quest reward); false when none is left.</summary>
+    public bool GiveRandomUnique(Map map)
+    {
+        ThingDef def = RandomUnfound();
+        if (def == null || map == null)
+            return false;
+        DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [ThingMaker.MakeThing(def)], forbid: false);
+        return true;
+    }
     /// <summary>The Oracle's vision: the next raid on the colony is seen a day ahead (and comes a day later).</summary>
     public bool OracleWatching;
 

@@ -45,6 +45,7 @@ public class BraindanceRecorder : GameComponent, INetrunCleanable
         rec.Mood = mood;
         rec.Strength = Mathf.Clamp01(strength);
 
+        AIQuests.NotifyRecorded(mood);
         if (GenPlace.TryPlaceThing(raw, pawn.Position, pawn.Map, ThingPlaceMode.Near))
             Messages.Message("NR_BDRecorded".Translate(pawn.LabelShort, what), raw, MessageTypeDefOf.PositiveEvent, historical: false);
     }

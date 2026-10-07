@@ -139,6 +139,11 @@ public static class AITab
         // Archetype tag (icon, personality color) and the request, if any.
         float tagX = x;
         tagX += NetrunUI.Chip(tagX, y + 1f, ai.Personality.Label().ToUpper(), ai.Personality.Color(), ai.Personality.Description()) + 6f;
+        // Level: three dots, and the quest step if there is one (docs/CONCEPTS_10.md, section 16.1).
+        string dots = new string('●', ai.Level) + new string('○', System.Math.Max(0, 3 - ai.Level));
+        QuestPart_NetAIQuest quest = AIQuests.QuestOf(ai);
+        string levelTip = "NR_AILevelTip".Translate(ai.Level, ai.QuestsDone) + (quest != null ? "\n\n" + quest.quest.name + "\n" + AIQuests.StepText(quest) : "");
+        tagX += NetrunUI.Chip(tagX, y + 1f, dots + (quest != null ? " " + (string)"NR_AIQuestChip".Translate(quest.Step + 1, quest.Steps) : ""), NetrunUI.Ok, levelTip) + 6f;
         // Traits: seen ones with their plus and minus, the rest as "???" until trust opens them.
         for (int i = 0; i < ai.Traits.Count; i++)
         {
@@ -270,6 +275,15 @@ public static class AITab
             + (Mathf.Abs(power - 1f) > 0.01f ? "\n" + "NR_AIServicePower".Translate(power.ToStringPercent()) : string.Empty);
         Add(AIBehavior.ServiceLabel(ai.Personality), NetrunUI.Accent, AIBehavior.CanUseService(ai), serviceTip,
             NetrunTex.AIUse, () => AIBehavior.UseService(ai, map));
+        if (ai.Level >= 3)
+            Add(AISecondService.Label(ai), NetrunUI.Purple, AISecondService.CanUse(ai), AISecondService.Description(ai) + "\n\n" + "NR_AI2Tip".Translate(AISecondService.CooldownDays),
+                NetrunTex.AIUse, () => AISecondService.Use(ai, map));
+        if (AIQuests.QuestOf(ai) is { } openQuest)
+            Add("NR_AIOpenQuest".Translate(), NetrunUI.Ok, true, openQuest.quest.name, NetrunTex.AIUse, () =>
+            {
+                Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Quests);
+                (MainButtonDefOf.Quests.TabWindow as MainTabWindow_Quests)?.Select(openQuest.quest);
+            });
         Add("NR_AIFeed".Translate(), NetrunUI.Warn, AIBehavior.CanFeed(ai, map), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
             NetrunTex.AIFeed, () => AIBehavior.Feed(ai, map));
         if (ai.Request == AIRequestKind.Deliver)

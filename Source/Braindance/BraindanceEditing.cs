@@ -102,6 +102,7 @@ public static class BraindanceEditing
             int skill = editor.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
             target.Strength = Mathf.Clamp01(source.Strength + skill * 0.015f);
             ContractManager.Get()?.NotifyChipEdited(target.Mood);
+            AIQuests.NotifyEdited(target.Mood, target.QualityTier);
         }
 
         IntVec3 cell = editor.Position;

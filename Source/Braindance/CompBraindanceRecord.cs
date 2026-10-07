@@ -69,6 +69,7 @@ public class CompBraindanceRecord : ThingComp
     {
         base.PostIngested(ingester);
         NetIdeo.Record("NR_WatchedBraindance", ingester);
+        AIQuests.NotifyWatched(ingester, this);
         if (QualityTier == 0 || ingester?.needs?.mood == null)
             return;
 

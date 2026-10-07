@@ -1132,6 +1132,7 @@ public class DiveSession : IExposable
         NetCulture.RecordDive(Runner);
         DiveTraits.Check(Runner);
         NetIdeo.AfterDive(Runner, Node.BlackIce, success);
+        AIQuests.NotifyDive(this, success);
 
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))

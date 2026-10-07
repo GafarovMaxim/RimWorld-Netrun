@@ -282,7 +282,7 @@ public static class AIBehavior
                     }
                     Hediff netsick = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
                     if (netsick != null)
-                        netsick.Severity -= Settings.docNetsickRelief * power;
+                        netsick.Severity -= Settings.docNetsickRelief * power * (ai.DocBoost ? 1.5f : 1f);
                 }
                 Report("NR_AIDidDoc", ai, healed);
                 break;

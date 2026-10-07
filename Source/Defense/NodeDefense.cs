@@ -191,7 +191,7 @@ public class NodeDefense : GameComponent
         if (manager != null)
         {
             foreach (NetAI ai in manager.AIs.Where(a => a.Personality == AIPersonality.Warden && a.InServer && a.Powered))
-                Add(ai.Name, Settings.wardenDefense + (ai.Trust >= Settings.wardenTrustThreshold ? Settings.wardenTrustBonus : 0));
+                Add(ai.Name, Settings.wardenDefense + (ai.Trust >= Settings.wardenTrustThreshold ? Settings.wardenTrustBonus : 0) + (ai.Drilled ? 1 : 0));
         }
 
         foreach (Pawn guard in Guards(map))
@@ -249,8 +249,9 @@ public class NodeDefense : GameComponent
     }
 
     /// <summary>After a repelled attack: the honeypot's back-trace and Black ICE's noise.</summary>
-    public void OnRepelled(Map map, string attackLabel)
+    public void OnRepelled(Map map, string attackLabel, bool intercepted = false)
     {
+        AIQuests.NotifyRepelled(intercepted);
         if (Tier == IceTier.BlackIce)
             HeatTracker.Get()?.AddHeat(Settings.blackIceRepelHeat, "NR_DefenseBlackIceHeat".Translate(attackLabel), HeatSource.Raid);
 

@@ -17,7 +17,7 @@ NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 FIXER_TRAITS = ["Greedy", "Reliable", "Rat", "Paranoid", "Gambler", "Loyal", "Veteran", "Collector", "Hothead"]
-AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Pacifist', 'NightOwl', 'Rebel', 'Nostalgic']
+AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Pacifist', 'NightOwl', 'Rebel', 'Nostalgic', 'Remembering']
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
@@ -75,8 +75,14 @@ DYNAMIC = {
     "NR_Flavor_FixerAd_": [str(i) for i in range(1, 16)],
     "NR_Flavor_CorpPR_": [str(i) for i in range(1, 16)],
     "NR_Flavor_Wanted_": [str(i) for i in range(1, 7)],
-    "NR_ChoiceTitle_": ["Phishing", "MapLeak", "FixerTip", "CrewChallenge", "SellOutCrew", "Intrusion"],
+    "NR_ChoiceTitle_": ["Phishing", "MapLeak", "FixerTip", "CrewChallenge", "SellOutCrew", "Intrusion", "TricksterJoke"],
     "NR_NodeEffect_": ["Overload", "Mirror", "Interference", "Auction", "OpenDoor", "Cache"],
+    "NR_AIQ_Name_": ["BloodOfCorp", "AnotherName", "AnotherMemory", "Retaliation", "Drills", "Forecast", "MissingPart", "HeartToHeart", "ChoiceOfJoke", "Patient", "MissingVolume", "FirstStep", "WhoAmI", "HungryChannel", "QuietHour", "ForeignCode"],
+    "NR_AIQ_Desc_": ["BloodOfCorp", "AnotherName", "AnotherMemory", "Retaliation", "Drills", "Forecast", "MissingPart", "HeartToHeart", "ChoiceOfJoke", "Patient", "MissingVolume", "FirstStep", "WhoAmI", "HungryChannel", "QuietHour", "ForeignCode"],
+    "NR_AIQ_": ["BloodOfCorp_Step1", "BloodOfCorp_Step2", "AnotherName_Step1", "AnotherName_Step2", "AnotherMemory_Step1", "AnotherMemory_Step2", "AnotherMemory_Step3", "Retaliation_Step1", "Retaliation_Step2", "Drills_Step1", "Drills_Step2", "Forecast_Step1", "MissingPart_Step1", "MissingPart_Step2", "HeartToHeart_Step1", "HeartToHeart_Step2", "ChoiceOfJoke_Step1", "ChoiceOfJoke_Step2", "Patient_Step1", "Patient_Step2", "MissingVolume_Step1", "FirstStep_Step1", "FirstStep_Step2", "WhoAmI_Step1", "WhoAmI_Step2", "HungryChannel_Step1", "QuietHour_Step1", "ForeignCode_Step1"],
+    "NR_AI2_": ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"],
+    "NR_AI2Desc_": ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"],
+    "NR_AIQ_Level_": ["2", "3"],
     "NR_IceTier_": ["None", "Firewall", "Ice", "BlackIce"],
     "NR_Program_": ["Sword", "Shield", "Decoy", "Stealth", "Killer", "IceBreaker", "Exec"],
     "NR_ProgramDesc_": ["Sword", "Shield", "Decoy", "Stealth", "Killer", "IceBreaker", "Exec"],

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- An AI's own quest in the vanilla Quests tab (docs/CONCEPTS_10.md, section 16). Offered by Netrun.AIQuests,
+       never picked by the storyteller; the steps live in Netrun.QuestPart_NetAIQuest. -->
+  <QuestScriptDef>
+    <defName>NR_AIQuest</defName>
+    <rootSelectionWeight>0</rootSelectionWeight>
+    <autoAccept>false</autoAccept>
+    <defaultChallengeRating>1</defaultChallengeRating>
+    <questNameRules>
+      <rulesStrings>
+        <li>questName->[nrQuestName]</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[nrQuestDesc]</li>
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="Netrun.QuestNode_NetAIQuest" />
+      </nodes>
+    </root>
+  </QuestScriptDef>
+
+  <!-- Predator's "Retaliation" reward: hackers hunt harder for a season -->
+  <HediffDef>
+    <defName>NR_PredatorEdge</defName>
+    <label>predator's edge</label>
+    <description>A Predator AI taught this hacker how to strike back. Hacking is 10% faster for a season.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <defaultLabelColor>(0.9, 0.4, 0.3)</defaultLabelColor>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>900000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <statFactors>
+          <HackingSpeed>1.1</HackingSpeed>
+        </statFactors>
+      </li>
+    </stages>
+  </HediffDef>
+
+</Defs>
