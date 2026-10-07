@@ -98,6 +98,16 @@ public class NetsickManager : GameComponent
         Messages.Message("NR_DiveStarted".Translate(pawn.LabelShort, Settings.emotionalDiveHours.ToString("0.#")), pawn, MessageTypeDefOf.NeutralEvent, historical: true);
     }
 
+    /// <summary>
+    /// Wakes the pawn's cyberpod, if the pawn is in one. A pod with a Vitality coprocessor holds its pawn in stasis,
+    /// so a coma or any other condition would not run its course until the pawn is out.
+    /// </summary>
+    public static void WakeFromPod(Pawn pawn)
+    {
+        if (pawn != null && pawn.TryGetHoldingCyberpod(out Building_Cyberpod pod))
+            StartWaking(pod);
+    }
+
     /// <summary>Starts Hacking Expansion's wake-up of a cyberpod (the pawn leaves it when it finishes).</summary>
     private static void StartWaking(Building_Cyberpod pod)
     {

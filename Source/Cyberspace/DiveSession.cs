@@ -832,12 +832,15 @@ public class DiveSession : IExposable
             AddHediff("USH_CyberspaceLockOut");
             AddLog("NR_DiveLogLockOut".Translate(Runner.LabelShort).Colorize(NetrunUI.Bad));
             End(success: false, keepShare: 0f);
+            NetsickManager.WakeFromPod(Runner);
         }
         else
         {
             AddHediff("USH_CyberspaceComa");
             AddLog("NR_DiveLogComa".Translate(Runner.LabelShort).Colorize(NetrunUI.Bad));
             End(success: false, keepShare: 0f);
+            // Out of the pod, so the coma runs its course (a Vitality pod would hold it frozen).
+            NetsickManager.WakeFromPod(Runner);
         }
     }
 
