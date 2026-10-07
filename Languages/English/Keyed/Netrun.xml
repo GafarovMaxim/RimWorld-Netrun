@@ -259,4 +259,48 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpLowerGhostValue>−{0} per service, {1} services (every {2} days)</NR_HelpLowerGhostValue>
   <NR_HelpLowerContract>"Lay low" contract</NR_HelpLowerContract>
   <NR_HelpLowerContractValue>a fixer pays {0} silver for each point you bring down</NR_HelpLowerContractValue>
+  <NR_HelpAIHome_Server>AI server</NR_HelpAIHome_Server>
+  <NR_HelpAIHomeService_Server>Yes: services work only from the main server.</NR_HelpAIHomeService_Server>
+  <NR_HelpAIHomeHunger_Server>Grows every day by {1}; you feed it.</NR_HelpAIHomeHunger_Server>
+  <NR_HelpAIHomeGives_Server>Its archetype's service, requests and events. Racks add slots, up to three.</NR_HelpAIHomeGives_Server>
+  <NR_HelpAIHome_Coprocessor>Coprocessor</NR_HelpAIHome_Coprocessor>
+  <NR_HelpAIHomeService_Coprocessor>No service: it works for the cyberpod it is linked to.</NR_HelpAIHomeService_Coprocessor>
+  <NR_HelpAIHomeHunger_Coprocessor>Grows as on the server; feed it.</NR_HelpAIHomeHunger_Coprocessor>
+  <NR_HelpAIHomeGives_Coprocessor>Help in dives: less trace, less Netsick, a cheaper dive, its own bonus by archetype.</NR_HelpAIHomeGives_Coprocessor>
+  <NR_HelpAIHome_Host>Host colonist</NR_HelpAIHome_Host>
+  <NR_HelpAIHomeService_Host>No service: no uplink from a socket.</NR_HelpAIHomeService_Host>
+  <NR_HelpAIHomeHunger_Host>Falls by {0} a day: it feeds on the host.</NR_HelpAIHomeHunger_Host>
+  <NR_HelpAIHomeGives_Host>A passive bonus to the host, by archetype. No requests while it rides along.</NR_HelpAIHomeGives_Host>
+  <NR_HelpAwakenSrc_Dive>Dives</NR_HelpAwakenSrc_Dive>
+  <NR_HelpAwakenSrcDesc_Dive>A cyberspace find on a clean exit, more often in an abandoned server.</NR_HelpAwakenSrcDesc_Dive>
+  <NR_HelpAwakenSrc_Memory>Memory units</NR_HelpAwakenSrc_Memory>
+  <NR_HelpAwakenSrcDesc_Memory>Download a memory step in a dive.</NR_HelpAwakenSrcDesc_Memory>
+  <NR_HelpAwakenSrc_WildAI>Wild AIs</NR_HelpAwakenSrc_WildAI>
+  <NR_HelpAwakenSrcDesc_WildAI>Tame one you meet in a node's memory.</NR_HelpAwakenSrcDesc_WildAI>
+  <NR_HelpAwakenSrc_Distress>Distress signal</NR_HelpAwakenSrc_Distress>
+  <NR_HelpAwakenSrcDesc_Distress>Connect to the abandoned server in its compound.</NR_HelpAwakenSrcDesc_Distress>
+  <NR_HelpAwakenSrc_Market>Black market</NR_HelpAwakenSrc_Market>
+  <NR_HelpAwakenSrcDesc_Market>Fixers who trust you sell fragments.</NR_HelpAwakenSrcDesc_Market>
+  <NR_HelpAwakenSrc_Hack>Strong hacks</NR_HelpAwakenSrc_Hack>
+  <NR_HelpAwakenSrcDesc_Hack>Sometimes behind Black ICE or a core command ICE.</NR_HelpAwakenSrcDesc_Hack>
+  <NR_HelpAIHomeService>Its service</NR_HelpAIHomeService>
+  <NR_HelpAIHomeHunger>Hunger</NR_HelpAIHomeHunger>
+  <NR_HelpAIHomeGives>What it gives</NR_HelpAIHomeGives>
+  <NR_HelpAIHungerDays>Days without food: {0}</NR_HelpAIHungerDays>
+  <NR_HelpAIHungerFed>Then fed (−{0} hunger, +{1} trust)</NR_HelpAIHungerFed>
+  <NR_HelpAIHungerIsolated>Isolated (hunger ×{0}, and trust drains)</NR_HelpAIHungerIsolated>
+  <NR_HelpAIHungerHoarder>Hoarder trait (hunger ×{0})</NR_HelpAIHungerHoarder>
+  <NR_HelpAIHungerValue>Hunger {0}</NR_HelpAIHungerValue>
+  <NR_HelpAIHungerTrust>Trust</NR_HelpAIHungerTrust>
+  <NR_HelpAIHungerFine>Content: it works and waits for its next meal.</NR_HelpAIHungerFine>
+  <NR_HelpAIHungerStarving>Starving: it loses trust every day until fed.</NR_HelpAIHungerStarving>
+  <NR_HelpAIHungerRun>Starving and distrustful: it is about to run away into the net.</NR_HelpAIHungerRun>
+  <NR_HelpAITraitsReveal>Every AI wakes with up to two traits; the first shows at trust {0}, the second at {1}.</NR_HelpAITraitsReveal>
+  <NR_HelpAwakenSources>Where fragments come from:</NR_HelpAwakenSources>
+  <NR_HelpAwakenWork>Waking</NR_HelpAwakenWork>
+  <NR_HelpAwakenWorkValue>about {0} hours of work at the server, faster with hacking speed</NR_HelpAwakenWorkValue>
+  <NR_HelpAwakenNoise>It is loud</NR_HelpAwakenNoise>
+  <NR_HelpAwakenNoiseValue>at Heat 50 a {0} chance someone notices: +{1} Heat</NR_HelpAwakenNoiseValue>
+  <NR_HelpAwakenTraits>What wakes</NR_HelpAwakenTraits>
+  <NR_HelpAwakenTraitsValue>a random archetype; {0} wake with no trait, the rest with one or two</NR_HelpAwakenTraitsValue>
 </LanguageData>

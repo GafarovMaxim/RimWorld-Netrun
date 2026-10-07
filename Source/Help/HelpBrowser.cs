@@ -328,6 +328,14 @@ public partial class HelpBrowser
             return BraindanceDemo(y, w, Preset(line));
         if (line == "[[ice]]")
             return IceDemo(y, w);
+        if (line == "[[aihomes]]")
+            return AIHomesDemo(y, w);
+        if (line == "[[aihunger]]")
+            return AIHungerDemo(y, w);
+        if (line == "[[aitraits]]")
+            return AITraitsDemo(y, w);
+        if (line == "[[aiawaken]]")
+            return AIAwakenDemo(y, w);
         if (line == "[[checklist]]")
             return ChecklistDemo(y, w);
         if (line == "[[terminalmap]]")

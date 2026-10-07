@@ -123,7 +123,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>AI traits</label>
-    <body>An AI wakes with up to two traits. The first shows at trust 25, the second at 60; until then the card shows "???". The plus and the minus are shown together.\n- Curious: food gives 50% more trust / asks 30% more often.\n- Loyal: never runs, hungers slower / service 10% weaker.\n- Paranoid: helps block net attacks / will not serve at Target Heat or higher.\n- Vain: service +20% at trust 80+ / a failed request costs double trust.\n- Glitchy: 15% double service / 10% the service fails.\n- Hoarder: well fed, service +25% / hungers 30% faster.\n- Pacifist: service +25% / will not serve with enemies on the map.\n- Night owl: +25% at night / −10% by day.\n- Rebel: service +30% / runs away much sooner.\n- Nostalgic: +30% while the colony keeps braindance chips / pines without them.\nA Seed picks up a trait from what it was fed most.</body>
+    <body>Besides its archetype, each AI may have traits of its own. Every trait helps and hurts; pick one to read both sides:\n[[aitraits]]</body>
     <icon>Tabs/Tab_AI</icon>
   </Netrun.HelpPageDef>
 
@@ -258,7 +258,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>Homes, trust and hunger</label>
-    <body>## !thing:NR_AIServer Server\nThe main home; services work only from there. Racks add slots.\n## !thing:NR_NetrunCoprocessor Coprocessor\nAn AI linked to a cyberpod helps the netrunner in dives.\n## !Gizmo_AI_Embody Host\nA colonist with an AI socket carries the AI and gets its passive bonus. The AI feeds on its host: hunger slowly falls while it rides along.\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
+    <body>An AI can live in three places, and each gives something different. Click a home:\n[[aihomes]]\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
     <icon>Gizmo_AI_Use</icon>
   </Netrun.HelpPageDef>
 
@@ -268,7 +268,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Feeding and requests</label>
-    <body>## !Gizmo_AI_Feed Feeding\nEvery archetype eats something of its own: items from your storage (a colonist carries them to the server) or a special way (the Ghost calms down on quiet days without hacks, the Seed chooses what to grow into). Hunger grows every day; feeding lowers it and adds a little trust. Above 70 hunger the AI starves and loses trust every day.\nThe AI card in the server room shows what it eats, how hungry it is and the "Feed" button.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, a hack. The card shows the request, the deadline, the reward and the price of refusing. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
+    <body>Every archetype eats something of its own (see the archetypes). Hunger grows every day; above {ai.starving} the AI starves and loses trust. Play with the days:\n[[aihunger]]\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, silence. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
     <icon>Tabs/Tab_Events_AI</icon>
     <keywords>
       <li>trust</li>
@@ -282,7 +282,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Fragments and awakening</label>
-    <body>AI fragments come from cyberspace finds, memory units in dives, wild AIs, the distress signal and the black market. A colonist with good Intellectual awakens one on a powered AI server with a free slot; the archetype is revealed at awakening.\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
+    <body>A fragment is a sleeping AI. A colonist carries it to a powered AI server with a free slot and wakes it there; the archetype is revealed at waking.\n[[aiawaken]]\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
     <icon>thing:NR_AIFragment</icon>
     <keywords>
       <li>AI fragment</li>

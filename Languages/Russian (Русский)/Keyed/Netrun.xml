@@ -259,4 +259,48 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLowerGhostValue>−{0} за услугу, {1} услуг (раз в {2} дн.)</NR_HelpLowerGhostValue>
   <NR_HelpLowerContract>Контракт «Залечь на дно»</NR_HelpLowerContract>
   <NR_HelpLowerContractValue>фиксер платит {0} серебра за каждый сбитый пункт</NR_HelpLowerContractValue>
+  <NR_HelpAIHome_Server>ИИ-сервер</NR_HelpAIHome_Server>
+  <NR_HelpAIHomeService_Server>Да: услуги работают только с главного сервера.</NR_HelpAIHomeService_Server>
+  <NR_HelpAIHomeHunger_Server>Растёт каждый день на {1}; вы кормите.</NR_HelpAIHomeHunger_Server>
+  <NR_HelpAIHomeGives_Server>Услугу архетипа, просьбы и события. Стойки добавляют слоты, до трёх.</NR_HelpAIHomeGives_Server>
+  <NR_HelpAIHome_Coprocessor>Сопроцессор</NR_HelpAIHome_Coprocessor>
+  <NR_HelpAIHomeService_Coprocessor>Услуги нет: он работает на связанную кибер-капсулу.</NR_HelpAIHomeService_Coprocessor>
+  <NR_HelpAIHomeHunger_Coprocessor>Растёт как на сервере; кормите.</NR_HelpAIHomeHunger_Coprocessor>
+  <NR_HelpAIHomeGives_Coprocessor>Помощь в нырках: меньше следа, меньше Netsick, дешевле нырок, свой бонус по архетипу.</NR_HelpAIHomeGives_Coprocessor>
+  <NR_HelpAIHome_Host>Носитель</NR_HelpAIHome_Host>
+  <NR_HelpAIHomeService_Host>Услуги нет: из гнезда нет аплинка.</NR_HelpAIHomeService_Host>
+  <NR_HelpAIHomeHunger_Host>Падает на {0} в день: он питается от носителя.</NR_HelpAIHomeHunger_Host>
+  <NR_HelpAIHomeGives_Host>Пассивный бонус носителю по архетипу. Пока он внутри, просьб нет.</NR_HelpAIHomeGives_Host>
+  <NR_HelpAwakenSrc_Dive>Нырки</NR_HelpAwakenSrc_Dive>
+  <NR_HelpAwakenSrcDesc_Dive>Находка при чистом выходе, чаще в заброшенном сервере.</NR_HelpAwakenSrcDesc_Dive>
+  <NR_HelpAwakenSrc_Memory>Блоки памяти</NR_HelpAwakenSrc_Memory>
+  <NR_HelpAwakenSrcDesc_Memory>Скачайте ступень памяти в нырке.</NR_HelpAwakenSrcDesc_Memory>
+  <NR_HelpAwakenSrc_WildAI>Дикие ИИ</NR_HelpAwakenSrc_WildAI>
+  <NR_HelpAwakenSrcDesc_WildAI>Приручите встреченного в памяти ноды.</NR_HelpAwakenSrcDesc_WildAI>
+  <NR_HelpAwakenSrc_Distress>Сигнал бедствия</NR_HelpAwakenSrc_Distress>
+  <NR_HelpAwakenSrcDesc_Distress>Подключитесь к брошенному серверу в комплексе.</NR_HelpAwakenSrcDesc_Distress>
+  <NR_HelpAwakenSrc_Market>Чёрный рынок</NR_HelpAwakenSrc_Market>
+  <NR_HelpAwakenSrcDesc_Market>Доверяющие вам фиксеры продают осколки.</NR_HelpAwakenSrcDesc_Market>
+  <NR_HelpAwakenSrc_Hack>Сильные взломы</NR_HelpAwakenSrc_Hack>
+  <NR_HelpAwakenSrcDesc_Hack>Иногда за Black ICE или командным ICE.</NR_HelpAwakenSrcDesc_Hack>
+  <NR_HelpAIHomeService>Услуга</NR_HelpAIHomeService>
+  <NR_HelpAIHomeHunger>Голод</NR_HelpAIHomeHunger>
+  <NR_HelpAIHomeGives>Что даёт</NR_HelpAIHomeGives>
+  <NR_HelpAIHungerDays>Дней без еды: {0}</NR_HelpAIHungerDays>
+  <NR_HelpAIHungerFed>Потом накормили (−{0} голода, +{1} доверия)</NR_HelpAIHungerFed>
+  <NR_HelpAIHungerIsolated>Изолирован (голод ×{0}, и доверие тает)</NR_HelpAIHungerIsolated>
+  <NR_HelpAIHungerHoarder>Черта «Запасливый» (голод ×{0})</NR_HelpAIHungerHoarder>
+  <NR_HelpAIHungerValue>Голод {0}</NR_HelpAIHungerValue>
+  <NR_HelpAIHungerTrust>Доверие</NR_HelpAIHungerTrust>
+  <NR_HelpAIHungerFine>Доволен: работает и ждёт следующей еды.</NR_HelpAIHungerFine>
+  <NR_HelpAIHungerStarving>Голодает: каждый день теряет доверие, пока не накормят.</NR_HelpAIHungerStarving>
+  <NR_HelpAIHungerRun>Голодный и недоверчивый: вот-вот сбежит в сеть.</NR_HelpAIHungerRun>
+  <NR_HelpAITraitsReveal>Каждый ИИ просыпается с чертами, до двух; первая открывается при доверии {0}, вторая при {1}.</NR_HelpAITraitsReveal>
+  <NR_HelpAwakenSources>Откуда берутся осколки:</NR_HelpAwakenSources>
+  <NR_HelpAwakenWork>Пробуждение</NR_HelpAwakenWork>
+  <NR_HelpAwakenWorkValue>около {0} ч работы у сервера, быстрее с высокой скоростью взлома</NR_HelpAwakenWorkValue>
+  <NR_HelpAwakenNoise>Это шумно</NR_HelpAwakenNoise>
+  <NR_HelpAwakenNoiseValue>при Heat 50 шанс {0}, что заметят: +{1} Heat</NR_HelpAwakenNoiseValue>
+  <NR_HelpAwakenTraits>Кто проснётся</NR_HelpAwakenTraits>
+  <NR_HelpAwakenTraitsValue>случайный архетип; {0} без черт, остальные с одной или двумя</NR_HelpAwakenTraitsValue>
 </LanguageData>

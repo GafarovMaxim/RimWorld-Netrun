@@ -21,6 +21,12 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_HelpAIHome_": ["Server", "Coprocessor", "Host"],
+    "NR_HelpAIHomeService_": ["Server", "Coprocessor", "Host"],
+    "NR_HelpAIHomeHunger_": ["Server", "Coprocessor", "Host"],
+    "NR_HelpAIHomeGives_": ["Server", "Coprocessor", "Host"],
+    "NR_HelpAwakenSrc_": ["Dive", "Memory", "WildAI", "Distress", "Market", "Hack"],
+    "NR_HelpAwakenSrcDesc_": ["Dive", "Memory", "WildAI", "Distress", "Market", "Hack"],
     "NR_HelpTermNode_": ["Core", "Club", "Board", "Archive", "Server", "Studio", "Gateway"],
     "NR_HelpTermNodeDesc_": ["Core", "Club", "Board", "Archive", "Server", "Studio", "Gateway"],
     "NR_HelpChecklist_": ["Console", "Pod", "Link", "Hack", "Fixer", "Dive", "AI"],
