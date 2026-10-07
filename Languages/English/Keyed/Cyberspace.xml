@@ -344,4 +344,99 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_NewsFlavor_29>STREET // A runner jacked in for a minute and came back fluent in a dead language.</NR_NewsFlavor_29>
   <NR_NewsFlavor_30>STREET // "Never trust a fixer who smiles" — every fixer, smiling.</NR_NewsFlavor_30>
   <NR_NewsFlavor_31>STREET // Boomalope-powered server farm explodes. Investors call it "a learning experience".</NR_NewsFlavor_31>
+  <!-- Decorative news lines from the cloud session (docs/news_flavor) -->
+  <NR_Flavor_Ad_1>MOONSHINE-9 neural stims: think faster, sleep never. Side effects are a rumor.</NR_Flavor_Ad_1>
+  <NR_Flavor_Ad_2>Tired of your old link? Trade-in any cyberdeck at HOLLOW RIDGE SALVAGE. No questions, no receipts.</NR_Flavor_Ad_2>
+  <NR_Flavor_Ad_3>Your colony deserves better ICE. Warden-Grade™ firewalls: the last thing a raider will ever read.</NR_Flavor_Ad_3>
+  <NR_Flavor_Ad_4>CHROME KITCHEN: hot meals, cold wafers, and a dead drop in every booth.</NR_Flavor_Ad_4>
+  <NR_Flavor_Ad_5>Lost a pawn to a dive? Our grief counselors are an AI, but they really, really try.</NR_Flavor_Ad_5>
+  <NR_Flavor_Ad_6>Static in your head? Dr. Vell's neutroamine clinics: first dose on the house, second on credit.</NR_Flavor_Ad_6>
+  <NR_Flavor_Ad_7>Sell your memories, keep your dignity! (Dignity not included.)</NR_Flavor_Ad_7>
+  <NR_Flavor_Ad_8>GLASS ORCHARD: fresh data grown without pesticides. Certified human-adjacent.</NR_Flavor_Ad_8>
+  <NR_Flavor_Ad_9>A trace is just a rumor with a timestamp. Quiet Hands Ltd. makes both disappear.</NR_Flavor_Ad_9>
+  <NR_Flavor_Ad_10>Braindance Palace: feel what it's like to be a pirate lord. Refunds not available after waking.</NR_Flavor_Ad_10>
+  <NR_Flavor_Ad_11>Need a fixer? Everyone needs a fixer. Ours has a 4.7 rating and only two lawsuits.</NR_Flavor_Ad_11>
+  <NR_Flavor_Ad_12>ICE-BREAKER pills for your mood. Side effects: confidence, rapid heartbeat, a sudden tax audit.</NR_Flavor_Ad_12>
+  <NR_Flavor_Ad_13>Rimstone Bank: loans for pirates, no questions. Collateral: your name and one eye.</NR_Flavor_Ad_13>
+  <NR_Flavor_Ad_14>Sleep is for people who can't afford to be awake. Try WAKEFUL-3.</NR_Flavor_Ad_14>
+  <NR_Flavor_Ad_15>SIGNAL &amp; SONS: three generations of antenna repair. We never ask what you listen to.</NR_Flavor_Ad_15>
+  <NR_Flavor_Ad_16>Ghost Mode™: your Heat, but quieter. Not a guarantee. Not legal advice.</NR_Flavor_Ad_16>
+  <NR_Flavor_Ad_17>Hire a decoy! Our freelancers will be seen in your place. Rates by the hour, scars by the week.</NR_Flavor_Ad_17>
+  <NR_Flavor_Ad_18>Fresh cyberdata, hand-picked, ethically stolen.</NR_Flavor_Ad_18>
+  <NR_Flavor_Ad_19>Your AI is lonely. Give it a bedtime story. Premium Narrator pack: 9 silver.</NR_Flavor_Ad_19>
+  <NR_Flavor_Ad_20>TOWER 13 capsule hotel: a bed, a cable, a lock. The lock is optional.</NR_Flavor_Ad_20>
+  <NR_Flavor_Rumor_1>They say a corp wiped an entire archive node and blamed a squirrel.</NR_Flavor_Rumor_1>
+  <NR_Flavor_Rumor_2>Overheard: a runaway AI is renting server space under the name «Totally Not An AI».</NR_Flavor_Rumor_2>
+  <NR_Flavor_Rumor_3>A fixer in the south sector paid a debt with a single perfect memory. Nobody knows whose.</NR_Flavor_Rumor_3>
+  <NR_Flavor_Rumor_4>Rumor: ICE hunters learned to follow a trace across three dives. Keep your Heat low.</NR_Flavor_Rumor_4>
+  <NR_Flavor_Rumor_5>Someone found a door in the net that opens into the middle of a pirate camp. It was not a joke.</NR_Flavor_Rumor_5>
+  <NR_Flavor_Rumor_6>They say the old Oracle node still answers, if you ask it nicely and bring a gift.</NR_Flavor_Rumor_6>
+  <NR_Flavor_Rumor_7>A courier vanished with a case full of cyberdata. His mother says he was a good boy.</NR_Flavor_Rumor_7>
+  <NR_Flavor_Rumor_8>Word on the net: a corp is paying silver for pawns who can sit still in a cyberpod for six hours.</NR_Flavor_Rumor_8>
+  <NR_Flavor_Rumor_9>Heard in the dark exchange: «the next storm will hit on a Tuesday.» There are no Tuesdays here.</NR_Flavor_Rumor_9>
+  <NR_Flavor_Rumor_10>An AI in the east sector refuses to work weekends. Management is aware.</NR_Flavor_Rumor_10>
+  <NR_Flavor_Rumor_11>Somebody is selling the same braindance to three different colonies. It is always the one about the sunset.</NR_Flavor_Rumor_11>
+  <NR_Flavor_Rumor_12>They say if you hold a link long enough, you start to hear the net breathe.</NR_Flavor_Rumor_12>
+  <NR_Flavor_Rumor_13>A runner swears the Corp core was humming a lullaby. Nobody asked which one.</NR_Flavor_Rumor_13>
+  <NR_Flavor_Rumor_14>They say there is a node nobody has ever entered, because every map shows it in a different place.</NR_Flavor_Rumor_14>
+  <NR_Flavor_Rumor_15>A pirate band is trying to learn to hack. Reports say the cyberpod ended up in the soup.</NR_Flavor_Rumor_15>
+  <NR_Flavor_Rumor_16>The Warden AI of a far colony reportedly gave every raider a polite warning. Twice.</NR_Flavor_Rumor_16>
+  <NR_Flavor_Rumor_17>Fixers are quietly buying up old comm consoles. Nobody knows why. Prices rise.</NR_Flavor_Rumor_17>
+  <NR_Flavor_Rumor_18>Some say Heat has a memory: it forgives, but only after being asked three times.</NR_Flavor_Rumor_18>
+  <NR_Flavor_Rumor_19>A tribe three valleys over put a cyberpod in their temple. It is, reportedly, working.</NR_Flavor_Rumor_19>
+  <NR_Flavor_Rumor_20>A stolen braindance shows a whole market day in the net, with no people. Just the voices.</NR_Flavor_Rumor_20>
+  <NR_Flavor_Corp_1>MERIDIAN DYNAMICS reminds all employees: unauthorized dives are a firing offense. And a legal one.</NR_Flavor_Corp_1>
+  <NR_Flavor_Corp_2>Quarterly report: security spending up 40%, security incidents up 41%. We are investigating the correlation.</NR_Flavor_Corp_2>
+  <NR_Flavor_Corp_3>The firm «Kestrel Vault» announces ICE v7.2: now with emotional support.</NR_Flavor_Corp_3>
+  <NR_Flavor_Corp_4>Notice to residents: the data centre on level 3 is not haunted. Please stop filing tickets.</NR_Flavor_Corp_4>
+  <NR_Flavor_Corp_5>Corporate hotline: «Your call is important to us. Your data was more important, and it has been sold.»</NR_Flavor_Corp_5>
+  <NR_Flavor_Corp_6>Reminder: every mandatory fun event is logged, scored and compared against last year's fun.</NR_Flavor_Corp_6>
+  <NR_Flavor_Corp_7>Press release: the breach was «a planned stress test of public trust». Trust failed the test.</NR_Flavor_Corp_7>
+  <NR_Flavor_Corp_8>Lost and found: one neural link, slightly used, one owner, wanted for questioning.</NR_Flavor_Corp_8>
+  <NR_Flavor_Corp_9>Notice: please stop naming the server room printers. They are not pets.</NR_Flavor_Corp_9>
+  <NR_Flavor_Corp_10>Security update: all passwords must now be longer than the employee's contract.</NR_Flavor_Corp_10>
+  <NR_Flavor_Corp_11>MERIDIAN DYNAMICS values your privacy. We keep it in a very safe place, with all the rest.</NR_Flavor_Corp_11>
+  <NR_Flavor_Corp_12>Internal memo: «cyber» is no longer a word. Please use «digital assets and their friends».</NR_Flavor_Corp_12>
+  <NR_Flavor_Corp_13>Kestrel Vault reminds clients that its guarantees are guaranteed in the sense of the guarantee.</NR_Flavor_Corp_13>
+  <NR_Flavor_Corp_14>The break room coffee has been declared a data breach. Investigation ongoing.</NR_Flavor_Corp_14>
+  <NR_Flavor_Street_1>The net is quiet tonight. Too quiet. Or the cat is on the cable again.</NR_Flavor_Street_1>
+  <NR_Flavor_Street_2>Black market prices drift up again. Somebody up the chain got greedy.</NR_Flavor_Street_2>
+  <NR_Flavor_Street_3>A runner left three tabs open in a corp node. The corp has noticed.</NR_Flavor_Street_3>
+  <NR_Flavor_Street_4>Packet loss in the south: blamed on weather, solar flares, and a man called Gary.</NR_Flavor_Street_4>
+  <NR_Flavor_Street_5>Free advice: never dive on an empty stomach, and never trust a node that says «welcome back».</NR_Flavor_Street_5>
+  <NR_Flavor_Street_6>The noodle stall at the old node district now accepts cyberdata. Exchange rate: a bowl per shard.</NR_Flavor_Street_6>
+  <NR_Flavor_Street_7>Graffiti found in the cache: «the real ICE was the friends we made.»</NR_Flavor_Street_7>
+  <NR_Flavor_Street_8>A node somewhere is playing the same eight bars of music on a loop. Nobody can find which one.</NR_Flavor_Street_8>
+  <NR_Flavor_Street_9>The net smells of ozone and cold noodles tonight.</NR_Flavor_Street_9>
+  <NR_Flavor_Street_10>A street musician is playing modem tones for coins. The coins are cyberdata.</NR_Flavor_Street_10>
+  <NR_Flavor_Street_11>Somebody painted a door on the firewall. Nobody has tried it yet.</NR_Flavor_Street_11>
+  <NR_Flavor_Street_12>Lost: one trace, brown, medium size, answers to «Heat». If found, do not return.</NR_Flavor_Street_12>
+  <NR_Flavor_Street_13>Fixers are in a good mood today. That is never a good sign.</NR_Flavor_Street_13>
+  <NR_Flavor_Street_14>A cleaning drone has been scrubbing the same node for six hours. Nobody has the heart to stop it.</NR_Flavor_Street_14>
+  <NR_Flavor_Street_15>It rains in the net again. Packets hide under the awnings.</NR_Flavor_Street_15>
+  <NR_Flavor_Street_16>Overheard in a queue: «I'd sell my soul, but the price of souls has crashed.»</NR_Flavor_Street_16>
+  <NR_Flavor_Culture_1>Chart-topper: «Static Heart» by the Lost Packets. Critics call it «a mood».</NR_Flavor_Culture_1>
+  <NR_Flavor_Culture_2>New braindance «Last Train To Nowhere» tops the charts. 94% of viewers say they cried; 6% were lying.</NR_Flavor_Culture_2>
+  <NR_Flavor_Culture_3>Cyber-chess finals tonight: the AI «Rook-7» defends its title against a human who wears the same jacket daily.</NR_Flavor_Culture_3>
+  <NR_Flavor_Culture_4>Fashion: chrome is out, matte is in, and a single glowing wire behind the ear is «classic».</NR_Flavor_Culture_4>
+  <NR_Flavor_Culture_5>Bounty report: three pirates, one mimic, and a surprisingly angry turkey.</NR_Flavor_Culture_5>
+  <NR_Flavor_Culture_6>The weather in the net: light data drizzle, a chance of corporate fog after midnight.</NR_Flavor_Culture_6>
+  <NR_Flavor_Culture_7>The Lost Packets announce a farewell tour. Their third. Tickets are cyberdata.</NR_Flavor_Culture_7>
+  <NR_Flavor_Culture_8>Cyber-poetry slam: a human vs. three AIs. The human won by crying first.</NR_Flavor_Culture_8>
+  <NR_Flavor_Culture_9>Weather in the net: ICE showers in the corp quarter, bring a shield.</NR_Flavor_Culture_9>
+  <NR_Flavor_Culture_10>Review: «Last Train To Nowhere» — a masterpiece, if you like trains. Or nowhere.</NR_Flavor_Culture_10>
+  <NR_Flavor_Culture_11>Fashion: this season's must-have is one unplugged cable, worn proudly.</NR_Flavor_Culture_11>
+  <NR_Flavor_Culture_12>Sports: the Rust Devils beat the Hollow Ridge Hackers 6:2 in cyber-polo.</NR_Flavor_Culture_12>
+  <NR_Flavor_Tip_1>Tip: Heat decays on its own. Scrubbing it is for when you cannot wait.</NR_Flavor_Tip_1>
+  <NR_Flavor_Tip_2>Tip: a dive without a program is a brave dive. A dive with one is a smart dive.</NR_Flavor_Tip_2>
+  <NR_Flavor_Tip_3>Tip: fixers remember who paid and who ran. Keep your word, or keep your distance.</NR_Flavor_Tip_3>
+  <NR_Flavor_Tip_4>Tip: an AI that trusts you will say so. An AI that does not will tell you in other ways.</NR_Flavor_Tip_4>
+  <NR_Flavor_Tip_5>Tip: Black ICE does not forgive. Read the gate before you touch it.</NR_Flavor_Tip_5>
+  <NR_Flavor_Tip_6>Tip: take a break. Even runners need a real sky now and then.</NR_Flavor_Tip_6>
+  <NR_Flavor_Tip_7>Tip: a node with a star wants something. Fixers pay more for what they asked for.</NR_Flavor_Tip_7>
+  <NR_Flavor_Tip_8>Tip: the Scan action is cheap. Dives without it are for the brave and the lucky.</NR_Flavor_Tip_8>
+  <NR_Flavor_Tip_9>Tip: an AI in a coprocessor is quieter than an AI on a server. Both listen.</NR_Flavor_Tip_9>
+  <NR_Flavor_Tip_10>Tip: braindance edits live in the Studio. The comms console just takes the calls.</NR_Flavor_Tip_10>
+  <NR_Flavor_Tip_11>Tip: if the net feels loud, wait. The net always gets bored first.</NR_Flavor_Tip_11>
+  <NR_Flavor_Tip_12>Tip: Netsick is not weakness. It is a bill, and bills can be paid in sleep.</NR_Flavor_Tip_12>
 </LanguageData>

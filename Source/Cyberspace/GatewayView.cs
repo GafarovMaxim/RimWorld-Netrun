@@ -145,8 +145,8 @@ public static class GatewayView
     }
 
     /// <summary>Short news of cyberspace for the bottom bar: storms, the corporate core, rivals, wild AIs, contracts, refresh.</summary>
-    /// <summary>How many NR_NewsFlavor_N lines there are.</summary>
-    private const int FlavorCount = 32;
+    /// <summary>Decorative news keys: the 32 NR_NewsFlavor_N lines plus the cloud session's 94 (ads, rumors, corps, street, culture, tips).</summary>
+    private static readonly string[] FlavorKeys = [.. System.Linq.Enumerable.Range(0, 32).Select(i => "NR_NewsFlavor_" + i), "NR_Flavor_Ad_1", "NR_Flavor_Ad_2", "NR_Flavor_Ad_3", "NR_Flavor_Ad_4", "NR_Flavor_Ad_5", "NR_Flavor_Ad_6", "NR_Flavor_Ad_7", "NR_Flavor_Ad_8", "NR_Flavor_Ad_9", "NR_Flavor_Ad_10", "NR_Flavor_Ad_11", "NR_Flavor_Ad_12", "NR_Flavor_Ad_13", "NR_Flavor_Ad_14", "NR_Flavor_Ad_15", "NR_Flavor_Ad_16", "NR_Flavor_Ad_17", "NR_Flavor_Ad_18", "NR_Flavor_Ad_19", "NR_Flavor_Ad_20", "NR_Flavor_Rumor_1", "NR_Flavor_Rumor_2", "NR_Flavor_Rumor_3", "NR_Flavor_Rumor_4", "NR_Flavor_Rumor_5", "NR_Flavor_Rumor_6", "NR_Flavor_Rumor_7", "NR_Flavor_Rumor_8", "NR_Flavor_Rumor_9", "NR_Flavor_Rumor_10", "NR_Flavor_Rumor_11", "NR_Flavor_Rumor_12", "NR_Flavor_Rumor_13", "NR_Flavor_Rumor_14", "NR_Flavor_Rumor_15", "NR_Flavor_Rumor_16", "NR_Flavor_Rumor_17", "NR_Flavor_Rumor_18", "NR_Flavor_Rumor_19", "NR_Flavor_Rumor_20", "NR_Flavor_Corp_1", "NR_Flavor_Corp_2", "NR_Flavor_Corp_3", "NR_Flavor_Corp_4", "NR_Flavor_Corp_5", "NR_Flavor_Corp_6", "NR_Flavor_Corp_7", "NR_Flavor_Corp_8", "NR_Flavor_Corp_9", "NR_Flavor_Corp_10", "NR_Flavor_Corp_11", "NR_Flavor_Corp_12", "NR_Flavor_Corp_13", "NR_Flavor_Corp_14", "NR_Flavor_Street_1", "NR_Flavor_Street_2", "NR_Flavor_Street_3", "NR_Flavor_Street_4", "NR_Flavor_Street_5", "NR_Flavor_Street_6", "NR_Flavor_Street_7", "NR_Flavor_Street_8", "NR_Flavor_Street_9", "NR_Flavor_Street_10", "NR_Flavor_Street_11", "NR_Flavor_Street_12", "NR_Flavor_Street_13", "NR_Flavor_Street_14", "NR_Flavor_Street_15", "NR_Flavor_Street_16", "NR_Flavor_Culture_1", "NR_Flavor_Culture_2", "NR_Flavor_Culture_3", "NR_Flavor_Culture_4", "NR_Flavor_Culture_5", "NR_Flavor_Culture_6", "NR_Flavor_Culture_7", "NR_Flavor_Culture_8", "NR_Flavor_Culture_9", "NR_Flavor_Culture_10", "NR_Flavor_Culture_11", "NR_Flavor_Culture_12", "NR_Flavor_Tip_1", "NR_Flavor_Tip_2", "NR_Flavor_Tip_3", "NR_Flavor_Tip_4", "NR_Flavor_Tip_5", "NR_Flavor_Tip_6", "NR_Flavor_Tip_7", "NR_Flavor_Tip_8", "NR_Flavor_Tip_9", "NR_Flavor_Tip_10", "NR_Flavor_Tip_11", "NR_Flavor_Tip_12"];
 
     public static List<(string text, Color color)> News()
     {
@@ -159,7 +159,7 @@ public static class GatewayView
         // Decoration: two lines of ads, rumors and street talk, changing every few hours of game time.
         int slot = Find.TickManager.TicksGame / (GenDate.TicksPerHour * 3);
         for (int k = 0; k < 2; k++)
-            list.Add((("NR_NewsFlavor_" + (int)((uint)(slot * 7919 + k * 104729) % FlavorCount)).Translate(), NetrunUI.Muted));
+            list.Add((FlavorKeys[(int)((uint)(slot * 7919 + k * 104729) % (uint)FlavorKeys.Length)].Translate(), NetrunUI.Muted));
         if (g.StormActive)
             list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
         if (g.Boss is { } boss)
