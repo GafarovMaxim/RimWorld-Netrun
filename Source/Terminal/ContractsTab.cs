@@ -121,7 +121,7 @@ public static class ContractsTab
             NetrunUI.Bar(new Rect(r.x + 10f, r.yMax - 9f, r.width - 20f, 5f), rep, color);
         if (Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _fixerId = on ? -1 : id;
         }
         return r.yMax;
@@ -137,7 +137,7 @@ public static class ContractsTab
         Text.Anchor = TextAnchor.UpperLeft;
         if (!on && Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             return true;
         }
         return false;
@@ -419,7 +419,7 @@ public static class ContractsTab
         Text.Anchor = TextAnchor.UpperLeft;
         if (Widgets.ButtonInvisible(head))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _historyOpen = !_historyOpen;
         }
         if (_historyOpen)

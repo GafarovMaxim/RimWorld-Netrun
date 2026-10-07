@@ -101,4 +101,20 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFontTip>Окна мода используют шрифт Tektur (лицензия SIL OFL). Выключите, чтобы был шрифт игры.</NR_SettingsFontTip>
   <NR_SettingsTextScale>Размер текста: {0}</NR_SettingsTextScale>
   <NR_SettingsIconScale>Размер иконок: {0}</NR_SettingsIconScale>
+  <NR_SettingsGroupSound>Звук</NR_SettingsGroupSound>
+  <NR_SettingsSoundPack>Звуковой пакет</NR_SettingsSoundPack>
+  <NR_SettingsSoundPackTip>Звуки терминала, нырков и ИИ. Все пакеты сделаны для мода, выбирайте на слух.</NR_SettingsSoundPackTip>
+  <NR_SoundPack_Clean>Чистый</NR_SoundPack_Clean>
+  <NR_SoundPack_Minimal>Минимализм</NR_SoundPack_Minimal>
+  <NR_SoundPack_Neon>Неон</NR_SoundPack_Neon>
+  <NR_SoundPack_RetroDeck>Ретро-дека</NR_SoundPack_RetroDeck>
+  <NR_SoundPack_Deep>Глубина</NR_SoundPack_Deep>
+  <NR_SoundPackDesc_Clean>Тихий терминал: ровный гул, редкие писки. Шума почти нет.</NR_SoundPackDesc_Clean>
+  <NR_SoundPackDesc_Minimal>Почти тишина: короткие мягкие щелчки, эмбиент едва слышен.</NR_SoundPackDesc_Minimal>
+  <NR_SoundPackDesc_Neon>Синтвейв: тёплые пады, арпеджио, мелодичные сигналы.</NR_SoundPackDesc_Neon>
+  <NR_SoundPackDesc_RetroDeck>Кибердека 80-х: реле, клавиши, квадратные писки, сонар.</NR_SoundPackDesc_RetroDeck>
+  <NR_SoundPackDesc_Deep>Просторные колокольчики, суб-бас, длинное эхо. Без шума.</NR_SoundPackDesc_Deep>
+  <NR_SoundPackDesc_Off>Без звуков мода: только обычный щелчок игры.</NR_SoundPackDesc_Off>
+  <NR_SettingsUiVolume>Звуки интерфейса: {0}</NR_SettingsUiVolume>
+  <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
 </LanguageData>

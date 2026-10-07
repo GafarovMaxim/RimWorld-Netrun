@@ -106,6 +106,7 @@ public static class AIBehavior
     {
         ai.AddHunger(-Settings.feedHungerRelief);
         ai.AddTrust(Settings.feedTrust * AITraitUtility.FeedTrustFactor(ai));
+        NetrunSound.Play("AI_Feed");
         Messages.Message("NR_AIFed".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: false);
 
         if (ai.Personality == AIPersonality.Seed)
@@ -318,5 +319,8 @@ public static class AIBehavior
     }
 
     private static void Report(string key, NetAI ai, NamedArgument arg)
-        => Messages.Message(key.Translate(ai.Name, arg), MessageTypeDefOf.PositiveEvent, historical: true);
+    {
+        NetrunSound.Play(ai.Personality == AIPersonality.Echo ? "AI_Echo" : "AI_Chime");
+        Messages.Message(key.Translate(ai.Name, arg), MessageTypeDefOf.PositiveEvent, historical: true);
+    }
 }

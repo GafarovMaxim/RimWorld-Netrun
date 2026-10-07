@@ -141,6 +141,7 @@ public class ContractManager : GameComponent
 
         contract.DeadlineTick = Find.TickManager.TicksGame + contract.DurationTicks;
         _contracts.RemoveAll(c => !c.Accepted && c.FixerId == fixer.Id);
+        NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_ContractAccepted".Translate(contract.Title, fixer.Name), MessageTypeDefOf.NeutralEvent, historical: true);
     }
 

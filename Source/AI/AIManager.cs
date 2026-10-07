@@ -57,6 +57,7 @@ public class AIManager : GameComponent
         ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
         fragment.Destroy();
 
+        NetrunSound.Play("AI_Awaken");
         Find.LetterStack.ReceiveLetter(
             "NR_AIAwakenedLabel".Translate(ai.Name),
             "NR_AIAwakened".Translate(ai.Name, ai.Personality.Label(), ai.Personality.Description(), worker.LabelShort),
@@ -80,6 +81,8 @@ public class AIManager : GameComponent
 
     public override void GameComponentTick()
     {
+        if (Find.TickManager.TicksGame % 250 == 0)
+            NetrunSound.UpdateServerHum();
         if (Find.TickManager.TicksGame % TickInterval != 0)
             return;
 
@@ -240,6 +243,7 @@ public class AIManager : GameComponent
         if (!ai.Escaping)
         {
             ai.EscapeAtTick = now + Settings.escapeWarningHours * GenDate.TicksPerHour;
+            NetrunSound.Play("AI_Angry");
             Find.LetterStack.ReceiveLetter(
                 "NR_AIEscapingLabel".Translate(ai.Name),
                 "NR_AIEscaping".Translate(ai.Name, Settings.escapeWarningHours),
@@ -437,6 +441,7 @@ public class AIManager : GameComponent
         ai.RequestStartTick = now;
         ai.RequestDeadlineTick = now + Settings.requestDays * GenDate.TicksPerDay;
 
+        NetrunSound.Play("AI_Request");
         Find.LetterStack.ReceiveLetter(
             "NR_AIRequestLabel".Translate(ai.Name),
             "NR_AIRequest".Translate(ai.Name, RequestText(ai), Settings.requestDays),
@@ -500,6 +505,7 @@ public class AIManager : GameComponent
         ai.Request = AIRequestKind.None;
         ai.AddTrust(Settings.requestTrust);
         ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
+        NetrunSound.Play("AI_Fulfilled");
         Messages.Message("NR_AIRequestDone".Translate(ai.Name), MessageTypeDefOf.PositiveEvent, historical: true);
     }
 
@@ -509,6 +515,7 @@ public class AIManager : GameComponent
         ai.Request = AIRequestKind.None;
         ai.AddTrust(-Settings.requestTrust * AITraitUtility.FailTrustFactor(ai));
         ai.NextRequestTick = Find.TickManager.TicksGame + RequestDelay(ai);
+        NetrunSound.Play("AI_Angry");
         Messages.Message("NR_AIRequestFailed".Translate(ai.Name), MessageTypeDefOf.NegativeEvent, historical: true);
     }
 

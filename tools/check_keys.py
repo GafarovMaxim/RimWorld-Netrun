@@ -18,7 +18,10 @@ HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]
 FIXER_TRAITS = ["Greedy", "Reliable", "Rat", "Paranoid", "Gambler", "Loyal", "Veteran", "Collector", "Hothead"]
 AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Pacifist', 'NightOwl', 'Rebel', 'Nostalgic']
+SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 DYNAMIC = {
+    "NR_SoundPack_": SOUND_PACKS,
+    "NR_SoundPackDesc_": SOUND_PACKS,
     "NR_AITrait_": AI_TRAITS,
     "NR_AITraitDesc_": AI_TRAITS,
     "NR_StudioTab_": ["Summary", "Raw", "Library", "Addiction"],

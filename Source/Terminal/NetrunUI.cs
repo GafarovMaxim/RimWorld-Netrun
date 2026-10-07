@@ -521,6 +521,8 @@ public static class NetrunUI
     }
 
     /// <summary>A bordered button in the given color; disabled ones are muted and explain why.</summary>
+    private static int _hoverKey;
+
     public static bool Button(Rect rect, string label, Color color, AcceptanceReport report, string tip = null, Texture2D icon = null)
     {
         bool active = report.Accepted;
@@ -561,9 +563,25 @@ public static class NetrunUI
 
         if (glitch < 0.18f && NetrunMod.Settings.Animations)
             Glitch(rect, glitch / 0.18f, (int)Key(hit), 2);
+        if (Event.current.type == EventType.Repaint)
+        {
+            int key = (int)Key(hit);
+            if (active && Mouse.IsOver(hit))
+            {
+                if (_hoverKey != key)
+                {
+                    _hoverKey = key;
+                    NetrunSound.Hover();
+                }
+            }
+            else if (_hoverKey == key)
+                _hoverKey = 0;
+        }
+        if (!active && Widgets.ButtonInvisible(hit, doMouseoverSound: false))
+            NetrunSound.Play("UI_Deny");
         if (active && Widgets.ButtonInvisible(hit))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             if (Clicks.Count > 200)
                 Clicks.Clear();
             Clicks[Key(hit)] = Time.realtimeSinceStartup;

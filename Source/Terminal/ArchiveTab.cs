@@ -131,7 +131,7 @@ public static class ArchiveTab
             }
             if (Widgets.ButtonInvisible(r) && !active)
             {
-                SoundDefOf.Click.PlayOneShotOnCamera();
+                NetrunSound.Click();
                 SwitchTab(tab);
             }
             x += w + 6f;
@@ -175,7 +175,7 @@ public static class ArchiveTab
                 Text.Anchor = TextAnchor.UpperLeft;
                 if (Widgets.ButtonInvisible(r))
                 {
-                    SoundDefOf.Click.PlayOneShotOnCamera();
+                    NetrunSound.Click();
                     _filter = f;
                     _openedAt = Time.realtimeSinceStartup;
                 }
@@ -351,7 +351,7 @@ public static class ArchiveTab
 
     private static void Select(HeatLogEntry e)
     {
-        SoundDefOf.Click.PlayOneShotOnCamera();
+        NetrunSound.Click();
         _entry = e;
         _report = null;
         _flashAt = Time.realtimeSinceStartup;
@@ -580,7 +580,7 @@ public static class ArchiveTab
         Text.Anchor = TextAnchor.UpperLeft;
         if (Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _report = rep;
             _entry = null;
             _flashAt = Time.realtimeSinceStartup;

@@ -585,7 +585,7 @@ public class HelpBrowser
     {
         if (page == null || page == _page)
             return;
-        SoundDefOf.Click.PlayOneShotOnCamera();
+        NetrunSound.Click();
         if (_page != null)
             _back.Add(_page);
         _forward.Clear();

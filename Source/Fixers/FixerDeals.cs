@@ -33,6 +33,7 @@ public static class FixerDeals
 
         fixer.ChannelOpenUntilTick = Find.TickManager.TicksGame + Settings.channelHours * GenDate.TicksPerHour;
         fixer.GainReputation(Settings.reputationPerCall);
+        NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerCalled".Translate(fixer.Name, cost), MessageTypeDefOf.NeutralEvent, historical: false);
         fixer.AfterDeal();
     }
@@ -90,6 +91,7 @@ public static class FixerDeals
         float amount = ScrubAmount(fixer, cyberdata, advanced);
         HeatTracker.Get()?.ReduceHeat(amount, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
         fixer.GainReputation(Settings.reputationPerScrub);
+        NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerScrubbed".Translate(fixer.Name, amount.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: false);
         fixer.AfterDeal();
     }
@@ -110,10 +112,15 @@ public static class FixerDeals
         if (!fixer.Stock.Remove(def))
             MapEventsManager.Get()?.MarkBlackMarketSold(def);
         fixer.GainReputation(Settings.reputationPerPurchase);
+        NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerDelivery".Translate(fixer.Name, def.label),
             new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent, historical: true);
         fixer.AfterDeal();
     }
 
-    private static void Reject(string text) => Messages.Message(text, MessageTypeDefOf.RejectInput, historical: false);
+    private static void Reject(string text)
+    {
+        NetrunSound.Play("UI_Deny");
+        Messages.Message(text, MessageTypeDefOf.RejectInput, historical: false);
+    }
 }

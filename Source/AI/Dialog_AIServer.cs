@@ -26,12 +26,26 @@ public class Dialog_AIServer : Window
         resizeable = true;
     }
 
+    public override void PostOpen()
+    {
+        base.PostOpen();
+        NetrunSound.Play("UI_Open");
+    }
+
+    public override void PostClose()
+    {
+        base.PostClose();
+        NetrunSound.Play("UI_Close");
+        NetrunSound.EndAmbient();
+    }
+
     public override void DoWindowContents(Rect inRect)
     {
         bool font = NetrunFont.Push();
         bool size = NetrunText.Push();
         try
         {
+            NetrunSound.Ambient("Ambient_Terminal");
             Rect screen = NetrunUI.Bezel(inRect, 10f, "NR_DeckPlate".Translate());
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);

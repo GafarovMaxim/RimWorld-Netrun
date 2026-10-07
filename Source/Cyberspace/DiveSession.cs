@@ -190,6 +190,7 @@ public class DiveSession : IExposable
     public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid, List<DiveDaemon> daemons)
     {
         var session = new DiveSession { Node = node, Runner = runner, Programs = programs.ToList(), CostPaid = costPaid, Daemons = daemons.ToList() };
+        NetrunSound.Play("Dive_Start");
         session.ShieldCharges = programs.Count(p => p == DiveProgram.Shield);
         session.DecoyCharges = programs.Count(p => p == DiveProgram.Decoy);
         session.KillerCharges = programs.Count(p => p == DiveProgram.Killer);
@@ -360,6 +361,7 @@ public class DiveSession : IExposable
 
     public void Scan()
     {
+        NetrunSound.Play("UI_Scan");
         if (AtUndecidedFork && !ForkScanned.Contains(Position))
         {
             ForkScanned.Add(Position);
@@ -418,6 +420,7 @@ public class DiveSession : IExposable
         else if (Rand.Chance(HackChance(target)))
         {
             target.Cleared = true;
+            NetrunSound.Play("UI_Hack");
             AddLog("NR_DiveLogHackOk".Translate(ElementLabel(target)));
         }
         else
@@ -484,6 +487,7 @@ public class DiveSession : IExposable
     public void Download()
     {
         Current.Looted = true;
+        NetrunSound.Play("UI_Download");
         if (Current.Kind == DiveElementKind.Memory && Node.WildAI)
             AskWildAI();
         else if (Current.Kind == DiveElementKind.Memory)
@@ -785,6 +789,7 @@ public class DiveSession : IExposable
         }
 
         AddNetsick(Settings.netsickPerIceHit);
+        NetrunSound.Play("Dive_ICE");
         float roll = Rand.Value;
         if (roll < 0.6f)
         {
@@ -884,6 +889,7 @@ public class DiveSession : IExposable
     private void End(bool success, float keepShare)
     {
         Finished = true;
+        NetrunSound.Play(success ? "Dive_Success" : "Dive_Fail");
         Map map = Runner?.MapHeld;
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
 

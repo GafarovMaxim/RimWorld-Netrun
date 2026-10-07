@@ -50,7 +50,10 @@ public class HeatTracker : GameComponent
         EconomyTracker.Get()?.Note(heatUp: _heat - old);
 
         if (Level > before)
+        {
             NotifyLevelUp();
+            NetrunSound.Play(Level >= HeatLevel.Target ? "UI_Alert" : "UI_HeatUp");
+        }
     }
 
     /// <summary>Dev: put Heat at an exact value (no multipliers), logged.</summary>
@@ -92,7 +95,10 @@ public class HeatTracker : GameComponent
     public void ReduceHeat(float amount, string reason, HeatSource source = HeatSource.Other)
     {
         float old = _heat;
+        HeatLevel before = Level;
         ReduceHeatSilently(amount);
+        if (Level < before)
+            NetrunSound.Play("UI_HeatDown");
 
         if (old != _heat)
         {

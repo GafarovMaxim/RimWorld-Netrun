@@ -115,7 +115,7 @@ public static class StudioTab
             }
             if (Widgets.ButtonInvisible(r) && !active)
             {
-                SoundDefOf.Click.PlayOneShotOnCamera();
+                NetrunSound.Click();
                 _tab = tab;
             }
             x += w + 6f;
@@ -260,7 +260,7 @@ public static class StudioTab
         Text.Font = GameFont.Small;
         if (go != Tab.Summary && Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _tab = go;
         }
     }
@@ -354,7 +354,7 @@ public static class StudioTab
         NetrunUI.Tip(r, HelpPageDef.StripModName(def.description));
         if (Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _picked = picked ? null : def;
         }
         return r.yMax;

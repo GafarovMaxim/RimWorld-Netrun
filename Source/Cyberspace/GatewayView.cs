@@ -375,7 +375,7 @@ public static class GatewayView
         NetrunUI.Tip(r, "NR_GatewayHomeTip".Translate());
         if (Widgets.ButtonInvisible(r))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.GoHome();
         }
     }
@@ -425,7 +425,7 @@ public static class GatewayView
 
         if (Widgets.ButtonInvisible(rect))
         {
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
             _selectedId = node.Id;
         }
     }

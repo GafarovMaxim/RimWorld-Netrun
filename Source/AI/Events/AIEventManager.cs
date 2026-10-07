@@ -108,6 +108,7 @@ public class AIEventManager : GameComponent
 
         if (def.options.NullOrEmpty())
         {
+            NetrunSound.Play("AI_Whisper");
             Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, look);
             return;
         }
@@ -118,6 +119,7 @@ public class AIEventManager : GameComponent
         letter.lookTargets = look;
         letter.Setup(def, context);
         letter.StartTimeout((int)(NetrunDefOf.NR_AI.eventAnswerDays * GenDate.TicksPerDay));
+        NetrunSound.Play("AI_Whisper");
         Find.LetterStack.ReceiveLetter(letter);
     }
 

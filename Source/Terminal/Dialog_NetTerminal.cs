@@ -78,6 +78,8 @@ public partial class Dialog_NetTerminal : Window
         bool size = NetrunText.Push();
         try
         {
+            // The loop of this screen: the dive, the Gateway's open net, or the terminal's hum.
+            NetrunSound.Ambient(Dive != null ? "Ambient_Dive" : _view == View.Gateway ? "Ambient_Cyberspace" : "Ambient_Terminal");
             DrawContents(inRect);
         }
         finally
@@ -266,9 +268,17 @@ public partial class Dialog_NetTerminal : Window
             ticks.TogglePaused();
     }
 
+    public override void PostOpen()
+    {
+        base.PostOpen();
+        NetrunSound.Play("UI_Open");
+    }
+
     public override void PostClose()
     {
         base.PostClose();
+        NetrunSound.Play("UI_Close");
+        NetrunSound.EndAmbient();
         _savedSize = windowRect.size;
         GatewayManager.Get()?.ClearFinished();
     }
@@ -361,6 +371,8 @@ public partial class Dialog_NetTerminal : Window
         {
             _titleView = _view;
             _titleChangedAt = Time.realtimeSinceStartup;
+            NetrunSound.Play("UI_Tab");
+            NetrunSound.Glitch();
         }
         float titleX = rect.x + 14f;
         // Inside a node (not a dive, not the Cyberpedia): the way back sits before the title.

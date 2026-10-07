@@ -20,6 +20,8 @@
 
 ## Что сделать в коде (сессия на ПК)
 
+**Сделано 2026-10-07:** `Source/Terminal/NetrunSound.cs`, группа «Звук» в настройках. Серверный гул идёт не через `soundAmbient` (в 1.6 такого поля нет), а позиционным sustainer-ом, пока есть питание. Ниже исходный план.
+
 1. Настройка мода «Звуковой пакет»: выпадающий список из Clean, Minimal, Neon, RetroDeck, Deep и пункта «Выкл.»; по умолчанию Clean. Рядом ползунки «Громкость звуков интерфейса» и «Громкость эмбиента» (0–100%, по умолчанию 60%). Названия и описания пакетов в Keyed (en и ru, таблица выше).
 2. Класс `NetrunSound`: `Play(string id)` ищет `DefDatabase<SoundDef>.GetNamedSilentFail("NR_" + пакет + "_" + id)` (id вида `UI_Click`, `Dive_Success`, `AI_Awaken`) и играет `PlayOneShotOnCamera()`; кэшировать найденные def в словаре, сбрасывать при смене пакета. `Ambient(string id)` то же для циклов через `TrySpawnSustainer(SoundInfo.OnCamera(MaintenanceType.PerFrame))`, `Maintain()` каждый кадр, `End()` при закрытии окна или смене экрана; при смене пакета перезапустить.
 3. Громкость: множить через `SoundInfo.volumeFactor` (поле `SoundInfo`) на настройку; 0 = не играть.

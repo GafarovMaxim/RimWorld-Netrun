@@ -33,7 +33,7 @@ public partial class Dialog_NetTerminal
 
     private void OpenNode(View view)
     {
-        SoundDefOf.Click.PlayOneShotOnCamera();
+        NetrunSound.Click();
         _view = view;
         if (view != View.Core)
             _lastNode = view;

@@ -47,7 +47,7 @@ public partial class Dialog_NetTerminal
     {
         _guide = !_guide;
         _guideArea = null;
-        SoundDefOf.Click.PlayOneShotOnCamera();
+        NetrunSound.Click();
         if (_guide)
             HelpProgress.Get()?.MarkGuideScreen(HelpContext);
     }
@@ -103,7 +103,7 @@ public partial class Dialog_NetTerminal
                     OpenHelp(_guideArea.helpPage);
                 else if (_guideExit.Contains(m))
                     _guide = false;
-                SoundDefOf.Click.PlayOneShotOnCamera();
+                NetrunSound.Click();
             }
             else
             {
@@ -113,7 +113,7 @@ public partial class Dialog_NetTerminal
                     _guideArea = hit;
                     _guideStep = 0;
                     HelpProgress.Get()?.MarkGuideArea(hit);
-                    SoundDefOf.Click.PlayOneShotOnCamera();
+                    NetrunSound.Click();
                 }
                 else
                 {

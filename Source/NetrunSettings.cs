@@ -55,6 +55,12 @@ public class NetrunSettings : ModSettings
     /// <summary>Use the Tektur font in the mod's windows (when its bundle is present).</summary>
     public bool TerminalFont = true;
 
+    // ---- Sound ----
+    /// <summary>The sound pack (NetrunSound.Packs) or "Off".</summary>
+    public string SoundPack = "Clean";
+    public float UiVolume = 0.6f;
+    public float AmbientVolume = 0.6f;
+
     private static readonly float[] Frequencies = [0f, 0.5f, 1f, 2f];
 
     /// <summary>Presets: Heat gain, cooling per day, scrub efficiency.</summary>
@@ -121,6 +127,8 @@ public class NetrunSettings : ModSettings
             DrawGameplay();
         if (Group("interface", "NR_SettingsGroupInterface"))
             DrawInterface();
+        if (Group("sound", "NR_SettingsGroupSound"))
+            DrawSound();
         if (Group("support", "NR_SettingsGroupSupport"))
             DrawSupport();
 
@@ -148,7 +156,7 @@ public class NetrunSettings : ModSettings
                 Collapsed.Add(id);
             else
                 Collapsed.Remove(id);
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
         }
         _y += 38f;
         return open;
@@ -208,7 +216,7 @@ public class NetrunSettings : ModSettings
         if (Widgets.ButtonInvisible(r))
         {
             value = !value;
-            SoundDefOf.Click.PlayOneShotOnCamera();
+            NetrunSound.Click();
         }
         _y += 32f;
     }
@@ -309,6 +317,33 @@ public class NetrunSettings : ModSettings
         _y += 6f;
     }
 
+    private void DrawSound()
+    {
+        Label("NR_SettingsSoundPack".Translate(), NetrunUI.Accent, "NR_SettingsSoundPackTip".Translate());
+        string[] ids = [.. NetrunSound.Packs, NetrunSound.Off];
+        string[] names = ids.Select(id => id == NetrunSound.Off ? (string)"NR_SettingsOff".Translate() : (string)("NR_SoundPack_" + id).Translate()).ToArray();
+        string[] tips = ids.Select(id => id == NetrunSound.Off ? (string)"NR_SoundPackDesc_Off".Translate() : (string)("NR_SoundPackDesc_" + id).Translate()).ToArray();
+        int current = System.Array.IndexOf(ids, SoundPack.NullOrEmpty() ? NetrunSound.Packs[0] : SoundPack);
+        int picked = Chips(names, current, tips);
+        if (picked >= 0 && picked != current)
+        {
+            SoundPack = ids[picked];
+            NetrunSound.SettingsChanged();
+            NetrunSound.Play("UI_Confirm");
+        }
+        if (current >= 0)
+            Label(tips[current], NetrunUI.Muted);
+        if (SoundPack != NetrunSound.Off)
+        {
+            float ui = UiVolume, ambient = AmbientVolume;
+            UiVolume = Slider("NR_SettingsUiVolume".Translate(UiVolume.ToStringPercent()), UiVolume, 0f, 1f);
+            AmbientVolume = Slider("NR_SettingsAmbientVolume".Translate(AmbientVolume.ToStringPercent()), AmbientVolume, 0f, 1f);
+            if (!Mathf.Approximately(ui, UiVolume))
+                NetrunSound.Hover();
+        }
+        _y += 6f;
+    }
+
     private void DrawSupport()
     {
         if (Current.Game != null)
@@ -366,6 +401,9 @@ public class NetrunSettings : ModSettings
         TextScale = 1f;
         IconScale = 1f;
         TerminalFont = true;
+        SoundPack = "Clean";
+        UiVolume = AmbientVolume = 0.6f;
+        NetrunSound.SettingsChanged();
     }
 
     public override void ExposeData()
@@ -387,6 +425,11 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref TextScale, "textScale", 1f);
         Scribe_Values.Look(ref IconScale, "iconScale", 1f);
         Scribe_Values.Look(ref TerminalFont, "terminalFont", true);
+        Scribe_Values.Look(ref SoundPack, "soundPack", "Clean");
+        Scribe_Values.Look(ref UiVolume, "uiVolume", 0.6f);
+        Scribe_Values.Look(ref AmbientVolume, "ambientVolume", 0.6f);
+        if (SoundPack != NetrunSound.Off && !NetrunSound.Packs.Contains(SoundPack))
+            SoundPack = "Clean";
         if (AIEventFrequency < 0f)
             AIEventFrequency = 1f;
         if (ScrubMultiplier <= 0f)
