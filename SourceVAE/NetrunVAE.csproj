@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Achievements for Vanilla Achievements Expanded (docs/TECH_DETAILS.md, section 3.4). Loaded only when VAE is
-       active (LoadFolders.xml, Mods/VAE). The main assembly does not depend on VAE. -->
+  <!-- Achievements for Vanilla Achievements Expanded (docs/TECH_DETAILS.md, section 3.4). Built into Optional/ (not
+       Assemblies/): NetrunMod loads it only when VAE is active. The main assembly does not depend on VAE. -->
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -9,7 +9,7 @@
     <AssemblyName>NetrunVAE</AssemblyName>
     <RootNamespace>NetrunVAE</RootNamespace>
     <Version>0.5.0</Version>
-    <OutputPath>..\Mods\VAE\Assemblies\</OutputPath>
+    <OutputPath>..\Optional\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DebugType>none</DebugType>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>

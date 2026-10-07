@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Mods/VAE: achievements for Vanilla Achievements Expanded, loaded only when VAE is active. -->
-<loadFolders>
-  <v1.6>
-    <li>/</li>
-    <li IfModActive="vanillaexpanded.achievements">Mods/VAE</li>
-  </v1.6>
-</loadFolders>
