@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Record_Dives.label>нырков в сеть</NR_Record_Dives.label>
+  <NR_Record_Dives.description>Нырки в ноды киберпространства.</NR_Record_Dives.description>
+  <NR_Record_CleanExits.label>чистых выходов из сети</NR_Record_CleanExits.label>
+  <NR_Record_CleanExits.description>Нырки, законченные на выходе с добычей.</NR_Record_CleanExits.description>
+  <NR_Record_BlackICEPassed.label>пройдено чёрного льда</NR_Record_BlackICEPassed.label>
+  <NR_Record_BlackICEPassed.description>Чистые нырки через ноды под защитой Black ICE.</NR_Record_BlackICEPassed.description>
+  <NR_Record_CorpCores.label>взято корп-ядер</NR_Record_CorpCores.label>
+  <NR_Record_CorpCores.description>Вскрытые корпоративные ядра.</NR_Record_CorpCores.description>
+  <NR_Record_NetComas.label>сетевых ком</NR_Record_NetComas.label>
+  <NR_Record_NetComas.description>Сколько раз ICE отправлял этого раннера в кому.</NR_Record_NetComas.description>
+  <NR_Record_AIsAwakened.label>пробуждено ИИ</NR_Record_AIsAwakened.label>
+  <NR_Record_AIsAwakened.description>Пробуждённые осколки ИИ.</NR_Record_AIsAwakened.description>
+</LanguageData>

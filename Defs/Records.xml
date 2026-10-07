@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Pawn records (the Records tab). Netrun counts dives here; achievements and the dive traits read them too. -->
+
+  <RecordDef>
+    <defName>NR_Record_Dives</defName>
+    <label>net dives</label>
+    <description>Dives into cyberspace nodes.</description>
+    <type>Int</type>
+  </RecordDef>
+
+  <RecordDef>
+    <defName>NR_Record_CleanExits</defName>
+    <label>clean exits from the net</label>
+    <description>Dives that ended at the exit with the haul.</description>
+    <type>Int</type>
+  </RecordDef>
+
+  <RecordDef>
+    <defName>NR_Record_BlackICEPassed</defName>
+    <label>black ICE passed</label>
+    <description>Dives through nodes guarded by black ICE that ended clean.</description>
+    <type>Int</type>
+  </RecordDef>
+
+  <RecordDef>
+    <defName>NR_Record_CorpCores</defName>
+    <label>corporate cores taken</label>
+    <description>Corporate cores broken open.</description>
+    <type>Int</type>
+  </RecordDef>
+
+  <RecordDef>
+    <defName>NR_Record_NetComas</defName>
+    <label>net comas</label>
+    <description>Times ICE threw this runner into a coma.</description>
+    <type>Int</type>
+  </RecordDef>
+
+  <RecordDef>
+    <defName>NR_Record_AIsAwakened</defName>
+    <label>AIs awakened</label>
+    <description>AI fragments woken up.</description>
+    <type>Int</type>
+  </RecordDef>
+
+</Defs>

@@ -18,6 +18,14 @@ public static class NetrunDebugActions
         hediff.Severity += 0.3f;
     }
 
+    /// <summary>Runs the data janitor now and shows what it cleaned (docs/TECH_DETAILS.md, section 2.5).</summary>
+    [DebugAction(Category, "Cleanup report", allowedGameStates = AllowedGameStates.Playing)]
+    private static void CleanupReport()
+    {
+        List<string> lines = NetrunJanitor.Get()?.Run(CleanupReason.Manual) ?? [];
+        Messages.Message("[Netrun] cleanup: " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"), MessageTypeDefOf.NeutralEvent, historical: false);
+    }
+
     [DebugAction(Category, "Start net craving", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
     private static void StartNetCraving(Pawn pawn)
         => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);

@@ -10,7 +10,7 @@ namespace Netrun;
 /// The Gateway: the external nodes on offer (refreshed every few days), the programs picked for the
 /// next dive and the dive in progress, if any.
 /// </summary>
-public partial class GatewayManager : GameComponent
+public partial class GatewayManager : GameComponent, INetrunCleanable
 {
     private static CyberspaceSettingsDef Settings => NetrunDefOf.NR_Cyberspace;
 
@@ -49,6 +49,22 @@ public partial class GatewayManager : GameComponent
 
     public GatewayManager(Game game)
     {
+    }
+
+    public int Cleanup(CleanupReason reason)
+    {
+        int n = Reports.RemoveAll(r => r == null) + _nodes.RemoveAll(x => x == null) + Headlines.RemoveAll(h => h == null);
+        if (Reports.Count > MaxReports)
+        {
+            n += Reports.Count - MaxReports;
+            Reports.RemoveRange(0, Reports.Count - MaxReports);
+        }
+        if (Headlines.Count > 12)
+        {
+            n += Headlines.Count - 12;
+            Headlines.RemoveRange(0, Headlines.Count - 12);
+        }
+        return n;
     }
 
     public static GatewayManager Get() => Current.Game?.GetComponent<GatewayManager>();

@@ -7,7 +7,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>All AIs the colony has awakened, wherever they currently are.</summary>
-public class AIManager : GameComponent
+public class AIManager : GameComponent, INetrunCleanable
 {
     private static readonly string[] Names =
     [
@@ -63,6 +63,7 @@ public class AIManager : GameComponent
             "NR_AIAwakened".Translate(ai.Name, ai.Personality.Label(), ai.Personality.Description(), worker.LabelShort),
             LetterDefOf.PositiveEvent, new LookTargets(server));
 
+        NetrunRecords.Add(worker, NetrunRecords.NR_Record_AIsAwakened);
         TryDetectAwakening(ai);
         return ai;
     }
@@ -320,7 +321,16 @@ public class AIManager : GameComponent
 
         Map map = host.MapHeld;
         if (map != null)
+        {
             DropFragment(ai, map, host.PositionHeld);
+        }
+        else if (!host.Dead && host.inventory != null)
+        {
+            // Off the map (a caravan, a kidnapping): the fragment stays in the host's pack instead of vanishing.
+            Thing fragment = ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment);
+            fragment.TryGetComp<CompAIFragment>().StoredAIId = ai.Id;
+            host.inventory.innerContainer.TryAdd(fragment);
+        }
         Messages.Message(reasonKey.Translate(ai.Name, host.LabelShort), MessageTypeDefOf.NegativeEvent, historical: true);
     }
 
@@ -545,5 +555,38 @@ public class AIManager : GameComponent
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
             _ais ??= [];
+    }
+
+    /// <summary>
+    /// An AI that is neither housed nor kept in any fragment (its fragment was destroyed, or the game removed its host)
+    /// would sit in the list forever. After two days without a fragment it is reported lost.
+    /// </summary>
+    public int Cleanup(CleanupReason reason)
+    {
+        List<NetAI> unhoused = _ais.Where(a => !a.Housed).ToList();
+        if (unhoused.Count == 0)
+            return 0;
+        HashSet<int> kept = NetrunJanitor.FragmentIds();
+        int now = Find.TickManager.TicksGame;
+        int n = 0;
+        foreach (NetAI ai in unhoused)
+        {
+            if (kept.Contains(ai.Id))
+            {
+                ai.OrphanSinceTick = -1;
+                continue;
+            }
+            if (ai.OrphanSinceTick < 0)
+            {
+                ai.OrphanSinceTick = now;
+                continue;
+            }
+            if (now - ai.OrphanSinceTick >= 2 * GenDate.TicksPerDay)
+            {
+                Remove(ai, "NR_AILostLinkLabel", "NR_AILostLink", 0f, LetterDefOf.NegativeEvent);
+                n++;
+            }
+        }
+        return n;
     }
 }

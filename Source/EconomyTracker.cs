@@ -9,7 +9,7 @@ namespace Netrun;
 /// Day-by-day totals for balancing (docs/BALANCE.md section 2): cyberdata gained and spent, Heat up and down,
 /// dives and AI events. Read by the dev action "Economy summary"; keeps the last 15 days.
 /// </summary>
-public class EconomyTracker : GameComponent
+public class EconomyTracker : GameComponent, INetrunCleanable
 {
     private const int KeepDays = 15;
 
@@ -17,6 +17,12 @@ public class EconomyTracker : GameComponent
 
     public EconomyTracker(Game game)
     {
+    }
+
+    public int Cleanup(CleanupReason reason)
+    {
+        int day = GenDate.DaysPassed;
+        return _days.RemoveAll(d => d == null || d.day < day - KeepDays);
     }
 
     public static EconomyTracker Get() => Current.Game?.GetComponent<EconomyTracker>();

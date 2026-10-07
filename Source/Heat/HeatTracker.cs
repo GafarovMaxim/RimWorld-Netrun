@@ -6,7 +6,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Colony-wide digital trace. Rises from hacks, cools down over time.</summary>
-public class HeatTracker : GameComponent
+public class HeatTracker : GameComponent, INetrunCleanable
 {
     public const float MaxHeat = 100f;
     private const int TickInterval = 250;
@@ -152,6 +152,22 @@ public class HeatTracker : GameComponent
 
         if (_log.Count > MaxLogEntries)
             _log.RemoveRange(0, _log.Count - MaxLogEntries);
+    }
+
+    public int Cleanup(CleanupReason reason)
+    {
+        int n = _log.RemoveAll(e => e == null);
+        if (_log.Count > MaxLogEntries)
+        {
+            n += _log.Count - MaxLogEntries;
+            _log.RemoveRange(0, _log.Count - MaxLogEntries);
+        }
+        if (_history.Count > HistorySize)
+        {
+            n += _history.Count - HistorySize;
+            _history.RemoveRange(0, _history.Count - HistorySize);
+        }
+        return n;
     }
 
     public override void ExposeData()

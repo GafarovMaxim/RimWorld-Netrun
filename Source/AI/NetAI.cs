@@ -40,6 +40,8 @@ public class NetAI : IExposable
     public int NextRequestTick;
 
     public int UnpoweredSinceTick = -1;
+    /// <summary>Since when no fragment holds this unhoused AI (NetrunJanitor), -1 while it is accounted for.</summary>
+    public int OrphanSinceTick = -1;
     public int EscapeAtTick = -1;
 
     // Seed growth: how often it was fed toward each personality.
@@ -115,6 +117,7 @@ public class NetAI : IExposable
         Scribe_Values.Look(ref RequestDeadlineTick, "requestDeadlineTick");
         Scribe_Values.Look(ref NextRequestTick, "nextRequestTick");
         Scribe_Values.Look(ref UnpoweredSinceTick, "unpoweredSinceTick", -1);
+        Scribe_Values.Look(ref OrphanSinceTick, "orphanSinceTick", -1);
         Scribe_Values.Look(ref EscapeAtTick, "escapeAtTick", -1);
         Scribe_Values.Look(ref SeedTowardDataHunter, "seedTowardDataHunter");
         Scribe_Values.Look(ref SeedTowardMuse, "seedTowardMuse");

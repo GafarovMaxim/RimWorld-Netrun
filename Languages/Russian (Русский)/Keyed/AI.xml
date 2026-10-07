@@ -145,6 +145,8 @@
   <NR_AIFellAsleep>{0} заснул: нет питания. Если питания не будет слишком долго, ИИ будет потерян.</NR_AIFellAsleep>
   <NR_AILostLabel>ИИ потерян: {0}</NR_AILostLabel>
   <NR_AILostNoPower>{0} слишком долго спал без питания. То, что от него осталось, распалось.</NR_AILostNoPower>
+  <NR_AILostLinkLabel>Связь с ИИ потеряна: {0}</NR_AILostLinkLabel>
+  <NR_AILostLink>{0} больше негде держаться: ни сервера, ни носителя, ни осколка. Связь затихла и не вернулась.</NR_AILostLink>
   <NR_AIEscapingLabel>{0} сбегает</NR_AIEscapingLabel>
   <NR_AIEscaping>{0} голодает и больше вам не доверяет. Он начал копировать себя в сеть и исчезнет через {1} ч.\n\nЧтобы остановить: изолируйте, накормите или сотрите его.</NR_AIEscaping>
   <NR_AIEscapeLine>Сбегает: исчезнет через {0}. Изолируйте, накормите или сотрите.</NR_AIEscapeLine>

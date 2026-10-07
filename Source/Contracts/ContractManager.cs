@@ -7,7 +7,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Contract offers and accepted contracts. One accepted contract per fixer.</summary>
-public class ContractManager : GameComponent
+public class ContractManager : GameComponent, INetrunCleanable
 {
     private const int TickInterval = 250;
 
@@ -17,6 +17,17 @@ public class ContractManager : GameComponent
     private int _nextId = 1;
 
     public ContractManager(Game game) { }
+
+    public int Cleanup(CleanupReason reason)
+    {
+        int n = _history.RemoveAll(r => r == null);
+        if (_history.Count > HistorySize)
+        {
+            n += _history.Count - HistorySize;
+            _history.RemoveRange(HistorySize, _history.Count - HistorySize);
+        }
+        return n;
+    }
 
     public static ContractManager Get() => Current.Game?.GetComponent<ContractManager>();
 

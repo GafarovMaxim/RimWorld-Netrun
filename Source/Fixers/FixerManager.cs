@@ -8,7 +8,7 @@ using Verse.Grammar;
 namespace Netrun;
 
 /// <summary>The rotating pool of fixers. Fixers with enough reputation stay for good.</summary>
-public class FixerManager : GameComponent
+public class FixerManager : GameComponent, INetrunCleanable
 {
     private const int TickInterval = 2500;
 
@@ -238,7 +238,23 @@ public class FixerManager : GameComponent
         Scribe_Collections.Look(ref _banned, "banned", LookMode.Value, LookMode.Value);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
             _fixers ??= [];
             _banned ??= [];
+        }
+    }
+
+    /// <summary>Bans that ran out are forgotten (before, the list only grew).</summary>
+    public int Cleanup(CleanupReason reason)
+    {
+        int now = Find.TickManager.TicksGame;
+        int n = 0;
+        foreach (string name in _banned.Where(kv => kv.Value <= now).Select(kv => kv.Key).ToList())
+        {
+            _banned.Remove(name);
+            n++;
+        }
+        n += _fixers.RemoveAll(f => f == null);
+        return n;
     }
 }

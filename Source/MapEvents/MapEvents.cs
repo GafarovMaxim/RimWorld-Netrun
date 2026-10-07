@@ -46,7 +46,7 @@ public class MapEventsSettingsDef : Def
 /// Keeps what map events leave running: the data courier, the black market window and the counter-hack
 /// after a hack on the colony's turrets.
 /// </summary>
-public class MapEventsManager : GameComponent
+public class MapEventsManager : GameComponent, INetrunCleanable
 {
     private static MapEventsSettingsDef Settings => NetrunDefOf.NR_MapEvents;
 
@@ -256,6 +256,17 @@ public class MapEventsManager : GameComponent
         _hijacked ??= [];
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
             _hijacked.RemoveAll(t => t == null);
+    }
+
+    public int Cleanup(CleanupReason reason)
+    {
+        int n = _hijacked.RemoveAll(t => t == null || t.Destroyed);
+        if (_courier != null && (_courier.Destroyed || _courier.Discarded))
+        {
+            _courier = null;
+            n++;
+        }
+        return n;
     }
 }
 

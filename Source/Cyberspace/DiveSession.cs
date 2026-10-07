@@ -837,6 +837,7 @@ public class DiveSession : IExposable
         else
         {
             AddHediff("USH_CyberspaceComa");
+            NetrunRecords.Add(Runner, NetrunRecords.NR_Record_NetComas);
             AddLog("NR_DiveLogComa".Translate(Runner.LabelShort).Colorize(NetrunUI.Bad));
             End(success: false, keepShare: 0f);
             // Out of the pod, so the coma runs its course (a Vitality pod would hold it frozen).
@@ -984,6 +985,16 @@ public class DiveSession : IExposable
                 MapEventsManager.Get()?.CounterHackWon();
             if (Node.IsBoss)
                 GatewayManager.Get()?.CorpLockdown();
+        }
+
+        NetrunRecords.Add(Runner, NetrunRecords.NR_Record_Dives);
+        if (success)
+        {
+            NetrunRecords.Add(Runner, NetrunRecords.NR_Record_CleanExits);
+            if (Node.BlackIce)
+                NetrunRecords.Add(Runner, NetrunRecords.NR_Record_BlackICEPassed);
+            if (Node.IsBoss)
+                NetrunRecords.Add(Runner, NetrunRecords.NR_Record_CorpCores);
         }
 
         Report = BuildReport(success, keepShare, HunterActive && map != null);

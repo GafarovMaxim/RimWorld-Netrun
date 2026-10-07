@@ -11,7 +11,7 @@ namespace Netrun;
 /// Goggles record on their own: a strong feeling or a kill leaves a raw recording next to the wearer.
 /// One recording per wearer per cooldown, so a bad day does not flood the stockpile.
 /// </summary>
-public class BraindanceRecorder : GameComponent
+public class BraindanceRecorder : GameComponent, INetrunCleanable
 {
     private const float MinMood = 8f;
     private const float FullStrengthMood = 20f;
@@ -74,6 +74,9 @@ public class BraindanceRecorder : GameComponent
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
             _lastRecord.RemoveAll(kv => kv.Key == null);
     }
+
+    public int Cleanup(CleanupReason reason)
+        => _lastRecord.RemoveAll(kv => kv.Key == null || kv.Key.Destroyed || kv.Key.Dead);
 }
 
 [HarmonyPatch(typeof(MemoryThoughtHandler), nameof(MemoryThoughtHandler.TryGainMemory), typeof(Thought_Memory), typeof(Pawn))]

@@ -145,6 +145,8 @@
   <NR_AIFellAsleep>{0} fell asleep: no power. Without power for too long, it will be lost.</NR_AIFellAsleep>
   <NR_AILostLabel>AI lost: {0}</NR_AILostLabel>
   <NR_AILostNoPower>{0} slept without power for too long. What was left of it has decayed.</NR_AILostNoPower>
+  <NR_AILostLinkLabel>AI link lost: {0}</NR_AILostLinkLabel>
+  <NR_AILostLink>Nothing holds {0} any more: no server, no host, no fragment. The link went quiet and did not come back.</NR_AILostLink>
   <NR_AIEscapingLabel>{0} is escaping</NR_AIEscapingLabel>
   <NR_AIEscaping>{0} is starving and no longer trusts you. It has started copying itself out into the network and will be gone in {1} hours.\n\nTo stop it: isolate it, feed it, or erase it.</NR_AIEscaping>
   <NR_AIEscapeLine>Escaping: gone in {0}. Isolate, feed or erase it.</NR_AIEscapeLine>
