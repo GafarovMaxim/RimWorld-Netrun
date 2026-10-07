@@ -745,6 +745,11 @@ public static class NetrunUI
         // Three hardware keys in a recessed tray, each with its stencil.
         string[] glyphs = ["◁", "○", "?"];
         string[] names = ["BACK", "CORE", "HELP"];
+        // Keys sink while the mouse button is held on them.
+        if (Event.current.rawType == EventType.MouseDown && Event.current.button == 0)
+            _pressed = true;
+        else if (Event.current.rawType == EventType.MouseUp)
+            _pressed = false;
         const float kw = 46f, kh = 26f;
         float kx = body.center.x - (3 * kw + 2 * 12f) / 2f;
         var tray = new Rect(kx - 8f, by0 + 10f, 3 * kw + 2 * 12f + 16f, kh + 10f);
