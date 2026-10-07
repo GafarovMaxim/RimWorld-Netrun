@@ -704,6 +704,8 @@ public class DiveSession : IExposable
         gateway.GroupFavor++;
         Messages.Message("NR_FindGroupFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies),
             MessageTypeDefOf.PositiveEvent, historical: true);
+        // The favor comes from a crew: relations with it warm up too.
+        NetFactions.AffectCrew(NetFactions.BestCrew() ?? NetFactions.Crews.RandomElementWithFallback(), 3, "NR_CrewGoodwillFind");
     }
 
     /// <summary>A masterful recording of someone famous, delivered with the rest of the haul.</summary>

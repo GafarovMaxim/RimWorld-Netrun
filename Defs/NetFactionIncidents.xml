@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Runner crews: help on call, raids when hostile (Source/Factions/NetFactions.cs) -->
+  <IncidentDef>
+    <defName>NR_CrewHelp</defName>
+    <label>runner crew help</label>
+    <category>AllyAssistance</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_CrewHelp</workerClass>
+    <baseChance>0</baseChance>
+    <pointsScaleable>true</pointsScaleable>
+    <letterLabel>Runners arrive</letterLabel>
+    <letterText>A runner crew answered the colony's call. Their runners have come to help.</letterText>
+    <letterDef>PositiveEvent</letterDef>
+  </IncidentDef>
+
+  <IncidentDef>
+    <defName>NR_CrewRaid</defName>
+    <label>runner crew raid</label>
+    <category>ThreatBig</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>Netrun.IncidentWorker_CrewRaid</workerClass>
+    <baseChance>0.4</baseChance>
+    <minRefireDays>15</minRefireDays>
+    <tale>Raid</tale>
+    <pointsScaleable>true</pointsScaleable>
+  </IncidentDef>
+
+</Defs>

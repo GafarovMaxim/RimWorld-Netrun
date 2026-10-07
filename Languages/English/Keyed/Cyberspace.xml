@@ -455,4 +455,5 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HeProgramNoItem>No {0} in the colony.</NR_HeProgramNoItem>
   <NR_DiveLogBreaker>The ICE breaker tore through the {0}. Loud: double trace.</NR_DiveLogBreaker>
   <NR_DiveCostPodFuel>Paid first from the pod's hack points: {0}</NR_DiveCostPodFuel>
+  <NR_CrewGoodwillFind>Relations with {0}: {1}.</NR_CrewGoodwillFind>
 </LanguageData>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_CrewRunner.label>раннер</NR_CrewRunner.label>
+  <NR_CrewMuscle.label>боец команды</NR_CrewMuscle.label>
+  <NR_CorpGuard.label>корп-охранник</NR_CorpGuard.label>
+  <NR_CorpNetrunner.label>корп-нетраннер</NR_CorpNetrunner.label>
+</LanguageData>

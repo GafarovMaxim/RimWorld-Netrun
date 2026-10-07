@@ -211,6 +211,16 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         GroupFavor -= Settings.groupFavorForAllies;
         _alliesReadyTick = Find.TickManager.TicksGame + (int)(Settings.alliesCooldownDays * GenDate.TicksPerDay);
 
+        // The friendliest runner crew answers first (docs/CONCEPTS_10.md, section 6); otherwise any allied faction.
+        if (NetFactions.BestCrew() is { } crew && NetrunDefOf.NR_CrewHelp != null)
+        {
+            IncidentParms help = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
+            help.faction = crew;
+            help.forced = true;
+            help.raidStrategy = RaidStrategyDefOf.ImmediateAttackFriendly;
+            if (NetrunDefOf.NR_CrewHelp.Worker.TryExecute(help))
+                return;
+        }
         Faction ally = Find.FactionManager.AllFactionsVisible
             .Where(f => !f.IsPlayer && f.def.humanlikeFaction && f.PlayerRelationKind == FactionRelationKind.Ally && !f.defeated)
             .RandomElementWithFallback();

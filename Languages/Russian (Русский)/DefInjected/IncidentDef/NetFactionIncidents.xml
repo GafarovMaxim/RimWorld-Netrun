@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_CrewHelp.label>помощь команды раннеров</NR_CrewHelp.label>
+  <NR_CrewHelp.letterLabel>Прибыли раннеры</NR_CrewHelp.letterLabel>
+  <NR_CrewHelp.letterText>Команда раннеров откликнулась на зов колонии. Её раннеры пришли на помощь.</NR_CrewHelp.letterText>
+  <NR_CrewRaid.label>налёт команды раннеров</NR_CrewRaid.label>
+</LanguageData>
