@@ -89,6 +89,12 @@ public static class NetrunDebugActions
     [DebugAction(Category, "Start data storm", allowedGameStates = AllowedGameStates.Playing)]
     private static void StartStorm() => GatewayManager.Get()?.StartStorm();
 
+    [DebugAction(Category, "Cyberspace headline now", allowedGameStates = AllowedGameStates.Playing)]
+    private static void Headline() => GatewayManager.Get()?.RollHeadline();
+
+    [DebugAction(Category, "Corp lockdown", allowedGameStates = AllowedGameStates.Playing)]
+    private static void Lockdown() => GatewayManager.Get()?.CorpLockdown();
+
     [DebugAction(Category, "Grant all daemons", allowedGameStates = AllowedGameStates.Playing)]
     private static void GrantDaemons()
     {

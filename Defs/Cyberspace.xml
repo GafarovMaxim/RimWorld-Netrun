@@ -51,6 +51,15 @@
     <branchPassageBonus>0.1</branchPassageBonus>
     <branchExtraTurns>3</branchExtraTurns>
     <successXp>400</successXp>
+    <!-- Living cyberspace: a headline every few days (scaled by the cyberspace event setting), shown for newsKeepDays.
+         Data glut: dive cyberdata x1.3 for 2 days. Quiet net: dive trace x0.7 for a day. Corp lockdown after the core falls: corp nodes +1 defense for a week. -->
+    <newsIntervalDays>2~4</newsIntervalDays>
+    <newsKeepDays>3</newsKeepDays>
+    <newsGlutDays>2</newsGlutDays>
+    <newsGlutLoot>1.3</newsGlutLoot>
+    <newsQuietDays>1</newsQuietDays>
+    <newsQuietTrace>0.7</newsQuietTrace>
+    <newsLockdownDays>7</newsLockdownDays>
     <!-- What a dive leaves on the runner. Flow: a clean exit without ICE hits (a day, +5% hack). Memory: on success, XP to a random skill.
          Migraine: the dive lasted this many turns. Phantom signals: at this Netsick, with this chance. Burned link: failed Black ICE dive after a hit (-10% hack, 3 days). -->
     <effectMemoryChance>0.25</effectMemoryChance>

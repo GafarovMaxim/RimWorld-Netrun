@@ -294,4 +294,13 @@
   <NR_DiveEffectMigraine>У {0} цифровая мигрень после долгого нырка.</NR_DiveEffectMigraine>
   <NR_DiveEffectPhantom>{0} ловит фантомные сигналы: зависимость показывает ICE в реальном мире.</NR_DiveEffectPhantom>
   <NR_DiveEffectBurned>Black ICE выжег нейролинк {0}: три дня взломы даются труднее.</NR_DiveEffectBurned>
+  <NR_HeadlineHarden>«{0}» усилил ICE: защита +1.</NR_HeadlineHarden>
+  <NR_HeadlineLeak>Утекли коды доступа к «{0}»: защита упала на 1.</NR_HeadlineLeak>
+  <NR_HeadlineGlut>Рынок завален данными: нырки приносят {0} cyberdata ещё {1} дн.</NR_HeadlineGlut>
+  <NR_HeadlineQuiet>Сеть затихла: нырки оставляют {0} следа ещё {1} дн.</NR_HeadlineQuiet>
+  <NR_HeadlineLockdown>Корпоративное ядро пало. У корпораций режим тревоги: корп-ноды +1 к защите на {0} дн.</NR_HeadlineLockdown>
+  <NR_HeadlineRunaway>{0} замечен в «{1}». Нырок туда может его найти.</NR_HeadlineRunaway>
+  <NR_NewsEffectGlut>Избыток данных: cyberdata из нырков {0}.</NR_NewsEffectGlut>
+  <NR_NewsEffectQuiet>Тихая сеть: след от нырков {0}.</NR_NewsEffectQuiet>
+  <NR_NewsEffectLockdown>Тревога у корпораций: у корп-нод ICE сильнее.</NR_NewsEffectLockdown>
 </LanguageData>

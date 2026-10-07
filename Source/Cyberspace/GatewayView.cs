@@ -121,6 +121,12 @@ public static class GatewayView
         CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
         if (g?.StormActive == true)
             lines.Add("• " + "NR_NewsEffectStorm".Translate(s.stormRewardMult.ToStringPercent()));
+        if (g.GlutActive)
+            lines.Add("• " + "NR_NewsEffectGlut".Translate(s.newsGlutLoot.ToStringPercent()));
+        if (g.QuietActive)
+            lines.Add("• " + "NR_NewsEffectQuiet".Translate(s.newsQuietTrace.ToStringPercent()));
+        if (g.LockdownActive)
+            lines.Add("• " + "NR_NewsEffectLockdown".Translate());
         HeatLevel level = HeatTracker.Get()?.Level ?? HeatLevel.Shadow;
         if (level >= HeatLevel.Target)
             lines.Add("• " + "NR_NewsEffectHunters".Translate());
@@ -144,6 +150,8 @@ public static class GatewayView
         GatewayManager g = GatewayManager.Get();
         if (g == null)
             return list;
+        foreach (NetHeadline headline in g.RecentHeadlines)
+            list.Add((headline.Text, headline.Color));
         if (g.StormActive)
             list.Add(("NR_NewsStorm".Translate(g.StormTicksLeft.ToStringTicksToPeriod()), NetrunUI.Purple));
         if (g.Boss is { } boss)

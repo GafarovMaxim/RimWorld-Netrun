@@ -10,7 +10,7 @@ namespace Netrun;
 /// The Gateway: the external nodes on offer (refreshed every few days), the programs picked for the
 /// next dive and the dive in progress, if any.
 /// </summary>
-public class GatewayManager : GameComponent
+public partial class GatewayManager : GameComponent
 {
     private static CyberspaceSettingsDef Settings => NetrunDefOf.NR_Cyberspace;
 
@@ -77,7 +77,13 @@ public class GatewayManager : GameComponent
         _nodes.RemoveAll(n => (Session == null || n.Id != Session.Node.Id) && !n.IsBoss);
         int count = Settings.nodeCount.RandomInRange;
         for (int i = 0; i < count; i++)
-            _nodes.Add(ExternalNode.Generate(_nextId++));
+        {
+            ExternalNode node = ExternalNode.Generate(_nextId++);
+            // A corp lockdown after the core fell: new corp nodes come with stronger ICE too.
+            if (LockdownActive && node.Type == ExternalNodeType.Corp)
+                node.Defense++;
+            _nodes.Add(node);
+        }
         foreach (ExternalNode node in _nodes.InRandomOrder().Take(Settings.hiddenNodes))
             node.Hidden = true;
         if (!StormActive && Rand.Chance(Settings.stormChance * NetrunMod.Settings.CyberEventFrequency))
@@ -355,6 +361,7 @@ public class GatewayManager : GameComponent
         Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
         Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
         Scribe_Values.Look(ref _stormUntilTick, "stormUntilTick", -1);
+        ExposeHeadlines();
         Daemons ??= [];
         _nodes ??= [];
         SelectedPrograms ??= [];

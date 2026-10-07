@@ -294,4 +294,13 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveEffectMigraine>{0} has a digital migraine after a long dive.</NR_DiveEffectMigraine>
   <NR_DiveEffectPhantom>{0} catches phantom signals: the dependency shows ICE in the real world.</NR_DiveEffectPhantom>
   <NR_DiveEffectBurned>Black ICE burned {0}'s neural link: hacks are harder for three days.</NR_DiveEffectBurned>
+  <NR_HeadlineHarden>«{0}» hardened its ICE: defense +1.</NR_HeadlineHarden>
+  <NR_HeadlineLeak>Access codes to «{0}» leaked: its defense dropped by 1.</NR_HeadlineLeak>
+  <NR_HeadlineGlut>Data floods the market: dives bring {0} cyberdata for {1} days.</NR_HeadlineGlut>
+  <NR_HeadlineQuiet>The net goes quiet: dives leave {0} of the trace for {1} days.</NR_HeadlineQuiet>
+  <NR_HeadlineLockdown>The corporate core fell. The corps are on lockdown: corp nodes +1 defense for {0} days.</NR_HeadlineLockdown>
+  <NR_HeadlineRunaway>{0} was seen in «{1}». A dive there may find it.</NR_HeadlineRunaway>
+  <NR_NewsEffectGlut>Data glut: cyberdata from dives {0}.</NR_NewsEffectGlut>
+  <NR_NewsEffectQuiet>Quiet net: dive trace {0}.</NR_NewsEffectQuiet>
+  <NR_NewsEffectLockdown>Corp lockdown: corp nodes have stronger ICE.</NR_NewsEffectLockdown>
 </LanguageData>

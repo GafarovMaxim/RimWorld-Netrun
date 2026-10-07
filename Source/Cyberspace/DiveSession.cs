@@ -900,7 +900,7 @@ public class DiveSession : IExposable
         if (map != null)
         {
             IntVec3 spot = Runner.PositionHeld;
-            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare));
+            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * (GatewayManager.Get()?.LootFactor ?? 1f)));
             Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare));
             Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare));
             if (keepShare >= 1f)
@@ -920,7 +920,7 @@ public class DiveSession : IExposable
             Messages.Message("NR_HunterFollowed".Translate(), MessageTypeDefOf.ThreatSmall, historical: true);
         }
 
-        float heat = Trace * Node.HeatPerTrace * CyberpodUtility.HeatFactor(coprocessor);
+        float heat = Trace * Node.HeatPerTrace * CyberpodUtility.HeatFactor(coprocessor) * (GatewayManager.Get()?.TraceFactor ?? 1f);
         if (heat > 0f)
             HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name), HeatSource.Dive);
         AddNetsick(Settings.netsickPerDive);
@@ -939,6 +939,8 @@ public class DiveSession : IExposable
             GatewayManager.Get()?.RemoveNode(Node);
             if (Node.CounterHack)
                 MapEventsManager.Get()?.CounterHackWon();
+            if (Node.IsBoss)
+                GatewayManager.Get()?.CorpLockdown();
         }
 
         Report = BuildReport(success, keepShare, HunterActive && map != null);

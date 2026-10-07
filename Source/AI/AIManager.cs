@@ -252,6 +252,8 @@ public class AIManager : GameComponent
         else if (now >= ai.EscapeAtTick)
         {
             Remove(ai, "NR_AIGoneLabel", "NR_AIEscaped", Settings.escapeHeat, LetterDefOf.NegativeEvent);
+            // It does not vanish: it hides somewhere in the net.
+            GatewayManager.Get()?.RunawayAI(ai.Name);
             // Hunters follow the runaway AI's trail back to where it came from.
             Mercenaries.TryQueueRevenge(0.3f, "NR_MercReasonEscaped", ai.Name);
         }

@@ -66,6 +66,15 @@ public class CyberspaceSettingsDef : Def
     public FloatRange failBurnDamage = new(1.5f, 3.5f);
     public float successXp = 400f;
 
+    // Living cyberspace: a headline every few days; data glut, quiet net and the corp lockdown after the core falls.
+    public FloatRange newsIntervalDays = new(2f, 4f);
+    public float newsKeepDays = 3f;
+    public float newsGlutDays = 2f;
+    public float newsGlutLoot = 1.3f;
+    public float newsQuietDays = 1f;
+    public float newsQuietTrace = 0.7f;
+    public float newsLockdownDays = 7f;
+
     // What a dive leaves on the runner (DiveEffects).
     public float effectMemoryChance = 0.25f;
     public float effectMemoryXp = 1500f;
