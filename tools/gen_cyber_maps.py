@@ -41,8 +41,8 @@ DISTRICTS = {
 SIZES = {
     # nodes per district; Old Net and the darknet hub come on top
     "small":  {"outskirts": 3, "hub": 3, "corpA": 3, "corpB": 3, "corpC": 3, "market": 3, "ruins": 2, "campus": 0, "fun": 2, "dump": 2, "oldnet": 2},
-    "normal": {"outskirts": 4, "hub": 4, "corpA": 4, "corpB": 4, "corpC": 4, "market": 3, "ruins": 3, "campus": 2, "fun": 2, "dump": 2, "oldnet": 3},
-    "large":  {"outskirts": 4, "hub": 5, "corpA": 4, "corpB": 4, "corpC": 4, "corpD": 4, "market": 4, "ruins": 3, "campus": 3, "fun": 3, "dump": 3, "oldnet": 3},
+    "normal": {"outskirts": 4, "hub": 4, "corpA": 3, "corpB": 3, "corpC": 3, "market": 4, "ruins": 4, "campus": 3, "fun": 2, "dump": 2, "oldnet": 3},
+    "large":  {"outskirts": 5, "hub": 5, "corpA": 3, "corpB": 3, "corpC": 3, "corpD": 3, "market": 5, "ruins": 4, "campus": 3, "fun": 3, "dump": 4, "oldnet": 3},
 }
 
 # district centres per layout, in a 0..1 x 0..0.66 field; outskirts always at the left edge, Old Net behind the wall on the right
