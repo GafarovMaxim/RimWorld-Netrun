@@ -1,6 +1,6 @@
 """Wall-mounted firewall (1x1, 256 px, Graphic_Multi) in the style of the AI server rack: olive-grey body, black
-outline, one glowing accent (a cyan shield). Hangs on a wall like a wall lamp: the wall is behind the facing.
-_south: on a wall to the north, front panel visible; _east: on a wall to the west, side view; _north: on a wall to the
+outline, one glowing accent (a cyan shield). Hangs on a wall like a wall lamp; the rotation points toward the wall.
+_north: on a wall to the north, front panel visible; _east: on a wall to the east, side view; _south: on a wall to the
 south, only the top edge shows. Run: python tools/gen_firewall.py"""
 import os
 from PIL import Image, ImageDraw, ImageFilter
@@ -81,6 +81,8 @@ def north():
     return img
 
 
-for name, fn in (("south", south), ("east", east), ("north", north)):
+# In game the building's rotation points toward its wall (tested by Maxim: the first version hung back to front),
+# so the "wall to the north" drawing is the _north texture, and the side view is mirrored for _east.
+for name, fn in (("north", south), ("east", lambda: east().transpose(Image.FLIP_LEFT_RIGHT)), ("south", north)):
     fn().resize((256, 256), Image.LANCZOS).save(f"{BASE}_{name}.png")
 print("ok")

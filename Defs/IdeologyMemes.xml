@@ -17,6 +17,7 @@
     </requireOne>
     <requiredRituals>
       <li>
+        <precept>NR_Ritual_Litany</precept>
         <pattern>NR_RitualPattern_Litany</pattern>
       </li>
     </requiredRituals>
@@ -49,6 +50,7 @@
     </requireOne>
     <requiredRituals>
       <li>
+        <precept>NR_Ritual_TraceCleansing</precept>
         <pattern>NR_RitualPattern_TraceCleansing</pattern>
       </li>
     </requiredRituals>
