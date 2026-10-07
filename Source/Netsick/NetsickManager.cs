@@ -35,7 +35,9 @@ public class NetsickManager : GameComponent
                 if (pod.ContainedThing is not Pawn diver || diver.Faction != Faction.OfPlayer)
                     continue;
 
-                Hediff_Netsick netsick = AddNetsick(diver, Settings.podGainPerDay * DayFraction * PodFactor(pod));
+                // In a map session Netsick counts the hours in the net (docs/CYBERSPACE_V2.md, section 2).
+                float perDay = NetMapManager.Get()?.InSession(diver) == true ? NetrunDefOf.NR_CyberMap.sessionGainPerDay : Settings.podGainPerDay;
+                Hediff_Netsick netsick = AddNetsick(diver, perDay * DayFraction * PodFactor(pod));
                 ContractManager.Get()?.NotifyPodTicks(TickInterval);
                 netsick.LastConnectedTick = now;
 
@@ -152,6 +154,13 @@ public class NetsickManager : GameComponent
 
     private static float PodFactor(Building_Cyberpod pod)
         => CyberpodUtility.NetsickFactor(CyberpodUtility.CoprocessorAI(pod));
+
+    /// <summary>Netsick from outside the pod loop (an emergency disconnect, an ICE patrol on the map).</summary>
+    public static void AddNetsickFor(Pawn pawn, float amount)
+    {
+        if (pawn?.health != null && !pawn.Dead)
+            AddNetsick(pawn, amount);
+    }
 
     private static Hediff_Netsick AddNetsick(Pawn pawn, float amount)
     {

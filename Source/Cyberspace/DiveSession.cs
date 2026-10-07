@@ -202,7 +202,7 @@ public class DiveSession : IExposable
     public int ChoiceAt(int fork) => ForkIndex.IndexOf(fork) is var at and >= 0 ? ForkChoice[at] : 0;
 
     /// <summary>Number of forks for this node: small none, medium one, large and the corporate core two.</summary>
-    public static int ForksFor(ExternalNode node) => node.IsBoss ? 2 : node.Defense <= 2 ? 0 : node.Defense <= 4 ? 1 : 2;
+    public static int ForksFor(ExternalNode node) => node.IsBoss || node.Ancient ? 2 : node.Defense <= 2 ? 0 : node.Defense <= 4 ? 1 : 2;
 
     public int Forks => Elements.Count(e => e.Links.Count > 1);
 
@@ -235,7 +235,7 @@ public class DiveSession : IExposable
             session.KillerCharges++;
         session.BreakerCharges = programs.Count(p => p == DiveProgram.IceBreaker);
         session.ExecTurns = programs.Contains(DiveProgram.Exec) ? Settings.execExtraActionTurns : 0;
-        session.Storm = GatewayManager.Get()?.StormActive == true;
+        session.Storm = GatewayManager.Get()?.StormActive == true || NetMapManager.Get()?.NodeOf(node)?.Storm == true;
         session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
         session.Build();
@@ -635,21 +635,30 @@ public class DiveSession : IExposable
     /// </summary>
     private void RollSpecial()
     {
-        if (Node.IsBoss)
+        if (Node.IsBoss || Node.Ancient)
         {
             RollBossReward();
+            if (Node.Ancient && Rand.Chance(AIBalance.FragmentChance(0.5f)))
+                LootItems.Add(NetrunDefOf.NR_AIFragment);
             return;
         }
-        if (!Rand.Chance(Node.BlackIce ? Settings.specialItemChanceBlackIce : Settings.specialItemChance))
+        // Campus archives always carry some research data (docs/CYBERSPACE_V2.md, section 9.2).
+        if (Node.District == District.Campus && Node.Type == ExternalNodeType.Archive)
+            FindResearch(0.5f);
+        float chance = Node.BlackIce ? Settings.specialItemChanceBlackIce : Settings.specialItemChance;
+        if (Node.District == District.Dump)
+            chance *= 1.5f;
+        if (!Rand.Chance(chance))
             return;
 
+        District d = Node.District;
         var finds = new List<(System.Action find, float weight)>
         {
-            (() => LootItems.Add(NetrunDefOf.NR_AIFragment), Settings.findFragment * NetrunMod.Settings.AIAvailability),
-            (FindResearch, Settings.findResearch),
+            (() => LootItems.Add(NetrunDefOf.NR_AIFragment), Settings.findFragment * NetrunMod.Settings.AIAvailability * (d == District.Dump ? 2f : 1f)),
+            (() => FindResearch(), Settings.findResearch * (d == District.Campus ? 3f : 1f)),
             (FindFixerService, Settings.findFixerService),
             (FindGroupFavor, Settings.findGroupFavor),
-            (() => { if (!(Rand.Chance(NetrunDefOf.NR_UniqueBraindance.diveFindChance) && FindUnique())) FindCelebrityChip(); }, Settings.findCelebrityChip),
+            (() => { if (!(Rand.Chance(NetrunDefOf.NR_UniqueBraindance.diveFindChance) && FindUnique())) FindCelebrityChip(); }, Settings.findCelebrityChip * (d == District.Entertainment ? 3f : 1f)),
             (() => FindDaemon(), Settings.findDaemon),
             (() => LootItems.Add(NetrunDefOf.NR_AICoreModule), Settings.findCoreModule),
         };
@@ -665,21 +674,21 @@ public class DiveSession : IExposable
         bool unique = Rand.Chance(NetrunDefOf.NR_UniqueBraindance.bossChance) && FindUnique();
         if (!unique && !FindDaemon() && !FindUnique())
             FindCelebrityChip();
-        if (Rand.Chance(Settings.bossCoreModuleChance))
+        if (Rand.Chance(Settings.bossCoreModuleChance * (Node.Ancient ? 1.5f : 1f)))
             LootItems.Add(NetrunDefOf.NR_AICoreModule);
         SpecialFound = true;
         AddLog("NR_DiveLogBoss".Translate().Colorize(NetrunUI.Ok));
     }
 
-    private void FindResearch()
+    private void FindResearch(float share = 1f)
     {
         ResearchProjectDef project = Find.ResearchManager.GetProject();
         if (project == null)
         {
-            LootAdvanced += 2;
+            LootAdvanced += Mathf.Max(1, Mathf.RoundToInt(2 * share));
             return;
         }
-        Find.ResearchManager.AddProgress(project, Settings.researchReward, null);
+        Find.ResearchManager.AddProgress(project, Settings.researchReward * share, null);
         Messages.Message("NR_FindResearch".Translate(project.LabelCap), MessageTypeDefOf.PositiveEvent, historical: true);
     }
 
@@ -1069,7 +1078,10 @@ public class DiveSession : IExposable
             if (Node.CounterHack)
                 MapEventsManager.Get()?.CounterHackWon();
             if (Node.IsBoss)
+            {
                 GatewayManager.Get()?.CorpLockdown();
+                NetMapManager.Get()?.OpenWall();
+            }
         }
 
         NetrunRecords.Add(Runner, NetrunRecords.NR_Record_Dives);

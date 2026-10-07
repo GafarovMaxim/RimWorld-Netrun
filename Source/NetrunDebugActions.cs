@@ -26,6 +26,22 @@ public static class NetrunDebugActions
         Messages.Message("[Netrun] cleanup: " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"), MessageTypeDefOf.NeutralEvent, historical: false);
     }
 
+    /// <summary>Builds the cyberspace map again (for tests): the size from the mod settings, the layout from the world seed.</summary>
+    [DebugAction(Category, "Cyberspace: regenerate map", allowedGameStates = AllowedGameStates.Playing)]
+    private static void RegenerateMap()
+    {
+        var options = new List<DebugMenuOption>();
+        foreach (NetSize size in System.Enum.GetValues(typeof(NetSize)))
+            options.Add(new DebugMenuOption(size.ToString(), DebugMenuOptionMode.Action, () => NetMapManager.Get()?.Generate(size)));
+        Find.WindowStack.Add(new Dialog_DebugOptionListLister(options));
+    }
+
+    [DebugAction(Category, "Cyberspace: map event now", allowedGameStates = AllowedGameStates.Playing)]
+    private static void MapNetEvent() => NetMapManager.Get()?.RunEvent();
+
+    [DebugAction(Category, "Cyberspace: runners arrive now", allowedGameStates = AllowedGameStates.Playing)]
+    private static void RunnersArrive() => NetMapManager.Get()?.DevArriveAll();
+
     [DebugAction(Category, "Start net craving", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
     private static void StartNetCraving(Pawn pawn)
         => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);

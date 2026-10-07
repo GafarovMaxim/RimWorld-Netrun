@@ -45,7 +45,7 @@
     <retreatLootLoss>0.5</retreatLootLoss>
     <!-- About 0.1 Netsick per dive in total (with pod time and ICE hits); recovery is 0.04/day (Netsick.xml):
          a dive every 2-3 days stays flat, ten daily dives reach "strong" -->
-    <netsickPerDive>0.06</netsickPerDive>
+    <netsickPerDive>0.03</netsickPerDive>
     <netsickPerIceHit>0.04</netsickPerIceHit>
     <!-- A failed dive (not a retreat): a few small burns from the neural feedback -->
     <failBurns>2~3</failBurns>

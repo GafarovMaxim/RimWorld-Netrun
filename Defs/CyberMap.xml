@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The cyberspace map, sessions and travel (docs/CYBERSPACE_V2.md; Source/Cyberspace/Map) -->
+  <Netrun.CyberMapSettingsDef>
+    <defName>NR_CyberMap</defName>
+    <!-- Runners connected at once -->
+    <maxRunners>3</maxRunners>
+    <!-- Share of branch slots filled when the map is made; a burned branch's slot fills again after refillDays -->
+    <branchFillShare>0.7</branchFillShare>
+    <refillDays>2~4</refillDays>
+    <!-- Branches are known within visibleHops of places a runner stood in the last visibleDays -->
+    <visibleHops>2</visibleHops>
+    <visibleDays>10</visibleDays>
+    <!-- Connecting at an exit point instead of Home; a toll link -->
+    <jumpCost>1</jumpCost>
+    <tollCost>1</tollCost>
+    <!-- Emergency disconnect: Netsick, HE nausea, a chance of lockout (Aegis or a Warden AI halve it) -->
+    <emergencyNetsick>0.05</emergencyNetsick>
+    <emergencyLockoutChance>0.1</emergencyLockoutChance>
+    <!-- Netsick per day connected (0.01 an hour; a dive adds netsickPerDive in Cyberspace.xml) -->
+    <sessionGainPerDay>0.24</sessionGainPerDay>
+    <!-- Walking speed: HE remote access port -25% time, natural netrunner -15% -->
+    <remotePortSpeed>1.33</remotePortSpeed>
+    <naturalSpeed>1.18</naturalSpeed>
+    <!-- An ICE patrol on a node strikes a passing runner -->
+    <patrolHitChance>0.3</patrolHitChance>
+    <patrolNetsick>0.02</patrolNetsick>
+    <!-- One map event every 1-2 days; permanent changes at most every 15 days -->
+    <eventIntervalDays>1~2</eventIntervalDays>
+    <permanentChangeDays>15</permanentChangeDays>
+  </Netrun.CyberMapSettingsDef>
+
+</Defs>

@@ -13,7 +13,7 @@ namespace Netrun;
 /// dashed = hidden, star = contract) or as a list, and a panel for the selected node with programs and "Dive".
 /// </summary>
 [StaticConstructorOnStartup]
-public static class GatewayView
+public static partial class GatewayView
 {
     private const float PanelWidth = 270f;
 
@@ -52,8 +52,13 @@ public static class GatewayView
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height - 24f);
         GuideRegistry.Area("gateway.field", mapRect);
         GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height));
+        NetMapManager net = NetMapManager.Get();
         if (_listMode)
             DrawList(mapRect, nodes);
+        else if (net is { Ready: true })
+            DrawMap(mapRect, net);
+        else if (net != null)
+            DrawSetupPrompt(mapRect);
         else
             DrawCircles(mapRect, nodes);
 
@@ -496,6 +501,8 @@ public static class GatewayView
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         Widgets.BeginScrollView(outer, ref _panelScroll, inner);
         float y = inner.y;
+        if (NetMapManager.Get() is { Ready: true } net)
+            y = DrawMapPanel(inner, y, map, net);
         float gNodeStart = y;
 
         if (node == null || node.Hidden)
@@ -553,7 +560,7 @@ public static class GatewayView
             GuideRegistry.InScroll("gateway.node", outer, _panelScroll, new Rect(inner.x, gNodeStart, inner.width, y - gNodeStart));
         float gProg = y;
         // Programs: toggles, limited by the pod's slots, paid in cyberdata on diving.
-        Pawn runner = GatewayManager.Runner(map, out Building_Cyberpod pod);
+        Pawn runner = GatewayManager.Runner(map, node, out Building_Cyberpod pod);
         int slots = GatewayManager.ProgramSlots(pod);
         y = NetrunUI.Section(new Rect(inner.x, y + 6f, inner.width, 36f), "NR_GatewayPrograms".Translate(slots));
         float x = inner.x;
@@ -645,7 +652,8 @@ public static class GatewayView
         y += 32f;
 
         Text.Font = GameFont.Tiny;
-        string refresh = "NR_GatewayRefresh".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod());
+        string refresh = NetMapManager.Get() is { Ready: true } ? (string)"NR_MapLegend".Translate()
+            : (string)"NR_GatewayRefresh".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod());
         float rh = Text.CalcHeight(refresh, inner.width);
         Widgets.Label(new Rect(inner.x, y, inner.width, rh), refresh.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
@@ -697,6 +705,11 @@ public static class GatewayView
     /// <summary>Title chips for the Gateway: who would dive and whether a pod is ready.</summary>
     public static void HeaderChips(float xMax, float y, Map map)
     {
+        if (NetMapManager.Get() is { Ready: true } net)
+        {
+            NetrunUI.HeaderChip(xMax, y, "NR_MapRunnersChip".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners), "NR_MapRunnersChipTip".Translate());
+            return;
+        }
         Pawn runner = GatewayManager.Runner(map, out _);
         float x = NetrunUI.HeaderChip(xMax, y, runner != null
             ? "NR_GatewayPodReady".Translate().Colorize(NetrunUI.Ok)

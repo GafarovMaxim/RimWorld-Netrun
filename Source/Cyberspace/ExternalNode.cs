@@ -126,6 +126,8 @@ public class CyberspaceSettingsDef : Def
     public int bossIceStrength = 8;
     public float bossRewardMult = 6f;
     public float bossCoreModuleChance = 0.5f;
+    /// <summary>Old Net systems behind the wall.</summary>
+    public int ancientIceStrength = 10;
 
     // Cyberspace events (docs/PHASE5_CYBEREVENTS.md).
     public float hunterChance = 0.35f;
@@ -170,8 +172,19 @@ public class ExternalNode : IExposable
     public bool WildAI;
     /// <summary>The counter-hack against hackers holding the colony's turrets.</summary>
     public bool CounterHack;
+    /// <summary>The backbone node this branch hangs on (docs/CYBERSPACE_V2.md); -1 before the map exists.</summary>
+    public int MapNodeId = -1;
+    /// <summary>The district it lies in: drives loot (Campus research, Entertainment chips, Dump fragments).</summary>
+    public District District = District.Outskirts;
+    /// <summary>An ancient system of the Old Net, behind the wall: corporate-core rewards, Black ICE 10+.</summary>
+    public bool Ancient;
+    /// <summary>Owners left: weaker defense, less loot, a chance of a wild AI and forgotten caches.</summary>
+    public bool Deserted;
+    /// <summary>Unreachable for a while (a crash, an outage), -1 none.</summary>
+    public int OfflineUntil = -1;
 
     public bool IsBoss => Type == ExternalNodeType.CorpCore;
+    public bool Offline => Find.TickManager.TicksGame < OfflineUntil;
 
     public string Name => CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
@@ -243,7 +256,7 @@ public class ExternalNode : IExposable
         * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
         * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
 
-    private float BaseRewardMultiplier => IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
+    private float BaseRewardMultiplier => (IsBoss || Ancient) ? NetrunDefOf.NR_Cyberspace.bossRewardMult
         : BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
         : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
 
@@ -251,7 +264,7 @@ public class ExternalNode : IExposable
     /// Branched dives: the base without the Black ICE premium (the hard branch carries the ICE and its own multiplier),
     /// times storm and honeypot as usual.
     /// </summary>
-    public float BranchBaseMultiplier => (IsBoss ? NetrunDefOf.NR_Cyberspace.bossRewardMult
+    public float BranchBaseMultiplier => ((IsBoss || Ancient) ? NetrunDefOf.NR_Cyberspace.bossRewardMult
             : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid)
         * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
         * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
@@ -297,6 +310,44 @@ public class ExternalNode : IExposable
         ExpireTick = Find.TickManager.TicksGame + (int)(NetrunDefOf.NR_Cyberspace.bossLifetimeDays * GenDate.TicksPerDay),
     };
 
+    /// <summary>A branch for a backbone node of the given district (docs/CYBERSPACE_V2.md, section 9.2).</summary>
+    public static ExternalNode ForDistrict(int id, District district)
+    {
+        ExternalNode node = Generate(id);
+        node.District = district;
+        (ExternalNodeType type, int lo, int hi) = district switch
+        {
+            District.Outskirts => (Rand.Bool ? ExternalNodeType.Market : ExternalNodeType.Archive, 1, 2),
+            District.Transit => (ExternalNodeType.Market, 2, 3),
+            District.Corp => (ExternalNodeType.Corp, 3, 5),
+            District.Market => (Rand.Chance(0.35f) ? ExternalNodeType.DarkExchange : ExternalNodeType.Market, 2, 3),
+            District.Ruins => (ExternalNodeType.Abandoned, 2, 4),
+            District.Campus => (ExternalNodeType.Archive, 2, 3),
+            District.Entertainment => (Rand.Bool ? ExternalNodeType.Market : ExternalNodeType.Archive, 2, 3),
+            District.Dump => (Rand.Bool ? ExternalNodeType.Abandoned : ExternalNodeType.Archive, 1, 3),
+            District.Dark => (ExternalNodeType.DarkExchange, 3, 4),
+            District.OldNet => (ExternalNodeType.Corp, 5, 5),
+            _ => (node.Type, node.Defense, node.Defense),
+        };
+        node.Type = type;
+        node.Defense = Rand.RangeInclusive(lo, hi);
+        node.BlackIce = type == ExternalNodeType.Corp || (node.Defense >= 4 && Rand.Chance(0.5f));
+        node.IceStrength = node.BlackIce ? node.Defense + Rand.RangeInclusive(1, 2) : 0;
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        node.WildAI = type == ExternalNodeType.Abandoned && Rand.Chance(s.wildAIChance * NetrunMod.Settings.CyberEventFrequency);
+        // The dump is full of junk and traps.
+        if (district == District.Dump)
+            node.Honeypot = Rand.Chance(s.honeypotChance * 2f * NetrunMod.Settings.CyberEventFrequency);
+        if (district == District.OldNet)
+        {
+            node.Ancient = true;
+            node.BlackIce = true;
+            node.IceStrength = s.ancientIceStrength;
+            node.Rival = node.Honeypot = false;
+        }
+        return node;
+    }
+
     public static ExternalNode Generate(int id)
     {
         var type = (ExternalNodeType)Rand.Range(0, 5);
@@ -332,5 +383,10 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Honeypot, "honeypot");
         Scribe_Values.Look(ref WildAI, "wildAI");
         Scribe_Values.Look(ref CounterHack, "counterHack");
+        Scribe_Values.Look(ref MapNodeId, "mapNode", -1);
+        Scribe_Values.Look(ref District, "district", District.Outskirts);
+        Scribe_Values.Look(ref Ancient, "ancient");
+        Scribe_Values.Look(ref Deserted, "deserted");
+        Scribe_Values.Look(ref OfflineUntil, "offlineUntil", -1);
     }
 }

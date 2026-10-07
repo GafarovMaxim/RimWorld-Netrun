@@ -41,6 +41,9 @@ public class NetrunSettings : ModSettings
     public float AIAvailability = 1f;
     private static readonly float[] Availabilities = [0.5f, 1f, 1.5f];
 
+    /// <summary>Cyberspace map size for new maps (docs/CYBERSPACE_V2.md, section 9); asked again at the first entry.</summary>
+    public NetSize MapSize = NetSize.Large;
+
     /// <summary>Netrun threats (Heat, AI, fixers, mercenaries) wait until the colony has touched the net.</summary>
     public bool NewcomerProtection = true;
 
@@ -306,6 +309,12 @@ public class NetrunSettings : ModSettings
         if (availPicked >= 0)
             AIAvailability = Availabilities[availPicked];
 
+        Label("NR_SettingsMapSize".Translate(), null, "NR_SettingsMapSizeTip".Translate());
+        string[] sizeLabels = ["NR_NetSize_Small".Translate(), "NR_NetSize_Normal".Translate(), "NR_NetSize_Large".Translate()];
+        int sizePicked = Chips(sizeLabels, (int)MapSize);
+        if (sizePicked >= 0)
+            MapSize = (NetSize)sizePicked;
+
         Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
         _y += 6f;
     }
@@ -416,7 +425,7 @@ public class NetrunSettings : ModSettings
         sb.AppendLine("Hacking Expansion: " + Version("Ushanka.HackingExpansion"));
         sb.AppendLine("Harmony: " + Version("brrainz.harmony"));
         sb.AppendLine($"Settings: difficulty {Difficulty}, gain {HeatGainMultiplier:0.##}, decay {HeatDecayPerDay:0.#}, scrub {ScrubMultiplier:0.##}, "
-            + $"attacks {NetAttackFrequency}, map {MapEventFrequency}, cyber {CyberEventFrequency}, AI {AIEventFrequency}, AI availability {AIAvailability}, newcomer {NewcomerProtection}");
+            + $"attacks {NetAttackFrequency}, map {MapEventFrequency}, cyber {CyberEventFrequency}, AI {AIEventFrequency}, AI availability {AIAvailability}, map size {MapSize}, newcomer {NewcomerProtection}");
         if (Current.Game != null)
             sb.AppendLine($"Game: Heat {HeatTracker.Get()?.Heat ?? 0f:0}, network open {NetworkGate.Get()?.Opened}, AIs {AIManager.Get()?.AIs.Count ?? 0}");
         sb.AppendLine("Active mods (load order):");
@@ -443,6 +452,7 @@ public class NetrunSettings : ModSettings
         ApplyPreset(HeatDifficulty.Normal);
         AIEventFrequency = NetAttackFrequency = MapEventFrequency = CyberEventFrequency = 1f;
         AIAvailability = 1f;
+        MapSize = NetSize.Large;
         NewcomerProtection = true;
     }
 
@@ -475,6 +485,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref TerminalAccent, "terminalAccent");
         Scribe_Values.Look(ref AIEventFrequency, "aiEventFrequency", 1f);
         Scribe_Values.Look(ref AIAvailability, "aiAvailability", 1f);
+        Scribe_Values.Look(ref MapSize, "mapSize", NetSize.Large);
         Scribe_Values.Look(ref NetAttackFrequency, "netAttackFrequency", 1f);
         Scribe_Values.Look(ref MapEventFrequency, "mapEventFrequency", 1f);
         Scribe_Values.Look(ref CyberEventFrequency, "cyberEventFrequency", 1f);

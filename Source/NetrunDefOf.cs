@@ -14,6 +14,7 @@ public static class NetrunDefOf
     public static ThingDef NR_AIFragment;
     public static ThingDef NR_Firewall;
     public static IncidentDef NR_CrewHelp;
+    public static CyberMapSettingsDef NR_CyberMap;
     public static IncidentDef NR_CrewRaid;
     public static DefenseSettingsDef NR_Defense;
 

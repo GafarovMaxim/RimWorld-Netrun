@@ -69,12 +69,39 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
 
     public static GatewayManager Get() => Current.Game?.GetComponent<GatewayManager>();
 
+    /// <summary>Every branch (dive target) as stored, without refreshing.</summary>
+    public IReadOnlyList<ExternalNode> AllBranches => _nodes;
+
+    public int NextBranchId() => _nextId++;
+
+    public void AddBranchRaw(ExternalNode node) => _nodes.Add(node);
+
+    public void ClearBranches(bool keepSession) => _nodes.RemoveAll(n => !keepSession || Session?.Node?.Id != n.Id);
+
+    private static bool MapReady => NetMapManager.Get() is { Ready: true };
+
+    /// <summary>
+    /// Adds a branch: on the map, on a free slot in one of the preferred districts; before the map exists, into the
+    /// old ring of up to seven nodes.
+    /// </summary>
+    public void AddBranch(ExternalNode node, params District[] prefer)
+    {
+        if (MapReady && NetMapManager.Get().Place(node, prefer.Length > 0 ? prefer : null))
+            return;
+        if (_nodes.Count >= MaxNodes)
+            _nodes.RemoveAt(0);
+        _nodes.Add(node);
+    }
+
     public IReadOnlyList<ExternalNode> Nodes
     {
         get
         {
             int now = Find.TickManager.TicksGame;
-            if (_nextRefreshTick < 0 || now >= _nextRefreshTick)
+            // With the map, branches live on their nodes and refill on their own; the old refresh is for the old ring.
+            if (MapReady)
+                MarkContractBranch(now);
+            else if (_nextRefreshTick < 0 || now >= _nextRefreshTick)
                 Refresh();
             // The boss leaves when its time is up (unless someone is inside), and comes back every few weeks.
             _nodes.RemoveAll(n => n.ExpireTick >= 0 && now >= n.ExpireTick && (Session == null || n.Id != Session.Node.Id));
@@ -109,7 +136,30 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             marked.Contract = true;
     }
 
-    public void RemoveNode(ExternalNode node) => _nodes.RemoveAll(n => n.Id == node.Id);
+    public void RemoveNode(ExternalNode node)
+    {
+        NetMapManager.Get()?.NotifyBurned(node);
+        _nodes.RemoveAll(n => n.Id == node.Id);
+    }
+
+    private int _contractCheckTick = -1;
+
+    /// <summary>With the map: a running tap or quiet-run contract marks one known branch as its target.</summary>
+    private void MarkContractBranch(int now)
+    {
+        if (now - _contractCheckTick < GenDate.TicksPerHour)
+            return;
+        _contractCheckTick = now;
+        bool wanted = ContractManager.Get()?.Active.Any(c => c.Type is ContractType.SystemTap or ContractType.QuietRun) == true;
+        if (!wanted)
+        {
+            foreach (ExternalNode n in _nodes)
+                n.Contract = false;
+            return;
+        }
+        if (!_nodes.Any(n => n.Contract) && _nodes.Where(n => !n.Hidden && !n.IsBoss && !n.Ancient).TryRandomElement(out ExternalNode marked))
+            marked.Contract = true;
+    }
 
     /// <summary>The corporate core appears now (and the next one is scheduled).</summary>
     public ExternalNode SpawnBoss()
@@ -117,7 +167,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         _nextBossTick = Find.TickManager.TicksGame + (int)(Settings.bossIntervalDays * GenDate.TicksPerDay);
         _nodes.RemoveAll(n => n.IsBoss && (Session == null || n.Id != Session.Node.Id));
         ExternalNode boss = ExternalNode.GenerateBoss(_nextId++);
-        _nodes.Add(boss);
+        AddBranch(boss, District.Corp);
         Find.LetterStack.ReceiveLetter("NR_BossNodeLabel".Translate(), "NR_BossNode".Translate(boss.Name, Settings.bossLifetimeDays.ToString("0")),
             LetterDefOf.PositiveEvent);
         return boss;
@@ -135,9 +185,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         node.Hidden = node.Rival = node.Honeypot = node.WildAI = false;
         node.CounterHack = true;
         node.ExpireTick = Find.TickManager.TicksGame + (int)(hours * GenDate.TicksPerHour);
-        if (_nodes.Count >= MaxNodes)
-            _nodes.RemoveAt(0);
-        _nodes.Add(node);
+        AddBranch(node, District.Outskirts);
     }
 
     public void RemoveCounterHackNodes() => _nodes.RemoveAll(n => n.CounterHack && (Session == null || n.Id != Session.Node.Id));
@@ -157,9 +205,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         foreach (ExternalNode node in new[] { rival, honeypot, wild })
         {
             node.Hidden = false;
-            if (_nodes.Count >= MaxNodes)
-                _nodes.RemoveAt(0);
-            _nodes.Add(node);
+            AddBranch(node, District.Outskirts, District.Market, District.Ruins);
         }
     }
 
@@ -185,9 +231,14 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         ExternalNode node = ExternalNode.Generate(_nextId++);
         node.Type = type;
         node.Hidden = node.Rival = node.Honeypot = node.WildAI = node.CounterHack = false;
-        if (_nodes.Count >= MaxNodes)
-            _nodes.RemoveAt(0);
-        _nodes.Add(node);
+        AddBranch(node, type switch
+        {
+            ExternalNodeType.Corp => District.Corp,
+            ExternalNodeType.Abandoned => District.Ruins,
+            ExternalNodeType.DarkExchange => District.Market,
+            ExternalNodeType.Archive => District.Campus,
+            _ => District.Outskirts,
+        });
     }
 
     public bool AlliesReady => Find.TickManager.TicksGame >= _alliesReadyTick;
@@ -262,6 +313,24 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         return null;
     }
 
+    /// <summary>
+    /// The runner for a dive into this branch: with the map, the one standing at its node (docs/CYBERSPACE_V2.md);
+    /// before the map exists, anyone in a pod.
+    /// </summary>
+    public static Pawn Runner(Map map, ExternalNode node, out Building_Cyberpod pod)
+    {
+        NetMapManager net = NetMapManager.Get();
+        if (net is { Ready: true } && node is { MapNodeId: >= 0 })
+        {
+            pod = null;
+            Pawn pawn = net.RunnerAt(node.MapNodeId)?.Pawn;
+            if (pawn == null || !pawn.TryGetHoldingCyberpod(out pod))
+                return null;
+            return pawn;
+        }
+        return Runner(map, out pod);
+    }
+
     public static int ProgramSlots(Building_Cyberpod pod)
         => Settings.programSlots + (pod != null && CyberpodUtility.CoprocessorAI(pod) != null ? 1 : 0);
 
@@ -273,10 +342,11 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             return "NR_GatewayPickNode".Translate();
         if (node.Hidden)
             return "NR_GatewayNodeHidden".Translate();
-        if (Runner(map, out _) == null)
-            return "NR_GatewayNoPod".Translate();
+        if (node.Offline || NetMapManager.Get()?.NodeOf(node)?.Offline == true)
+            return "NR_MapBranchOffline".Translate();
+        if (Runner(map, node, out Building_Cyberpod pod) == null)
+            return NetMapManager.Get() is { Ready: true } && node.MapNodeId >= 0 ? "NR_MapNeedRunnerHere".Translate() : "NR_GatewayNoPod".Translate();
         int cost = DiveCost(map, node, out _);
-        Runner(map, out Building_Cyberpod pod);
         if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) + PodFuelCyberdata(pod) < cost)
             return "NR_AINoFood".Translate(cost, NetrunDefOf.USH_Cyberdata.label);
         foreach (DiveProgram program in SelectedPrograms.Where(HePrograms.IsHeItem))
@@ -309,7 +379,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     public void Dive(Map map, ExternalNode node)
     {
         NetworkGate.Notify();
-        Pawn runner = Runner(map, out Building_Cyberpod pod);
+        Pawn runner = Runner(map, node, out Building_Cyberpod pod);
         if (runner == null)
             return;
         int cost = DiveCost(map, node, out _);
@@ -330,7 +400,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         int entry = node == null ? 0 : Settings.diveBaseCost + node.Defense / 2;
         int paidPrograms = SelectedPrograms.Count(p => !HePrograms.IsHeItem(p));
         int programs = paidPrograms * Settings.programCost;
-        Pawn runner = Runner(map, out Building_Cyberpod pod);
+        Pawn runner = Runner(map, node, out Building_Cyberpod pod);
         int coprocessor = pod != null && CyberpodUtility.CoprocessorAI(pod) != null ? Settings.coprocessorDiscount : 0;
         int passenger = runner != null && AIManager.Get()?.AIs.Any(a => a.Host == runner) == true ? Settings.passengerDiscount : 0;
         int total = System.Math.Max(0, entry + programs - coprocessor - passenger);
@@ -384,7 +454,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     {
         if (NetworkIsolation.Active)
             return NetworkIsolation.Check();
-        if (!_nodes.Any(n => n.Hidden) && _nodes.Count >= MaxNodes)
+        if (!MapReady && !_nodes.Any(n => n.Hidden) && _nodes.Count >= MaxNodes)
             return "NR_GatewayFull".Translate();
         return ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= Settings.searchCost
             ? true
@@ -406,6 +476,19 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             return null;
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, Settings.searchCost);
         EconomyTracker.Get()?.Note(spent: Settings.searchCost);
+        if (MapReady)
+        {
+            // With the map: a scan around the runners (or Home) shows what hides nearby; if nothing does, a new branch turns up.
+            NetMapManager net = NetMapManager.Get();
+            int around = net.Runners.FirstOrDefault()?.NodeId ?? net.Map.HomeId;
+            ExternalNode before = _nodes.FirstOrDefault(n => n.Hidden && net.Map.Hops(around, n.MapNodeId, 3) <= 3);
+            if (net.RevealAround(around, 3) > 0)
+                return before;
+            ExternalNode fresh = ExternalNode.Generate(_nextId++);
+            fresh.Hidden = false;
+            net.Place(fresh, null, around);
+            return fresh;
+        }
         ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
         if (found == null)
         {

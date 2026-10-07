@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_District_Home>Дом</NR_District_Home>
+  <NR_District_Outskirts>Окраина</NR_District_Outskirts>
+  <NR_District_Transit>Транзит</NR_District_Transit>
+  <NR_District_Corp>Корпоративный район</NR_District_Corp>
+  <NR_District_Market>Рынок-квартал</NR_District_Market>
+  <NR_District_Ruins>Руины</NR_District_Ruins>
+  <NR_District_Campus>Кампус</NR_District_Campus>
+  <NR_District_Entertainment>Квартал развлечений</NR_District_Entertainment>
+  <NR_District_Dump>Свалка данных</NR_District_Dump>
+  <NR_District_Dark>Хаб тёмной сети</NR_District_Dark>
+  <NR_District_OldNet>Старая сеть</NR_District_OldNet>
+  <NR_NetSize_Small>Малая</NR_NetSize_Small>
+  <NR_NetSize_Normal>Обычная</NR_NetSize_Normal>
+  <NR_NetSize_Large>Большая</NR_NetSize_Large>
+  <NR_NetSizeTip_Small>Около 24 узлов, три корпорации. Тесная сеть: всё рядом, у корпораций доля больше.</NR_NetSizeTip_Small>
+  <NR_NetSizeTip_Normal>Около 32 узлов, три корпорации, все районы, включая Кампус.</NR_NetSizeTip_Normal>
+  <NR_NetSizeTip_Large>Около 41 узла, четыре корпорации, больше ответвлений в каждом районе. До дальнего узла всё равно около 6 часов от Дома. Рекомендуется.</NR_NetSizeTip_Large>
+  <NR_NetLayout_Ring>Кольцо</NR_NetLayout_Ring>
+  <NR_NetLayout_Spine>Хребет</NR_NetLayout_Spine>
+  <NR_NetLayout_Archipelago>Архипелаг</NR_NetLayout_Archipelago>
+  <NR_NetLayout_Metro>Мегаполис</NR_NetLayout_Metro>
+  <NR_SettingsMapSize>Размер карты киберпространства</NR_SettingsMapSize>
+  <NR_SettingsMapSizeTip>Размер карты киберпространства в новых играх. Игра спросит ещё раз при первом входе колонии в сеть; раскладка берётся из сида мира.</NR_SettingsMapSizeTip>
+  <NR_NetFoundTitle>СЕТЬ НАЙДЕНА</NR_NetFoundTitle>
+  <NR_NetFoundIntro>Колония нашла путь в сеть. Сеть этого мира устроена как «{0}». Выберите её размер: он останется на всю игру.</NR_NetFoundIntro>
+  <NR_NetFoundNodes>{0} узлов</NR_NetFoundNodes>
+  <NR_NetFoundStart>Войти в сеть</NR_NetFoundStart>
+  <NR_NetFoundOpen>Настроить сеть</NR_NetFoundOpen>
+  <NR_NetFoundPrompt>Сеть ещё не нанесена на карту.</NR_NetFoundPrompt>
+  <NR_NetFoundNote>Размер для будущих игр меняется в настройках мода.</NR_NetFoundNote>
+  <NR_MapHeader>Сеть: {0}, раскладка: {1}</NR_MapHeader>
+  <NR_MapNodeLabel>{0} {1}</NR_MapNodeLabel>
+  <NR_MapRunners>Раннеры {0}/{1}</NR_MapRunners>
+  <NR_MapRunnersChip>Раннеры {0}/{1}</NR_MapRunnersChip>
+  <NR_MapRunnersChipTip>Нетраннеры, подключённые к сети из кибер-капсул. Каждый ходит по карте сам.</NR_MapRunnersChipTip>
+  <NR_MapConnect>Подключить: {0}</NR_MapConnect>
+  <NR_MapConnectTip>Нетраннер в капсуле подключается в Доме. Путь по сети идёт в игровом времени: около часа на связь, вдвое быстрее по скоростным линиям.</NR_MapConnectTip>
+  <NR_MapConnected>{0} подключился: {1}.</NR_MapConnected>
+  <NR_MapDisconnected>{0} чисто вышел из сети.</NR_MapDisconnected>
+  <NR_MapAlreadyConnected>{0} уже подключён.</NR_MapAlreadyConnected>
+  <NR_MapMaxRunners>Не больше {0} раннеров одновременно.</NR_MapMaxRunners>
+  <NR_MapNotReady>Сеть ещё не нанесена на карту.</NR_MapNotReady>
+  <NR_MapNoPodPawn>Никто не лежит в запитанной кибер-капсуле.</NR_MapNoPodPawn>
+  <NR_MapNoRunner>Нет раннера.</NR_MapNoRunner>
+  <NR_MapAlreadyHere>Раннер уже здесь.</NR_MapAlreadyHere>
+  <NR_MapNoRoute>Сейчас туда не пройти.</NR_MapNoRoute>
+  <NR_MapRouteInfo>{0} связей, около {1} ч</NR_MapRouteInfo>
+  <NR_MapRunnerAt>в узле {0}</NR_MapRunnerAt>
+  <NR_MapRunnerMoving>идёт: {0}, осталось {1} ч</NR_MapRunnerMoving>
+  <NR_MapSessionHours>{0} ч в сети</NR_MapSessionHours>
+  <NR_MapGo>Идти сюда</NR_MapGo>
+  <NR_MapGoTip>Выбранный раннер идёт кратчайшим путём. Игра идёт дальше; по прибытии придёт сообщение.</NR_MapGoTip>
+  <NR_MapStop>Стоп</NR_MapStop>
+  <NR_MapStopTip>Остановиться на следующем узле.</NR_MapStopTip>
+  <NR_MapExit>Выйти</NR_MapExit>
+  <NR_MapExitTip>Чистый выход в точке выхода или в Доме: капсула будит раннера, больше ничего.</NR_MapExitTip>
+  <NR_MapNotAtExit>Только в точке выхода или в Доме.</NR_MapNotAtExit>
+  <NR_MapEmergencyButton>Аварийный выход</NR_MapEmergencyButton>
+  <NR_MapEmergencyTip>Отключиться сразу, где угодно: Netsick +{0}, киберпространственная тошнота, шанс блокировки {1}. Эгида или ИИ Страж вдвое снижают.</NR_MapEmergencyTip>
+  <NR_MapEmergencyConfirm>Выдернуть {0} из сети прямо сейчас? Это больно.</NR_MapEmergencyConfirm>
+  <NR_MapEmergency>{0} вырвался из сети.</NR_MapEmergency>
+  <NR_MapJump>Подключить {0} здесь ({1} cyberdata)</NR_MapJump>
+  <NR_MapJumpTip>Подключиться сразу в этой точке выхода, а не в Доме.</NR_MapJumpTip>
+  <NR_MapArrived>{0} на месте: {1}.</NR_MapArrived>
+  <NR_MapRouteLost>{0} потерял путь: маршрут оборвался.</NR_MapRouteLost>
+  <NR_MapTollUnpaid>{0} остановился у связи с пошлиной: нечем платить.</NR_MapTollUnpaid>
+  <NR_MapPatrolHit>Патруль ICE в узле {1} задел проходившего {0}.</NR_MapPatrolHit>
+  <NR_MapHopTrace>Проход через {0}</NR_MapHopTrace>
+  <NR_MapExitPoint>Точка выхода</NR_MapExitPoint>
+  <NR_MapFortress>Корпоративная крепость</NR_MapFortress>
+  <NR_MapOwner>Владелец: {0}</NR_MapOwner>
+  <NR_MapBranches>Ответвления: известно {0}, неизвестно {1}</NR_MapBranches>
+  <NR_MapDeserted>заброшено</NR_MapDeserted>
+  <NR_MapStateOffline>отключён</NR_MapStateOffline>
+  <NR_MapStateStorm>шторм данных</NR_MapStateStorm>
+  <NR_MapStatePatrol>патруль ICE</NR_MapStatePatrol>
+  <NR_MapStateTransit>окно транзита: связи мгновенные</NR_MapStateTransit>
+  <NR_MapBranchOffline>Узел сейчас отключён.</NR_MapBranchOffline>
+  <NR_MapNeedRunnerHere>На этом узле должен стоять подключённый раннер.</NR_MapNeedRunnerHere>
+  <NR_MapLegend>Кольца — точки выхода. Квадраты — крепости. Точки вокруг узла — его ответвления (серые: ещё не известны). Пунктир — тёмные связи, чёрные ходы, Стена.</NR_MapLegend>
+  <NR_MapNewsMaintenance>Плановые работы у {NODE}: связи отключены на сутки.</NR_MapNewsMaintenance>
+  <NR_MapNewsOverload>Перегрузка магистрали у {NODE}: трафик ползёт.</NR_MapNewsOverload>
+  <NR_MapNewsStorm>Шторм данных накрыл {NODE}.</NR_MapNewsStorm>
+  <NR_MapNewsOutage>{NODE} замолчал.</NR_MapNewsOutage>
+  <NR_MapNewsNewBranch>Открылась новая нода: {BRANCH} у {NODE}.</NR_MapNewsNewBranch>
+  <NR_MapNewsDeserted>{BRANCH} брошена владельцами.</NR_MapNewsDeserted>
+  <NR_MapNewsTenants>В {BRANCH} кто-то заселился.</NR_MapNewsTenants>
+  <NR_MapNewsPatrol>Патрули ICE прочёсывают {NODE}.</NR_MapNewsPatrol>
+  <NR_MapNewsTransit>Окно транзита у {NODE}: переходы через него мгновенные.</NR_MapNewsTransit>
+  <NR_MapNewsToll>На связи у {NODE} ввели пошлину.</NR_MapNewsToll>
+  <NR_MapNewsBackdoor>Кто-то открыл чёрный ход между {NODE} и {OTHER}.</NR_MapNewsBackdoor>
+  <NR_MapNewsDarkLink>На форуме слили тоннель: тёмная связь у {NODE}.</NR_MapNewsDarkLink>
+  <NR_MapNewsCableCut>Обрыв кабеля у {NODE}: сеть перестроилась.</NR_MapNewsCableCut>
+  <NR_MapNewsNewNode>Сеть растёт: новый узел {NODE}.</NR_MapNewsNewNode>
+  <NR_MapNewsWall>В Стене появились ворота: Старая сеть открыта.</NR_MapNewsWall>
+  <NR_MapWallLabel>Стена открылась</NR_MapWallLabel>
+  <NR_MapWall>Когда пало корпоративное ядро, старые ворота в Стене впервые откликнулись. За ними Старая сеть: древние системы за Black ICE 10 с легендарной добычей.</NR_MapWall>
+
+</LanguageData>

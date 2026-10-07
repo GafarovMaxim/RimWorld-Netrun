@@ -139,9 +139,7 @@ public partial class GatewayManager
         node.Type = ExternalNodeType.Abandoned;
         node.Hidden = node.Rival = node.Honeypot = node.CounterHack = false;
         node.WildAI = true;
-        if (_nodes.Count >= MaxNodes)
-            _nodes.RemoveAt(0);
-        _nodes.Add(node);
+        AddBranch(node, District.Ruins, District.Dump);
         AddHeadline("NR_HeadlineRunaway".Translate(aiName, node.Name), 0);
     }
 
