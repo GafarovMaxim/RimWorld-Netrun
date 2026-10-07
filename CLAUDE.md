@@ -5,6 +5,7 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 ## Start of every session
 1. `git pull` (the repo is the sync point between sessions and devices).
 2. Read `docs/STATUS.md` (current state, next steps, open questions) and `docs/CONCEPT.md` (design).
+3. Before writing code for a new system, GameComponent, saved list or pawn reference, read `docs/TECH_DETAILS.md` (rules for ticks, save list caps, data cleanup, compatibility) and follow its checklist.
 
 ## End of every task
 1. Build: `dotnet build Source/Netrun.csproj -c Release` (0 errors, 0 warnings).
