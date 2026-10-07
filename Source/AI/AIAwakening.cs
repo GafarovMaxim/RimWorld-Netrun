@@ -29,8 +29,6 @@ public static class AIAwakening
             return "NR_AwakenNoFragment".Translate();
         if (FreeServer(map) == null)
             return "NR_AwakenNoServer".Translate();
-        if (Console(map) == null)
-            return "NR_AwakenNoConsole".Translate();
         return true;
     }
 
@@ -74,20 +72,14 @@ public static class AIAwakening
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
+    /// <summary>The colonist carries the fragment to the server and wakes it there.</summary>
     private static void Order(Map map, Pawn pawn, Thing fragment)
     {
-        Building console = Console(map);
-        if (console != null)
-            Order(pawn, fragment, console);
-    }
-
-    private static void Order(Pawn pawn, Thing fragment, Building console)
-    {
-        Building server = FreeServer(pawn.Map);
+        Building server = FreeServer(map);
         if (server == null)
             return;
 
-        Job job = JobMaker.MakeJob(NetrunDefOf.NR_AwakenAI, console, fragment, server);
+        Job job = JobMaker.MakeJob(NetrunDefOf.NR_AwakenAI, server, fragment, server);
         job.count = 1;
         pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
     }

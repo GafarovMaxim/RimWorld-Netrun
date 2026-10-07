@@ -33,20 +33,7 @@ public class CompNetTerminal : ThingComp
         foreach (Gizmo gizmo in base.CompGetGizmosExtra())
             yield return gizmo;
 
-        if (parent.Faction != Faction.OfPlayer)
-            yield break;
-
-        var awaken = new Command_Action
-        {
-            defaultLabel = "NR_CommandAwakenAI".Translate(),
-            defaultDesc = "NR_CommandAwakenAIDesc".Translate(),
-            icon = NetrunTex.AIAwaken,
-            action = () => AIAwakening.OpenMenu(parent.Map),
-        };
-        AcceptanceReport report = AIAwakening.CanAwaken(parent.Map);
-        if (!report.Accepted)
-            awaken.Disable(report.Reason);
-        yield return awaken;
+        // Awakening moved to the AI server's own room (its gizmo) and the terminal's server room.
     }
 
     public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)

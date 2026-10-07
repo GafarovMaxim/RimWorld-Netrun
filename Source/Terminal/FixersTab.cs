@@ -79,9 +79,9 @@ public static class FixersTab
         // Not waiting for the rotation: a new pool now, for cyberdata.
         int cost = NetrunDefOf.NR_Fixers.rotateNowCost;
         string rotate = "NR_ClubRotateNow".Translate(cost);
-        float rw = NetrunUI.ButtonWidth(rotate);
+        float rw = NetrunUI.ButtonWidth(rotate, icon: true);
         AcceptanceReport can = ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= cost ? true : (AcceptanceReport)"NR_NotEnoughCyberdata".Translate();
-        if (NetrunUI.Button(new Rect(width - rw - 24f, poolY + 1f, rw, 24f), rotate, NetrunUI.Warn, can, "NR_ClubRotateNowTip".Translate(cost)))
+        if (NetrunUI.Button(new Rect(width - rw - 24f, poolY + 1f, rw, 24f), rotate, NetrunUI.Warn, can, "NR_ClubRotateNowTip".Translate(cost), NetrunTex.Refresh))
         {
             if (ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost))
                 manager.Rotate(notify: true);

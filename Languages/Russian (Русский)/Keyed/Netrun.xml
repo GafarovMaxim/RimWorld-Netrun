@@ -123,4 +123,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAmbientCyberspace>Киберпространство (Шлюз): {0}</NR_SettingsAmbientCyberspace>
   <NR_SettingsAmbientDive>Нырок: {0}</NR_SettingsAmbientDive>
   <NR_SettingsAmbientServer>Гул сервера ИИ: {0}</NR_SettingsAmbientServer>
+  <NR_SettingsResetGroup>Сбросить</NR_SettingsResetGroup>
+  <NR_SettingsResetGroupTip>Вернуть настройки раздела «{0}» к значениям по умолчанию.</NR_SettingsResetGroupTip>
 </LanguageData>

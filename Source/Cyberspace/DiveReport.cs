@@ -86,6 +86,7 @@ public class Dialog_DiveReport : Window
         forcePause = false;
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
+        preventCameraMotion = false;
         draggable = true;
     }
 

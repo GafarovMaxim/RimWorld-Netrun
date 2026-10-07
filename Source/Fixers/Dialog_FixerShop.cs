@@ -31,6 +31,7 @@ public class Dialog_FixerShop : Window
         forcePause = false;
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
+        preventCameraMotion = false;
         draggable = true;
     }
 

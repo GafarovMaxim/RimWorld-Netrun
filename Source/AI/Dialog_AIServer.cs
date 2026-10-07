@@ -19,11 +19,20 @@ public class Dialog_AIServer : Window
     {
         _map = map;
         doCloseX = false;
-        forcePause = NetrunMod.Settings.PauseOnOpen;
+        // Like the game's own windows: paused once on opening (if set), but time, the camera and a click outside still work.
+        forcePause = false;
         absorbInputAroundWindow = false;
-        closeOnClickedOutside = false;
+        closeOnClickedOutside = true;
+        preventCameraMotion = false;
         draggable = true;
         resizeable = true;
+    }
+
+    public override void PreOpen()
+    {
+        base.PreOpen();
+        if (NetrunMod.Settings.PauseOnOpen && Find.TickManager is { Paused: false } ticks)
+            ticks.TogglePaused();
     }
 
     public override void PostOpen()
@@ -58,6 +67,12 @@ public class Dialog_AIServer : Window
             float cw = NetrunUI.ButtonWidth(close);
             if (NetrunUI.Button(new Rect(title.xMax - cw - 12f, title.y + 7f, cw, 30f), close, NetrunUI.Muted, true))
                 Close();
+            // Wake a fragment right here: a colonist carries it to this server.
+            string awaken = "NR_CommandAwakenAI".Translate();
+            float aw = NetrunUI.ButtonWidth(awaken, icon: true);
+            if (NetrunUI.Button(new Rect(title.xMax - cw - aw - 20f, title.y + 7f, aw, 30f), awaken, NetrunUI.Accent, AIAwakening.CanAwaken(_map),
+                    "NR_CommandAwakenAIDesc".Translate(), NetrunTex.AIAwaken))
+                AIAwakening.OpenMenu(_map);
             GUI.color = new Color(1f, 1f, 1f, 0.25f);
             Widgets.DrawLineHorizontal(title.x, title.yMax - 1f, title.width);
             GUI.color = Color.white;

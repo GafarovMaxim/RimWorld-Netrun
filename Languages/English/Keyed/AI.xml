@@ -36,7 +36,7 @@
 
   <!-- Awakening -->
   <NR_CommandAwakenAI>Awake AI</NR_CommandAwakenAI>
-  <NR_CommandAwakenAIDesc>Have a colonist work at the network console to wake an AI fragment and move it into a free AI server. Faster with higher hacking speed. With high Heat, the awakening may be noticed.</NR_CommandAwakenAIDesc>
+  <NR_CommandAwakenAIDesc>Wake an AI fragment: a colonist carries it to a powered AI server with a free slot and coaxes it awake there. Waking an AI is loud: the higher your Heat, the likelier someone notices.</NR_CommandAwakenAIDesc>
   <NR_AwakenNoFragment>No AI fragment in the colony.</NR_AwakenNoFragment>
   <NR_AwakenNoServer>Needs a powered AI server with a free slot.</NR_AwakenNoServer>
   <NR_AwakenNoConsole>Needs a powered network console.</NR_AwakenNoConsole>
@@ -52,7 +52,7 @@
   <NR_Find>Behind the ICE of {1}, {0} found something unusual: {2}.</NR_Find>
 
   <!-- AI tab -->
-  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awaken AI" on the network console: pick the fragment and a colonist, who carries it there and wakes it.</NR_AINone>
+  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awake AI" in the server room (or on the server's "AI room" gizmo): pick the fragment and a colonist, who carries it to the server and wakes it there.</NR_AINone>
 
   <!-- Services -->
   <NR_AIService_DataHunter>Hunt for data</NR_AIService_DataHunter>
@@ -186,7 +186,9 @@
   <!-- Echo -->
   <NR_EchoName>Echo of {0}</NR_EchoName>
   <NR_EchoBornLabel>An echo of {0}</NR_EchoBornLabel>
-  <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.\n\nAwaken it at the network console, and {0} will be with the colony again, in a way.</NR_EchoBorn>
+  <NR_EchoBorn>When {0} died, the cyberlink kept a digital imprint of them. It lies next to the body as an AI fragment.
+
+Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_EchoBorn>
 
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
   <NR_OnlyOneAIServer>The colony can have only one AI server. Build server racks next to it for more slots.</NR_OnlyOneAIServer>
@@ -257,4 +259,8 @@
   <NR_AIGlitchFail>{0} glitched: the service came to nothing.</NR_AIGlitchFail>
   <NR_AIGlitchCrit>{0} glitched the right way: the service works twice as well!</NR_AIGlitchCrit>
   <NR_AIServicePower>Its traits make the service {0} as strong right now.</NR_AIServicePower>
+  <NR_AIRenameTitle>Rename {0}</NR_AIRenameTitle>
+  <NR_AIRenameTip>Give this AI a name of your own.</NR_AIRenameTip>
+  <NR_AIRenameOk>Rename</NR_AIRenameOk>
+  <NR_AIRenameEmpty>The name cannot be empty.</NR_AIRenameEmpty>
 </LanguageData>

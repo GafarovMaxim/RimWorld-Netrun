@@ -7,8 +7,8 @@ using Verse.AI;
 namespace Netrun;
 
 /// <summary>
-/// A colonist picks up an AI fragment, carries it to the comms console and coaxes it awake there,
-/// then moves it into the AI server. A: console, B: fragment, C: server.
+/// A colonist picks up an AI fragment, carries it to the AI server and coaxes it awake there, right into a slot.
+/// A: the server (where the work happens), B: fragment, C: the server again (older saves had the console in A).
 /// </summary>
 public class JobDriver_AwakenAI : JobDriver
 {
@@ -30,13 +30,13 @@ public class JobDriver_AwakenAI : JobDriver
 
         yield return Toils_Goto.GotoThing(FragmentInd, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(FragmentInd);
         yield return Toils_Haul.StartCarryThing(FragmentInd);
-        yield return Toils_Goto.GotoThing(ConsoleInd, PathEndMode.InteractionCell);
+        yield return Toils_Goto.GotoThing(ConsoleInd, PathEndMode.Touch);
 
         float speed = Mathf.Max(0.25f, pawn.GetStatValue(StatDefOf.HackingSpeed));
         int ticks = Mathf.RoundToInt(NetrunDefOf.NR_AI.awakenWorkTicks / speed);
 
         Toil work = Toils_General.Wait(ticks, ConsoleInd);
-        work.FailOnCannotTouch(ConsoleInd, PathEndMode.InteractionCell);
+        work.FailOnCannotTouch(ConsoleInd, PathEndMode.Touch);
         work.FailOn(() => pawn.carryTracker.CarriedThing?.def != NetrunDefOf.NR_AIFragment);
         work.WithProgressBarToilDelay(ConsoleInd);
         work.WithEffect(EffecterDefOf.Hacking, ConsoleInd);

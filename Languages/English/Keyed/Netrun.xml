@@ -123,4 +123,6 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsAmbientCyberspace>Cyberspace (Gateway): {0}</NR_SettingsAmbientCyberspace>
   <NR_SettingsAmbientDive>Dive: {0}</NR_SettingsAmbientDive>
   <NR_SettingsAmbientServer>AI server hum: {0}</NR_SettingsAmbientServer>
+  <NR_SettingsResetGroup>Reset</NR_SettingsResetGroup>
+  <NR_SettingsResetGroupTip>Put the settings of «{0}» back to their defaults.</NR_SettingsResetGroupTip>
 </LanguageData>

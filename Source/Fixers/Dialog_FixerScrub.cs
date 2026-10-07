@@ -35,6 +35,7 @@ public class Dialog_FixerScrub : Window
         forcePause = false;
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
+        preventCameraMotion = false;
         draggable = true;
     }
 

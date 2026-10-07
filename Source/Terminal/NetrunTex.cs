@@ -63,6 +63,7 @@ public static class NetrunTex
     public static Texture2D ReportFail => CyberIcon("Dive_GATE_Failed");
     public static readonly Texture2D Disconnect = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Disconnect", reportFailure: false);
     public static readonly Texture2D Shop = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Shop", reportFailure: false);
+    public static readonly Texture2D Refresh = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Refresh", reportFailure: false);
     public static readonly Texture2D Star = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Star", reportFailure: false);
     public static readonly Texture2D Handshake = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Handshake", reportFailure: false);
     public static readonly Texture2D HeatReduction = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Reduction", reportFailure: false);

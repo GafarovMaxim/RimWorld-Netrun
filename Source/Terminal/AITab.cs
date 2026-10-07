@@ -129,7 +129,11 @@ public static class AITab
         // Name and status badge.
         float nameWidth = NetrunUI.NamePlate(x, y, ai.Name, NetrunTex.PersonalityColor(ai.Personality), GameFont.Medium, width * 0.6f);
         (string status, Color statusColor) = Status(ai);
-        NetrunUI.Chip(x + nameWidth + 10f, y + 6f, status.ToUpper(), statusColor, ai.LocationText);
+        float chipW = NetrunUI.Chip(x + nameWidth + 10f, y + 6f, status.ToUpper(), statusColor, ai.LocationText);
+        // Rename: a small pen button after the status.
+        var pen = new Rect(x + nameWidth + 10f + chipW + 8f, y + 3f, 26f, 26f);
+        if (NetrunUI.Button(pen, "✎", NetrunUI.Muted, true, "NR_AIRenameTip".Translate()))
+            Find.WindowStack.Add(new Dialog_RenameAI(ai));
         y += 37f;
 
         // Archetype tag (icon, personality color) and the request, if any.

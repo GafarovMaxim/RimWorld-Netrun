@@ -138,11 +138,11 @@ public class NetrunSettings : ModSettings
         Text.Font = GameFont.Small;
         _y += 38f;
 
-        if (Group("gameplay", "NR_SettingsGroupGameplay"))
+        if (Group("gameplay", "NR_SettingsGroupGameplay", ResetGameplay))
             DrawGameplay();
-        if (Group("interface", "NR_SettingsGroupInterface"))
+        if (Group("interface", "NR_SettingsGroupInterface", ResetInterface))
             DrawInterface();
-        if (Group("sound", "NR_SettingsGroupSound"))
+        if (Group("sound", "NR_SettingsGroupSound", ResetSound))
             DrawSound();
         if (Group("support", "NR_SettingsGroupSupport"))
             DrawSupport();
@@ -157,10 +157,20 @@ public class NetrunSettings : ModSettings
     }
 
     /// <summary>A clickable group bar (▼ open / ► closed); true when open.</summary>
-    private bool Group(string id, string labelKey)
+    private bool Group(string id, string labelKey, System.Action reset = null)
     {
         bool open = !Collapsed.Contains(id);
         var row = new Rect(0f, _y, _w, 32f);
+        // The group's own reset sits on the right of its bar (and does not fold the group).
+        if (reset != null)
+        {
+            string label = "NR_SettingsResetGroup".Translate();
+            float rw = NetrunUI.ButtonWidth(label);
+            var rr = new Rect(row.xMax - rw - 6f, row.y + 4f, rw, 24f);
+            if (NetrunUI.Button(rr, label, NetrunUI.Bad, true, "NR_SettingsResetGroupTip".Translate(labelKey.Translate())))
+                reset();
+            row.width -= rw + 12f;
+        }
         NetrunUI.Box(row, Mouse.IsOver(row) ? NetrunUI.BgCardAlt : NetrunUI.BgCard, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f));
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(row.x + 10f, row.y, row.width - 12f, row.height), ((open ? "▼  " : "►  ") + ((string)labelKey.Translate()).ToUpper()).Colorize(NetrunUI.Accent));
@@ -414,9 +424,20 @@ public class NetrunSettings : ModSettings
 
     private void ResetAll()
     {
+        ResetGameplay();
+        ResetInterface();
+        ResetSound();
+    }
+
+    private void ResetGameplay()
+    {
         ApplyPreset(HeatDifficulty.Normal);
         AIEventFrequency = NetAttackFrequency = MapEventFrequency = CyberEventFrequency = 1f;
         NewcomerProtection = true;
+    }
+
+    private void ResetInterface()
+    {
         TerminalAccent = 0;
         ShowDiveReport = true;
         PauseOnOpen = true;
@@ -424,6 +445,10 @@ public class NetrunSettings : ModSettings
         TextScale = 1f;
         IconScale = 1f;
         TerminalFont = true;
+    }
+
+    private void ResetSound()
+    {
         SoundPack = "Clean";
         UiVolume = AmbientVolume = 0.6f;
         AmbientTerminal = AmbientCyberspace = AmbientDive = AmbientServer = 1f;
