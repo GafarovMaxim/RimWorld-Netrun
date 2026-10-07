@@ -62,6 +62,7 @@ DYNAMIC = {
     "NR_DiveInfo_": ["Files", "Memory", "Lobby", "Exit"],
     "NR_DiveAct_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
     "NR_DiveActTip_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
+    "NR_IceTier_": ["None", "Firewall", "Ice", "BlackIce"],
     "NR_Program_": ["Sword", "Shield", "Decoy", "Stealth", "Killer", "IceBreaker", "Exec"],
     "NR_ProgramDesc_": ["Sword", "Shield", "Decoy", "Stealth", "Killer", "IceBreaker", "Exec"],
     "NR_GatewayRisk_": ["0", "1", "2"],

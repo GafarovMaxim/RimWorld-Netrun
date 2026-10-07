@@ -194,6 +194,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
 
     public AcceptanceReport CanCallAllies()
     {
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (GroupFavor < Settings.groupFavorForAllies)
             return "NR_AlliesNeedFavor".Translate(GroupFavor, Settings.groupFavorForAllies);
         if (!AlliesReady)
@@ -255,6 +257,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
 
     public AcceptanceReport CanDive(Map map, ExternalNode node)
     {
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (node == null)
             return "NR_GatewayPickNode".Translate();
         if (node.Hidden)
@@ -368,11 +372,22 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     /// <summary>"Discover new node": reveals a hidden node, or finds a new one when nothing is hidden.</summary>
     public AcceptanceReport CanSearch(Map map)
     {
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (!_nodes.Any(n => n.Hidden) && _nodes.Count >= MaxNodes)
             return "NR_GatewayFull".Translate();
         return ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= Settings.searchCost
             ? true
             : "NR_AINoFood".Translate(Settings.searchCost, NetrunDefOf.USH_Cyberdata.label);
+    }
+
+    /// <summary>Uncovers one hidden node for free (the honeypot's back-trace); null when nothing is hidden.</summary>
+    public ExternalNode RevealHidden()
+    {
+        ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
+        if (found != null)
+            found.Hidden = false;
+        return found;
     }
 
     public ExternalNode Search(Map map)

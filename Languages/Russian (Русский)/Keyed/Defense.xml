@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <NR_DefenseTotal>Защита узла: {0}</NR_DefenseTotal>
+  <NR_DefenseFirewalls>Брандмауэры ({0})</NR_DefenseFirewalls>
+  <NR_DefenseGuard>{0} на дежурстве</NR_DefenseGuard>
+  <NR_DefenseIsolated>Сеть изолирована: атаки не проходят, и ничего сетевого не работает.</NR_DefenseIsolated>
+  <NR_DefenseUpkeepShort>Не хватает cyberdata для этой ступени ICE.</NR_DefenseUpkeepShort>
+  <NR_DefenseUpkeepLostLabel>ICE отключён</NR_DefenseUpkeepLostLabel>
+  <NR_DefenseUpkeepLost>Колония не смогла оплатить содержание ICE в этом сезоне (или больше нет исследования). У узла снова только брандмауэры.</NR_DefenseUpkeepLost>
+  <NR_DefenseBlackIceHeat>Чёрный лёд сжёг атакующего ({0})</NR_DefenseBlackIceHeat>
+  <NR_IceTier_None>Без ICE</NR_IceTier_None>
+  <NR_IceTier_Firewall>Firewall</NR_IceTier_Firewall>
+  <NR_IceTier_Ice>ICE</NR_IceTier_Ice>
+  <NR_IceTier_BlackIce>Black ICE</NR_IceTier_BlackIce>
+  <NR_IceTierGizmo>ICE: {0}</NR_IceTierGizmo>
+  <NR_IceTierGizmoDesc>Собственный ICE колонии поверх брандмауэров: Firewall +1 (сетевая безопасность), ICE +2 (активный ICE), Black ICE +3 (чёрный лёд). Каждая ступень стоит cyberdata раз в сезон; чёрный лёд к тому же добавляет немного Heat за каждого сожжённого атакующего.</NR_IceTierGizmoDesc>
+  <NR_IceTierUpkeep>{0} cyberdata за {1} дн.</NR_IceTierUpkeep>
+  <NR_IceTierUpkeepAdv>{0} продвинутых cyberdata за {1} дн.</NR_IceTierUpkeepAdv>
+  <NR_IceTierLocked>нужно исследование</NR_IceTierLocked>
+  <NR_HoneypotGizmo>Ловушка</NR_HoneypotGizmo>
+  <NR_HoneypotGizmoDesc>Этот брандмауэр нарочно впускает атакующих: защиты не добавляет, но каждая отбитая узлом атака оставляет обратный след: 2–4 cyberdata или раскрытая скрытая нода. Одна ловушка на колонию.</NR_HoneypotGizmoDesc>
+  <NR_HoneypotActive>Режим ловушки: защиты не добавляет, отслеживает атакующих.</NR_HoneypotActive>
+  <NR_HoneypotReveal>Ловушка отследила атакующего: раскрыта нода {0}.</NR_HoneypotReveal>
+  <NR_HoneypotLoot>Ловушка отследила атакующего: {0} cyberdata.</NR_HoneypotLoot>
+  <NR_IsolationGizmo>Изолировать сеть</NR_IsolationGizmo>
+  <NR_IsolationGizmoDesc>Полностью отключить колонию от сети. Сетевые атаки не проходят, но Шлюз, нырки, контракты, услуги ИИ и звонки фиксерам останавливаются, а активные ИИ теряют доверие, как на изолированном сервере. Сетевого шума они тоже не создают.</NR_IsolationGizmoDesc>
+  <NR_IsolationOn>Колония отключена от сети.</NR_IsolationOn>
+  <NR_IsolationOff>Колония снова в сети.</NR_IsolationOff>
+  <NR_IsolationDiveActive>Идёт нырок.</NR_IsolationDiveActive>
+  <NR_IsolationBlocked>Сеть изолирована.</NR_IsolationBlocked>
+  <NR_DutyGizmo>Охрана узла</NR_DutyGizmo>
+  <NR_DutyGizmoDesc>Нетраннер в этой капсуле охраняет узел колонии: +1 к защите узла за каждые {0} Интеллекта.</NR_DutyGizmoDesc>
+  <NR_AttackByDefense>защита узла {0}</NR_AttackByDefense>
+
+</LanguageData>

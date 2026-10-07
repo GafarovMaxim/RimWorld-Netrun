@@ -34,6 +34,8 @@ public class CompNetTerminal : ThingComp
             yield return gizmo;
 
         // Awakening moved to the AI server's own room (its gizmo) and the terminal's server room.
+        if (parent.Faction == Faction.OfPlayer)
+            yield return CompFirewall.IsolationGizmo();
     }
 
     public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)

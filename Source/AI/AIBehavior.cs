@@ -55,6 +55,8 @@ public static class AIBehavior
             return "NR_AIAsleep".Translate();
         if (ai.Isolated)
             return "NR_AIIsolatedNoService".Translate();
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (ai.Trust < Settings.minTrustForService)
             return "NR_AIRefuses".Translate(ai.Name);
         if (!ai.ServiceReady)

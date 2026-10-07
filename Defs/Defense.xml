@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The colony's node defense (docs/CONCEPTS_10.md, section 1; Source/Defense/NodeDefense.cs) -->
+  <Netrun.DefenseSettingsDef>
+    <defName>NR_Defense</defName>
+    <!-- Each powered firewall (up to maxFirewalls) adds firewallDefense; the honeypot one adds nothing -->
+    <firewallDefense>2</firewallDefense>
+    <maxFirewalls>2</maxFirewalls>
+    <!-- HE jammer coprocessor linked to a pod, Warden AI on the server (+1 more at trust 60+) -->
+    <jammerDefense>1</jammerDefense>
+    <wardenDefense>2</wardenDefense>
+    <wardenTrustBonus>1</wardenTrustBonus>
+    <wardenTrustThreshold>60</wardenTrustThreshold>
+    <!-- Netrunner on "node watch" duty: +1 per this much Intellectual -->
+    <dutyIntellectPerPoint>4</dutyIntellectPerPoint>
+    <!-- Defense this much over the attack's strength repels it; this much under lets it through; between: intrusion -->
+    <repelMargin>3</repelMargin>
+    <!-- Honeypot back-trace after a repelled attack: cyberdata, or a revealed hidden node -->
+    <honeypotCyberdataMin>2</honeypotCyberdataMin>
+    <honeypotCyberdataMax>4</honeypotCyberdataMax>
+    <honeypotRevealChance>0.4</honeypotRevealChance>
+    <!-- The colony's black ICE burns attackers, and that is noticed -->
+    <blackIceRepelHeat>3</blackIceRepelHeat>
+    <!-- ICE tier upkeep every upkeepDays (a season): firewall 1 cyberdata, ICE 3, black ICE 1 advanced -->
+    <upkeepDays>15</upkeepDays>
+    <upkeepFirewall>1</upkeepFirewall>
+    <upkeepIce>3</upkeepIce>
+    <upkeepBlackIceAdvanced>1</upkeepBlackIceAdvanced>
+  </Netrun.DefenseSettingsDef>
+
+  <!-- Firewall: hangs on a wall like a wall lamp -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>NR_Firewall</defName>
+    <label>firewall</label>
+    <description>A hardened network filter that hangs on a wall. Each powered firewall adds 2 to the colony's node defense, up to two of them. Its gizmos set the colony's own ICE tier and the honeypot mode, and can cut the colony off the net entirely.</description>
+    <thingClass>Building</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Misc/NR_Firewall</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(1,1)</drawSize>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+    </graphicData>
+    <size>(1,1)</size>
+    <rotatable>true</rotatable>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0</fillPercent>
+    <clearBuildingArea>false</clearBuildingArea>
+    <canOverlapZones>true</canOverlapZones>
+    <tickerType>Never</tickerType>
+    <statBases>
+      <MaxHitPoints>120</MaxHitPoints>
+      <WorkToBuild>2500</WorkToBuild>
+      <Flammability>0.4</Flammability>
+      <Mass>8</Mass>
+    </statBases>
+    <costList>
+      <Steel>40</Steel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+      <USH_Cyberdata>2</USH_Cyberdata>
+    </costList>
+    <constructionSkillPrerequisite>5</constructionSkillPrerequisite>
+    <designationCategory>NR_Cyberspace</designationCategory>
+    <researchPrerequisites>
+      <li>NR_Res_NetSecurity</li>
+    </researchPrerequisites>
+    <building>
+      <isAttachment>true</isAttachment>
+      <isEdifice>false</isEdifice>
+      <destroySound>BuildingDestroyed_Metal_Small</destroySound>
+    </building>
+    <comps>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>250</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_Breakdownable" />
+      <li Class="Netrun.CompProperties_Firewall" />
+    </comps>
+  </ThingDef>
+
+</Defs>

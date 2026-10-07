@@ -32,5 +32,28 @@ public static class Patch_Cyberpod_GetGizmos
 
         if (terminal != null)
             yield return terminal;
+
+        Gizmo duty = null;
+        try
+        {
+            if (__instance.Faction == Faction.OfPlayer && NetrunDefOf.NR_Res_ActiveICE?.IsFinished == true && NodeDefense.Get() is { } defense)
+            {
+                duty = new Command_Toggle
+                {
+                    defaultLabel = "NR_DutyGizmo".Translate(),
+                    defaultDesc = "NR_DutyGizmoDesc".Translate(NetrunDefOf.NR_Defense.dutyIntellectPerPoint),
+                    icon = NetrunTex.DaemonIcon(DiveDaemon.Aegis),
+                    isActive = () => defense.OnDuty(__instance),
+                    toggleAction = () => defense.ToggleDuty(__instance),
+                };
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.ErrorOnce("[Netrun] Failed to add the node watch button to the cyberpod: " + ex, 0x4E520003);
+        }
+
+        if (duty != null)
+            yield return duty;
     }
 }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Firewall.label>брандмауэр</NR_Firewall.label>
+  <NR_Firewall.description>Защищённый сетевой фильтр, вешается на стену. Каждый запитанный брандмауэр добавляет 2 к защите узла колонии, не больше двух. Его кнопки задают собственную ступень ICE колонии и режим ловушки, а также могут полностью отключить колонию от сети.</NR_Firewall.description>
+</LanguageData>

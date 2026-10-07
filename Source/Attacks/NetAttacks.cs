@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using USH_HE;
+using UnityEngine;
 using Verse;
 
 namespace Netrun;
@@ -10,6 +11,8 @@ namespace Netrun;
 public class NetAttackExtension : DefModExtension
 {
     public HeatLevel minLevel = HeatLevel.Noticed;
+    /// <summary>Base strength against the node defense; the Heat level (0-4) is added on top.</summary>
+    public int strength = 4;
 }
 
 /// <summary>
@@ -29,7 +32,8 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         if (parms.target is not Map map || !map.IsPlayerHome)
             return false;
         HeatTracker tracker = HeatTracker.Get();
-        return tracker != null && tracker.Level >= MinLevel && CanHit(map);
+        // A cut-off network cannot be attacked (docs/CONCEPTS_10.md, section 1).
+        return tracker != null && !NetworkIsolation.Active && tracker.Level >= MinLevel && CanHit(map);
     }
 
     /// <summary>Is there anything to hit at all.</summary>
@@ -41,13 +45,8 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
         if (!CanHit(map))
             return false;
 
-        float defense = DefenseChance(map, out string defender);
-        if (Rand.Chance(defense))
-        {
-            Messages.Message("NR_AttackBlocked".Translate(def.label, defender), MessageTypeDefOf.PositiveEvent, historical: true);
-            HeatTracker.Get()?.Note("NR_LogNetAttackBlocked".Translate(def.LabelCap, defender), HeatSource.Raid);
+        if (Repelled(map))
             return true;
-        }
 
         bool hit = Hit(map);
         if (hit)
@@ -56,6 +55,39 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
     }
 
     protected abstract bool Hit(Map map);
+
+    /// <summary>Attack strength: the type's base plus the Heat level (0-4).</summary>
+    public int Strength => (def.GetModExtension<NetAttackExtension>()?.strength ?? 4) + (int)(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
+
+    /// <summary>
+    /// Strength against the node defense (docs/CONCEPTS_10.md, section 1): well over it repels, well under lets it
+    /// through. Close to it is an intrusion, fought at the node: for now a roll that netrunners in pods, guards and
+    /// Warden or Predator AIs improve (intrusions along the cyberspace map come with the map).
+    /// </summary>
+    private bool Repelled(Map map)
+    {
+        NodeDefense node = NodeDefense.Get();
+        AttackOutcome outcome = node?.Resolve(map, Strength, out int defense) ?? AttackOutcome.Intrusion;
+        defense = node?.Defense(map) ?? 0;
+        string defender = null;
+        bool repelled = outcome switch
+        {
+            AttackOutcome.Repelled => true,
+            AttackOutcome.Hit => false,
+            _ => Rand.Chance(Mathf.Clamp01(IntrusionBase + IntrusionPerPoint * (defense - Strength) + DefenseChance(map, out defender))),
+        };
+        if (!repelled)
+            return false;
+
+        string by = outcome == AttackOutcome.Repelled || defender.NullOrEmpty() ? "NR_AttackByDefense".Translate(defense) : (TaggedString)defender;
+        Messages.Message("NR_AttackBlocked".Translate(def.label, by), MessageTypeDefOf.PositiveEvent, historical: true);
+        HeatTracker.Get()?.Note("NR_LogNetAttackBlocked".Translate(def.LabelCap, by), HeatSource.Raid);
+        node?.OnRepelled(map, def.label);
+        return true;
+    }
+
+    private const float IntrusionBase = 0.3f;
+    private const float IntrusionPerPoint = 0.1f;
 
     public static float DefenseChance(Map map, out string defender)
     {

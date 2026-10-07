@@ -12,6 +12,8 @@ public static class NetrunDefOf
     public static FixerSettingsDef NR_Fixers;
     public static AISettingsDef NR_AI;
     public static ThingDef NR_AIFragment;
+    public static ThingDef NR_Firewall;
+    public static DefenseSettingsDef NR_Defense;
 
     // Research woven into the HE tree (Defs/Research.xml).
     public static ResearchProjectDef NR_Res_NetSecurity;

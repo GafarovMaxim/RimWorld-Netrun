@@ -12,6 +12,11 @@ public static class FixerDeals
     public static void Call(Fixer fixer, Map map)
     {
         NetworkGate.Unlock("Board");
+        if (NetworkIsolation.Active)
+        {
+            Reject(NetworkIsolation.Check().Reason);
+            return;
+        }
         if (fixer.IsSilent)
         {
             Reject("NR_FixerSilent".Translate(fixer.Name));

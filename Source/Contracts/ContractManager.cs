@@ -238,6 +238,8 @@ public class ContractManager : GameComponent, INetrunCleanable
 
     public AcceptanceReport CanAccept(Contract contract, Fixer fixer)
     {
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (fixer.IsSilent)
             return "NR_FixerSilent".Translate(fixer.Name);
         if (!fixer.ChannelOpen)
