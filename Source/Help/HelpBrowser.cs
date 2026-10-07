@@ -287,6 +287,13 @@ public partial class HelpBrowser
         Widgets.EndScrollView();
     }
 
+    /// <summary>"[[name:Preset]]" → "Preset" (null without one).</summary>
+    private static string Preset(string line)
+    {
+        int colon = line.IndexOf(':');
+        return colon < 0 ? null : line.Substring(colon + 1).TrimEnd(']');
+    }
+
     private float BodyLine(string line, float y, float w)
     {
         if (line.Length == 0)
@@ -311,6 +318,24 @@ public partial class HelpBrowser
             return HackChanceDemo(y, w);
         if (line == "[[trace]]")
             return TraceDemo(y, w);
+        if (line.StartsWith("[[aigallery"))
+            return AIGalleryDemo(y, w, Preset(line));
+        if (line == "[[fixerpool]]")
+            return FixerPoolDemo(y, w);
+        if (line == "[[contractflow]]")
+            return ContractFlowDemo(y, w);
+        if (line.StartsWith("[[braindance"))
+            return BraindanceDemo(y, w, Preset(line));
+        if (line == "[[ice]]")
+            return IceDemo(y, w);
+        if (line == "[[loadout]]")
+            return LoadoutDemo(y, w);
+        if (line == "[[diagnostics]]")
+        {
+            if (NetrunUI.Button(new Rect(0f, y, Mathf.Min(w, 360f), 34f), "NR_DiagnosticsButton".Translate(), NetrunUI.Accent, true, "NR_DiagnosticsTip".Translate()))
+                NetrunDiagnostics.CopyToClipboard();
+            return y + 44f;
+        }
         if (line.StartsWith("> page:"))
         {
             (string target, string text) = SplitLink(line.Substring(7));

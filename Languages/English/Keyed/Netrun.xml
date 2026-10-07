@@ -145,4 +145,59 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpTraceQuiet>News "the net goes quiet" (×{0})</NR_HelpTraceQuiet>
   <NR_HelpTraceStealth>Stealth program or Wraith daemon (trace ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>This node type multiplies the trace by {0}. A cyberpod with an AI coprocessor lowers it further.</NR_HelpTraceNote>
+  <NR_HelpAIUnknown>You have not met this archetype yet. Awaken an AI of it to see its card.</NR_HelpAIUnknown>
+  <NR_HelpAIService>Service</NR_HelpAIService>
+  <NR_HelpAIFood>Food</NR_HelpAIFood>
+  <NR_HelpAITrust>Trust: {0} (move it to see what opens)</NR_HelpAITrust>
+  <NR_HelpAITrustBetray>Below {0}: it sells the colony out and leaves.</NR_HelpAITrustBetray>
+  <NR_HelpAITrustEscape>Below {0} with hunger over {1}: it tries to run away.</NR_HelpAITrustEscape>
+  <NR_HelpAITrustService>From {0}: its service works.</NR_HelpAITrustService>
+  <NR_HelpAITrustTrait1>From {0}: the first trait shows (plus and minus).</NR_HelpAITrustTrait1>
+  <NR_HelpAITrustEvents>From {0}: its own events are friendly.</NR_HelpAITrustEvents>
+  <NR_HelpAITrustTrait2>From {0}: the second trait shows.</NR_HelpAITrustTrait2>
+  <NR_HelpFixerRep>Reputation: {0} (purple mark: trait, gold mark: pinned)</NR_HelpFixerRep>
+  <NR_HelpFixerTrait>Trait: {0}. {1}</NR_HelpFixerTrait>
+  <NR_HelpFixerTraitHidden>Trait: ??? ({0} more reputation to see it)</NR_HelpFixerTraitHidden>
+  <NR_HelpFixerPinned>Pinned: stays through rotations (up to {0} pinned at once).</NR_HelpFixerPinned>
+  <NR_HelpFixerToPin>{0} more reputation to pin.</NR_HelpFixerToPin>
+  <NR_HelpFixerPrice>Prices ×{0}; one cyberdata scrubs {1} Heat in the Shadow; a call costs {2} silver.</NR_HelpFixerPrice>
+  <NR_HelpFixerRareOn>Rare goods are in the shop.</NR_HelpFixerRareOn>
+  <NR_HelpFixerRareOff>Rare goods come once pinned.</NR_HelpFixerRareOff>
+  <NR_HelpContractStage_Board>Board</NR_HelpContractStage_Board>
+  <NR_HelpContractStage_Taken>Taken</NR_HelpContractStage_Taken>
+  <NR_HelpContractStage_Work>The job</NR_HelpContractStage_Work>
+  <NR_HelpContractStage_Pay>Pay</NR_HelpContractStage_Pay>
+  <NR_HelpContractStageHint>Click a stage.</NR_HelpContractStageHint>
+  <NR_HelpContractStageDesc_Board>Each fixer without a running job keeps an offer. A call opens the channel to take it.</NR_HelpContractStageDesc_Board>
+  <NR_HelpContractStageDesc_Taken>One job per fixer at a time. The deadline starts now.</NR_HelpContractStageDesc_Taken>
+  <NR_HelpContractStageDesc_Work>Hacks, dives, deliveries: whatever the job asks. A dive into a node marked ★ counts twice.</NR_HelpContractStageDesc_Work>
+  <NR_HelpContractStageDesc_Pay>Silver by drop pod and reputation. A failure costs {0} reputation and {1} days of silence.</NR_HelpContractStageDesc_Pay>
+  <NR_HelpContractPer>{0} silver per unit</NR_HelpContractPer>
+  <NR_HelpContractFlat>{0} silver</NR_HelpContractFlat>
+  <NR_HelpContractNumbers>Goal {0}–{1}; pay {2}; deadline {3}–{4} days; +{5} reputation.</NR_HelpContractNumbers>
+  <NR_HelpBDStepRaw>Raw recording: the goggles catch a strong moment.</NR_HelpBDStepRaw>
+  <NR_HelpBDStepEdit>Editing at the network console (from the Studio).</NR_HelpBDStepEdit>
+  <NR_HelpBDStrength>Strength of the moment: {0}</NR_HelpBDStrength>
+  <NR_HelpBDChipCard>Recreation {0}; mood {1} while it lasts; addictiveness {2} per play.\n{3}</NR_HelpBDChipCard>
+  <NR_HelpBDTier_0>Ordinary: nothing extra.</NR_HelpBDTier_0>
+  <NR_HelpBDTier_1>Great: a good memory after watching.</NR_HelpBDTier_1>
+  <NR_HelpBDTier_2>Masterful: a strong memory after watching.</NR_HelpBDTier_2>
+  <NR_HelpIce_Strike>ICE strikes</NR_HelpIce_Strike>
+  <NR_HelpIce_Shield>Shield</NR_HelpIce_Shield>
+  <NR_HelpIce_Decoy>Decoy</NR_HelpIce_Decoy>
+  <NR_HelpIce_Killer>Killer</NR_HelpIce_Killer>
+  <NR_HelpIce_Hit>The hit</NR_HelpIce_Hit>
+  <NR_HelpIceHint>Click a step of an ICE attack.</NR_HelpIceHint>
+  <NR_HelpIceDesc_Strike>ICE ahead strikes at the end of a turn with a {0} chance; a hack that fails on ICE draws a strike too.</NR_HelpIceDesc_Strike>
+  <NR_HelpIceDesc_Shield>Each Shield charge swallows one strike whole.</NR_HelpIceDesc_Shield>
+  <NR_HelpIceDesc_Decoy>A Decoy charge leads a strike away with a {1} chance.</NR_HelpIceDesc_Decoy>
+  <NR_HelpIceDesc_Killer>A Killer charge breaks the next gate or ICE outright: no strike can come from it.</NR_HelpIceDesc_Killer>
+  <NR_HelpIceDesc_Hit>A hit that gets through: +{2} Netsick, then nausea (60%), a lockout (30%, the dive ends) or a coma (10%). Black ICE can also burn out the cyberlink ({3} per hit).</NR_HelpIceDesc_Hit>
+  <NR_HelpLoadoutPrograms>Programs: {0} of {1} slots, {2} cyberdata each</NR_HelpLoadoutPrograms>
+  <NR_HelpLoadoutFull>All slots are taken.</NR_HelpLoadoutFull>
+  <NR_HelpLoadoutDaemon>Daemon: one per dive, free</NR_HelpLoadoutDaemon>
+  <NR_HelpLoadoutResult>Hack chance (Intellectual 8 vs a strength-3 gate): {0}; trace ×{1}; dive cost {2} cyberdata.</NR_HelpLoadoutResult>
+  <NR_DiagnosticsButton>Copy diagnostics</NR_DiagnosticsButton>
+  <NR_DiagnosticsTip>Versions, DLC, mods, changed settings, the state of the net and the last Netrun errors, copied to the clipboard. No personal data. Paste it into your bug report.</NR_DiagnosticsTip>
+  <NR_DiagnosticsCopied>Diagnostics copied to the clipboard.</NR_DiagnosticsCopied>
 </LanguageData>

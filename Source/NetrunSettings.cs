@@ -391,7 +391,7 @@ public class NetrunSettings : ModSettings
         Label("NR_SettingsReportInfoDesc".Translate(), NetrunUI.Muted);
         if (NetrunUI.Button(new Rect(12f, _y, 300f, 30f), "NR_SettingsReportInfo".Translate(), NetrunUI.Accent, true))
         {
-            GUIUtility.systemCopyBuffer = ReportInfo();
+            GUIUtility.systemCopyBuffer = NetrunDiagnostics.Build();
             Messages.Message("NR_SettingsReportCopied".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
         }
         _y += 40f;

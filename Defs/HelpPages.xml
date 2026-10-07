@@ -174,7 +174,7 @@
     <order>1</order>
     <color>Accent</color>
     <label>The pool and reputation</label>
-    <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them (up to {fixers.held}). After a rotation the pool always has at least two specialties; newcomers are marked "new".\nReputation grows with calls, scrubs, purchases and contracts. At {fixers.pin} a fixer is pinned for good, reveals their trait and gives the best prices.\n## !Fixers/Disconnect Breaking ties\n"Break ties" drops a fixer: if a contract with them is running, they take cyberdata from your storage out of spite (or leak your trace when there is none); a newcomer takes the place, and they stay away for {fixers.ban} days.</body>
+    <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them. Pick a fixer and move their reputation: the trait shows from the purple mark, pinning comes at the gold one, and prices and the scrub rate change with it (the same formulas the game uses).\n[[fixerpool]]</body>
     <icon>Fixers/Star</icon>
     <contexts>
       <li>Club</li>
@@ -197,7 +197,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Contracts</label>
-    <body>Each fixer offers contracts on the Board:\n- Data delivery: bring cyberdata by the deadline.\n- System tap: complete hacks.\n- Quiet run: hacks while staying at or below Tracked; it fails at Target.\n- Surveillance: hours a netrunner spends in a cyberpod.\n- Lay low: bring Heat down to a mark (offered only when it is high).\n- Rookie training: dives in a row without a failure by a colonist with low Intellectual.\n- AI order: hand over a blank AI fragment.\n- Clean lab: edit braindance chips of a given mood.\nA dive into a node marked ★ counts double for the contract. A failed contract costs reputation and the fixer goes silent for a few days.\n&gt; open:Board|Open the Board</body>
+    <body>Each fixer offers contracts on the Board. Click a stage to see what happens there, then a kind of contract to see an example with the real numbers.\n[[contractflow]]\n&gt; open:Board|Open the Board</body>
     <icon>Nodes/Home_Board</icon>
     <contexts>
       <li>Board</li>
@@ -241,7 +241,7 @@
     <order>40</order>
     <color>Purple</color>
     <label>AI and the server room</label>
-    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character. Archetypes you have met are described below; the rest stay "???".\n&gt; open:Server|Open the server room</body>
+    <body>An AI fragment from cyberspace or a hack can be awakened on an AI server. Each AI has an archetype with its own service, food and character, and up to two traits of its own. Archetypes you have met open in the gallery; the rest stay "???". Move the trust slider to see what an AI gives and when it turns against you.\n[[aigallery]]\n&gt; page:NR_Help_AI_Traits|AI traits\n&gt; open:Server|Open the server room</body>
     <icon>Nodes/Home_Server</icon>
     <contexts>
       <li>Server</li>
@@ -296,7 +296,7 @@
     <order>10</order>
     <color>Accent</color>
     <label>Archetype: Data Hunter</label>
-    <body>{aiDesc:DataHunter}\n## !Gizmo_AI_Use Service: {aiService:DataHunter}\n{aiServiceDesc:DataHunter}\n## !Gizmo_AI_Feed Food\n{aiFood:DataHunter}\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}</body>
+    <body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}</body>
     <icon>ai:DataHunter</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -309,7 +309,7 @@
     <order>11</order>
     <color>Accent</color>
     <label>Archetype: Ghost</label>
-    <body>{aiDesc:Ghost}\n## !Gizmo_AI_Use Service: {aiService:Ghost}\n{aiServiceDesc:Ghost}\n## !Gizmo_AI_Feed Food\n{aiFood:Ghost}\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}</body>
+    <body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}</body>
     <icon>ai:Ghost</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -322,7 +322,7 @@
     <order>12</order>
     <color>Accent</color>
     <label>Archetype: Muse</label>
-    <body>{aiDesc:Muse}\n## !Gizmo_AI_Use Service: {aiService:Muse}\n{aiServiceDesc:Muse}\n## !Gizmo_AI_Feed Food\n{aiFood:Muse}\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}</body>
+    <body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}</body>
     <icon>ai:Muse</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -335,7 +335,7 @@
     <order>13</order>
     <color>Accent</color>
     <label>Archetype: Predator</label>
-    <body>{aiDesc:Predator}\n## !Gizmo_AI_Use Service: {aiService:Predator}\n{aiServiceDesc:Predator}\n## !Gizmo_AI_Feed Food\n{aiFood:Predator}\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}</body>
+    <body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}</body>
     <icon>ai:Predator</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -348,7 +348,7 @@
     <order>14</order>
     <color>Accent</color>
     <label>Archetype: Warden</label>
-    <body>{aiDesc:Warden}\n## !Gizmo_AI_Use Service: {aiService:Warden}\n{aiServiceDesc:Warden}\n## !Gizmo_AI_Feed Food\n{aiFood:Warden}\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}</body>
+    <body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}</body>
     <icon>ai:Warden</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -361,7 +361,7 @@
     <order>15</order>
     <color>Accent</color>
     <label>Archetype: Oracle</label>
-    <body>{aiDesc:Oracle}\n## !Gizmo_AI_Use Service: {aiService:Oracle}\n{aiServiceDesc:Oracle}\n## !Gizmo_AI_Feed Food\n{aiFood:Oracle}\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}</body>
+    <body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}</body>
     <icon>ai:Oracle</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -374,7 +374,7 @@
     <order>16</order>
     <color>Accent</color>
     <label>Archetype: Forge</label>
-    <body>{aiDesc:Forge}\n## !Gizmo_AI_Use Service: {aiService:Forge}\n{aiServiceDesc:Forge}\n## !Gizmo_AI_Feed Food\n{aiFood:Forge}\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}</body>
+    <body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}</body>
     <icon>ai:Forge</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -387,7 +387,7 @@
     <order>17</order>
     <color>Accent</color>
     <label>Archetype: Siren</label>
-    <body>{aiDesc:Siren}\n## !Gizmo_AI_Use Service: {aiService:Siren}\n{aiServiceDesc:Siren}\n## !Gizmo_AI_Feed Food\n{aiFood:Siren}\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}</body>
+    <body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}</body>
     <icon>ai:Siren</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -400,7 +400,7 @@
     <order>18</order>
     <color>Accent</color>
     <label>Archetype: Trickster</label>
-    <body>{aiDesc:Trickster}\n## !Gizmo_AI_Use Service: {aiService:Trickster}\n{aiServiceDesc:Trickster}\n## !Gizmo_AI_Feed Food\n{aiFood:Trickster}\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}</body>
+    <body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}</body>
     <icon>ai:Trickster</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -413,7 +413,7 @@
     <order>19</order>
     <color>Accent</color>
     <label>Archetype: Echo</label>
-    <body>{aiDesc:Echo}\n## !Gizmo_AI_Use Service: {aiService:Echo}\n{aiServiceDesc:Echo}\n## !Gizmo_AI_Feed Food\n{aiFood:Echo}\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}</body>
+    <body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}</body>
     <icon>ai:Echo</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -426,7 +426,7 @@
     <order>20</order>
     <color>Accent</color>
     <label>Archetype: Doc</label>
-    <body>{aiDesc:Doc}\n## !Gizmo_AI_Use Service: {aiService:Doc}\n{aiServiceDesc:Doc}\n## !Gizmo_AI_Feed Food\n{aiFood:Doc}\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}</body>
+    <body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}</body>
     <icon>ai:Doc</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -439,7 +439,7 @@
     <order>21</order>
     <color>Accent</color>
     <label>Archetype: Archivist</label>
-    <body>{aiDesc:Archivist}\n## !Gizmo_AI_Use Service: {aiService:Archivist}\n{aiServiceDesc:Archivist}\n## !Gizmo_AI_Feed Food\n{aiFood:Archivist}\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}</body>
+    <body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}</body>
     <icon>ai:Archivist</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -452,7 +452,7 @@
     <order>22</order>
     <color>Accent</color>
     <label>Archetype: Seed</label>
-    <body>{aiDesc:Seed}\n## !Gizmo_AI_Use Service: {aiService:Seed}\n{aiServiceDesc:Seed}\n## !Gizmo_AI_Feed Food\n{aiFood:Seed}\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}</body>
+    <body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}</body>
     <icon>ai:Seed</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Awaken an AI of this archetype to learn about it.</lockHint>
@@ -515,7 +515,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>ICE and Black ICE</label>
-    <body>## !Dive_GATE Code gates\nWalls you must hack; strength grows with the node's defense.\n## !Dive_ICE ICE\nHacking Expansion's defense: it can trace, lock out or hurt the hacker.\n## !Dive_BLACKICE Black ICE\nA killer program on a step of the node. It strikes every node turn: nausea, a lockout (the dive ends) or a coma. A Shield absorbs a strike, a Decoy may draw it off, a Killer breaks it.</body>
+    <body>[[ice]]\n## !Dive_GATE Code gates\nWalls you must hack; strength grows with the node's defense.\n## !Dive_ICE ICE\nHacking Expansion's defense: it can trace, lock out or hurt the hacker.\n## !Dive_BLACKICE Black ICE\nA killer program on a step of the node. It strikes every node turn: nausea, a lockout (the dive ends) or a coma. A Shield absorbs a strike, a Decoy may draw it off, a Killer breaks it.</body>
     <icon>Dive_Lightning_Red</icon>
     <keywords>
       <li>Black ICE</li>
@@ -528,7 +528,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Programs and daemons</label>
-    <body>Programs are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.\n## Daemons\nDaemons are permanent programs found in cyberspace (often in the corporate core): free and without a slot, but you take only one per dive.\n- !Daemon_Reaper Reaper: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
+    <body>[[loadout]]\nPrograms are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.\n## Daemons\nDaemons are permanent programs found in cyberspace (often in the corporate core): free and without a slot, but you take only one per dive.\n- !Daemon_Reaper Reaper: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
     <icon>Reward_DaemonProgram</icon>
     <keywords>
       <li>programs</li>
@@ -595,7 +595,7 @@
     <order>2</order>
     <color>Accent</color>
     <label>Editing and chips</label>
-    <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch.\n## How to edit\n- Press "Edit into" on a recording in the Studio's "Raw recordings" tab, or right-click the network console with a colonist.\n- The colonist takes the recording to the network console and works on it.\n- The finished chip appears next to the console.\n## The mood decides the chip\n- A bright memory becomes a braindance chip: joy and a good mood.\n- A dark or combat memory (grief, a kill) becomes a black chip: a much stronger rush and a much stronger hook.\n## Quality\nOrdinary, great or masterful. It comes from the strength of the moment; a skilled editor (Intellectual) makes it a little better.\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: joy and a mood, and regular use builds tolerance. Put chips in the drug policy to decide who may watch and how often.</body>
+    <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch. Switch the mood and the strength of the moment: the chip, its quality and its effect change.\n[[braindance]]\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: recreation and a mood, and regular use builds tolerance. Put chips in the drug policy to decide who may watch them and how often.</body>
     <icon>thing:NR_BraindanceChip</icon>
   </Netrun.HelpPageDef>
 
@@ -605,7 +605,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>Black braindance and addiction</label>
-    <body>Black chips hold real pain, fear and death. The rush is far stronger than any ordinary recording, and so is the risk of addiction: without regular braindances an addict gets withdrawal.</body>
+    <body>[[braindance:Dark]]\nBlack chips hold real pain, fear and death. The rush is far stronger than any ordinary recording, and so is the risk of addiction: without regular braindances an addict gets withdrawal.</body>
     <icon>thing:NR_BlackBraindanceChip</icon>
     <lockHint>Opens when you get a black chip.</lockHint>
     <unlockFlag>blackchip</unlockFlag>
@@ -685,7 +685,7 @@
     <order>80</order>
     <color>Muted</color>
     <label>Settings and bug reports</label>
-    <body>Options → Mod settings → Hacking Expansion: Netrun.\n- !Dive_Heat Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Tabs/Tab_Events_Blue Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
+    <body>## Bug reports\nPress the button and paste what it copies into your bug report: versions, DLC, mods, changed settings and the last Netrun errors. No personal data.\n[[diagnostics]]\nOptions → Mod settings → Hacking Expansion: Netrun.\n- !Dive_Heat Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Tabs/Tab_Events_Blue Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
     <icon>Tabs/Tab_Settings</icon>
     <keywords>
       <li>mod settings</li>

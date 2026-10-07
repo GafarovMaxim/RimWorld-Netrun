@@ -143,6 +143,9 @@ public class HelpProgress : GameComponent
         set => _helpOpened = value;
     }
 
+    /// <summary>Has the player met this (an "ai:Ghost", "group", ...)?</summary>
+    public bool Has(string flag) => _flags.Contains(flag) || _flags.Contains("all");
+
     public bool Unlocked(HelpPageDef page) => page.unlockFlag.NullOrEmpty() || _flags.Contains(page.unlockFlag) || _flags.Contains("all");
     public bool IsNew(HelpPageDef page) => !page.unlockFlag.NullOrEmpty() && Unlocked(page) && !_seen.Contains(page.defName);
     public void MarkSeen(HelpPageDef page) => _seen.Add(page.defName);

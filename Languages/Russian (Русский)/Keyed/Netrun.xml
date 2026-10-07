@@ -145,4 +145,59 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpTraceQuiet>Новость «Сеть затихла» (×{0})</NR_HelpTraceQuiet>
   <NR_HelpTraceStealth>Программа «Невидимка» или демон «Призрак» (след ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>Этот тип ноды умножает след на {0}. Кибер-капсула с ИИ-сопроцессором снижает его ещё.</NR_HelpTraceNote>
+  <NR_HelpAIUnknown>Вы ещё не встречали этот архетип. Пробудите такой ИИ, чтобы увидеть его карточку.</NR_HelpAIUnknown>
+  <NR_HelpAIService>Услуга</NR_HelpAIService>
+  <NR_HelpAIFood>Еда</NR_HelpAIFood>
+  <NR_HelpAITrust>Доверие: {0} (двигайте, чтобы увидеть, что открывается)</NR_HelpAITrust>
+  <NR_HelpAITrustBetray>Ниже {0}: сдаёт колонию и уходит.</NR_HelpAITrustBetray>
+  <NR_HelpAITrustEscape>Ниже {0} при голоде выше {1}: пытается сбежать.</NR_HelpAITrustEscape>
+  <NR_HelpAITrustService>С {0}: услуга работает.</NR_HelpAITrustService>
+  <NR_HelpAITrustTrait1>С {0}: видна первая черта (плюс и минус).</NR_HelpAITrustTrait1>
+  <NR_HelpAITrustEvents>С {0}: его события доброжелательные.</NR_HelpAITrustEvents>
+  <NR_HelpAITrustTrait2>С {0}: видна вторая черта.</NR_HelpAITrustTrait2>
+  <NR_HelpFixerRep>Репутация: {0} (фиолетовая метка — черта, золотая — закрепление)</NR_HelpFixerRep>
+  <NR_HelpFixerTrait>Черта: {0}. {1}</NR_HelpFixerTrait>
+  <NR_HelpFixerTraitHidden>Черта: ??? (ещё {0} репутации, чтобы увидеть)</NR_HelpFixerTraitHidden>
+  <NR_HelpFixerPinned>Закреплён: остаётся при смене пула (не больше {0} закреплённых).</NR_HelpFixerPinned>
+  <NR_HelpFixerToPin>До закрепления ещё {0} репутации.</NR_HelpFixerToPin>
+  <NR_HelpFixerPrice>Цены ×{0}; одна cyberdata снимает {1} Heat в «Тени»; звонок стоит {2} серебра.</NR_HelpFixerPrice>
+  <NR_HelpFixerRareOn>Редкие товары есть в магазине.</NR_HelpFixerRareOn>
+  <NR_HelpFixerRareOff>Редкие товары появятся после закрепления.</NR_HelpFixerRareOff>
+  <NR_HelpContractStage_Board>Доска</NR_HelpContractStage_Board>
+  <NR_HelpContractStage_Taken>Взяли</NR_HelpContractStage_Taken>
+  <NR_HelpContractStage_Work>Дело</NR_HelpContractStage_Work>
+  <NR_HelpContractStage_Pay>Оплата</NR_HelpContractStage_Pay>
+  <NR_HelpContractStageHint>Щёлкните этап.</NR_HelpContractStageHint>
+  <NR_HelpContractStageDesc_Board>У каждого фиксера без текущей работы есть предложение. Звонок открывает канал, чтобы его взять.</NR_HelpContractStageDesc_Board>
+  <NR_HelpContractStageDesc_Taken>Одна работа на фиксера за раз. Срок пошёл.</NR_HelpContractStageDesc_Taken>
+  <NR_HelpContractStageDesc_Work>Взломы, нырки, доставки — что просит работа. Нырок в ноду со ★ засчитывается дважды.</NR_HelpContractStageDesc_Work>
+  <NR_HelpContractStageDesc_Pay>Серебро капсулой и репутация. Провал стоит {0} репутации и {1} дн. молчания.</NR_HelpContractStageDesc_Pay>
+  <NR_HelpContractPer>{0} серебра за единицу</NR_HelpContractPer>
+  <NR_HelpContractFlat>{0} серебра</NR_HelpContractFlat>
+  <NR_HelpContractNumbers>Цель {0}–{1}; оплата {2}; срок {3}–{4} дн.; +{5} репутации.</NR_HelpContractNumbers>
+  <NR_HelpBDStepRaw>Сырая запись: очки ловят сильный момент.</NR_HelpBDStepRaw>
+  <NR_HelpBDStepEdit>Монтаж у сетевой консоли (из Студии).</NR_HelpBDStepEdit>
+  <NR_HelpBDStrength>Сила момента: {0}</NR_HelpBDStrength>
+  <NR_HelpBDChipCard>Отдых {0}; настроение {1}, пока действует; привыкание {2} за просмотр.\n{3}</NR_HelpBDChipCard>
+  <NR_HelpBDTier_0>Обычное: без добавок.</NR_HelpBDTier_0>
+  <NR_HelpBDTier_1>Отличное: хорошее воспоминание после просмотра.</NR_HelpBDTier_1>
+  <NR_HelpBDTier_2>Мастерское: сильное воспоминание после просмотра.</NR_HelpBDTier_2>
+  <NR_HelpIce_Strike>ICE бьёт</NR_HelpIce_Strike>
+  <NR_HelpIce_Shield>Щит</NR_HelpIce_Shield>
+  <NR_HelpIce_Decoy>Приманка</NR_HelpIce_Decoy>
+  <NR_HelpIce_Killer>Убийца</NR_HelpIce_Killer>
+  <NR_HelpIce_Hit>Удар</NR_HelpIce_Hit>
+  <NR_HelpIceHint>Щёлкните шаг атаки ICE.</NR_HelpIceHint>
+  <NR_HelpIceDesc_Strike>ICE впереди бьёт в конце хода с шансом {0}; проваленный взлом ICE тоже вызывает удар.</NR_HelpIceDesc_Strike>
+  <NR_HelpIceDesc_Shield>Каждый заряд «Щита» полностью поглощает один удар.</NR_HelpIceDesc_Shield>
+  <NR_HelpIceDesc_Decoy>Заряд «Приманки» уводит удар с шансом {1}.</NR_HelpIceDesc_Decoy>
+  <NR_HelpIceDesc_Killer>Заряд «Убийцы» сразу ломает следующие ворота или ICE: удара от них уже не будет.</NR_HelpIceDesc_Killer>
+  <NR_HelpIceDesc_Hit>Пробивший удар: +{2} Netsick, затем тошнота (60%), выброс (30%, нырок кончается) или кома (10%). Black ICE может ещё выжечь кибер-линк ({3} за удар).</NR_HelpIceDesc_Hit>
+  <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} cyberdata</NR_HelpLoadoutPrograms>
+  <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
+  <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
+  <NR_HelpLoadoutResult>Шанс взлома (Интеллект 8 против ворот силы 3): {0}; след ×{1}; цена нырка {2} cyberdata.</NR_HelpLoadoutResult>
+  <NR_DiagnosticsButton>Скопировать диагностику</NR_DiagnosticsButton>
+  <NR_DiagnosticsTip>Версии, DLC, моды, изменённые настройки, состояние сети и последние ошибки Netrun копируются в буфер. Без личных данных. Вставьте это в сообщение о баге.</NR_DiagnosticsTip>
+  <NR_DiagnosticsCopied>Диагностика скопирована в буфер.</NR_DiagnosticsCopied>
 </LanguageData>

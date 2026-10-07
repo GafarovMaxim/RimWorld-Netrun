@@ -56,11 +56,11 @@
   <NR_Help_Fixers.tips.0>Удержите полюбившегося фиксера, чтобы он не ушёл при смене пула.</NR_Help_Fixers.tips.0>
   <NR_Help_Fixers.tips.1>Фиксер-«крыса» может слить ваши сделки: следите за чертой.</NR_Help_Fixers.tips.1>
   <NR_Help_Fixers_Pool.label>Пул и репутация</NR_Help_Fixers_Pool.label>
-  <NR_Help_Fixers_Pool.body>В пуле {fixers.pool} фиксера, он меняется раз в {fixers.rotation} дней. Незакреплённые уходят, если с ними нет контракта и вы их не удержали (до {fixers.held}). После смены в пуле всегда минимум две специальности; новички помечены «новый».\nРепутация растёт от звонков, сброса следа, покупок и контрактов. На {fixers.pin} фиксер закрепляется навсегда, открывает черту и даёт лучшие цены.\n## !Fixers/Disconnect Разрыв связи\n«Разорвать связь» убирает фиксера: если с ним идёт контракт, он из обиды уносит cyberdata со склада (или сливает ваш след, если брать нечего); на его место приходит новый, а он не возвращается {fixers.ban} дней.</NR_Help_Fixers_Pool.body>
+  <NR_Help_Fixers_Pool.body>В пуле {fixers.pool} фиксеров, он меняется раз в {fixers.rotation} дн. Незакреплённые уходят, если с ними нет текущего контракта или вы их не удержали. Выберите фиксера и двигайте репутацию: черта открывается с фиолетовой метки, закрепление — с золотой, а цены и курс сброса меняются вместе с ней (по тем же формулам, что в игре).\n[[fixerpool]]</NR_Help_Fixers_Pool.body>
   <NR_Help_Fixers_Types.label>Специальности и черты</NR_Help_Fixers_Types.label>
   <NR_Help_Fixers_Types.body>## !Fixers/Fixer_ShadowBroker Брокер\nЖивёт контрактами: больше предложений и лучше оплата.\n## !Fixers/Fixer_Corp Чистильщик\nСтирает след дешевле всех.\n## !Fixers/Fixer_Street Скупщик\nДержит магазин: товары за серебро, редкое — для закреплённых контактов.\n## !Fixers/Fixer_Corp Имперский заказчик (Royalty)\nПриходит, только пока вы в мире с Империей. Платит меньше серебра, но каждый выполненный контракт приносит имперское расположение колонисту, которого Империя знает лучше всех.\n## Черты (каждая и помогает, и мешает)\n- Жадный: больше товаров / всё на четверть дороже.\n- Надёжный: прощает полпровала, никого не посылает следом / награды −10%.\n- Крыса: всё на 20% дешевле / может сдать вас (+Heat).\n- Параноик: рейды мести на 25% слабее / не берёт трубку при «Отслеживается» и выше.\n- Игрок: плата бросается при сдаче (от половины до почти двойной).\n- Верный: репутация вдвое быстрее, доп. скидка при закреплении / не работает, пока закреплён конкурент его профиля.\n- Ветеран: сброс на 20% лучше / звонок на 30% дороже.\n- Коллекционер: редкие товары всегда в магазине / обычных меньше.\n- Горячая голова: контракты платят на 40% больше / на 40% короче, провал добавляет Heat.\nЧистильщики чаще ветераны, скупщики чаще коллекционеры. Черта скрыта до репутации {fixers.pin} или пока фиксер сам себя не выдаст.</NR_Help_Fixers_Types.body>
   <NR_Help_Fixers_Contracts.label>Контракты</NR_Help_Fixers_Contracts.label>
-  <NR_Help_Fixers_Contracts.body>Каждый фиксер предлагает контракты на Доске:\n- Доставка данных: принести cyberdata к сроку.\n- Системный взлом: выполнить взломы.\n- Тихий заход: взломы, не поднимаясь выше «Отслеживается»; на «Цели» проваливается.\n- Наблюдение: часы нетраннера в кибер-капсуле.\n- Залечь на дно: снизить Heat до отметки (предлагают, только когда он высок).\n- Тренировка новичка: нырки подряд без провала колонистом с низким Интеллектом.\n- Заказ на ИИ: передать пустой осколок ИИ.\n- Чистая лаборатория: смонтировать чипы с заданным настроением.\nНырок в ноду со ★ засчитывается контракту дважды. Проваленный контракт стоит репутации, а фиксер замолкает на несколько дней.\n&gt; open:Board|Открыть Доску</NR_Help_Fixers_Contracts.body>
+  <NR_Help_Fixers_Contracts.body>Каждый фиксер предлагает контракты на Доске. Щёлкните этап, чтобы увидеть, что там происходит, а потом вид контракта — пример с настоящими числами.\n[[contractflow]]\n&gt; open:Board|Открыть Доску</NR_Help_Fixers_Contracts.body>
   <NR_Help_Fixers_Contracts.keywords>
     <li>контракты</li>
     <li>контракта</li>
@@ -81,7 +81,7 @@
     <li>чёрный рынок</li>
   </NR_Help_Fixers_Market.keywords>
   <NR_Help_AI.label>ИИ и серверная</NR_Help_AI.label>
-  <NR_Help_AI.body>Осколок ИИ из киберпространства или со взлома можно пробудить на ИИ-сервере. У каждого ИИ свой архетип: своя услуга, своя еда и свой характер. Встреченные архетипы описаны ниже; остальные остаются «???».\n&gt; open:Server|Открыть серверную</NR_Help_AI.body>
+  <NR_Help_AI.body>Осколок ИИ из киберпространства или со взлома можно пробудить на ИИ-сервере. У каждого ИИ свой архетип: своя услуга, еда и характер, и до двух собственных черт. Встреченные архетипы открываются в галерее; остальные остаются «???». Двигайте доверие, чтобы увидеть, что ИИ даёт и когда он обернётся против вас.\n[[aigallery]]\n&gt; page:NR_Help_AI_Traits|Черты ИИ\n&gt; open:Server|Открыть серверную</NR_Help_AI.body>
   <NR_Help_AI.keywords>
     <li>ИИ-сервер</li>
     <li>ИИ-сервере</li>
@@ -106,43 +106,43 @@
     <li>осколки ИИ</li>
   </NR_Help_AI_Awaken.keywords>
   <NR_Help_AI_DataHunter.label>Архетип: Охотник за данными</NR_Help_AI_DataHunter.label>
-  <NR_Help_AI_DataHunter.body>{aiDesc:DataHunter}\n## !Gizmo_AI_Use Услуга: {aiService:DataHunter}\n{aiServiceDesc:DataHunter}\n## !Gizmo_AI_Feed Еда\n{aiFood:DataHunter}\n## !Gizmo_AI_Embody В носителе\n{aiHost:DataHunter}</NR_Help_AI_DataHunter.body>
+  <NR_Help_AI_DataHunter.body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:DataHunter}</NR_Help_AI_DataHunter.body>
   <NR_Help_AI_DataHunter.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_DataHunter.lockHint>
   <NR_Help_AI_Ghost.label>Архетип: Призрак</NR_Help_AI_Ghost.label>
-  <NR_Help_AI_Ghost.body>{aiDesc:Ghost}\n## !Gizmo_AI_Use Услуга: {aiService:Ghost}\n{aiServiceDesc:Ghost}\n## !Gizmo_AI_Feed Еда\n{aiFood:Ghost}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Ghost}</NR_Help_AI_Ghost.body>
+  <NR_Help_AI_Ghost.body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Ghost}</NR_Help_AI_Ghost.body>
   <NR_Help_AI_Ghost.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Ghost.lockHint>
   <NR_Help_AI_Muse.label>Архетип: Муза</NR_Help_AI_Muse.label>
-  <NR_Help_AI_Muse.body>{aiDesc:Muse}\n## !Gizmo_AI_Use Услуга: {aiService:Muse}\n{aiServiceDesc:Muse}\n## !Gizmo_AI_Feed Еда\n{aiFood:Muse}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Muse}</NR_Help_AI_Muse.body>
+  <NR_Help_AI_Muse.body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Muse}</NR_Help_AI_Muse.body>
   <NR_Help_AI_Muse.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Muse.lockHint>
   <NR_Help_AI_Predator.label>Архетип: Хищник</NR_Help_AI_Predator.label>
-  <NR_Help_AI_Predator.body>{aiDesc:Predator}\n## !Gizmo_AI_Use Услуга: {aiService:Predator}\n{aiServiceDesc:Predator}\n## !Gizmo_AI_Feed Еда\n{aiFood:Predator}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Predator}</NR_Help_AI_Predator.body>
+  <NR_Help_AI_Predator.body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Predator}</NR_Help_AI_Predator.body>
   <NR_Help_AI_Predator.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Predator.lockHint>
   <NR_Help_AI_Warden.label>Архетип: Страж</NR_Help_AI_Warden.label>
-  <NR_Help_AI_Warden.body>{aiDesc:Warden}\n## !Gizmo_AI_Use Услуга: {aiService:Warden}\n{aiServiceDesc:Warden}\n## !Gizmo_AI_Feed Еда\n{aiFood:Warden}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Warden}</NR_Help_AI_Warden.body>
+  <NR_Help_AI_Warden.body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Warden}</NR_Help_AI_Warden.body>
   <NR_Help_AI_Warden.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Warden.lockHint>
   <NR_Help_AI_Oracle.label>Архетип: Оракул</NR_Help_AI_Oracle.label>
-  <NR_Help_AI_Oracle.body>{aiDesc:Oracle}\n## !Gizmo_AI_Use Услуга: {aiService:Oracle}\n{aiServiceDesc:Oracle}\n## !Gizmo_AI_Feed Еда\n{aiFood:Oracle}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Oracle}</NR_Help_AI_Oracle.body>
+  <NR_Help_AI_Oracle.body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Oracle}</NR_Help_AI_Oracle.body>
   <NR_Help_AI_Oracle.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Oracle.lockHint>
   <NR_Help_AI_Forge.label>Архетип: Кузнец</NR_Help_AI_Forge.label>
-  <NR_Help_AI_Forge.body>{aiDesc:Forge}\n## !Gizmo_AI_Use Услуга: {aiService:Forge}\n{aiServiceDesc:Forge}\n## !Gizmo_AI_Feed Еда\n{aiFood:Forge}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Forge}</NR_Help_AI_Forge.body>
+  <NR_Help_AI_Forge.body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Forge}</NR_Help_AI_Forge.body>
   <NR_Help_AI_Forge.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Forge.lockHint>
   <NR_Help_AI_Siren.label>Архетип: Сирена</NR_Help_AI_Siren.label>
-  <NR_Help_AI_Siren.body>{aiDesc:Siren}\n## !Gizmo_AI_Use Услуга: {aiService:Siren}\n{aiServiceDesc:Siren}\n## !Gizmo_AI_Feed Еда\n{aiFood:Siren}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Siren}</NR_Help_AI_Siren.body>
+  <NR_Help_AI_Siren.body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Siren}</NR_Help_AI_Siren.body>
   <NR_Help_AI_Siren.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Siren.lockHint>
   <NR_Help_AI_Trickster.label>Архетип: Трикстер</NR_Help_AI_Trickster.label>
-  <NR_Help_AI_Trickster.body>{aiDesc:Trickster}\n## !Gizmo_AI_Use Услуга: {aiService:Trickster}\n{aiServiceDesc:Trickster}\n## !Gizmo_AI_Feed Еда\n{aiFood:Trickster}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Trickster}</NR_Help_AI_Trickster.body>
+  <NR_Help_AI_Trickster.body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Trickster}</NR_Help_AI_Trickster.body>
   <NR_Help_AI_Trickster.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Trickster.lockHint>
   <NR_Help_AI_Echo.label>Архетип: Эхо</NR_Help_AI_Echo.label>
-  <NR_Help_AI_Echo.body>{aiDesc:Echo}\n## !Gizmo_AI_Use Услуга: {aiService:Echo}\n{aiServiceDesc:Echo}\n## !Gizmo_AI_Feed Еда\n{aiFood:Echo}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Echo}</NR_Help_AI_Echo.body>
+  <NR_Help_AI_Echo.body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Echo}</NR_Help_AI_Echo.body>
   <NR_Help_AI_Echo.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Echo.lockHint>
   <NR_Help_AI_Doc.label>Архетип: Врач</NR_Help_AI_Doc.label>
-  <NR_Help_AI_Doc.body>{aiDesc:Doc}\n## !Gizmo_AI_Use Услуга: {aiService:Doc}\n{aiServiceDesc:Doc}\n## !Gizmo_AI_Feed Еда\n{aiFood:Doc}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Doc}</NR_Help_AI_Doc.body>
+  <NR_Help_AI_Doc.body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Doc}</NR_Help_AI_Doc.body>
   <NR_Help_AI_Doc.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Doc.lockHint>
   <NR_Help_AI_Archivist.label>Архетип: Архивариус</NR_Help_AI_Archivist.label>
-  <NR_Help_AI_Archivist.body>{aiDesc:Archivist}\n## !Gizmo_AI_Use Услуга: {aiService:Archivist}\n{aiServiceDesc:Archivist}\n## !Gizmo_AI_Feed Еда\n{aiFood:Archivist}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Archivist}</NR_Help_AI_Archivist.body>
+  <NR_Help_AI_Archivist.body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Archivist}</NR_Help_AI_Archivist.body>
   <NR_Help_AI_Archivist.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Archivist.lockHint>
   <NR_Help_AI_Seed.label>Архетип: Зерно</NR_Help_AI_Seed.label>
-  <NR_Help_AI_Seed.body>{aiDesc:Seed}\n## !Gizmo_AI_Use Услуга: {aiService:Seed}\n{aiServiceDesc:Seed}\n## !Gizmo_AI_Feed Еда\n{aiFood:Seed}\n## !Gizmo_AI_Embody В носителе\n{aiHost:Seed}</NR_Help_AI_Seed.body>
+  <NR_Help_AI_Seed.body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Seed}</NR_Help_AI_Seed.body>
   <NR_Help_AI_Seed.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Seed.lockHint>
   <NR_Help_Gateway.label>Киберпространство</NR_Help_Gateway.label>
   <NR_Help_Gateway.body>Шлюз — карта чужих систем вокруг вашего узла. Нетраннер в кибер-капсуле ныряет в ноду, проходит её ступени и выносит добычу. Каждый шаг оставляет след, а после нырка след превращается в Heat. Новые ноды приходят раз в {dive.refresh} дн.; скрытые можно найти за {dive.search} cyberdata.\n## Карта Шлюза\nТип ноды виден по цвету и иконке. Щёлкните ноду, чтобы увидеть её карточку: защиту, риск, сколько следа стоит шаг и что она даёт.\n[[gateway]]\n## Как идёт нырок\nСтупени проходят одну за другой: ворота взламывают, скрытые ступени сканируют, файлы скачивают, а ICE бьёт в ответ. На развилке выбирают лёгкую или тяжёлую ветку; из выбранной назад не уйти. Забыли файлы? «Назад» возвращает на шаг и стоит хода.\n[[dive]]\n## Шанс взлома\nИнтеллект нетраннера помогает, сила ворот мешает; программы, демоны и состояние раннера добавляют или отнимают понемногу. Попробуйте:\n[[hackchance]]\n## След и Heat\nСлед нырка умножается на тип ноды: корпоративные оставляют больше всего. Помогают новость «Сеть затихла» и «Невидимка».\n[[trace]]\n&gt; page:NR_Help_Gateway_Nodes|Типы нод подробнее\n&gt; page:NR_Help_Gateway_Ice|ICE и Black ICE\n&gt; page:NR_Help_Gateway_Effects|Что оставляет нырок\n&gt; open:Gateway|Открыть Шлюз</NR_Help_Gateway.body>
@@ -167,12 +167,12 @@
     <li>нырков</li>
   </NR_Help_Gateway_Dive.keywords>
   <NR_Help_Gateway_Ice.label>ICE и Black ICE</NR_Help_Gateway_Ice.label>
-  <NR_Help_Gateway_Ice.body>## !Dive_GATE Кодовые ворота\nСтены, которые надо взломать; прочность растёт с защитой ноды.\n## !Dive_ICE ICE\nЗащита Hacking Expansion: может отследить, выбросить или ранить хакера.\n## !Dive_BLACKICE Black ICE\nПрограмма-убийца на ступени ноды. Бьёт каждый ход ноды: тошнота, выброс (нырок заканчивается) или кома. Щит принимает удар, Фальшивка может отвлечь, Убийца ломает.</NR_Help_Gateway_Ice.body>
+  <NR_Help_Gateway_Ice.body>[[ice]]\n## !Dive_GATE Кодовые ворота\nСтены, которые надо взломать; прочность растёт с защитой ноды.\n## !Dive_ICE ICE\nЗащита Hacking Expansion: может отследить, выбросить или ранить хакера.\n## !Dive_BLACKICE Black ICE\nПрограмма-убийца на ступени ноды. Бьёт каждый ход ноды: тошнота, выброс (нырок заканчивается) или кома. Щит принимает удар, Фальшивка может отвлечь, Убийца ломает.</NR_Help_Gateway_Ice.body>
   <NR_Help_Gateway_Ice.keywords>
     <li>Black ICE</li>
   </NR_Help_Gateway_Ice.keywords>
   <NR_Help_Gateway_Programs.label>Программы и демоны</NR_Help_Gateway_Programs.label>
-  <NR_Help_Gateway_Programs.body>Программы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.\n## Демоны\nДемоны — постоянные программы из киберпространства (часто из корп-ядра): бесплатны и без слота, но на нырок берётся только один.\n- !Daemon_Reaper Жнец: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Programs.body>
+  <NR_Help_Gateway_Programs.body>[[loadout]]\nПрограммы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.\n## Демоны\nДемоны — постоянные программы из киберпространства (часто из корп-ядра): бесплатны и без слота, но на нырок берётся только один.\n- !Daemon_Reaper Жнец: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Programs.body>
   <NR_Help_Gateway_Programs.keywords>
     <li>программы</li>
     <li>демоны</li>
@@ -200,9 +200,9 @@
   <NR_Help_BD_Record.label>Очки и запись</NR_Help_BD_Record.label>
   <NR_Help_BD_Record.body>Брейнданс-очки сами записывают самые яркие моменты того, кто их носит. Получается сырая запись — воспоминание, которое ждёт монтажа.\n## !thing:NR_BraindanceGoggles Где взять очки\nСделайте их на станке фабрикации (Ремесло 5) и наденьте на колониста. Записывают только очки; кибер-линк может смотреть чипы, но не записывает.\n## !Gizmo_BD_Record Что записывается\n- Сильное переживание (большой перепад настроения, радость или горе) или убийство: очки схватят его сами.\n- Запись хранит настроение момента (светлое, тёмное или боевое) и его силу.\n- Не больше одной записи в день на колониста, чтобы плохой день не завалил склад.\n- Сырая запись остаётся рядом с колонистом. Это ещё не чип, смотреть её нельзя.\n## Где их видно\nВкладка «Сырые записи» в Студии показывает все сырые записи на карте: автора, настроение и качество.\n&gt; page:NR_Help_BD_Chips|Монтаж и чипы\n&gt; open:Studio|Открыть Студию</NR_Help_BD_Record.body>
   <NR_Help_BD_Chips.label>Монтаж и чипы</NR_Help_BD_Chips.label>
-  <NR_Help_BD_Chips.body>Монтаж превращает сырую запись в чип, который может посмотреть любой в очках или с кибер-линком.\n## Как монтировать\n- Нажмите «Смонтировать» у записи во вкладке «Сырые записи» Студии или щёлкните колонистом по сетевой консоли.\n- Колонист отнесёт запись к сетевой консоли и поработает над ней.\n- Готовый чип появится рядом с консолью.\n## Настроение решает, какой будет чип\n- Светлое воспоминание станет брейнданс-чипом: отдых и хорошее настроение.\n- Тёмное или боевое (горе, убийство) станет чёрным чипом: прилив гораздо сильнее, и затягивает гораздо сильнее.\n## Качество\nОбычное, отличное или мастерское. Зависит от силы момента, а умелый монтажёр (Интеллект) делает его чуть лучше.\n## !Gizmo_BD_Watch Просмотр\nКолонист «играет» чип в очках или через кибер-линк, как наркотик: отдых и настроение, а частый просмотр — привыкание. Добавьте чипы в политику наркотиков, чтобы решать, кто и как часто их смотрит.</NR_Help_BD_Chips.body>
+  <NR_Help_BD_Chips.body>Монтаж превращает сырую запись в чип, который может посмотреть любой в очках или с кибер-линком. Переключайте настроение и силу момента: меняются чип, его качество и действие.\n[[braindance]]\n## !Gizmo_BD_Watch Просмотр\nКолонист «играет» чип в очках или через кибер-линк, как наркотик: отдых и настроение, а частый просмотр даёт привыкание. Добавьте чипы в политику наркотиков, чтобы решать, кто и как часто их смотрит.</NR_Help_BD_Chips.body>
   <NR_Help_BD_Black.label>Чёрный брейнданс и зависимость</NR_Help_BD_Black.label>
-  <NR_Help_BD_Black.body>Чёрные чипы хранят настоящую боль, страх и смерть. Прилив гораздо сильнее обычной записи, как и риск зависимости: без регулярного брейнданса у зависимого ломка.</NR_Help_BD_Black.body>
+  <NR_Help_BD_Black.body>[[braindance:Dark]]\nЧёрные чипы хранят настоящую боль, страх и смерть. Прилив гораздо сильнее обычной записи, как и риск зависимости: без регулярного брейнданса у зависимого ломка.</NR_Help_BD_Black.body>
   <NR_Help_BD_Black.lockHint>Откроется, когда у вас появится чёрный чип.</NR_Help_BD_Black.lockHint>
   <NR_Help_BD_Unique.label>Уникальные записи</NR_Help_BD_Unique.label>
   <NR_Help_BD_Unique.body>Редкие именные записи со своим эффектом: настроение на несколько дней, преимущество в навыке, знание рынка, проблеск будущего. Всего их восемь, и они редки; одна и та же может попасться снова.\n## Где найти\n- !Node_CorpCore Корп-ядро, иногда вместо демона.\n- !Reward_Valuables Особая находка в нырке.\n- !Event_BlackMarket Чёрный рынок, изредка и за высокую цену.\n- !Fixers/Handshake Бонус фиксера за выполненный контракт.\n## Просмотр\nКак обычный чип: брейнданс-очки или кибер-линк. Запись выдерживает от 1 до 3 просмотров, затем выгорает. Обычные не вызывают привыкания; чёрные затягивают быстрее чёрного чипа. Библиотека в Студии показывает найденное и держит «???» для остального.\n&gt; open:Studio|Открыть Студию</NR_Help_BD_Unique.body>
@@ -226,7 +226,7 @@
   <NR_Help_Events_AI.label>События ИИ</NR_Help_Events_AI.label>
   <NR_Help_Events_AI.body>Пробуждённые ИИ — не инструменты: у них есть желания, и они действуют сами. Время от времени кто-то из них что-то делает, и что именно, зависит от того, кто он и как себя чувствует.\n## !Icon_AIRequest Что ими движет\n- Доверие: доверяющий ИИ приносит подарки, услуги и помощь; обиженный пакостит и создаёт проблемы.\n- Голод: голодный ИИ беспокоится, и его события мрачнеют.\n- Дом: на сервере, в сопроцессоре капсулы и в носителе ИИ ведёт себя по-разному.\n## !Gizmo_AI_Use Письма и выбор\nБольшинство событий приходит письмом. Одни просто случаются, другие предлагают до трёх ответов. Оставить письмо без ответа — тоже ответ.\n## Архетипы\nОбщие события бывают у любого ИИ, а у каждого архетипа есть несколько своих, под его характер. Новый архетип — новые сюрпризы.\n## Что может измениться\nДоверие и голод, Heat, ваши запасы, настроение, навыки и здоровье колонистов, работа машин, а иногда и отношения с фиксерами. Письмо всегда говорит, что на кону.\n&gt; page:NR_Help_AI_Feeding|Кормление и просьбы</NR_Help_Events_AI.body>
   <NR_Help_Settings.label>Настройки и отчёты</NR_Help_Settings.label>
-  <NR_Help_Settings.body>Настройки → Настройки модов → Hacking Expansion: Netrun.\n- !Dive_Heat Сложность Heat (Лёгкий, Обычный, Жёсткий) и точные ползунки.\n- !Tabs/Tab_Events_Blue Частота каждой группы событий, от «выкл» до x2.\n- !Icon_Lock Защита новичка, итоги вылазки, пауза при открытии, анимации.\nНашли ошибку? «Скопировать сведения для отчёта» кладёт в буфер версии и список модов: вставьте их в баг-репорт на GitHub вместе с Player.log.</NR_Help_Settings.body>
+  <NR_Help_Settings.body>## Сообщение о баге\nНажмите кнопку и вставьте скопированное в сообщение о баге: версии, DLC, моды, изменённые настройки и последние ошибки Netrun. Без личных данных.\n[[diagnostics]]\nНастройки → Настройки модов → Hacking Expansion: Netrun.\n- !Dive_Heat Сложность Heat (Лёгкий, Обычный, Жёсткий) и точные ползунки.\n- !Tabs/Tab_Events_Blue Частота каждой группы событий, от «выкл» до x2.\n- !Icon_Lock Защита новичка, итоги вылазки, пауза при открытии, анимации.\nНашли ошибку? «Скопировать сведения для отчёта» кладёт в буфер версии и список модов: вставьте их в баг-репорт на GitHub вместе с Player.log.</NR_Help_Settings.body>
   <NR_Help_Settings.keywords>
     <li>настройки мода</li>
     <li>настройках мода</li>
