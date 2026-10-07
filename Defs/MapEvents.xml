@@ -4,6 +4,9 @@
   <!-- Map events (docs/PHASE5_MAPEVENTS.md) -->
   <Netrun.MapEventsSettingsDef>
     <defName>NR_MapEvents</defName>
+    <!-- Map events (courier, black market, distress signal, turret hijack) come from their own schedule, not the storyteller:
+         one every this many days on average, divided by the "map events" frequency in the mod settings. -->
+    <mapEventMtbDays>5</mapEventMtbDays>
     <courierDays>1</courierDays>
     <courierHuntersHours>4~8</courierHuntersHours>
     <courierHuntersPoints>0.5</courierHuntersPoints>

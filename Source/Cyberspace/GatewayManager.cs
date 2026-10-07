@@ -18,6 +18,11 @@ public class GatewayManager : GameComponent
     private int _nextRefreshTick = -1;
     private int _nextId = 1;
     public List<DiveProgram> SelectedPrograms = [];
+    /// <summary>The one daemon taken on dives (-1 for none); kept between dives.</summary>
+    public int SelectedDaemon = -1;
+
+    /// <summary>The daemon to take, if it is still unlocked.</summary>
+    public List<DiveDaemon> DaemonsForDive => SelectedDaemon >= 0 && Daemons.Contains((DiveDaemon)SelectedDaemon) ? [(DiveDaemon)SelectedDaemon] : [];
     /// <summary>Permanent programs found in cyberspace.</summary>
     public List<DiveDaemon> Daemons = [];
     /// <summary>Favor of a hacker group, spent on calling allies.</summary>
@@ -248,7 +253,7 @@ public class GatewayManager : GameComponent
             return;
         int cost = DiveCost(map, node, out _);
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
-        Session = DiveSession.Start(node, runner, SelectedPrograms, cost, Daemons);
+        Session = DiveSession.Start(node, runner, SelectedPrograms, cost, DaemonsForDive);
         EconomyTracker.Get()?.Note(spent: cost, dive: true);
         SelectedPrograms = [];
     }
@@ -340,6 +345,7 @@ public class GatewayManager : GameComponent
         Scribe_Values.Look(ref _nextRefreshTick, "nextRefreshTick", -1);
         Scribe_Values.Look(ref _nextId, "nextId", 1);
         Scribe_Collections.Look(ref SelectedPrograms, "selectedPrograms", LookMode.Value);
+        Scribe_Values.Look(ref SelectedDaemon, "selectedDaemon", -1);
         Scribe_Deep.Look(ref Session, "session");
         Scribe_Collections.Look(ref Daemons, "daemons", LookMode.Value);
         Scribe_Values.Look(ref GroupFavor, "groupFavor");

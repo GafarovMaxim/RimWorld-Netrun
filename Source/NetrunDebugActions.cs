@@ -22,6 +22,30 @@ public static class NetrunDebugActions
     private static void StartNetCraving(Pawn pawn)
         => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);
 
+    /// <summary>Why each map event can or cannot come right now on this map.</summary>
+    [DebugAction(Category, "Map events: why not?", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void MapEventsWhy()
+    {
+        var lines = MapEventsManager.Candidates(Find.CurrentMap)
+            .Select(c => $"{c.def.defName}: {c.why ?? "can fire"} (weight {c.def.baseChance})").ToList();
+        lines.Insert(0, $"Schedule: one every {NetrunDefOf.NR_MapEvents.mapEventMtbDays} days / frequency {NetrunMod.Settings.MapEventFrequency}");
+        Log.Message("[Netrun] " + string.Join("\n", lines));
+        Messages.Message(string.Join("; ", lines), MessageTypeDefOf.NeutralEvent, historical: false);
+    }
+
+    [DebugAction(Category, "Map event: fire a random one now", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private static void MapEventNow()
+    {
+        var options = MapEventsManager.Candidates(Find.CurrentMap).Where(c => c.why == null).ToList();
+        if (options.Count == 0)
+        {
+            Messages.Message("No map event can fire now: see \"Map events: why not?\"", MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        var pick = options.RandomElementByWeight(o => o.def.baseChance);
+        pick.def.Worker.TryExecute(pick.parms);
+    }
+
     [DebugAction(Category, "+10 Heat", allowedGameStates = AllowedGameStates.Playing)]
     private static void AddHeat() => HeatTracker.Get()?.AddHeat(10f, "NR_LogDev".Translate());
 

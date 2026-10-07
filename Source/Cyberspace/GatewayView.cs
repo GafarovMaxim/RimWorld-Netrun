@@ -522,20 +522,29 @@ public static class GatewayView
         }
         y += 36f;
 
-        // Daemons: permanent programs, always on, no slot. Icons for those that have art, then the text.
-        y = DaemonIcons(inner, y, gateway.Daemons);
-        Text.Font = GameFont.Tiny;
-        string daemons = gateway.Daemons.Count == 0
-            ? "NR_GatewayNoDaemons".Translate().Colorize(NetrunUI.Muted)
-            : "NR_GatewayDaemons".Translate(gateway.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate()).ToCommaList()).Colorize(NetrunUI.Ok);
-        float dh = Text.CalcHeight(daemons, inner.width);
-        var daemonRect = new Rect(inner.x, y, inner.width, dh);
-        Widgets.Label(daemonRect, daemons);
-        NetrunUI.Tip(daemonRect, gateway.Daemons.Count == 0
-            ? "NR_GatewayDaemonsTip".Translate()
-            : string.Join("\n", gateway.Daemons.Select(d => (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate())));
-        Text.Font = GameFont.Small;
-        y += dh + 8f;
+        // Daemons: one per dive, free, no slot. Buttons like the programs; a second click takes it off.
+        int daemonsFound = gateway.Daemons.Count;
+        y = NetrunUI.Section(new Rect(inner.x, y + 2f, inner.width, 36f), "NR_GatewayDaemonPick".Translate(daemonsFound));
+        x = inner.x;
+        foreach (DiveDaemon d in System.Enum.GetValues(typeof(DiveDaemon)))
+        {
+            bool unlocked = gateway.Daemons.Contains(d);
+            bool on = unlocked && gateway.SelectedDaemon == (int)d;
+            string label = ("NR_Daemon_" + d).Translate();
+            Texture2D icon = NetrunTex.DaemonIcon(d);
+            float w = NetrunUI.ButtonWidth(label, icon != null);
+            if (x + w > inner.xMax)
+            {
+                x = inner.x;
+                y += 34f;
+            }
+            AcceptanceReport report = unlocked ? true : (AcceptanceReport)"NR_GatewayDaemonLocked".Translate();
+            string tip = ("NR_DaemonDesc_" + d).Translate() + "\n\n" + "NR_GatewayDaemonOne".Translate();
+            if (NetrunUI.Button(new Rect(x, y, w, 28f), (on ? "✓ " : string.Empty) + label, on ? NetrunUI.Purple : NetrunUI.TextColor, report, tip, unlocked ? icon : null))
+                gateway.SelectedDaemon = on ? -1 : (int)d;
+            x += w + 6f;
+        }
+        y += 36f;
 
         GuideRegistry.InScroll("gateway.programs", outer, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
         float gDive = y;
@@ -578,24 +587,6 @@ public static class GatewayView
         Widgets.EndScrollView();
     }
 
-    /// <summary>A row of daemon icons (only daemons with art); returns the next y.</summary>
-    public static float DaemonIcons(Rect inner, float y, IEnumerable<DiveDaemon> daemons)
-    {
-        float x = inner.x;
-        bool any = false;
-        foreach (DiveDaemon d in daemons)
-        {
-            Texture2D icon = NetrunTex.DaemonIcon(d);
-            if (icon == null)
-                continue;
-            var r = new Rect(x, y, 28f, 28f);
-            GUI.DrawTexture(r, icon);
-            NetrunUI.Tip(r, (string)("NR_Daemon_" + d).Translate() + ": " + ("NR_DaemonDesc_" + d).Translate());
-            x += 32f;
-            any = true;
-        }
-        return any ? y + 32f : y;
-    }
 
     /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,

@@ -162,9 +162,6 @@
 {1}
 
 It works in every dive, for free, without a slot.</NR_FindDaemon>
-  <NR_GatewayDaemons>Daemons: {0}</NR_GatewayDaemons>
-  <NR_GatewayNoDaemons>Daemons: none yet</NR_GatewayNoDaemons>
-  <NR_GatewayDaemonsTip>Daemons are permanent programs found in cyberspace (rare finds, the corporate core). They work in every dive for free.</NR_GatewayDaemonsTip>
   <NR_AlliesNeedFavor>needs the group's favor: {0}/{1}</NR_AlliesNeedFavor>
   <NR_AlliesCooldown>the group can help again in {0}</NR_AlliesCooldown>
   <NR_AlliesNoFaction>No allied faction can come, so the hacker group sent data instead.</NR_AlliesNoFaction>
@@ -280,4 +277,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_NewsContract>A fixer wants {0} cracked</NR_NewsContract>
   <NR_NewsLastDive>Last dive: {0} at {1}, {2}</NR_NewsLastDive>
   <NR_NewsRefresh>New nodes surface in {0}</NR_NewsRefresh>
+  <NR_GatewayDaemonPick>Daemon (one per dive, {0} found)</NR_GatewayDaemonPick>
+  <NR_GatewayDaemonLocked>Not found yet: daemons come from the corporate core and rare finds.</NR_GatewayDaemonLocked>
+  <NR_GatewayDaemonOne>One daemon per dive: picking another swaps it. Free, takes no program slot.</NR_GatewayDaemonOne>
 </LanguageData>

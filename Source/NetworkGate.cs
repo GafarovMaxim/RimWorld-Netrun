@@ -173,6 +173,8 @@ public static class EventGroups
 {
     private static readonly HashSet<string> MapEvents = ["NR_DataCourier", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
 
+    public static bool IsScheduled(IncidentDef def) => MapEvents.Contains(def.defName);
+
     /// <summary>The frequency setting for this incident: net attacks (attacks, mercenaries, corporate hunt) or map events; 1 for others.</summary>
     public static float Frequency(IncidentDef def)
     {
@@ -189,7 +191,14 @@ public static class EventGroups
 [HarmonyPatch(typeof(IncidentWorker), nameof(IncidentWorker.BaseChanceThisGame), MethodType.Getter)]
 public static class Patch_IncidentWorker_BaseChance
 {
-    public static void Postfix(IncidentWorker __instance, ref float __result) => __result *= EventGroups.Frequency(__instance.def);
+    public static void Postfix(IncidentWorker __instance, ref float __result)
+    {
+        // Map events run on their own schedule (MapEventsManager); the storyteller does not pick them.
+        if (__instance.def != null && EventGroups.IsScheduled(__instance.def))
+            __result = 0f;
+        else
+            __result *= EventGroups.Frequency(__instance.def);
+    }
 }
 
 /// <summary>Netrun incidents stay quiet until the colony is online, or when their group is off (dev "Execute incident" still works).</summary>

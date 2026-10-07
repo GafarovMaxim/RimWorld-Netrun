@@ -32,6 +32,12 @@ public class MapEventsSettingsDef : Def
     public float mapHackWinHeat = 5f;
     public int mapHackLoseBreakdowns = 2;
 
+    /// <summary>
+    /// Map events come from their own schedule (not the storyteller's Misc pool, where they were picked almost never):
+    /// on average one every this many days, divided by the "map events" frequency setting.
+    /// </summary>
+    public float mapEventMtbDays = 5f;
+
 }
 
 /// <summary>
@@ -179,6 +185,49 @@ public class MapEventsManager : GameComponent
             return;
         CheckCourier();
         CheckCounterHack();
+        TryScheduledEvent();
+    }
+
+    // ---- Our own schedule for map events ----
+
+    public static readonly string[] Scheduled = ["NR_DataCourier", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
+
+    private static void TryScheduledEvent()
+    {
+        float freq = NetrunMod.Settings.MapEventFrequency;
+        if (freq <= 0f)
+            return;
+        float mtbTicks = Settings.mapEventMtbDays * GenDate.TicksPerDay / freq;
+        if (!Rand.Chance(GenTicks.TickRareInterval / mtbTicks))
+            return;
+        Map map = Find.Maps.Where(m => m.IsPlayerHome).RandomElementWithFallback();
+        if (map == null)
+            return;
+        var options = Candidates(map).Where(c => c.why == null).ToList();
+        if (options.Count == 0)
+            return;
+        (IncidentDef def, IncidentParms parms, string _) = options.RandomElementByWeight(o => o.def.baseChance);
+        def.Worker.TryExecute(parms);
+    }
+
+    /// <summary>Each scheduled map event with its parms and why it cannot fire now (null if it can).</summary>
+    public static IEnumerable<(IncidentDef def, IncidentParms parms, string why)> Candidates(Map map)
+    {
+        foreach (string name in Scheduled)
+        {
+            IncidentDef def = DefDatabase<IncidentDef>.GetNamedSilentFail(name);
+            if (def == null)
+                continue;
+            IncidentParms parms = StorytellerUtility.DefaultParmsNow(def.category, map);
+            string why = null;
+            if (!NetworkGate.Allows(def))
+                why = "newcomer protection";
+            else if (map.StoryState.lastFireTicks.TryGetValue(def, out int last) && Find.TickManager.TicksGame - last < def.minRefireDays * GenDate.TicksPerDay)
+                why = $"refire: {((def.minRefireDays * GenDate.TicksPerDay - (Find.TickManager.TicksGame - last)) / (float)GenDate.TicksPerDay):0.#} days left";
+            else if (!def.Worker.CanFireNow(parms))
+                why = "conditions not met";
+            yield return (def, parms, why);
+        }
     }
 
     public override void ExposeData()

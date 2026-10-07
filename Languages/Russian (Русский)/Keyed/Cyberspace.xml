@@ -162,9 +162,6 @@
 {1}
 
 Работает в каждом нырке, бесплатно и без слота.</NR_FindDaemon>
-  <NR_GatewayDaemons>Демоны: {0}</NR_GatewayDaemons>
-  <NR_GatewayNoDaemons>Демоны: пока нет</NR_GatewayNoDaemons>
-  <NR_GatewayDaemonsTip>Демоны — постоянные программы из киберпространства (редкие находки, корпоративное ядро). Работают в каждом нырке бесплатно.</NR_GatewayDaemonsTip>
   <NR_AlliesNeedFavor>нужна благосклонность группы: {0}/{1}</NR_AlliesNeedFavor>
   <NR_AlliesCooldown>группа сможет помочь снова через {0}</NR_AlliesCooldown>
   <NR_AlliesNoFaction>Союзной фракции рядом нет, поэтому хакерская группа прислала данные.</NR_AlliesNoFaction>
@@ -280,4 +277,7 @@
   <NR_NewsContract>Фиксер хочет взлома {0}</NR_NewsContract>
   <NR_NewsLastDive>Последний нырок: {0}, {1}, {2}</NR_NewsLastDive>
   <NR_NewsRefresh>Новые ноды всплывут через {0}</NR_NewsRefresh>
+  <NR_GatewayDaemonPick>Демон (один на нырок, найдено: {0})</NR_GatewayDaemonPick>
+  <NR_GatewayDaemonLocked>Ещё не найден: демоны выпадают из корп-ядра и редких находок.</NR_GatewayDaemonLocked>
+  <NR_GatewayDaemonOne>Один демон на нырок: выбор другого заменяет его. Бесплатно, слот программы не занимает.</NR_GatewayDaemonOne>
 </LanguageData>

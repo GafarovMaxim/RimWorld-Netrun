@@ -494,7 +494,7 @@
     <order>4</order>
     <color>Accent</color>
     <label>Programs and daemons</label>
-    <body>Programs are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.\n## Daemons\nDaemons are permanent programs found in cyberspace (often in the corporate core): always on, free, no slot.\n- !Daemon_Blade Blade: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
+    <body>Programs are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.\n## Daemons\nDaemons are permanent programs found in cyberspace (often in the corporate core): free and without a slot, but you take only one per dive.\n- !Daemon_Blade Blade: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
     <icon>Reward_DaemonProgram</icon>
     <keywords>
       <li>programs</li>

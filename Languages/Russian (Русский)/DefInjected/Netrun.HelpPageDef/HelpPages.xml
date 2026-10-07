@@ -156,7 +156,7 @@
     <li>Black ICE</li>
   </NR_Help_Gateway_Ice.keywords>
   <NR_Help_Gateway_Programs.label>Программы и демоны</NR_Help_Gateway_Programs.label>
-  <NR_Help_Gateway_Programs.body>Программы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.\n## Демоны\nДемоны — постоянные программы из киберпространства (часто из корп-ядра): всегда включены, бесплатны, без слота.\n- !Daemon_Blade Клинок: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Programs.body>
+  <NR_Help_Gateway_Programs.body>Программы загружаются перед нырком: {dive.slots} слота, по {dive.program} cyberdata.\n- !Program_Sword Меч: взлом легче.\n- !Program_Shield Щит: принимает удар ICE.\n- !Program_Decoy Фальшивка: может отвлечь ICE.\n- !Program_Stealth Призрак: вдвое меньше следа.\n- !Program_Killer Убийца: ломает ICE.\n## Демоны\nДемоны — постоянные программы из киберпространства (часто из корп-ядра): бесплатны и без слота, но на нырок берётся только один.\n- !Daemon_Blade Клинок: взлом гораздо легче.\n- !Daemon_Aegis Эгида: заряд Щита в каждом нырке.\n- !Daemon_Wraith Морок: вдвое меньше следа.\n- !Daemon_Hound Гончая: заряд Убийцы в каждом нырке.\n- !Daemon_Lens Линза: скрытые тайники всегда видны.</NR_Help_Gateway_Programs.body>
   <NR_Help_Gateway_Programs.keywords>
     <li>программы</li>
     <li>демоны</li>
