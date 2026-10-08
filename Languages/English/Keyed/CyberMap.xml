@@ -98,4 +98,6 @@
   <NR_MapWallLabel>The Wall opens</NR_MapWallLabel>
   <NR_MapWall>With a corporate core broken, the old gates in the Wall answer for the first time. Beyond them lies the Old Net: ancient systems behind Black ICE 10, with legendary loot.</NR_MapWall>
 
+  <NR_DistrictOldNetWalled>Old Net (behind the Wall)</NR_DistrictOldNetWalled>
+  <NR_MapWallLocked>The Wall: the way into the Old Net is shut.</NR_MapWallLocked>
 </LanguageData>

@@ -44,7 +44,6 @@ public partial class NetMapManager
             if (transit.Count == 0)
                 return;
             int count = Settings.orbitNodes.RandomInRange;
-            MapNode prev = null;
             for (int i = 0; i < count; i++)
             {
                 var n = new MapNode
@@ -56,17 +55,19 @@ public partial class NetMapManager
                     Slots = 2,
                 };
                 Map.Nodes.Add(n);
-                MapNode down = transit.OrderBy(t => Vector2.Distance(t.Pos, n.Pos)).First();
-                Map.Links.Add(new MapLink { A = n.Id, B = down.Id, Kind = LinkKind.Normal });
-                if (prev != null)
-                    Map.Links.Add(new MapLink { A = prev.Id, B = n.Id, Kind = LinkKind.Normal });
-                prev = n;
                 for (int s = 0; s < n.Slots; s++)
                 {
                     ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), District.Orbit);
                     Attach(branch, n);
                 }
             }
+            LinkOrbit();
+            Map.Dirty();
+        }
+        else if (OrbitLinksTooLong())
+        {
+            // Older maps: the orbit was tied to far transit hubs with lines across the whole map.
+            LinkOrbit();
             Map.Dirty();
         }
         bool open = OrbitOpen;
@@ -75,6 +76,37 @@ public partial class NetMapManager
             _orbitWasOpen = open;
             Gateway.AddHeadline((open ? "NR_HeadlineOrbitOpen" : "NR_HeadlineOrbitClosed").Translate(), open ? 1 : 0);
         }
+    }
+
+    /// <summary>The orbit as a belt along the top: neighbours linked in a row, each tied to the two nearest hubs below.</summary>
+    private void LinkOrbit()
+    {
+        var orbit = Map.Nodes.Where(n => n.District == District.Orbit).OrderBy(n => n.X).ToList();
+        var ids = new System.Collections.Generic.HashSet<int>(orbit.Select(n => n.Id));
+        Map.Links.RemoveAll(l => ids.Contains(l.A) || ids.Contains(l.B));
+        var below = Map.Nodes.Where(n => n.District != District.Orbit && n.District != District.OldNet).ToList();
+        for (int i = 0; i < orbit.Count; i++)
+        {
+            MapNode n = orbit[i];
+            if (i > 0)
+                Map.Links.Add(new MapLink { A = orbit[i - 1].Id, B = n.Id, Kind = LinkKind.Normal });
+            foreach (MapNode down in below.OrderBy(t => Vector2.Distance(t.Pos, n.Pos)).Take(2))
+                Map.Links.Add(new MapLink { A = n.Id, B = down.Id, Kind = LinkKind.Normal });
+        }
+    }
+
+    /// <summary>An orbit link that leaves the belt for a hub far down the map.</summary>
+    private bool OrbitLinksTooLong()
+    {
+        foreach (MapLink l in Map.Links)
+        {
+            MapNode a = Map.Node(l.A), b = Map.Node(l.B);
+            if (a == null || b == null || (a.District != District.Orbit) == (b.District != District.Orbit))
+                continue;
+            if (Vector2.Distance(a.Pos, b.Pos) > 0.3f)
+                return true;
+        }
+        return false;
     }
 
     private void ExposeOrbit() => Scribe_Values.Look(ref _orbitWasOpen, "orbitWasOpen");

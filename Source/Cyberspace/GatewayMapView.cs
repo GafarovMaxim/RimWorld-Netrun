@@ -132,6 +132,9 @@ public static partial class GatewayView
             if (owner != null)
                 return owner.Name;
         }
+        // The Old Net sits behind the Wall: say so while the Wall is shut.
+        if (n.District == District.OldNet && !net.Map.WallOpen)
+            return "NR_DistrictOldNetWalled".Translate();
         return ("NR_District_" + n.District).Translate();
     }
 
@@ -184,7 +187,18 @@ public static partial class GatewayView
         }
         Vector2 mid = (a + b) / 2f;
         Text.Font = GameFont.Tiny;
-        if (l.Broken)
+        if (l.Kind == LinkKind.Wall && !map.WallOpen)
+        {
+            // A lock on the Wall's dashed line: the way into the Old Net is shut.
+            var lockRect = new Rect(mid.x - 8f, mid.y - 8f, 16f, 16f);
+            Widgets.DrawBoxSolid(lockRect.ContractedBy(1f), NetrunUI.BgWindow);
+            GUI.color = NetrunUI.Bad;
+            if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+                GUI.DrawTexture(lockRect, lockTex);
+            GUI.color = Color.white;
+            NetrunUI.Tip(lockRect, "NR_MapWallLocked".Translate());
+        }
+        else if (l.Broken)
             Widgets.Label(new Rect(mid.x - 5f, mid.y - 9f, 14f, 18f), "✕".Colorize(NetrunUI.Bad));
         else if (l.Toll)
         {
@@ -201,7 +215,8 @@ public static partial class GatewayView
         bool home = n.District == District.Home;
         float r = (home ? 15f : n.Fortress ? 11f : 8f) * Mathf.Sqrt(_zoom);
         var rect = new Rect(p.x - r, p.y - r, r * 2f, r * 2f);
-        Color c = n.Offline ? NetrunUI.Muted : DistrictColor(n.District);
+        // Offline hubs and the Old Net behind a shut Wall are greyed out, not drawn like open ground.
+        Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : DistrictColor(n.District);
         bool selected = n.Id == _selectedMapNode;
         bool hover = Mouse.IsOver(rect.ExpandedBy(4f));
 
