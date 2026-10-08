@@ -39,7 +39,7 @@ SECTIONS = [
     ("corps", "Factions/Corp_Security", "CORPORATIONS & CREWS", "the powers of the net", "КОРПОРАЦИИ И КОМАНДЫ", "силы, которые правят сетью"),
     ("ais", "Tabs/Tab_AI", "NETWORK AIs", "thirteen minds in your servers", "СЕТЕВЫЕ ИИ", "тринадцать разумов в ваших серверах"),
     ("braindance", "Tabs/Tab_Braindance", "BRAINDANCE", "someone else's memory, as your own", "БРЕЙНДАНС", "чужая память как своя"),
-    ("defense", "Cyberspace/Program_Shield", "NODE DEFENSE", "when the net comes knocking", "ЗАЩИТА УЗЛА", "когда сеть стучится в ответ"),
+    ("defense", "Cyberspace/Program_Shield", "HUB DEFENSE", "when the net comes knocking", "ЗАЩИТА УЗЛА", "когда сеть стучится в ответ"),
     ("colonists", "Ideo/Role_NetArchon", "COLONISTS, DLC & STARTS", "the netrunner pays in body and mind", "КОЛОНИСТЫ, DLC И СТАРТЫ", "нетраннер платит телом и разумом"),
     ("requirements", "Icon_Guide", "REQUIREMENTS", "load order and compatibility", "ТРЕБОВАНИЯ", "порядок загрузки и совместимость"),
     ("credits", "Fixers/Handshake", "CREDITS", "thank you", "БЛАГОДАРНОСТИ", "спасибо"),
@@ -140,7 +140,7 @@ EN = {
 
 [b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url={HE}]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. Deep in a cyberpod your netrunner walks a living map of cyberspace, and the net always answers.""",
     "heat": """Every intrusion raises the colony's [b]Heat[/b]: five levels from [b]Shadow[/b] to the [b]Red Zone[/b]. The hotter the trace, the harsher the answer: neural noise, data theft, machine sabotage, power surges, ransomware and raids by the hidden [b]Black Ledger[/b] mercenaries. Lay low, scrub the trace through a fixer, or burn bright and pay for it.""",
-    "terminal": """The comms console becomes a [b]network console[/b]: a neon terminal with its own map of nodes.
+    "terminal": """The comms console becomes a [b]network console[/b]: a neon terminal with its own navigation screen of sections.
 [list]
 [*][b]Core[/b]: the Heat ring, trends, alerts, resources
 [*][b]Club[/b]: fixers, corporations, crews, the top-100
@@ -151,7 +151,7 @@ EN = {
 [*][b]Gateway[/b]: the cyberspace map and dives
 [/list]
 And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.""",
-    "cyberspace": """One map per game: about 45 nodes in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
+    "cyberspace": """One map per game: about 45 hubs in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
 [list]
 [*][b]Turn-based dives[/b]: code gates, hidden caches, files, memory units, forks of easy and hard paths
 [*][b]Black ICE[/b] strikes back with Hacking Expansion's nausea, lockout and coma
@@ -180,7 +180,7 @@ And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.""",
 [*][b]Royalty[/b]: imperial fixers, a trace-scrub permit
 [*][b]Ideology[/b]: net memes, rituals, the Net Archon role
 [*][b]Biotech[/b]: a gene, braindance learning for children
-[*][b]Odyssey[/b]: orbital nodes while your gravship is in space
+[*][b]Odyssey[/b]: orbital hubs while your gravship is in space
 [*][b]4 scenarios[/b]: The Last Node, Corporate Runaways, Pirate Studio, Flying Node (Odyssey)
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]""",
@@ -204,7 +204,7 @@ RU = {
 
 [b]Hacking Expansion: Netrun[/b] — киберпанк-надстройка над [url={HE}]Ushanka's Hacking Expansion[/url]. Каждый взлом оставляет след. Корпорации замечают. Фиксеры звонят. В ваших серверах просыпаются спящие ИИ. Глубоко в кибер-капсуле ваш нетраннер идёт по живой карте киберпространства, и сеть всегда отвечает.""",
     "heat": """Каждый взлом поднимает [b]Heat[/b] колонии: пять уровней от [b]Тени[/b] до [b]Красной зоны[/b]. Чем горячее след, тем жёстче ответ: нейрошум, кража данных, саботаж станков, скачки напряжения, вымогатели и рейды скрытых наёмников [b]«Чёрной книги»[/b]. Заляг на дно, сотри след у фиксера или гори ярко и плати за это.""",
-    "terminal": """Консоль связи становится [b]сетевой консолью[/b]: неоновый терминал со своей картой узлов.
+    "terminal": """Консоль связи становится [b]сетевой консолью[/b]: неоновый терминал со своим экраном навигации из разделов.
 [list]
 [*][b]Ядро[/b]: кольцо Heat, тренды, тревоги, ресурсы
 [*][b]Клуб[/b]: фиксеры, корпорации, команды, топ-100
@@ -220,12 +220,12 @@ RU = {
 [*][b]Пошаговые нырки[/b]: кодовые врата, тайники, файлы, блоки памяти, развилки лёгкого и трудного пути
 [*][b]Чёрный лёд[/b] бьёт в ответ тошнотой, блокировкой и комой из Hacking Expansion
 [*][b]Программы[/b] (Меч, Щит, Приманка, Стелс, Убийца) и пять [b]демонов[/b]; ледорубы и exec-данные HE встают в слот
-[*][b]Тревога узла и ледовые патрули[/b]: ошибёшься слишком часто — узел проснётся
-[*][b]Корп-ядра[/b]: босс-узлы с лучшей добычей в сети
+[*][b]Тревога ноды и ледовые патрули[/b]: ошибёшься слишком часто — нода проснётся
+[*][b]Корп-ядра[/b]: босс-ноды с лучшей добычей в сети
 [/list]""",
     "fixers": """Сменяющийся круг [b]фиксеров[/b] теневого мира: брокеры, чистильщики, скупщики и имперские клиенты (Royalty). У каждого скрытая черта: надёжный, жадный, параноик, коллекционер... или [b]крыса[/b], которая сдаст вас. Копите репутацию, закрепляйте тех, кому верите, и берите [b]8 видов контрактов[/b]: доставки данных, врезки в системы, тихие заходы, слежку, чистые лаборатории брейнданса и другое.""",
     "corps": """[list]
-[*][b]3–4 корпорации[/b] владеют корпоративными районами. У каждой [b]Тревога[/b] и [b]Сила[/b]: они укрепляют узлы, шлют патрули, ведут вторжения по карте, захватывают территорию и могут [b]рухнуть[/b].
+[*][b]3–4 корпорации[/b] владеют корпоративными районами. У каждой [b]Тревога[/b] и [b]Сила[/b]: они укрепляют ноды, шлют патрули, ведут вторжения по карте, захватывают территорию и могут [b]рухнуть[/b].
 [*][b]Шесть команд раннеров[/b] соревнуются с вами, помогают, охотятся за целями контрактов и сдаются в наём.
 [*][b]Топ-100 сети[/b]: слава за каждый нырок. Лучшим платят больше, и следят за ними пристальнее.
 [/list]""",
@@ -244,7 +244,7 @@ RU = {
 [*][b]Royalty[/b]: имперские фиксеры, разрешение на зачистку следа
 [*][b]Ideology[/b]: сетевые мемы, ритуалы, роль Архонта сети
 [*][b]Biotech[/b]: ген, обучение детей через брейнданс
-[*][b]Odyssey[/b]: орбитальные ноды, пока гравикорабль в космосе
+[*][b]Odyssey[/b]: орбитальные узлы, пока гравикорабль в космосе
 [*][b]4 сценария[/b]: «Последний узел», «Корпоративные беглецы», «Пиратская студия», «Летающий узел» (Odyssey)
 [*][b]26 достижений[/b] с Vanilla Achievements Expanded (необязательно)
 [/list]""",

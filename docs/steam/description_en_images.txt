@@ -10,7 +10,7 @@ Every intrusion raises the colony's [b]Heat[/b]: five levels from [b]Shadow[/b] 
 
 [img]{{en_terminal}}[/img]
 
-The comms console becomes a [b]network console[/b]: a neon terminal with its own map of nodes.
+The comms console becomes a [b]network console[/b]: a neon terminal with its own navigation screen of sections.
 [list]
 [*][b]Core[/b]: the Heat ring, trends, alerts, resources
 [*][b]Club[/b]: fixers, corporations, crews, the top-100
@@ -24,7 +24,7 @@ And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.
 
 [img]{{en_cyberspace}}[/img]
 
-One map per game: about 45 nodes in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
+One map per game: about 45 hubs in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
 [list]
 [*][b]Turn-based dives[/b]: code gates, hidden caches, files, memory units, forks of easy and hard paths
 [*][b]Black ICE[/b] strikes back with Hacking Expansion's nausea, lockout and coma
@@ -71,7 +71,7 @@ Wall-mounted [b]firewalls[/b], your own [b]ICE tiers[/b] up to black ICE, a [b]h
 [*][b]Royalty[/b]: imperial fixers, a trace-scrub permit
 [*][b]Ideology[/b]: net memes, rituals, the Net Archon role
 [*][b]Biotech[/b]: a gene, braindance learning for children
-[*][b]Odyssey[/b]: orbital nodes while your gravship is in space
+[*][b]Odyssey[/b]: orbital hubs while your gravship is in space
 [*][b]4 scenarios[/b]: The Last Node, Corporate Runaways, Pirate Studio, Flying Node (Odyssey)
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]
