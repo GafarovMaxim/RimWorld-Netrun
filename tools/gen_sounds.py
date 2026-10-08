@@ -1129,6 +1129,12 @@ def amb_v3(pack, name):
     t = np.arange(n) / SR
     y = np.zeros(n)
     r = rng(zlib.crc32(f"{pack}/{name}".encode()) % 10000)
+    if name == "server":
+        # A muffled, low mains hum for every pack: a 50 Hz fundamental and two harmonics, a slow beat,
+        # no noise and no clicks (the shared pads sounded like rustling or rain).
+        y = part(50, T, n) * 0.6 + part(100.3, T, n) * 0.35 + part(150, T, n) * 0.12
+        y = lp(y, 220) * slow(T, n, 0.25, 0.15)
+        return rms_norm(y, STYLE_RMS[pack][name])
     am9 = [110, 164.81, 220, 329.63, 392]
     if pack == "Clean":
         if name == "terminal":
