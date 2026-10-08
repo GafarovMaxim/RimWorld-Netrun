@@ -2,7 +2,7 @@
 
 RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). Owner: Maxim (GafarovMaxim). Talk to him in Russian.
 
-**Mandatory optimization rules: `docs/TECH_DETAILS.md`, follow them on every code change** (Maxim's decision, 2026-10-08). Rules for ticks, save list caps, data cleanup, compatibility; check its checklist before each commit.
+**Mandatory optimization rules: `docs/TECH_DETAILS.md`, follow them on every code change; beyond the rules, always look for ways to optimize the mod yourself** (Maxim's decision, 2026-10-08). Rules for ticks, save list caps, data cleanup, compatibility; check its checklist before each commit.
 
 ## Start of every session
 1. `git pull` (the repo is the sync point between sessions and devices).
