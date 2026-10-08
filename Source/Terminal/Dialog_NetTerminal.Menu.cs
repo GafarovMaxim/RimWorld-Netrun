@@ -69,9 +69,11 @@ public partial class Dialog_NetTerminal
                 DrawMenuHome(area);
                 break;
             case MenuPage.Settings:
+                GuideRegistry.Area("menu.settings", area);
                 NetrunMod.Settings.DrawPage(area, "settings");
                 break;
             case MenuPage.Difficulty:
+                GuideRegistry.Area("menu.difficulty", area);
                 NetrunMod.Settings.DrawPage(area, "difficulty");
                 break;
             case MenuPage.Achievements:
@@ -112,6 +114,9 @@ public partial class Dialog_NetTerminal
         float tw = (area.width - gap * (cols - 1)) / cols;
         float th = Mathf.Max(120f, (area.height - gap * (rows - 1)) / rows);
         DrawMenuStatus(status);
+        GuideRegistry.Area("menu.tiles", area);
+        GuideRegistry.Area("menu.status", status);
+        GuideRegistry.Area("menu.footer", footer);
         for (int i = 0; i < tiles.Length; i++)
         {
             var t = tiles[i];
@@ -232,7 +237,9 @@ public partial class Dialog_NetTerminal
         Widgets.Label(new Rect(area.x, area.y, area.width, 24f), head.Colorize(AchYellow));
         if (ModsConfig.IsActive("vanillaexpanded.achievements"))
             Widgets.Label(new Rect(area.x, area.y + 22f, area.width, 22f), ((string)"NR_MenuAchVae".Translate()).Colorize(NetrunUI.Muted));
+        GuideRegistry.Area("menu.achhead", new Rect(area.x, area.y, area.width, 46f));
         area.yMin += 50f;
+        GuideRegistry.Area("menu.achgrid", area);
 
         int cols = area.width >= 760f ? 3 : 2;
         const float gap = 10f, ch = 92f;
@@ -299,7 +306,9 @@ public partial class Dialog_NetTerminal
                 _customTab = tab;
             x += w + 8f;
         }
+        GuideRegistry.Area("menu.customtabs", new Rect(area.x, area.y, x - area.x, 34f));
         var footer = new Rect(area.x, area.yMax - 22f, area.width, 22f);
+        GuideRegistry.Area("menu.custompage", new Rect(area.x, area.y + 44f, area.width, footer.y - area.y - 50f));
         Text.Font = GameFont.Tiny;
         Widgets.Label(footer, ((string)"NR_CustomFooter".Translate()).Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;

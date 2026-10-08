@@ -130,4 +130,24 @@
   <NR_Guide_terminal_back.steps.0.text>Назад к Ядру (или в Шлюз, если пришли оттуда). Esc закрывает терминал.</NR_Guide_terminal_back.steps.0.text>
   <NR_Guide_dive_retreat.label>Отступить</NR_Guide_dive_retreat.label>
   <NR_Guide_dive_retreat.steps.0.text>Выйти из нырка раньше. Из лобби бесплатно; глубже теряется часть добычи.</NR_Guide_dive_retreat.steps.0.text>
+  <NR_Guide_menu_tiles.label>Плитки меню</NR_Guide_menu_tiles.label>
+  <NR_Guide_menu_tiles.steps.0.text>«Продолжить» возвращает туда, где вы были. Настройки: события и интерфейс. Киберпедия: как всё устроено (НОВОЕ считает непрочитанные статьи). Достижения, сложность и вид терминала.</NR_Guide_menu_tiles.steps.0.text>
+  <NR_Guide_menu_status.label>Состояние сети</NR_Guide_menu_status.label>
+  <NR_Guide_menu_status.steps.0.text>Heat и его уровень, пробуждённые ИИ, раннеры в сети и cyberdata на складе, одним взглядом.</NR_Guide_menu_status.steps.0.text>
+  <NR_Guide_menu_footer.label>Версия и отчёты</NR_Guide_menu_footer.label>
+  <NR_Guide_menu_footer.steps.0.text>Версия мода. «Скопировать диагностику» кладёт в буфер версии, моды и состояние игры для отчёта об ошибке. Esc закрывает меню.</NR_Guide_menu_footer.steps.0.text>
+  <NR_Guide_menu_settings.label>Настройки</NR_Guide_menu_settings.label>
+  <NR_Guide_menu_settings.steps.0.text>Как часто приходят события, сколько ИИ попадается, размер карты, защита новичка, итоги нырка и пауза при открытии. Вид и звук в Кастомизации.</NR_Guide_menu_settings.steps.0.text>
+  <NR_Guide_menu_achhead.label>Прогресс</NR_Guide_menu_achhead.label>
+  <NR_Guide_menu_achhead.steps.0.text>Сколько целей выполнено и сколько очков они дали. С Vanilla Achievements Expanded они видны и в его вкладке Netrun.</NR_Guide_menu_achhead.steps.0.text>
+  <NR_Guide_menu_achgrid.label>Достижения</NR_Guide_menu_achgrid.label>
+  <NR_Guide_menu_achgrid.steps.0.text>На карточке цель и прогресс. Секретные открываются, когда выполнены. Замок отмечает награду: тему рамки терминала.</NR_Guide_menu_achgrid.steps.0.text>
+  <NR_Guide_menu_difficulty.label>Сложность</NR_Guide_menu_difficulty.label>
+  <NR_Guide_menu_difficulty.steps.0.text>Выберите пресет: Новичок, Обычная, Жёсткая или Киберпанк. Каждый ползунок можно двигать отдельно: рост следа, остывание, ICE и патрули, голод ИИ, цена сброса, потери при отступлении. Любое изменение делает сложность «Своей».</NR_Guide_menu_difficulty.steps.0.text>
+  <NR_Guide_menu_customtabs.label>Вкладки кастомизации</NR_Guide_menu_customtabs.label>
+  <NR_Guide_menu_customtabs.steps.0.text>Рамка: тема и детали корпуса. Звук: набор звуков и громкость. Графика: цвета, анимации, глитчи, ЭЛТ-линии, размер текста и иконок.</NR_Guide_menu_customtabs.steps.0.text>
+  <NR_Guide_menu_custompage.label>Страница</NR_Guide_menu_custompage.label>
+  <NR_Guide_menu_custompage.steps.0.text>Изменения применяются сразу и сохраняются при закрытии терминала. Темы рамки открываются достижениями, остальное доступно сразу.</NR_Guide_menu_custompage.steps.0.text>
+  <NR_Guide_gateway_defense.label>Защита колонии</NR_Guide_gateway_defense.label>
+  <NR_Guide_gateway_defense.steps.0.text>Выбор Дома показывает защиту колонии: итог и разбивку, уровень ICE и его цену, файерволы и приманку, изоляцию и вторжения в пути. Вся защита настраивается здесь.</NR_Guide_gateway_defense.steps.0.text>
 </LanguageData>

@@ -746,4 +746,144 @@
     </steps>
   </Netrun.GuideAreaDef>
 
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_tiles</defName>
+    <label>Menu tiles</label>
+    <area>menu.tiles</area>
+    <screen>Menu</screen>
+    <order>1</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>Continue goes back where you were. Settings: events and interface. Cyberpedia: how it all works (NEW counts unread articles). Achievements, difficulty and the terminal's look.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_status</defName>
+    <label>Net status</label>
+    <area>menu.status</area>
+    <screen>Menu</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Heat and its level, awake AIs, runners in the net and the cyberdata in storage, at a glance.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_footer</defName>
+    <label>Version and reports</label>
+    <area>menu.footer</area>
+    <screen>Menu</screen>
+    <order>3</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>The mod's version. «Copy diagnostics» puts versions, mods and the state of the game into the clipboard for a bug report. Esc closes the menu.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_settings</defName>
+    <label>Settings</label>
+    <area>menu.settings</area>
+    <screen>MenuSettings</screen>
+    <order>1</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>How often events come, how many AIs turn up, the map size, newcomer protection, the dive summary and the pause on opening. The look and the sound are in Customization.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_achhead</defName>
+    <label>Progress</label>
+    <area>menu.achhead</area>
+    <screen>MenuAchievements</screen>
+    <order>1</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>How many goals are done and the points they gave. With Vanilla Achievements Expanded they also show in its Netrun tab.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_achgrid</defName>
+    <label>Achievements</label>
+    <area>menu.achgrid</area>
+    <screen>MenuAchievements</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>Each card shows the goal and the progress. Secret ones show themselves when done. A lock marks a reward: a frame theme for the terminal.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_difficulty</defName>
+    <label>Difficulty</label>
+    <area>menu.difficulty</area>
+    <screen>MenuDifficulty</screen>
+    <order>1</order>
+    <helpPage>NR_Help_Heat</helpPage>
+    <steps>
+      <li>
+        <text>Pick a preset: Newcomer, Normal, Hard or Cyberpunk. Every slider can be moved on its own: trace growth, cooling, ICE and patrols, AI hunger, scrub price, loss on retreat. Any change makes it «Custom».</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_customtabs</defName>
+    <label>Customization tabs</label>
+    <area>menu.customtabs</area>
+    <screen>MenuCustomization</screen>
+    <order>1</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>Frame: the casing's theme and parts. Sound: the sound pack and volumes. Graphics: colours, animations, glitches, CRT lines, text and icon size.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_menu_custompage</defName>
+    <label>The page</label>
+    <area>menu.custompage</area>
+    <screen>MenuCustomization</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Settings</helpPage>
+    <steps>
+      <li>
+        <text>Changes apply at once and are saved when the terminal closes. Frame themes open with achievements; the rest is free.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_defense</defName>
+    <label>Colony defense</label>
+    <area>gateway.defense</area>
+    <screen>Gateway</screen>
+    <order>7</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Picking Home shows the colony's defense: the total and its parts, the ICE tier and its upkeep, the firewalls and the honeypot, isolation and intrusions on the way. Everything about the defense is set here.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
 </Defs>

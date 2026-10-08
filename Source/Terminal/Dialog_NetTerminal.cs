@@ -339,7 +339,7 @@ public partial class Dialog_NetTerminal : Window
     private string HelpContext => Dive != null ? "Dive" : _view switch
     {
         View.Help => "Help",
-        View.Menu => "Menu",
+        View.Menu => _menuPage == MenuPage.Home ? "Menu" : "Menu" + _menuPage,
         View.Map => NetworkGate.Get()?.OnboardingDone == false ? "Onboarding" : "Core",
         View.Core => "Heat",
         _ => _view.ToString(),
@@ -515,12 +515,12 @@ public partial class Dialog_NetTerminal : Window
         }
         help.x = menuRect.x;
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
-        if (_view != View.Help && _view != View.Menu && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
+        if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
             Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.1f + 0.2f * gp));
         }
-        bool guideShown = _view != View.Help && _view != View.Menu;
+        bool guideShown = _view != View.Help;
         if (guideShown && GuideIconButton(guideRect))
             ToggleGuide();
         x = (guideShown ? guideRect.x : help.x) - 10f;

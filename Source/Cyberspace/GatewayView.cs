@@ -572,6 +572,7 @@ public static partial class GatewayView
         if (HomeSelected)
         {
             // Home: the defense block above is all; no programs, daemons or dive here.
+            GuideRegistry.InScroll("gateway.defense", outer, _panelScroll, new Rect(inner.x, 0f, inner.width, y));
             _panelHeight = y + 4f;
             Widgets.EndScrollView();
             return;

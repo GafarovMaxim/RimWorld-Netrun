@@ -375,4 +375,8 @@
   <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
   <NR_TipCaption>// СВОДКА</NR_TipCaption>
   <NR_CoreBossActiveAt>Корп-ядро в крепости {0}: открыто ещё</NR_CoreBossActiveAt>
+  <NR_HelpCtx_MenuSettings>Меню: настройки</NR_HelpCtx_MenuSettings>
+  <NR_HelpCtx_MenuAchievements>Меню: достижения</NR_HelpCtx_MenuAchievements>
+  <NR_HelpCtx_MenuDifficulty>Меню: сложность</NR_HelpCtx_MenuDifficulty>
+  <NR_HelpCtx_MenuCustomization>Меню: кастомизация</NR_HelpCtx_MenuCustomization>
 </LanguageData>

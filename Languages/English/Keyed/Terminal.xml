@@ -375,4 +375,8 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
   <NR_TipCaption>// NET INFO</NR_TipCaption>
   <NR_CoreBossActiveAt>Corporate core in the {0} fortress: open for</NR_CoreBossActiveAt>
+  <NR_HelpCtx_MenuSettings>Menu: settings</NR_HelpCtx_MenuSettings>
+  <NR_HelpCtx_MenuAchievements>Menu: achievements</NR_HelpCtx_MenuAchievements>
+  <NR_HelpCtx_MenuDifficulty>Menu: difficulty</NR_HelpCtx_MenuDifficulty>
+  <NR_HelpCtx_MenuCustomization>Menu: customization</NR_HelpCtx_MenuCustomization>
 </LanguageData>
