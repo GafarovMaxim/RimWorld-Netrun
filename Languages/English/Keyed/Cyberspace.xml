@@ -84,12 +84,12 @@
   <NR_DiveFailed>{0} left {1} early. Trace: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>The dive was cut: the netrunner is no longer in the cyberpod.</NR_DiveAborted>
   <NR_GatewayPickNode>Pick a node.</NR_GatewayPickNode>
-  <NR_GatewayNodeHidden>This node is hidden. Use Discover new node to reveal it.</NR_GatewayNodeHidden>
+  <NR_GatewayNodeHidden>This node is hidden. A honeypot trace can reveal it.</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>needs a colonist with a cyberlink in a powered cyberpod</NR_GatewayNoPod>
   <NR_GatewayHidden>hidden</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>defense {0}</NR_GatewayDefense>
-  <NR_GatewayHiddenRow>? hidden node (needs Discover)</NR_GatewayHiddenRow>
+  <NR_GatewayHiddenRow>? hidden node (found by a honeypot trace)</NR_GatewayHiddenRow>
   <NR_GatewayRowType>Type</NR_GatewayRowType>
   <NR_GatewayRowDefense>Defense</NR_GatewayRowDefense>
   <NR_GatewayDefenseValue>{0} gates, level {1}</NR_GatewayDefenseValue>

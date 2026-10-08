@@ -84,12 +84,12 @@
   <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>Нырок прерван: нетраннер больше не в капсуле.</NR_DiveAborted>
   <NR_GatewayPickNode>Выберите ноду.</NR_GatewayPickNode>
-  <NR_GatewayNodeHidden>Нода скрыта. Нажмите «Найти новую ноду».</NR_GatewayNodeHidden>
+  <NR_GatewayNodeHidden>Нода скрыта. Её может раскрыть обратный след ловушки.</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>нужен колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
   <NR_GatewayHidden>скрыта</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
-  <NR_GatewayHiddenRow>? скрытая нода (найдите её)</NR_GatewayHiddenRow>
+  <NR_GatewayHiddenRow>? скрытая нода (её раскроет ловушка)</NR_GatewayHiddenRow>
   <NR_GatewayRowType>Тип</NR_GatewayRowType>
   <NR_GatewayRowDefense>Защита</NR_GatewayRowDefense>
   <NR_GatewayDefenseValue>{0} ворот, уровень {1}</NR_GatewayDefenseValue>
