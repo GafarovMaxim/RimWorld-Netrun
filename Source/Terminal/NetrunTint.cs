@@ -1,0 +1,98 @@
+using System.Collections.Generic;
+using UnityEngine;
+using Verse;
+
+namespace Netrun;
+
+/// <summary>
+/// Icons drawn in the terminal's accent (docs/TASKS_2026-10-08.md, D1). Maxim's template icons keep their coloured
+/// parts and have white or grey parts; those parts take the terminal's colour scheme. The copy is made once per
+/// texture and scheme on the CPU and cached (no work per frame), so a white × accent icon stays clean on every
+/// scheme instead of going muddy as with GUI.color.
+/// </summary>
+public static class NetrunTint
+{
+    /// <summary>Texture names (files in Textures/UI/Netrun) whose white parts follow the accent.</summary>
+    private static readonly HashSet<string> Tintable =
+    [
+        "Home_Archive", "Home_Board", "Home_Club", "Home_Gateway", "Home_Server", "Home_Studio",
+        "Icon_Guide", "Icon_NetworkLock", "Menu_Main",
+        "Disconnect", "Fixer_Corp", "Fixer_Shop", "Fixer_Street", "Handshake",
+        "Gizmo_AI_Awaken", "Gizmo_AI_CoprocessorUpload", "Gizmo_AI_Embody", "Gizmo_AI_Erase", "Gizmo_AI_Feed",
+        "Gizmo_AI_Isolate", "Gizmo_AI_ReturnServer", "Gizmo_AI_Use", "Gizmo_BD_Record", "Gizmo_BD_Watch",
+        "Gizmo_CallFixer", "Gizmo_NetrunDive",
+        "Header_NetworkAttacks", "Header_Nodes", "Icon_DiveReport",
+        "Tab_AI", "Tab_Braindance", "Tab_Contracts", "Tab_Cyberpedia", "Tab_Events_AI", "Tab_Events_Blue",
+        "Tab_Events_Cyberspace", "Tab_Fixers", "Tab_Log", "Tab_Overview", "Tab_Settings",
+    ];
+
+    private static readonly Dictionary<Texture2D, Texture2D> Cache = [];
+    private static Color _cachedFor;
+
+    /// <summary>The icon in the terminal's colours (itself when it is not a template icon).</summary>
+    public static Texture2D Of(Texture2D src) => Of(src, NetrunUI.Accent);
+
+    public static Texture2D Of(Texture2D src, Color accent)
+    {
+        if (src == null || !Tintable.Contains(src.name))
+            return src;
+        if (accent != _cachedFor)
+        {
+            foreach (Texture2D t in Cache.Values)
+                Object.Destroy(t);
+            Cache.Clear();
+            _cachedFor = accent;
+        }
+        if (Cache.TryGetValue(src, out Texture2D tinted))
+            return tinted;
+        try
+        {
+            tinted = Make(src, accent);
+        }
+        catch (System.Exception e)
+        {
+            Log.WarningOnce("[Netrun] could not tint " + src.name + ": " + e.Message, src.name.GetHashCode());
+            tinted = src;
+        }
+        Cache[src] = tinted;
+        return tinted;
+    }
+
+    private static Texture2D Make(Texture2D src, Color accent)
+    {
+        // Mod textures are not readable: copy through a render texture.
+        RenderTexture rt = RenderTexture.GetTemporary(src.width, src.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
+        RenderTexture prev = RenderTexture.active;
+        Graphics.Blit(src, rt);
+        RenderTexture.active = rt;
+        var tex = new Texture2D(src.width, src.height, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
+        tex.ReadPixels(new Rect(0f, 0f, src.width, src.height), 0, 0);
+        RenderTexture.active = prev;
+        RenderTexture.ReleaseTemporary(rt);
+
+        Color32[] px = tex.GetPixels32();
+        for (int i = 0; i < px.Length; i++)
+        {
+            Color32 p = px[i];
+            if (p.a == 0)
+                continue;
+            float r = p.r / 255f, g = p.g / 255f, b = p.b / 255f;
+            float lum = (r + g + b) / 3f;
+            float sat = Mathf.Max(r, Mathf.Max(g, b)) - Mathf.Min(r, Mathf.Min(g, b));
+            // White and light grey take the accent; coloured parts stay as drawn.
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.55f, 0.85f, lum)) * (1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.08f, 0.2f, sat)));
+            if (k <= 0f)
+                continue;
+            float l = Mathf.Max(lum, 0.75f);
+            px[i] = new Color32(
+                (byte)Mathf.RoundToInt(Mathf.Lerp(r, accent.r * l, k) * 255f),
+                (byte)Mathf.RoundToInt(Mathf.Lerp(g, accent.g * l, k) * 255f),
+                (byte)Mathf.RoundToInt(Mathf.Lerp(b, accent.b * l, k) * 255f),
+                p.a);
+        }
+        tex.SetPixels32(px);
+        tex.filterMode = src.filterMode;
+        tex.Apply(true, true);
+        return tex;
+    }
+}

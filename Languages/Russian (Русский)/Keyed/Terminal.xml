@@ -297,7 +297,6 @@
   <NR_DeckKey_3>Закрыть терминал</NR_DeckKey_3>
   <NR_DeckKey_4>Меню: настройки, Киберпедия, достижения, сложность, кастомизация</NR_DeckKey_4>
   <NR_DeckKey_5>Достижения: цели мода и темы рамки, которые они открывают</NR_DeckKey_5>
-  <NR_DeckKey_Theme>Тема рамки: {0}. Нажмите, чтобы взять следующую открытую.</NR_DeckKey_Theme>
   <NR_DeckKey_TerminalOnly>Только в терминале.</NR_DeckKey_TerminalOnly>
   <NR_DeckRfOn>RF-сигнал: связь есть.</NR_DeckRfOn>
   <NR_DeckRfOff>RF-сигнал: связи нет, пока колония офлайн.</NR_DeckRfOff>
@@ -306,7 +305,6 @@
   <NR_DeckNetLinkOn>Связь с сетью: онлайн.</NR_DeckNetLinkOn>
   <NR_DeckNetLinkOff>Связь с сетью: офлайн (сеть откроется после первых шагов в Ядре).</NR_DeckNetLinkOff>
   <NR_DeckThemeLocked>Достижение «{0}»: {1}/{2}</NR_DeckThemeLocked>
-  <NR_DeckThemeSwitched>Тема рамки: {0}</NR_DeckThemeSwitched>
   <NR_DeckTheme_Field>Полевая дека</NR_DeckTheme_Field>
   <NR_DeckTheme_Milspec>Милспек</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
@@ -351,8 +349,6 @@
   <NR_CustomThemeInUse>используется</NR_CustomThemeInUse>
   <NR_CustomFramePreview>Рамка меняется сразу, экран не затрагивается.</NR_CustomFramePreview>
   <NR_CustomFrameParts>Детали корпуса</NR_CustomFrameParts>
-  <NR_CustomAntenna>Антенна</NR_CustomAntenna>
-  <NR_CustomAntennaTip>Штыревая антенна над корпусом.</NR_CustomAntennaTip>
   <NR_CustomLights>Лампы NET, SICK, POD</NR_CustomLights>
   <NR_CustomLightsTip>Три лампы состояния сверху.</NR_CustomLightsTip>
   <NR_CustomGlass>Блик стекла</NR_CustomGlass>
@@ -372,4 +368,6 @@
   <NR_SettingsDifficultyName_Cyberpunk>Киберпанк</NR_SettingsDifficultyName_Cyberpunk>
   <NR_SettingsDifficulty_Cyberpunk>Киберпанк: рост {0}, остывание {1}/день, сброс {2}</NR_SettingsDifficulty_Cyberpunk>
   <NR_HelpCtx_Menu>Меню</NR_HelpCtx_Menu>
+  <NR_DeckKey_IsolateOn>NET LOCK: изолировать сеть колонии.</NR_DeckKey_IsolateOn>
+  <NR_DeckKey_IsolateOff>NET LOCK: сеть изолирована. Нажмите, чтобы подключиться снова.</NR_DeckKey_IsolateOff>
 </LanguageData>

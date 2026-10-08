@@ -13,7 +13,7 @@ public static class NetrunTex
     public static readonly Texture2D Cyberspace = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Cyberspace");
     /// <summary>Home node icon (Textures/UI/Netrun/Nodes/Home_*), or the fallback while there is no art.</summary>
     public static Texture2D HomeNode(string name, Texture2D fallback)
-        => CyberIconAt("UI/Netrun/Nodes/Home_" + name) ?? fallback;
+        => NetrunTint.Of(CyberIconAt("UI/Netrun/Nodes/Home_" + name) ?? fallback);
 
     private static Texture2D CyberIconAt(string path)
     {
@@ -38,7 +38,7 @@ public static class NetrunTex
     {
         if (!TabIconsByName.TryGetValue(name, out Texture2D tex))
             TabIconsByName[name] = tex = ContentFinder<Texture2D>.Get("UI/Netrun/Tabs/" + name, reportFailure: false);
-        return tex;
+        return NetrunTint.Of(tex);
     }
 
     /// <summary>The main color of each archetype's icon (measured from the art), for frames around it.</summary>
@@ -112,10 +112,14 @@ public static class NetrunTex
     ];
 
     public static Texture2D HeatIcon(HeatLevel level) => HeatIcons[(int)level];
-    public static Texture2D Portrait(FixerSpecialty specialty) => FixerPortraits[Mathf.Clamp((int)specialty, 0, FixerPortraits.Length - 1)];
+    public static Texture2D Portrait(FixerSpecialty specialty) => NetrunTint.Of(FixerPortraits[Mathf.Clamp((int)specialty, 0, FixerPortraits.Length - 1)]);
 
     /// <summary>Indexed by Dialog_NetTerminal tab order.</summary>
-    public static Texture2D TabIcon(int index) => TabIcons[index];
+    public static Texture2D TabIcon(int index) => NetrunTint.Of(TabIcons[index]);
+    /// <summary>The menu icon (white on the casing key, in the accent on the screen).</summary>
+    public static readonly Texture2D MenuMain = ContentFinder<Texture2D>.Get("UI/Netrun/Menu/Menu_Main", reportFailure: false);
+    public static Texture2D MenuIcon(string name) => CyberIconAt("UI/Netrun/Menu/Menu_" + name);
+    public static readonly Texture2D NetworkLock = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_NetworkLock", reportFailure: false);
 
     public static readonly Texture2D AIUse = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Use");
     public static readonly Texture2D AIFeed = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Feed");

@@ -495,7 +495,7 @@ public partial class Dialog_NetTerminal : Window
         var menuRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
         if (_view == View.Menu)
             Widgets.DrawBoxSolid(menuRect, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
-        Texture2D menuIcon = NetrunTex.TabIconByName("Tab_Settings");
+        Texture2D menuIcon = NetrunTint.Of(NetrunTex.MenuMain);
         if (NetrunUI.Button(menuRect, menuIcon == null ? "≡" : string.Empty, NetrunUI.Accent, true, "NR_MenuButtonTip".Translate()))
         {
             if (_view == View.Menu)
@@ -505,9 +505,7 @@ public partial class Dialog_NetTerminal : Window
         }
         if (menuIcon != null)
         {
-            GUI.color = NetrunUI.Accent;
-            GUI.DrawTexture(menuRect.ContractedBy(4f), menuIcon);
-            GUI.color = Color.white;
+            GUI.DrawTexture(menuRect.ContractedBy(3f), menuIcon);
         }
         help.x = menuRect.x;
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);

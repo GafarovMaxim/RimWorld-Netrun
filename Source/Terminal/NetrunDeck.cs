@@ -13,7 +13,8 @@ namespace Netrun;
 /// </summary>
 public static partial class NetrunUI
 {
-    public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 64f, DeckBottom = 76f;
+    // The bottom band carries no stencils (the terminal's status bar names the same things), so it is lower.
+    public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 64f, DeckBottom = 58f;
     /// <summary>How much bigger a window gets around its screen with the deck casing.</summary>
     public static Vector2 DeckExtra => new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
 
@@ -244,10 +245,10 @@ public static partial class NetrunUI
 
     private static void GlyphText(Rect r, Color c, string text, GameFont font = GameFont.Medium)
     {
+        // Centred by the glyph's own size: a label's MiddleCenter leaves symbols off by a few pixels.
         Text.Font = font;
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(r, text.Colorize(c));
-        Text.Anchor = TextAnchor.UpperLeft;
+        Vector2 size = Text.CalcSize(text);
+        Widgets.Label(new Rect(Mathf.Round(r.center.x - size.x / 2f), Mathf.Round(r.center.y - size.y / 2f), size.x + 2f, size.y), text.Colorize(c));
         Text.Font = GameFont.Small;
     }
 
@@ -280,29 +281,36 @@ public static partial class NetrunUI
         NetrunSettings set = NetrunMod.Settings;
         float x = body.x + Bump + 10f;
 
-        // Hardware keys: CLOSE (red), MENU, ACHIEV, THEME, each with its stencil below.
+        // Hardware keys: CLOSE (red), MENU, ACHIEV, NET LOCK (isolation, red while the colony is cut off).
         const float kw = 38f, kh = 26f, gap = 16f;
         var tray = new Rect(x, body.y + 8f, 4f * kw + 3f * gap + 16f, kh + 8f);
         Recess(tray, Hex(0x111418));
-        string[] names = ["CLOSE", "MENU", "ACHIEV", "THEME"];
+        string[] names = ["CLOSE", "MENU", "ACHIEV", "NET LOCK"];
+        NodeDefense defense = Current.Game != null ? NodeDefense.Get() : null;
+        bool isolated = defense?.Isolated == true;
         for (int i = 0; i < 4; i++)
         {
             var key = new Rect(tray.x + 8f + i * (kw + gap), tray.y + 4f, kw, kh);
-            Color face = i == 0 ? Hex(0x9a2b25) : _t.KeyFace;
-            bool active = i switch { 0 => onKey != null, 1 or 2 => onKey != null && menu, _ => true };
-            string tip = i == 3 ? (string)"NR_DeckKey_Theme".Translate(DeckThemes.Current.Label)
+            Color face = i == 0 || i == 3 && isolated ? Hex(0x9a2b25) : _t.KeyFace;
+            AcceptanceReport lockReport = defense?.CanToggleIsolation() ?? false;
+            bool active = i switch { 0 => onKey != null, 1 or 2 => onKey != null && menu, _ => defense != null && lockReport.Accepted };
+            string tip = i == 3
+                ? (string)(isolated ? "NR_DeckKey_IsolateOff" : "NR_DeckKey_IsolateOn").Translate() + "\n\n" + "NR_IsolationGizmoDesc".Translate()
+                  + (lockReport.Reason.NullOrEmpty() ? string.Empty : "\n\n" + lockReport.Reason)
                 : !active && i > 0 ? (string)"NR_DeckKey_TerminalOnly".Translate() : (string)("NR_DeckKey_" + (KeyClose + i)).Translate();
             System.Action<Rect, Color> glyph = i switch
             {
                 0 => (r, c) => GlyphPower(r, c, face),
-                1 => (r, c) => GlyphTex(r, c, NetrunTex.TabIconByName("Tab_Settings")),
-                2 => (r, c) => GlyphTex(r, c, NetrunTex.Star),
-                _ => (r, c) => GlyphText(r, c, "☼"),
+                1 => (r, c) => GlyphTex(r, c, NetrunTex.MenuMain),
+                2 => (r, c) => GlyphText(r, c, "★"),
+                _ => (r, c) => GlyphTex(r, isolated ? Color.white : c, NetrunTex.NetworkLock),
             };
+            if (i == 3 && isolated && anim)
+                Glow(key, Bad, 0.35f + 0.25f * Mathf.Abs(Mathf.Sin(time * 2f)), 6f);
             if (DeckKey(key, face, tip, active, glyph))
             {
                 if (i == 3)
-                    DeckThemes.Next();
+                    defense?.ToggleIsolation();
                 else
                     onKey?.Invoke(KeyClose + i);
             }
@@ -310,23 +318,8 @@ public static partial class NetrunUI
         }
         x = tray.xMax + 18f;
 
-        // From the right: the antenna port, the RF signal meter, the lights; the plate and the tuner fill the middle.
-        float right = body.xMax - Bump - 8f;
-        var port = new Rect(right - 22f, body.y + 12f, 22f, 22f);
-        if (set.FrameAntenna)
-        {
-            Widgets.DrawBoxSolid(new Rect(port.center.x - 2f, outer.y + 1f, 4f, port.y - outer.y), Hex(0x2a2f36));
-            Widgets.DrawBoxSolid(new Rect(port.center.x - 1f, outer.y + 1f, 1f, port.y - outer.y), new Color(1f, 1f, 1f, 0.25f));
-            Widgets.DrawBoxSolid(new Rect(port.center.x - 3f, outer.y, 6f, 4f), DeckEdge);
-        }
-        GUI.color = DeckEdge;
-        GUI.DrawTexture(port, Disc);
-        GUI.color = DeckRubber;
-        GUI.DrawTexture(port.ContractedBy(4f), Disc);
-        GUI.color = new Color(1f, 1f, 1f, 0.5f);
-        GUI.DrawTexture(port.ContractedBy(8f), Disc);
-        GUI.color = Color.white;
-        right = port.x - 12f;
+        // From the right: the RF signal meter, the lights; the plate and the tuner fill the middle.
+        float right = body.xMax - Bump - 10f;
 
         // RF SIGNAL: six bars that grow and flicker online, dark offline; the last one burns red from Target up.
         const int bars = 6;
@@ -375,7 +368,10 @@ public static partial class NetrunUI
 
         // The maker's plate, centred in what is left; the tuner only where it fits.
         Text.Font = GameFont.Small;
-        float pw = plate.NullOrEmpty() ? 0f : Text.CalcSize(plate).x + 28f;
+        const string serial = "SER. NR-07  ·  GUILD ISSUE";
+        Text.Font = GameFont.Tiny;
+        float pw = plate.NullOrEmpty() ? 0f : Mathf.Max(Text.CalcSize(plate).x, Text.CalcSize(serial).x) + 36f;
+        Text.Font = GameFont.Small;
         float room = right - x;
         float tunerW = Mathf.Min(160f, room - pw - 20f);
         if (tunerW >= 90f)
@@ -396,14 +392,18 @@ public static partial class NetrunUI
         }
         if (pw > 0f && right - x >= pw)
         {
-            var pr = new Rect(x + (right - x - pw) / 2f, body.y + 12f, pw, 26f);
+            var pr = new Rect(x + (right - x - pw) / 2f, body.y + 9f, pw, 40f);
             Recess(pr, Hex(0x15191e));
-            Screw(new Vector2(pr.x + 6f, pr.center.y), 4f);
-            Screw(new Vector2(pr.xMax - 6f, pr.center.y), 4f);
+            Widgets.DrawBoxSolid(new Rect(pr.x + 14f, pr.y + 21f, pr.width - 28f, 1f), new Color(1f, 1f, 1f, 0.08f));
+            foreach (float sx in new[] { pr.x + 7f, pr.xMax - 7f })
+                foreach (float sy in new[] { pr.y + 7f, pr.yMax - 7f })
+                    Screw(new Vector2(sx, sy), 4f);
+            Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(pr, plate.Colorize(new Color(1f, 1f, 1f, 0.75f)));
+            Widgets.Label(new Rect(pr.x, pr.y + 3f, pr.width, 18f), plate.Colorize(new Color(1f, 1f, 1f, 0.82f)));
+            Widgets.Label(new Rect(pr.x, pr.y + 21f, pr.width, 16f), serial.Colorize(new Color(_t.Stencil.r, _t.Stencil.g, _t.Stencil.b, 0.5f)));
             Text.Anchor = TextAnchor.UpperLeft;
-            Stencil(new Rect(pr.x, pr.yMax + 2f, pr.width, 14f), "SER. NR-07 · GUILD ISSUE");
+            Text.Font = GameFont.Small;
         }
     }
 
@@ -415,13 +415,13 @@ public static partial class NetrunUI
         // The status LCD: three lines, refreshed once a second.
         if (NetrunMod.Settings.FrameLcd)
         {
-            var lcd = new Rect(left, by0 + 10f, 196f, 50f);
+            var lcd = new Rect(left, by0 + 6f, 196f, 46f);
             Recess(lcd, Hex(0x06120a));
             string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
             Text.Font = GameFont.Tiny;
             for (int i = 0; i < lines.Length; i++)
             {
-                var line = new Rect(lcd.x + 8f, lcd.y + 3f + i * 15f, lcd.width - 12f, 16f);
+                var line = new Rect(lcd.x + 8f, lcd.y + 1f + i * 14.5f, lcd.width - 12f, 16f);
                 Widgets.Label(new Rect(line.x + 0.6f, line.y, line.width, line.height), lines[i].Colorize(new Color(LcdGreen.r, LcdGreen.g, LcdGreen.b, 0.25f)));
                 Widgets.Label(line, lines[i].Colorize(LcdGreen));
             }
@@ -429,14 +429,13 @@ public static partial class NetrunUI
             // Faint LCD rows.
             for (float ly = lcd.y + 2f; ly < lcd.yMax - 2f; ly += 3f)
                 Widgets.DrawBoxSolid(new Rect(lcd.x + 2f, ly, lcd.width - 4f, 1f), new Color(0f, 0f, 0f, 0.18f));
-            Stencil(new Rect(lcd.x, lcd.yMax + 2f, lcd.width, 14f), "STATUS LCD", TextAnchor.UpperLeft);
             Tip(lcd, "NR_DeckLcd".Translate());
             left = lcd.xMax + 20f;
         }
 
         // From the right, at least 120 px clear of the bumper: the NET LINK switch, then the Heat scale.
         float right = body.xMax - Bump - 120f;
-        var sw = new Rect(right - 58f, by0 + 12f, 58f, 30f);
+        var sw = new Rect(right - 58f, by0 + 14f, 58f, 30f);
         Recess(sw, Hex(0x07080a));
         var lever = new Rect(online ? sw.xMax - 30f : sw.x + 4f, sw.y + 4f, 26f, sw.height - 8f);
         if (online)
@@ -444,15 +443,12 @@ public static partial class NetrunUI
         Widgets.DrawBoxSolid(lever, online ? PodGreen : Hex(0x2c3238));
         Bevel(lever, true);
         Widgets.DrawBoxSolid(new Rect(lever.x + 3f, lever.y + 2f, lever.width - 6f, 2f), new Color(1f, 1f, 1f, online ? 0.45f : 0.15f));
-        Stencil(new Rect(sw.x - 4f, sw.yMax + 2f, 28f, 14f), "OFF", TextAnchor.UpperCenter, online ? null : Color.white);
-        Stencil(new Rect(sw.xMax - 26f, sw.yMax + 2f, 28f, 14f), "ON", TextAnchor.UpperCenter, online ? new Color(PodGreen.r, PodGreen.g, PodGreen.b, 0.9f) : null);
-        Stencil(new Rect(sw.x - 10f, sw.yMax + 15f, sw.width + 20f, 14f), "NET LINK");
         Tip(sw, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
 
         // HEAT LEVEL: five segments in the level colours, lit up to the current level.
         const float segW = 20f, segH = 30f, segGap = 3f;
         float scaleW = 5f * segW + 4f * segGap;
-        var scale = new Rect(sw.x - 40f - scaleW, by0 + 12f, scaleW, segH);
+        var scale = new Rect(sw.x - 40f - scaleW, by0 + 14f, scaleW, segH);
         for (int i = 0; i < 5; i++)
         {
             var seg = new Rect(scale.x + i * (segW + segGap), scale.y, segW, segH);
@@ -463,14 +459,10 @@ public static partial class NetrunUI
             Widgets.DrawBoxSolid(seg, lit ? c : new Color(c.r, c.g, c.b, 0.25f));
             Bevel(seg, lit, 0.7f);
         }
-        Stencil(new Rect(scale.x - 2f, scale.yMax + 2f, 30f, 14f), "0", TextAnchor.UpperLeft);
-        Stencil(new Rect(scale.xMax - 30f, scale.yMax + 2f, 32f, 14f), "100", TextAnchor.UpperRight);
-        Stencil(new Rect(scale.x, scale.yMax + 15f, scale.width, 14f), "HEAT LEVEL");
         Tip(scale.ExpandedBy(4f), "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
 
         // Three keys in a recessed tray: back, core, Cyberpedia; centred, or left of the Heat scale when narrow.
         string[] glyphs = ["◁", "○", "?"];
-        string[] names = ["BACK", "CORE", "HELP"];
         const float kw = 46f, kh = 26f;
         float trayW = 3f * kw + 2f * 14f + 16f;
         float tx = Mathf.Clamp(body.center.x - trayW / 2f, left, scale.x - 24f - trayW);
@@ -485,7 +477,6 @@ public static partial class NetrunUI
             if (DeckKey(key, face, onKey != null ? (string)("NR_DeckKey_" + i).Translate() : null, onKey != null,
                     (r, c) => GlyphText(r, core ? Hex(0x1b1e22) : c, g)))
                 onKey?.Invoke(i);
-            Stencil(new Rect(key.x - 6f, tray.yMax + 2f, key.width + 12f, 14f), names[i]);
         }
     }
 

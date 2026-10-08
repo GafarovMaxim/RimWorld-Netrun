@@ -297,7 +297,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckKey_3>Close the terminal</NR_DeckKey_3>
   <NR_DeckKey_4>Menu: settings, Cyberpedia, achievements, difficulty, customization</NR_DeckKey_4>
   <NR_DeckKey_5>Achievements: the mod's goals and the frame themes they open</NR_DeckKey_5>
-  <NR_DeckKey_Theme>Frame theme: {0}. Click for the next open theme.</NR_DeckKey_Theme>
   <NR_DeckKey_TerminalOnly>Only in the terminal.</NR_DeckKey_TerminalOnly>
   <NR_DeckRfOn>RF signal: the uplink is live.</NR_DeckRfOn>
   <NR_DeckRfOff>RF signal: no uplink while the colony is offline.</NR_DeckRfOff>
@@ -306,7 +305,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckNetLinkOn>Net link: online.</NR_DeckNetLinkOn>
   <NR_DeckNetLinkOff>Net link: offline (the network opens after the first steps in the Core).</NR_DeckNetLinkOff>
   <NR_DeckThemeLocked>Achievement «{0}»: {1}/{2}</NR_DeckThemeLocked>
-  <NR_DeckThemeSwitched>Frame theme: {0}</NR_DeckThemeSwitched>
   <NR_DeckTheme_Field>Field deck</NR_DeckTheme_Field>
   <NR_DeckTheme_Milspec>Milspec</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Street build</NR_DeckTheme_Street>
@@ -351,8 +349,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CustomThemeInUse>in use</NR_CustomThemeInUse>
   <NR_CustomFramePreview>The frame changes at once; the screen is not touched.</NR_CustomFramePreview>
   <NR_CustomFrameParts>Parts of the casing</NR_CustomFrameParts>
-  <NR_CustomAntenna>Antenna</NR_CustomAntenna>
-  <NR_CustomAntennaTip>The whip antenna over the casing.</NR_CustomAntennaTip>
   <NR_CustomLights>Lights NET, SICK, POD</NR_CustomLights>
   <NR_CustomLightsTip>The three status lights on top.</NR_CustomLightsTip>
   <NR_CustomGlass>Glass sheen</NR_CustomGlass>
@@ -372,4 +368,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_SettingsDifficultyName_Cyberpunk>Cyberpunk</NR_SettingsDifficultyName_Cyberpunk>
   <NR_SettingsDifficulty_Cyberpunk>Cyberpunk: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Cyberpunk>
   <NR_HelpCtx_Menu>Menu</NR_HelpCtx_Menu>
+  <NR_DeckKey_IsolateOn>NET LOCK: isolate the colony's network.</NR_DeckKey_IsolateOn>
+  <NR_DeckKey_IsolateOff>NET LOCK: the network is isolated. Press to connect again.</NR_DeckKey_IsolateOff>
 </LanguageData>

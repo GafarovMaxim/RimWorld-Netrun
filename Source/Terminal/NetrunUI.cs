@@ -492,6 +492,7 @@ public static partial class NetrunUI
     {
         if (tex == null)
             return;
+        tex = NetrunTint.Of(tex);
         GUI.DrawTexture(rect, tex);
         if (Event.current.type != EventType.Repaint)
             return;

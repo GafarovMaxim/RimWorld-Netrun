@@ -70,7 +70,6 @@ public class NetrunSettings : ModSettings
     // ---- Frame (Customization) ----
     /// <summary>The casing theme (DeckThemes), its parts that can be hidden, and the themes opened in any game.</summary>
     public string FrameTheme = "Field";
-    public bool FrameAntenna = true;
     public bool FrameLights = true;
     public bool FrameGlass = true;
     public bool FrameLcd = true;
@@ -542,7 +541,6 @@ public class NetrunSettings : ModSettings
         _y += (DeckThemes.All.Length + perRow - 1) / perRow * (ch + gap) + 6f;
         Label("NR_CustomFramePreview".Translate(), NetrunUI.Muted);
         Label("NR_CustomFrameParts".Translate(), NetrunUI.Accent);
-        Toggle("NR_CustomAntenna", ref FrameAntenna, "NR_CustomAntennaTip");
         Toggle("NR_CustomLights", ref FrameLights, "NR_CustomLightsTip");
         Toggle("NR_CustomGlass", ref FrameGlass, "NR_CustomGlassTip");
         Toggle("NR_CustomLcd", ref FrameLcd, "NR_CustomLcdTip");
@@ -658,7 +656,7 @@ public class NetrunSettings : ModSettings
         IconScale = 1f;
         TerminalFont = true;
         FrameTheme = "Field";
-        FrameAntenna = FrameLights = FrameGlass = FrameLcd = true;
+        FrameLights = FrameGlass = FrameLcd = true;
     }
 
     private void ResetSound()
@@ -693,7 +691,6 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Glitches, "glitches", true);
         Scribe_Values.Look(ref Scanlines, "scanlines", true);
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
-        Scribe_Values.Look(ref FrameAntenna, "frameAntenna", true);
         Scribe_Values.Look(ref FrameLights, "frameLights", true);
         Scribe_Values.Look(ref FrameGlass, "frameGlass", true);
         Scribe_Values.Look(ref FrameLcd, "frameLcd", true);

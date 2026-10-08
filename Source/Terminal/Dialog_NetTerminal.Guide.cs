@@ -38,8 +38,8 @@ public partial class Dialog_NetTerminal
         bool clicked = NetrunUI.Button(rect, GuideIcon == null ? "◎" : string.Empty, c, true, (_guide ? "NR_GuideButtonLeaveTip" : "NR_GuideButtonTip").Translate());
         if (GuideIcon != null)
         {
-            GUI.color = c;
-            GUI.DrawTexture(rect.ContractedBy(1f), GuideIcon);
+            // White parts of the icon take the button's colour (accent, or warning while the guide is on).
+            GUI.DrawTexture(rect.ContractedBy(1f), NetrunTint.Of(GuideIcon, c));
             GUI.color = Color.white;
         }
         return clicked;

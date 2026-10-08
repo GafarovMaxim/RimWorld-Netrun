@@ -87,13 +87,4 @@ public static class DeckThemes
         NetrunMod.Settings.Write();
     }
 
-    /// <summary>The THEME key: the next open theme.</summary>
-    public static void Next()
-    {
-        var open = All.Where(Unlocked).ToList();
-        int i = open.IndexOf(Current);
-        Select(open[(i + 1) % open.Count]);
-        Messages.Message("NR_DeckThemeSwitched".Translate(Current.Label), RimWorld.MessageTypeDefOf.SilentInput, historical: false);
-    }
-
 }
