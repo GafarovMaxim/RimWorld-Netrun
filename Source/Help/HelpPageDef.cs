@@ -90,7 +90,6 @@ public class HelpPageDef : Def
             ["dive.easyReward"] = cyber.branchEasyReward.ToString("0.0#"),
             ["dive.hardTrace"] = cyber.branchHardTrace.ToString("0"),
             ["dive.easyTrace"] = cyber.branchEasyTrace.ToString("0"),
-            ["dive.search"] = cyber.searchCost.ToString(),
             ["dive.program"] = cyber.programCost.ToString(),
             ["dive.slots"] = cyber.programSlots.ToString(),
             ["dive.refresh"] = cyber.refreshDays.ToString("0.#"),

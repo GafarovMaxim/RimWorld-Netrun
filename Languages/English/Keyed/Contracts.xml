@@ -98,4 +98,5 @@
   <NR_ContractRookieReset>{0} failed the dive: the rookie training starts over.</NR_ContractRookieReset>
   <NR_BoardTag_Favor>+{0} favor</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>An imperial job: besides the silver, {0} royal favor goes to the colonist the Empire knows best.</NR_BoardTag_FavorTip>
+  <NR_BoardShowTip>Open the cyberspace map on the target: {0}.</NR_BoardShowTip>
 </LanguageData>

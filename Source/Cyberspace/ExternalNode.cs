@@ -31,7 +31,6 @@ public class CyberspaceSettingsDef : Def
     public IntRange nodeCount = new(4, 6);
     public int hiddenNodes = 1;
     public float refreshDays = 5f;
-    public int searchCost = 5;
     public int programCost = 1;
     public int programSlots = 2;
     /// <summary>An exec data program: +1 action in each of this many first turns.</summary>

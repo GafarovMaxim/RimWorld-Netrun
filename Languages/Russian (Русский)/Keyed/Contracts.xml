@@ -98,4 +98,5 @@
   <NR_ContractRookieReset>{0} провалил нырок: тренировка новичка начинается заново.</NR_ContractRookieReset>
   <NR_BoardTag_Favor>+{0} расположения</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>Имперский заказ: кроме серебра, {0} ед. расположения получит колонист, которого Империя знает лучше всех.</NR_BoardTag_FavorTip>
+  <NR_BoardShowTip>Открыть карту киберпространства на цели: {0}.</NR_BoardShowTip>
 </LanguageData>

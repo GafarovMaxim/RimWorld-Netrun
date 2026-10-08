@@ -31,9 +31,9 @@ public static partial class GatewayView
     private static int _selectedId = -1;
     private static bool _listMode;
     private static Vector2 _pan;
-    private static float _zoom = 1f;
+    private static float _zoom = DefaultZoom;
     private const float MinZoom = 0.6f;
-    private const float MaxZoom = 1.8f;
+    private const float MaxZoom = 2.4f;
     private static Vector2 _listScroll;
     private static Vector2 _panelScroll;
     /// <summary>The vanilla transport pod: the haul comes home by pod.</summary>
@@ -280,7 +280,7 @@ public static partial class GatewayView
 
     private static void ResetCamera()
     {
-        _zoom = 1f;
+        _zoom = DefaultZoom;
         _pan = Vector2.zero;
     }
 
@@ -291,8 +291,7 @@ public static partial class GatewayView
         if (e.type == EventType.MouseDrag && e.button == 0 && Mouse.IsOver(rect))
         {
             _pan += e.delta;
-            _pan.x = Mathf.Clamp(_pan.x, -rect.width * 0.6f, rect.width * 0.6f);
-            _pan.y = Mathf.Clamp(_pan.y, -rect.height * 0.6f, rect.height * 0.6f);
+            ClampPan(rect);
             e.Use();
         }
         else if (e.type == EventType.MouseDown && e.button == 2 && Mouse.IsOver(rect))

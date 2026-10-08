@@ -40,11 +40,7 @@ public static partial class GatewayView
     /// <summary>Home is picked: the panel shows the colony defense instead of a dive target.</summary>
     public static bool HomeSelected => NetMapManager.Get() is { Ready: true } net && net.Map.Node(_selectedMapNode)?.District == District.Home;
 
-    public static void SelectMapNode(int id)
-    {
-        _selectedMapNode = id;
-        _selectedId = -1;
-    }
+    public static void SelectMapNode(int id) => FocusNode(id);
 
     private static NetRunner SelectedRunner(NetMapManager net)
         => net.Runners.Count == 0 ? null : net.Runners[Mathf.Clamp(_selectedRunner, 0, net.Runners.Count - 1)];
@@ -74,18 +70,31 @@ public static partial class GatewayView
 
     private static void DrawMap(Rect rect, NetMapManager net)
     {
-        HandleDrag(rect);
+        // The search box and the minimap lie over the field: clicks and drags there are not for the field below.
+        Vector2 mouse = Event.current.mousePosition;
+        _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
+                          || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse);
+        if (!_mouseOnOverlay)
+            HandleDrag(rect);
         CyberMap map = net.Map;
-        Widgets.BeginGroup(rect);
         var local = new Rect(0f, 0f, rect.width, rect.height);
+        ApplyCenter(local, map);
+        MapHotkeys(local, net);
+        Widgets.BeginGroup(rect);
         DrawGrid(local);
 
         // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleCenter;
-        foreach ((Vector2 pos, string text) in NetrunUI.Cached("map.districts", () => DistrictLabels(net), 2f))
+        foreach ((Vector2 pos, string text, Color color, bool corp) in NetrunUI.Cached("map.districts", () => DistrictLabels(net), 2f))
         {
             Vector2 c = ToScreen(local, pos);
+            // A corporation's ground: a soft glow in its own colour (red stays for ICE, patrols and fortresses).
+            if (corp && Event.current.type == EventType.Repaint)
+            {
+                float s = 34f * _zoom;
+                NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.16f, 70f * _zoom);
+            }
             Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), text);
         }
         Text.Anchor = TextAnchor.UpperLeft;
@@ -122,6 +131,8 @@ public static partial class GatewayView
         float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
         DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
+        DrawMinimap(rect, net);
+        DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
     }
 
     private static string DistrictLabel(MapNode n, NetMapManager net)
@@ -138,17 +149,30 @@ public static partial class GatewayView
         return ("NR_District_" + n.District).Translate();
     }
 
-    private static List<(Vector2, string)> DistrictLabels(NetMapManager net)
+    private static List<(Vector2, string, Color, bool)> DistrictLabels(NetMapManager net)
     {
-        var list = new List<(Vector2, string)>();
+        var list = new List<(Vector2, string, Color, bool)>();
         foreach (IGrouping<string, MapNode> g in net.Map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
                      .GroupBy(n => n.District + "|" + n.CorpSlot))
         {
-            Color dc = DistrictColor(g.First().District);
+            MapNode first = g.First();
+            bool corp = first.District == District.Corp && net.CorpOfSlot(first.CorpSlot) != null;
+            Color dc = HubColor(first, net);
             list.Add((g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count(),
-                DistrictLabel(g.First(), net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, 0.45f))));
+                DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.75f : 0.45f)), dc, corp));
         }
         return list;
+    }
+
+    /// <summary>A hub's colour: its district, or for corporate ground the corporation's own colour, lifted to read on black.</summary>
+    private static Color HubColor(MapNode n, NetMapManager net)
+    {
+        if (n.District == District.Corp && net.CorpOfSlot(n.CorpSlot) is { } owner)
+        {
+            Color.RGBToHSV(owner.Color, out float h, out float s, out float v);
+            return Color.HSVToRGB(h, Mathf.Min(s, 0.8f), Mathf.Max(v, 0.85f));
+        }
+        return DistrictColor(n.District);
     }
 
     // The selected runner's route as link pairs, rebuilt only when the runner, its hub or its path changes.
@@ -237,7 +261,7 @@ public static partial class GatewayView
         float r = (home ? 15f : n.Fortress ? 11f : 8f) * Mathf.Sqrt(_zoom);
         var rect = new Rect(p.x - r, p.y - r, r * 2f, r * 2f);
         // Offline hubs and the Old Net behind a shut Wall are greyed out, not drawn like open ground.
-        Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : DistrictColor(n.District);
+        Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : HubColor(n, net);
         bool selected = n.Id == _selectedMapNode;
         bool hover = Mouse.IsOver(rect.ExpandedBy(4f));
 
@@ -247,6 +271,7 @@ public static partial class GatewayView
             NetrunUI.Glow(rect, new Color(0.24f, 0.82f, 0.9f), 0.6f, 8f);
         if (selected || hover)
             NetrunUI.Glow(rect, c, 0.7f, 8f);
+        DrawPulse(rect, n.Id);
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(rect.ExpandedBy(2f), NetrunUI.Disc);
         GUI.color = new Color(c.r, c.g, c.b, n.Offline ? 0.5f : 1f);
@@ -265,6 +290,18 @@ public static partial class GatewayView
         {
             GUI.color = NetrunUI.Ok;
             GUI.DrawTexture(rect.ExpandedBy(5f), NetrunUI.ThinRing);
+            if (_zoom >= 0.8f)
+            {
+                // An exit port: a small green tag, readable without hovering.
+                var tag = new Rect(rect.x - 30f, rect.y - 20f, 30f, 14f);
+                Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
+                Widgets.DrawBox(tag);
+                GUI.color = Color.white;
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(tag, "EXIT".Colorize(NetrunUI.Ok));
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
@@ -280,25 +317,48 @@ public static partial class GatewayView
         }
 
         // Branches: small dots around the node, colored by type; unknown ones grey.
-        List<ExternalNode> branches = net.BranchesAt(n.Id).ToList();
+        List<ExternalNode> branches = BranchesOf(n.Id);
+        bool markers = _zoom >= 0.8f;
         for (int i = 0; i < branches.Count; i++)
         {
             ExternalNode b = branches[i];
             float ang = -Mathf.PI / 2f + i * (Mathf.PI * 2f / Mathf.Max(3, branches.Count));
-            Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + 7f * Mathf.Sqrt(_zoom));
-            float br = (b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
-            Color bc = b.Hidden ? NetrunUI.Muted : b.Offline ? NetrunUI.Muted : b.Color;
-            GUI.color = bc;
-            GUI.DrawTexture(new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f), NetrunUI.Disc);
+            Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + (markers ? 11f : 7f) * Mathf.Sqrt(_zoom));
+            float br = (markers ? (b.IsBoss || b.Ancient ? 8f : 6.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
+            var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
+            if (b.Hidden)
+            {
+                // Unknown: an outline, not hidden (the graph is visible, only the content is fogged).
+                GUI.color = new Color(NetrunUI.Muted.r, NetrunUI.Muted.g, NetrunUI.Muted.b, 0.6f);
+                GUI.DrawTexture(brect, NetrunUI.ThinRing);
+            }
+            else if (markers && b.Icon != null)
+            {
+                // The node's type by its own icon: readable without hovering.
+                GUI.color = b.Offline ? new Color(1f, 1f, 1f, 0.35f) : Color.white;
+                GUI.DrawTexture(brect, b.Icon);
+            }
+            else
+            {
+                GUI.color = b.Offline ? NetrunUI.Muted : b.Color;
+                GUI.DrawTexture(brect, NetrunUI.Disc);
+            }
             if (b.Contract && !b.Hidden)
-                Widgets.Label(new Rect(bp.x + 2f, bp.y - 14f, 14f, 14f), "★".Colorize(NetrunUI.Ok));
+                Widgets.Label(new Rect(bp.x + br - 2f, bp.y - br - 12f, 14f, 14f), "★".Colorize(NetrunUI.Warn));
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
 
         if (hover)
             TooltipHandler.TipRegion(rect.ExpandedBy(4f), NodeTip(n, net, branches));
-        if (Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
+        if (_mouseOnOverlay)
+            hover = false;
+        if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && hover)
+        {
+            HubMenu(n, net);
+            Event.current.Use();
+        }
+        if (!_mouseOnOverlay && Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
         {
             NetrunSound.Click();
             _selectedMapNode = n.Id;
@@ -384,6 +444,7 @@ public static partial class GatewayView
     /// <summary>Runners and the selected map node, above the branch panel.</summary>
     private static float DrawMapPanel(Rect inner, float y, Map colonyMap, NetMapManager net)
     {
+        y = DrawWatchlist(inner, y, net);
         // Runners: connected ones, then pawns in pods who could connect.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapRunners".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners));
         for (int i = 0; i < net.Runners.Count; i++)

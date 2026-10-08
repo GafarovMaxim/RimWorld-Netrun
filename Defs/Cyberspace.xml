@@ -19,7 +19,6 @@
     <nodeCount>4~6</nodeCount>
     <hiddenNodes>1</hiddenNodes>
     <refreshDays>5</refreshDays>
-    <searchCost>5</searchCost>
     <programCost>1</programCost>
     <programSlots>2</programSlots>
     <diveBaseCost>1</diveBaseCost>

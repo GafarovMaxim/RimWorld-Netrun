@@ -100,4 +100,13 @@
 
   <NR_DistrictOldNetWalled>Старая сеть (за Стеной)</NR_DistrictOldNetWalled>
   <NR_MapWallLocked>Стена: проход в Старую сеть закрыт.</NR_MapWallLocked>
+  <NR_MapSearchHint>Найти узел, ноду или корпорацию… (F)</NR_MapSearchHint>
+  <NR_MapSearchNone>Ничего не найдено.</NR_MapSearchNone>
+  <NR_MapMenuSend>Отправить {0} сюда</NR_MapMenuSend>
+  <NR_MapMenuWatch>Следить (в список)</NR_MapMenuWatch>
+  <NR_MapMenuUnwatch>Перестать следить</NR_MapMenuUnwatch>
+  <NR_MapMenuCenter>Камеру сюда</NR_MapMenuCenter>
+  <NR_MapWatchlist>Наблюдение</NR_MapWatchlist>
+  <NR_MapShow>◎ Показать</NR_MapShow>
+  <NR_MapMinimapTip>Вся сеть. Рамка — то, что видно сейчас; клик переносит туда. Клавиши: H Дом, R или Tab следующий раннер, 0 вся карта, F поиск.</NR_MapMinimapTip>
 </LanguageData>

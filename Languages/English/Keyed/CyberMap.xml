@@ -100,4 +100,13 @@
 
   <NR_DistrictOldNetWalled>Old Net (behind the Wall)</NR_DistrictOldNetWalled>
   <NR_MapWallLocked>The Wall: the way into the Old Net is shut.</NR_MapWallLocked>
+  <NR_MapSearchHint>Find a hub, node or corp… (F)</NR_MapSearchHint>
+  <NR_MapSearchNone>Nothing found.</NR_MapSearchNone>
+  <NR_MapMenuSend>Send {0} here</NR_MapMenuSend>
+  <NR_MapMenuWatch>Watch (pin to the list)</NR_MapMenuWatch>
+  <NR_MapMenuUnwatch>Stop watching</NR_MapMenuUnwatch>
+  <NR_MapMenuCenter>Center the camera</NR_MapMenuCenter>
+  <NR_MapWatchlist>Watchlist</NR_MapWatchlist>
+  <NR_MapShow>◎ Show</NR_MapShow>
+  <NR_MapMinimapTip>The whole net. The frame is what you see; click to jump. Keys: H home, R or Tab next runner, 0 whole map, F search.</NR_MapMinimapTip>
 </LanguageData>

@@ -373,6 +373,20 @@ public static class ContractsTab
             if (NetrunUI.Button(new Rect(bx, by, dw, 30f), deliver, NetrunUI.Ok, canDeliver, "NR_BoardTag_FragmentTip".Translate()))
                 contracts.DeliverFragment(contract, map);
         }
+        // A contract with a target on the map: one click opens the Gateway on it.
+        if (contract.Type is ContractType.SystemTap or ContractType.QuietRun && GatewayManager.MapReady
+            && GatewayManager.Get()?.AllBranches.FirstOrDefault(b => b.Contract && !b.Hidden && b.MapNodeId >= 0) is { } target)
+        {
+            string show = "NR_MapShow".Translate();
+            float sw = NetrunUI.ButtonWidth(show);
+            bx -= sw + 8f;
+            if (NetrunUI.Button(new Rect(bx, by, sw, 30f), show, NetrunUI.Warn, true, "NR_BoardShowTip".Translate(target.Name)))
+            {
+                GatewayView.FocusNode(target.MapNodeId, target.Id);
+                Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenGatewayAt(target.MapNodeId);
+                GatewayView.FocusNode(target.MapNodeId, target.Id);
+            }
+        }
     }
 
     // ---- Offers ----

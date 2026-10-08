@@ -41,6 +41,14 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     public CyberMap Map;
     /// <summary>A node marked for the player (a scenario's target: the former owner's fortress), always visible.</summary>
     public int MarkedNodeId = -1;
+    /// <summary>Hubs pinned by the player (right click, Watch), at most six.</summary>
+    public List<int> Watch = [];
+
+    public void ToggleWatch(int hubId)
+    {
+        if (!Watch.Remove(hubId) && Watch.Count < 6)
+            Watch.Add(hubId);
+    }
     public List<NetRunner> Runners = [];
     /// <summary>Slots waiting to fill again after a branch was burned out: node id and tick.</summary>
     private List<int> _refillNode = [];
@@ -189,7 +197,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         }
     }
 
-    /// <summary>"Discover": shows the hidden branches around a node (the runner's, or Home).</summary>
+    /// <summary>Shows the hidden branches within some hops of a node (honeypot back-traces, the future runner ping).</summary>
     public int RevealAround(int nodeId, int hops)
     {
         int count = 0;
@@ -533,6 +541,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         if (Map != null)
         {
             n += Map.Links.RemoveAll(l => l.ExpiresTick >= 0 && Find.TickManager.TicksGame >= l.ExpiresTick);
+            n += Watch.RemoveAll(id => Map.Node(id) == null);
             Map.Dirty();
         }
         return n;
@@ -544,12 +553,14 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         Scribe_Deep.Look(ref Map, "map");
         ExposeOrbit();
         Scribe_Values.Look(ref MarkedNodeId, "markedNode", -1);
+        Scribe_Collections.Look(ref Watch, "watch", LookMode.Value);
         Scribe_Collections.Look(ref Runners, "runners", LookMode.Deep);
         Scribe_Collections.Look(ref _refillNode, "refillNode", LookMode.Value);
         Scribe_Collections.Look(ref _refillTick, "refillTick", LookMode.Value);
         Scribe_Values.Look(ref _nextEventTick, "nextEventTick", -1);
         Scribe_Values.Look(ref _lastPermanentTick, "lastPermanentTick", -1);
         Runners ??= [];
+        Watch ??= [];
         _refillNode ??= [];
         _refillTick ??= [];
         if (Scribe.mode == LoadSaveMode.PostLoadInit)

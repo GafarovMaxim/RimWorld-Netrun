@@ -315,4 +315,6 @@ Heat now: {8}</NR_EconomySummary>
   <NR_PermitScrubLog>Imperial trace scrub ({0})</NR_PermitScrubLog>
   <NR_PermitScrubDone>{0} has wiped the colony's trace from public logs: Heat -{1}.</NR_PermitScrubDone>
   <NR_RitualCleansingLog>Trace cleansing ritual</NR_RitualCleansingLog>
+  <NR_SettingsMinimap>Minimap on the cyberspace map</NR_SettingsMinimap>
+  <NR_SettingsMinimapTip>A small map of the whole net in the corner; the frame shows the view, a click jumps there.</NR_SettingsMinimapTip>
 </LanguageData>

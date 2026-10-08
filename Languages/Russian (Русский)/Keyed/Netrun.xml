@@ -315,4 +315,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_PermitScrubLog>Имперская зачистка следа ({0})</NR_PermitScrubLog>
   <NR_PermitScrubDone>{0}: след колонии стёрт из публичных журналов, Heat −{1}.</NR_PermitScrubDone>
   <NR_RitualCleansingLog>Ритуал очищения следа</NR_RitualCleansingLog>
+  <NR_SettingsMinimap>Мини-карта на карте киберпространства</NR_SettingsMinimap>
+  <NR_SettingsMinimapTip>Маленькая карта всей сети в углу: рамка показывает вид, клик переносит туда.</NR_SettingsMinimapTip>
 </LanguageData>
