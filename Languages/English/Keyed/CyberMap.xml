@@ -32,7 +32,6 @@
   <NR_NetFoundOpen>Set up the net</NR_NetFoundOpen>
   <NR_NetFoundPrompt>The net has not been mapped yet.</NR_NetFoundPrompt>
   <NR_NetFoundNote>The size can be changed in the mod settings for future games.</NR_NetFoundNote>
-  <NR_MapHeader>{0} net, layout: {1}</NR_MapHeader>
   <NR_MapNodeLabel>{0} {1}</NR_MapNodeLabel>
   <NR_MapRunners>Runners {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Runners {0}/{1}</NR_MapRunnersChip>
@@ -81,7 +80,6 @@
   <NR_MapStateTransit>transit window: instant links</NR_MapStateTransit>
   <NR_MapBranchOffline>The node is offline right now.</NR_MapBranchOffline>
   <NR_MapNeedRunnerHere>A connected runner has to stand at this hub.</NR_MapNeedRunnerHere>
-  <NR_MapLegend>Rings: exit points. Squares: fortresses. Dots around a hub: its nodes (grey: not known yet). Dashed: dark links, backdoors, the Wall.</NR_MapLegend>
   <NR_MapNewsMaintenance>Planned maintenance around {NODE}: links down for a day.</NR_MapNewsMaintenance>
   <NR_MapNewsOverload>Backbone overload near {NODE}: traffic crawls.</NR_MapNewsOverload>
   <NR_MapNewsStorm>A data storm rolls over {NODE}.</NR_MapNewsStorm>

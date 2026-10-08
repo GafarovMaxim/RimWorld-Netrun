@@ -86,7 +86,6 @@
   <NR_GatewayPickNode>Pick a node.</NR_GatewayPickNode>
   <NR_GatewayNodeHidden>This node is hidden. Use Discover new node to reveal it.</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>needs a colonist with a cyberlink in a powered cyberpod</NR_GatewayNoPod>
-  <NR_GatewayLegend>Size = haul · color = type · ★ fixer contract · dashed = hidden (needs Discover)</NR_GatewayLegend>
   <NR_GatewayHidden>hidden</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>defense {0}</NR_GatewayDefense>
@@ -105,11 +104,8 @@
   <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>no free slots</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} dives from the cyberpod. The game stays paused while you play the dive.</NR_GatewayDiveTip>
-  <NR_GatewaySearch>Discover new node ({0} cyberdata)</NR_GatewaySearch>
-  <NR_GatewaySearchTip>Reveal a hidden node, or find a new one if nothing is hidden.</NR_GatewaySearchTip>
   <NR_GatewayViewCircles>View: ◉ circles</NR_GatewayViewCircles>
   <NR_GatewayViewList>View: ☰ list</NR_GatewayViewList>
-  <NR_GatewayRefresh>New nodes in {0}.</NR_GatewayRefresh>
   <NR_GatewayPodReady>Cyberpod ready</NR_GatewayPodReady>
   <NR_GatewayPodNone>No cyberpod</NR_GatewayPodNone>
   <NR_GatewayRunner>Netrunner: {0}</NR_GatewayRunner>
@@ -123,7 +119,6 @@
   <NR_DiveBackToGateway>◄ Gateway</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Retreat</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // DIVE: {0}</NR_TerminalTitleDive>
-  <NR_GatewayFull>the Gateway is full</NR_GatewayFull>
   <NR_DiveCostLine>Cost: {0} cyberdata</NR_DiveCostLine>
   <NR_DiveCostEntry>Node entry: {0}</NR_DiveCostEntry>
   <NR_DiveCostPrograms>Programs ({0}): {1}</NR_DiveCostPrograms>

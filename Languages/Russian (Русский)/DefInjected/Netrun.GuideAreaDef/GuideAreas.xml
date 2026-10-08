@@ -91,6 +91,7 @@
   <NR_Guide_gateway_field.label>Поле нод</NR_Guide_gateway_field.label>
   <NR_Guide_gateway_field.steps.0.text>Внешние ноды киберпространства. Крупные круги платят больше; серые скрыты.</NR_Guide_gateway_field.steps.0.text>
   <NR_Guide_gateway_field.steps.0.hint>потащите поле, колесо — масштаб, средняя кнопка — сброс.</NR_Guide_gateway_field.steps.0.hint>
+  <NR_Guide_gateway_field.steps.1.text>Кольца — точки выхода. Квадраты — крепости. Точки вокруг узла — его ноды (серые: ещё не известны). Пунктир — тёмные связи, бэкдоры и Стена. ★ — нода, нужная контракту.</NR_Guide_gateway_field.steps.1.text>
   <NR_Guide_gateway_zoom.label>Камера</NR_Guide_gateway_zoom.label>
   <NR_Guide_gateway_zoom.steps.0.text>Приблизить, отдалить и сбросить камеру (или средняя кнопка мыши на поле).</NR_Guide_gateway_zoom.steps.0.text>
   <NR_Guide_gateway_node.label>Нода</NR_Guide_gateway_node.label>
@@ -102,8 +103,8 @@
   <NR_Guide_gateway_programs.steps.0.hint>включите программу.</NR_Guide_gateway_programs.steps.0.hint>
   <NR_Guide_gateway_dive.label>Нырок</NR_Guide_gateway_dive.label>
   <NR_Guide_gateway_dive.steps.0.text>Итоговая цена (наведите — разбивка) и кнопка «НЫРНУТЬ»: нетраннер должен лежать в запитанной капсуле.</NR_Guide_gateway_dive.steps.0.text>
-  <NR_Guide_gateway_search.label>Поиск и вид</NR_Guide_gateway_search.label>
-  <NR_Guide_gateway_search.steps.0.text>Найти скрытые ноды за cyberdata, переключить вид кругами или списком и узнать, когда придут новые ноды.</NR_Guide_gateway_search.steps.0.text>
+  <NR_Guide_gateway_search.label>Вид</NR_Guide_gateway_search.label>
+  <NR_Guide_gateway_search.steps.0.text>Переключить вид: карта или список нод.</NR_Guide_gateway_search.steps.0.text>
   <NR_Guide_dive_steps.label>Ступени ноды</NR_Guide_dive_steps.label>
   <NR_Guide_dive_steps.steps.0.text>Путь от лобби к выходу: ворота для взлома, ICE, файлы и память. Яркая ступень — где вы; ✓ пройдено, ■ закрыто, ? скрыто.</NR_Guide_dive_steps.steps.0.text>
   <NR_Guide_dive_fork.label>Развилка</NR_Guide_dive_fork.label>

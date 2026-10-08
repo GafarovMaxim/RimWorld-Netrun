@@ -49,7 +49,7 @@ public static partial class GatewayView
         IReadOnlyList<ExternalNode> nodes = gateway.Nodes;
         ExternalNode selected = nodes.FirstOrDefault(n => n.Id == _selectedId);
 
-        var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height - 24f);
+        var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
         GuideRegistry.Area("gateway.field", mapRect);
         GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height));
         NetMapManager net = NetMapManager.Get();
@@ -61,10 +61,6 @@ public static partial class GatewayView
             DrawSetupPrompt(mapRect);
         else
             DrawCircles(mapRect, nodes);
-
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(rect.x, rect.yMax - 20f, mapRect.width, 20f), "NR_GatewayLegend".Translate().Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
 
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height), map, gateway, selected);
     }
@@ -232,7 +228,9 @@ public static partial class GatewayView
         if (g.LastReport is { } last)
             list.Add(("NR_NewsLastDive".Translate(last.RunnerName ?? "?", last.NodeName,
                 (last.Success ? "NR_ReportSuccess" : last.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate()), NetrunUI.Muted));
-        list.Add(("NR_NewsRefresh".Translate(g.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.Accent));
+        // Branches grow back by themselves on the map; the old refresh timer only means something without it.
+        if (!GatewayManager.MapReady)
+            list.Add(("NR_NewsRefresh".Translate(g.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.Accent));
         return list;
     }
 
@@ -701,28 +699,12 @@ public static partial class GatewayView
 
         GuideRegistry.InScroll("gateway.dive", outer, _panelScroll, new Rect(inner.x, gDive, inner.width, y - gDive));
         float gSearch = y;
-        // Search for hidden nodes and switch the view.
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_GatewaySearch".Translate(NetrunDefOf.NR_Cyberspace.searchCost), NetrunUI.Ok,
-                gateway.CanSearch(map), "NR_GatewaySearchTip".Translate()))
-        {
-            ExternalNode found = gateway.Search(map);
-            if (found != null)
-                _selectedId = found.Id;
-        }
-        y += 38f;
-
+        // Switch the view (the map or a list).
         if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 26f), (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
             _listMode = !_listMode;
         y += 32f;
-
-        Text.Font = GameFont.Tiny;
-        string refresh = NetMapManager.Get() is { Ready: true } ? (string)"NR_MapLegend".Translate()
-            : (string)"NR_GatewayRefresh".Translate(gateway.TicksUntilRefresh.ToStringTicksToPeriod());
-        float rh = Text.CalcHeight(refresh, inner.width);
-        Widgets.Label(new Rect(inner.x, y, inner.width, rh), refresh.Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
         GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
-        _panelHeight = y + rh + 4f;
+        _panelHeight = y + 4f;
         Widgets.EndScrollView();
     }
 

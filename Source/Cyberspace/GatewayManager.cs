@@ -78,7 +78,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
 
     public void ClearBranches(bool keepSession) => _nodes.RemoveAll(n => !keepSession || Session?.Node?.Id != n.Id);
 
-    private static bool MapReady => NetMapManager.Get() is { Ready: true };
+    /// <summary>The cyberspace map is set up (branches grow back by themselves, no refresh timer).</summary>
+    public static bool MapReady => NetMapManager.Get() is { Ready: true };
 
     /// <summary>
     /// Adds a branch: on the map, on a free slot in one of the preferred districts; before the map exists, into the
@@ -454,53 +455,12 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     /// <summary>The Gateway map has room for this many circles.</summary>
     public const int MaxNodes = 7;
 
-    /// <summary>"Discover new node": reveals a hidden node, or finds a new one when nothing is hidden.</summary>
-    public AcceptanceReport CanSearch(Map map)
-    {
-        if (NetworkIsolation.Active)
-            return NetworkIsolation.Check();
-        if (!MapReady && !_nodes.Any(n => n.Hidden) && _nodes.Count >= MaxNodes)
-            return "NR_GatewayFull".Translate();
-        return ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) >= Settings.searchCost
-            ? true
-            : "NR_AINoFood".Translate(Settings.searchCost, NetrunDefOf.USH_Cyberdata.label);
-    }
-
     /// <summary>Uncovers one hidden node for free (the honeypot's back-trace); null when nothing is hidden.</summary>
     public ExternalNode RevealHidden()
     {
         ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
         if (found != null)
             found.Hidden = false;
-        return found;
-    }
-
-    public ExternalNode Search(Map map)
-    {
-        if (!CanSearch(map).Accepted)
-            return null;
-        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, Settings.searchCost);
-        EconomyTracker.Get()?.Note(spent: Settings.searchCost);
-        if (MapReady)
-        {
-            // With the map: a scan around the runners (or Home) shows what hides nearby; if nothing does, a new branch turns up.
-            NetMapManager net = NetMapManager.Get();
-            int around = net.Runners.FirstOrDefault()?.NodeId ?? net.Map.HomeId;
-            ExternalNode before = _nodes.FirstOrDefault(n => n.Hidden && net.Map.Hops(around, n.MapNodeId, 3) <= 3);
-            if (net.RevealAround(around, 3) > 0)
-                return before;
-            ExternalNode fresh = ExternalNode.Generate(_nextId++);
-            fresh.Hidden = false;
-            net.Place(fresh, null, around);
-            return fresh;
-        }
-        ExternalNode found = _nodes.FirstOrDefault(n => n.Hidden);
-        if (found == null)
-        {
-            found = ExternalNode.Generate(_nextId++);
-            _nodes.Add(found);
-        }
-        found.Hidden = false;
         return found;
     }
 

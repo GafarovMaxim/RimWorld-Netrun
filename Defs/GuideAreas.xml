@@ -508,6 +508,9 @@
         <text>External nodes in cyberspace. Bigger circles pay more; grey ones are hidden.</text>
         <hint>drag the field, scroll to zoom, middle mouse to reset.</hint>
       </li>
+      <li>
+        <text>Rings: exit points. Squares: fortresses. Dots around a hub: its nodes (grey: not known yet). Dashed: dark links, backdoors, the Wall. ★ marks a node a contract wants.</text>
+      </li>
     </steps>
   </Netrun.GuideAreaDef>
 
@@ -574,14 +577,14 @@
 
   <Netrun.GuideAreaDef>
     <defName>NR_Guide_gateway_search</defName>
-    <label>Search and view</label>
+    <label>View</label>
     <area>gateway.search</area>
     <screen>Gateway</screen>
     <order>6</order>
     <helpPage>NR_Help_Gateway</helpPage>
     <steps>
       <li>
-        <text>Find hidden nodes for cyberdata, switch between circles and a list, and see when new nodes come.</text>
+        <text>Switch between the map and a list of the nodes.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>

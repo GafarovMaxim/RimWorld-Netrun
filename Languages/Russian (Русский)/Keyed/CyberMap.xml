@@ -32,7 +32,6 @@
   <NR_NetFoundOpen>Настроить сеть</NR_NetFoundOpen>
   <NR_NetFoundPrompt>Сеть ещё не нанесена на карту.</NR_NetFoundPrompt>
   <NR_NetFoundNote>Размер для будущих игр меняется в настройках мода.</NR_NetFoundNote>
-  <NR_MapHeader>Сеть: {0}, раскладка: {1}</NR_MapHeader>
   <NR_MapNodeLabel>{0} {1}</NR_MapNodeLabel>
   <NR_MapRunners>Раннеры {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Раннеры {0}/{1}</NR_MapRunnersChip>
@@ -81,7 +80,6 @@
   <NR_MapStateTransit>окно транзита: связи мгновенные</NR_MapStateTransit>
   <NR_MapBranchOffline>Узел сейчас отключён.</NR_MapBranchOffline>
   <NR_MapNeedRunnerHere>На этом узле должен стоять подключённый раннер.</NR_MapNeedRunnerHere>
-  <NR_MapLegend>Кольца — точки выхода. Квадраты — крепости. Точки вокруг узла — его ответвления (серые: ещё не известны). Пунктир — тёмные связи, чёрные ходы, Стена.</NR_MapLegend>
   <NR_MapNewsMaintenance>Плановые работы у {NODE}: связи отключены на сутки.</NR_MapNewsMaintenance>
   <NR_MapNewsOverload>Перегрузка магистрали у {NODE}: трафик ползёт.</NR_MapNewsOverload>
   <NR_MapNewsStorm>Шторм данных накрыл {NODE}.</NR_MapNewsStorm>

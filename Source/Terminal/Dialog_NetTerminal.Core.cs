@@ -621,9 +621,12 @@ public partial class Dialog_NetTerminal
             Mathf.Clamp01(s.Watts / 3000f), s.Watts > 2000f ? NetrunUI.Warn : online ? NetrunUI.Ok : NetrunUI.Bad, "NR_CoreRowNetTip".Translate());
         if (gateway == null)
             return;
-        float refreshDays = NetrunDefOf.NR_Cyberspace.refreshDays;
-        y = GaugeRow(inner, y, NetrunTex.HiddenNode, "NR_CoreGatewayRefresh".Translate(),
-            gateway.TicksUntilRefresh.ToStringTicksToPeriod(), 1f - gateway.TicksUntilRefresh / (refreshDays * GenDate.TicksPerDay), NetrunUI.Accent, null);
+        if (!GatewayManager.MapReady)
+        {
+            float refreshDays = NetrunDefOf.NR_Cyberspace.refreshDays;
+            y = GaugeRow(inner, y, NetrunTex.HiddenNode, "NR_CoreGatewayRefresh".Translate(),
+                gateway.TicksUntilRefresh.ToStringTicksToPeriod(), 1f - gateway.TicksUntilRefresh / (refreshDays * GenDate.TicksPerDay), NetrunUI.Accent, null);
+        }
         ExternalNode boss = gateway.Boss;
         Texture2D bossIcon = NetrunTex.CyberIcon("Node_CorpCore");
         if (boss != null)

@@ -86,7 +86,6 @@
   <NR_GatewayPickNode>Выберите ноду.</NR_GatewayPickNode>
   <NR_GatewayNodeHidden>Нода скрыта. Нажмите «Найти новую ноду».</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>нужен колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
-  <NR_GatewayLegend>Размер = награда · цвет = тип · ★ контракт фиксера · пунктир = скрыта (нужен поиск)</NR_GatewayLegend>
   <NR_GatewayHidden>скрыта</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
@@ -105,11 +104,8 @@
   <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
   <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
-  <NR_GatewaySearch>Найти новую ноду ({0} cyberdata)</NR_GatewaySearch>
-  <NR_GatewaySearchTip>Раскрыть скрытую ноду или найти новую, если скрытых нет.</NR_GatewaySearchTip>
   <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>
   <NR_GatewayViewList>Вид: ☰ список</NR_GatewayViewList>
-  <NR_GatewayRefresh>Новые ноды через {0}.</NR_GatewayRefresh>
   <NR_GatewayPodReady>Капсула готова</NR_GatewayPodReady>
   <NR_GatewayPodNone>Нет капсулы</NR_GatewayPodNone>
   <NR_GatewayRunner>Нетраннер: {0}</NR_GatewayRunner>
@@ -123,7 +119,6 @@
   <NR_DiveBackToGateway>◄ Шлюз</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // НЫРОК: {0}</NR_TerminalTitleDive>
-  <NR_GatewayFull>в Шлюзе нет места</NR_GatewayFull>
   <NR_DiveCostLine>Стоимость: {0} cyberdata</NR_DiveCostLine>
   <NR_DiveCostEntry>Вход в ноду: {0}</NR_DiveCostEntry>
   <NR_DiveCostPrograms>Программы ({0}): {1}</NR_DiveCostPrograms>

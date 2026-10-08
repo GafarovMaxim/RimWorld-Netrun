@@ -122,10 +122,6 @@ public static partial class GatewayView
         float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
         DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
-        Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(rect.x + 6f, rect.y + 4f, 420f, 18f),
-            "NR_MapHeader".Translate(("NR_NetSize_" + map.Size).Translate(), ("NR_NetLayout_" + map.Layout).Translate()).Colorize(NetrunUI.Muted));
-        Text.Font = GameFont.Small;
     }
 
     private static string DistrictLabel(MapNode n, NetMapManager net)
