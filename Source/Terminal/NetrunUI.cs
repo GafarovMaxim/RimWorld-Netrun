@@ -481,13 +481,13 @@ public static class NetrunUI
 
     // ---- Template A: the field deck (docs/CONCEPT_TERMINAL_FRAME.md, mockups 25 and 27) ----
 
-    private static readonly Color DeckTopColor = Hex(0x39414a);
-    private static readonly Color DeckBottomColor = Hex(0x1b2026);
-    private static readonly Color DeckEdge = Hex(0x5b6671);
-    private static readonly Color DeckRubber = Hex(0x0e1013);
+    private static readonly Color DeckTopColor = Hex(0x23282e);
+    private static readonly Color DeckBottomColor = Hex(0x101317);
+    private static readonly Color DeckEdge = Hex(0x434b54);
+    private static readonly Color DeckRubber = Hex(0x090a0c);
     private static readonly Color DeckOrange = Hex(0xff9a4a);
-    private static readonly Color DeckStencil = new(1f, 1f, 1f, 0.42f);
-    public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 56f, DeckBottom = 64f;
+    private static readonly Color DeckStencil = new(1f, 1f, 1f, 0.58f);
+    public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 64f, DeckBottom = 76f;
     /// <summary>How much bigger a window gets around its screen with the deck casing.</summary>
     public static Vector2 DeckExtra => new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
 
@@ -524,6 +524,13 @@ public static class NetrunUI
     {
         Text.Font = GameFont.Tiny;
         Text.Anchor = anchor;
+        // A full line of the tiny font and room for the whole word, so nothing is cut off at the edges.
+        Vector2 size = Text.CalcSize(text);
+        if (r.width < size.x + 2f)
+            r = anchor == TextAnchor.UpperRight ? new Rect(r.xMax - size.x - 2f, r.y, size.x + 2f, r.height)
+                : anchor == TextAnchor.UpperLeft ? new Rect(r.x, r.y, size.x + 2f, r.height)
+                : new Rect(r.center.x - size.x / 2f - 1f, r.y, size.x + 2f, r.height);
+        r.height = Mathf.Max(r.height, size.y);
         Widgets.Label(r, text.Colorize(color ?? DeckStencil));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
@@ -603,10 +610,10 @@ public static class NetrunUI
             float tx = left ? outer.x + 3f : outer.xMax - 17f;
             float top = outer.y + outer.height * 0.26f, bottom = outer.y + outer.height * 0.74f;
             var tube = new Rect(tx, top, 14f, bottom - top);
-            Widgets.DrawBoxSolid(tube, Hex(0x3d444d));
-            Widgets.DrawBoxSolid(new Rect(tube.x + 2f, tube.y, 4f, tube.height), Hex(0x6b7682));
-            Widgets.DrawBoxSolid(new Rect(tube.x + 3f, tube.y, 1f, tube.height), new Color(1f, 1f, 1f, 0.4f));
-            Widgets.DrawBoxSolid(new Rect(tube.xMax - 3f, tube.y, 3f, tube.height), Hex(0x22272d));
+            Widgets.DrawBoxSolid(tube, Hex(0x2a3036));
+            Widgets.DrawBoxSolid(new Rect(tube.x + 2f, tube.y, 4f, tube.height), Hex(0x4b545e));
+            Widgets.DrawBoxSolid(new Rect(tube.x + 3f, tube.y, 1f, tube.height), new Color(1f, 1f, 1f, 0.28f));
+            Widgets.DrawBoxSolid(new Rect(tube.xMax - 3f, tube.y, 3f, tube.height), Hex(0x15181c));
             // Grip wraps in the middle.
             for (float gy = tube.center.y - 40f; gy < tube.center.y + 40f; gy += 5f)
                 Widgets.DrawBoxSolid(new Rect(tube.x, gy, tube.width, 2f), new Color(0f, 0f, 0f, 0.35f));
@@ -648,15 +655,16 @@ public static class NetrunUI
     private static void DrawDeckTop(Rect body, Rect outer, string plate, HeatLevel level, float heat01, bool online, bool anim, float time)
     {
         const float bump = 78f;
-        float gy = body.y + 3f;
+        float gy = body.y + 5f;
         float gx = body.x + bump + 12f;
-        DeckGauge(new Rect(gx, gy, 40f, 40f), _gaugeHeat, true, "NR_DeckGaugeHeat".Translate());
-        DeckGauge(new Rect(gx + 50f, gy, 40f, 40f), _gaugeNet, false, "NR_DeckGaugeNet".Translate());
-        Stencil(new Rect(gx - 4f, gy + 41f, 48f, 12f), "HEAT");
-        Stencil(new Rect(gx + 46f, gy + 41f, 48f, 12f), "NET");
+        DeckGauge(new Rect(gx, gy, 38f, 38f), _gaugeHeat, true, "NR_DeckGaugeHeat".Translate());
+        DeckGauge(new Rect(gx + 50f, gy, 38f, 38f), _gaugeNet, false, "NR_DeckGaugeNet".Translate());
+        Stencil(new Rect(gx - 5f, gy + 39f, 48f, 14f), "HEAT");
+        Stencil(new Rect(gx + 45f, gy + 39f, 48f, 14f), "NET");
 
         // The tuner in its recess, with a stencil and the moving mark.
-        var tuner = new Rect(gx + 106f, body.y + 12f, Mathf.Min(180f, body.width * 0.2f), DeckTop - 30f);
+        const float plateHeight = 26f;
+        var tuner = new Rect(gx + 106f, body.y + 12f, Mathf.Min(180f, body.width * 0.2f), plateHeight);
         Widgets.DrawBoxSolid(tuner, Hex(0x07080a));
         Bevel(tuner, false);
         for (int i = 0; i <= 24; i++)
@@ -667,7 +675,7 @@ public static class NetrunUI
         float mark = tuner.x + 5f + (tuner.width - 10f) * _tuner;
         Glow(new Rect(mark - 1f, tuner.y + 2f, 2f, tuner.height - 4f), DeckOrange, 0.5f, 4f);
         Widgets.DrawBoxSolid(new Rect(mark - 1f, tuner.y + 2f, 2f, tuner.height - 4f), DeckOrange);
-        Stencil(new Rect(tuner.x, tuner.yMax + 1f, tuner.width, 12f), "TUNE  88.2 — 107.9");
+        Stencil(new Rect(tuner.x, tuner.yMax + 1f, tuner.width, 14f), "TUNE  88.2 - 107.9");
         Tip(tuner, "NR_DeckTuner".Translate());
 
         float px = tuner.xMax + 16f;
@@ -676,14 +684,14 @@ public static class NetrunUI
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
             float pw = Text.CalcSize(plate).x + 22f;
-            var pr = new Rect(px, body.y + 13f, pw, DeckTop - 32f);
+            var pr = new Rect(px, body.y + 12f, pw, plateHeight);
             Widgets.DrawBoxSolid(pr, Hex(0x15191e));
             Bevel(pr, false);
             Screw(new Vector2(pr.x + 5f, pr.center.y), 4f);
             Screw(new Vector2(pr.xMax - 5f, pr.center.y), 4f);
             Widgets.Label(new Rect(pr.x + 11f, pr.y, pr.width, pr.height), plate.Colorize(new Color(1f, 1f, 1f, 0.72f)));
             Text.Anchor = TextAnchor.UpperLeft;
-            Stencil(new Rect(pr.x, pr.yMax + 1f, pr.width, 12f), "SER. NR-07 · GUILD ISSUE", TextAnchor.UpperLeft);
+            Stencil(new Rect(pr.x, pr.yMax + 1f, pr.width, 14f), "SER. NR-07 · GUILD ISSUE", TextAnchor.UpperLeft);
             px = pr.xMax + 16f;
         }
 
@@ -696,18 +704,18 @@ public static class NetrunUI
             (sick, DeckOrange, true, "NR_DeckLightSick".Translate(), "SICK"),
             (pod, Accent, false, "NR_DeckLightPod".Translate(), "POD"),
         ];
-        var strip = new Rect(px, body.y + 13f, lights.Length * 26f + 6f, DeckTop - 32f);
+        var strip = new Rect(px, body.y + 12f, lights.Length * 30f + 6f, plateHeight);
         Widgets.DrawBoxSolid(strip, Hex(0x15191e));
         Bevel(strip, false);
         for (int i = 0; i < lights.Length; i++)
         {
-            var l = new Rect(strip.x + 9f + i * 26f, strip.center.y - 4f, 10f, 8f);
+            var l = new Rect(strip.x + 11f + i * 30f, strip.center.y - 4f, 10f, 8f);
             float a = !lights[i].on ? 0.15f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
             if (lights[i].on)
                 Glow(l, lights[i].c, a * 0.8f, 5f);
             Widgets.DrawBoxSolid(l, new Color(lights[i].c.r, lights[i].c.g, lights[i].c.b, Mathf.Max(0.18f, a)));
             Widgets.DrawBoxSolid(new Rect(l.x + 1f, l.y + 1f, l.width - 2f, 2f), new Color(1f, 1f, 1f, lights[i].on ? 0.5f : 0.1f));
-            Stencil(new Rect(l.center.x - 13f, strip.yMax + 1f, 26f, 12f), lights[i].label);
+            Stencil(new Rect(l.center.x - 15f, strip.yMax + 1f, 30f, 14f), lights[i].label);
             Tip(l.ExpandedBy(6f), lights[i].tip);
         }
 
@@ -727,7 +735,7 @@ public static class NetrunUI
         for (float d = -8f; d < hazard.width; d += 10f)
             Widgets.DrawLine(new Vector2(d, hazard.height), new Vector2(d + hazard.height, 0f), DeckOrange, 4f);
         GUI.EndClip();
-        Stencil(new Rect(hazard.x, hazard.yMax + 2f, hazard.width, 12f), "RF");
+        Stencil(new Rect(hazard.x, hazard.yMax + 2f, hazard.width, 14f), "RF");
     }
 
     private static void DrawDeckBottom(Rect body, Rect screen, HeatLevel level, float heat01, bool online, System.Action<int> onKey)
@@ -735,12 +743,12 @@ public static class NetrunUI
         const float bump = 78f;
         float by0 = body.yMax - DeckBottom;
         // The vent grille in a framed recess.
-        var grille = new Rect(body.x + bump + 10f, by0 + 14f, 12 * 8f + 6f, DeckBottom - 28f);
+        var grille = new Rect(body.x + bump + 10f, by0 + 14f, 12 * 8f + 6f, 34f);
         Widgets.DrawBoxSolid(grille, Hex(0x15191e));
         Bevel(grille, false);
         for (int i = 0; i < 12; i++)
             Widgets.DrawBoxSolid(new Rect(grille.x + 5f + i * 8f, grille.y + 4f, 4f, grille.height - 8f), new Color(0f, 0f, 0f, 0.75f));
-        Stencil(new Rect(grille.x, grille.yMax + 1f, grille.width, 12f), "VENT");
+        Stencil(new Rect(grille.x, grille.yMax + 1f, grille.width, 14f), "VENT");
 
         // Three hardware keys in a recessed tray, each with its stencil.
         string[] glyphs = ["◁", "○", "?"];
@@ -752,7 +760,7 @@ public static class NetrunUI
             _pressed = false;
         const float kw = 46f, kh = 26f;
         float kx = body.center.x - (3 * kw + 2 * 12f) / 2f;
-        var tray = new Rect(kx - 8f, by0 + 10f, 3 * kw + 2 * 12f + 16f, kh + 10f);
+        var tray = new Rect(kx - 8f, by0 + 12f, 3 * kw + 2 * 12f + 16f, kh + 10f);
         Widgets.DrawBoxSolid(tray, Hex(0x111418));
         Bevel(tray, false);
         for (int i = 0; i < 3; i++)
@@ -770,7 +778,7 @@ public static class NetrunUI
             Widgets.Label(faceRect, glyphs[i].Colorize(i == 1 ? Hex(0x1b1e22) : over ? Accent : new Color(1f, 1f, 1f, 0.65f)));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            Stencil(new Rect(key.x - 6f, tray.yMax + 1f, key.width + 12f, 12f), names[i]);
+            Stencil(new Rect(key.x - 6f, tray.yMax + 1f, key.width + 12f, 14f), names[i]);
             if (onKey != null)
             {
                 Tip(key, ("NR_DeckKey_" + i).Translate());
@@ -782,19 +790,20 @@ public static class NetrunUI
             }
         }
 
-        // Two knobs with notches: Heat by level, the net ON / OFF.
-        const float knob = 44f;
-        var heatKnob = new Rect(body.xMax - bump - 2f * knob - 26f, by0 + (DeckBottom - knob) / 2f - 4f, knob, knob);
-        var netKnob = new Rect(heatKnob.xMax + 18f, heatKnob.y, knob, knob);
+        // Two knobs with notches, well apart: Heat by level, the net ON / OFF.
+        const float knob = 42f, knobGap = 46f;
+        var heatKnob = new Rect(body.xMax - bump - 2f * knob - knobGap - 10f, by0 + 12f, knob, knob);
+        var netKnob = new Rect(heatKnob.xMax + knobGap, heatKnob.y, knob, knob);
         DeckKnob(heatKnob, Mathf.Lerp(-120f, 120f, _knobHeat),
             [(-120f, HeatLevel.Shadow.Color()), (-60f, HeatLevel.Noticed.Color()), (0f, HeatLevel.Tracked.Color()), (60f, HeatLevel.Target.Color()), (120f, HeatLevel.RedZone.Color())],
             "NR_DeckKnobHeat".Translate(level.Label(), (heat01 * HeatTracker.MaxHeat).ToString("0")));
         DeckKnob(netKnob, Mathf.Lerp(-50f, 40f, _knobNet), [(-50f, Muted), (40f, Ok)],
             (online ? "NR_DeckKnobNetOn" : "NR_DeckKnobNetOff").Translate());
-        Stencil(new Rect(heatKnob.x - 6f, heatKnob.yMax + 2f, knob + 12f, 12f), "HEAT", TextAnchor.UpperCenter, new Color(level.Color().r, level.Color().g, level.Color().b, 0.8f));
-        Stencil(new Rect(netKnob.x - 6f, netKnob.yMax + 2f, knob + 12f, 12f), "NET");
-        Stencil(new Rect(netKnob.x - 18f, netKnob.y - 4f, 22f, 12f), "OFF", TextAnchor.UpperRight);
-        Stencil(new Rect(netKnob.xMax - 4f, netKnob.y - 4f, 22f, 12f), "ON", TextAnchor.UpperLeft, new Color(Ok.r, Ok.g, Ok.b, 0.75f));
+        Stencil(new Rect(heatKnob.x - 6f, heatKnob.yMax + 2f, knob + 12f, 14f), "HEAT", TextAnchor.UpperCenter, new Color(level.Color().r, level.Color().g, level.Color().b, 0.85f));
+        Stencil(new Rect(netKnob.x - 6f, netKnob.yMax + 2f, knob + 12f, 14f), "NET");
+        // OFF and ON beside the net knob's notches, clear of the Heat knob.
+        Stencil(new Rect(netKnob.x - 26f, netKnob.y + 2f, 24f, 14f), "OFF", TextAnchor.UpperRight);
+        Stencil(new Rect(netKnob.xMax + 2f, netKnob.y + 2f, 24f, 14f), "ON", TextAnchor.UpperLeft, new Color(Ok.r, Ok.g, Ok.b, 0.8f));
     }
 
     /// <summary>A round gauge: a chrome bezel, a black face, the scale (Heat zones on the Heat gauge), a needle, a glass glint.</summary>
@@ -985,19 +994,20 @@ public static class NetrunUI
     {
         if (Event.current.type != EventType.Repaint)
             return;
-        var rnd = new System.Random(seed * 7349 + Time.frameCount / 2);
-        float a = 1f - t;
+        // Slices change every few frames (not every other one) and the whole thing rises and fades softly.
+        var rnd = new System.Random(seed * 7349 + Time.frameCount / 4);
+        float a = Mathf.Sin(Mathf.Clamp01(t) * Mathf.PI) * 0.6f;
         for (int i = 0; i < slices; i++)
         {
-            float h = 1f + (float)rnd.NextDouble() * Mathf.Min(5f, r.height * 0.2f);
+            float h = 1f + (float)rnd.NextDouble() * Mathf.Min(3f, r.height * 0.15f);
             float y = r.y + (float)rnd.NextDouble() * (r.height - h);
-            float shift = ((float)rnd.NextDouble() * 2f - 1f) * Mathf.Min(10f, r.width * 0.08f);
+            float shift = ((float)rnd.NextDouble() * 2f - 1f) * Mathf.Min(5f, r.width * 0.05f);
             float w = r.width * (0.3f + 0.7f * (float)rnd.NextDouble());
             float x = r.x + (float)rnd.NextDouble() * (r.width - w);
             Color c = i % 2 == 0 ? new Color(1f, 0.2f, 0.55f) : new Color(0.25f, 0.9f, 1f);
-            GUI.color = new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.7f * a);
+            GUI.color = new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.35f * a);
             GUI.DrawTexture(new Rect(x, y, w, h), BaseContent.WhiteTex);
-            GUI.color = new Color(c.r, c.g, c.b, 0.45f * a);
+            GUI.color = new Color(c.r, c.g, c.b, 0.25f * a);
             GUI.DrawTexture(new Rect(x + shift, y, w, Mathf.Max(1f, h * 0.5f)), BaseContent.WhiteTex);
         }
         GUI.color = Color.white;
@@ -1076,7 +1086,7 @@ public static class NetrunUI
         Color c = active ? color : Muted;
         float glitch = Clicks.TryGetValue(Key(hit), out float clickedAt) ? Time.realtimeSinceStartup - clickedAt : 99f;
         if (glitch < 0.18f && NetrunMod.Settings.Animations)
-            rect.x += (Time.frameCount / 2 % 2 == 0 ? 1.5f : -1.5f) * (1f - glitch / 0.18f);
+            rect.x += (Time.frameCount / 3 % 2 == 0 ? 0.75f : -0.75f) * (1f - glitch / 0.18f);
         Box(rect, Color.Lerp(new Color(0f, 0f, 0f, 0.15f), new Color(c.r, c.g, c.b, 0.18f), lit), new Color(c.r, c.g, c.b, active ? 0.75f + 0.25f * lit : 0.5f));
         Rect textRect = rect;
         if (icon != null)

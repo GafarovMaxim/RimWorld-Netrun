@@ -12,6 +12,8 @@ public class Hediff_Netsick : HediffWithComps
     public int CravingSinceTick = -1;
     /// <summary>When an emotional dive was resolved and the pod asked to wake the pawn; -1 when not waiting.</summary>
     public int WakeRequestedTick = -1;
+    /// <summary>When the last emotional dive was resolved: another craving waits out a cooldown after it.</summary>
+    public int LastCravingTick = -1;
 
     private static NetsickSettingsDef Settings => NetrunDefOf.NR_NetsickSettings;
 
@@ -29,5 +31,6 @@ public class Hediff_Netsick : HediffWithComps
         Scribe_Values.Look(ref EmotionalDiveUntilTick, "emotionalDiveUntilTick", -1);
         Scribe_Values.Look(ref CravingSinceTick, "cravingSinceTick", -1);
         Scribe_Values.Look(ref WakeRequestedTick, "wakeRequestedTick", -1);
+        Scribe_Values.Look(ref LastCravingTick, "lastCravingTick", -1);
     }
 }

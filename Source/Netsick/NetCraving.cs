@@ -24,6 +24,19 @@ public class ThoughtWorker_NetsickWithdrawal : ThoughtWorker
 
 public static class NetCravingUtility
 {
+    /// <summary>
+    /// One craving, one dive: no new craving while the last emotional dive is recent or its aftermath (nausea,
+    /// lockout, coma) still lasts, so a pawn never dives again and again until they collapse.
+    /// </summary>
+    public static bool Recovering(Pawn pawn)
+    {
+        if (pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is Hediff_Netsick netsick && netsick.LastCravingTick >= 0
+            && Find.TickManager.TicksGame - netsick.LastCravingTick < NetrunDefOf.NR_NetsickSettings.cravingCooldownDays * GenDate.TicksPerDay)
+            return true;
+        HediffSet set = pawn.health.hediffSet;
+        return set.HasHediff(USH_DefOf.USH_CyberspaceNausea) || set.HasHediff(USH_DefOf.USH_CyberspaceLockOut) || set.HasHediff(USH_DefOf.USH_CyberspaceComa);
+    }
+
     /// <summary>A powered, empty cyberpod the pawn can reach.</summary>
     public static Building_Cyberpod FreePod(Pawn pawn)
     {
@@ -40,7 +53,7 @@ public class MentalStateWorker_NetCraving : MentalStateWorker
 {
     public override bool StateCanOccur(Pawn pawn)
         => base.StateCanOccur(pawn) && pawn.Spawned && pawn.IsHacker() && !NeurostabilizerUtility.Stabilized(pawn)
-           && NetCravingUtility.FreePod(pawn) != null;
+           && !NetCravingUtility.Recovering(pawn) && NetCravingUtility.FreePod(pawn) != null;
 }
 
 /// <summary>"Net craving": the pawn heads for a cyberpod and dives on emotion.</summary>

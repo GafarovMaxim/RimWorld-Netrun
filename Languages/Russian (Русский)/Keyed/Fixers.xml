@@ -67,7 +67,7 @@
   <NR_FixerHeldTag>УДЕРЖАН</NR_FixerHeldTag>
   <NR_FixerHeldTip>Не уйдёт при смене пула, пока вы не отпустите.</NR_FixerHeldTip>
   <NR_FixerRelease>Отпустить</NR_FixerRelease>
-  <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену (платится при смене; не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
+  <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену: первая платится сразу, следующие при смене пула (не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
   <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт cyberdata со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
@@ -121,4 +121,5 @@
   <NR_FixerRefuseImperial>{0} не работает с врагами Империи.</NR_FixerRefuseImperial>
   <NR_ImperialFavor>{0} замолвил словечко при дворе: {1} получает {2} ед. расположения.</NR_ImperialFavor>
   <NR_FixerPinFull>(места для закреплённых заняты: {0})</NR_FixerPinFull>
+  <NR_FixerHoldPaidMsg>{0} останется в пуле после ротации. Заплачено {1} серебра.</NR_FixerHoldPaidMsg>
 </LanguageData>

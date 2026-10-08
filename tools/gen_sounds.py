@@ -750,6 +750,61 @@ EXTRA = {
 }
 
 
+# Notes of the dive-action sounds per pack: a step through the net (move), a botched hack, a jack-out (exit).
+# The step back (back) is derived from the step: the same notes in reverse order, a bit lower.
+EXTRA["Clean"]["M"].update(move=[(784, 0, .07), (1175, .05, .14)], hackfail=[(330, 0, .1), (233, .07, .1), (165, .14, .24)],
+                           exit=[(1175, 0, .1), (880, .07, .1), (587, .14, .1), (392, .21, .1), (262, .28, .4)])
+EXTRA["Minimal"]["M"].update(move=[(660, 0, .04), (880, .04, .07)], hackfail=[(220, 0, .09), (185, .08, .16)],
+                             exit=[(660, 0, .06), (440, .06, .08), (330, .14, .22)])
+EXTRA["Neon"]["M"].update(move=[(330, 0, .05), (495, .04, .05), (660, .08, .12)], hackfail=[(220, 0, .1), (208, .02, .1), (165, .1, .1), (147, .18, .26)],
+                          exit=[(1320, 0, .07), (990, .05, .07), (660, .1, .07), (495, .15, .07), (330, .2, .07), (220, .25, .32)])
+EXTRA["RetroDeck"]["M"].update(move=[(1047, 0, .03), (1319, .035, .05)], hackfail=[(131, 0, .06), (110, .06, .06), (98, .12, .18)],
+                               exit=[(988, 0, .05), (784, .05, .05), (659, .1, .05), (523, .15, .05), (392, .2, .05), (262, .25, .16)])
+EXTRA["Deep"]["M"].update(move=[(294, 0, .35), (392, .1, .45)], hackfail=[(98, 0, .8), (104, .02, .8)],
+                          exit=[(392, 0, .8), (294, .35, .8), (196, .7, 1.4)])
+
+
+def dive_move():
+    return motif("move", -17)
+
+
+def dive_back():
+    m = STYLE["M"]["move"]
+    freqs = [f for f, _, _ in m][::-1]
+    STYLE["M"]["_back"] = [(round(f * 0.7), st, d) for f, (_, st, d) in zip(freqs, m)]
+    return motif("_back", -18)
+
+
+def _glitch_burst(dur, seed, gain):
+    n = int(SR * dur)
+    return crush(bp(white(n, seed), 400, 5000) * env_ad(n, 0.0008, dur / 3), 5, 3) * gain
+
+
+def dive_hackfail():
+    notes = STYLE["M"]["hackfail"]
+    total = max(st + d for _, st, d in notes) + 0.05
+    x = np.zeros(int(SR * (total + 0.1)))
+    for f, st, d in notes:
+        n = int(SR * d)
+        mix_at(x, vtone(nt(f), d) * env_ad(n, STYLE["atk"], max(d * STYLE["dec"], 0.03)), int(SR * st))
+    mix_at(x, _glitch_burst(0.06, 21, 0.5), 0)
+    mix_at(x, _glitch_burst(0.04, 22, 0.35), int(SR * 0.12))
+    return vfx(x, total, -9)
+
+
+def dive_exit():
+    notes = STYLE["M"]["exit"]
+    total = max(st + d for _, st, d in notes) + 0.05
+    x = np.zeros(int(SR * (total + 0.2)))
+    for f, st, d in notes:
+        n = int(SR * d)
+        mix_at(x, vtone(nt(f), d) * env_ad(n, STYLE["atk"], max(d * STYLE["dec"], 0.03)), int(SR * st))
+    # the plug comes out: a short dry click at the end
+    n = int(SR * 0.012)
+    mix_at(x, bp(white(n, 31), 1200, 6000) * env_ad(n, 0.0002, 0.003) * 0.7, int(SR * (total - 0.02)))
+    return vfx(x, total, -10)
+
+
 def saw_w(f, n):
     fa = np.full(n, float(f)) if np.isscalar(f) else np.asarray(f, dtype=float)
     return 2 * ((np.cumsum(fa) / SR) % 1.0) - 1
@@ -1225,6 +1280,10 @@ ONE_SHOTS = {
     "Dive/Success": (dive_success, "clean exit from a dive", 60, "1~1", 1),
     "Dive/Fail": (dive_fail, "dive failed or aborted", 60, "1~1", 1),
     "Dive/ICE": (dive_ice, "hit from ICE or Black ICE", 65, "0.95~1.05", 1),
+    "Dive/Move": (dive_move, "a step to the next step of a node", 40, "0.97~1.03", 2),
+    "Dive/Back": (dive_back, "a step back (the same step reversed and lower)", 40, "0.97~1.03", 2),
+    "Dive/HackFail": (dive_hackfail, "a hack of a gate or ICE fails", 55, "1~1", 1),
+    "Dive/Exit": (dive_exit, "jack out of the dive (disconnect)", 55, "1~1", 1),
     "AI/Awaken": (ai_awaken, "an AI wakes up", 60, "1~1", 1),
     "AI/Whisper": (ai_whisper, "AI events with a message, wild AI in memory", 40, "0.9~1.1", 1),
     "AI/Request": (ai_request, "an AI asks for something", 50, "1~1", 1),
@@ -1263,11 +1322,18 @@ def sound_def(pack, name, desc, vol, pitch, maxsim, folder, loop):
     grain = (f'<li Class="AudioGrain_Folder"><clipFolderPath>{path}</clipFolderPath></li>' if folder
              else f'<li Class="AudioGrain_Clip"><clipPath>{path}</clipPath></li>')
     lines = [f"  <!-- {desc} -->", "  <SoundDef>", f"    <defName>NR_{pack}_{safe}</defName>", "    <context>Any</context>" if "Server" not in name else "    <context>MapOnly</context>"]
+    server = "Server" in name
     if loop:
-        lines.append("    <sustain>true</sustain>")
-    lines += [f"    <maxSimultaneous>{maxsim}</maxSimultaneous>", "    <subSounds>", "      <li>", f"        <grains>{grain}</grains>",
-              f"        <volumeRange>{vol}~{vol}</volumeRange>", f"        <pitchRange>{pitch}</pitchRange>"]
-    lines.append("        <distRange>0~14</distRange>" if "Server" in name else "        <onCamera>true</onCamera>")
+        lines += ["    <sustain>true</sustain>", "    <sustainFadeoutTime>1.6</sustainFadeoutTime>"]
+    lines.append(f"    <maxSimultaneous>{maxsim}</maxSimultaneous>")
+    if server:
+        lines.append("    <priorityMode>PrioritizeNearest</priorityMode>")
+    lines += ["    <subSounds>", "      <li>", f"        <grains>{grain}</grains>",
+              f"        <volumeRange>{14 if server else vol}~{14 if server else vol}</volumeRange>"]
+    if loop:
+        lines += ["        <sustainAttack>1.6</sustainAttack>", "        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>"]
+    lines.append(f"        <pitchRange>{pitch}</pitchRange>")
+    lines += ["        <distRange>4~26</distRange>", "        <muteWhenPaused>true</muteWhenPaused>"] if server else ["        <onCamera>true</onCamera>"]
     lines += ["      </li>", "    </subSounds>", "  </SoundDef>", ""]
     return lines
 

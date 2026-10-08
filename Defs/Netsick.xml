@@ -33,6 +33,8 @@
     <!-- "Net craving" break: dive length, chance it goes wrong, chance of a legendary dive,
          advanced cyberdata found, chance of an AI fragment on top, extra Netsick on failure -->
     <emotionalDiveHours>2</emotionalDiveHours>
+    <!-- After an emotional dive, no new net craving for this many days (and none while nausea, lockout or coma last) -->
+    <cravingCooldownDays>3</cravingCooldownDays>
     <emotionalFailChance>0.65</emotionalFailChance>
     <emotionalJackpotChance>0.12</emotionalJackpotChance>
     <jackpotAdvancedData>3~5</jackpotAdvancedData>

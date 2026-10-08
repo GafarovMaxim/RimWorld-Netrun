@@ -204,6 +204,9 @@ public class Fixer : IExposable
         {
             if (_pinned < 0)
                 _pinned = Reputation >= Settings.pinnedReputation ? 1 : 0;
+            // Fixers from older saves came without a call price and picked up for free.
+            if (CallCost <= 0)
+                CallCost = Settings.callCost.RandomInRange;
             Stock ??= [];
             Stock.RemoveAll(d => d == null);
         }

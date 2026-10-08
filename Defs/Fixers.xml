@@ -67,7 +67,7 @@
     <!-- Rotate the fixer pool now (pinned, held and fixers with a running contract stay), for this much cyberdata -->
     <rotateNowCost>8</rotateNowCost>
     <!-- Black market goods cost this much more than the fixer's own stock -->
-    <blackMarketMarkup>1.18</blackMarketMarkup>
+    <blackMarketMarkup>2.5</blackMarketMarkup>
     <heatPerAdvancedCyberdata>15</heatPerAdvancedCyberdata>
     <!-- Scrub gets dearer as the trace grows: factor by Heat level (Shadow, Noticed, Tracked, Target, Red zone). 5 Heat per cyberdata x 0.6/0.6/0.4/0.3/0.2 = 3/3/2/1.5/1 (advanced x3). -->
     <scrubFactorByLevel>

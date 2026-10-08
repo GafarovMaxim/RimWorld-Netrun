@@ -389,6 +389,7 @@ public class DiveSession : IExposable
     {
         Position = NextIndex(Position);
         Visited.Add(Position);
+        NetrunSound.Play("Dive_Move");
         AddLog("NR_DiveLogMove".Translate(ElementLabel(Current)));
         Spend(Settings.tracePerAction);
     }
@@ -414,6 +415,7 @@ public class DiveSession : IExposable
             return;
         Visited.RemoveAt(Visited.Count - 1);
         Position = Visited[Visited.Count - 1];
+        NetrunSound.Play("Dive_Back");
         AddLog("NR_DiveLogBack".Translate(ElementLabel(Current)));
         ActionsLeft = 1;
         Spend(Settings.tracePerAction);
@@ -513,10 +515,15 @@ public class DiveSession : IExposable
         else
         {
             AddLog("NR_DiveLogHackFail".Translate(ElementLabel(target)).Colorize(NetrunUI.Bad));
+            // ICE answers a failed hack with its own strike sound; a gate just slips.
             if (target.Kind == DiveElementKind.Ice)
                 IceAttack();
-            else if (target.Kind == DiveElementKind.Gate)
-                RaiseAlert();
+            else
+            {
+                NetrunSound.Play("Dive_HackFail");
+                if (target.Kind == DiveElementKind.Gate)
+                    RaiseAlert();
+            }
         }
         Spend(Settings.tracePerAction * (sword ? 2f : 1f));
     }
@@ -1052,7 +1059,7 @@ public class DiveSession : IExposable
     {
         AddLog("NR_DiveLogExit".Translate());
         RollSpecial();
-        End(success: true, keepShare: 1f);
+        End(success: true, keepShare: 1f, sound: "Dive_Exit");
     }
 
     /// <summary>Leaving early: from the lobby it is free, deeper in it costs part of the haul and some Netsick.</summary>
@@ -1063,14 +1070,15 @@ public class DiveSession : IExposable
             AddNetsick(Settings.netsickPerIceHit * 0.5f);
         AddLog("NR_DiveLogRetreat".Translate());
         Retreated = true;
-        End(success: false, keepShare: safe ? 1f : 1f - Settings.retreatLootLoss);
+        End(success: false, keepShare: safe ? 1f : 1f - Settings.retreatLootLoss, sound: "Dive_Exit");
     }
 
     /// <summary>Delivers what was kept next to the pod, adds Heat and finishes the dive.</summary>
-    private void End(bool success, float keepShare)
+    /// <param name="sound">The pack sound for a chosen jack-out (Exit, retreat); otherwise success or failure.</param>
+    private void End(bool success, float keepShare, string sound = null)
     {
         Finished = true;
-        NetrunSound.Play(success ? "Dive_Success" : "Dive_Fail");
+        NetrunSound.Play(sound ?? (success ? "Dive_Success" : "Dive_Fail"));
         Map map = Runner?.MapHeld;
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
 

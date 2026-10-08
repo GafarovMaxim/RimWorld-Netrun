@@ -140,8 +140,24 @@ public static class FixersTab
             NetrunUI.Tip(pinRect, "NR_FixerPinnedTag".Translate());
         }
 
+        // Right column: hold through rotation (unpinned only) above, break ties below; big, one under the other.
+        const float sideWidth = 170f;
+        FixerManager manager = FixerManager.Get();
+        var side = new Rect(inner.xMax - sideWidth, inner.y, sideWidth, ButtonHeight);
+        if (!fixer.Pinned && manager != null)
+        {
+            string hold = fixer.Held ? (string)"NR_FixerRelease".Translate() : (string)"NR_FixerHoldPaid".Translate(NetrunDefOf.NR_Fixers.holdCost);
+            if (NetrunUI.Button(side, hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld, NetrunDefOf.NR_Fixers.holdCost), NetrunTex.PinVertical))
+                manager.ToggleHold(fixer);
+            side.y += ButtonHeight + 8f;
+        }
+        string drop = "NR_FixerBreak".Translate();
+        if (NetrunUI.Button(side, drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays), NetrunTex.Disconnect))
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_FixerBreakConfirm".Translate(fixer.Name, NetrunDefOf.NR_Fixers.breakBanDays),
+                () => manager?.BreakTies(fixer), destructive: true));
+
         float x = portraitRect.xMax + 14f;
-        float width = inner.xMax - x;
+        float width = inner.xMax - sideWidth - 14f - x;
         float y = inner.y;
 
         // Name, then specialty and trait as chips.
@@ -162,23 +178,6 @@ public static class FixersTab
             NetrunUI.Chip(chipX, y + 4f, "NR_FixerHeldTag".Translate(), NetrunUI.Warn, "NR_FixerHeldTip".Translate());
         }
 
-        // Top right: hold through rotation (unpinned only) and break ties.
-        FixerManager manager = FixerManager.Get();
-        float tx = inner.xMax;
-        string drop = "NR_FixerBreak".Translate();
-        float dw = NetrunUI.ButtonWidth(drop, NetrunTex.Disconnect != null);
-        tx -= dw;
-        if (NetrunUI.Button(new Rect(tx, y - 2f, dw, 26f), drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays), NetrunTex.Disconnect))
-            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_FixerBreakConfirm".Translate(fixer.Name, NetrunDefOf.NR_Fixers.breakBanDays),
-                () => manager?.BreakTies(fixer), destructive: true));
-        if (!fixer.Pinned && manager != null)
-        {
-            string hold = fixer.Held ? (string)"NR_FixerRelease".Translate() : (string)"NR_FixerHoldPaid".Translate(NetrunDefOf.NR_Fixers.holdCost);
-            float hw = NetrunUI.ButtonWidth(hold);
-            tx -= hw + 6f;
-            if (NetrunUI.Button(new Rect(tx, y - 2f, hw, 26f), hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld, NetrunDefOf.NR_Fixers.holdCost)))
-                manager.ToggleHold(fixer);
-        }
         y += 28f;
 
         // Status line.
