@@ -2,32 +2,32 @@
 @font-face{font-family:T;src:url('file:///home/claude/rimworld-netrun/tools/fonts/Tektur-Medium.ttf');font-weight:500}
 *{margin:0;box-sizing:border-box}
 body{width:1280px;height:720px;overflow:hidden;background:#04090a;font-family:T,Arial;color:#cfe;position:relative}
-.bg{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 70%,#0c2a1a,#04090a 65%)}
-.grid{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(#0000,#0000),repeating-linear-gradient(90deg,#3cf06a55 0 2px,transparent 2px 80px),repeating-linear-gradient(0deg,#3cf06a44 0 2px,transparent 2px 46px);transform:perspective(500px) rotateX(58deg);transform-origin:bottom;opacity:.55;-webkit-mask-image:linear-gradient(#0000,#000 60%)}
-.glow{position:absolute;left:0;right:0;bottom:290px;height:3px;background:#58f58f;box-shadow:0 0 24px #58f58f}
-.rib{position:absolute;left:-150px;top:70px;width:520px;height:76px;transform:rotate(-45deg);background:linear-gradient(#52d05f,#2f9c3f);border-top:4px solid #8aff96;border-bottom:4px solid #1d6b2a;text-align:center;font:700 40px/68px T;color:#04140a;letter-spacing:6px;padding-left:80px;box-shadow:0 6px 18px #0009}
-.ver{position:absolute;left:0;top:0;width:150px;height:150px;background:linear-gradient(135deg,#5a4a38 50%,transparent 50%);font:700 44px T;color:#fff}
-.ver b{position:absolute;left:14px;top:8px;transform:rotate(-45deg);transform-origin:left top;top:50px}
-.t1{position:absolute;left:560px;top:46px;font:700 58px T;letter-spacing:3px;color:#dff7e6;text-shadow:0 0 14px #58f58f66,0 4px 0 #0a3a1a}
-.t2{position:absolute;left:560px;top:108px;font:700 164px/1 T;color:#4be36e;letter-spacing:4px;text-shadow:0 0 30px #4be36e88,0 8px 0 #0c5a22}
-.tag{position:absolute;left:640px;top:290px;padding:6px 26px;border:3px solid #38c9e8;border-radius:10px;font:500 26px T;color:#7aeaff;letter-spacing:3px;background:#06222acc}
-.ic{position:absolute;top:350px;width:112px;height:112px;border:4px solid #58f58f;border-radius:12px;background:#08140e;box-shadow:0 0 16px #58f58f66;display:flex;align-items:center;justify-content:center}
-.ic img{width:84px;height:84px;image-rendering:auto}
-ul{position:absolute;left:560px;top:480px;list-style:none;font:500 27px/1.46 T;letter-spacing:1px;color:#dff7e6}
-li b{color:#4be36e;margin-right:12px}
-.art{position:absolute}
-.art img{filter:drop-shadow(0 10px 14px #000c)}
-</style></head><body><div class="bg"></div><div class="grid"></div><div class="glow"></div>
-<div class="art" style="left:50px;top:230px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Building/Misc/NR_AIServer.png" width="440"></div>
-<div class="art" style="left:40px;top:480px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/Drug/NR_BraindanceChip.png" width="150"></div>
-<div class="art" style="left:200px;top:520px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/NR_AICoreModule.png" width="120"></div>
-<div class="art" style="left:310px;top:470px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/Equipment/NR_BraindanceGoggles.png" width="190"></div>
-<div class="rib">ADD-ON</div><div class="ver"><b>1.6</b></div>
-<div class="t1">HACKING EXPANSION</div><div class="t2">NETRUN</div>
-<div class="tag">THE NET REMEMBERS YOUR TRACE</div>
-<div class="ic" style="left:560px"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Gateway.png"></div>
-<div class="ic" style="left:696px"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Server.png"></div>
-<div class="ic" style="left:832px"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Club.png"></div>
-<div class="ic" style="left:968px"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Studio.png"></div>
-<ul><li><b>[+]</b>CYBERSPACE MAP AND DIVES</li><li><b>[+]</b>HEAT, CORPORATIONS, NET ATTACKS</li><li><b>[+]</b>FIXERS, CONTRACTS, BLACK MARKET</li><li><b>[+]</b>BRAINDANCE AND NETSICK</li><li><b>[+]</b>13 AI PERSONALITIES</li></ul>
+.bg{position:absolute;inset:0;background:radial-gradient(ellipse at 25% 65%,#0e301d,#04090a 62%)}
+.grid{position:absolute;left:0;right:0;bottom:0;height:250px;background:repeating-linear-gradient(90deg,#3cf06a55 0 2px,transparent 2px 80px),repeating-linear-gradient(0deg,#3cf06a44 0 2px,transparent 2px 46px);transform:perspective(500px) rotateX(58deg);transform-origin:bottom;opacity:.5;-webkit-mask-image:linear-gradient(#0000,#000 60%)}
+.col{position:absolute;left:600px;width:620px;text-align:center}
+.t1{top:50px;font:500 52px T;letter-spacing:4px;color:#dff7e6;text-shadow:0 0 14px #58f58f66}
+.t2{top:104px;font:700 150px/1 T;color:#4be36e;letter-spacing:6px;text-shadow:0 0 30px #4be36e77,0 6px 0 #0c5a22}
+.tag{top:282px}
+.tag span{display:inline-block;padding:8px 28px;border:3px solid #38c9e8;border-radius:10px;font:500 24px T;color:#7aeaff;letter-spacing:4px;background:#06222acc}
+.icons{top:352px;display:flex;justify-content:space-between;padding:0 6px}
+.ic{width:112px;height:112px;border:4px solid #58f58f;border-radius:12px;background:#08140e;box-shadow:0 0 16px #58f58f55;display:flex;align-items:center;justify-content:center}
+.ic img{width:80px;height:80px}
+.list{top:494px;text-align:left;padding-left:34px;list-style:none;font:500 26px/1.5 T;letter-spacing:1.5px;color:#dff7e6}
+.list b{color:#4be36e;margin-right:14px}
+.rule{position:absolute;left:600px;width:620px;height:2px;background:linear-gradient(90deg,transparent,#58f58f,transparent);box-shadow:0 0 12px #58f58f}
+.shelf{position:absolute;left:60px;top:600px;width:470px;height:10px;background:linear-gradient(#2a3a30,#0c1510);border-radius:4px;box-shadow:0 0 20px #58f58f33}
+.art{position:absolute}.art img{filter:drop-shadow(0 8px 12px #000d)}
+</style></head><body><div class="bg"></div><div class="grid"></div>
+
+<svg style="position:absolute;left:0;top:0" width="330" height="330"><polygon points="0,150 150,0 250,0 0,250" fill="#3fbf52"/><polygon points="0,150 150,0 160,0 0,160" fill="#8aff96"/><polygon points="0,240 240,0 250,0 0,250" fill="#1d6b2a"/><text transform="translate(96,96) rotate(-45)" font-family="T" font-weight="700" font-size="34" letter-spacing="5" fill="#04140a" text-anchor="middle" dominant-baseline="middle">ADD-ON</text></svg>
+<svg style="position:absolute;left:0;top:0" width="130" height="130"><polygon points="0,0 120,0 0,120" fill="#5a4a38"/><text transform="translate(38,44) rotate(-45)" font-family="T" font-weight="700" font-size="36" fill="#fff" text-anchor="middle" dominant-baseline="middle">1.6</text></svg>
+<div style="position:absolute;left:70px;top:560px;width:440px;height:30px;background:radial-gradient(ellipse,#58f58f66,transparent 70%)"></div><div class="art" style="left:80px;top:170px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Building/Misc/NR_AIServer.png" width="410"></div>
+<div class="art" style="left:100px;top:425px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/Drug/NR_BraindanceChip.png" width="130"></div>
+<div class="art" style="left:250px;top:445px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/NR_AICoreModule.png" width="110"></div>
+<div class="art" style="left:360px;top:417px"><img src="file:///home/claude/rimworld-netrun/Textures/Things/Item/Equipment/NR_BraindanceGoggles.png" width="170"></div>
+<div class="col t1">HACKING EXPANSION</div><div class="col t2">NETRUN</div>
+<div class="col tag"><span>THE NET REMEMBERS YOUR TRACE</span></div>
+<div class="col icons"><div class="ic"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Gateway.png"></div><div class="ic"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Server.png"></div><div class="ic"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Club.png"></div><div class="ic"><img src="file:///home/claude/rimworld-netrun/Textures/UI/Netrun/Nodes/Home_Studio.png"></div></div>
+<div class="rule" style="top:478px"></div>
+<ul class="col list"><li><b>[+]</b>CYBERSPACE MAP AND DIVES</li><li><b>[+]</b>HEAT, CORPORATIONS, NET ATTACKS</li><li><b>[+]</b>FIXERS, CONTRACTS, BLACK MARKET</li><li><b>[+]</b>BRAINDANCE AND NETSICK</li><li><b>[+]</b>13 AI PERSONALITIES</li></ul>
 </body></html>
