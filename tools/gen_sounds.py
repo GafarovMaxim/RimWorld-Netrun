@@ -1329,7 +1329,7 @@ def sound_def(pack, name, desc, vol, pitch, maxsim, folder, loop):
     if server:
         lines.append("    <priorityMode>PrioritizeNearest</priorityMode>")
     lines += ["    <subSounds>", "      <li>", f"        <grains>{grain}</grains>",
-              f"        <volumeRange>{14 if server else vol}~{14 if server else vol}</volumeRange>"]
+              f"        <volumeRange>{30 if server else vol}~{30 if server else vol}</volumeRange>"]
     if loop:
         lines += ["        <sustainAttack>1.6</sustainAttack>", "        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>"]
     lines.append(f"        <pitchRange>{pitch}</pitchRange>")

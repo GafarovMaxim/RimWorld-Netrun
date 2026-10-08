@@ -1059,7 +1059,7 @@ public class DiveSession : IExposable
     {
         AddLog("NR_DiveLogExit".Translate());
         RollSpecial();
-        End(success: true, keepShare: 1f, sound: "Dive_Exit");
+        End(success: true, keepShare: 1f);
     }
 
     /// <summary>Leaving early: from the lobby it is free, deeper in it costs part of the haul and some Netsick.</summary>
@@ -1074,7 +1074,7 @@ public class DiveSession : IExposable
     }
 
     /// <summary>Delivers what was kept next to the pod, adds Heat and finishes the dive.</summary>
-    /// <param name="sound">The pack sound for a chosen jack-out (Exit, retreat); otherwise success or failure.</param>
+    /// <param name="sound">The pack sound for a retreat (Exit); otherwise the victory or failure sound.</param>
     private void End(bool success, float keepShare, string sound = null)
     {
         Finished = true;

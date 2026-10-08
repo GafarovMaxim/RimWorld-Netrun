@@ -551,7 +551,7 @@
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Server</clipPath></li></grains>
-        <volumeRange>14~14</volumeRange>
+        <volumeRange>30~30</volumeRange>
         <sustainAttack>1.6</sustainAttack>
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
@@ -1109,7 +1109,7 @@
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Server</clipPath></li></grains>
-        <volumeRange>14~14</volumeRange>
+        <volumeRange>30~30</volumeRange>
         <sustainAttack>1.6</sustainAttack>
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
@@ -1667,7 +1667,7 @@
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Server</clipPath></li></grains>
-        <volumeRange>14~14</volumeRange>
+        <volumeRange>30~30</volumeRange>
         <sustainAttack>1.6</sustainAttack>
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
@@ -2225,7 +2225,7 @@
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Server</clipPath></li></grains>
-        <volumeRange>14~14</volumeRange>
+        <volumeRange>30~30</volumeRange>
         <sustainAttack>1.6</sustainAttack>
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
@@ -2783,7 +2783,7 @@
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Server</clipPath></li></grains>
-        <volumeRange>14~14</volumeRange>
+        <volumeRange>30~30</volumeRange>
         <sustainAttack>1.6</sustainAttack>
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
