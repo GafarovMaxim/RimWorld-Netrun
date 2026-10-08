@@ -29,6 +29,24 @@ public static partial class NetrunUI
     private static readonly Color[] HeatSegments = [Hex(0x31c46a), Hex(0xe6c431), Hex(0xff8a3c), Hex(0xff4a3c), Hex(0xb3122a)];
 
     private static DeckTheme _t = DeckThemes.All[0];
+
+    // The textured set from tools/gen_frame.py (docs/CONCEPT_TERMINAL_FRAME.md); each part falls back to code drawing.
+    private static Texture2D FrameTex(string name) => ContentFinder<Texture2D>.Get("UI/Netrun/Frame/" + name, reportFailure: false);
+    private static readonly Texture2D TexKey = FrameTex("Deck_Key"), TexKeyHot = FrameTex("Deck_Key_Hot"), TexRail = FrameTex("Deck_Rail"),
+        TexBracket = FrameTex("Deck_Bracket"), TexLedGreen = FrameTex("Deck_Led_Green"), TexLedOrange = FrameTex("Deck_Led_Orange"),
+        TexLedRed = FrameTex("Deck_Led_Red"), TexLedOff = FrameTex("Deck_Led_Off");
+    private static readonly Texture2D[] TexBumpers = [FrameTex("Deck_Bumper_TL"), FrameTex("Deck_Bumper_TR"), FrameTex("Deck_Bumper_BL"), FrameTex("Deck_Bumper_BR")];
+    /// <summary>The field deck's key colour: other themes tint the key texture by their key colour against it.</summary>
+    private static readonly Color FieldKey = Hex(0x252a31);
+
+    /// <summary>A texture cut in three along its height: fixed ends, a stretched middle.</summary>
+    private static void ThreeSliceV(Rect r, Texture2D tex, float cap)
+    {
+        float v = cap / tex.height;
+        GUI.DrawTextureWithTexCoords(new Rect(r.x, r.y, r.width, cap), tex, new Rect(0f, 1f - v, 1f, v));
+        GUI.DrawTextureWithTexCoords(new Rect(r.x, r.y + cap, r.width, r.height - 2f * cap), tex, new Rect(0f, v, 1f, 1f - 2f * v));
+        GUI.DrawTextureWithTexCoords(new Rect(r.x, r.yMax - cap, r.width, cap), tex, new Rect(0f, 0f, 1f, v));
+    }
     private static float _tuner = 0.5f, _tunerTarget = 0.5f, _rf;
     private static int _tunerLogCount = -1;
     private static float _heatSample = -1f, _heatSampleAt, _heatTrend;
@@ -183,18 +201,37 @@ public static partial class NetrunUI
             float tx = left ? outer.x + 3f : outer.xMax - 17f;
             float top = outer.y + outer.height * 0.26f, bottom = outer.y + outer.height * 0.74f;
             var tube = new Rect(tx, top, 14f, bottom - top);
-            Widgets.DrawBoxSolid(tube, _t.Tube);
-            Widgets.DrawBoxSolid(new Rect(tube.x + 2f, tube.y, 4f, tube.height), _t.TubeLight);
-            Widgets.DrawBoxSolid(new Rect(tube.x + 3f, tube.y, 1f, tube.height), new Color(1f, 1f, 1f, 0.28f));
-            Widgets.DrawBoxSolid(new Rect(tube.xMax - 3f, tube.y, 3f, tube.height), _t.TubeDark);
+            if (TexRail != null)
+            {
+                // The chrome tube, tinted towards the theme's tube colour.
+                GUI.color = Color.Lerp(Color.white, _t.TubeLight, 0.35f);
+                ThreeSliceV(tube, TexRail, 12f);
+                GUI.color = Color.white;
+            }
+            else
+            {
+                Widgets.DrawBoxSolid(tube, _t.Tube);
+                Widgets.DrawBoxSolid(new Rect(tube.x + 2f, tube.y, 4f, tube.height), _t.TubeLight);
+                Widgets.DrawBoxSolid(new Rect(tube.x + 3f, tube.y, 1f, tube.height), new Color(1f, 1f, 1f, 0.28f));
+                Widgets.DrawBoxSolid(new Rect(tube.xMax - 3f, tube.y, 3f, tube.height), _t.TubeDark);
+            }
             for (float gy = tube.center.y - 40f; gy < tube.center.y + 40f; gy += 5f)
                 Widgets.DrawBoxSolid(new Rect(tube.x, gy, tube.width, 2f), new Color(0f, 0f, 0f, 0.35f));
             foreach (float by in new[] { top - 8f, bottom - 12f })
             {
                 var bracket = new Rect(left ? tube.x - 1f : body.xMax - 4f, by, (left ? body.x - tube.x : tube.xMax - body.xMax) + 5f, 20f);
-                Widgets.DrawBoxSolid(bracket, DeckEdge);
-                Bevel(bracket, true);
-                Screw(new Vector2(left ? body.x - 3f : body.xMax + 3f, bracket.center.y), 6f);
+                if (TexBracket != null)
+                {
+                    GUI.color = Color.Lerp(Color.white, DeckEdge, 0.3f);
+                    GUI.DrawTexture(bracket, TexBracket);
+                    GUI.color = Color.white;
+                }
+                else
+                {
+                    Widgets.DrawBoxSolid(bracket, DeckEdge);
+                    Bevel(bracket, true);
+                    Screw(new Vector2(left ? body.x - 3f : body.xMax + 3f, bracket.center.y), 6f);
+                }
             }
         }
     }
@@ -208,6 +245,15 @@ public static partial class NetrunUI
             var h = new Rect(b.x, sy > 0 ? b.y : b.yMax - thick, Bump, thick);
             var v = new Rect(sx > 0 ? b.x : b.xMax - DeckSide, b.y, DeckSide, Bump);
             Widgets.DrawBoxSolid(new Rect(h.x + sx * 2f, h.y + 2f, h.width, h.height), new Color(0f, 0f, 0f, 0.25f));
+            Texture2D bumper = TexBumpers[(sy > 0 ? 0 : 2) + (sx > 0 ? 0 : 1)];
+            if (bumper != null)
+            {
+                // The textured corner (its own bolt), then the side strip in the same rubber.
+                Widgets.DrawBoxSolid(v, DeckRubber);
+                Bevel(v, true, 0.6f);
+                GUI.DrawTexture(h, bumper);
+                continue;
+            }
             foreach (Rect part in new[] { h, v })
             {
                 Widgets.DrawBoxSolid(part, DeckRubber);
@@ -229,9 +275,33 @@ public static partial class NetrunUI
         bool down = over && _pressed;
         var faceRect = down ? new Rect(key.x, key.y + 1f, key.width, key.height - 1f) : key;
         Color f = active ? face : Color.Lerp(face, _t.Bottom, 0.5f);
-        Widgets.DrawBoxSolid(faceRect, over ? Color.Lerp(f, Color.white, 0.12f) : f);
-        Bevel(faceRect, !down);
-        Widgets.DrawBoxSolid(new Rect(key.x, key.yMax - 3f, key.width, 3f), new Color(0f, 0f, 0f, down ? 0.2f : 0.5f));
+        bool hot = face == DeckOrange || face.r > 0.5f && face.g < 0.3f;
+        Texture2D tex = hot ? TexKeyHot : TexKey;
+        if (tex != null)
+        {
+            // Orange keys use the hot capsule as drawn, red ones tint it; the dark capsule takes the theme's key colour.
+            Color tint = face == DeckOrange ? Color.white
+                : hot ? new Color(1f, 0.42f, 0.38f)
+                : new Color(Mathf.Clamp01(f.r / FieldKey.r), Mathf.Clamp01(f.g / FieldKey.g), Mathf.Clamp01(f.b / FieldKey.b));
+            if (!active)
+                tint = new Color(tint.r * 0.6f, tint.g * 0.6f, tint.b * 0.6f);
+            if (down)
+                tint = new Color(tint.r * 0.8f, tint.g * 0.8f, tint.b * 0.8f);
+            GUI.color = tint;
+            GUI.DrawTexture(faceRect, tex);
+            if (over && !down)
+            {
+                GUI.color = new Color(1f, 1f, 1f, 0.16f);
+                GUI.DrawTexture(faceRect, tex);
+            }
+            GUI.color = Color.white;
+        }
+        else
+        {
+            Widgets.DrawBoxSolid(faceRect, over ? Color.Lerp(f, Color.white, 0.12f) : f);
+            Bevel(faceRect, !down);
+            Widgets.DrawBoxSolid(new Rect(key.x, key.yMax - 3f, key.width, 3f), new Color(0f, 0f, 0f, down ? 0.2f : 0.5f));
+        }
         glyph(faceRect, active ? (over ? Color.white : new Color(1f, 1f, 1f, 0.85f)) : new Color(1f, 1f, 1f, 0.3f));
         if (tip != null)
             Tip(key, tip);
@@ -354,12 +424,25 @@ public static partial class NetrunUI
             var strip = new Rect(right - lights.Length * 34f, body.y + 12f, lights.Length * 34f, 26f);
             for (int i = 0; i < lights.Length; i++)
             {
-                var l = new Rect(strip.x + 10f + i * 34f, strip.center.y - 5f, 14f, 10f);
+                var l = new Rect(strip.x + 9f + i * 34f, strip.center.y - 8f, 16f, 16f);
                 float a = !lights[i].on ? 0.15f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
                 if (lights[i].on)
-                    Glow(l, lights[i].c, a * 0.8f, 6f);
-                Widgets.DrawBoxSolid(l, new Color(lights[i].c.r, lights[i].c.g, lights[i].c.b, Mathf.Max(0.18f, a)));
-                Widgets.DrawBoxSolid(new Rect(l.x + 1f, l.y + 1f, l.width - 2f, 2f), new Color(1f, 1f, 1f, lights[i].on ? 0.5f : 0.1f));
+                    Glow(l.ContractedBy(3f), lights[i].c, a * 0.8f, 6f);
+                Texture2D led = !lights[i].on ? TexLedOff : i == 1 ? TexLedOrange : TexLedGreen;
+                if (led != null)
+                {
+                    GUI.DrawTexture(l, TexLedOff ?? led);
+                    if (lights[i].on)
+                    {
+                        GUI.color = new Color(1f, 1f, 1f, a);
+                        GUI.DrawTexture(l, led);
+                        GUI.color = Color.white;
+                    }
+                }
+                else
+                {
+                    Widgets.DrawBoxSolid(l, new Color(lights[i].c.r, lights[i].c.g, lights[i].c.b, Mathf.Max(0.18f, a)));
+                }
                 Stencil(new Rect(l.center.x - 17f, strip.yMax + 2f, 34f, 14f), lights[i].label);
                 Tip(l.ExpandedBy(8f), lights[i].tip);
             }
