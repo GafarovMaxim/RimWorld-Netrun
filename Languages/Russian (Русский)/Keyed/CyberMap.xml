@@ -109,4 +109,32 @@
   <NR_MapWatchlist>Наблюдение</NR_MapWatchlist>
   <NR_MapShow>◎ Показать</NR_MapShow>
   <NR_MapMinimapTip>Вся сеть. Рамка — то, что видно сейчас; клик переносит туда. Клавиши: H Дом, R или Tab следующий раннер, 0 вся карта, F поиск.</NR_MapMinimapTip>
+  <NR_MapLens_Overview>Всё</NR_MapLens_Overview>
+  <NR_MapLens_Loot>Добыча</NR_MapLens_Loot>
+  <NR_MapLens_Danger>Угроза</NR_MapLens_Danger>
+  <NR_MapLens_Corps>Корпы</NR_MapLens_Corps>
+  <NR_MapLens_Contracts>Работа</NR_MapLens_Contracts>
+  <NR_MapLens_Time>Время</NR_MapLens_Time>
+  <NR_MapLensTip_Overview>Обзор (1): узлы в цветах районов; если раннер стоит, видно, куда он может шагнуть.</NR_MapLensTip_Overview>
+  <NR_MapLensTip_Loot>Добыча (2): лучшая известная добыча на узле.</NR_MapLensTip_Loot>
+  <NR_MapLensTip_Danger>Угроза (3): ICE и ворота, патрули и крепости.</NR_MapLensTip_Danger>
+  <NR_MapLensTip_Corps>Корпы (4): корпоративная земля в цвете каждой корпорации.</NR_MapLensTip_Corps>
+  <NR_MapLensTip_Contracts>Работа (5): цели контрактов и ваш список наблюдения.</NR_MapLensTip_Contracts>
+  <NR_MapLensTip_Time>Время (6): часы пути от выбранного раннера.</NR_MapLensTip_Time>
+  <NR_MapLensScale_Loot>богато</NR_MapLensScale_Loot>
+  <NR_MapLensScale_Danger>смертельно</NR_MapLensScale_Danger>
+  <NR_MapLensScale_Time>12 ч+</NR_MapLensScale_Time>
+  <NR_MapLensScale_Corps>Цвет = корпорация; серое = ничья земля</NR_MapLensScale_Corps>
+  <NR_MapLensScale_Contracts>Светится = цель контракта или под наблюдением</NR_MapLensScale_Contracts>
+  <NR_MapLensScale_Overview></NR_MapLensScale_Overview>
+  <NR_MapLensNoRunner>Сначала выберите раннера</NR_MapLensNoRunner>
+  <NR_MapCardDistrict>{0} · угроза {1}/5</NR_MapCardDistrict>
+  <NR_MapCardHaul>Лучшая добыча ×{0}</NR_MapCardHaul>
+  <NR_MapCardContract>цель контракта</NR_MapCardContract>
+  <NR_MapCardRoute>От {0}: {1} ч, след +{2}</NR_MapCardRoute>
+  <NR_MapCardQuiet>Тихий путь (пунктир): {0} ч, след +{1}</NR_MapCardQuiet>
+  <NR_MapCardNever>Последний нырок: никогда</NR_MapCardNever>
+  <NR_MapCardLast>Последний визит: {0} назад</NR_MapCardLast>
+  <NR_MapCardClicks>Клик: выбрать · двойной клик или Shift: отправить раннера · Shift при движении: точка пути · правый клик: меню</NR_MapCardClicks>
+  <NR_MapMenuWaypoint>Добавить точку пути (продолжить от конца маршрута)</NR_MapMenuWaypoint>
 </LanguageData>

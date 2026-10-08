@@ -21,6 +21,9 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_MapLens_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
+    "NR_MapLensTip_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
+    "NR_MapLensScale_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_HelpAIHome_": ["Server", "Coprocessor", "Host"],
     "NR_HelpAIHomeService_": ["Server", "Coprocessor", "Host"],
     "NR_HelpAIHomeHunger_": ["Server", "Coprocessor", "Host"],

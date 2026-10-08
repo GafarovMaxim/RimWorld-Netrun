@@ -135,7 +135,9 @@ public static partial class GatewayView
                 GUI.FocusControl(SearchControl);
                 break;
             default:
-                return;
+                if (!LensHotkey(e.keyCode))
+                    return;
+                break;
         }
         e.Use();
     }
@@ -226,6 +228,13 @@ public static partial class GatewayView
                 ? new FloatMenuOption("NR_MapMenuSend".Translate(runner.Pawn?.LabelShort ?? "?"), () => net.Travel(runner, n.Id))
                 : new FloatMenuOption("NR_MapMenuSend".Translate(runner.Pawn?.LabelShort ?? "?") + ": " + can.Reason, null));
         }
+        if (runner != null && runner.Moving && runner.Path[runner.Path.Count - 1] != n.Id)
+            options.Add(new FloatMenuOption("NR_MapMenuWaypoint".Translate(), () =>
+            {
+                List<int> more = net.Map.Route(runner.Path[runner.Path.Count - 1], n.Id, out _);
+                if (more.Count > 0)
+                    runner.Path.AddRange(more);
+            }));
         bool watched = net.Watch.Contains(n.Id);
         options.Add(new FloatMenuOption((watched ? "NR_MapMenuUnwatch" : "NR_MapMenuWatch").Translate(), () => net.ToggleWatch(n.Id)));
         options.Add(new FloatMenuOption("NR_MapMenuCenter".Translate(), () => FocusNode(n.Id)));

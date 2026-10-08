@@ -68,6 +68,8 @@ public class NetrunSettings : ModSettings
     public bool Scanlines = true;
     /// <summary>The minimap in the corner of the cyberspace map.</summary>
     public bool MapMinimap = true;
+    /// <summary>The cyberspace map's lens (MapLens), remembered between games.</summary>
+    public int MapLens;
 
     // ---- Frame (Customization) ----
     /// <summary>The casing theme (DeckThemes), its parts that can be hidden, and the themes opened in any game.</summary>
@@ -697,6 +699,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Glitches, "glitches", true);
         Scribe_Values.Look(ref Scanlines, "scanlines", true);
         Scribe_Values.Look(ref MapMinimap, "mapMinimap", true);
+        Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);
         Scribe_Values.Look(ref FrameGlass, "frameGlass", true);

@@ -109,4 +109,32 @@
   <NR_MapWatchlist>Watchlist</NR_MapWatchlist>
   <NR_MapShow>◎ Show</NR_MapShow>
   <NR_MapMinimapTip>The whole net. The frame is what you see; click to jump. Keys: H home, R or Tab next runner, 0 whole map, F search.</NR_MapMinimapTip>
+  <NR_MapLens_Overview>All</NR_MapLens_Overview>
+  <NR_MapLens_Loot>Loot</NR_MapLens_Loot>
+  <NR_MapLens_Danger>Danger</NR_MapLens_Danger>
+  <NR_MapLens_Corps>Corps</NR_MapLens_Corps>
+  <NR_MapLens_Contracts>Jobs</NR_MapLens_Contracts>
+  <NR_MapLens_Time>Time</NR_MapLens_Time>
+  <NR_MapLensTip_Overview>Overview (1): hubs in their district colours; with a runner standing still, where it can step now.</NR_MapLensTip_Overview>
+  <NR_MapLensTip_Loot>Loot (2): the best haul known at each hub.</NR_MapLensTip_Loot>
+  <NR_MapLensTip_Danger>Danger (3): ICE and gates, patrols and fortresses.</NR_MapLensTip_Danger>
+  <NR_MapLensTip_Corps>Corps (4): corporate ground in each corporation's colour.</NR_MapLensTip_Corps>
+  <NR_MapLensTip_Contracts>Jobs (5): contract targets and your watchlist.</NR_MapLensTip_Contracts>
+  <NR_MapLensTip_Time>Time (6): hours of travel from the selected runner.</NR_MapLensTip_Time>
+  <NR_MapLensScale_Loot>rich</NR_MapLensScale_Loot>
+  <NR_MapLensScale_Danger>deadly</NR_MapLensScale_Danger>
+  <NR_MapLensScale_Time>12 h+</NR_MapLensScale_Time>
+  <NR_MapLensScale_Corps>Colour = corporation; grey = free ground</NR_MapLensScale_Corps>
+  <NR_MapLensScale_Contracts>Lit = contract target or watched</NR_MapLensScale_Contracts>
+  <NR_MapLensScale_Overview></NR_MapLensScale_Overview>
+  <NR_MapLensNoRunner>Pick a runner first</NR_MapLensNoRunner>
+  <NR_MapCardDistrict>{0} · danger {1}/5</NR_MapCardDistrict>
+  <NR_MapCardHaul>Best haul ×{0}</NR_MapCardHaul>
+  <NR_MapCardContract>contract target</NR_MapCardContract>
+  <NR_MapCardRoute>From {0}: {1} h, trace +{2}</NR_MapCardRoute>
+  <NR_MapCardQuiet>Quiet route (dashed): {0} h, trace +{1}</NR_MapCardQuiet>
+  <NR_MapCardNever>Last dive: never</NR_MapCardNever>
+  <NR_MapCardLast>Last visit: {0} ago</NR_MapCardLast>
+  <NR_MapCardClicks>Click: select · double click or Shift: send the runner · Shift on a moving runner: waypoint · right click: menu</NR_MapCardClicks>
+  <NR_MapMenuWaypoint>Add a waypoint (continue from the route's end)</NR_MapMenuWaypoint>
 </LanguageData>

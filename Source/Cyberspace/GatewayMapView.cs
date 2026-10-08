@@ -73,7 +73,11 @@ public static partial class GatewayView
         // The search box and the minimap lie over the field: clicks and drags there are not for the field below.
         Vector2 mouse = Event.current.mousePosition;
         _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
-                          || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse);
+                          || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse)
+                          || LensBarRect(rect).Contains(mouse)
+                          || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - 34f, 300f, 28f).Contains(mouse);
+        int hovered = _hoverHub;
+        _hoverHub = -1;
         if (!_mouseOnOverlay)
             HandleDrag(rect);
         CyberMap map = net.Map;
@@ -110,6 +114,8 @@ public static partial class GatewayView
                 route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B))));
         }
 
+        DrawPreview(local, net, hovered);
+
         // Nodes.
         foreach (MapNode n in map.Nodes)
         {
@@ -132,6 +138,8 @@ public static partial class GatewayView
         DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
         DrawMinimap(rect, net);
+        DrawLensScale(rect, net);
+        DrawLensBar(rect);
         DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
     }
 
@@ -262,8 +270,15 @@ public static partial class GatewayView
         var rect = new Rect(p.x - r, p.y - r, r * 2f, r * 2f);
         // Offline hubs and the Old Net behind a shut Wall are greyed out, not drawn like open ground.
         Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : HubColor(n, net);
+        if (LensHubColor(n, net) is { } lensColor)
+            c = lensColor;
         bool selected = n.Id == _selectedMapNode;
         bool hover = Mouse.IsOver(rect.ExpandedBy(4f));
+        // With a runner standing still, the hubs it can step to now are bright and the rest dimmed (Overview only).
+        if (Lens == MapLens.Overview && !selected && SelectedRunner(net) is { Moving: false } && !Neighbours(net).Contains(n.Id))
+            c = new Color(c.r, c.g, c.b, c.a * 0.55f);
+        if (hover && !_mouseOnOverlay)
+            _hoverHub = n.Id;
 
         if (n.Storm)
             NetrunUI.Glow(rect, NetrunUI.Purple, 0.6f, 10f);
@@ -350,7 +365,7 @@ public static partial class GatewayView
         Text.Font = GameFont.Small;
 
         if (hover)
-            TooltipHandler.TipRegion(rect.ExpandedBy(4f), NodeTip(n, net, branches));
+            NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
         if (_mouseOnOverlay)
             hover = false;
         if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && hover)
@@ -361,24 +376,11 @@ public static partial class GatewayView
         if (!_mouseOnOverlay && Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
         {
             NetrunSound.Click();
+            TravelClick(n, net);
             _selectedMapNode = n.Id;
             ExternalNode first = branches.FirstOrDefault(b => !b.Hidden);
             _selectedId = first?.Id ?? -1;
         }
-    }
-
-    private static string NodeTip(MapNode n, NetMapManager net, List<ExternalNode> branches)
-    {
-        var lines = new List<string> { NetMapManager.NodeLabel(n) };
-        if (n.Exit)
-            lines.Add("NR_MapExitPoint".Translate());
-        if (n.Fortress)
-            lines.Add("NR_MapFortress".Translate());
-        foreach (string state in NodeStates(n))
-            lines.Add(state);
-        int known = branches.Count(b => !b.Hidden);
-        lines.Add("NR_MapBranches".Translate(known, branches.Count - known));
-        return lines.ToLineList();
     }
 
     private static IEnumerable<string> NodeStates(MapNode n)
