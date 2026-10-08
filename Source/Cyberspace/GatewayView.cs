@@ -569,6 +569,13 @@ public static partial class GatewayView
             y = DrawMapPanel(inner, y, map, net);
         float gNodeStart = y;
 
+        if (HomeSelected)
+        {
+            // Home: the defense block above is all; no programs, daemons or dive here.
+            _panelHeight = y + 4f;
+            Widgets.EndScrollView();
+            return;
+        }
         if (node == null || node.Hidden)
         {
             Widgets.Label(new Rect(inner.x, y, inner.width, 60f), (node == null ? "NR_GatewayPickNode" : "NR_GatewayNodeHidden").Translate().Colorize(NetrunUI.Muted));

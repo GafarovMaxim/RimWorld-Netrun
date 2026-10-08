@@ -13,7 +13,6 @@
   <NR_IceTier_Firewall>Firewall</NR_IceTier_Firewall>
   <NR_IceTier_Ice>ICE</NR_IceTier_Ice>
   <NR_IceTier_BlackIce>Black ICE</NR_IceTier_BlackIce>
-  <NR_IceTierGizmo>ICE: {0}</NR_IceTierGizmo>
   <NR_IceTierGizmoDesc>Собственный ICE колонии поверх брандмауэров: Firewall +1 (сетевая безопасность), ICE +2 (активный ICE), Black ICE +3 (чёрный лёд). Каждая ступень стоит cyberdata раз в сезон; чёрный лёд к тому же добавляет немного Heat за каждого сожжённого атакующего.</NR_IceTierGizmoDesc>
   <NR_IceTierUpkeep>{0} cyberdata за {1} дн.</NR_IceTierUpkeep>
   <NR_IceTierUpkeepAdv>{0} продвинутых cyberdata за {1} дн.</NR_IceTierUpkeepAdv>
@@ -33,4 +32,15 @@
   <NR_DutyGizmoDesc>Нетраннер в этой капсуле охраняет узел колонии: +1 к защите узла за каждые {0} Интеллекта.</NR_DutyGizmoDesc>
   <NR_AttackByDefense>защита узла {0}</NR_AttackByDefense>
 
+  <NR_DefensePanelTitle>Защита колонии</NR_DefensePanelTitle>
+  <NR_DefensePanelTotal>Защита {0}</NR_DefensePanelTotal>
+  <NR_DefensePanelNone>Защиты пока нет: постройте файервол, включите ICE, поставьте дежурного.</NR_DefensePanelNone>
+  <NR_DefensePanelIce>ICE на узле</NR_DefensePanelIce>
+  <NR_DefensePanelFirewalls>Файерволы {0}/{1}</NR_DefensePanelFirewalls>
+  <NR_DefensePanelNoFirewall>Нет работающего файервола. Для ICE нужен хотя бы один.</NR_DefensePanelNoFirewall>
+  <NR_DefensePanelFirewall>Файервол {0}</NR_DefensePanelFirewall>
+  <NR_DefensePanelGuarding>охраняет</NR_DefensePanelGuarding>
+  <NR_DefensePanelReconnect>Подключить сеть снова</NR_DefensePanelReconnect>
+  <NR_DefensePanelIntrusions>Вторжения идут к Дому: {0}. Раннер может перехватить их на карте.</NR_DefensePanelIntrusions>
+  <NR_DefensePanelQuiet>Вторжений в пути нет.</NR_DefensePanelQuiet>
 </LanguageData>

@@ -13,7 +13,6 @@
   <NR_IceTier_Firewall>Firewall</NR_IceTier_Firewall>
   <NR_IceTier_Ice>ICE</NR_IceTier_Ice>
   <NR_IceTier_BlackIce>Black ICE</NR_IceTier_BlackIce>
-  <NR_IceTierGizmo>ICE: {0}</NR_IceTierGizmo>
   <NR_IceTierGizmoDesc>The colony's own ICE on top of the firewalls: Firewall +1 (network security), ICE +2 (active ICE), Black ICE +3 (black ICE defense). Each tier costs cyberdata every season; black ICE also adds a little Heat for every attack it burns.</NR_IceTierGizmoDesc>
   <NR_IceTierUpkeep>{0} cyberdata per {1} days</NR_IceTierUpkeep>
   <NR_IceTierUpkeepAdv>{0} advanced cyberdata per {1} days</NR_IceTierUpkeepAdv>
@@ -33,4 +32,15 @@
   <NR_DutyGizmoDesc>The netrunner in this pod guards the colony's node: +1 node defense for every {0} Intellectual.</NR_DutyGizmoDesc>
   <NR_AttackByDefense>node defense {0}</NR_AttackByDefense>
 
+  <NR_DefensePanelTitle>Colony defense</NR_DefensePanelTitle>
+  <NR_DefensePanelTotal>Defense {0}</NR_DefensePanelTotal>
+  <NR_DefensePanelNone>No defense yet: build a firewall, set ICE, put a guard on duty.</NR_DefensePanelNone>
+  <NR_DefensePanelIce>ICE on the node</NR_DefensePanelIce>
+  <NR_DefensePanelFirewalls>Firewalls {0}/{1}</NR_DefensePanelFirewalls>
+  <NR_DefensePanelNoFirewall>No powered firewall. ICE needs at least one.</NR_DefensePanelNoFirewall>
+  <NR_DefensePanelFirewall>Firewall {0}</NR_DefensePanelFirewall>
+  <NR_DefensePanelGuarding>guarding</NR_DefensePanelGuarding>
+  <NR_DefensePanelReconnect>Connect the network again</NR_DefensePanelReconnect>
+  <NR_DefensePanelIntrusions>Intrusions on their way to Home: {0}. A runner can meet them on the map.</NR_DefensePanelIntrusions>
+  <NR_DefensePanelQuiet>No intrusions on the way.</NR_DefensePanelQuiet>
 </LanguageData>

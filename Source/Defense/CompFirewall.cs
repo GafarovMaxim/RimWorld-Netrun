@@ -21,28 +21,7 @@ public class CompFirewall : ThingComp
     {
         foreach (Gizmo g in base.CompGetGizmosExtra())
             yield return g;
-        NodeDefense defense = Defense;
-        if (defense == null || parent.Faction != Faction.OfPlayer)
-            yield break;
-
-        yield return new Command_Action
-        {
-            defaultLabel = "NR_IceTierGizmo".Translate(("NR_IceTier_" + defense.Tier).Translate()),
-            defaultDesc = "NR_IceTierGizmoDesc".Translate(),
-            icon = NetrunTex.CyberIcon(defense.Tier == IceTier.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"),
-            action = () => Find.WindowStack.Add(new FloatMenu(TierOptions(defense))),
-        };
-
-        yield return new Command_Toggle
-        {
-            defaultLabel = "NR_HoneypotGizmo".Translate(),
-            defaultDesc = "NR_HoneypotGizmoDesc".Translate(),
-            icon = NetrunTex.CyberIcon("Event_Honeypot"),
-            isActive = () => IsHoneypot,
-            toggleAction = () => defense.HoneypotId = IsHoneypot ? -1 : parent.thingIDNumber,
-        };
-
-        yield return IsolationGizmo();
+        // The defense is run from the terminal (Gateway map, Home); the building only shows its state.
     }
 
     /// <summary>The network isolation switch; also on the comms console.</summary>
@@ -61,28 +40,6 @@ public class CompFirewall : ThingComp
         if (!can.Accepted)
             toggle.Disable(can.Reason);
         return toggle;
-    }
-
-    private List<FloatMenuOption> TierOptions(NodeDefense defense)
-    {
-        var options = new List<FloatMenuOption>();
-        IceTier max = NodeDefense.MaxTier();
-        foreach (IceTier tier in System.Enum.GetValues(typeof(IceTier)))
-        {
-            (int regular, int advanced) = NodeDefense.Upkeep(tier);
-            string cost = tier == IceTier.None ? "" : " (" + (advanced > 0
-                ? "NR_IceTierUpkeepAdv".Translate(advanced, NetrunDefOf.NR_Defense.upkeepDays)
-                : "NR_IceTierUpkeep".Translate(regular, NetrunDefOf.NR_Defense.upkeepDays)) + ")";
-            string label = ("NR_IceTier_" + tier).Translate() + (tier > IceTier.None ? " +" + NodeDefense.TierDefense(tier) : "") + cost;
-            if (tier > max)
-                options.Add(new FloatMenuOption(label + ": " + "NR_IceTierLocked".Translate(), null));
-            else
-            {
-                IceTier pick = tier;
-                options.Add(new FloatMenuOption(label, () => defense.SetTier(pick, parent.Map)));
-            }
-        }
-        return options;
     }
 
     public override string CompInspectStringExtra()

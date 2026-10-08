@@ -37,6 +37,9 @@ public static partial class GatewayView
         _ => NetrunUI.Muted,
     };
 
+    /// <summary>Home is picked: the panel shows the colony defense instead of a dive target.</summary>
+    public static bool HomeSelected => NetMapManager.Get() is { Ready: true } net && net.Map.Node(_selectedMapNode)?.District == District.Home;
+
     public static void SelectMapNode(int id)
     {
         _selectedMapNode = id;
@@ -451,6 +454,8 @@ public static partial class GatewayView
         MapNode node = net.Map.Node(_selectedMapNode);
         if (node == null)
             return y + 4f;
+        if (node.District == District.Home)
+            return DefensePanel.Draw(inner, y, colonyMap);
         y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), NetMapManager.NodeLabel(node));
         Text.Font = GameFont.Tiny;
         var info = new List<string>();
