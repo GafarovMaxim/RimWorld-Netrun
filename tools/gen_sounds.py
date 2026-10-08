@@ -1326,7 +1326,8 @@ def sound_def(pack, name, desc, vol, pitch, maxsim, folder, loop):
     if loop:
         lines += ["    <sustain>true</sustain>", "    <sustainFadeoutTime>1.6</sustainFadeoutTime>"]
     lines.append(f"    <maxSimultaneous>{maxsim}</maxSimultaneous>")
-    if server:
+    if loop:
+        # Sustainers may not use the default PrioritizeNewest (a config error at load).
         lines.append("    <priorityMode>PrioritizeNearest</priorityMode>")
     lines += ["    <subSounds>", "      <li>", f"        <grains>{grain}</grains>",
               f"        <volumeRange>{30 if server else vol}~{30 if server else vol}</volumeRange>"]

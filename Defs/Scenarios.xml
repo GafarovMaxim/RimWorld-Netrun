@@ -25,6 +25,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenStreetNetrunner</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>street netrunner</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -51,6 +53,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenNetrunner</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>netrunner</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -77,6 +81,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenCorpCoder</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>corporate coder</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -103,6 +109,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenCorpGuard</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>corporate guard</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -124,6 +132,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenBraindanceTester</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>braindance tester</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -145,6 +155,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenFormerFixer</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>former fixer</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -166,6 +178,8 @@
 
   <PawnKindDef>
     <defName>NR_ScenDataCourier</defName>
+    <initialResistanceRange>10~17</initialResistanceRange>
+    <initialWillRange>0~1</initialWillRange>
     <label>data courier</label>
     <race>Human</race>
     <defaultFactionDef>PlayerColony</defaultFactionDef>
@@ -195,7 +209,31 @@
         <def>PlayerFaction</def>
         <factionDef>PlayerColony</factionDef>
       </playerFaction>
+      <surfaceLayer>
+        <def>SurfaceLayerFixed</def>
+        <tag>Surface</tag>
+        <layer>Surface</layer>
+        <settingsDef>Surface</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Orbit MayRequire="Ludeon.RimWorld.Odyssey">
+            <zoomMode>ZoomOut</zoomMode>
+          </Orbit>
+        </connections>
+      </surfaceLayer>
       <parts>
+      <li MayRequire="Ludeon.RimWorld.Odyssey" Class="ScenPart_PlanetLayer">
+        <def>PlanetLayer</def>
+        <tag>Orbit</tag>
+        <layer>Orbit</layer>
+        <settingsDef>Orbit</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Surface>
+            <zoomMode>ZoomIn</zoomMode>
+          </Surface>
+        </connections>
+      </li>
       <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
         <def>NR_ConfigurePawnsKinds</def>
         <pawnChoiceCount>6</pawnChoiceCount>
@@ -282,7 +320,31 @@
         <def>PlayerFaction</def>
         <factionDef>PlayerColony</factionDef>
       </playerFaction>
+      <surfaceLayer>
+        <def>SurfaceLayerFixed</def>
+        <tag>Surface</tag>
+        <layer>Surface</layer>
+        <settingsDef>Surface</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Orbit MayRequire="Ludeon.RimWorld.Odyssey">
+            <zoomMode>ZoomOut</zoomMode>
+          </Orbit>
+        </connections>
+      </surfaceLayer>
       <parts>
+      <li MayRequire="Ludeon.RimWorld.Odyssey" Class="ScenPart_PlanetLayer">
+        <def>PlanetLayer</def>
+        <tag>Orbit</tag>
+        <layer>Orbit</layer>
+        <settingsDef>Orbit</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Surface>
+            <zoomMode>ZoomIn</zoomMode>
+          </Surface>
+        </connections>
+      </li>
       <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
         <def>NR_ConfigurePawnsKinds</def>
         <pawnChoiceCount>8</pawnChoiceCount>
@@ -394,7 +456,31 @@
         <def>PlayerFaction</def>
         <factionDef>PlayerColony</factionDef>
       </playerFaction>
+      <surfaceLayer>
+        <def>SurfaceLayerFixed</def>
+        <tag>Surface</tag>
+        <layer>Surface</layer>
+        <settingsDef>Surface</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Orbit MayRequire="Ludeon.RimWorld.Odyssey">
+            <zoomMode>ZoomOut</zoomMode>
+          </Orbit>
+        </connections>
+      </surfaceLayer>
       <parts>
+      <li MayRequire="Ludeon.RimWorld.Odyssey" Class="ScenPart_PlanetLayer">
+        <def>PlanetLayer</def>
+        <tag>Orbit</tag>
+        <layer>Orbit</layer>
+        <settingsDef>Orbit</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Surface>
+            <zoomMode>ZoomIn</zoomMode>
+          </Surface>
+        </connections>
+      </li>
       <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
         <def>NR_ConfigurePawnsKinds</def>
         <pawnChoiceCount>8</pawnChoiceCount>
@@ -492,7 +578,31 @@
         <def>PlayerFaction</def>
         <factionDef>PlayerColony</factionDef>
       </playerFaction>
+      <surfaceLayer>
+        <def>SurfaceLayerFixed</def>
+        <tag>Surface</tag>
+        <layer>Surface</layer>
+        <settingsDef>Surface</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Orbit MayRequire="Ludeon.RimWorld.Odyssey">
+            <zoomMode>ZoomOut</zoomMode>
+          </Orbit>
+        </connections>
+      </surfaceLayer>
       <parts>
+      <li MayRequire="Ludeon.RimWorld.Odyssey" Class="ScenPart_PlanetLayer">
+        <def>PlanetLayer</def>
+        <tag>Orbit</tag>
+        <layer>Orbit</layer>
+        <settingsDef>Orbit</settingsDef>
+        <hide>true</hide>
+        <connections>
+          <Surface>
+            <zoomMode>ZoomIn</zoomMode>
+          </Surface>
+        </connections>
+      </li>
       <li Class="ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs">
         <def>NR_ConfigurePawnsKinds</def>
         <pawnChoiceCount>8</pawnChoiceCount>

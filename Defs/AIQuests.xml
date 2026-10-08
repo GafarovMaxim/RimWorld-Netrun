@@ -7,7 +7,6 @@
     <defName>NR_AIQuest</defName>
     <rootSelectionWeight>0</rootSelectionWeight>
     <autoAccept>false</autoAccept>
-    <defaultChallengeRating>1</defaultChallengeRating>
     <questNameRules>
       <rulesStrings>
         <li>questName->[nrQuestName]</li>

@@ -490,6 +490,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Terminal</clipPath></li></grains>
@@ -509,6 +510,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Cyberspace</clipPath></li></grains>
@@ -528,6 +530,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Dive</clipPath></li></grains>
@@ -1048,6 +1051,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Terminal</clipPath></li></grains>
@@ -1067,6 +1071,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Cyberspace</clipPath></li></grains>
@@ -1086,6 +1091,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Minimal/Ambient/Dive</clipPath></li></grains>
@@ -1606,6 +1612,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Terminal</clipPath></li></grains>
@@ -1625,6 +1632,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Cyberspace</clipPath></li></grains>
@@ -1644,6 +1652,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Neon/Ambient/Dive</clipPath></li></grains>
@@ -2164,6 +2173,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Terminal</clipPath></li></grains>
@@ -2183,6 +2193,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Cyberspace</clipPath></li></grains>
@@ -2202,6 +2213,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/RetroDeck/Ambient/Dive</clipPath></li></grains>
@@ -2722,6 +2734,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Terminal</clipPath></li></grains>
@@ -2741,6 +2754,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Cyberspace</clipPath></li></grains>
@@ -2760,6 +2774,7 @@
     <sustain>true</sustain>
     <sustainFadeoutTime>1.6</sustainFadeoutTime>
     <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
     <subSounds>
       <li>
         <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Dive</clipPath></li></grains>
