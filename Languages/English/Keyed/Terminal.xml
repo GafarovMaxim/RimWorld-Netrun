@@ -374,4 +374,5 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_MenuStatusRunners>Runners</NR_MenuStatusRunners>
   <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
   <NR_TipCaption>// NET INFO</NR_TipCaption>
+  <NR_CoreBossActiveAt>Corporate core in the {0} fortress: open for</NR_CoreBossActiveAt>
 </LanguageData>

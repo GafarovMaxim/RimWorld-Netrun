@@ -374,4 +374,5 @@
   <NR_MenuStatusRunners>Раннеры</NR_MenuStatusRunners>
   <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
   <NR_TipCaption>// СВОДКА</NR_TipCaption>
+  <NR_CoreBossActiveAt>Корп-ядро в крепости {0}: открыто ещё</NR_CoreBossActiveAt>
 </LanguageData>

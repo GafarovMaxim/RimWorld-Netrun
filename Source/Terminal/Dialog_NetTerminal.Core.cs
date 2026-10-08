@@ -630,8 +630,15 @@ public partial class Dialog_NetTerminal
         ExternalNode boss = gateway.Boss;
         Texture2D bossIcon = NetrunTex.CyberIcon("Node_CorpCore");
         if (boss != null)
-            GaugeRow(inner, y, bossIcon, "NR_CoreBossActive".Translate(), boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓",
+        {
+            // Where it stands: the corporation whose fortress holds the core, when the map knows it.
+            NetMapManager net = NetMapManager.Get();
+            MapNode hub = net is { Ready: true } && boss.MapNodeId >= 0 ? net.Map.Node(boss.MapNodeId) : null;
+            Faction corp = hub != null ? net.CorpOfSlot(hub.CorpSlot) : null;
+            string label = corp != null ? (string)"NR_CoreBossActiveAt".Translate(corp.Name) : (string)"NR_CoreBossActive".Translate();
+            GaugeRow(inner, y, bossIcon, label, boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓",
                 1f, NetrunUI.Bad, null);
+        }
         else if (gateway.TicksUntilBoss >= 0)
             GaugeRow(inner, y, bossIcon, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(),
                 1f - gateway.TicksUntilBoss / (NetrunDefOf.NR_Cyberspace.bossIntervalDays * GenDate.TicksPerDay), NetrunUI.Purple, null);
