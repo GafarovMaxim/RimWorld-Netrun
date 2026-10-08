@@ -269,7 +269,7 @@ public static class StudioTab
     {
         float width = rect.width - 16f;
         var view = new Rect(0f, 0f, width, SectionHeight + Mathf.Max(1, count) * (RowHeight + 4f) + 10f);
-        Widgets.BeginScrollView(rect, ref scroll, view);
+        NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = NetrunUI.Section(new Rect(0f, 0f, width, SectionHeight), title);
         if (count == 0)
             Widgets.Label(new Rect(0f, y, width, RowHeight), NetrunUI.Prompt(empty).Colorize(NetrunUI.Muted));
@@ -287,7 +287,7 @@ public static class StudioTab
         float width = rect.width - 16f;
         float height = SectionHeight + all.Count * (78f + 6f) + 16f + SectionHeight + Mathf.Max(1, chips.Count) * (RowHeight + 4f) + 10f;
         var view = new Rect(0f, 0f, width, height);
-        Widgets.BeginScrollView(rect, ref scroll, view);
+        NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = 0f;
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(0f, y, width, 26f), ((string)"NR_StudioUniqueHeader".Translate(ub?.Found.Count ?? 0, all.Count)).ToUpper().Colorize(Gold));

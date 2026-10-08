@@ -77,7 +77,7 @@ public static class ClubTabs
         const float h = 132f;
         float viewH = corps.Count * (h + 10f) + 80f;
         var view = new Rect(0f, 0f, rect.width - 16f, viewH);
-        Widgets.BeginScrollView(rect, ref _scroll, view);
+        NetrunUI.BeginScroll(rect, ref _scroll, view);
         float y = 0f;
         if (corps.Count == 0)
         {
@@ -140,7 +140,7 @@ public static class ClubTabs
         NetRanking ranking = NetRanking.Get();
         const float h = 150f;
         var view = new Rect(0f, 0f, rect.width - 16f, crews.Count * (h + 10f) + 60f);
-        Widgets.BeginScrollView(rect, ref _scroll, view);
+        NetrunUI.BeginScroll(rect, ref _scroll, view);
         float y = 0f;
         GatewayManager gateway = GatewayManager.Get();
         NetMapManager net = NetMapManager.Get();
@@ -223,7 +223,7 @@ public static class ClubTabs
         List<(RankEntry e, int place)> rows = all.Select((e, i) => (e, i + 1))
             .Where(r => _topFilter == 0 || (_topFilter == 1 ? r.e.Kind == RankKind.Crew : r.e.Kind == RankKind.Colony)).ToList();
         var view = new Rect(0f, 0f, list.width - 16f, rows.Count * 24f);
-        Widgets.BeginScrollView(list, ref _scroll, view);
+        NetrunUI.BeginScroll(list, ref _scroll, view);
         float y = 0f;
         Text.Font = GameFont.Tiny;
         foreach ((RankEntry e, int place) in rows)

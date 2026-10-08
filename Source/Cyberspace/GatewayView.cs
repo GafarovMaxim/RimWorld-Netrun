@@ -533,7 +533,7 @@ public static partial class GatewayView
     {
         const float rowHeight = 40f;
         var view = new Rect(0f, 0f, rect.width - 16f, nodes.Count * (rowHeight + 4f));
-        Widgets.BeginScrollView(rect, ref _listScroll, view);
+        NetrunUI.BeginScroll(rect, ref _listScroll, view);
         float y = 0f;
         foreach (ExternalNode node in nodes)
         {
@@ -563,7 +563,7 @@ public static partial class GatewayView
         Rect outer = rect.ContractedBy(10f);
         bool scrolls = _panelHeight > outer.height;
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
-        Widgets.BeginScrollView(outer, ref _panelScroll, inner);
+        NetrunUI.BeginScroll(outer, ref _panelScroll, inner);
         float y = inner.y;
         if (NetMapManager.Get() is { Ready: true } net)
             y = DrawMapPanel(inner, y, map, net);

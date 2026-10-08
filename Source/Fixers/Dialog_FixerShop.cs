@@ -91,7 +91,7 @@ public class Dialog_FixerShop : Window
             float colW = (listRect.width - 16f - Gap) / 2f;
             int rows = Mathf.CeilToInt(total / 2f);
             var view = new Rect(0f, 0f, listRect.width - 16f, rows * (CardHeight + Gap));
-            Widgets.BeginScrollView(listRect, ref _scroll, view);
+            NetrunUI.BeginScroll(listRect, ref _scroll, view);
             int i = 0;
             bool bought = false;
             foreach ((ThingDef def, bool isBlack) in own.Select(d => (d, false)).Concat(black.Select(d => (d, true))))

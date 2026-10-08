@@ -54,7 +54,7 @@ public static class AITab
         float height = groups.Sum(g => SectionHeight + g.list.Sum(a => CardHeight(a, map, manager, width) + CardGap));
         var viewRect = new Rect(0f, 0f, width, height);
 
-        Widgets.BeginScrollView(listRect, ref scroll, viewRect);
+        NetrunUI.BeginScroll(listRect, ref scroll, viewRect);
         float y = 0f;
         foreach ((string label, Color color, List<NetAI> list) in groups)
         {

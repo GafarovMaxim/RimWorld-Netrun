@@ -57,7 +57,7 @@ public static class FixersTab
         float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);
 
-        Widgets.BeginScrollView(rect, ref scroll, viewRect);
+        NetrunUI.BeginScroll(rect, ref scroll, viewRect);
         float y = 0f;
         float gPin = y;
         if (pinned.Count > 0)

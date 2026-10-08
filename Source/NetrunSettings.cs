@@ -157,7 +157,7 @@ public class NetrunSettings : ModSettings
         bool scrolls = height > outer.height;
         var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(height, outer.height));
         Vector2 scroll = PageScroll.TryGetValue(page, out Vector2 s) ? s : Vector2.zero;
-        Widgets.BeginScrollView(outer, ref scroll, view);
+        NetrunUI.BeginScroll(outer, ref scroll, view);
         _y = 0f;
         _w = view.width;
         switch (page)
@@ -223,7 +223,7 @@ public class NetrunSettings : ModSettings
         Rect outer = inRect.ContractedBy(10f);
         bool scrolls = _viewHeight > outer.height;
         var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_viewHeight, outer.height));
-        Widgets.BeginScrollView(outer, ref _scroll, view);
+        NetrunUI.BeginScroll(outer, ref _scroll, view);
         _y = 0f;
         _w = view.width;
 

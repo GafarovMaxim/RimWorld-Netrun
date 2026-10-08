@@ -311,7 +311,7 @@ public static class HeatScreen
         Rect r = Card(rect, "NR_HeatScreenLowers".Translate());
         bool scrolls = _lowerHeight > r.height;
         var view = new Rect(0f, 0f, r.width - (scrolls ? 16f : 0f), Mathf.Max(_lowerHeight, r.height));
-        Widgets.BeginScrollView(r, ref _lowerScroll, view);
+        NetrunUI.BeginScroll(r, ref _lowerScroll, view);
         float y = 0f;
 
         // Through a fixer.

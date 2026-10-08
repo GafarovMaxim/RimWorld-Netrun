@@ -379,7 +379,7 @@ public static class ArchiveTab
 
         float height = groups.Count * DayHeight + entries.Count * (RowHeight + 4f);
         var view = new Rect(0f, 0f, rect.width - 16f, height);
-        Widgets.BeginScrollView(rect, ref _scroll, view);
+        NetrunUI.BeginScroll(rect, ref _scroll, view);
         float y = 0f;
         int index = 0;
         foreach (var group in groups)
@@ -533,7 +533,7 @@ public static class ArchiveTab
             return;
         }
         var view = new Rect(0f, 0f, rect.width - 16f, reports.Count * (RowHeight + 4f));
-        Widgets.BeginScrollView(rect, ref _scroll, view);
+        NetrunUI.BeginScroll(rect, ref _scroll, view);
         float y = 0f;
         for (int i = 0; i < reports.Count; i++)
         {

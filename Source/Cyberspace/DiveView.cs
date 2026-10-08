@@ -101,7 +101,7 @@ public static class DiveView
             _mapScroll.x = Mathf.Clamp(cx - rect.width / 2f, 0f, need - rect.width);
         }
         DragMap(rect, need - rect.width);
-        Widgets.BeginScrollView(rect, ref _mapScroll, view);
+        NetrunUI.BeginScroll(rect, ref _mapScroll, view);
         DrawGraph(view, session, ScrollBoxWidth);
         Widgets.EndScrollView();
     }
@@ -413,7 +413,7 @@ public static class DiveView
 
         bool scrolls = _panelHeight > top.height;
         var inner = new Rect(0f, 0f, top.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, top.height));
-        Widgets.BeginScrollView(top, ref _panelScroll, inner);
+        NetrunUI.BeginScroll(top, ref _panelScroll, inner);
         float y = 0f;
 
         if (session.Finished)
@@ -715,7 +715,7 @@ public static class DiveView
         foreach (string line in lines)
             total += Text.CalcHeight("> " + line, w) + 1f;
         var view = new Rect(0f, 0f, w, Mathf.Max(total, outer.height));
-        Widgets.BeginScrollView(outer, ref _logScroll, view);
+        NetrunUI.BeginScroll(outer, ref _logScroll, view);
         float y = 0f;
         for (int i = 0; i < lines.Count; i++)
         {

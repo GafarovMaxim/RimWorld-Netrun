@@ -239,7 +239,7 @@ public partial class Dialog_NetTerminal
         bool scrolls = _achHeight > area.height;
         var view = new Rect(0f, 0f, area.width - (scrolls ? 16f : 0f), Mathf.Max(_achHeight, area.height));
         float cw = (view.width - gap * (cols - 1)) / cols;
-        Widgets.BeginScrollView(area, ref _achScroll, view);
+        NetrunUI.BeginScroll(area, ref _achScroll, view);
         for (int i = 0; i < list.Count; i++)
         {
             NetrunAchievementDef a = list[i];

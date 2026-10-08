@@ -69,7 +69,7 @@ public static class ContractsTab
         List<Fixer> list = fixers.Fixers.OrderByDescending(f => f.Pinned).ThenByDescending(f => f.Reputation).ToList();
         float height = SectionHeight + (list.Count + 1) * 58f + 2 * SectionHeight + 3 * 34f + 2 * 34f + 20f;
         var view = new Rect(0f, 0f, rect.width - (height > rect.height ? 16f : 0f), height);
-        Widgets.BeginScrollView(rect, ref _leftScroll, view);
+        NetrunUI.BeginScroll(rect, ref _leftScroll, view);
         float w = view.width;
         float y = NetrunUI.Section(new Rect(0f, 0f, w, SectionHeight), "NR_BoardFixers".Translate());
 
@@ -162,7 +162,7 @@ public static class ContractsTab
                        + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + (offers.Count == 0 ? 30f : 0f);
         var view = new Rect(0f, 0f, width, height);
 
-        Widgets.BeginScrollView(rect, ref scroll, view);
+        NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = 0f;
 
         float gAct = y;

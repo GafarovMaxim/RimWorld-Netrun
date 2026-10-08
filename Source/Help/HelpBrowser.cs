@@ -89,7 +89,7 @@ public partial class HelpBrowser
         List<(HelpPageDef page, int depth)> rows = Rows();
         bool scrolls = _treeHeight > outer.height;
         var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_treeHeight, outer.height));
-        Widgets.BeginScrollView(outer, ref _treeScroll, view);
+        NetrunUI.BeginScroll(outer, ref _treeScroll, view);
         float ry = 0f;
         HelpProgress progress = HelpProgress.Get();
         if (rows.Count == 0)
@@ -223,7 +223,7 @@ public partial class HelpBrowser
         var outer = new Rect(area.x, area.y + 34f, area.width, area.height - 34f);
         bool scrolls = _articleHeight > outer.height;
         var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_articleHeight, outer.height));
-        Widgets.BeginScrollView(outer, ref _articleScroll, view);
+        NetrunUI.BeginScroll(outer, ref _articleScroll, view);
         float y = 0f;
         float w = view.width;
 
