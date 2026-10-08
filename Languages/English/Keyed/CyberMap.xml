@@ -16,9 +16,9 @@
   <NR_NetSize_Small>Small</NR_NetSize_Small>
   <NR_NetSize_Normal>Normal</NR_NetSize_Normal>
   <NR_NetSize_Large>Large</NR_NetSize_Large>
-  <NR_NetSizeTip_Small>About 24 nodes, three corporations. A tight net: everything is close, the corporations take a bigger share.</NR_NetSizeTip_Small>
-  <NR_NetSizeTip_Normal>About 32 nodes, three corporations, every district including the Campus.</NR_NetSizeTip_Normal>
-  <NR_NetSizeTip_Large>About 41 nodes, four corporations, more branches in every district. The farthest node is still about 6 hours from Home. Recommended.</NR_NetSizeTip_Large>
+  <NR_NetSizeTip_Small>About 24 hubs, three corporations. A tight net: everything is close, the corporations take a bigger share.</NR_NetSizeTip_Small>
+  <NR_NetSizeTip_Normal>About 32 hubs, three corporations, every district including the Campus.</NR_NetSizeTip_Normal>
+  <NR_NetSizeTip_Large>About 41 hubs, four corporations, more nodes in every district. The farthest hub is still about 6 hours from Home. Recommended.</NR_NetSizeTip_Large>
   <NR_NetLayout_Ring>Ring</NR_NetLayout_Ring>
   <NR_NetLayout_Spine>Spine</NR_NetLayout_Spine>
   <NR_NetLayout_Archipelago>Archipelago</NR_NetLayout_Archipelago>
@@ -27,7 +27,7 @@
   <NR_SettingsMapSizeTip>Size of the cyberspace map in new games. The game asks again when the colony first enters the net; the layout comes from the world seed.</NR_SettingsMapSizeTip>
   <NR_NetFoundTitle>NET FOUND</NR_NetFoundTitle>
   <NR_NetFoundIntro>The colony has found its way into the net. This world's net is laid out as a {0}. Pick its size: it stays for the whole game.</NR_NetFoundIntro>
-  <NR_NetFoundNodes>{0} nodes</NR_NetFoundNodes>
+  <NR_NetFoundNodes>{0} hubs</NR_NetFoundNodes>
   <NR_NetFoundStart>Enter the net</NR_NetFoundStart>
   <NR_NetFoundOpen>Set up the net</NR_NetFoundOpen>
   <NR_NetFoundPrompt>The net has not been mapped yet.</NR_NetFoundPrompt>
@@ -55,7 +55,7 @@
   <NR_MapGo>Go here</NR_MapGo>
   <NR_MapGoTip>The selected runner walks the shortest route. The game keeps running; a message comes on arrival.</NR_MapGoTip>
   <NR_MapStop>Stop</NR_MapStop>
-  <NR_MapStopTip>Stop at the next node.</NR_MapStopTip>
+  <NR_MapStopTip>Stop at the next hub.</NR_MapStopTip>
   <NR_MapExit>Exit</NR_MapExit>
   <NR_MapExitTip>A clean exit at an exit point or Home: the pod wakes the runner, nothing else.</NR_MapExitTip>
   <NR_MapNotAtExit>Only at an exit point or Home.</NR_MapNotAtExit>
@@ -73,15 +73,15 @@
   <NR_MapExitPoint>Exit point</NR_MapExitPoint>
   <NR_MapFortress>Corporate fortress</NR_MapFortress>
   <NR_MapOwner>Owner: {0}</NR_MapOwner>
-  <NR_MapBranches>Branches: {0} known, {1} unknown</NR_MapBranches>
+  <NR_MapBranches>Nodes: {0} known, {1} unknown</NR_MapBranches>
   <NR_MapDeserted>deserted</NR_MapDeserted>
   <NR_MapStateOffline>offline</NR_MapStateOffline>
   <NR_MapStateStorm>data storm</NR_MapStateStorm>
   <NR_MapStatePatrol>ICE patrol</NR_MapStatePatrol>
   <NR_MapStateTransit>transit window: instant links</NR_MapStateTransit>
   <NR_MapBranchOffline>The node is offline right now.</NR_MapBranchOffline>
-  <NR_MapNeedRunnerHere>A connected runner has to stand at this node.</NR_MapNeedRunnerHere>
-  <NR_MapLegend>Rings: exit points. Squares: fortresses. Dots around a node: its branches (grey: not known yet). Dashed: dark links, backdoors, the Wall.</NR_MapLegend>
+  <NR_MapNeedRunnerHere>A connected runner has to stand at this hub.</NR_MapNeedRunnerHere>
+  <NR_MapLegend>Rings: exit points. Squares: fortresses. Dots around a hub: its nodes (grey: not known yet). Dashed: dark links, backdoors, the Wall.</NR_MapLegend>
   <NR_MapNewsMaintenance>Planned maintenance around {NODE}: links down for a day.</NR_MapNewsMaintenance>
   <NR_MapNewsOverload>Backbone overload near {NODE}: traffic crawls.</NR_MapNewsOverload>
   <NR_MapNewsStorm>A data storm rolls over {NODE}.</NR_MapNewsStorm>
@@ -95,7 +95,7 @@
   <NR_MapNewsBackdoor>Someone opened a backdoor between {NODE} and {OTHER}.</NR_MapNewsBackdoor>
   <NR_MapNewsDarkLink>A tunnel leaked on a forum: a dark link near {NODE}.</NR_MapNewsDarkLink>
   <NR_MapNewsCableCut>A cable broke at {NODE}; the net rebuilt around it.</NR_MapNewsCableCut>
-  <NR_MapNewsNewNode>The net grows: a new node, {NODE}.</NR_MapNewsNewNode>
+  <NR_MapNewsNewNode>The net grows: a new hub, {NODE}.</NR_MapNewsNewNode>
   <NR_MapNewsWall>The Wall has a gate now: the Old Net is open.</NR_MapNewsWall>
   <NR_MapWallLabel>The Wall opens</NR_MapWallLabel>
   <NR_MapWall>With a corporate core broken, the old gates in the Wall answer for the first time. Beyond them lies the Old Net: ancient systems behind Black ICE 10, with legendary loot.</NR_MapWall>
