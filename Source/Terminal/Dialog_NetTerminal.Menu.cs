@@ -21,7 +21,8 @@ public partial class Dialog_NetTerminal
         Customization,
     }
 
-    private static readonly string[] CustomTabs = ["frame", "colors", "sound", "graphics"];
+    private static readonly string[] CustomTabs = ["frame", "sound", "graphics"];
+    private static readonly Dictionary<string, string> CustomTabIcons = new() { ["frame"] = "Tab_Frame", ["sound"] = "Tab_Sound", ["graphics"] = "Tab_Graphics" };
     private static readonly Color AchYellow = NetrunUI.Hex(0xe6c431);
     private static readonly Color CustomBlue = NetrunUI.Hex(0x5ec8f2);
 
@@ -95,17 +96,22 @@ public partial class Dialog_NetTerminal
 
         (string id, Color color, Texture2D icon, string badge, System.Action open)[] tiles =
         [
-            ("Continue", NetrunUI.Ok, NetrunTex.TabIconByName("Tab_Overview"), null, () => { _menuPage = MenuPage.Home; _view = _viewBeforeMenu == View.Menu ? View.Map : _viewBeforeMenu; }),
-            ("Settings", NetrunUI.Warn, NetrunTex.TabIconByName("Tab_Settings"), null, () => _menuPage = MenuPage.Settings),
-            ("Cyberpedia", NetrunUI.Purple, NetrunTex.TabIconByName("Tab_Cyberpedia"), newPages > 0 ? (string)"NR_MenuNewBadge".Translate(newPages) : null, () => { _view = _viewBeforeMenu; OpenHelp(); }),
-            ("Achievements", AchYellow, NetrunTex.TabIconByName("Tab_Rewards"), $"{done}/{achievements.Count}", () => _menuPage = MenuPage.Achievements),
-            ("Difficulty", NetrunUI.Bad, ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Target", reportFailure: false), null, () => _menuPage = MenuPage.Difficulty),
-            ("Customization", CustomBlue, ContentFinder<Texture2D>.Get("UI/Netrun/Icon_Cyberspace", reportFailure: false), null, () => _menuPage = MenuPage.Customization),
+            ("Continue", NetrunUI.Ok, NetrunTex.MenuIcon("Continue"), null, () => { _menuPage = MenuPage.Home; _view = _viewBeforeMenu == View.Menu ? View.Map : _viewBeforeMenu; }),
+            ("Settings", NetrunUI.Warn, NetrunTex.MenuIcon("Settings"), null, () => _menuPage = MenuPage.Settings),
+            ("Cyberpedia", NetrunUI.Purple, NetrunTex.MenuIcon("Cyberpedia"), newPages > 0 ? (string)"NR_MenuNewBadge".Translate(newPages) : null, () => { _view = _viewBeforeMenu; OpenHelp(); }),
+            ("Achievements", AchYellow, NetrunTex.MenuIcon("Achievements"), $"{done}/{achievements.Count}", () => _menuPage = MenuPage.Achievements),
+            ("Difficulty", NetrunUI.Bad, NetrunTex.MenuIcon("Difficulty"), null, () => _menuPage = MenuPage.Difficulty),
+            ("Customization", CustomBlue, NetrunTex.TabIconByName("Tab_Frame"), null, () => _menuPage = MenuPage.Customization),
         ];
+        // The tiles fill the screen (two rows of three, or three of two when narrow); the net's state runs below them.
+        var status = new Rect(area.x, area.yMax - 40f, area.width, 40f);
+        area.yMax = status.y - 12f;
         int cols = area.width >= 720f ? 3 : 2;
+        int rows = Mathf.CeilToInt(tiles.Length / (float)cols);
         const float gap = 16f;
         float tw = (area.width - gap * (cols - 1)) / cols;
-        float th = Mathf.Min(150f, (area.height - gap * (tiles.Length / cols - 1)) / Mathf.Ceil(tiles.Length / (float)cols));
+        float th = Mathf.Max(120f, (area.height - gap * (rows - 1)) / rows);
+        DrawMenuStatus(status);
         for (int i = 0; i < tiles.Length; i++)
         {
             var t = tiles[i];
@@ -116,8 +122,8 @@ public partial class Dialog_NetTerminal
             NetrunUI.Box(r, over ? NetrunUI.BgCardAlt : NetrunUI.BgCard, new Color(t.color.r, t.color.g, t.color.b, over ? 1f : 0.75f), 2);
             if (t.icon != null)
             {
-                float s = NetrunUI.Icon(44f);
-                NetrunUI.BrightIcon(new Rect(r.x + 16f, r.y + 16f, s, s), t.icon);
+                float s = NetrunUI.Icon(Mathf.Clamp(th * 0.36f, 44f, 84f));
+                NetrunUI.BrightIcon(new Rect(r.x + 18f, r.y + 18f, s, s), t.icon);
             }
             if (t.badge != null)
             {
@@ -174,6 +180,34 @@ public partial class Dialog_NetTerminal
     }
 
     private int _menuHover = -1;
+
+    /// <summary>One line under the tiles: Heat, awake AIs, runners in the net, cyberdata.</summary>
+    private void DrawMenuStatus(Rect r)
+    {
+        NetrunUI.Box(r, NetrunUI.BgCard, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f));
+        HeatTracker heat = HeatTracker.Get();
+        HeatLevel level = heat?.Level ?? HeatLevel.Shadow;
+        (string label, string value, Color color)[] cells =
+        [
+            ("NR_MenuStatusHeat".Translate(), $"{heat?.Heat ?? 0f:0} · {level.Label()}", level.Color()),
+            ("NR_MenuStatusAI".Translate(), (AIManager.Get()?.AIs.Count ?? 0).ToString(), NetrunUI.Purple),
+            ("NR_MenuStatusRunners".Translate(), (NetMapManager.Get()?.Runners.Count ?? 0).ToString(), NetrunUI.Accent),
+            ("NR_MenuStatusData".Translate(), NetrunUI.Cached("menu.data", () => _map == null ? 0 : ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata), 1f).ToString(), NetrunUI.Ok),
+        ];
+        float cw = r.width / cells.Length;
+        for (int i = 0; i < cells.Length; i++)
+        {
+            var c = new Rect(r.x + 14f + i * cw, r.y, cw - 14f, r.height);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            string label = cells[i].label.ToUpper();
+            float lw = Text.CalcSize(label).x + 8f;
+            Widgets.Label(new Rect(c.x, c.y, lw, c.height), label.Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            Widgets.Label(new Rect(c.x + lw, c.y, c.width - lw, c.height), cells[i].value.Colorize(cells[i].color));
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+    }
 
     private static bool FooterLink(ref float x, Rect footer, string label)
     {
@@ -255,12 +289,13 @@ public partial class Dialog_NetTerminal
         foreach (string tab in CustomTabs)
         {
             string label = ((string)("NR_CustomTab_" + tab).Translate()).ToUpper();
-            float w = NetrunUI.ButtonWidth(label) + 16f;
-            var r = new Rect(x, area.y, w, 32f);
+            Texture2D icon = NetrunTex.TabIconByName(CustomTabIcons[tab]);
+            float w = NetrunUI.ButtonWidth(label, icon != null) + 16f;
+            var r = new Rect(x, area.y, w, 34f);
             bool on = _customTab == tab;
             if (on)
                 Widgets.DrawBoxSolid(r, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.18f));
-            if (NetrunUI.Button(r, label, on ? NetrunUI.Accent : NetrunUI.Muted, true))
+            if (NetrunUI.Button(r, label, on ? NetrunUI.Accent : NetrunUI.Muted, true, null, icon))
                 _customTab = tab;
             x += w + 8f;
         }

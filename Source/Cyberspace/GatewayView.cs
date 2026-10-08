@@ -214,24 +214,43 @@ public static partial class GatewayView
             list.Add(("NR_NewsBossActive".Translate(boss.Name, boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "?"), NetrunUI.Bad));
         else if (g.TicksUntilBoss >= 0)
             list.Add(("NR_NewsBossSoon".Translate(g.TicksUntilBoss.ToStringTicksToPeriod()), NetrunUI.Warn));
-        foreach (ExternalNode n in g.Nodes.Where(n => !n.Hidden))
+        // Node news by kind: at most two lines of a kind, the rest folded into "and N more".
+        var visible = g.Nodes.Where(n => !n.Hidden).ToList();
+        var byKind = new List<List<(string, Color)>>
         {
-            if (n.CounterHack)
-                list.Add(("NR_NewsCounterHack".Translate(n.Name), NetrunUI.Bad));
-            if (n.Rival)
-                list.Add(("NR_NewsRival".Translate(n.Name), NetrunUI.Warn));
-            if (n.WildAI)
-                list.Add(("NR_NewsWildAI".Translate(n.Name), NetrunUI.Purple));
-            if (n.Contract)
-                list.Add(("NR_NewsContract".Translate(n.Name), NetrunUI.Ok));
-        }
+            NodeNews(visible.Where(n => n.CounterHack), "NR_NewsCounterHack", NetrunUI.Bad),
+            NodeNews(visible.Where(n => n.Rival), "NR_NewsRival", NetrunUI.Warn),
+            NodeNews(visible.Where(n => n.WildAI), "NR_NewsWildAI", NetrunUI.Purple),
+            NodeNews(visible.Where(n => n.Contract), "NR_NewsContract", NetrunUI.Ok),
+        };
         if (g.LastReport is { } last)
-            list.Add(("NR_NewsLastDive".Translate(last.RunnerName ?? "?", last.NodeName,
-                (last.Success ? "NR_ReportSuccess" : last.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate()), NetrunUI.Muted));
+            byKind.Add([("NR_NewsLastDive".Translate(last.RunnerName ?? "?", last.NodeName,
+                (last.Success ? "NR_ReportSuccess" : last.Retreated ? "NR_ReportRetreat" : "NR_ReportFail").Translate()), NetrunUI.Muted)]);
         // Branches grow back by themselves on the map; the old refresh timer only means something without it.
         if (!GatewayManager.MapReady)
-            list.Add(("NR_NewsRefresh".Translate(g.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.Accent));
+            byKind.Add([("NR_NewsRefresh".Translate(g.TicksUntilRefresh.ToStringTicksToPeriod()), NetrunUI.Accent)]);
+        // Interleave the kinds with the general lines, so the ticker never runs the same kind back to back.
+        var general = new List<(string, Color)>(list);
+        list.Clear();
+        int rounds = Mathf.Max(general.Count, byKind.Count == 0 ? 0 : byKind.Max(k => k.Count));
+        for (int r = 0; r < rounds; r++)
+        {
+            if (r < general.Count)
+                list.Add(general[r]);
+            foreach (List<(string, Color)> kind in byKind)
+                if (r < kind.Count)
+                    list.Add(kind[r]);
+        }
         return list;
+    }
+
+    private static List<(string, Color)> NodeNews(IEnumerable<ExternalNode> nodes, string key, Color color)
+    {
+        var all = nodes.ToList();
+        var lines = all.Take(2).Select(n => ((string)key.Translate(n.Name), color)).ToList();
+        if (all.Count > 2)
+            lines.Add(("NR_NewsMore".Translate(all.Count - 2), color));
+        return lines;
     }
 
     /// <summary>The dive summaries of recent runs: opens the Archive on its dive reports tab.</summary>
@@ -656,31 +675,21 @@ public static partial class GatewayView
         y += 36f;
 
         // Daemons: one per dive, free, no slot. Buttons like the programs; a second click takes it off.
+        // Until the first one is found, a single hint stands in for the block.
         int daemonsFound = gateway.Daemons.Count;
-        y = NetrunUI.Section(new Rect(inner.x, y + 2f, inner.width, 36f), "NR_GatewayDaemonPick".Translate(daemonsFound));
-        x = inner.x;
-        foreach (DiveDaemon d in System.Enum.GetValues(typeof(DiveDaemon)))
+        if (daemonsFound == 0)
         {
-            bool unlocked = gateway.Daemons.Contains(d);
-            bool on = unlocked && gateway.SelectedDaemon == (int)d;
-            string label = ("NR_Daemon_" + d).Translate();
-            Texture2D icon = NetrunTex.DaemonIcon(d);
-            float w = NetrunUI.ButtonWidth(label, icon != null);
-            if (x + w > inner.xMax)
-            {
-                x = inner.x;
-                y += 34f;
-            }
-            AcceptanceReport report = unlocked ? true : (AcceptanceReport)"NR_GatewayDaemonLocked".Translate();
-            string tip = ("NR_DaemonDesc_" + d).Translate() + "\n\n" + "NR_GatewayDaemonOne".Translate();
-            var dr = new Rect(x, y, w, 28f);
-            if (NetrunUI.Button(dr, (on ? "✓ " : string.Empty) + label, on ? NetrunUI.Purple : NetrunUI.TextColor, report, tip, unlocked ? icon : null))
-                gateway.SelectedDaemon = on ? -1 : (int)d;
-            if (unlocked && !on && gateway.SelectedDaemon >= 0)
-                Widgets.DrawBoxSolid(dr.ContractedBy(1f), new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.45f));
-            x += w + 6f;
+            Text.Font = GameFont.Tiny;
+            string hint = "NR_GatewayDaemonHint".Translate();
+            float hh = Text.CalcHeight(hint, inner.width);
+            Widgets.Label(new Rect(inner.x, y + 4f, inner.width, hh), hint.Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            y += hh + 8f;
         }
-        y += 36f;
+        else
+        {
+            y = DrawDaemonPick(inner, y, gateway, daemonsFound);
+        }
 
         GuideRegistry.InScroll("gateway.programs", outer, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
         float gDive = y;
@@ -708,6 +717,36 @@ public static partial class GatewayView
         Widgets.EndScrollView();
     }
 
+
+    /// <summary>The daemon buttons (shown once at least one daemon has been found).</summary>
+    private static float DrawDaemonPick(Rect inner, float y, GatewayManager gateway, int daemonsFound)
+    {
+        y = NetrunUI.Section(new Rect(inner.x, y + 2f, inner.width, 36f), "NR_GatewayDaemonPick".Translate(daemonsFound));
+        float x = inner.x;
+        foreach (DiveDaemon d in System.Enum.GetValues(typeof(DiveDaemon)))
+        {
+            bool unlocked = gateway.Daemons.Contains(d);
+            bool on = unlocked && gateway.SelectedDaemon == (int)d;
+            string label = ("NR_Daemon_" + d).Translate();
+            Texture2D icon = NetrunTex.DaemonIcon(d);
+            float w = NetrunUI.ButtonWidth(label, icon != null);
+            if (x + w > inner.xMax)
+            {
+                x = inner.x;
+                y += 34f;
+            }
+            AcceptanceReport report = unlocked ? true : (AcceptanceReport)"NR_GatewayDaemonLocked".Translate();
+            string tip = ("NR_DaemonDesc_" + d).Translate() + "\n\n" + "NR_GatewayDaemonOne".Translate();
+            var dr = new Rect(x, y, w, 28f);
+            if (NetrunUI.Button(dr, (on ? "✓ " : string.Empty) + label, on ? NetrunUI.Purple : NetrunUI.TextColor, report, tip, unlocked ? icon : null))
+                gateway.SelectedDaemon = on ? -1 : (int)d;
+            if (unlocked && !on && gateway.SelectedDaemon >= 0)
+                Widgets.DrawBoxSolid(dr.ContractedBy(1f), new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.45f));
+            x += w + 6f;
+        }
+        y += 36f;
+        return y;
+    }
 
     /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,

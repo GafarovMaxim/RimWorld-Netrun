@@ -61,7 +61,9 @@ public static class ClubTabs
     {
         if (IconOf(f) is not { } icon)
             return;
-        GUI.color = f.Color;
+        // The faction's own hue, lifted so dark colours still read on the terminal's black.
+        Color.RGBToHSV(f.Color, out float h, out float s, out float v);
+        GUI.color = Color.HSVToRGB(h, Mathf.Min(s, 0.85f), Mathf.Max(v, 0.9f));
         GUI.DrawTexture(r, icon);
         GUI.color = Color.white;
     }

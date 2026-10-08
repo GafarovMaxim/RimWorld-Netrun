@@ -35,7 +35,7 @@ DYNAMIC = {
     "NR_DeckThemeDesc_": ["Field", "Milspec", "Street", "OpsPad"],
     "NR_MenuPage_": ["Home", "Settings", "Achievements", "Difficulty", "Customization", "Continue", "Cyberpedia"],
     "NR_MenuDesc_": ["Continue", "Settings", "Cyberpedia", "Achievements", "Difficulty", "Customization"],
-    "NR_CustomTab_": ["frame", "colors", "sound", "graphics"],
+    "NR_CustomTab_": ["frame", "sound", "graphics"],
     "NR_HelpContractStage_": ["Board", "Taken", "Work", "Pay"],
     "NR_HelpContractStageDesc_": ["Board", "Taken", "Work", "Pay"],
     "NR_HelpBDTier_": ["0", "1", "2"],

@@ -852,9 +852,11 @@ public static partial class NetrunUI
     {
         if (text.NullOrEmpty() || !Mouse.IsOver(rect) || Event.current.type != EventType.Repaint)
             return;
-        float shown = NetrunMod.Settings.Animations ? Mathf.Clamp01((HoverTime(rect) - 0.2f) / 0.15f) : 1f;
-        if (shown <= 0f)
+        // A short delay, then the card appears at once (no fade).
+        if (NetrunMod.Settings.Animations && HoverTime(rect) < 0.25f)
             return;
+        const float shown = 1f;
+        const float head = 16f;
         Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
         // Measure in the tooltip's font, then give the caller its font back: rows drawn after a hovered one keep their size.
         GameFont callerFont = Text.Font;
@@ -862,7 +864,7 @@ public static partial class NetrunUI
         float w = Mathf.Min(TipMaxWidth, Text.CalcSize(text.StripTags()).x + 4f);
         float h = Text.CalcHeight(text, w);
         Text.Font = callerFont;
-        var box = new Rect(mouse.x + 18f, mouse.y + 18f, w + 22f, h + 14f);
+        var box = new Rect(mouse.x + 18f, mouse.y + 18f, w + 26f, h + 18f + head);
         if (box.xMax > UI.screenWidth - 4f)
             box.x = mouse.x - box.width - 8f;
         if (box.yMax > UI.screenHeight - 4f)
@@ -872,14 +874,18 @@ public static partial class NetrunUI
             bool font = NetrunFont.Push();
             bool size = NetrunText.Push();
             var local = new Rect(0f, 0f, box.width, box.height);
-            Widgets.DrawBoxSolid(local, new Color(BgWindow.r, BgWindow.g, BgWindow.b, 0.97f * shown));
-            GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.6f * shown);
+            // A soft dark card, a thin accent frame with brighter corners, a small caption over the text.
+            Widgets.DrawBoxSolid(local, new Color(BgWindow.r * 0.85f, BgWindow.g * 0.85f, BgWindow.b * 0.85f, 0.96f * shown));
+            Widgets.DrawBoxSolid(new Rect(1f, 1f, local.width - 2f, head + 4f), new Color(Accent.r, Accent.g, Accent.b, 0.08f));
+            GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.35f * shown);
             Widgets.DrawBox(local);
             GUI.color = Color.white;
-            Widgets.DrawBoxSolid(new Rect(0f, 0f, 3f, local.height), new Color(Accent.r, Accent.g, Accent.b, shown));
+            Brackets(local, new Color(Accent.r, Accent.g, Accent.b, 0.9f * shown), 1f, 7f);
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(10f, 3f, local.width - 16f, head), ((string)"NR_TipCaption".Translate()).Colorize(new Color(Accent.r, Accent.g, Accent.b, 0.75f)));
             Text.Font = GameFont.Small;
             GUI.color = new Color(1f, 1f, 1f, shown);
-            Widgets.Label(new Rect(12f, 7f, w + 4f, h + 2f), text);
+            Widgets.Label(new Rect(13f, 9f + head, w + 4f, h + 2f), text);
             GUI.color = Color.white;
             NetrunText.Pop(size);
             NetrunFont.Pop(font);

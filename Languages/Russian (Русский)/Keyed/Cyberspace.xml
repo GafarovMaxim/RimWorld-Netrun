@@ -453,4 +453,6 @@
   <NR_DiveLogBreaker>Ледоруб прорвал {0}. Громко: двойной след.</NR_DiveLogBreaker>
   <NR_DiveCostPodFuel>Сначала из очков взлома капсулы: {0}</NR_DiveCostPodFuel>
   <NR_CrewGoodwillFind>Отношения с командой {0}: {1}.</NR_CrewGoodwillFind>
+  <NR_GatewayDaemonHint>Демоны: пока нет. Их находят в корп-ядрах, и они остаются с вами на все следующие нырки.</NR_GatewayDaemonHint>
+  <NR_NewsMore>...и ещё {0} похожих</NR_NewsMore>
 </LanguageData>

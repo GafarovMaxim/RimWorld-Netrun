@@ -147,12 +147,14 @@ public static class FixersTab
         if (!fixer.Pinned && manager != null)
         {
             string hold = fixer.Held ? (string)"NR_FixerRelease".Translate() : (string)"NR_FixerHoldPaid".Translate(NetrunDefOf.NR_Fixers.holdCost);
-            if (NetrunUI.Button(side, hold, NetrunUI.Warn, manager.CanHold(fixer), "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld, NetrunDefOf.NR_Fixers.holdCost), NetrunTex.PinVertical))
+            // An isolated network reaches nobody: no holds, no breaks, no calls.
+            AcceptanceReport canHold = NetworkIsolation.Active ? NetworkIsolation.Check() : manager.CanHold(fixer);
+            if (NetrunUI.Button(side, hold, NetrunUI.Warn, canHold, "NR_FixerHoldTip".Translate(NetrunDefOf.NR_Fixers.maxHeld, NetrunDefOf.NR_Fixers.holdCost), NetrunTex.PinVertical))
                 manager.ToggleHold(fixer);
             side.y += ButtonHeight + 8f;
         }
         string drop = "NR_FixerBreak".Translate();
-        if (NetrunUI.Button(side, drop, NetrunUI.Bad, true, "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays), NetrunTex.Disconnect))
+        if (NetrunUI.Button(side, drop, NetrunUI.Bad, NetworkIsolation.Check(), "NR_FixerBreakTip".Translate(NetrunDefOf.NR_Fixers.breakBanDays), NetrunTex.Disconnect))
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_FixerBreakConfirm".Translate(fixer.Name, NetrunDefOf.NR_Fixers.breakBanDays),
                 () => manager?.BreakTies(fixer), destructive: true));
 
@@ -231,7 +233,8 @@ public static class FixersTab
             return clicked;
         }
 
-        AcceptanceReport silent = fixer.IsSilent ? (AcceptanceReport)StatusText(fixer)
+        AcceptanceReport silent = NetworkIsolation.Active ? NetworkIsolation.Check()
+            : fixer.IsSilent ? (AcceptanceReport)StatusText(fixer)
             : fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
 
         if (!fixer.ChannelOpen)

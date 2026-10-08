@@ -175,13 +175,11 @@ public class NetrunSettings : ModSettings
             case "frame":
                 DrawFrame();
                 break;
-            case "colors":
-                DrawColors();
-                break;
             case "sound":
                 DrawSound();
                 break;
             case "graphics":
+                DrawColors();
                 DrawGraphics();
                 break;
         }
@@ -506,7 +504,10 @@ public class NetrunSettings : ModSettings
         for (int i = 0; i < DeckThemes.All.Length; i++)
         {
             DeckTheme theme = DeckThemes.All[i];
-            var card = new Rect(12f + i % perRow * (cw + gap), _y + i / perRow * (ch + gap), cw, ch);
+            var outerCard = new Rect(12f + i % perRow * (cw + gap), _y + i / perRow * (ch + gap), cw, ch);
+            // Everything of a card stays inside it (long lock texts and names are cut, never spill over).
+            Widgets.BeginGroup(outerCard);
+            var card = new Rect(0f, 0f, cw, ch);
             bool open = DeckThemes.Unlocked(theme);
             bool chosen = DeckThemes.Current == theme;
             Color edge = chosen ? NetrunUI.Warn : open ? NetrunUI.Accent : NetrunUI.Muted;
@@ -537,6 +538,7 @@ public class NetrunSettings : ModSettings
                 DeckThemes.Select(theme);
                 NetrunSound.Click();
             }
+            Widgets.EndGroup();
         }
         _y += (DeckThemes.All.Length + perRow - 1) / perRow * (ch + gap) + 6f;
         Label("NR_CustomFramePreview".Translate(), NetrunUI.Muted);

@@ -342,7 +342,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_MenuAchSecret>A secret achievement. It shows itself when it is done.</NR_MenuAchSecret>
   <NR_MenuAchTheme>Reward: the frame theme «{0}».</NR_MenuAchTheme>
   <NR_CustomTab_frame>Frame</NR_CustomTab_frame>
-  <NR_CustomTab_colors>Colors</NR_CustomTab_colors>
   <NR_CustomTab_sound>Sound</NR_CustomTab_sound>
   <NR_CustomTab_graphics>Graphics</NR_CustomTab_graphics>
   <NR_CustomFrameThemes>Frame themes</NR_CustomFrameThemes>
@@ -370,4 +369,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpCtx_Menu>Menu</NR_HelpCtx_Menu>
   <NR_DeckKey_IsolateOn>NET LOCK: isolate the colony's network.</NR_DeckKey_IsolateOn>
   <NR_DeckKey_IsolateOff>NET LOCK: the network is isolated. Press to connect again.</NR_DeckKey_IsolateOff>
+  <NR_MenuStatusHeat>Heat</NR_MenuStatusHeat>
+  <NR_MenuStatusAI>AIs</NR_MenuStatusAI>
+  <NR_MenuStatusRunners>Runners</NR_MenuStatusRunners>
+  <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
+  <NR_TipCaption>// NET INFO</NR_TipCaption>
 </LanguageData>

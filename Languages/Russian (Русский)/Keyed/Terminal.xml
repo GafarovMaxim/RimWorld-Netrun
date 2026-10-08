@@ -342,7 +342,6 @@
   <NR_MenuAchSecret>Секретное достижение. Откроется, когда будет выполнено.</NR_MenuAchSecret>
   <NR_MenuAchTheme>Награда: тема рамки «{0}».</NR_MenuAchTheme>
   <NR_CustomTab_frame>Рамка</NR_CustomTab_frame>
-  <NR_CustomTab_colors>Цвета</NR_CustomTab_colors>
   <NR_CustomTab_sound>Звук</NR_CustomTab_sound>
   <NR_CustomTab_graphics>Графика</NR_CustomTab_graphics>
   <NR_CustomFrameThemes>Темы рамки</NR_CustomFrameThemes>
@@ -370,4 +369,9 @@
   <NR_HelpCtx_Menu>Меню</NR_HelpCtx_Menu>
   <NR_DeckKey_IsolateOn>NET LOCK: изолировать сеть колонии.</NR_DeckKey_IsolateOn>
   <NR_DeckKey_IsolateOff>NET LOCK: сеть изолирована. Нажмите, чтобы подключиться снова.</NR_DeckKey_IsolateOff>
+  <NR_MenuStatusHeat>Heat</NR_MenuStatusHeat>
+  <NR_MenuStatusAI>ИИ</NR_MenuStatusAI>
+  <NR_MenuStatusRunners>Раннеры</NR_MenuStatusRunners>
+  <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
+  <NR_TipCaption>// СВОДКА</NR_TipCaption>
 </LanguageData>

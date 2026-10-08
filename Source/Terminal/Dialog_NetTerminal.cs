@@ -122,6 +122,12 @@ public partial class Dialog_NetTerminal : Window
                 case NetrunUI.KeyHelp:
                     OpenHelp();
                     break;
+                case NetrunUI.KeyCore:
+                    // Core from anywhere: the menu, the Cyberpedia, a section, the Gateway (a dive waits there, paused).
+                    _menuPage = MenuPage.Home;
+                    _guide = false;
+                    GoHome();
+                    break;
                 default:
                     if (_view == View.Menu)
                         LeaveMenu();

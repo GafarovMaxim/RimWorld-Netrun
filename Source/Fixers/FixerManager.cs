@@ -117,6 +117,8 @@ public class FixerManager : GameComponent, INetrunCleanable
     /// <summary>Holding is paid at once (the first rotation), then at every rotation; releasing is free.</summary>
     public void ToggleHold(Fixer fixer)
     {
+        if (NetworkIsolation.Active)
+            return;
         if (!CanHold(fixer).Accepted)
             return;
         if (!fixer.Held)
