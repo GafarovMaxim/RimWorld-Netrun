@@ -1,0 +1,99 @@
+using System.Linq;
+using UnityEngine;
+using Verse;
+
+namespace Netrun;
+
+/// <summary>
+/// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
+/// stencils. The field deck is always there; the others open with an achievement and stay open in every game.
+/// </summary>
+public sealed class DeckTheme
+{
+    public string Id;
+    public Color Top, Bottom, Edge, Rubber, Stencil, KeyFace, Tube, TubeLight, TubeDark;
+    /// <summary>The achievement counter that opens the theme (null: always open) and how much of it.</summary>
+    public string UnlockKey;
+    public int UnlockCount;
+
+    public string Label => ("NR_DeckTheme_" + Id).Translate();
+    public string Description => ("NR_DeckThemeDesc_" + Id).Translate();
+}
+
+public static class DeckThemes
+{
+    private static Color Hex(int rgb) => NetrunUI.Hex(rgb);
+
+    public static readonly DeckTheme[] All =
+    [
+        new DeckTheme
+        {
+            Id = "Field", Top = Hex(0x23282e), Bottom = Hex(0x101317), Edge = Hex(0x434b54), Rubber = Hex(0x090a0c),
+            Stencil = new Color(1f, 1f, 1f, 0.58f), KeyFace = Hex(0x252a31), Tube = Hex(0x2a3036), TubeLight = Hex(0x4b545e), TubeDark = Hex(0x15181c),
+        },
+        new DeckTheme
+        {
+            Id = "Milspec", Top = Hex(0x343a26), Bottom = Hex(0x171a10), Edge = Hex(0x5a6244), Rubber = Hex(0x0f110a),
+            Stencil = new Color(0.93f, 0.9f, 0.72f, 0.62f), KeyFace = Hex(0x2a2f1e), Tube = Hex(0x3a3f2c), TubeLight = Hex(0x646b4c), TubeDark = Hex(0x1a1d12),
+            UnlockKey = "CleanStreak", UnlockCount = 10,
+        },
+        new DeckTheme
+        {
+            Id = "Street", Top = Hex(0x33262a), Bottom = Hex(0x150f12), Edge = Hex(0x6a4a42), Rubber = Hex(0x0c0809),
+            Stencil = new Color(1f, 0.83f, 0.29f, 0.7f), KeyFace = Hex(0x2e2226), Tube = Hex(0x3b2c2c), TubeLight = Hex(0x7a5a4a), TubeDark = Hex(0x1a1213),
+            UnlockKey = "BlackICEPassed", UnlockCount = 1,
+        },
+        new DeckTheme
+        {
+            Id = "OpsPad", Top = Hex(0xc4c8c4), Bottom = Hex(0x8e938f), Edge = Hex(0x6c726e), Rubber = Hex(0x2a2d2f),
+            Stencil = new Color(0.08f, 0.09f, 0.1f, 0.75f), KeyFace = Hex(0x3a3f44), Tube = Hex(0x9aa09c), TubeLight = Hex(0xdfe3df), TubeDark = Hex(0x5e6460),
+            UnlockKey = "ContractsDone", UnlockCount = 25,
+        },
+    ];
+
+    /// <summary>The chosen theme when it is open, the field deck otherwise.</summary>
+    public static DeckTheme Current => All.FirstOrDefault(t => t.Id == NetrunMod.Settings.FrameTheme && Unlocked(t)) ?? All[0];
+
+    /// <summary>Open by its achievement counter in this game, or earned before in any game.</summary>
+    public static bool Unlocked(DeckTheme theme)
+    {
+        if (theme.UnlockKey == null || NetrunMod.Settings.UnlockedThemes.Contains(theme.Id))
+            return true;
+        if (InGame && NetrunSignals.Value(theme.UnlockKey) >= theme.UnlockCount)
+        {
+            NetrunMod.Settings.UnlockedThemes.Add(theme.Id);
+            NetrunMod.Settings.Write();
+            return true;
+        }
+        return false;
+    }
+
+    private static bool InGame => Verse.Current.Game != null;
+
+    /// <summary>What opens a locked theme: the achievement's name and the goal.</summary>
+    public static string LockText(DeckTheme theme)
+    {
+        NetrunAchievementDef ach = DefDatabase<NetrunAchievementDef>.AllDefs.FirstOrDefault(a => a.key == theme.UnlockKey);
+        string name = ach?.LabelCap ?? (TaggedString)theme.UnlockKey;
+        int have = InGame ? Mathf.Min(NetrunSignals.Value(theme.UnlockKey), theme.UnlockCount) : 0;
+        return "NR_DeckThemeLocked".Translate(name, have, theme.UnlockCount);
+    }
+
+    public static void Select(DeckTheme theme)
+    {
+        if (!Unlocked(theme))
+            return;
+        NetrunMod.Settings.FrameTheme = theme.Id;
+        NetrunMod.Settings.Write();
+    }
+
+    /// <summary>The THEME key: the next open theme.</summary>
+    public static void Next()
+    {
+        var open = All.Where(Unlocked).ToList();
+        int i = open.IndexOf(Current);
+        Select(open[(i + 1) % open.Count]);
+        Messages.Message("NR_DeckThemeSwitched".Translate(Current.Label), RimWorld.MessageTypeDefOf.SilentInput, historical: false);
+    }
+
+}

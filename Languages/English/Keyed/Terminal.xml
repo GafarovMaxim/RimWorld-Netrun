@@ -287,8 +287,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDemoSick_Severe>Severe (85%+): worse mood and more frequent breaks.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Hover a stage to read what it does. The marker shows Netsick creeping up with daily dives.</NR_HelpDemoSickHint>
   <NR_DeckPlate>NETRUN // CYBERDECK MK-II</NR_DeckPlate>
-  <NR_DeckGaugeHeat>Heat gauge: how hot your trace is.</NR_DeckGaugeHeat>
-  <NR_DeckGaugeNet>Net gauge: the uplink's signal.</NR_DeckGaugeNet>
   <NR_DeckKey_0>Back</NR_DeckKey_0>
   <NR_DeckKey_1>Home: the network map</NR_DeckKey_1>
   <NR_DeckKey_2>Cyberpedia</NR_DeckKey_2>
@@ -296,7 +294,82 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckLightNet>Net: lit while the colony is online.</NR_DeckLightNet>
   <NR_DeckLightSick>Netsick: blinks while a colonist has it.</NR_DeckLightSick>
   <NR_DeckLightPod>Pod: lit while a netrunner lies in a cyberpod.</NR_DeckLightPod>
-  <NR_DeckKnobHeat>Heat: {0} ({1}).</NR_DeckKnobHeat>
-  <NR_DeckKnobNetOn>Net: online.</NR_DeckKnobNetOn>
-  <NR_DeckKnobNetOff>Net: offline.</NR_DeckKnobNetOff>
+  <NR_DeckKey_3>Close the terminal</NR_DeckKey_3>
+  <NR_DeckKey_4>Menu: settings, Cyberpedia, achievements, difficulty, customization</NR_DeckKey_4>
+  <NR_DeckKey_5>Achievements: the mod's goals and the frame themes they open</NR_DeckKey_5>
+  <NR_DeckKey_Theme>Frame theme: {0}. Click for the next open theme.</NR_DeckKey_Theme>
+  <NR_DeckKey_TerminalOnly>Only in the terminal.</NR_DeckKey_TerminalOnly>
+  <NR_DeckRfOn>RF signal: the uplink is live.</NR_DeckRfOn>
+  <NR_DeckRfOff>RF signal: no uplink while the colony is offline.</NR_DeckRfOff>
+  <NR_DeckLcd>Status: cyberdata in storage, Heat with its trend, day, time and the net.</NR_DeckLcd>
+  <NR_DeckHeatScale>Heat {0}: {1}.</NR_DeckHeatScale>
+  <NR_DeckNetLinkOn>Net link: online.</NR_DeckNetLinkOn>
+  <NR_DeckNetLinkOff>Net link: offline (the network opens after the first steps in the Core).</NR_DeckNetLinkOff>
+  <NR_DeckThemeLocked>Achievement «{0}»: {1}/{2}</NR_DeckThemeLocked>
+  <NR_DeckThemeSwitched>Frame theme: {0}</NR_DeckThemeSwitched>
+  <NR_DeckTheme_Field>Field deck</NR_DeckTheme_Field>
+  <NR_DeckTheme_Milspec>Milspec</NR_DeckTheme_Milspec>
+  <NR_DeckTheme_Street>Street build</NR_DeckTheme_Street>
+  <NR_DeckTheme_OpsPad>Ops pad</NR_DeckTheme_OpsPad>
+  <NR_DeckThemeDesc_Field>Default: dark gunmetal, orange core key.</NR_DeckThemeDesc_Field>
+  <NR_DeckThemeDesc_Milspec>Olive drab, worn stencils.</NR_DeckThemeDesc_Milspec>
+  <NR_DeckThemeDesc_Street>Rust and street paint.</NR_DeckThemeDesc_Street>
+  <NR_DeckThemeDesc_OpsPad>Light, clean, dark keys.</NR_DeckThemeDesc_OpsPad>
+  <NR_MenuTitle>NETRUN // MENU</NR_MenuTitle>
+  <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
+  <NR_MenuButtonTip>Menu (the MENU key on the casing does the same)</NR_MenuButtonTip>
+  <NR_MenuBack>◀ Back</NR_MenuBack>
+  <NR_MenuBackToMenu>◀ Menu</NR_MenuBackToMenu>
+  <NR_MenuPage_Home>Menu</NR_MenuPage_Home>
+  <NR_MenuPage_Continue>Continue</NR_MenuPage_Continue>
+  <NR_MenuPage_Settings>Settings</NR_MenuPage_Settings>
+  <NR_MenuPage_Cyberpedia>Cyberpedia</NR_MenuPage_Cyberpedia>
+  <NR_MenuPage_Achievements>Achievements</NR_MenuPage_Achievements>
+  <NR_MenuPage_Difficulty>Difficulty</NR_MenuPage_Difficulty>
+  <NR_MenuCustomization>Customization</NR_MenuCustomization>
+  <NR_MenuPage_Customization>Customization</NR_MenuPage_Customization>
+  <NR_MenuDesc_Continue>Back to where you were in the net.</NR_MenuDesc_Continue>
+  <NR_MenuDesc_Settings>Events, interface, bug reports.</NR_MenuDesc_Settings>
+  <NR_MenuDesc_Cyberpedia>How everything works. Start here.</NR_MenuDesc_Cyberpedia>
+  <NR_MenuDesc_Achievements>Goals of the mod. Some open frame themes.</NR_MenuDesc_Achievements>
+  <NR_MenuDesc_Difficulty>Trace, ICE, AI hunger, scrub and retreat: a preset or your own.</NR_MenuDesc_Difficulty>
+  <NR_MenuDesc_Customization>Frame theme, colors, sound pack, graphics.</NR_MenuDesc_Customization>
+  <NR_MenuNewBadge>NEW {0}</NR_MenuNewBadge>
+  <NR_MenuVersion>Hacking Expansion: Netrun {0}</NR_MenuVersion>
+  <NR_MenuCopyDiagnostics>Copy diagnostics</NR_MenuCopyDiagnostics>
+  <NR_MenuReportBug>Report a bug</NR_MenuReportBug>
+  <NR_MenuEsc>Esc closes the menu</NR_MenuEsc>
+  <NR_MenuAchHead>Done {0} of {1} · {2} points</NR_MenuAchHead>
+  <NR_MenuAchVae>Vanilla Achievements Expanded is on: they are also in its Netrun tab.</NR_MenuAchVae>
+  <NR_MenuAchSecret>A secret achievement. It shows itself when it is done.</NR_MenuAchSecret>
+  <NR_MenuAchTheme>Reward: the frame theme «{0}».</NR_MenuAchTheme>
+  <NR_CustomTab_frame>Frame</NR_CustomTab_frame>
+  <NR_CustomTab_colors>Colors</NR_CustomTab_colors>
+  <NR_CustomTab_sound>Sound</NR_CustomTab_sound>
+  <NR_CustomTab_graphics>Graphics</NR_CustomTab_graphics>
+  <NR_CustomFrameThemes>Frame themes</NR_CustomFrameThemes>
+  <NR_CustomThemeInUse>in use</NR_CustomThemeInUse>
+  <NR_CustomFramePreview>The frame changes at once; the screen is not touched.</NR_CustomFramePreview>
+  <NR_CustomFrameParts>Parts of the casing</NR_CustomFrameParts>
+  <NR_CustomAntenna>Antenna</NR_CustomAntenna>
+  <NR_CustomAntennaTip>The whip antenna over the casing.</NR_CustomAntennaTip>
+  <NR_CustomLights>Lights NET, SICK, POD</NR_CustomLights>
+  <NR_CustomLightsTip>The three status lights on top.</NR_CustomLightsTip>
+  <NR_CustomGlass>Glass sheen</NR_CustomGlass>
+  <NR_CustomGlassTip>A faint sheen across the screen.</NR_CustomGlassTip>
+  <NR_CustomLcd>Status LCD</NR_CustomLcd>
+  <NR_CustomLcdTip>The green three-line display at the bottom left.</NR_CustomLcdTip>
+  <NR_CustomFooter>Themes open with achievements; colors and sound packs are free.</NR_CustomFooter>
+  <NR_SettingsInTerminal>Graphics, sound and the frame are in the terminal: MENU → Customization.</NR_SettingsInTerminal>
+  <NR_SettingsGlitches>Screen glitches</NR_SettingsGlitches>
+  <NR_SettingsGlitchesTip>Short tears on button presses and the Red Zone flicker.</NR_SettingsGlitchesTip>
+  <NR_SettingsScanlines>CRT lines</NR_SettingsScanlines>
+  <NR_SettingsScanlinesTip>Thin lines over the terminal's screen.</NR_SettingsScanlinesTip>
+  <NR_SettingsIceStrength>ICE and patrols: {0}</NR_SettingsIceStrength>
+  <NR_SettingsAIHunger>AI hunger: {0}</NR_SettingsAIHunger>
+  <NR_SettingsRetreatLoss>Loss on retreat: {0}</NR_SettingsRetreatLoss>
+  <NR_SettingsDifficultyMore>ICE {0}, AI hunger {1}, retreat loss {2}</NR_SettingsDifficultyMore>
+  <NR_SettingsDifficultyName_Cyberpunk>Cyberpunk</NR_SettingsDifficultyName_Cyberpunk>
+  <NR_SettingsDifficulty_Cyberpunk>Cyberpunk: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Cyberpunk>
+  <NR_HelpCtx_Menu>Menu</NR_HelpCtx_Menu>
 </LanguageData>

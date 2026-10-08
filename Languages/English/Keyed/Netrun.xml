@@ -99,7 +99,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsUnlockHelpTip>Unlocks the spoiler articles (boss node, hacker group…) in this game.</NR_SettingsUnlockHelpTip>
   <NR_SettingsUnlockHelpDone>All Cyberpedia articles are open.</NR_SettingsUnlockHelpDone>
   <NR_SettingsTitle>NETRUN // SETTINGS</NR_SettingsTitle>
-  <NR_SettingsDifficultyName_Easy>Easy</NR_SettingsDifficultyName_Easy>
+  <NR_SettingsDifficultyName_Easy>Newcomer</NR_SettingsDifficultyName_Easy>
   <NR_SettingsDifficultyName_Normal>Normal</NR_SettingsDifficultyName_Normal>
   <NR_SettingsDifficultyName_Hard>Hard</NR_SettingsDifficultyName_Hard>
   <NR_SettingsFont>Terminal font: Tektur (off: the standard font)</NR_SettingsFont>

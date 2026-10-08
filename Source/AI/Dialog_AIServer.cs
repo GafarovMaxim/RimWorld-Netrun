@@ -55,7 +55,8 @@ public class Dialog_AIServer : Window
         try
         {
             NetrunSound.Ambient("Ambient_Cyberspace");
-            Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen);
+            Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen,
+                key => { if (key == NetrunUI.KeyClose) Close(); }, menu: false);
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);
             Text.Font = GameFont.Medium;
@@ -78,6 +79,7 @@ public class Dialog_AIServer : Window
             GUI.color = Color.white;
             AITab.Draw(new Rect(screen.x, title.yMax, screen.width, screen.height - title.height).ContractedBy(12f), _map, ref _scroll);
             NetrunUI.Scanlines(screen);
+            NetrunUI.DeckGlass(screen);
         }
         finally
         {

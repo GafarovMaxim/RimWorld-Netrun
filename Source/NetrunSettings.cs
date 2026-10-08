@@ -14,6 +14,7 @@ public enum HeatDifficulty
     Normal,
     Hard,
     Custom,
+    Cyberpunk,
 }
 
 /// <summary>
@@ -61,6 +62,27 @@ public class NetrunSettings : ModSettings
     public float IconScale = 1f;
     /// <summary>Use the Tektur font in the mod's windows (when its bundle is present).</summary>
     public bool TerminalFont = true;
+    /// <summary>Short screen glitches (button presses, the Red Zone flicker); off keeps the terminal steady.</summary>
+    public bool Glitches = true;
+    /// <summary>CRT lines over the terminal's screen.</summary>
+    public bool Scanlines = true;
+
+    // ---- Frame (Customization) ----
+    /// <summary>The casing theme (DeckThemes), its parts that can be hidden, and the themes opened in any game.</summary>
+    public string FrameTheme = "Field";
+    public bool FrameAntenna = true;
+    public bool FrameLights = true;
+    public bool FrameGlass = true;
+    public bool FrameLcd = true;
+    public List<string> UnlockedThemes = [];
+
+    // ---- Difficulty: finer knobs on top of the Heat preset ----
+    /// <summary>ICE and patrols: their strength in dives (1 = as designed).</summary>
+    public float IceStrength = 1f;
+    /// <summary>How fast awakened AIs get hungry.</summary>
+    public float AIHunger = 1f;
+    /// <summary>The share of the haul lost on a retreat.</summary>
+    public float RetreatLoss = 1f;
 
     // ---- Sound ----
     /// <summary>The sound pack (NetrunSound.Packs) or "Off".</summary>
@@ -85,13 +107,16 @@ public class NetrunSettings : ModSettings
 
     private static readonly float[] Frequencies = [0f, 0.5f, 1f, 2f];
 
-    /// <summary>Presets: Heat gain, cooling per day, scrub efficiency.</summary>
-    private static readonly Dictionary<HeatDifficulty, (float gain, float decay, float scrub)> Presets = new()
+    /// <summary>Presets: Heat gain, cooling per day, scrub efficiency, ICE strength, AI hunger, retreat loss.</summary>
+    private static readonly Dictionary<HeatDifficulty, (float gain, float decay, float scrub, float ice, float hunger, float retreat)> Presets = new()
     {
-        [HeatDifficulty.Easy] = (0.75f, 6f, 1.5f),
-        [HeatDifficulty.Normal] = (1f, 4f, 1f),
-        [HeatDifficulty.Hard] = (1.3f, 3f, 0.75f),
+        [HeatDifficulty.Easy] = (0.75f, 6f, 1.5f, 0.8f, 0.8f, 0.5f),
+        [HeatDifficulty.Normal] = (1f, 4f, 1f, 1f, 1f, 1f),
+        [HeatDifficulty.Hard] = (1.3f, 3f, 0.75f, 1.2f, 1.2f, 1.25f),
+        [HeatDifficulty.Cyberpunk] = (1.6f, 2f, 0.6f, 1.4f, 1.4f, 1.5f),
     };
+    /// <summary>The order of the preset chips (Easy is shown as "Newcomer").</summary>
+    private static readonly HeatDifficulty[] PresetOrder = [HeatDifficulty.Easy, HeatDifficulty.Normal, HeatDifficulty.Hard, HeatDifficulty.Cyberpunk];
 
     // Collapsed groups and the scroll position live only for the session.
     private static readonly HashSet<string> Collapsed = [];
@@ -110,6 +135,71 @@ public class NetrunSettings : ModSettings
         HeatGainMultiplier = p.gain;
         HeatDecayPerDay = p.decay;
         ScrubMultiplier = p.scrub;
+        IceStrength = p.ice;
+        AIHunger = p.hunger;
+        RetreatLoss = p.retreat;
+        // The newcomer preset brings the newcomer protection with it.
+        if (difficulty == HeatDifficulty.Easy)
+            NewcomerProtection = true;
+    }
+
+    // ---- Pages drawn inside the terminal's menu (Settings, Difficulty, Customization tabs) ----
+
+    private static readonly Dictionary<string, Vector2> PageScroll = [];
+    private static readonly Dictionary<string, float> PageHeight = [];
+
+    /// <summary>
+    /// One page of settings with its own scroll (saved when the terminal closes): "settings" (events, interface, support), "difficulty", "frame",
+    /// "colors", "sound", "graphics". The terminal's menu calls it; the mod window shows the same parts.
+    /// </summary>
+    public void DrawPage(Rect outer, string page)
+    {
+        float height = PageHeight.TryGetValue(page, out float h) ? h : 600f;
+        bool scrolls = height > outer.height;
+        var view = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(height, outer.height));
+        Vector2 scroll = PageScroll.TryGetValue(page, out Vector2 s) ? s : Vector2.zero;
+        Widgets.BeginScrollView(outer, ref scroll, view);
+        _y = 0f;
+        _w = view.width;
+        switch (page)
+        {
+            case "settings":
+                DrawEvents();
+                Header("NR_SettingsGroupInterface");
+                DrawInterface();
+                Header("NR_SettingsGroupSupport");
+                DrawSupport();
+                break;
+            case "difficulty":
+                DrawDifficulty(true);
+                break;
+            case "frame":
+                DrawFrame();
+                break;
+            case "colors":
+                DrawColors();
+                break;
+            case "sound":
+                DrawSound();
+                break;
+            case "graphics":
+                DrawGraphics();
+                break;
+        }
+        PageHeight[page] = _y + 10f;
+        PageScroll[page] = scroll;
+        Widgets.EndScrollView();
+    }
+
+    private void Header(string labelKey)
+    {
+        _y += 6f;
+        Text.Font = GameFont.Small;
+        Widgets.Label(new Rect(12f, _y, _w - 12f, 24f), ((string)labelKey.Translate()).ToUpper().Colorize(NetrunUI.Accent));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f);
+        Widgets.DrawLineHorizontal(12f, _y + 24f, _w - 12f);
+        GUI.color = Color.white;
+        _y += 32f;
     }
 
     // ---- Window: drawn by hand in the terminal style (no Listing), with its own scroll ----
@@ -146,11 +236,29 @@ public class NetrunSettings : ModSettings
         _y += 38f;
 
         if (Group("gameplay", "NR_SettingsGroupGameplay", ResetGameplay))
-            DrawGameplay();
+        {
+            DrawDifficulty(false);
+            DrawEvents();
+        }
         if (Group("interface", "NR_SettingsGroupInterface", ResetInterface))
             DrawInterface();
-        if (Group("sound", "NR_SettingsGroupSound", ResetSound))
-            DrawSound();
+        // In a game the look and the sound are in the terminal (MENU, Customization); from the main menu they are here.
+        if (Current.Game != null)
+        {
+            Label("NR_SettingsInTerminal".Translate(), NetrunUI.Muted);
+            _y += 4f;
+        }
+        else
+        {
+            if (Group("customization", "NR_MenuCustomization", ResetCustomization))
+            {
+                DrawFrame();
+                DrawColors();
+                DrawGraphics();
+            }
+            if (Group("sound", "NR_SettingsGroupSound", ResetSound))
+                DrawSound();
+        }
         if (Group("support", "NR_SettingsGroupSupport"))
             DrawSupport();
 
@@ -263,39 +371,52 @@ public class NetrunSettings : ModSettings
         return v;
     }
 
-    private void DrawGameplay()
+    /// <summary>Presets (Newcomer, Normal, Hard, Cyberpunk) and the knobs; any knob moved makes it "Custom".</summary>
+    private void DrawDifficulty(bool open)
     {
         Label("NR_SettingsDifficulty".Translate(), NetrunUI.Accent, "NR_SettingsDifficultyTip".Translate());
-        HeatDifficulty[] presets = [HeatDifficulty.Easy, HeatDifficulty.Normal, HeatDifficulty.Hard];
-        string[] names = presets.Select(d => (string)("NR_SettingsDifficultyName_" + d).Translate()).ToArray();
-        string[] tips = presets.Select(d =>
+        string[] names = PresetOrder.Select(d => (string)("NR_SettingsDifficultyName_" + d).Translate()).ToArray();
+        string[] tips = PresetOrder.Select(d =>
         {
             var p = Presets[d];
-            return (string)("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), p.decay.ToString("0.#"), p.scrub.ToStringPercent());
+            return (string)("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), p.decay.ToString("0.#"), p.scrub.ToStringPercent())
+                   + "\n" + (string)"NR_SettingsDifficultyMore".Translate(p.ice.ToStringPercent(), p.hunger.ToStringPercent(), p.retreat.ToStringPercent());
         }).ToArray();
-        int current = System.Array.IndexOf(presets, Difficulty);
+        int current = System.Array.IndexOf(PresetOrder, Difficulty);
         int picked = Chips(names, current, tips);
         if (picked != current && picked >= 0)
-            ApplyPreset(presets[picked]);
+            ApplyPreset(PresetOrder[picked]);
         if (Difficulty == HeatDifficulty.Custom)
             Label("NR_SettingsDifficulty_Custom".Translate(), NetrunUI.Warn);
         else if (current >= 0)
             Label(tips[current], NetrunUI.Muted);
 
-        var adv = new Rect(12f, _y, 240f, 26f);
-        if (NetrunUI.Button(adv, (_advancedOpen ? "▼ " : "► ") + "NR_SettingsAdvanced".Translate(), NetrunUI.Muted, true))
-            _advancedOpen = !_advancedOpen;
-        _y += 32f;
-        if (_advancedOpen)
+        if (!open)
         {
-            float gain = HeatGainMultiplier, decay = HeatDecayPerDay, scrub = ScrubMultiplier;
+            var adv = new Rect(12f, _y, 240f, 26f);
+            if (NetrunUI.Button(adv, (_advancedOpen ? "▼ " : "► ") + "NR_SettingsAdvanced".Translate(), NetrunUI.Muted, true))
+                _advancedOpen = !_advancedOpen;
+            _y += 32f;
+        }
+        if (open || _advancedOpen)
+        {
+            float[] before = [HeatGainMultiplier, HeatDecayPerDay, ScrubMultiplier, IceStrength, AIHunger, RetreatLoss];
             HeatGainMultiplier = Slider("NR_SettingsHeatGain".Translate(HeatGainMultiplier.ToStringPercent()), HeatGainMultiplier, 0.25f, 3f);
             HeatDecayPerDay = Slider("NR_SettingsHeatDecay".Translate(HeatDecayPerDay.ToString("0.0")), HeatDecayPerDay, 0f, 20f);
+            IceStrength = Slider("NR_SettingsIceStrength".Translate(IceStrength.ToStringPercent()), IceStrength, 0.5f, 2f);
+            AIHunger = Slider("NR_SettingsAIHunger".Translate(AIHunger.ToStringPercent()), AIHunger, 0.25f, 2f);
             ScrubMultiplier = Slider("NR_SettingsScrub".Translate(ScrubMultiplier.ToStringPercent()), ScrubMultiplier, 0.5f, 2f);
-            if (!Mathf.Approximately(gain, HeatGainMultiplier) || !Mathf.Approximately(decay, HeatDecayPerDay) || !Mathf.Approximately(scrub, ScrubMultiplier))
+            RetreatLoss = Slider("NR_SettingsRetreatLoss".Translate(RetreatLoss.ToStringPercent()), RetreatLoss, 0f, 2f);
+            float[] after = [HeatGainMultiplier, HeatDecayPerDay, ScrubMultiplier, IceStrength, AIHunger, RetreatLoss];
+            if (before.Where((v, i) => !Mathf.Approximately(v, after[i])).Any())
                 Difficulty = HeatDifficulty.Custom;
         }
         _y += 6f;
+    }
+
+    /// <summary>Event frequencies, AI availability, map size, newcomer protection.</summary>
+    private void DrawEvents()
+    {
 
         Frequency("NR_SettingsFreqAttacks", ref NetAttackFrequency);
         Frequency("NR_SettingsFreqMap", ref MapEventFrequency);
@@ -333,6 +454,14 @@ public class NetrunSettings : ModSettings
 
     private void DrawInterface()
     {
+        Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
+        Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
+        _y += 6f;
+    }
+
+    /// <summary>The terminal's accent colour: swatches.</summary>
+    private void DrawColors()
+    {
         Label("NR_SettingsAccent".Translate(), NetrunUI.Accent);
         float x = 12f;
         for (int i = 0; i < NetrunTex.Accents.Length; i++)
@@ -352,13 +481,71 @@ public class NetrunSettings : ModSettings
             x += w + 6f;
         }
         _y += 40f;
-        Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
-        Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
+    }
+
+    /// <summary>Animations, glitches, CRT lines, text and icon size, the font.</summary>
+    private void DrawGraphics()
+    {
         Toggle("NR_SettingsAnimations", ref Animations, "NR_SettingsAnimationsTip");
+        Toggle("NR_SettingsGlitches", ref Glitches, "NR_SettingsGlitchesTip");
+        Toggle("NR_SettingsScanlines", ref Scanlines, "NR_SettingsScanlinesTip");
         TextScale = Slider("NR_SettingsTextScale".Translate(TextScale.ToStringPercent()), TextScale, 0.85f, 1.25f);
         IconScale = Slider("NR_SettingsIconScale".Translate(IconScale.ToStringPercent()), IconScale, 0.8f, 1.4f);
         if (NetrunFont.Available)
             Toggle("NR_SettingsFont", ref TerminalFont, "NR_SettingsFontTip");
+        _y += 6f;
+    }
+
+    /// <summary>Frame themes as cards (locked ones say which achievement opens them) and the parts that can be hidden.</summary>
+    private void DrawFrame()
+    {
+        Label("NR_CustomFrameThemes".Translate(), NetrunUI.Accent);
+        const float gap = 10f;
+        int perRow = _w > 760f ? 4 : 2;
+        float cw = Mathf.Min(200f, (_w - 12f - gap * (perRow - 1)) / perRow);
+        float ch = 150f;
+        for (int i = 0; i < DeckThemes.All.Length; i++)
+        {
+            DeckTheme theme = DeckThemes.All[i];
+            var card = new Rect(12f + i % perRow * (cw + gap), _y + i / perRow * (ch + gap), cw, ch);
+            bool open = DeckThemes.Unlocked(theme);
+            bool chosen = DeckThemes.Current == theme;
+            Color edge = chosen ? NetrunUI.Warn : open ? NetrunUI.Accent : NetrunUI.Muted;
+            NetrunUI.Box(card, Mouse.IsOver(card) && open ? NetrunUI.BgCardAlt : NetrunUI.BgCard, new Color(edge.r, edge.g, edge.b, chosen ? 1f : 0.5f), chosen ? 2 : 1);
+            // A small casing in the theme's colours around a dark screen.
+            var preview = new Rect(card.x + 12f, card.y + 12f, card.width - 24f, 76f);
+            for (int b = 0; b < 8; b++)
+                Widgets.DrawBoxSolid(new Rect(preview.x, preview.y + preview.height * b / 8f, preview.width, preview.height / 8f + 1f), Color.Lerp(theme.Top, theme.Bottom, b / 7f));
+            Widgets.DrawBoxSolid(new Rect(preview.x + 10f, preview.y + 14f, preview.width - 20f, preview.height - 30f), NetrunUI.Hex(0x0b0d10));
+            Widgets.DrawBoxSolid(new Rect(preview.x + preview.width / 2f - 12f, preview.yMax - 12f, 24f, 7f), theme.KeyFace);
+            if (!open)
+            {
+                Widgets.DrawBoxSolid(preview, new Color(0f, 0f, 0f, 0.55f));
+                Text.Font = GameFont.Tiny;
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(preview.ContractedBy(4f), DeckThemes.LockText(theme).Colorize(NetrunUI.Warn));
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+            }
+            Widgets.Label(new Rect(card.x + 12f, preview.yMax + 6f, card.width - 24f, 22f), theme.Label.ToUpper().Colorize(open ? (chosen ? NetrunUI.Warn : NetrunUI.TextColor) : NetrunUI.Muted));
+            Text.Font = GameFont.Tiny;
+            string sub = chosen ? (string)"NR_CustomThemeInUse".Translate() : theme.Description;
+            Widgets.Label(new Rect(card.x + 12f, preview.yMax + 28f, card.width - 24f, 30f), sub.Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            NetrunUI.Tip(card, open ? theme.Description : DeckThemes.LockText(theme));
+            if (open && !chosen && Widgets.ButtonInvisible(card))
+            {
+                DeckThemes.Select(theme);
+                NetrunSound.Click();
+            }
+        }
+        _y += (DeckThemes.All.Length + perRow - 1) / perRow * (ch + gap) + 6f;
+        Label("NR_CustomFramePreview".Translate(), NetrunUI.Muted);
+        Label("NR_CustomFrameParts".Translate(), NetrunUI.Accent);
+        Toggle("NR_CustomAntenna", ref FrameAntenna, "NR_CustomAntennaTip");
+        Toggle("NR_CustomLights", ref FrameLights, "NR_CustomLightsTip");
+        Toggle("NR_CustomGlass", ref FrameGlass, "NR_CustomGlassTip");
+        Toggle("NR_CustomLcd", ref FrameLcd, "NR_CustomLcdTip");
         _y += 6f;
     }
 
@@ -444,6 +631,7 @@ public class NetrunSettings : ModSettings
     {
         ResetGameplay();
         ResetInterface();
+        ResetCustomization();
         ResetSound();
     }
 
@@ -458,13 +646,19 @@ public class NetrunSettings : ModSettings
 
     private void ResetInterface()
     {
-        TerminalAccent = 0;
         ShowDiveReport = true;
         PauseOnOpen = true;
-        Animations = true;
+    }
+
+    private void ResetCustomization()
+    {
+        TerminalAccent = 0;
+        Animations = Glitches = Scanlines = true;
         TextScale = 1f;
         IconScale = 1f;
         TerminalFont = true;
+        FrameTheme = "Field";
+        FrameAntenna = FrameLights = FrameGlass = FrameLcd = true;
     }
 
     private void ResetSound()
@@ -496,6 +690,18 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref TextScale, "textScale", 1f);
         Scribe_Values.Look(ref IconScale, "iconScale", 1f);
         Scribe_Values.Look(ref TerminalFont, "terminalFont", true);
+        Scribe_Values.Look(ref Glitches, "glitches", true);
+        Scribe_Values.Look(ref Scanlines, "scanlines", true);
+        Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
+        Scribe_Values.Look(ref FrameAntenna, "frameAntenna", true);
+        Scribe_Values.Look(ref FrameLights, "frameLights", true);
+        Scribe_Values.Look(ref FrameGlass, "frameGlass", true);
+        Scribe_Values.Look(ref FrameLcd, "frameLcd", true);
+        Scribe_Collections.Look(ref UnlockedThemes, "unlockedThemes", LookMode.Value);
+        Scribe_Values.Look(ref IceStrength, "iceStrength", 1f);
+        Scribe_Values.Look(ref AIHunger, "aiHunger", 1f);
+        Scribe_Values.Look(ref RetreatLoss, "retreatLoss", 1f);
+        UnlockedThemes ??= [];
         Scribe_Values.Look(ref SoundPack, "soundPack", "Clean");
         Scribe_Values.Look(ref UiVolume, "uiVolume", 0.6f);
         Scribe_Values.Look(ref AmbientVolume, "ambientVolume", 0.6f);
@@ -511,7 +717,8 @@ public class NetrunSettings : ModSettings
             ScrubMultiplier = 1f;
         // Settings from before the presets: hand-set sliders count as "Custom".
         if (Scribe.mode == LoadSaveMode.LoadingVars && Presets.TryGetValue(Difficulty, out var p)
-            && (!Mathf.Approximately(p.gain, HeatGainMultiplier) || !Mathf.Approximately(p.decay, HeatDecayPerDay) || !Mathf.Approximately(p.scrub, ScrubMultiplier)))
+            && (!Mathf.Approximately(p.gain, HeatGainMultiplier) || !Mathf.Approximately(p.decay, HeatDecayPerDay) || !Mathf.Approximately(p.scrub, ScrubMultiplier)
+                || !Mathf.Approximately(p.ice, IceStrength) || !Mathf.Approximately(p.hunger, AIHunger) || !Mathf.Approximately(p.retreat, RetreatLoss)))
             Difficulty = HeatDifficulty.Custom;
     }
 }

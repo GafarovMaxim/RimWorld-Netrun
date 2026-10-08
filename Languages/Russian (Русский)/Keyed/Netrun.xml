@@ -99,7 +99,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsUnlockHelpTip>Открывает статьи-спойлеры (босс-нода, хакерская группа…) в этой игре.</NR_SettingsUnlockHelpTip>
   <NR_SettingsUnlockHelpDone>Все статьи Киберпедии открыты.</NR_SettingsUnlockHelpDone>
   <NR_SettingsTitle>NETRUN // НАСТРОЙКИ</NR_SettingsTitle>
-  <NR_SettingsDifficultyName_Easy>Лёгкий</NR_SettingsDifficultyName_Easy>
+  <NR_SettingsDifficultyName_Easy>Новичок</NR_SettingsDifficultyName_Easy>
   <NR_SettingsDifficultyName_Normal>Обычный</NR_SettingsDifficultyName_Normal>
   <NR_SettingsDifficultyName_Hard>Жёсткий</NR_SettingsDifficultyName_Hard>
   <NR_SettingsFont>Шрифт терминала: Tektur (выкл: стандартный)</NR_SettingsFont>

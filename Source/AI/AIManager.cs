@@ -162,7 +162,7 @@ public class AIManager : GameComponent, INetrunCleanable
                 ? -Settings.hostHungerReliefPerDay
                 : ai.Personality == AIPersonality.Ghost
                     ? (quiet ? -Settings.ghostCalmPerDay : 0f)
-                    : Settings.hungerPerDay;
+                    : Settings.hungerPerDay * NetrunMod.Settings.AIHunger;
             if (ai.Isolated && hunger > 0f)
                 hunger *= Settings.isolatedHungerFactor;
             if (hunger > 0f)

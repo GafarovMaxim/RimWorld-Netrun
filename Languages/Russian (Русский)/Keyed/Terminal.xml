@@ -287,8 +287,6 @@
   <NR_HelpDemoSick_Severe>Тяжёлая (85%+): хуже настроение и чаще срывы.</NR_HelpDemoSick_Severe>
   <NR_HelpDemoSickHint>Наведите на стадию, чтобы прочитать, что она делает. Метка показывает, как Netsick ползёт вверх при ежедневных нырках.</NR_HelpDemoSickHint>
   <NR_DeckPlate>NETRUN // КИБЕРДЕКА MK-II</NR_DeckPlate>
-  <NR_DeckGaugeHeat>Датчик Heat: насколько горячий ваш след.</NR_DeckGaugeHeat>
-  <NR_DeckGaugeNet>Датчик сети: сигнал аплинка.</NR_DeckGaugeNet>
   <NR_DeckKey_0>Назад</NR_DeckKey_0>
   <NR_DeckKey_1>Домой: карта сети</NR_DeckKey_1>
   <NR_DeckKey_2>Киберпедия</NR_DeckKey_2>
@@ -296,7 +294,82 @@
   <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
   <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
   <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
-  <NR_DeckKnobHeat>Heat: {0} ({1}).</NR_DeckKnobHeat>
-  <NR_DeckKnobNetOn>Сеть: онлайн.</NR_DeckKnobNetOn>
-  <NR_DeckKnobNetOff>Сеть: офлайн.</NR_DeckKnobNetOff>
+  <NR_DeckKey_3>Закрыть терминал</NR_DeckKey_3>
+  <NR_DeckKey_4>Меню: настройки, Киберпедия, достижения, сложность, кастомизация</NR_DeckKey_4>
+  <NR_DeckKey_5>Достижения: цели мода и темы рамки, которые они открывают</NR_DeckKey_5>
+  <NR_DeckKey_Theme>Тема рамки: {0}. Нажмите, чтобы взять следующую открытую.</NR_DeckKey_Theme>
+  <NR_DeckKey_TerminalOnly>Только в терминале.</NR_DeckKey_TerminalOnly>
+  <NR_DeckRfOn>RF-сигнал: связь есть.</NR_DeckRfOn>
+  <NR_DeckRfOff>RF-сигнал: связи нет, пока колония офлайн.</NR_DeckRfOff>
+  <NR_DeckLcd>Статус: cyberdata на складе, Heat и его тренд, день, время и сеть.</NR_DeckLcd>
+  <NR_DeckHeatScale>Heat {0}: {1}.</NR_DeckHeatScale>
+  <NR_DeckNetLinkOn>Связь с сетью: онлайн.</NR_DeckNetLinkOn>
+  <NR_DeckNetLinkOff>Связь с сетью: офлайн (сеть откроется после первых шагов в Ядре).</NR_DeckNetLinkOff>
+  <NR_DeckThemeLocked>Достижение «{0}»: {1}/{2}</NR_DeckThemeLocked>
+  <NR_DeckThemeSwitched>Тема рамки: {0}</NR_DeckThemeSwitched>
+  <NR_DeckTheme_Field>Полевая дека</NR_DeckTheme_Field>
+  <NR_DeckTheme_Milspec>Милспек</NR_DeckTheme_Milspec>
+  <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
+  <NR_DeckTheme_OpsPad>Ops pad</NR_DeckTheme_OpsPad>
+  <NR_DeckThemeDesc_Field>По умолчанию: тёмный оружейный металл, оранжевая клавиша Ядра.</NR_DeckThemeDesc_Field>
+  <NR_DeckThemeDesc_Milspec>Оливковый армейский корпус, потёртые трафареты.</NR_DeckThemeDesc_Milspec>
+  <NR_DeckThemeDesc_Street>Ржавчина и уличная краска.</NR_DeckThemeDesc_Street>
+  <NR_DeckThemeDesc_OpsPad>Светлый корпус, тёмные клавиши.</NR_DeckThemeDesc_OpsPad>
+  <NR_MenuTitle>NETRUN // МЕНЮ</NR_MenuTitle>
+  <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
+  <NR_MenuButtonTip>Меню (клавиша MENU на корпусе делает то же)</NR_MenuButtonTip>
+  <NR_MenuBack>◀ Назад</NR_MenuBack>
+  <NR_MenuBackToMenu>◀ Меню</NR_MenuBackToMenu>
+  <NR_MenuPage_Home>Меню</NR_MenuPage_Home>
+  <NR_MenuPage_Continue>Продолжить</NR_MenuPage_Continue>
+  <NR_MenuPage_Settings>Настройки</NR_MenuPage_Settings>
+  <NR_MenuPage_Cyberpedia>Киберпедия</NR_MenuPage_Cyberpedia>
+  <NR_MenuPage_Achievements>Достижения</NR_MenuPage_Achievements>
+  <NR_MenuPage_Difficulty>Сложность</NR_MenuPage_Difficulty>
+  <NR_MenuCustomization>Кастомизация</NR_MenuCustomization>
+  <NR_MenuPage_Customization>Кастомизация</NR_MenuPage_Customization>
+  <NR_MenuDesc_Continue>Назад, туда, где вы были в сети.</NR_MenuDesc_Continue>
+  <NR_MenuDesc_Settings>События, интерфейс, отчёты об ошибках.</NR_MenuDesc_Settings>
+  <NR_MenuDesc_Cyberpedia>Как всё устроено. Начните отсюда.</NR_MenuDesc_Cyberpedia>
+  <NR_MenuDesc_Achievements>Цели мода. Некоторые открывают темы рамки.</NR_MenuDesc_Achievements>
+  <NR_MenuDesc_Difficulty>След, ICE, голод ИИ, сброс и отступление: пресет или свои.</NR_MenuDesc_Difficulty>
+  <NR_MenuDesc_Customization>Тема рамки, цвета, набор звуков, графика.</NR_MenuDesc_Customization>
+  <NR_MenuNewBadge>НОВОЕ {0}</NR_MenuNewBadge>
+  <NR_MenuVersion>Hacking Expansion: Netrun {0}</NR_MenuVersion>
+  <NR_MenuCopyDiagnostics>Скопировать диагностику</NR_MenuCopyDiagnostics>
+  <NR_MenuReportBug>Сообщить об ошибке</NR_MenuReportBug>
+  <NR_MenuEsc>Esc закрывает меню</NR_MenuEsc>
+  <NR_MenuAchHead>Выполнено {0} из {1} · {2} очков</NR_MenuAchHead>
+  <NR_MenuAchVae>Включён Vanilla Achievements Expanded: они есть и в его вкладке Netrun.</NR_MenuAchVae>
+  <NR_MenuAchSecret>Секретное достижение. Откроется, когда будет выполнено.</NR_MenuAchSecret>
+  <NR_MenuAchTheme>Награда: тема рамки «{0}».</NR_MenuAchTheme>
+  <NR_CustomTab_frame>Рамка</NR_CustomTab_frame>
+  <NR_CustomTab_colors>Цвета</NR_CustomTab_colors>
+  <NR_CustomTab_sound>Звук</NR_CustomTab_sound>
+  <NR_CustomTab_graphics>Графика</NR_CustomTab_graphics>
+  <NR_CustomFrameThemes>Темы рамки</NR_CustomFrameThemes>
+  <NR_CustomThemeInUse>используется</NR_CustomThemeInUse>
+  <NR_CustomFramePreview>Рамка меняется сразу, экран не затрагивается.</NR_CustomFramePreview>
+  <NR_CustomFrameParts>Детали корпуса</NR_CustomFrameParts>
+  <NR_CustomAntenna>Антенна</NR_CustomAntenna>
+  <NR_CustomAntennaTip>Штыревая антенна над корпусом.</NR_CustomAntennaTip>
+  <NR_CustomLights>Лампы NET, SICK, POD</NR_CustomLights>
+  <NR_CustomLightsTip>Три лампы состояния сверху.</NR_CustomLightsTip>
+  <NR_CustomGlass>Блик стекла</NR_CustomGlass>
+  <NR_CustomGlassTip>Едва заметный блик поперёк экрана.</NR_CustomGlassTip>
+  <NR_CustomLcd>LCD-экранчик статуса</NR_CustomLcd>
+  <NR_CustomLcdTip>Зелёный трёхстрочный дисплей слева внизу.</NR_CustomLcdTip>
+  <NR_CustomFooter>Темы открываются достижениями, цвета и наборы звуков доступны сразу.</NR_CustomFooter>
+  <NR_SettingsInTerminal>Графика, звук и рамка в терминале: MENU → Кастомизация.</NR_SettingsInTerminal>
+  <NR_SettingsGlitches>Глитчи экрана</NR_SettingsGlitches>
+  <NR_SettingsGlitchesTip>Короткие разрывы при нажатиях и мерцание в Красной зоне.</NR_SettingsGlitchesTip>
+  <NR_SettingsScanlines>ЭЛТ-линии</NR_SettingsScanlines>
+  <NR_SettingsScanlinesTip>Тонкие линии поверх экрана терминала.</NR_SettingsScanlinesTip>
+  <NR_SettingsIceStrength>ICE и патрули: {0}</NR_SettingsIceStrength>
+  <NR_SettingsAIHunger>Голод ИИ: {0}</NR_SettingsAIHunger>
+  <NR_SettingsRetreatLoss>Потери при отступлении: {0}</NR_SettingsRetreatLoss>
+  <NR_SettingsDifficultyMore>ICE {0}, голод ИИ {1}, потери при отступлении {2}</NR_SettingsDifficultyMore>
+  <NR_SettingsDifficultyName_Cyberpunk>Киберпанк</NR_SettingsDifficultyName_Cyberpunk>
+  <NR_SettingsDifficulty_Cyberpunk>Киберпанк: рост {0}, остывание {1}/день, сброс {2}</NR_SettingsDifficulty_Cyberpunk>
+  <NR_HelpCtx_Menu>Меню</NR_HelpCtx_Menu>
 </LanguageData>

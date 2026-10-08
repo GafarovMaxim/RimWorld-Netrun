@@ -139,7 +139,12 @@ public class DiveSession : IExposable
     public bool AlertApplies => Node != null && Node.Defense > Settings.alertFreeDefense;
 
     /// <summary>Wraith (stealth daemon) lets one more failure slip by.</summary>
-    public int AlertThreshold => Settings.alertThreshold + (Daemons.Contains(DiveDaemon.Wraith) ? 1 : 0);
+    /// <summary>Alarms before the patrol wakes; the difficulty's ICE strength makes patrols quicker or slower.</summary>
+    /// <summary>The share of the haul a retreat costs, scaled by the difficulty.</summary>
+    private float RetreatLoss => Mathf.Clamp01(Settings.retreatLootLoss * NetrunMod.Settings.RetreatLoss);
+
+    public int AlertThreshold => Mathf.Max(1, Mathf.RoundToInt(Settings.alertThreshold / Mathf.Max(0.25f, NetrunMod.Settings.IceStrength)))
+                                 + (Daemons.Contains(DiveDaemon.Wraith) ? 1 : 0);
 
     public bool PatrolAwake => AlertApplies && NodeAlert >= AlertThreshold;
     public DiveReport Report;
@@ -471,7 +476,9 @@ public class DiveSession : IExposable
     public float HackChance(DiveElement target)
     {
         int skill = Runner?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
-        float chance = Settings.hackBase + skill * Settings.hackPerSkill - target.Strength * Settings.hackPerStrength;
+        // The difficulty's ICE strength scales ICE (not gates).
+        float strength = target.Kind == DiveElementKind.Ice ? target.Strength * NetrunMod.Settings.IceStrength : target.Strength;
+        float chance = Settings.hackBase + skill * Settings.hackPerSkill - strength * Settings.hackPerStrength;
         float bonus = 0f;
         if (Programs.Contains(DiveProgram.Sword) || Daemons.Contains(DiveDaemon.Blade))
             bonus += Settings.swordBonus;
@@ -899,7 +906,7 @@ public class DiveSession : IExposable
         {
             AddLog("NR_DiveLogTimeout".Translate().Colorize(NetrunUI.Bad));
             Runner?.health.AddHediff(HediffDefOf.Anesthetic);
-            End(success: false, keepShare: 1f - Settings.retreatLootLoss);
+            End(success: false, keepShare: 1f - RetreatLoss);
         }
         else if (iceNear)
         {
@@ -1070,7 +1077,7 @@ public class DiveSession : IExposable
             AddNetsick(Settings.netsickPerIceHit * 0.5f);
         AddLog("NR_DiveLogRetreat".Translate());
         Retreated = true;
-        End(success: false, keepShare: safe ? 1f : 1f - Settings.retreatLootLoss, sound: "Dive_Exit");
+        End(success: false, keepShare: safe ? 1f : 1f - RetreatLoss, sound: "Dive_Exit");
     }
 
     /// <summary>Delivers what was kept next to the pod, adds Heat and finishes the dive.</summary>

@@ -57,6 +57,12 @@ public partial class Dialog_NetTerminal
     /// <summary>Esc leaves the guide (or closes the card) instead of closing the terminal.</summary>
     public override void OnCancelKeyPressed()
     {
+        if (_view == View.Menu)
+        {
+            LeaveMenu();
+            Event.current.Use();
+            return;
+        }
         if (_view == View.Help && !_guide)
         {
             LeaveHelp();

@@ -24,6 +24,7 @@ public partial class Dialog_NetTerminal : Window
         Studio,
         Gateway,
         Help,
+        Menu,
     }
 
     private const float TitleHeight = 44f;
@@ -99,17 +100,37 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
             Event.current.Use();
         }
-        // The rugged cyberdeck casing outside (gauges show Heat and the net), the interface on its screen.
-        // Its hardware keys: back (out of the Cyberpedia or a node), home, the Cyberpedia.
+        // The rugged cyberdeck casing outside, the interface on its screen. Its hardware keys: back (out of the
+        // menu, the Cyberpedia or a node), home, the Cyberpedia; on top close, the menu and the achievements.
         HeatTracker heat = HeatTracker.Get();
         inRect = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (heat?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen, key =>
         {
-            if (key == 2)
-                OpenHelp();
-            else if (_view == View.Help)
-                LeaveHelp();
-            else if (Dive == null)
-                GoHome();
+            switch (key)
+            {
+                case NetrunUI.KeyClose:
+                    Close();
+                    break;
+                case NetrunUI.KeyMenu:
+                    if (_view == View.Menu && _menuPage == MenuPage.Home)
+                        LeaveMenu();
+                    else
+                        OpenMenu();
+                    break;
+                case NetrunUI.KeyAchievements:
+                    OpenMenu(MenuPage.Achievements);
+                    break;
+                case NetrunUI.KeyHelp:
+                    OpenHelp();
+                    break;
+                default:
+                    if (_view == View.Menu)
+                        LeaveMenu();
+                    else if (_view == View.Help)
+                        LeaveHelp();
+                    else if (Dive == null)
+                        GoHome();
+                    break;
+            }
         });
         _guideScreen = inRect;
         GuideInput();
@@ -117,6 +138,7 @@ public partial class Dialog_NetTerminal : Window
         DrawWindow(inRect);
         GuideRegistry.End();
         NetrunUI.Scanlines(inRect);
+        NetrunUI.DeckGlass(inRect);
         DrawGuideOverlay(inRect);
         DrawAmbientGlitch(inRect);
         if (Prefs.DevMode && Event.current.type == EventType.Repaint)
@@ -136,7 +158,7 @@ public partial class Dialog_NetTerminal : Window
     /// <summary>In the Red Zone the terminal flickers now and then: a few torn slices for a tenth of a second.</summary>
     private static void DrawAmbientGlitch(Rect rect)
     {
-        if (!NetrunMod.Settings.Animations || HeatTracker.Get()?.Level != HeatLevel.RedZone)
+        if (!NetrunMod.Settings.Animations || !NetrunMod.Settings.Glitches || HeatTracker.Get()?.Level != HeatLevel.RedZone)
             return;
         // Rarely and briefly: a soft flicker every 14 seconds or so.
         float f = Time.realtimeSinceStartup / 14f;
@@ -179,6 +201,12 @@ public partial class Dialog_NetTerminal : Window
 
         if (tracker == null)
             return;
+
+        if (_view == View.Menu)
+        {
+            DrawMenu(body);
+            return;
+        }
 
         if (_view == View.Help)
         {
@@ -293,6 +321,8 @@ public partial class Dialog_NetTerminal : Window
         base.PostClose();
         NetrunSound.Play("UI_Close");
         NetrunSound.EndAmbient();
+        // What was changed in the menu's settings pages.
+        NetrunMod.Settings.Write();
         _savedSize = windowRect.size;
         GatewayManager.Get()?.ClearFinished();
     }
@@ -303,6 +333,7 @@ public partial class Dialog_NetTerminal : Window
     private string HelpContext => Dive != null ? "Dive" : _view switch
     {
         View.Help => "Help",
+        View.Menu => "Menu",
         View.Map => NetworkGate.Get()?.OnboardingDone == false ? "Onboarding" : "Core",
         View.Core => "Heat",
         _ => _view.ToString(),
@@ -381,7 +412,9 @@ public partial class Dialog_NetTerminal : Window
         Text.Font = GameFont.Medium;
         Text.Anchor = TextAnchor.MiddleLeft;
         DiveSession dive = Dive;
-        string title = _view == View.Help
+        string title = _view == View.Menu
+            ? MenuTitle
+            : _view == View.Help
             ? "NR_HelpTitle".Translate()
             : _view == View.Map
             ? "NR_TerminalTitleMap".Translate()
@@ -400,15 +433,24 @@ public partial class Dialog_NetTerminal : Window
         if (_view != View.Map && _view != View.Help && dive == null)
         {
             bool backToGateway = _view == View.Archive && _archiveFromGateway;
-            string backLabel = backToGateway ? "NR_BackToGateway".Translate() : "NR_BackToCore".Translate();
+            bool menu = _view == View.Menu;
+            string backLabel = menu ? (_menuPage == MenuPage.Home ? "NR_MenuBack".Translate() : "NR_MenuBackToMenu".Translate())
+                : backToGateway ? "NR_BackToGateway".Translate() : "NR_BackToCore".Translate();
             Text.Font = GameFont.Small;
             float backW = Mathf.Max(90f, NetrunUI.ButtonWidth(backLabel));
             var back = new Rect(titleX, rect.center.y - 15f, backW, 30f);
             GuideRegistry.Area("terminal.back", back.ExpandedBy(3f));
-            if (NetrunUI.Button(back, backLabel, NetrunUI.Accent, true, backToGateway ? null : "NR_TipBackToCore".Translate()))
+            if (NetrunUI.Button(back, backLabel, NetrunUI.Accent, true, backToGateway || menu ? null : "NR_TipBackToCore".Translate()))
             {
-                _view = backToGateway ? View.Gateway : View.Map;
-                _archiveFromGateway = false;
+                if (menu)
+                {
+                    LeaveMenu();
+                }
+                else
+                {
+                    _view = backToGateway ? View.Gateway : View.Map;
+                    _archiveFromGateway = false;
+                }
             }
             Text.Font = GameFont.Medium;
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -449,15 +491,35 @@ public partial class Dialog_NetTerminal : Window
             OpenHelp();
         if (wiki != null)
             GUI.DrawTexture(help.ContractedBy(1f), wiki);
+        // The menu button (the casing's MENU key does the same).
+        var menuRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
+        if (_view == View.Menu)
+            Widgets.DrawBoxSolid(menuRect, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
+        Texture2D menuIcon = NetrunTex.TabIconByName("Tab_Settings");
+        if (NetrunUI.Button(menuRect, menuIcon == null ? "≡" : string.Empty, NetrunUI.Accent, true, "NR_MenuButtonTip".Translate()))
+        {
+            if (_view == View.Menu)
+                LeaveMenu();
+            else
+                OpenMenu();
+        }
+        if (menuIcon != null)
+        {
+            GUI.color = NetrunUI.Accent;
+            GUI.DrawTexture(menuRect.ContractedBy(4f), menuIcon);
+            GUI.color = Color.white;
+        }
+        help.x = menuRect.x;
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
-        if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
+        if (_view != View.Help && _view != View.Menu && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);
             Widgets.DrawBoxSolid(guideRect.ExpandedBy(3f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.1f + 0.2f * gp));
         }
-        if (_view != View.Help && GuideIconButton(guideRect))
+        bool guideShown = _view != View.Help && _view != View.Menu;
+        if (guideShown && GuideIconButton(guideRect))
             ToggleGuide();
-        x = (_view == View.Help ? help.x : guideRect.x) - 10f;
+        x = (guideShown ? guideRect.x : help.x) - 10f;
         if (_view == View.Help)
             _help.DrawSearch(new Rect(x - 240f, y - 1f, 240f, 26f));
         if (_view == View.Map)
