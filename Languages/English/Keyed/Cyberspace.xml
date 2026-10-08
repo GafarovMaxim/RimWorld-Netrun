@@ -455,4 +455,12 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_CrewGoodwillFind>Relations with {0}: {1}.</NR_CrewGoodwillFind>
   <NR_GatewayDaemonHint>Daemons: none yet. They are found in corporate cores and stay with you for every later dive.</NR_GatewayDaemonHint>
   <NR_NewsMore>...and {0} more like it</NR_NewsMore>
+  <NR_PulledOutLabel>{0} torn out of the net</NR_PulledOutLabel>
+  <NR_PulledOut>The cyberpod opened while {0} was still out in the net. The link snapped: Netsick, nausea and maybe a lockout, and whatever the run carried is lost.
+
+Next time end the run first: exit the dive, or walk the runner to an exit point or Home.</NR_PulledOut>
+  <NR_WakeMidRunConfirm>{0} is still out in the net. Waking now tears them out: Netsick, nausea, maybe a lockout, and the run is lost.
+
+End the run first (exit the dive, or reach an exit point or Home). Wake anyway?</NR_WakeMidRunConfirm>
+  <NR_WakeMidRunTip>The pawn is out in the net: end the run first.</NR_WakeMidRunTip>
 </LanguageData>

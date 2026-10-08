@@ -13,8 +13,19 @@ public static class Patch_Cyberpod_GetGizmos
 {
     static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> gizmos, Building_Cyberpod __instance)
     {
+        string wake = "USH_HE_CommandStartWaking".Translate();
         foreach (Gizmo gizmo in gizmos)
+        {
+            // Waking a pawn who is still out in the net: warn that the run should be ended first.
+            if (gizmo is Command_Action wakeUp && wakeUp.defaultLabel == wake && __instance.ContainedThing is Pawn runner && NetMapManager.InRun(runner))
+            {
+                System.Action original = wakeUp.action;
+                wakeUp.action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "NR_WakeMidRunConfirm".Translate(runner.LabelShort), original, destructive: true));
+                wakeUp.defaultDesc += "\n\n" + "NR_WakeMidRunTip".Translate().Colorize(ColorLibrary.RedReadable);
+            }
             yield return gizmo;
+        }
 
         Gizmo terminal = null;
         try

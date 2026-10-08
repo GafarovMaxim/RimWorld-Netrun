@@ -324,6 +324,24 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
 
     public bool AtExit(NetRunner runner) => !runner.Moving && Map.Node(runner.NodeId) is { Exit: true };
 
+    /// <summary>Netsick, nausea and a chance of lockout for a runner torn out of the net; Aegis or a Warden AI halve it.</summary>
+    public static void EmergencyJolt(Pawn pawn)
+    {
+        if (pawn == null || pawn.Dead)
+            return;
+        bool soft = Gateway?.DaemonsForDive.Contains(DiveDaemon.Aegis) == true
+                    || AIManager.Get()?.AIs.Any(a => a.Personality == AIPersonality.Warden && a.Active) == true;
+        NetsickManager.AddNetsickFor(pawn, Settings.emergencyNetsick * (soft ? 0.5f : 1f));
+        if (DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceNausea") is { } nausea && !DiveTraits.NauseaImmune(pawn))
+            pawn.health.AddHediff(nausea, pawn.health.hediffSet.GetBrain());
+        if (Rand.Chance(Settings.emergencyLockoutChance * (soft ? 0.5f : 1f)) && DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceLockOut") is { } lockout)
+            pawn.health.AddHediff(lockout, pawn.health.hediffSet.GetBrain());
+    }
+
+    /// <summary>The pawn is out in the net right now: walking the map as a runner, or inside a dive.</summary>
+    public static bool InRun(Pawn pawn)
+        => pawn != null && (Get()?.RunnerOf(pawn) != null || GatewayManager.Get()?.Session is { Finished: false } s && s.Runner == pawn);
+
     /// <summary>A clean exit at an exit point or Home: the pod wakes the runner, nothing else.</summary>
     public void Disconnect(NetRunner runner, bool emergency)
     {
@@ -337,14 +355,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             return;
         if (emergency)
         {
-            // Aegis and a Warden AI soften the jolt.
-            bool soft = Gateway?.DaemonsForDive.Contains(DiveDaemon.Aegis) == true
-                        || AIManager.Get()?.AIs.Any(a => a.Personality == AIPersonality.Warden && a.Active) == true;
-            NetsickManager.AddNetsickFor(pawn, Settings.emergencyNetsick * (soft ? 0.5f : 1f));
-            if (DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceNausea") is { } nausea && !DiveTraits.NauseaImmune(pawn))
-                pawn.health.AddHediff(nausea, pawn.health.hediffSet.GetBrain());
-            if (Rand.Chance(Settings.emergencyLockoutChance * (soft ? 0.5f : 1f)) && DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceLockOut") is { } lockout)
-                pawn.health.AddHediff(lockout, pawn.health.hediffSet.GetBrain());
+            EmergencyJolt(pawn);
             Messages.Message("NR_MapEmergency".Translate(pawn.LabelShort), pawn, MessageTypeDefOf.NegativeEvent);
         }
         else
