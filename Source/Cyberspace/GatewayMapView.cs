@@ -77,16 +77,13 @@ public static partial class GatewayView
         var local = new Rect(0f, 0f, rect.width, rect.height);
         DrawGrid(local);
 
-        // District names, faint, at the middle of each district.
+        // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleCenter;
-        foreach (IGrouping<string, MapNode> g in map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
-                     .GroupBy(n => n.District + "|" + n.CorpSlot))
+        foreach ((Vector2 pos, string text) in NetrunUI.Cached("map.districts", () => DistrictLabels(net), 2f))
         {
-            Vector2 c = ToScreen(local, g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count());
-            Color dc = DistrictColor(g.First().District);
-            string label = DistrictLabel(g.First(), net);
-            Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), label.ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, 0.45f)));
+            Vector2 c = ToScreen(local, pos);
+            Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), text);
         }
         Text.Anchor = TextAnchor.UpperLeft;
 
@@ -138,18 +135,39 @@ public static partial class GatewayView
         return ("NR_District_" + n.District).Translate();
     }
 
+    private static List<(Vector2, string)> DistrictLabels(NetMapManager net)
+    {
+        var list = new List<(Vector2, string)>();
+        foreach (IGrouping<string, MapNode> g in net.Map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
+                     .GroupBy(n => n.District + "|" + n.CorpSlot))
+        {
+            Color dc = DistrictColor(g.First().District);
+            list.Add((g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count(),
+                DistrictLabel(g.First(), net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, 0.45f))));
+        }
+        return list;
+    }
+
+    // The selected runner's route as link pairs, rebuilt only when the runner, its hub or its path changes.
+    private static readonly HashSet<(int, int)> Route = [];
+    private static (NetRunner runner, int node, int steps, int first) _routeFor;
+
     private static HashSet<(int, int)> RouteSet(NetRunner r)
     {
-        var set = new HashSet<(int, int)>();
+        var key = (r, r?.NodeId ?? -1, r?.Path.Count ?? 0, r != null && r.Path.Count > 0 ? r.Path[0] : -1);
+        if (key == _routeFor)
+            return Route;
+        _routeFor = key;
+        Route.Clear();
         if (r == null || !r.Moving)
-            return set;
+            return Route;
         int from = r.NodeId;
         foreach (int to in r.Path)
         {
-            set.Add((Mathf.Min(from, to), Mathf.Max(from, to)));
+            Route.Add((Mathf.Min(from, to), Mathf.Max(from, to)));
             from = to;
         }
-        return set;
+        return Route;
     }
 
     private static void DrawMapLink(Vector2 a, Vector2 b, MapLink l, CyberMap map, bool onRoute)
