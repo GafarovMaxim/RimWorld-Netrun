@@ -62,6 +62,7 @@ public static class NetrunDiagnostics
             sb.AppendLine($"Game: Heat {heat?.Heat ?? 0f:0} ({heat?.Level}), log {heat?.Log.Count ?? 0}, network open {NetworkGate.IsOpen}");
             sb.AppendLine($"Fixers {FixerManager.Get()?.Fixers.Count ?? 0}, contracts {ContractManager.Get()?.Active.Count() ?? 0} active, AIs {AIManager.Get()?.AIs.Count ?? 0}, "
                           + $"nodes {gate?.Nodes.Count ?? 0}, dive reports {gate?.Reports.Count ?? 0}, headlines {gate?.Headlines.Count ?? 0}");
+            sb.AppendLine("Sound: " + NetrunSound.HumState());
         }
 
         sb.AppendLine("Last Netrun errors and warnings:");

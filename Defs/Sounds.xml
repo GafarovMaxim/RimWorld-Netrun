@@ -559,7 +559,6 @@
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <distRange>4~26</distRange>
-        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -1120,7 +1119,6 @@
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <distRange>4~26</distRange>
-        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -1681,7 +1679,6 @@
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <distRange>4~26</distRange>
-        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -2242,7 +2239,6 @@
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <distRange>4~26</distRange>
-        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>
@@ -2803,7 +2799,6 @@
         <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
         <pitchRange>1~1</pitchRange>
         <distRange>4~26</distRange>
-        <muteWhenPaused>true</muteWhenPaused>
       </li>
     </subSounds>
   </SoundDef>

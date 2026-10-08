@@ -138,10 +138,15 @@ public class AIManager : GameComponent, INetrunCleanable
         Messages.Message(text, MessageTypeDefOf.NegativeEvent, historical: true);
     }
 
+    /// <summary>The server hum is kept by real time, so it starts and stops while the game is paused too.</summary>
+    public override void GameComponentUpdate()
+    {
+        if (Time.frameCount % 90 == 0)
+            NetrunSound.UpdateServerHum();
+    }
+
     public override void GameComponentTick()
     {
-        if (Find.TickManager.TicksGame % 250 == 0)
-            NetrunSound.UpdateServerHum();
         if (Find.TickManager.TicksGame % TickInterval != 0)
             return;
 

@@ -165,6 +165,14 @@ public static class NetrunSound
         }
     }
 
+    /// <summary>For the diagnostics: how many server hums play and at what volume.</summary>
+    public static string HumState()
+    {
+        int playing = ServerHum.Values.Count(h => !h.sustainer.Ended);
+        int servers = Find.Maps.Sum(m => m.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Count());
+        return $"server hum: {playing} playing of {servers} servers, pack {Pack}, volume {Settings.AmbientVolumeOf("Ambient_Server"):0.00}, def {(Def("Ambient_Server") != null ? "ok" : "missing")}";
+    }
+
     private static void EndServerHum()
     {
         foreach ((Sustainer sustainer, string _) in ServerHum.Values)

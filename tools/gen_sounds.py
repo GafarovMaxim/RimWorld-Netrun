@@ -1334,7 +1334,8 @@ def sound_def(pack, name, desc, vol, pitch, maxsim, folder, loop):
     if loop:
         lines += ["        <sustainAttack>1.6</sustainAttack>", "        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>"]
     lines.append(f"        <pitchRange>{pitch}</pitchRange>")
-    lines += ["        <distRange>4~26</distRange>", "        <muteWhenPaused>true</muteWhenPaused>"] if server else ["        <onCamera>true</onCamera>"]
+    # The hum is not muted on pause: the terminal pauses the game, and the hum belongs to the room.
+    lines += ["        <distRange>4~26</distRange>"] if server else ["        <onCamera>true</onCamera>"]
     lines += ["      </li>", "    </subSounds>", "  </SoundDef>", ""]
     return lines
 
