@@ -241,7 +241,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>
   <NR_DiveLogBurns>Neural feedback burns {0}: {1} small burns.</NR_DiveLogBurns>
   <NR_GatewayHome>Home</NR_GatewayHome>
-  <NR_GatewayHomeTip>Your home node: back to the terminal's main screen.</NR_GatewayHomeTip>
+  <NR_GatewayHomeTip>Your home hub: back to the navigation screen.</NR_GatewayHomeTip>
   <NR_DiveChoosePath>Choose a path first.</NR_DiveChoosePath>
   <NR_DiveLogForkScan>Scanned both branches ahead.</NR_DiveLogForkScan>
   <NR_DiveLogPathHard>Took the hard path.</NR_DiveLogPathHard>
@@ -295,8 +295,8 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HeadlineQuiet>The net goes quiet: dives leave {0} of the trace for {1} days.</NR_HeadlineQuiet>
   <NR_HeadlineLockdown>The corporate core fell. The corps are on lockdown: corp nodes +1 defense for {0} days.</NR_HeadlineLockdown>
   <NR_HeadlineRunaway>{0} was seen in «{1}». A dive there may find it.</NR_HeadlineRunaway>
-  <NR_HeadlineOrbitOpen>A colony gravship is in orbit: the orbital backbone nodes are in reach. Richer data, harder ICE.</NR_HeadlineOrbitOpen>
-  <NR_HeadlineOrbitClosed>The gravship has landed: the orbital nodes are out of reach again.</NR_HeadlineOrbitClosed>
+  <NR_HeadlineOrbitOpen>A colony gravship is in orbit: the orbital backbone hubs are in reach. Richer data, harder ICE.</NR_HeadlineOrbitOpen>
+  <NR_HeadlineOrbitClosed>The gravship has landed: the orbital hubs are out of reach again.</NR_HeadlineOrbitClosed>
   <NR_NewsEffectGlut>Data glut: cyberdata from dives {0}.</NR_NewsEffectGlut>
   <NR_NewsEffectQuiet>Quiet net: dive trace {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Corp lockdown: corp nodes have stronger ICE.</NR_NewsEffectLockdown>

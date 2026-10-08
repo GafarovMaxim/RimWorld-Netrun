@@ -29,25 +29,25 @@
         <text>These steps bring your colony online. Done steps turn green; the yellow one is next.</text>
       </li>
       <li>
-        <text>When all are done, the Core opens and its nodes unlock one by one. "Skip" shows the full Core right away.</text>
+        <text>When all are done, the Core opens and its sections unlock one by one. "Skip" shows the full Core right away.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
     <defName>NR_Guide_core_map</defName>
-    <label>Node map</label>
+    <label>Navigation screen</label>
     <area>core.map</area>
     <screen>Core</screen>
     <order>1</order>
     <helpPage>NR_Help_Start_Terminal</helpPage>
     <steps>
       <li>
-        <text>Each node is a part of your network: Club, Board, Archive, Server room, Studio, Gateway. Badges count what needs attention.</text>
+        <text>Each section is a part of your network: Club, Board, Archive, Server room, Studio, Gateway. Badges count what needs attention.</text>
       </li>
       <li>
-        <text>A glowing node has news. Locked nodes show a lock: hover to see how they open.</text>
-        <hint>click any node.</hint>
+        <text>A glowing section has news. Locked sections show a lock: hover to see how they open.</text>
+        <hint>click any section.</hint>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
@@ -76,7 +76,7 @@
     <helpPage>NR_Help_Start_Terminal</helpPage>
     <steps>
       <li>
-        <text>One main recommendation: what is worth doing right now. The buttons under it lead to the right node.</text>
+        <text>One main recommendation: what is worth doing right now. The buttons under it lead to the right section.</text>
         <hint>press one of its buttons.</hint>
       </li>
     </steps>
@@ -91,7 +91,7 @@
     <helpPage>NR_Help_Events</helpPage>
     <steps>
       <li>
-        <text>What is burning: escaping AIs, deadlines, hijacked turrets, requests. Red is urgent; a click leads to the node.</text>
+        <text>What is burning: escaping AIs, deadlines, hijacked turrets, requests. Red is urgent; a click leads to the section.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>

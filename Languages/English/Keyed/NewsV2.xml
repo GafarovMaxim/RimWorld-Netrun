@@ -118,7 +118,7 @@
   <NR_ChoiceSellOutTip>The corporation eases off (Alert -10); the crew will hate you.</NR_ChoiceSellOutTip>
   <NR_ChoiceIsolate>Isolate the network</NR_ChoiceIsolate>
   <NR_ChoiceMeetIt>Let it come</NR_ChoiceMeetIt>
-  <NR_ChoiceMeetItTip>Meet it on the map, wait at Home, or trust the node defense.</NR_ChoiceMeetItTip>
+  <NR_ChoiceMeetItTip>Meet it on the map, wait at Home, or trust the hub defense.</NR_ChoiceMeetItTip>
   <NR_PhishingJunk>The file was junk.</NR_PhishingJunk>
   <NR_PhishingData>The file held a little data: 2 cyberdata.</NR_PhishingData>
   <NR_PhishingVirus>The file was a virus: a machine broke down.</NR_PhishingVirus>

@@ -7,10 +7,10 @@
   <NR_ClubTab_Top>Top 100</NR_ClubTab_Top>
   <NR_ClubNoCorps>No corporations play in the net yet.</NR_ClubNoCorps>
   <NR_ClubOnMap>On the map</NR_ClubOnMap>
-  <NR_ClubCorpTerritory>Territory: {0} nodes</NR_ClubCorpTerritory>
+  <NR_ClubCorpTerritory>Territory: {0} hubs</NR_ClubCorpTerritory>
   <NR_ClubCorpAlert>Alert {0}</NR_ClubCorpAlert>
   <NR_ClubCorpStrength>Strength {0}</NR_ClubCorpStrength>
-  <NR_ClubCorpBarsTip>Alert: how hard the corporation looks for the colony. +3 for a branch, +10 the fortress, +25 the core; -2 a day. At 40 its ICE hardens and walking its ground leaves trace, at 60 ICE patrols, at 80 intrusions, mercenaries and raids.\n\nStrength: how rich it is. Strong and calm, it captures neighboring nodes; weak for long, it may collapse.</NR_ClubCorpBarsTip>
+  <NR_ClubCorpBarsTip>Alert: how hard the corporation looks for the colony. +3 for a node, +10 the fortress, +25 the core; -2 a day. At 40 its ICE hardens and walking its ground leaves trace, at 60 ICE patrols, at 80 intrusions, mercenaries and raids.\n\nStrength: how rich it is. Strong and calm, it captures neighboring hubs; weak for long, it may collapse.</NR_ClubCorpBarsTip>
   <NR_ClubCorpIntrusion>Intrusion on the way: {0}, about {1} h to Home</NR_ClubCorpIntrusion>
   <NR_ClubCorpsHelp>Corporations live in their districts on the cyberspace map. Taking their branches, fortress and core raises their Alert; a corporation broken twice in a month or weak for long may collapse, and a new one takes its district.</NR_ClubCorpsHelp>
   <NR_CorpStatus_Calm>calm</NR_CorpStatus_Calm>
@@ -62,7 +62,7 @@
   <NR_FameCollapse>The collapse of {0}</NR_FameCollapse>
   <NR_MercReasonCorp>{0} has put a price on the colony.</NR_MercReasonCorp>
   <NR_IntrusionLabel>Intrusion: {0}</NR_IntrusionLabel>
-  <NR_Intrusion>An attack ({0}) set off from {1} at {2} and is walking the backbone toward Home: about {3} hours.\n\nA runner can meet it on the way and stop it with a short dive (it shows on the cyberspace map), wait for it at Home, or rely on the node defense. Isolating the network stops it at the wall.</NR_Intrusion>
+  <NR_Intrusion>An attack ({0}) set off from {1} at {2} and is walking the backbone toward Home: about {3} hours.\n\nA runner can meet it on the way and stop it with a short dive (it shows on the cyberspace map), wait for it at Home, or rely on the hub defense. Isolating the network stops it at the wall.</NR_Intrusion>
   <NR_IntrusionUnknown>someone</NR_IntrusionUnknown>
   <NR_IntrusionTip>Intrusion: {0}, {1} h to Home</NR_IntrusionTip>
   <NR_IntrusionHere>Intrusion here: {0}</NR_IntrusionHere>

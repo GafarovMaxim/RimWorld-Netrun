@@ -62,7 +62,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatScreenNetsickTip>Cyberspace dependency of colonists who dive a lot. It grows with time in the pod and Black ICE hits.</NR_HeatScreenNetsickTip>
   <NR_TipTrace>Digital trace (Heat), 0-100. Hacks raise it, it cools over time; a fixer can scrub it.</NR_TipTrace>
   <NR_TipNet>Whether a powered network console is on the map. Without it the terminal works only from a cyberpod.</NR_TipNet>
-  <NR_TipBackToCore>Back to the node map.</NR_TipBackToCore>
+  <NR_TipBackToCore>Back to the navigation screen.</NR_TipBackToCore>
   <NR_TipPod>Dives need a colonist with a cyberlink lying in a powered cyberpod.</NR_TipPod>
   <NR_TipRunner>The colonist who will dive.</NR_TipRunner>
   <NR_BadgeClub>Open channels to fixers: {0}</NR_BadgeClub>
@@ -104,7 +104,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreOffline>offline</NR_CoreOffline>
   <NR_ChipNetInactive>Network not active</NR_ChipNetInactive>
   <NR_OnboardingTitle>WELCOME TO THE NET</NR_OnboardingTitle>
-  <NR_OnboardingIntro>The node map, Heat and alerts will appear here. Go through these steps to start; the rest opens by itself.</NR_OnboardingIntro>
+  <NR_OnboardingIntro>The navigation screen, Heat and alerts will appear here. Go through these steps to start; the rest opens by itself.</NR_OnboardingIntro>
   <NR_OnboardingStep_Console>Build a comms console: it becomes the network console</NR_OnboardingStep_Console>
   <NR_OnboardingStep_Cyberpod>Build a cyberpod ("Cyberspace" tab, research: {0})</NR_OnboardingStep_Cyberpod>
   <NR_OnboardingStep_Cyberlink>Give a colonist a cyberlink (research: {1})</NR_OnboardingStep_Cyberlink>
@@ -118,8 +118,8 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_OnboardingNoteProtected>Until the colony is online, Netrun events do not come (newcomer protection).</NR_OnboardingNoteProtected>
   <NR_OnboardingNoteOpen>The colony is already online: Netrun events can come.</NR_OnboardingNoteOpen>
   <NR_OnboardingSkip>Skip</NR_OnboardingSkip>
-  <NR_OnboardingSkipTip>Show the full Core right away with every node open.</NR_OnboardingSkipTip>
-  <NR_OnboardingDone>Netrun: the colony is online. The Core opens node by node.</NR_OnboardingDone>
+  <NR_OnboardingSkipTip>Show the full Core right away with every section open.</NR_OnboardingSkipTip>
+  <NR_OnboardingDone>Netrun: the colony is online. The Core opens section by section.</NR_OnboardingDone>
   <NR_NodeLockedSub>locked</NR_NodeLockedSub>
   <NR_NodeLocked_Club>Opens with the first Heat (the first hack).</NR_NodeLocked_Club>
   <NR_NodeLocked_Board>Opens after the first call to a fixer in the Club.</NR_NodeLocked_Board>

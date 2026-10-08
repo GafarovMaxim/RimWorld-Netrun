@@ -91,7 +91,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsPause>Пауза при открытии терминала</NR_SettingsPause>
   <NR_SettingsPauseTip>Игра встаёт на паузу при открытии терминала; снять паузу можно и при открытом окне.</NR_SettingsPauseTip>
   <NR_SettingsAnimations>Анимации терминала</NR_SettingsAnimations>
-  <NR_SettingsAnimationsTip>Плавающие ноды Шлюза и свечение узлов Core. Выключите, если терминал тормозит.</NR_SettingsAnimationsTip>
+  <NR_SettingsAnimationsTip>Плавающие ноды Шлюза и свечение разделов Core. Выключите, если терминал тормозит.</NR_SettingsAnimationsTip>
   <NR_SettingsReportInfoDesc>Нашли ошибку? Скопируйте сведения и вставьте в баг-репорт на GitHub вместе с Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Скопировать сведения для отчёта</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Скопировано в буфер обмена.</NR_SettingsReportCopied>

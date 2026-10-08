@@ -5,11 +5,11 @@
   <NR_Guide_terminal_status.steps.0.hint>кликните по полосе следа, чтобы открыть экран Heat.</NR_Guide_terminal_status.steps.0.hint>
   <NR_Guide_onboarding_list.label>Вход в сеть</NR_Guide_onboarding_list.label>
   <NR_Guide_onboarding_list.steps.0.text>Эти шаги вводят колонию в сеть. Выполненные становятся зелёными, жёлтый — следующий.</NR_Guide_onboarding_list.steps.0.text>
-  <NR_Guide_onboarding_list.steps.1.text>Когда всё выполнено, открывается Core, и его узлы открываются по одному. «Пропустить» сразу показывает полный Core.</NR_Guide_onboarding_list.steps.1.text>
-  <NR_Guide_core_map.label>Карта узлов</NR_Guide_core_map.label>
+  <NR_Guide_onboarding_list.steps.1.text>Когда всё выполнено, открывается Core, и его разделы открываются по одному. «Пропустить» сразу показывает полный Core.</NR_Guide_onboarding_list.steps.1.text>
+  <NR_Guide_core_map.label>Экран навигации</NR_Guide_core_map.label>
   <NR_Guide_core_map.steps.0.text>Каждый узел — часть вашей сети: Клуб, Доска, Архив, Серверная, Студия, Шлюз. Бейджи считают то, что требует внимания.</NR_Guide_core_map.steps.0.text>
-  <NR_Guide_core_map.steps.1.text>Светящийся узел — там новости. Закрытые узлы с замком: наведите, чтобы узнать, как их открыть.</NR_Guide_core_map.steps.1.text>
-  <NR_Guide_core_map.steps.1.hint>кликните по любому узлу.</NR_Guide_core_map.steps.1.hint>
+  <NR_Guide_core_map.steps.1.text>Светящийся раздел — там новости. Закрытые разделы с замком: наведите, чтобы узнать, как их открыть.</NR_Guide_core_map.steps.1.text>
+  <NR_Guide_core_map.steps.1.hint>кликните по любому разделу.</NR_Guide_core_map.steps.1.hint>
   <NR_Guide_core_ring.label>Кольцо Heat</NR_Guide_core_ring.label>
   <NR_Guide_core_ring.steps.0.text>Ваш след: пять дуг на пять уровней, маркер на текущем значении, число и тренд за сутки.</NR_Guide_core_ring.steps.0.text>
   <NR_Guide_core_ring.steps.0.hint>кликните по кольцу, чтобы открыть «Heat и след».</NR_Guide_core_ring.steps.0.hint>

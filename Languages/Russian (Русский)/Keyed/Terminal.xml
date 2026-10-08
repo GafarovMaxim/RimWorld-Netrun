@@ -62,7 +62,7 @@
   <NR_HeatScreenNetsickTip>Зависимость от киберпространства у тех, кто много ныряет. Растёт от времени в капсуле и ударов Black ICE.</NR_HeatScreenNetsickTip>
   <NR_TipTrace>Цифровой след (Heat), 0–100. Растёт от взломов, остывает со временем, фиксер может сбросить.</NR_TipTrace>
   <NR_TipNet>Есть ли на карте запитанная сетевая консоль. Без неё терминал работает только из капсулы.</NR_TipNet>
-  <NR_TipBackToCore>Назад к карте узлов.</NR_TipBackToCore>
+  <NR_TipBackToCore>Назад к экрану навигации.</NR_TipBackToCore>
   <NR_TipPod>Для нырка нужен колонист с кибер-линком в запитанной капсуле.</NR_TipPod>
   <NR_TipRunner>Колонист, который будет нырять.</NR_TipRunner>
   <NR_BadgeClub>Открытых каналов с фиксерами: {0}</NR_BadgeClub>
@@ -104,7 +104,7 @@
   <NR_CoreOffline>оффлайн</NR_CoreOffline>
   <NR_ChipNetInactive>Сеть не активна</NR_ChipNetInactive>
   <NR_OnboardingTitle>ДОБРО ПОЖАЛОВАТЬ В СЕТЬ</NR_OnboardingTitle>
-  <NR_OnboardingIntro>Здесь появится карта узлов, Heat и тревоги. Чтобы начать, пройди эти шаги. Остальное откроется само.</NR_OnboardingIntro>
+  <NR_OnboardingIntro>Здесь появится экран навигации, Heat и тревоги. Чтобы начать, пройди эти шаги. Остальное откроется само.</NR_OnboardingIntro>
   <NR_OnboardingStep_Console>Построить консоль связи: она станет сетевой консолью</NR_OnboardingStep_Console>
   <NR_OnboardingStep_Cyberpod>Построить кибер-капсулу (меню «Киберпространство», исследование: {0})</NR_OnboardingStep_Cyberpod>
   <NR_OnboardingStep_Cyberlink>Поставить колонисту кибер-линк (исследование: {1})</NR_OnboardingStep_Cyberlink>
@@ -118,8 +118,8 @@
   <NR_OnboardingNoteProtected>Пока колония не в сети, события Netrun не приходят (защита новичка).</NR_OnboardingNoteProtected>
   <NR_OnboardingNoteOpen>Колония уже в сети: события Netrun могут приходить.</NR_OnboardingNoteOpen>
   <NR_OnboardingSkip>Пропустить</NR_OnboardingSkip>
-  <NR_OnboardingSkipTip>Сразу показать полный Core со всеми узлами.</NR_OnboardingSkipTip>
-  <NR_OnboardingDone>Netrun: колония в сети. Узлы Core открываются по одному.</NR_OnboardingDone>
+  <NR_OnboardingSkipTip>Сразу показать полный Core со всеми разделами.</NR_OnboardingSkipTip>
+  <NR_OnboardingDone>Netrun: колония в сети. Разделы Core открываются по одному.</NR_OnboardingDone>
   <NR_NodeLockedSub>закрыто</NR_NodeLockedSub>
   <NR_NodeLocked_Club>Откроется с первым Heat (первым взломом).</NR_NodeLocked_Club>
   <NR_NodeLocked_Board>Откроется после первого звонка фиксеру в Клубе.</NR_NodeLocked_Board>

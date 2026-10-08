@@ -91,7 +91,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsPause>Pause when the terminal opens</NR_SettingsPause>
   <NR_SettingsPauseTip>The game pauses once when the terminal opens; you can unpause it while it is open.</NR_SettingsPauseTip>
   <NR_SettingsAnimations>Terminal animations</NR_SettingsAnimations>
-  <NR_SettingsAnimationsTip>Floating Gateway nodes and glowing Core nodes. Turn off if the terminal feels slow.</NR_SettingsAnimationsTip>
+  <NR_SettingsAnimationsTip>Floating Gateway nodes and glowing Core sections. Turn off if the terminal feels slow.</NR_SettingsAnimationsTip>
   <NR_SettingsReportInfoDesc>Found a bug? Copy the info below and paste it into the bug report on GitHub with your Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Copy info for a bug report</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Copied to the clipboard.</NR_SettingsReportCopied>
@@ -134,7 +134,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpGwNote_Abandoned>AI fragments live here, and sometimes a wild AI in the memory.</NR_HelpGwNote_Abandoned>
   <NR_HelpGwNote_DarkExchange>Silver and valuables. Its Black ICE hits hard: bring a shield or a decoy.</NR_HelpGwNote_DarkExchange>
   <NR_HelpGwNote_CorpCore>Comes every few weeks for a few days. When it falls, the corps go on lockdown for a week.</NR_HelpGwNote_CorpCore>
-  <NR_HelpGwHome>Your node: every dive starts here.</NR_HelpGwHome>
+  <NR_HelpGwHome>Your home hub: every dive starts here.</NR_HelpGwHome>
   <NR_HelpGwHint>Click a node</NR_HelpGwHint>
   <NR_HelpHackSkill>Netrunner's Intellectual: {0}</NR_HelpHackSkill>
   <NR_HelpHackStrength>Strength of the gate or ICE: {0}</NR_HelpHackStrength>

@@ -5,7 +5,7 @@
   <NR_Help_Start.tips.0>F1 в терминале открывает Киберпедию по текущему экрану.</NR_Help_Start.tips.0>
   <NR_Help_Start.tips.1>Кнопка-книжка в заголовке терминала — гайд: подсвечивает области экрана и объясняет каждую.</NR_Help_Start.tips.1>
   <NR_Help_Start_Terminal.label>Терминал</NR_Help_Start_Terminal.label>
-  <NR_Help_Start_Terminal.body>Терминал — карта узлов вокруг Ядра; каждый узел — часть вашей сети. Щёлкните узел, чтобы прочитать, что в нём. Узлы открываются по одному, по мере того как вы встречаете их в игре.\n[[terminalmap]]\n&gt; open:Core|Открыть Core</NR_Help_Start_Terminal.body>
+  <NR_Help_Start_Terminal.body>Экран навигации — карта разделов вокруг Ядра; каждый раздел — часть вашей сети. Щёлкните раздел, чтобы прочитать, что в нём. Разделы открываются по одному, по мере того как вы встречаете их в игре.\n[[terminalmap]]\n&gt; open:Core|Открыть Core</NR_Help_Start_Terminal.body>
   <NR_Help_Start_Terminal.keywords>
     <li>терминал</li>
     <li>Ядро</li>

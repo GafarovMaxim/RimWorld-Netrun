@@ -61,8 +61,8 @@
   <NR_AIQ_Retaliation_Step1>Repel an intrusion while {0} is online.</NR_AIQ_Retaliation_Step1>
   <NR_AIQ_Retaliation_Step2>Take a branch at {0}'s fortress.</NR_AIQ_Retaliation_Step2>
   <NR_AIQ_Name_Drills>Drills</NR_AIQ_Name_Drills>
-  <NR_AIQ_Desc_Drills>{0} wants to see what the colony's node can take.</NR_AIQ_Desc_Drills>
-  <NR_AIQ_Drills_Step1>Raise the node defense to 6.</NR_AIQ_Drills_Step1>
+  <NR_AIQ_Desc_Drills>{0} wants to see what the colony's hub can take.</NR_AIQ_Desc_Drills>
+  <NR_AIQ_Drills_Step1>Raise the hub defense to 6.</NR_AIQ_Drills_Step1>
   <NR_AIQ_Drills_Step2>Stop an intrusion with an intercept on the backbone.</NR_AIQ_Drills_Step2>
   <NR_AIQ_Name_Forecast>Forecast</NR_AIQ_Name_Forecast>
   <NR_AIQ_Desc_Forecast>{0} has seen something in the numbers: {1}.</NR_AIQ_Desc_Forecast>

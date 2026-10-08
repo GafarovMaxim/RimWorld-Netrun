@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <NR_DefenseTotal>Node defense: {0}</NR_DefenseTotal>
+  <NR_DefenseTotal>Hub defense: {0}</NR_DefenseTotal>
   <NR_DefenseFirewalls>Firewalls ({0})</NR_DefenseFirewalls>
   <NR_DefenseGuard>{0} on watch</NR_DefenseGuard>
   <NR_DefenseIsolated>The network is isolated: no attacks get through, and nothing networked works.</NR_DefenseIsolated>
   <NR_DefenseUpkeepShort>Not enough cyberdata for this ICE tier.</NR_DefenseUpkeepShort>
   <NR_DefenseUpkeepLostLabel>ICE switched off</NR_DefenseUpkeepLostLabel>
-  <NR_DefenseUpkeepLost>The colony could not pay its ICE upkeep this season (or no longer has the research). The node is back to bare firewalls.</NR_DefenseUpkeepLost>
+  <NR_DefenseUpkeepLost>The colony could not pay its ICE upkeep this season (or no longer has the research). The hub is back to bare firewalls.</NR_DefenseUpkeepLost>
   <NR_DefenseBlackIceHeat>Black ICE burned an attacker ({0})</NR_DefenseBlackIceHeat>
   <NR_IceTier_None>No ICE</NR_IceTier_None>
   <NR_IceTier_Firewall>Firewall</NR_IceTier_Firewall>
@@ -18,7 +18,7 @@
   <NR_IceTierUpkeepAdv>{0} advanced cyberdata per {1} days</NR_IceTierUpkeepAdv>
   <NR_IceTierLocked>needs research</NR_IceTierLocked>
   <NR_HoneypotGizmo>Honeypot</NR_HoneypotGizmo>
-  <NR_HoneypotGizmoDesc>This firewall lets attackers in on purpose: it adds no defense, but every attack the node repels leaves a back-trace: 2-4 cyberdata or a hidden node revealed. One honeypot per colony.</NR_HoneypotGizmoDesc>
+  <NR_HoneypotGizmoDesc>This firewall lets attackers in on purpose: it adds no defense, but every attack the hub repels leaves a back-trace: 2-4 cyberdata or a hidden node revealed. One honeypot per colony.</NR_HoneypotGizmoDesc>
   <NR_HoneypotActive>Honeypot mode: this firewall adds no defense and traces attackers back.</NR_HoneypotActive>
   <NR_HoneypotReveal>The honeypot traced the attacker back: node {0} is revealed.</NR_HoneypotReveal>
   <NR_HoneypotLoot>The honeypot traced the attacker back: {0} cyberdata.</NR_HoneypotLoot>
@@ -28,14 +28,14 @@
   <NR_IsolationOff>The colony is back on the net.</NR_IsolationOff>
   <NR_IsolationDiveActive>A dive is in progress.</NR_IsolationDiveActive>
   <NR_IsolationBlocked>The network is isolated.</NR_IsolationBlocked>
-  <NR_DutyGizmo>Node watch</NR_DutyGizmo>
-  <NR_DutyGizmoDesc>The netrunner in this pod guards the colony's node: +1 node defense for every {0} Intellectual.</NR_DutyGizmoDesc>
-  <NR_AttackByDefense>node defense {0}</NR_AttackByDefense>
+  <NR_DutyGizmo>Hub watch</NR_DutyGizmo>
+  <NR_DutyGizmoDesc>The netrunner in this pod guards the colony's hub: +1 hub defense for every {0} Intellectual.</NR_DutyGizmoDesc>
+  <NR_AttackByDefense>hub defense {0}</NR_AttackByDefense>
 
   <NR_DefensePanelTitle>Colony defense</NR_DefensePanelTitle>
   <NR_DefensePanelTotal>Defense {0}</NR_DefensePanelTotal>
   <NR_DefensePanelNone>No defense yet: build a firewall, set ICE, put a guard on duty.</NR_DefensePanelNone>
-  <NR_DefensePanelIce>ICE on the node</NR_DefensePanelIce>
+  <NR_DefensePanelIce>ICE on the hub</NR_DefensePanelIce>
   <NR_DefensePanelFirewalls>Firewalls {0}/{1}</NR_DefensePanelFirewalls>
   <NR_DefensePanelNoFirewall>No powered firewall. ICE needs at least one.</NR_DefensePanelNoFirewall>
   <NR_DefensePanelFirewall>Firewall {0}</NR_DefensePanelFirewall>
