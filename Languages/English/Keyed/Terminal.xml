@@ -379,4 +379,26 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpCtx_MenuAchievements>Menu: achievements</NR_HelpCtx_MenuAchievements>
   <NR_HelpCtx_MenuDifficulty>Menu: difficulty</NR_HelpCtx_MenuDifficulty>
   <NR_HelpCtx_MenuCustomization>Menu: customization</NR_HelpCtx_MenuCustomization>
+  <NR_HintCaption>// FIRST TIME</NR_HintCaption>
+  <NR_HintRead>Read</NR_HintRead>
+  <NR_HintGotIt>Got it</NR_HintGotIt>
+  <NR_HintTitle_Ice>ICE struck back</NR_HintTitle_Ice>
+  <NR_Hint_Ice>ICE guards nodes and hits the netrunner on a failed hack: nausea, a lockout, sometimes a coma. Shield and Decoy programs soften it; Exit while you can.</NR_Hint_Ice>
+  <NR_HintTitle_Netsick>Netsick</NR_HintTitle_Netsick>
+  <NR_Hint_Netsick>Time in the net builds a dependency. It fades offline; at high levels it brings withdrawal and the net craving break. Neurostabilizers and live leisure help.</NR_Hint_Netsick>
+  <NR_HintTitle_Fixer>Fixers</NR_HintTitle_Fixer>
+  <NR_Hint_Fixer>A call opens a channel for a few hours: scrub the trace, buy goods, take contracts. Reputation unlocks better prices and pins.</NR_Hint_Fixer>
+  <NR_HintTitle_AIEvent>Your AI acts on its own</NR_HintTitle_AIEvent>
+  <NR_Hint_AIEvent>Awakened AIs have wants. Trust and hunger decide whether the next event is a gift or a trick; answer the letters, feed them, keep them company.</NR_Hint_AIEvent>
+  <NR_IntroStep>INTRO · {0}/{1}</NR_IntroStep>
+  <NR_IntroTitle_0>This is the Core</NR_IntroTitle_0>
+  <NR_Intro_0>The navigation screen of your net: the sections around it open as the colony grows. The steps on the screen say what to do first.</NR_Intro_0>
+  <NR_IntroTitle_1>The Cyberpedia</NR_IntroTitle_1>
+  <NR_Intro_1>Everything about Netrun, with live examples from your game. It opens on the page about the screen you are on (also F1).</NR_Intro_1>
+  <NR_IntroTitle_2>The Guide</NR_IntroTitle_2>
+  <NR_Intro_2>Press it on any screen: the areas light up, hover one for what it does. Start with the first step in the Core; the menu (top right) brings this tour back.</NR_Intro_2>
+  <NR_IntroNext>Next</NR_IntroNext>
+  <NR_IntroDone>Start</NR_IntroDone>
+  <NR_IntroSkip>Skip</NR_IntroSkip>
+  <NR_MenuIntro>Intro tour</NR_MenuIntro>
 </LanguageData>

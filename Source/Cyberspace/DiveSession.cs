@@ -477,7 +477,7 @@ public class DiveSession : IExposable
     {
         int skill = Runner?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
         // The difficulty's ICE strength scales ICE (not gates).
-        float strength = target.Kind == DiveElementKind.Ice ? target.Strength * NetrunMod.Settings.IceStrength : target.Strength;
+        float strength = target.Kind == DiveElementKind.Ice ? target.Strength * NetrunMod.Settings.IceStrength * NetrunMod.Settings.NewcomerEase : target.Strength;
         float chance = Settings.hackBase + skill * Settings.hackPerSkill - strength * Settings.hackPerStrength;
         float bonus = 0f;
         if (Programs.Contains(DiveProgram.Sword) || Daemons.Contains(DiveDaemon.Blade))
@@ -948,6 +948,7 @@ public class DiveSession : IExposable
     /// <summary>Black ICE strikes: a shield absorbs it, a decoy may draw it off, otherwise a Hacking Expansion outcome.</summary>
     private void IceAttack()
     {
+        FirstHints.Show("Ice", "NR_Help_Gateway_Ice");
         if (ShieldCharges > 0)
         {
             ShieldCharges--;

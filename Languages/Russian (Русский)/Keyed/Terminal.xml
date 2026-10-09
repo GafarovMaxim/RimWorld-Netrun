@@ -379,4 +379,26 @@
   <NR_HelpCtx_MenuAchievements>Меню: достижения</NR_HelpCtx_MenuAchievements>
   <NR_HelpCtx_MenuDifficulty>Меню: сложность</NR_HelpCtx_MenuDifficulty>
   <NR_HelpCtx_MenuCustomization>Меню: кастомизация</NR_HelpCtx_MenuCustomization>
+  <NR_HintCaption>// ВПЕРВЫЕ</NR_HintCaption>
+  <NR_HintRead>Читать</NR_HintRead>
+  <NR_HintGotIt>Понятно</NR_HintGotIt>
+  <NR_HintTitle_Ice>ICE ударил в ответ</NR_HintTitle_Ice>
+  <NR_Hint_Ice>ICE охраняет ноды и бьёт нетраннера при сорванном взломе: тошнота, блокировка, иногда кома. Программы Shield и Decoy смягчают удар; уходите, пока можно.</NR_Hint_Ice>
+  <NR_HintTitle_Netsick>Netsick</NR_HintTitle_Netsick>
+  <NR_Hint_Netsick>Время в сети растит зависимость. Вне сети она спадает; на высоких уровнях приходят ломка и срыв «тяга к сети». Помогают нейростабилизаторы и живой отдых.</NR_Hint_Netsick>
+  <NR_HintTitle_Fixer>Фиксеры</NR_HintTitle_Fixer>
+  <NR_Hint_Fixer>Звонок открывает канал на несколько часов: сбросить след, купить товары, взять контракты. Репутация открывает цены получше и закрепление.</NR_Hint_Fixer>
+  <NR_HintTitle_AIEvent>Ваш ИИ действует сам</NR_HintTitle_AIEvent>
+  <NR_Hint_AIEvent>У пробуждённых ИИ есть желания. Доверие и голод решают, будет ли следующее событие подарком или пакостью; отвечайте на письма, кормите, не оставляйте одних.</NR_Hint_AIEvent>
+  <NR_IntroStep>ЗНАКОМСТВО · {0}/{1}</NR_IntroStep>
+  <NR_IntroTitle_0>Это Ядро</NR_IntroTitle_0>
+  <NR_Intro_0>Экран навигации вашей сети: разделы вокруг открываются по мере роста колонии. Шаги на экране подсказывают, что делать первым.</NR_Intro_0>
+  <NR_IntroTitle_1>Киберпедия</NR_IntroTitle_1>
+  <NR_Intro_1>Всё о Netrun с живыми примерами из вашей игры. Открывается на странице о текущем экране (также F1).</NR_Intro_1>
+  <NR_IntroTitle_2>Гид</NR_IntroTitle_2>
+  <NR_Intro_2>Нажмите на любом экране: области подсвечиваются, наведите на любую, чтобы узнать, что она делает. Начните с первого шага в Ядре; меню (справа вверху) вернёт этот тур.</NR_Intro_2>
+  <NR_IntroNext>Дальше</NR_IntroNext>
+  <NR_IntroDone>Начать</NR_IntroDone>
+  <NR_IntroSkip>Пропустить</NR_IntroSkip>
+  <NR_MenuIntro>Знакомство</NR_MenuIntro>
 </LanguageData>

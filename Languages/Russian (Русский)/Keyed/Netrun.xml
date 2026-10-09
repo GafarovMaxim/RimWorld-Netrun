@@ -319,4 +319,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsMinimapTip>Маленькая карта всей сети в углу: рамка показывает вид, клик переносит туда.</NR_SettingsMinimapTip>
   <NR_SettingAutopause>Автопауза при угрозе на маршруте</NR_SettingAutopause>
   <NR_SettingAutopauseTip>Когда на маршруте раннера появляется патруль или вторжение, игра один раз встаёт на паузу и приходит письмо.</NR_SettingAutopauseTip>
+  <NR_SettingsFirstHints>Знакомство и подсказки первого раза</NR_SettingsFirstHints>
+  <NR_SettingsFirstHintsTip>Короткий тур при первом открытии терминала и одна карточка, когда впервые встречаются ICE, Netsick, фиксер или событие ИИ.</NR_SettingsFirstHintsTip>
 </LanguageData>

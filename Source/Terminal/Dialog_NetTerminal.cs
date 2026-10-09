@@ -146,6 +146,8 @@ public partial class Dialog_NetTerminal : Window
         NetrunUI.Scanlines(inRect);
         NetrunUI.DeckGlass(inRect);
         DrawGuideOverlay(inRect);
+        MaybeStartIntro();
+        DrawIntro(inRect);
         DrawAmbientGlitch(inRect);
         if (Prefs.DevMode && Event.current.type == EventType.Repaint)
         {
@@ -513,8 +515,10 @@ public partial class Dialog_NetTerminal : Window
         {
             GUI.DrawTexture(menuRect.ContractedBy(3f), menuIcon);
         }
+        _helpRect = new Rect(help.x, help.y, 30f, 30f);
         help.x = menuRect.x;
         var guideRect = new Rect(help.x - 36f, y - 3f, 30f, 30f);
+        _guideRectSeen = guideRect;
         if (_view != View.Help && !_guide && HelpProgress.Get()?.GuideScreenSeen(HelpContext) == false && NetrunMod.Settings.Animations)
         {
             float gp = 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 3f + 1f);

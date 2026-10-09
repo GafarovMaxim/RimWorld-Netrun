@@ -11,6 +11,7 @@ public static class FixerDeals
 
     public static void Call(Fixer fixer, Map map)
     {
+        FirstHints.Show("Fixer", "NR_Help_Fixers");
         NetworkGate.Unlock("Board");
         if (NetworkIsolation.Active)
         {

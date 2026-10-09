@@ -173,6 +173,11 @@ public partial class Dialog_NetTerminal
             GUIUtility.systemCopyBuffer = NetrunDiagnostics.Build();
             Messages.Message("NR_SettingsReportCopied".Translate(), RimWorld.MessageTypeDefOf.NeutralEvent, historical: false);
         }
+        if (FooterLink(ref x, footer, "NR_MenuIntro".Translate()))
+        {
+            _menuPage = MenuPage.Home;
+            StartIntro();
+        }
         if (FooterLink(ref x, footer, "NR_MenuReportBug".Translate()))
         {
             _view = _viewBeforeMenu;

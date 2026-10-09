@@ -160,6 +160,10 @@ public class HelpProgress : GameComponent
     public void MarkGuideArea(GuideAreaDef area) => _seen.Add("area:" + area.defName);
     public bool GuideAreaSeen(GuideAreaDef area) => _seen.Contains("area:" + area.defName);
 
+    // First-time hints and the intro tour: shown once per game.
+    public bool HintSeen(string key) => _seen.Contains("hint:" + key);
+    public void MarkHint(string key) => _seen.Add("hint:" + key);
+
     /// <summary>Checks what the colony has met (called when the help opens).</summary>
     public void Refresh(Map map)
     {

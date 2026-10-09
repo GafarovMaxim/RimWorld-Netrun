@@ -319,4 +319,6 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsMinimapTip>A small map of the whole net in the corner; the frame shows the view, a click jumps there.</NR_SettingsMinimapTip>
   <NR_SettingAutopause>Autopause on threats along a route</NR_SettingAutopause>
   <NR_SettingAutopauseTip>When a patrol or an intrusion appears on a runner's route in cyberspace, the game pauses once with a letter.</NR_SettingAutopauseTip>
+  <NR_SettingsFirstHints>Intro tour and first-time hints</NR_SettingsFirstHints>
+  <NR_SettingsFirstHintsTip>A short tour the first time the terminal opens, and one card the first time ICE, Netsick, a fixer or an AI event appears.</NR_SettingsFirstHintsTip>
 </LanguageData>

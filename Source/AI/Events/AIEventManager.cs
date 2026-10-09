@@ -99,6 +99,7 @@ public class AIEventManager : GameComponent
 
     public void Fire(AIEventDef def, AIEventContext context)
     {
+        FirstHints.Show("AIEvent", "NR_Help_Events_AI");
         foreach (AIEventEffect effect in def.effects)
             effect.Apply(context);
 

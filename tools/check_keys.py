@@ -21,6 +21,10 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_HintTitle_": ["Ice", "Netsick", "Fixer", "AIEvent"],
+    "NR_Hint_": ["Ice", "Netsick", "Fixer", "AIEvent"],
+    "NR_IntroTitle_": ["0", "1", "2"],
+    "NR_Intro_": ["0", "1", "2"],
     "NR_MapLens_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensTip_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensScale_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],

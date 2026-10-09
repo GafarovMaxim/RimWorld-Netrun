@@ -45,7 +45,7 @@ public class HeatTracker : GameComponent, INetrunCleanable
 
         HeatLevel before = Level;
         float old = _heat;
-        _heat = Mathf.Min(MaxHeat, _heat + amount * NetrunMod.Settings.HeatGainMultiplier);
+        _heat = Mathf.Min(MaxHeat, _heat + amount * NetrunMod.Settings.HeatGainMultiplier * NetrunMod.Settings.NewcomerEase);
         AddLog(_heat - old, reason, source);
         EconomyTracker.Get()?.Note(heatUp: _heat - old);
 
@@ -62,7 +62,7 @@ public class HeatTracker : GameComponent, INetrunCleanable
         float target = Mathf.Clamp(value, 0f, MaxHeat);
         if (target > _heat)
         {
-            float multiplier = NetrunMod.Settings.HeatGainMultiplier;
+            float multiplier = NetrunMod.Settings.HeatGainMultiplier * NetrunMod.Settings.NewcomerEase;
             AddHeat((target - _heat) / (multiplier > 0f ? multiplier : 1f), reason);
         }
         else if (target < _heat)

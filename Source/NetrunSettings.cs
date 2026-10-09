@@ -70,6 +70,11 @@ public class NetrunSettings : ModSettings
     public bool MapMinimap = true;
     /// <summary>Pause the game once when a patrol or an intrusion appears on a runner's route.</summary>
     public bool MapAutopause = true;
+    /// <summary>The intro tour on the first terminal and one card the first time ICE, Netsick, a fixer or an AI event shows up.</summary>
+    public bool FirstHints = true;
+
+    /// <summary>The Newcomer preset is gentler for the first ten days: less trace, weaker ICE.</summary>
+    public float NewcomerEase => Difficulty == HeatDifficulty.Easy && Current.Game != null && GenDate.DaysPassed < 10 ? 0.75f : 1f;
     /// <summary>The cyberspace map's lens (MapLens), remembered between games.</summary>
     public int MapLens;
 
@@ -461,6 +466,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
         Toggle("NR_SettingsMinimap", ref MapMinimap, "NR_SettingsMinimapTip");
         Toggle("NR_SettingAutopause", ref MapAutopause, "NR_SettingAutopauseTip");
+        Toggle("NR_SettingsFirstHints", ref FirstHints, "NR_SettingsFirstHintsTip");
         _y += 6f;
     }
 
@@ -658,6 +664,7 @@ public class NetrunSettings : ModSettings
         PauseOnOpen = true;
         MapMinimap = true;
         MapAutopause = true;
+        FirstHints = true;
     }
 
     private void ResetCustomization()
@@ -704,6 +711,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Scanlines, "scanlines", true);
         Scribe_Values.Look(ref MapMinimap, "mapMinimap", true);
         Scribe_Values.Look(ref MapAutopause, "mapAutopause", true);
+        Scribe_Values.Look(ref FirstHints, "firstHints", true);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);

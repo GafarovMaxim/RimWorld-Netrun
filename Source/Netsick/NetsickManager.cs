@@ -170,6 +170,8 @@ public class NetsickManager : GameComponent
             netsick.Severity = 0.01f;
             netsick.LastConnectedTick = Find.TickManager.TicksGame;
             pawn.health.AddHediff(netsick);
+            if (pawn.IsColonist)
+                FirstHints.Show("Netsick", "NR_Help_Heat_Netsick");
         }
 
         netsick.Severity += amount > 0f ? amount * NetrunTraits.GainFactor(pawn) : amount;
