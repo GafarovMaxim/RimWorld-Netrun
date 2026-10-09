@@ -1188,6 +1188,7 @@ public class DiveSession : IExposable
             NodeName = Node.Name,
             EndTick = Find.TickManager.TicksGame,
             RunnerName = Runner?.LabelShort ?? "?",
+            Runner = Runner,
             Success = success,
             Retreated = Retreated,
             Turns = Turn,

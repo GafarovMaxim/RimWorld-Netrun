@@ -12,6 +12,8 @@ public class DiveReport : IExposable
     public string NodeName;
     public int EndTick;
     public string RunnerName;
+    /// <summary>The runner, for the portrait in the summary (not saved: after a reload the summary shows the name only).</summary>
+    public Pawn Runner;
     public bool Success;
     public bool Retreated;
     public int Turns;
@@ -156,8 +158,33 @@ public class Dialog_DiveReport : Window
             GUI.DrawTexture(new Rect(strip.x + 10f, strip.y + 5f, 24f, 24f), statusIcon);
         Text.Anchor = TextAnchor.MiddleLeft;
         Widgets.Label(new Rect(strip.x + 42f, strip.y, 200f, strip.height), result.ToUpper().Colorize(color));
-        Widgets.Label(new Rect(strip.x + 240f, strip.y, strip.width - 250f, strip.height), "NR_ReportRunner".Translate(d.RunnerName, d.Turns).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
+        // The runner on the right: portrait, name, turns in the node.
+        float rx = strip.xMax - 8f;
+        Text.Font = GameFont.Tiny;
+        string turns = "NR_ReportTurns".Translate(d.Turns);
+        float tw = Mathf.Max(Text.CalcSize(turns).x, 60f);
+        Text.Font = GameFont.Small;
+        float nw = Text.CalcSize(d.RunnerName ?? "?").x;
+        float blockW = Mathf.Max(tw, nw) + 8f;
+        rx -= blockW;
+        Text.Font = GameFont.Small;
+        GUI.color = NetrunUI.TextColor;
+        Widgets.Label(new Rect(rx, strip.y + 1f, blockW, 18f), d.RunnerName ?? "?");
+        Text.Font = GameFont.Tiny;
+        GUI.color = NetrunUI.Muted;
+        Widgets.Label(new Rect(rx, strip.y + 18f, blockW, 14f), turns);
+        GUI.color = Color.white;
+        Text.Font = GameFont.Small;
+        if (d.Runner != null && !d.Runner.Destroyed)
+        {
+            var portrait = new Rect(rx - 36f, strip.y + 2f, 30f, 30f);
+            Widgets.DrawBoxSolid(portrait, NetrunUI.BgWindow);
+            GUI.DrawTexture(portrait, PortraitsCache.Get(d.Runner, new Vector2(30f, 30f), Rot4.South, cameraZoom: 1.6f));
+            GUI.color = new Color(color.r, color.g, color.b, 0.6f);
+            Widgets.DrawBox(portrait);
+            GUI.color = Color.white;
+        }
         y = strip.yMax + 10f;
 
         // Two cards: the haul, and costs and consequences; events below across the width.

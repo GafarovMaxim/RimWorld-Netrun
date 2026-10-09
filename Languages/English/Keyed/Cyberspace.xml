@@ -209,7 +209,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_ReportSuccess>Clean exit</NR_ReportSuccess>
   <NR_ReportRetreat>Retreat</NR_ReportRetreat>
   <NR_ReportFail>Failed</NR_ReportFail>
-  <NR_ReportRunner>{0}, turns: {1}</NR_ReportRunner>
   <NR_ReportHaul>Haul</NR_ReportHaul>
   <NR_ReportNothing>Came back empty-handed.</NR_ReportNothing>
   <NR_ReportSpecial>★ A special find on the exit.</NR_ReportSpecial>
@@ -465,4 +464,5 @@ End the run first (exit the dive, or reach an exit point or Home). Wake anyway?<
   <NR_WakeMidRunTip>The pawn is out in the net: end the run first.</NR_WakeMidRunTip>
   <NR_DiveRivalBar>Rival: {0} turns left</NR_DiveRivalBar>
   <NR_DiveRivalBarTip>Another netrunner is in this node. In {0} turns they take the files that are still here. Where they are in the node is unknown, only their pace.</NR_DiveRivalBarTip>
+  <NR_ReportTurns>{0} turns in the node</NR_ReportTurns>
 </LanguageData>

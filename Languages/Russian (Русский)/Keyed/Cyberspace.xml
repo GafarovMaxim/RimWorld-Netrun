@@ -209,7 +209,6 @@
   <NR_ReportSuccess>Чистый выход</NR_ReportSuccess>
   <NR_ReportRetreat>Отступление</NR_ReportRetreat>
   <NR_ReportFail>Провал</NR_ReportFail>
-  <NR_ReportRunner>{0}, ходов: {1}</NR_ReportRunner>
   <NR_ReportHaul>Добыча</NR_ReportHaul>
   <NR_ReportNothing>Вернулись с пустыми руками.</NR_ReportNothing>
   <NR_ReportSpecial>★ Особая находка на выходе.</NR_ReportSpecial>
@@ -465,4 +464,5 @@
   <NR_WakeMidRunTip>Пешка в сети: сначала закончите забег.</NR_WakeMidRunTip>
   <NR_DiveRivalBar>Соперник: ходов до захвата — {0}</NR_DiveRivalBar>
   <NR_DiveRivalBarTip>В этой ноде другой нетраннер. Через {0} ходов он заберёт файлы, которые ещё здесь. Где он в ноде, неизвестно, виден только его темп.</NR_DiveRivalBarTip>
+  <NR_ReportTurns>ходов в ноде: {0}</NR_ReportTurns>
 </LanguageData>
