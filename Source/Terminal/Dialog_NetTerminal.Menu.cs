@@ -263,7 +263,8 @@ public partial class Dialog_NetTerminal
             GUI.color = got ? Color.white : new Color(1f, 1f, 1f, 0.35f);
             if (a.Frame != null)
                 GUI.DrawTexture(chip, a.Frame);
-            GUI.DrawTexture(chip, a.Icon);
+            // The icon sits inside its frame (at full size it ran over the frame's edge).
+            GUI.DrawTexture(a.Frame != null ? chip.ContractedBy(11f) : chip.ContractedBy(4f), a.Icon);
             GUI.color = Color.white;
             float tx = chip.xMax + 10f, tw = r.xMax - tx - 8f;
             bool hidden = a.Secret && !got;

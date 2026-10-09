@@ -102,11 +102,53 @@ public partial class HelpBrowser
 
     private AITrait _demoTrait = AITrait.Curious;
 
+    /// <summary>
+    /// Traits are hidden in the Cyberpedia until the player meets them (an AI's trait opened by trust, a fixer's trait
+    /// revealed); seen ones are remembered for the rest of the game.
+    /// </summary>
+    private static bool AITraitKnown(AITrait trait)
+    {
+        HelpProgress progress = HelpProgress.Get();
+        if (progress == null || progress.TraitKnown("AI:" + trait))
+            return true;
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            for (int i = 0; i < ai.TraitsRevealed && i < ai.Traits.Count; i++)
+                if (ai.Traits[i] == trait)
+                {
+                    progress.MarkTrait("AI:" + trait);
+                    return true;
+                }
+        return false;
+    }
+
+    private static bool FixerTraitKnown(FixerTrait trait)
+    {
+        HelpProgress progress = HelpProgress.Get();
+        if (progress == null || progress.TraitKnown("Fixer:" + trait))
+            return true;
+        if (FixerManager.Get()?.Fixers.Any(f => f.TraitRevealed && f.Trait == trait) == true)
+        {
+            progress.MarkTrait("Fixer:" + trait);
+            return true;
+        }
+        return false;
+    }
+
+    private static float UnknownTrait(Rect cr, Color color)
+    {
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(cr.x, cr.y, cr.width, 32f), "???".Colorize(color));
+        Text.Font = GameFont.Small;
+        return Para(cr, cr.y + 36f, "NR_HelpTraitUnknown".Translate(), NetrunUI.Muted);
+    }
+
     private float AITraitsDemo(float y, float w) => Frame("aitraits", y, w, NetrunUI.Purple, inner =>
     {
-        float t = Choices(inner, inner.y, (AITrait[])System.Enum.GetValues(typeof(AITrait)), tr => tr.Label(), tr => tr == _demoTrait, tr => _demoTrait = tr, _ => NetrunUI.Purple);
+        float t = Choices(inner, inner.y, (AITrait[])System.Enum.GetValues(typeof(AITrait)), tr => AITraitKnown(tr) ? tr.Label() : "???", tr => tr == _demoTrait, tr => _demoTrait = tr, _ => NetrunUI.Purple);
         return Panel("aitraits.card", inner, t, NetrunUI.Purple, cr =>
         {
+            if (!AITraitKnown(_demoTrait))
+                return UnknownTrait(cr, NetrunUI.Purple);
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(cr.x, cr.y, cr.width, 32f), _demoTrait.Label().Colorize(NetrunUI.Purple));
             Text.Font = GameFont.Small;
@@ -125,10 +167,12 @@ public partial class HelpBrowser
     /// <summary>The fixers' traits like the AI traits: a row of names, the picked one with its plus and its minus.</summary>
     private float FixerTraitsDemo(float y, float w) => Frame("fixertraits", y, w, NetrunUI.Warn, inner =>
     {
-        float t = Choices(inner, inner.y, (FixerTrait[])System.Enum.GetValues(typeof(FixerTrait)), tr => ("NR_FixerTrait_" + tr).Translate(),
+        float t = Choices(inner, inner.y, (FixerTrait[])System.Enum.GetValues(typeof(FixerTrait)), tr => FixerTraitKnown(tr) ? (string)("NR_FixerTrait_" + tr).Translate() : "???",
             tr => tr == _demoFixerTrait, tr => _demoFixerTrait = tr, _ => NetrunUI.Warn);
         return Panel("fixertraits.card", inner, t, NetrunUI.Warn, cr =>
         {
+            if (!FixerTraitKnown(_demoFixerTrait))
+                return UnknownTrait(cr, NetrunUI.Warn);
             Text.Font = GameFont.Medium;
             Widgets.Label(new Rect(cr.x, cr.y, cr.width, 32f), ((string)("NR_FixerTrait_" + _demoFixerTrait).Translate()).Colorize(NetrunUI.Warn));
             Text.Font = GameFont.Small;

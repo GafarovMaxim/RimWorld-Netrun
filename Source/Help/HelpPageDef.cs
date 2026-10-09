@@ -166,6 +166,10 @@ public class HelpProgress : GameComponent
     // Guide mode: screens opened in the guide and areas looked at.
     public void MarkGuideScreen(string screen) => _seen.Add("guide:" + screen);
 
+    /// <summary>An AI or fixer trait the player has seen in play: the Cyberpedia shows it from then on.</summary>
+    public void MarkTrait(string key) => _flags.Add("trait:" + key);
+    public bool TraitKnown(string key) => _flags.Contains("trait:" + key) || _flags.Contains("all");
+
     /// <summary>Debug (newcomer test): the guide screens and areas, first hints and the intro are new again.</summary>
     public void DevResetGuide() => _seen.RemoveWhere(s => s.StartsWith("guide:") || s.StartsWith("area:") || s.StartsWith("hint:") || s.StartsWith("intro"));
     public bool GuideScreenSeen(string screen) => _seen.Contains("guide:" + screen);

@@ -52,7 +52,7 @@ public partial class HelpBrowser
                 bool over = Mouse.IsOver(r);
                 NetrunUI.Box(r, sel ? NetrunUI.BgCardAlt : NetrunUI.BgWindow, sel ? NetrunUI.Accent : new Color(1f, 1f, 1f, over ? 0.3f : 0.12f), sel ? 2 : 1);
                 if (cards[i].icon != null)
-                    NetrunUI.BrightIcon(new Rect(r.center.x - iconS / 2f, r.y + 8f, iconS, iconS), cards[i].icon);
+                    NetrunUI.BrightIcon(new Rect(r.center.x - iconS / 2f, r.y + 8f, iconS, iconS), NetrunTint.OfAny(cards[i].icon, _page?.Topic.Color ?? NetrunUI.Accent));
                 Text.Font = tiny ? GameFont.Tiny : GameFont.Small;
                 Text.Anchor = TextAnchor.UpperCenter;
                 Widgets.Label(new Rect(r.x + 6f, r.y + 10f + iconS + (anyIcon ? 4f : 0f), r.width - 12f, textH + 4f), cards[i].title.Colorize(sel ? NetrunUI.Accent : NetrunUI.TextColor));
@@ -71,7 +71,7 @@ public partial class HelpBrowser
                 float x = cr.x;
                 if (picked.icon != null)
                 {
-                    GUI.DrawTexture(new Rect(cr.x, cr.y, 32f, 32f), picked.icon);
+                    GUI.DrawTexture(new Rect(cr.x, cr.y, 32f, 32f), NetrunTint.OfAny(picked.icon, _page?.Topic.Color ?? NetrunUI.Accent));
                     x += 40f;
                 }
                 Text.Font = GameFont.Medium;

@@ -440,4 +440,5 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_StateOffline>OFFLINE</NR_StateOffline>
   <NR_SettingsTerminalAutoScale>Scale the interface with the window</NR_SettingsTerminalAutoScale>
   <NR_SettingsTerminalAutoScaleTip>When the terminal window is larger than its base size, everything inside it (frame, text, map, buttons) grows with it, up to 160%. Off: a larger window gives more room at the same size.</NR_SettingsTerminalAutoScaleTip>
+  <NR_HelpTraitUnknown>Not met yet. The trait opens here once you see it in play: an AI shows it as its trust grows, a fixer once you have worked together long enough.</NR_HelpTraitUnknown>
 </LanguageData>

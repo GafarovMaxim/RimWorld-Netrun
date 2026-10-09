@@ -120,21 +120,8 @@ public static class HyperText
         float lineH = NetrunText.LineHeight;
         float cx = 0f, cy = 0f;
         float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
-        var sb = new System.Text.StringBuilder();
-        Run open = default;
-        bool hasOpen = false;
-        void Close()
-        {
-            if (!hasOpen)
-                return;
-            open.Text = sb.ToString();
-            layout.Runs.Add(open);
-            sb.Length = 0;
-            hasOpen = false;
-        }
         for (int s = 0; s < segments.Count; s++)
         {
-            bool link = segments[s].Link != null;
             string[] parts = segments[s].Text.Split(' ');
             for (int i = 0; i < parts.Length; i++)
             {
@@ -145,33 +132,15 @@ public static class HyperText
                 float ww = Text.CalcSize(parts[i]).x;
                 if (cx > 0f && cx + ww > width)
                 {
-                    Close();
                     cx = 0f;
                     cy += lineH;
                 }
                 var r = new Rect(cx, cy, ww + 1f, lineH);
-                // Plain words on one row join into one run (one Label); link words stay apart for the underline.
-                if (!link && hasOpen && segments[open.Seg].Link == null && Mathf.Approximately(open.R.y, cy))
-                {
-                    sb.Append(' ', Mathf.Max(1, Mathf.RoundToInt((r.x - open.R.xMax + 1f) / Mathf.Max(1f, space)))).Append(parts[i]);
-                    open.R.xMax = r.xMax;
-                }
-                else
-                {
-                    Close();
-                    if (link)
-                        layout.Runs.Add(new Run { R = r, Text = parts[i], Seg = s });
-                    else
-                    {
-                        open = new Run { R = r, Seg = s };
-                        sb.Append(parts[i]);
-                        hasOpen = true;
-                    }
-                }
+                // One run per word: a joined line of words drifted from the measured positions and links stood off.
+                layout.Runs.Add(new Run { R = r, Text = parts[i], Seg = s });
                 cx += ww;
             }
         }
-        Close();
         layout.Height = cy + lineH;
         Layouts[key] = layout;
         return layout;

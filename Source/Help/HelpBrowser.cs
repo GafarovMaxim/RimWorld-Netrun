@@ -245,7 +245,7 @@ public partial class HelpBrowser
             var ir = new Rect(0f, y, 48f, 48f);
             if (locked)
                 GUI.color = new Color(0f, 0f, 0f, 0.85f);
-            GUI.DrawTexture(ir, icon);
+            GUI.DrawTexture(ir, NetrunTint.OfAny(icon, _page.Topic.Color));
             GUI.color = Color.white;
             tx = 58f;
         }
@@ -404,7 +404,7 @@ public partial class HelpBrowser
         if (bullet && lineIcon == null)
             Widgets.Label(new Rect(0f, y, 14f, 22f), "•".Colorize(NetrunUI.Accent));
         if (lineIcon != null)
-            GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, iconSize, iconSize), lineIcon);
+            GUI.DrawTexture(new Rect(bullet ? 2f : 0f, y, iconSize, iconSize), NetrunTint.OfAny(lineIcon, _page.Topic.Color));
         float pad = lineIcon != null ? Mathf.Max(0f, (iconSize - NetrunText.LineHeight) / 2f) : 0f;
         float h = FlowText(textLine, indent, y + pad, w - indent);
         h = Mathf.Max(lineIcon != null ? iconSize + 2f : 0f, h + pad);
@@ -464,7 +464,7 @@ public partial class HelpBrowser
         if (icon != null)
         {
             float s = Mathf.Min(34f, NetrunUI.Icon(28f));
-            GUI.DrawTexture(new Rect(x, band.center.y - s / 2f, s, s), icon);
+            GUI.DrawTexture(new Rect(x, band.center.y - s / 2f, s, s), NetrunTint.OfAny(icon, c));
             x += s + 10f;
         }
         Text.Anchor = TextAnchor.MiddleLeft;
