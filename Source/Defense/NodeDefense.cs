@@ -170,7 +170,14 @@ public class NodeDefense : GameComponent
         Isolated = !Isolated;
         int now = Find.TickManager.TicksGame;
         if (Isolated)
+        {
             _isolatedAt = now;
+            // Cut off: every runner on the cyberspace map is pulled back through a clean exit (no jolt; the dive itself
+            // cannot be running, isolation waits for it).
+            if (NetMapManager.Get() is { } net)
+                foreach (NetRunner r in net.Runners.ToList())
+                    net.Disconnect(r, emergency: false);
+        }
         else
         {
             if (NetrunMod.Settings.IsolationCooldown && _isolatedAt >= 0 && now - _isolatedAt < ShortIsolationTicks)

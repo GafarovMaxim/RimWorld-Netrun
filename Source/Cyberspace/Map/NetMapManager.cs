@@ -287,7 +287,9 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         if (target == runner.NodeId && !runner.Moving)
             return "NR_MapAlreadyHere".Translate();
         List<int> route = Map.Route(runner.Moving ? runner.NextNodeId : runner.NodeId, target, out _);
-        if (route.Count == 0 && target != runner.NextNodeId)
+        // A walking runner may also turn back the way it came.
+        bool back = runner.Moving && (target == runner.NodeId || Map.Route(runner.NodeId, target, out _).Count > 0);
+        if (route.Count == 0 && target != runner.NextNodeId && !back)
             return "NR_MapNoRoute".Translate();
         return true;
     }
@@ -299,9 +301,25 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             return;
         if (runner.Moving)
         {
-            int next = runner.NextNodeId;
-            List<int> rest = next == target ? [] : Map.Route(next, target, out _);
-            runner.Path = [next, .. rest];
+            // On a link between two hubs: go on through the next one, or turn around if the way back is shorter.
+            int from = runner.NodeId, next = runner.NextNodeId;
+            MapLink link = Map.LinkBetween(from, next);
+            float length = link != null ? Map.Hours(link, from) : 1f;
+            float aheadHours = 0f, behindHours = 0f;
+            List<int> ahead = next == target ? [] : Map.Route(next, target, out aheadHours);
+            bool aheadOk = next == target || ahead.Count > 0;
+            float viaAhead = Mathf.Max(0f, length - runner.Progress) + (next == target ? 0f : aheadHours);
+            List<int> behind = from == target ? [] : Map.Route(from, target, out behindHours);
+            bool behindOk = link != null && Map.Passable(link) && (from == target || behind.Count > 0);
+            float viaBehind = runner.Progress + (from == target ? 0f : behindHours);
+            if (behindOk && (!aheadOk || viaBehind < viaAhead))
+            {
+                runner.NodeId = next;
+                runner.Progress = Mathf.Max(0f, length - runner.Progress);
+                runner.Path = [from, .. behind];
+            }
+            else
+                runner.Path = [next, .. ahead];
         }
         else
         {
@@ -601,7 +619,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         if (!runner.Moving)
         {
             NetrunSound.Play("UI_Hack");
-            Messages.Message("NR_MapArrived".Translate(runner.Pawn.LabelShort, NodeLabel(node)), runner.Pawn, MessageTypeDefOf.PositiveEvent, historical: false);
+            // A click on this notice opens the cyberspace map on the hub (a vanilla message could only move the camera).
+            NetrunToasts.ShowHub("NR_MapArrived".Translate(runner.Pawn.LabelShort, NodeLabel(node)), node.Id);
         }
     }
 

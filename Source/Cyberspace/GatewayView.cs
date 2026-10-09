@@ -73,7 +73,7 @@ public static partial class GatewayView
     /// </summary>
     private static void DrawCircles(Rect rect, IReadOnlyList<ExternalNode> nodes)
     {
-        HandleDrag(rect);
+        HandleDrag(rect, 0);
 
         Widgets.BeginGroup(rect);
         var local = new Rect(0f, 0f, rect.width, rect.height);
@@ -307,10 +307,30 @@ public static partial class GatewayView
         _pan = Vector2.zero;
     }
 
-    /// <summary>Left-drag on the field pans it (kept within one field size); the mouse wheel zooms.</summary>
-    private static void HandleDrag(Rect rect)
+    private static Vector2 _downAt;
+    private static bool _downOnField;
+
+    /// <summary>
+    /// Left-drag on the field pans it (kept within one field size); the mouse wheel zooms; a click on empty field (no
+    /// drag, no hub under the cursor) clears the selected hub.
+    /// </summary>
+    private static void HandleDrag(Rect rect, int hovered)
     {
         Event e = Event.current;
+        if (e.type == EventType.MouseDown && e.button == 0 && Mouse.IsOver(rect))
+        {
+            _downAt = e.mousePosition;
+            _downOnField = hovered < 0;
+        }
+        else if (e.type == EventType.MouseUp && e.button == 0)
+        {
+            if (_downOnField && hovered < 0 && Mouse.IsOver(rect) && (e.mousePosition - _downAt).sqrMagnitude < 25f && _selectedMapNode >= 0)
+            {
+                _selectedMapNode = -1;
+                _selectedId = -1;
+            }
+            _downOnField = false;
+        }
         if (e.type == EventType.MouseDrag && e.button == 0 && Mouse.IsOver(rect))
         {
             _pan += e.delta;

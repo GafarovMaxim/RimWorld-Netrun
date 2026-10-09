@@ -80,7 +80,7 @@ public static partial class GatewayView
         int hovered = _hoverHub;
         _hoverHub = -1;
         if (!_mouseOnOverlay)
-            HandleDrag(rect);
+            HandleDrag(rect, hovered);
         CyberMap map = net.Map;
         var local = new Rect(0f, 0f, rect.width, rect.height);
         ApplyCenter(local, map);
