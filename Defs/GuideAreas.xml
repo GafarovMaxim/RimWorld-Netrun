@@ -199,20 +199,6 @@
   </Netrun.GuideAreaDef>
 
   <Netrun.GuideAreaDef>
-    <defName>NR_Guide_club_group</defName>
-    <label>Hacker group</label>
-    <area>club.group</area>
-    <screen>Club</screen>
-    <order>1</order>
-    <helpPage>NR_Help_Gateway_Group</helpPage>
-    <steps>
-      <li>
-        <text>Favor from cyberspace finds. At full favor, "Call the group" sends allied fighters (or advanced cyberdata without allies).</text>
-      </li>
-    </steps>
-  </Netrun.GuideAreaDef>
-
-  <Netrun.GuideAreaDef>
     <defName>NR_Guide_club_pinned</defName>
     <label>Pinned contacts</label>
     <area>club.pinned</area>

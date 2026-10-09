@@ -38,8 +38,6 @@
   <NR_Guide_heat_lower.steps.1.text>ИИ «Призрак» тоже стирает след (затемнён, если его нет). Или переждите: Heat остывает каждый день.</NR_Guide_heat_lower.steps.1.text>
   <NR_Guide_heat_raised.label>Что подняло</NR_Guide_heat_raised.label>
   <NR_Guide_heat_raised.steps.0.text>Главные источники Heat за неделю и итог: прирост, сброс, остывание. Клик по строке открывает Архив.</NR_Guide_heat_raised.steps.0.text>
-  <NR_Guide_club_group.label>Хакерская группа</NR_Guide_club_group.label>
-  <NR_Guide_club_group.steps.0.text>Благосклонность за находки в киберпространстве. При полной шкале «Позвать группу» присылает союзных бойцов (или продвинутые cyberdata, если союзников нет).</NR_Guide_club_group.steps.0.text>
   <NR_Guide_club_pinned.label>Закреплённые контакты</NR_Guide_club_pinned.label>
   <NR_Guide_club_pinned.steps.0.text>Фиксеры с высокой репутацией остаются навсегда: черта известна, цены лучшие.</NR_Guide_club_pinned.steps.0.text>
   <NR_Guide_club_pool.label>Пул</NR_Guide_club_pool.label>

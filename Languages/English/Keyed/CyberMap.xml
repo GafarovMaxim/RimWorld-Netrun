@@ -115,12 +115,12 @@
   <NR_MapLens_Corps>Corps</NR_MapLens_Corps>
   <NR_MapLens_Contracts>Jobs</NR_MapLens_Contracts>
   <NR_MapLens_Time>Time</NR_MapLens_Time>
-  <NR_MapLensTip_Overview>Overview (1): hubs in their district colours; with a runner standing still, where it can step now.</NR_MapLensTip_Overview>
-  <NR_MapLensTip_Loot>Loot (2): the best haul known at each hub.</NR_MapLensTip_Loot>
-  <NR_MapLensTip_Danger>Danger (3): ICE and gates, patrols and fortresses.</NR_MapLensTip_Danger>
-  <NR_MapLensTip_Corps>Corps (4): corporate ground in each corporation's colour.</NR_MapLensTip_Corps>
-  <NR_MapLensTip_Contracts>Jobs (5): contract targets and your watchlist.</NR_MapLensTip_Contracts>
-  <NR_MapLensTip_Time>Time (6): hours of travel from the selected runner.</NR_MapLensTip_Time>
+  <NR_MapLensTip_Overview>Overview: hubs in their district colours; with a runner standing still, where it can step now.</NR_MapLensTip_Overview>
+  <NR_MapLensTip_Loot>Loot: the best haul known at each hub.</NR_MapLensTip_Loot>
+  <NR_MapLensTip_Danger>Danger: ICE and gates, patrols and fortresses.</NR_MapLensTip_Danger>
+  <NR_MapLensTip_Corps>Corps: corporate ground in each corporation's colour.</NR_MapLensTip_Corps>
+  <NR_MapLensTip_Contracts>Jobs: contract targets and your watchlist.</NR_MapLensTip_Contracts>
+  <NR_MapLensTip_Time>Time: hours of travel from the selected runner.</NR_MapLensTip_Time>
   <NR_MapLensScale_Loot>rich</NR_MapLensScale_Loot>
   <NR_MapLensScale_Danger>deadly</NR_MapLensScale_Danger>
   <NR_MapLensScale_Time>12 h+</NR_MapLensScale_Time>
@@ -156,4 +156,6 @@
   <NR_MapThreat>A patrol or an intrusion stands on {0}'s route at {1}. The game is paused: change the route or stop the runner.
 
 Autopause can be turned off in the settings.</NR_MapThreat>
+  <NR_MapGoHome>⌂ Home</NR_MapGoHome>
+  <NR_MapGoHomeTip>Send the runner back to Home (an exit point: from there it can leave the net).</NR_MapGoHomeTip>
 </LanguageData>

@@ -180,17 +180,15 @@ public static partial class NetrunUI
     {
         if (!NetrunMod.Settings.FrameGlass || Event.current.type != EventType.Repaint)
             return;
-        GUI.BeginClip(screen);
-        Matrix4x4 m = GUI.matrix;
-        var pivot = new Vector2(screen.width * 0.2f, 0f);
-        GUIUtility.RotateAroundPivot(-28f, pivot);
-        GUI.color = new Color(1f, 1f, 1f, 0.03f);
-        GUI.DrawTexture(new Rect(pivot.x - screen.width, -90f, screen.width * 2f, 110f), BaseContent.WhiteTex);
-        GUI.color = new Color(1f, 1f, 1f, 0.018f);
-        GUI.DrawTexture(new Rect(pivot.x - screen.width, 36f, screen.width * 2f, 26f), BaseContent.WhiteTex);
-        GUI.matrix = m;
-        GUI.color = Color.white;
-        GUI.EndClip();
+        // A stepped diagonal: each band is a little shorter and fainter, which reads as a sheen across the glass.
+        const int bands = 14;
+        for (int i = 0; i < bands; i++)
+        {
+            float t = i / (float)bands;
+            var band = new Rect(screen.x, screen.y + i * 9f, screen.width * (0.55f - 0.035f * i), 9f);
+            Widgets.DrawBoxSolid(band, new Color(1f, 1f, 1f, 0.035f * (1f - t)));
+        }
+        Widgets.DrawBoxSolid(new Rect(screen.x, screen.y, screen.width, 1f), new Color(1f, 1f, 1f, 0.08f));
     }
 
     private static void DrawRails(Rect outer, Rect body)
@@ -326,7 +324,13 @@ public static partial class NetrunUI
     {
         if (tex == null)
             return;
-        float s = Mathf.Min(r.width, r.height) - 8f;
+        float s = Mathf.Min(r.width, r.height) - 6f;
+        // Bright on the dark key: full white (or the given colour at full strength) over a faint accent glow.
+        if (c.a > 0.5f)
+        {
+            Glow(new Rect(r.center.x - s / 4f, r.center.y - s / 4f, s / 2f, s / 2f), Accent, 0.3f, 6f);
+            c = new Color(c.r, c.g, c.b, 1f);
+        }
         GUI.color = c;
         GUI.DrawTexture(new Rect(r.center.x - s / 2f, r.center.y - s / 2f, s, s), tex);
         GUI.color = Color.white;

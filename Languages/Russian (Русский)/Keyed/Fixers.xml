@@ -56,8 +56,6 @@
   <NR_ScrubMax>макс</NR_ScrubMax>
   <NR_ShopNoSilver>не хватает серебра</NR_ShopNoSilver>
   <NR_ScrubMin>мин</NR_ScrubMin>
-  <NR_ClubFavor>Благосклонность хакерской группы: {0}/{1}</NR_ClubFavor>
-  <NR_ClubCallAllies>Позвать группу</NR_ClubCallAllies>
   <NR_ClubCallAlliesTip>Потратить благосклонность: союзная фракция пришлёт бойцов (или группа пришлёт продвинутые данные). Раз в сезон.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Услуга ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>Фиксер должен вам: сбросить {0} Heat бесплатно, без звонка.</NR_FixerFreeScrubTip>

@@ -127,7 +127,7 @@ public partial class HelpBrowser
             if (icon != null)
             {
                 GUI.color = locked ? new Color(1f, 1f, 1f, 0.5f) : Color.white;
-                GUI.DrawTexture(new Rect(indent + 8f, row.y + (h - iconSize) / 2f, iconSize, iconSize), icon);
+                GUI.DrawTexture(new Rect(indent + 8f, row.y + (h - iconSize) / 2f, iconSize, iconSize), NetrunTint.OfAny(icon, page.Topic.Color));
                 GUI.color = Color.white;
             }
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -138,7 +138,18 @@ public partial class HelpBrowser
 
             // "New" and "you are here" as small dots on the right, no text over the label.
             if (progress?.IsNew(page) == true)
-                Dot(new Vector2(row.xMax - 9f, row.center.y), NetrunUI.Ok, "NR_HelpNew".Translate());
+            {
+                Text.Font = GameFont.Tiny;
+                string tag = "NR_HelpNewTag".Translate();
+                float tw = Text.CalcSize(tag).x + 8f;
+                var pill = new Rect(row.xMax - tw - 4f, row.center.y - 8f, tw, 16f);
+                Widgets.DrawBoxSolid(pill, NetrunUI.Ok);
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(pill, tag.Colorize(NetrunUI.BgWindow));
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                NetrunUI.Tip(pill, "NR_HelpNew".Translate());
+            }
             else if (current)
                 Dot(new Vector2(row.xMax - 9f, row.center.y), page.Topic.Color, "NR_HelpHere".Translate());
 

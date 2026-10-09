@@ -323,6 +323,8 @@ public static partial class NetrunUI
     }
 
     /// <summary>A news line running right to left inside <paramref name="rect"/>, items split by " /// ", clipped at the edges.</summary>
+    private static float _tickerPos, _tickerAt;
+
     public static void Ticker(Rect rect, System.Collections.Generic.List<(string text, Color color)> items)
     {
         if (items.Count == 0)
@@ -333,7 +335,14 @@ public static partial class NetrunUI
         foreach ((string text, Color _) in items)
             total += Text.CalcSize(text).x + sepW;
         float speed = 38f;
-        float offset = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * speed % total : 0f;
+        // A running position, not time × speed: new lines join the loop without the line jumping back.
+        float now = Time.realtimeSinceStartup;
+        if (Event.current.type == EventType.Repaint && NetrunMod.Settings.Animations)
+            _tickerPos += Mathf.Min(0.1f, now - _tickerAt) * speed;
+        _tickerAt = now;
+        if (_tickerPos >= total)
+            _tickerPos %= total;
+        float offset = NetrunMod.Settings.Animations ? _tickerPos : 0f;
         Widgets.BeginGroup(rect);
         Text.Anchor = TextAnchor.MiddleLeft;
         // Two passes so the line wraps around without a gap.

@@ -41,7 +41,7 @@ public static class NetTerminalUtility
         {
             defaultLabel = "NR_CommandCyberspace".Translate(),
             defaultDesc = "NR_CommandCyberspaceDesc".Translate(),
-            icon = NetrunTex.Cyberspace,
+            icon = NetrunTex.NetTerminal,
             action = () => OpenTerminal(map, gateway: true),
         };
         if (!powered)

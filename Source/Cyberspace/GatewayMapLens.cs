@@ -49,7 +49,7 @@ public static partial class GatewayView
             Widgets.DrawBox(r);
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(r, $"{i + 1} {("NR_MapLens_" + Lenses[i]).Translate()}".Colorize(on ? NetrunUI.Accent : NetrunUI.TextColor));
+            Widgets.Label(r, ((string)("NR_MapLens_" + Lenses[i]).Translate()).Colorize(on ? NetrunUI.Accent : NetrunUI.TextColor));
             Text.Anchor = TextAnchor.UpperLeft;
             NetrunUI.Tip(r, ("NR_MapLensTip_" + Lenses[i]).Translate());
             if (Widgets.ButtonInvisible(r))
@@ -62,17 +62,6 @@ public static partial class GatewayView
     {
         NetrunMod.Settings.MapLens = (int)lens;
         NetrunSound.Click();
-    }
-
-    /// <summary>Keys 1-6 pick a lens (called from the map's hotkeys).</summary>
-    private static bool LensHotkey(KeyCode key)
-    {
-        int i = key >= KeyCode.Alpha1 && key <= KeyCode.Alpha6 ? key - KeyCode.Alpha1
-            : key >= KeyCode.Keypad1 && key <= KeyCode.Keypad6 ? key - KeyCode.Keypad1 : -1;
-        if (i < 0)
-            return false;
-        SetLens(Lenses[i]);
-        return true;
     }
 
     // ---- Lens values: hub id -> 0..1 on the lens's scale, -1 when it does not apply ----

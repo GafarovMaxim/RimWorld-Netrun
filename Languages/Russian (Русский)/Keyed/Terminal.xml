@@ -416,4 +416,5 @@
   <NR_Gloss_Netsick>Netsick: зависимость от сети. Растёт в сети, спадает вне её; на высоких уровнях ломка и срывы.</NR_Gloss_Netsick>
   <NR_Gloss_Cyberdata>Cyberdata: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
   <NR_Gloss_Trace>След: то, что оставляют нырок или взлом; после окончания он превращается в Heat.</NR_Gloss_Trace>
+  <NR_HelpNewTag>НОВОЕ</NR_HelpNewTag>
 </LanguageData>

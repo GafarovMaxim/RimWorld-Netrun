@@ -26,25 +26,33 @@ public static class NetrunTint
         "Tab_Events_Cyberspace", "Tab_Fixers", "Tab_Log", "Tab_Overview", "Tab_Settings",
     ];
 
-    private static readonly Dictionary<Texture2D, Texture2D> Cache = [];
-    private static Color _cachedFor;
+    // One copy per texture and colour. (A single-colour cache was cleared every frame while the guide asked for its own
+    // colour, and every icon was rebuilt with a pixel read each frame: the 17 ms in guide mode.)
+    private static readonly Dictionary<(Texture2D, Color32), Texture2D> Cache = [];
 
     /// <summary>The icon in the terminal's colours (itself when it is not a template icon).</summary>
     public static Texture2D Of(Texture2D src) => Of(src, NetrunUI.Accent);
 
     public static Texture2D Of(Texture2D src, Color accent)
+        => src == null || !Tintable.Contains(src.name) ? src : Tinted(src, accent);
+
+    /// <summary>Any icon's white and grey parts in the given colour (the Cyberpedia paints its icons in the article's colour).</summary>
+    public static Texture2D OfAny(Texture2D src, Color color) => src == null ? null : Tinted(src, color);
+
+    private static Texture2D Tinted(Texture2D src, Color accent)
     {
-        if (src == null || !Tintable.Contains(src.name))
-            return src;
-        if (accent != _cachedFor)
+        var key = (src, (Color32)accent);
+        if (Cache.TryGetValue(key, out Texture2D tinted))
+            return tinted;
+        if (Cache.Count > 400)
         {
             foreach (Texture2D t in Cache.Values)
-                Object.Destroy(t);
+                if (t != null && !Tintable.Contains(t.name))
+                    Object.Destroy(t);
             Cache.Clear();
-            _cachedFor = accent;
         }
-        if (Cache.TryGetValue(src, out Texture2D tinted))
-            return tinted;
+        if (Event.current == null || Event.current.type != EventType.Repaint)
+            return src;
         try
         {
             tinted = Make(src, accent);
@@ -54,7 +62,7 @@ public static class NetrunTint
             Log.WarningOnce("[Netrun] could not tint " + src.name + ": " + e.Message, src.name.GetHashCode());
             tinted = src;
         }
-        Cache[src] = tinted;
+        Cache[key] = tinted;
         return tinted;
     }
 

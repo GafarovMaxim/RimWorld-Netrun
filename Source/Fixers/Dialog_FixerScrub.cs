@@ -104,9 +104,14 @@ public class Dialog_FixerScrub : Window
     {
         NetrunUI.Card(rect, NetrunUI.Accent);
         GUI.DrawTexture(new Rect(rect.x + 12f, rect.y + 6f, 32f, 32f), def.uiIcon);
+        // The name in the room left of the buttons (min starts 274 px from the right); smaller and wrapped when long.
+        float nameW = rect.width - 274f - 52f - 8f;
+        string name = def.LabelCap + "  " + ("(" + available + ")").Colorize(NetrunUI.Muted);
+        Text.Font = Text.CalcSize(name.StripTags()).x > nameW ? GameFont.Tiny : GameFont.Small;
         Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(rect.x + 52f, rect.y, 170f, rect.height), def.LabelCap + "  " + ("(" + available + ")").Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(rect.x + 52f, rect.y, nameW, rect.height), name);
         Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
 
         float x = rect.xMax - 10f - 60f;
         float cy = rect.y + 7f;

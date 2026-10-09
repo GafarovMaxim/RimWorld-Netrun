@@ -25,7 +25,7 @@ public static partial class NetrunUI
 
     private static void ScrollBar(Rect outer, ref Vector2 scroll, float overflow, float viewHeight)
     {
-        var track = new Rect(outer.xMax - ScrollBarWidth - 2f, outer.y + 2f, ScrollBarWidth, outer.height - 4f);
+        var track = new Rect(outer.xMax - ScrollBarWidth, outer.y + 2f, ScrollBarWidth, outer.height - 4f);
         float thumbH = Mathf.Max(28f, track.height * outer.height / viewHeight);
         float room = Mathf.Max(1f, track.height - thumbH);
         float t = Mathf.Clamp01(scroll.y / overflow);
@@ -59,7 +59,9 @@ public static partial class NetrunUI
         Widgets.DrawBoxSolid(new Rect(track.center.x - 1f, track.y, 2f, track.height), new Color(Accent.r, Accent.g, Accent.b, hot ? 0.25f : 0.14f));
         for (float ty = track.y + 6f; ty < track.yMax - 4f; ty += 24f)
             Widgets.DrawBoxSolid(new Rect(track.center.x - 3f, ty, 6f, 1f), new Color(Accent.r, Accent.g, Accent.b, 0.12f));
-        // The thumb: dark, an accent frame, three notches in the middle.
+        // The thumb: dark, an accent frame, three notches in the middle; a soft glow while held or hovered.
+        if (hot)
+            Glow(thumb, Accent, 0.35f, 6f);
         Widgets.DrawBoxSolid(thumb, new Color(BgCard.r, BgCard.g, BgCard.b, 0.95f));
         Widgets.DrawBoxSolid(thumb.ContractedBy(1f), new Color(Accent.r, Accent.g, Accent.b, hot ? 0.22f : 0.1f));
         GUI.color = new Color(Accent.r, Accent.g, Accent.b, hot ? 1f : 0.65f);

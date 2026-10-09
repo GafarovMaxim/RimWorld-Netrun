@@ -137,9 +137,6 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             node.Hidden = true;
         if (!StormActive && Rand.Chance(Settings.stormChance * NetrunMod.Settings.CyberEventFrequency))
             StartStorm();
-        if (ContractManager.Get()?.Active.Any(c => c.Type is ContractType.SystemTap or ContractType.QuietRun) == true
-            && _nodes.Where(n => !n.Hidden).TryRandomElement(out ExternalNode marked))
-            marked.Contract = true;
     }
 
     public void RemoveNode(ExternalNode node)
@@ -150,20 +147,25 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
 
     private int _contractCheckTick = -1;
 
+    /// <summary>A contract whose goal is a particular node (to be added with the surveillance rework, C4).</summary>
+    private static bool TargetsNode(Contract c) => false;
+
     /// <summary>With the map: a running tap or quiet-run contract marks one known branch as its target.</summary>
     private void MarkContractBranch(int now)
     {
         if (now - _contractCheckTick < GenDate.TicksPerHour)
             return;
         _contractCheckTick = now;
-        bool wanted = ContractManager.Get()?.Active.Any(c => c.Type is ContractType.SystemTap or ContractType.QuietRun) == true;
+        // Only a contract with a node as its target marks one (none of the current types: taps and quiet runs count any hack).
+        bool wanted = ContractManager.Get()?.Active.Any(TargetsNode) == true;
         if (!wanted)
         {
             foreach (ExternalNode n in _nodes)
                 n.Contract = false;
             return;
         }
-        if (!_nodes.Any(n => n.Contract) && _nodes.Where(n => !n.Hidden && !n.IsBoss && !n.Ancient).TryRandomElement(out ExternalNode marked))
+        if (!_nodes.Any(n => n.Contract) && _nodes.Where(n => !n.Hidden && !n.IsBoss && !n.Ancient && !n.Offline
+                && NetMapManager.Get()?.NodeOf(n)?.District != District.Orbit).TryRandomElement(out ExternalNode marked))
             marked.Contract = true;
     }
 

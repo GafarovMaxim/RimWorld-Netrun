@@ -120,6 +120,7 @@ public static class NetrunTex
     public static readonly Texture2D MenuMain = ContentFinder<Texture2D>.Get("UI/Netrun/Menu/Menu_Main", reportFailure: false);
     public static Texture2D MenuIcon(string name) => CyberIconAt("UI/Netrun/Menu/Menu_" + name);
     public static readonly Texture2D NetworkLock = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_NetworkLock", reportFailure: false);
+    public static readonly Texture2D Watcher = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_Watcher", reportFailure: false);
 
     public static readonly Texture2D AIUse = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Use");
     public static readonly Texture2D AIFeed = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Feed");

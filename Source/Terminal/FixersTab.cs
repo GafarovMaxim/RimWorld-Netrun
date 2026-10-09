@@ -25,34 +25,6 @@ public static class FixersTab
         List<Fixer> pinned = manager.Fixers.Where(f => f.Pinned).ToList();
         List<Fixer> pool = manager.Fixers.Where(f => !f.Pinned).ToList();
 
-        // The hacker group: favor from cyberspace finds, spent on calling allies.
-        GatewayManager gateway = GatewayManager.Get();
-        if (gateway != null)
-        {
-            var groupRect = new Rect(rect.x, rect.y, rect.width, 40f);
-            GuideRegistry.Area("club.group", groupRect);
-            string favor = "NR_ClubFavor".Translate(gateway.GroupFavor, NetrunDefOf.NR_Cyberspace.groupFavorForAllies);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            float favorX = groupRect.x;
-            if (NetrunTex.GroupFavor is { } favorIcon)
-            {
-                GUI.DrawTexture(new Rect(favorX, groupRect.center.y - 16f, 32f, 32f), favorIcon);
-                favorX += 38f;
-            }
-            var favorRect = new Rect(favorX, groupRect.y, groupRect.xMax - 220f - favorX, groupRect.height);
-            Text.Font = GameFont.Medium;
-            Widgets.Label(favorRect, favor.Colorize(NetrunUI.Purple));
-            Text.Font = GameFont.Small;
-            NetrunUI.Tip(favorRect, "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays));
-            Text.Anchor = TextAnchor.UpperLeft;
-            string call = "NR_ClubCallAllies".Translate();
-            Texture2D groupIcon = NetrunTex.HackerGroup;
-            float cw = NetrunUI.ButtonWidth(call, groupIcon != null);
-            if (NetrunUI.Button(new Rect(groupRect.xMax - cw - 16f, groupRect.y, cw, 30f), call, NetrunUI.Purple, gateway.CanCallAllies(), "NR_ClubCallAlliesTip".Translate(), groupIcon))
-                gateway.CallAllies(map);
-            rect.yMin += 46f;
-        }
-
         float width = rect.width - 16f;
         float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);

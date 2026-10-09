@@ -236,7 +236,7 @@ public static class ContractsTab
     {
         var box = new Rect(card.x + 4f + Pad, card.y + Pad, IconSize, IconSize);
         NetrunUI.Box(box, NetrunUI.BgWindow, color, 2);
-        GUI.DrawTexture(box.ContractedBy(12f), TypeIcon(type));
+        GUI.DrawTexture(box.ContractedBy(12f), NetrunTint.Of(TypeIcon(type)));
     }
 
     /// <summary>Tags in words: the fixer, what the job asks (green easy, red risky), a known bad trait. A click opens the article.</summary>

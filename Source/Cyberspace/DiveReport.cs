@@ -82,6 +82,8 @@ public class Dialog_DiveReport : Window
     public Dialog_DiveReport(DiveReport report)
     {
         _report = report;
+        // Above the terminal: a click on the terminal does not hide the summary.
+        layer = WindowLayer.SubSuper;
         doCloseX = false;
         forcePause = false;
         absorbInputAroundWindow = false;

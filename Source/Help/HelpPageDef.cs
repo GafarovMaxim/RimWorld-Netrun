@@ -40,6 +40,12 @@ public class HelpPageDef : Def
     /// <summary>Kept for links, but not listed in the Cyberpedia's tree (the AI archetypes live in one gallery).</summary>
     public bool hideInTree;
 
+    /// <summary>The mod version that added or reworked the page ("1.2.0"): it is marked new until opened.</summary>
+    public string newInVersion;
+
+    private static string _modVersion;
+    public static string ModVersion => _modVersion ??= LoadedModManager.GetMod<NetrunMod>()?.Content?.ModMetaData?.ModVersion ?? "";
+
     public bool IsTopic => parent == null;
 
     public IEnumerable<HelpPageDef> Children => DefDatabase<HelpPageDef>.AllDefs.Where(p => p.parent == this && !p.hideInTree).OrderBy(p => p.order);
@@ -54,6 +60,8 @@ public class HelpPageDef : Def
         "Purple" => NetrunUI.Purple,
         "Muted" => NetrunUI.Muted,
         "Studio" => new Color(1f, 0.45f, 0.35f),
+        "Blue" => NetrunUI.Hex(0x5ec8f2),
+        _ when color != null && color.StartsWith("#") && color.Length == 7 => NetrunUI.Hex(System.Convert.ToInt32(color.Substring(1), 16)),
         _ => NetrunUI.Accent,
     };
 
@@ -150,7 +158,8 @@ public class HelpProgress : GameComponent
     public bool Has(string flag) => _flags.Contains(flag) || _flags.Contains("all");
 
     public bool Unlocked(HelpPageDef page) => page.unlockFlag.NullOrEmpty() || _flags.Contains(page.unlockFlag) || _flags.Contains("all");
-    public bool IsNew(HelpPageDef page) => !page.unlockFlag.NullOrEmpty() && Unlocked(page) && !_seen.Contains(page.defName);
+    public bool IsNew(HelpPageDef page) => !_seen.Contains(page.defName) && Unlocked(page)
+        && (!page.unlockFlag.NullOrEmpty() || !page.newInVersion.NullOrEmpty() && page.newInVersion == HelpPageDef.ModVersion);
     public void MarkSeen(HelpPageDef page) => _seen.Add(page.defName);
     public void UnlockAll() => _flags.Add("all");
 

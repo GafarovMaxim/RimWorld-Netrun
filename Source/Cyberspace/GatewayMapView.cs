@@ -515,6 +515,12 @@ public static partial class GatewayView
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_MapEmergencyConfirm".Translate(selected.Pawn?.LabelShort ?? "?"),
                     () => net.Disconnect(selected, emergency: true), destructive: true));
             y += 34f;
+            if (selected.NodeId != net.Map.HomeId || selected.Moving)
+            {
+                if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoHome".Translate(), NetrunUI.Ok, net.CanTravel(selected, net.Map.HomeId), "NR_MapGoHomeTip".Translate()))
+                    net.Travel(selected, net.Map.HomeId);
+                y += 32f;
+            }
             if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapPingNow".Translate(NetMapManager.Settings.pingCost), NetrunUI.Accent,
                     net.CanPingNow(selected, colonyMap), "NR_MapPingTip".Translate(NetMapManager.Settings.pingHops)))
                 net.PingNow(selected, colonyMap);

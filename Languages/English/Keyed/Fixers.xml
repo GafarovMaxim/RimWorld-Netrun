@@ -56,8 +56,6 @@
   <NR_ScrubMax>max</NR_ScrubMax>
   <NR_ShopNoSilver>not enough silver</NR_ShopNoSilver>
   <NR_ScrubMin>min</NR_ScrubMin>
-  <NR_ClubFavor>Hacker group favor: {0}/{1}</NR_ClubFavor>
-  <NR_ClubCallAllies>Call the group</NR_ClubCallAllies>
   <NR_ClubCallAlliesTip>Spend the favor: an allied faction sends fighters (or the group sends advanced data). Once a season.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Favor ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>The fixer owes you: scrub {0} Heat for free, no call needed.</NR_FixerFreeScrubTip>

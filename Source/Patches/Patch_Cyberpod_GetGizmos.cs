@@ -53,7 +53,7 @@ public static class Patch_Cyberpod_GetGizmos
                 {
                     defaultLabel = "NR_DutyGizmo".Translate(),
                     defaultDesc = "NR_DutyGizmoDesc".Translate(NetrunDefOf.NR_Defense.dutyIntellectPerPoint),
-                    icon = NetrunTex.DaemonIcon(DiveDaemon.Aegis),
+                    icon = NetrunTex.Watcher ?? NetrunTex.DaemonIcon(DiveDaemon.Aegis),
                     isActive = () => defense.OnDuty(__instance),
                     toggleAction = () => defense.ToggleDuty(__instance),
                 };

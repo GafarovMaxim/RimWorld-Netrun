@@ -115,12 +115,12 @@
   <NR_MapLens_Corps>Корпы</NR_MapLens_Corps>
   <NR_MapLens_Contracts>Работа</NR_MapLens_Contracts>
   <NR_MapLens_Time>Время</NR_MapLens_Time>
-  <NR_MapLensTip_Overview>Обзор (1): узлы в цветах районов; если раннер стоит, видно, куда он может шагнуть.</NR_MapLensTip_Overview>
-  <NR_MapLensTip_Loot>Добыча (2): лучшая известная добыча на узле.</NR_MapLensTip_Loot>
-  <NR_MapLensTip_Danger>Угроза (3): ICE и ворота, патрули и крепости.</NR_MapLensTip_Danger>
-  <NR_MapLensTip_Corps>Корпы (4): корпоративная земля в цвете каждой корпорации.</NR_MapLensTip_Corps>
-  <NR_MapLensTip_Contracts>Работа (5): цели контрактов и ваш список наблюдения.</NR_MapLensTip_Contracts>
-  <NR_MapLensTip_Time>Время (6): часы пути от выбранного раннера.</NR_MapLensTip_Time>
+  <NR_MapLensTip_Overview>Обзор: узлы в цветах районов; если раннер стоит, видно, куда он может шагнуть.</NR_MapLensTip_Overview>
+  <NR_MapLensTip_Loot>Добыча: лучшая известная добыча на узле.</NR_MapLensTip_Loot>
+  <NR_MapLensTip_Danger>Угроза: ICE и ворота, патрули и крепости.</NR_MapLensTip_Danger>
+  <NR_MapLensTip_Corps>Корпы: корпоративная земля в цвете каждой корпорации.</NR_MapLensTip_Corps>
+  <NR_MapLensTip_Contracts>Работа: цели контрактов и ваш список наблюдения.</NR_MapLensTip_Contracts>
+  <NR_MapLensTip_Time>Время: часы пути от выбранного раннера.</NR_MapLensTip_Time>
   <NR_MapLensScale_Loot>богато</NR_MapLensScale_Loot>
   <NR_MapLensScale_Danger>смертельно</NR_MapLensScale_Danger>
   <NR_MapLensScale_Time>12 ч+</NR_MapLensScale_Time>
@@ -156,4 +156,6 @@
   <NR_MapThreat>На маршруте {0} в узле {1} патруль или вторжение. Игра на паузе: смените маршрут или остановите раннера.
 
 Автопаузу можно отключить в настройках.</NR_MapThreat>
+  <NR_MapGoHome>⌂ Домой</NR_MapGoHome>
+  <NR_MapGoHomeTip>Отправить раннера в Дом (это точка выхода: оттуда можно выйти из сети).</NR_MapGoHomeTip>
 </LanguageData>

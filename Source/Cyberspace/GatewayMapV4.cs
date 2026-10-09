@@ -17,6 +17,7 @@ public static partial class GatewayView
 
     private static int _centerOn = -1;
     private static bool _mouseOnOverlay;
+    private static bool _swallowF;
     private static int _pulseNode = -1;
     private static float _pulseUntil;
     private static string _search = string.Empty;
@@ -99,6 +100,13 @@ public static partial class GatewayView
         Event e = Event.current;
         if (e.type != EventType.KeyDown)
             return;
+        // The F that opened the search comes again as a typed character: swallow it once.
+        if (_swallowF && (e.character == 'f' || e.character == 'F' || e.character == 'а' || e.character == 'А'))
+        {
+            _swallowF = false;
+            e.Use();
+            return;
+        }
         if (GUI.GetNameOfFocusedControl() == SearchControl)
         {
             if (e.keyCode == KeyCode.Escape)
@@ -133,11 +141,10 @@ public static partial class GatewayView
                 break;
             case KeyCode.F:
                 GUI.FocusControl(SearchControl);
+                _swallowF = true;
                 break;
             default:
-                if (!LensHotkey(e.keyCode))
-                    return;
-                break;
+                return;
         }
         e.Use();
     }

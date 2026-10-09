@@ -208,6 +208,7 @@
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
+      <drawOffset>(0,0,0.18)</drawOffset>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
