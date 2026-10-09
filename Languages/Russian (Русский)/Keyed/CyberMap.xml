@@ -161,4 +161,5 @@
   <NR_MapActiveContracts>Текущие контракты</NR_MapActiveContracts>
   <NR_MapGoAndExit>⇥ К выходу и выйти</NR_MapGoAndExit>
   <NR_MapGoAndExitTip>Дойти до ближайшей точки выхода и выйти там из сети, одним действием.</NR_MapGoAndExitTip>
+  <NR_MapWatchTag>◉ наблюдение</NR_MapWatchTag>
 </LanguageData>

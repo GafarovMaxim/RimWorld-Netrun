@@ -99,4 +99,7 @@
   <NR_BoardTag_Favor>+{0} favor</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>An imperial job: besides the silver, {0} royal favor goes to the colonist the Empire knows best.</NR_BoardTag_FavorTip>
   <NR_BoardShowTip>Open the cyberspace map on the target: {0}.</NR_BoardShowTip>
+  <NR_ContractDesc_SurveillanceNode>Keep a runner parked at {1} for {0} hours. The client wants eyes on that node, not just a warm seat in a pod.</NR_ContractDesc_SurveillanceNode>
+  <NR_BoardTag_InNode>In node: {0}</NR_BoardTag_InNode>
+  <NR_BoardTag_InNodeTip>Hours count only while a runner stands in {0} on the cyberspace map (two runners count double, no more).</NR_BoardTag_InNodeTip>
 </LanguageData>

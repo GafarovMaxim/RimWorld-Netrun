@@ -171,7 +171,28 @@ public static partial class GatewayView
         return ("NR_District_" + n.District).Translate();
     }
 
-    private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns";
+    private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
+
+    /// <summary>D3: hubs that an accepted surveillance contract watches (twice a second).</summary>
+    public static HashSet<int> WatchedHubs() => NetrunUI.Cached(WatchedKey,
+        () => new HashSet<int>(ContractManager.Get()?.Active.Where(c => c.Accepted && c.WatchesHub).Select(c => c.TargetHub) ?? []), 0.5f);
+
+    private static void DrawWatchTag(Rect hubRect)
+    {
+        Text.Font = GameFont.Tiny;
+        string text = NetrunUI.T("NR_MapWatchTag");
+        float w = NetrunUI.Width(text) + 8f;
+        var tag = new Rect(hubRect.x - w - 4f, hubRect.y - 16f, w, 14f);
+        Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.8f);
+        Widgets.DrawBox(tag);
+        Text.Anchor = TextAnchor.MiddleCenter;
+        GUI.color = NetrunUI.Accent;
+        Widgets.Label(tag, text);
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+    }
 
     /// <summary>A dark hub shows once one of its links is known (a loop, no LINQ enumerator per hub per event).</summary>
     private static bool HasKnownLink(CyberMap map, int id)
@@ -396,6 +417,8 @@ public static partial class GatewayView
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
+        if (WatchedHubs().Contains(n.Id))
+            DrawWatchTag(rect);
         DrawTimerTag(rect, n, net);
         DrawHubName(rect, n, net, branches);
 

@@ -420,4 +420,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreTodayTip>What happens on the cyberspace map in the next 24 hours: timers on hubs, intrusions, contracts that close. Click to open the Gateway at the nearest one.</NR_CoreTodayTip>
   <NR_CoreTodayMore>…and {0} more</NR_CoreTodayMore>
   <NR_CoreTodayContract>contract closes: {0}</NR_CoreTodayContract>
+  <NR_SettingsSurveillanceNode>Surveillance in a node</NR_SettingsSurveillanceNode>
+  <NR_SettingsSurveillanceNodeTip>A surveillance contract names a hub on the cyberspace map, and only a runner standing there counts. Off: any netrunner in a pod counts, as in older versions.</NR_SettingsSurveillanceNodeTip>
 </LanguageData>

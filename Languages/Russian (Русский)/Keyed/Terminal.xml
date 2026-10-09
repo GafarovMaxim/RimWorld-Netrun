@@ -420,4 +420,6 @@
   <NR_CoreTodayTip>Что случится на карте киберпространства в ближайшие 24 часа: таймеры на узлах, вторжения, закрывающиеся контракты. Щелчок откроет Шлюз у ближайшего.</NR_CoreTodayTip>
   <NR_CoreTodayMore>…и ещё {0}</NR_CoreTodayMore>
   <NR_CoreTodayContract>закрывается контракт: {0}</NR_CoreTodayContract>
+  <NR_SettingsSurveillanceNode>Наблюдение в узле</NR_SettingsSurveillanceNode>
+  <NR_SettingsSurveillanceNodeTip>Контракт наблюдения называет узел на карте киберпространства, и считается только раннер, стоящий там. Выкл.: считается любой нетраннер в капсуле, как в старых версиях.</NR_SettingsSurveillanceNodeTip>
 </LanguageData>

@@ -30,16 +30,28 @@ public class Contract : IExposable
     public int Param;
     /// <summary>Royal favor on top of the silver (an imperial client's contract).</summary>
     public int Favor;
+    /// <summary>D3: the cyberspace hub a surveillance contract watches (-1: any pod counts, as before).</summary>
+    public int TargetHub = -1;
 
     public bool Accepted => DeadlineTick >= 0;
     public bool Done => Progress >= Goal;
     public int TicksLeft => Mathf.Max(0, DeadlineTick - Find.TickManager.TicksGame);
 
     public string Title => ("NR_Contract_" + Type).Translate();
-    public string Description => ("NR_ContractDesc_" + Type).Translate(Goal, ParamText, NetrunDefOf.NR_Fixers.rookieMaxSkill);
+    public string Description => Type == ContractType.Surveillance && WatchesHub
+        ? "NR_ContractDesc_SurveillanceNode".Translate(Goal, ParamText)
+        : ("NR_ContractDesc_" + Type).Translate(Goal, ParamText, NetrunDefOf.NR_Fixers.rookieMaxSkill);
 
-    /// <summary>The type's extra detail in words (the wanted mood of a CleanLab).</summary>
-    public string ParamText => Type == ContractType.CleanLab ? ("NR_BDMood_" + (BraindanceMood)Param).Translate().ToString() : string.Empty;
+    /// <summary>A surveillance contract that needs a runner in its hub (the option is on and the hub is set).</summary>
+    public bool WatchesHub => Type == ContractType.Surveillance && TargetHub >= 0 && NetrunMod.Settings.SurveillanceInNode;
+
+    /// <summary>The type's extra detail in words (the wanted mood of a CleanLab, the watched hub of a surveillance).</summary>
+    public string ParamText => Type switch
+    {
+        ContractType.CleanLab => ("NR_BDMood_" + (BraindanceMood)Param).Translate().ToString(),
+        ContractType.Surveillance when TargetHub >= 0 => NetMapManager.NodeLabel(NetMapManager.Get()?.Map?.Node(TargetHub)),
+        _ => string.Empty,
+    };
 
     public void ExposeData()
     {
@@ -53,6 +65,7 @@ public class Contract : IExposable
         Scribe_Values.Look(ref DeadlineTick, "deadlineTick", -1);
         Scribe_Values.Look(ref Param, "param");
         Scribe_Values.Look(ref Favor, "favor");
+        Scribe_Values.Look(ref TargetHub, "targetHub", -1);
     }
 }
 

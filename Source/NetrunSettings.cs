@@ -47,6 +47,8 @@ public class NetrunSettings : ModSettings
 
     /// <summary>Netrun threats (Heat, AI, fixers, mercenaries) wait until the colony has touched the net.</summary>
     public bool NewcomerProtection = true;
+    /// <summary>D3: a surveillance contract counts only a runner standing in its hub (off: any pod, as before).</summary>
+    public bool SurveillanceInNode = true;
 
     // ---- Interface ----
     /// <summary>Index into NetrunTex.Accents: the terminal's highlight color.</summary>
@@ -456,6 +458,7 @@ public class NetrunSettings : ModSettings
         if (MapHubScale > 1.25f)
             Label("NR_SettingsHubScaleWarn".Translate(), NetrunUI.Warn);
         Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
+        Toggle("NR_SettingsSurveillanceNode", ref SurveillanceInNode, "NR_SettingsSurveillanceNodeTip");
         _y += 6f;
     }
 
@@ -670,6 +673,7 @@ public class NetrunSettings : ModSettings
         AIAvailability = 1f;
         MapSize = NetSize.Large;
         NewcomerProtection = true;
+        SurveillanceInNode = true;
     }
 
     private void ResetInterface()
@@ -719,6 +723,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref CyberEventFrequency, "cyberEventFrequency", 1f);
         Scribe_Values.Look(ref ShowDiveReport, "showDiveReport", true);
         Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
+        Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);
         Scribe_Values.Look(ref TextScale, "textScale", 1f);

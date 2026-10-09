@@ -257,7 +257,10 @@ public static class ContractsTab
                 tags.Add(("NR_BoardTag_Quiet".Translate(HeatLevel.Tracked.Label()), NetrunUI.Bad, "NR_BoardTag_QuietTip".Translate(HeatLevel.Tracked.Label())));
                 break;
             case ContractType.Surveillance:
-                tags.Add(("NR_BoardTag_Pod".Translate(), NetrunUI.Accent, "NR_BoardTag_PodTip".Translate()));
+                if (contract.WatchesHub)
+                    tags.Add(("NR_BoardTag_InNode".Translate(contract.ParamText), NetrunUI.Accent, "NR_BoardTag_InNodeTip".Translate(contract.ParamText)));
+                else
+                    tags.Add(("NR_BoardTag_Pod".Translate(), NetrunUI.Accent, "NR_BoardTag_PodTip".Translate()));
                 break;
             case ContractType.LayLow:
                 tags.Add(("NR_BoardTag_LayLow".Translate(contract.Goal), NetrunUI.Ok, "NR_BoardTag_LayLowTip".Translate(contract.Goal)));
@@ -386,8 +389,17 @@ public static class ContractsTab
                     "NR_FixerCallTip".Translate(NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
                 FixerDeals.Call(fixer, map);
         }
+        // A surveillance contract: one click opens the Gateway on the watched hub.
+        if (contract.WatchesHub && GatewayManager.MapReady)
+        {
+            string show = "NR_MapShow".Translate();
+            float sw = NetrunUI.ButtonWidth(show);
+            bx -= sw + 8f;
+            if (NetrunUI.Button(new Rect(bx, by, sw, 30f), show, NetrunUI.Warn, true, "NR_BoardShowTip".Translate(contract.ParamText)))
+                Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenGatewayAt(contract.TargetHub);
+        }
         // A contract with a target on the map: one click opens the Gateway on it.
-        if (contract.Type is ContractType.SystemTap or ContractType.QuietRun && GatewayManager.MapReady
+        else if (contract.Type is ContractType.SystemTap or ContractType.QuietRun && GatewayManager.MapReady
             && GatewayManager.Get()?.AllBranches.FirstOrDefault(b => b.Contract && !b.Hidden && b.MapNodeId >= 0) is { } target)
         {
             string show = "NR_MapShow".Translate();

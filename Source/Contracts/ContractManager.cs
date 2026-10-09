@@ -129,6 +129,7 @@ public class ContractManager : GameComponent, INetrunCleanable
             case ContractType.Surveillance:
                 contract.Goal = Settings.surveillanceHours.RandomInRange;
                 contract.Reward = contract.Goal * Settings.surveillanceRewardPerHour;
+                contract.TargetHub = PickWatchHub();
                 break;
             case ContractType.LayLow:
             {
@@ -190,11 +191,57 @@ public class ContractManager : GameComponent, INetrunCleanable
     private static bool IsRookie(Pawn pawn)
         => pawn.skills?.GetSkill(SkillDefOf.Intellectual) is { TotallyDisabled: false } skill && skill.Level <= Settings.rookieMaxSkill;
 
-    /// <summary>Netrunner time in a pod (called per pod and check): every full hour counts for surveillance.</summary>
-    public void NotifyPodTicks(int ticks)
+    /// <summary>
+    /// D3: a hub to watch, random among the known, open ones (not Home, an exit, the dark or orbit), or -1 while the map
+    /// is not ready or the option is off.
+    /// </summary>
+    public static int PickWatchHub()
     {
+        NetMapManager net = NetMapManager.Get();
+        if (!NetrunMod.Settings.SurveillanceInNode || net is not { Ready: true })
+            return -1;
+        CyberMap map = net.Map;
+        List<MapNode> pool = map.Nodes.Where(n => !n.Exit && n.District is not (District.Home or District.Dark or District.Orbit) && !n.Offline
+            && map.LinksOf(n.Id).Any(l => l.Known)).ToList();
+        return pool.Count == 0 ? -1 : pool.RandomElement().Id;
+    }
+
+    // Credits this check, per contract (several pods in the hub count, at most two: docs/CONCEPTS_D_2026-10-09.md, D3).
+    private readonly Dictionary<int, int> _watchCredits = [];
+    private int _watchTick = -1;
+
+    /// <summary>
+    /// Netrunner time in a pod (called per pod and check): every full hour counts for surveillance. With a watched hub
+    /// only a runner standing in that hub counts.
+    /// </summary>
+    public void NotifyPodTicks(int ticks, Pawn diver = null)
+    {
+        int now = Find.TickManager.TicksGame;
+        if (now != _watchTick)
+        {
+            _watchTick = now;
+            _watchCredits.Clear();
+        }
         foreach (Contract contract in Active.Where(c => c.Type == ContractType.Surveillance).ToList())
         {
+            if (contract.Accepted && contract.TargetHub < 0 && NetrunMod.Settings.SurveillanceInNode)
+                contract.TargetHub = PickWatchHub();
+            if (contract.WatchesHub)
+            {
+                NetMapManager net = NetMapManager.Get();
+                if (net?.Map?.Node(contract.TargetHub) == null)
+                {
+                    contract.TargetHub = PickWatchHub();
+                    continue;
+                }
+                NetRunner runner = diver == null ? null : net.RunnerOf(diver);
+                if (runner == null || runner.Moving || runner.NodeId != contract.TargetHub)
+                    continue;
+                _watchCredits.TryGetValue(contract.Id, out int credits);
+                if (credits >= 2)
+                    continue;
+                _watchCredits[contract.Id] = credits + 1;
+            }
             contract.Param += ticks;
             int hours = contract.Param / GenDate.TicksPerHour;
             if (hours <= 0)

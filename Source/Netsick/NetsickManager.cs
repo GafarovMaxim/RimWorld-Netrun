@@ -38,7 +38,7 @@ public class NetsickManager : GameComponent
                 // In a map session Netsick counts the hours in the net (docs/CYBERSPACE_V2.md, section 2).
                 float perDay = NetMapManager.Get()?.InSession(diver) == true ? NetrunDefOf.NR_CyberMap.sessionGainPerDay : Settings.podGainPerDay;
                 Hediff_Netsick netsick = AddNetsick(diver, perDay * DayFraction * PodFactor(pod));
-                ContractManager.Get()?.NotifyPodTicks(TickInterval);
+                ContractManager.Get()?.NotifyPodTicks(TickInterval, diver);
                 netsick.LastConnectedTick = now;
 
                 // Resolved and waking: nothing more to do, unless the pod never lets the pawn out (then eject).
