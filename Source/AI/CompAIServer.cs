@@ -61,8 +61,28 @@ public class CompAIServer : ThingComp
     {
         foreach (Gizmo g in base.CompGetGizmosExtra())
             yield return g;
-        if (IsCoprocessor || parent.Faction != Faction.OfPlayer)
+        if (parent.Faction != Faction.OfPlayer)
             yield break;
+        if (IsCoprocessor)
+        {
+            // C8: an AI riding in this coprocessor moves to another free one straight from the building.
+            foreach (NetAI ai in AIManager.Get()?.InServer((Building)parent) ?? [])
+            {
+                NetAI moving = ai;
+                var move = new Command_Action
+                {
+                    defaultLabel = "NR_AIToOtherCoprocessor".Translate() + ": " + ai.Name,
+                    defaultDesc = "NR_AIToOtherCoprocessorTip".Translate(),
+                    icon = NetrunTint.Of(NetrunTex.AIToCoprocessor),
+                    action = () => AIHosting.OpenCoprocessorMenu(moving, parent.Map),
+                };
+                AcceptanceReport can = AIHosting.CanMoveBetweenCoprocessors(ai, parent.Map);
+                if (!can.Accepted)
+                    move.Disable(can.Reason);
+                yield return move;
+            }
+            yield break;
+        }
         yield return new Command_Action
         {
             defaultLabel = "NR_AIServerGizmo".Translate(),
