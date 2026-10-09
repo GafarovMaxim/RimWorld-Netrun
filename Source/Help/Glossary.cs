@@ -61,10 +61,20 @@ public static class Glossary
                 continue;
             if (key == "BlackIce")
                 ice = true;
-            sb.Append("\n").Append(("NR_Gloss_" + key).Translate().Colorize(NetrunUI.Muted));
+            // Each term on its own: a bullet, the term in the accent colour, the definition muted, a blank line between.
+            string entry = ("NR_Gloss_" + key).Translate();
+            int colon = entry.IndexOf(": ", System.StringComparison.Ordinal);
+            if (found > 0)
+                sb.Append('\n');
+            sb.Append("\n▸ ");
+            if (colon > 0)
+                sb.Append(entry.Substring(0, colon).Colorize(NetrunUI.Accent)).Append(" — ").Append(entry.Substring(colon + 2).Colorize(NetrunUI.Muted));
+            else
+                sb.Append(entry.Colorize(NetrunUI.Muted));
             found++;
         }
-        string result = found == 0 ? text : text + "\n" + ((string)"NR_GlossCaption".Translate()).Colorize(NetrunUI.Accent) + sb;
+        string result = found == 0 ? text
+            : text + "\n\n" + ((string)"NR_GlossCaption".Translate()).Colorize(new UnityEngine.Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.7f)) + sb;
         Cache[text] = result;
         return result;
     }
