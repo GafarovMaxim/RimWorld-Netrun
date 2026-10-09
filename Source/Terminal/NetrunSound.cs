@@ -62,8 +62,13 @@ public static class NetrunSound
     }
 
     /// <summary>Hover over a button or node, not more often than once per 80 ms.</summary>
+    /// <summary>Set by the terminal while its guide is on: hovering is quiet then.</summary>
+    public static bool HoverMuted;
+
     public static void Hover()
     {
+        if (HoverMuted)
+            return;
         float now = Time.realtimeSinceStartup;
         // A soft tick when the mouse settles on a button, never a stream of them while it slides across a row.
         if (now - _lastHover < 0.45f)

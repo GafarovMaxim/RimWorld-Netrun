@@ -386,7 +386,13 @@ public static partial class GatewayView
         if (!_mouseOnOverlay && Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
         {
             NetrunSound.Click();
-            TravelClick(n, net);
+            float sinceLast = Time.realtimeSinceStartup - _lastClickAt;
+            if (!TravelClick(n, net) && selected && sinceLast > 0.4f)
+            {
+                _selectedMapNode = -1;
+                _selectedId = -1;
+                return;
+            }
             _selectedMapNode = n.Id;
             ExternalNode first = branches.FirstOrDefault(b => !b.Hidden);
             _selectedId = first?.Id ?? -1;
@@ -515,6 +521,13 @@ public static partial class GatewayView
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_MapEmergencyConfirm".Translate(selected.Pawn?.LabelShort ?? "?"),
                     () => net.Disconnect(selected, emergency: true), destructive: true));
             y += 34f;
+            if (!net.AtExit(selected))
+            {
+                AcceptanceReport goExit = net.NearestExit(selected) >= 0 ? true : (AcceptanceReport)"NR_MapNoRoute".Translate();
+                if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoAndExit".Translate(), NetrunUI.Ok, goExit, "NR_MapGoAndExitTip".Translate()))
+                    net.GoAndExit(selected);
+                y += 32f;
+            }
             if (selected.NodeId != net.Map.HomeId || selected.Moving)
             {
                 if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoHome".Translate(), NetrunUI.Ok, net.CanTravel(selected, net.Map.HomeId), "NR_MapGoHomeTip".Translate()))
@@ -550,10 +563,10 @@ public static partial class GatewayView
 
         y = DrawTimeline(inner, y, net);
 
-        // The selected node.
+        // The selected node; with nothing picked, the running contracts.
         MapNode node = net.Map.Node(_selectedMapNode);
         if (node == null)
-            return y + 4f;
+            return DrawActiveContracts(inner, y + 4f);
         if (node.District == District.Home)
             return DefensePanel.Draw(inner, y, colonyMap);
         y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), NetMapManager.NodeLabel(node));

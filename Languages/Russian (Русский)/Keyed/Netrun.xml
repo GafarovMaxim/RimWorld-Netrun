@@ -323,4 +323,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFirstHintsTip>Короткий тур при первом открытии терминала и одна карточка, когда впервые встречаются ICE, Netsick, фиксер или событие ИИ.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Словарь в подсказках</NR_SettingsGlossary>
   <NR_SettingsGlossaryTip>Пока вы новичок (пресет «Новичок» или первые 15 дней игры): если подсказка мода упоминает Heat, ICE, Netsick, cyberdata или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
+  <NR_SettingsWasd>Двигать карту киберпространства клавишами W A S D</NR_SettingsWasd>
+  <NR_SettingsWasdTip>По умолчанию выключено: эти клавиши могут быть заняты камерой игры.</NR_SettingsWasdTip>
+  <NR_SettingsTerminalScale>Размер окна терминала: {0}</NR_SettingsTerminalScale>
+  <NR_SettingsHubScale>Узлов в новых картах киберпространства: {0}</NR_SettingsHubScale>
+  <NR_SettingsHubScaleWarn>Больше узлов — тяжелее карта и игра (ниже TPS). Действует на карты, созданные после изменения.</NR_SettingsHubScaleWarn>
 </LanguageData>

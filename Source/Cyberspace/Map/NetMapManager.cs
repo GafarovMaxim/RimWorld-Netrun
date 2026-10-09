@@ -347,6 +347,41 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
 
     public bool AtExit(NetRunner runner) => !runner.Moving && Map.Node(runner.NodeId) is { Exit: true };
 
+    /// <summary>The exit point (Home counts) the runner reaches soonest; -1 when none can be reached.</summary>
+    public int NearestExit(NetRunner runner)
+    {
+        int from = runner.Moving ? runner.NextNodeId : runner.NodeId;
+        int best = -1;
+        float bestHours = float.MaxValue;
+        foreach (MapNode n in Map.Nodes)
+        {
+            if (!n.Exit && n.Id != Map.HomeId)
+                continue;
+            if (n.Id == from)
+                return n.Id;
+            List<int> route = Map.Route(from, n.Id, out float hours);
+            if (route.Count > 0 && hours < bestHours)
+            {
+                bestHours = hours;
+                best = n.Id;
+            }
+        }
+        return best;
+    }
+
+    /// <summary>One action: walk to the nearest exit and leave the net there.</summary>
+    public void GoAndExit(NetRunner runner)
+    {
+        int exit = NearestExit(runner);
+        if (exit < 0)
+            return;
+        runner.ExitOnArrival = true;
+        if (AtExit(runner) || runner.NodeId == exit && !runner.Moving)
+            Disconnect(runner, emergency: false);
+        else
+            Travel(runner, exit);
+    }
+
     /// <summary>Netsick, nausea and a chance of lockout for a runner torn out of the net; Aegis or a Warden AI halve it.</summary>
     public static void EmergencyJolt(Pawn pawn)
     {
@@ -519,6 +554,15 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             runner.NodeId = runner.NextNodeId;
             runner.Path.RemoveAt(0);
             Arrive(runner, link);
+            if (runner.ExitOnArrival && !runner.Moving)
+            {
+                runner.ExitOnArrival = false;
+                if (Map.Node(runner.NodeId) is { Exit: true } || runner.NodeId == Map.HomeId)
+                {
+                    Disconnect(runner, emergency: false);
+                    continue;
+                }
+            }
         }
     }
 

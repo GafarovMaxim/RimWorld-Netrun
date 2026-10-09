@@ -53,7 +53,7 @@ public partial class Dialog_NetTerminal : Window
     {
         get
         {
-            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f);
+            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f) * NetrunMod.Settings.TerminalScale;
             return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
                 Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
         }
@@ -147,6 +147,7 @@ public partial class Dialog_NetTerminal : Window
         _guideScreen = inRect;
         GuideInput();
         GuideRegistry.Begin(_guide);
+        NetrunSound.HoverMuted = _guide;
         DrawWindow(inRect);
         GuideRegistry.End();
         NetrunUI.Scanlines(inRect);

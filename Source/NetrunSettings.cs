@@ -74,6 +74,12 @@ public class NetrunSettings : ModSettings
     public bool FirstHints = true;
     /// <summary>Short definitions of key terms under the mod's tooltips.</summary>
     public bool Glossary = true;
+    /// <summary>Pan the cyberspace map with W, A, S, D.</summary>
+    public bool MapWasd;
+    /// <summary>Hubs in new cyberspace maps, as a multiplier of the chosen size (more hubs, heavier on the game).</summary>
+    public float MapHubScale = 1f;
+    /// <summary>The terminal window's size (its default size and minimum scale with it).</summary>
+    public float TerminalScale = 1f;
 
     /// <summary>The Newcomer preset is gentler for the first ten days: less trace, weaker ICE.</summary>
     public float NewcomerEase => Difficulty == HeatDifficulty.Easy && Current.Game != null && GenDate.DaysPassed < 10 ? 0.75f : 1f;
@@ -446,6 +452,9 @@ public class NetrunSettings : ModSettings
         if (sizePicked >= 0)
             MapSize = (NetSize)sizePicked;
 
+        MapHubScale = Slider("NR_SettingsHubScale".Translate(MapHubScale.ToStringPercent()), MapHubScale, 0.5f, 2f);
+        if (MapHubScale > 1.25f)
+            Label("NR_SettingsHubScaleWarn".Translate(), NetrunUI.Warn);
         Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
         _y += 6f;
     }
@@ -470,6 +479,8 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingAutopause", ref MapAutopause, "NR_SettingAutopauseTip");
         Toggle("NR_SettingsFirstHints", ref FirstHints, "NR_SettingsFirstHintsTip");
         Toggle("NR_SettingsGlossary", ref Glossary, "NR_SettingsGlossaryTip");
+        Toggle("NR_SettingsWasd", ref MapWasd, "NR_SettingsWasdTip");
+        TerminalScale = Slider("NR_SettingsTerminalScale".Translate(TerminalScale.ToStringPercent()), TerminalScale, 0.8f, 1.4f);
         _y += 6f;
     }
 
@@ -668,6 +679,8 @@ public class NetrunSettings : ModSettings
         MapMinimap = true;
         MapAutopause = true;
         FirstHints = true;
+        MapWasd = false;
+        TerminalScale = 1f;
         Glossary = true;
     }
 
@@ -717,6 +730,9 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref MapAutopause, "mapAutopause", true);
         Scribe_Values.Look(ref FirstHints, "firstHints", true);
         Scribe_Values.Look(ref Glossary, "glossary", true);
+        Scribe_Values.Look(ref MapWasd, "mapWasd");
+        Scribe_Values.Look(ref MapHubScale, "mapHubScale", 1f);
+        Scribe_Values.Look(ref TerminalScale, "terminalScale", 1f);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);

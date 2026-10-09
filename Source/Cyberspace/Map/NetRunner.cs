@@ -18,6 +18,8 @@ public class NetRunner : IExposable
     /// <summary>Lent to a friendly crew until this tick (cannot walk or dive), -1 free.</summary>
     public int BusyUntil = -1;
     public int BusyCrew = -1;
+    /// <summary>"Go and exit": leave the net on reaching the exit at the end of the path.</summary>
+    public bool ExitOnArrival;
 
     public bool Busy => Find.TickManager.TicksGame < BusyUntil;
 
@@ -33,6 +35,7 @@ public class NetRunner : IExposable
         Scribe_Values.Look(ref SessionStartTick, "sessionStart");
         Scribe_Values.Look(ref BusyUntil, "busyUntil", -1);
         Scribe_Values.Look(ref BusyCrew, "busyCrew", -1);
+        Scribe_Values.Look(ref ExitOnArrival, "exitOnArrival");
         Path ??= [];
     }
 }

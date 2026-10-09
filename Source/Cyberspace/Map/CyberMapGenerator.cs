@@ -108,6 +108,12 @@ public static class CyberMapGenerator
         var map = new CyberMap { Size = size, Layout = layout };
         LayoutData L = Data(layout);
         Dictionary<string, int> counts = Counts(size);
+        // The player's hub count (a multiplier of the size); corporations keep their own count.
+        float scale = NetrunMod.Settings.MapHubScale;
+        if (!Mathf.Approximately(scale, 1f))
+            foreach (string k in counts.Keys.ToList())
+                if (!k.StartsWith("corp"))
+                    counts[k] = Mathf.Max(1, Mathf.RoundToInt(counts[k] * scale));
         var keyOf = new Dictionary<int, string>();
         var nodes = map.Nodes;
 

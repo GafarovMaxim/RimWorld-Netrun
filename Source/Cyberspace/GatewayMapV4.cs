@@ -122,6 +122,21 @@ public static partial class GatewayView
             }
             return;
         }
+        if (e.keyCode == KeyCode.Escape && _selectedMapNode >= 0)
+        {
+            _selectedMapNode = -1;
+            _selectedId = -1;
+            e.Use();
+            return;
+        }
+        if (NetrunMod.Settings.MapWasd && e.keyCode is KeyCode.W or KeyCode.A or KeyCode.S or KeyCode.D)
+        {
+            const float step = 60f;
+            _pan += e.keyCode switch { KeyCode.W => new Vector2(0f, step), KeyCode.S => new Vector2(0f, -step), KeyCode.A => new Vector2(step, 0f), _ => new Vector2(-step, 0f) };
+            ClampPan(local);
+            e.Use();
+            return;
+        }
         switch (e.keyCode)
         {
             case KeyCode.H:
@@ -195,10 +210,10 @@ public static partial class GatewayView
     {
         _searchFor = _search;
         SearchHits.Clear();
-        string q = _search?.Trim();
+        string q = Norm(_search);
         if (q.NullOrEmpty())
             return;
-        bool Match(string s) => s != null && s.IndexOf(q, System.StringComparison.OrdinalIgnoreCase) >= 0;
+        bool Match(string s) => s != null && Norm(s).Contains(q);
         foreach (ExternalNode b in GatewayManager.Get()?.AllBranches ?? Enumerable.Empty<ExternalNode>())
             if (!b.Hidden && b.MapNodeId >= 0 && Match(b.Name))
                 SearchHits.Add((b.Name + "  ·  " + NetMapManager.NodeLabel(net.Map.Node(b.MapNodeId)), b.MapNodeId, b.Id));
@@ -212,6 +227,18 @@ public static partial class GatewayView
         }
         if (SearchHits.Count > 6)
             SearchHits.RemoveRange(6, SearchHits.Count - 6);
+    }
+
+    /// <summary>Lower case, letters and digits only: the search ignores spaces, dashes and signs.</summary>
+    private static string Norm(string s)
+    {
+        if (s.NullOrEmpty())
+            return string.Empty;
+        var sb = new System.Text.StringBuilder(s.Length);
+        foreach (char c in s.StripTags())
+            if (char.IsLetterOrDigit(c))
+                sb.Append(char.ToLowerInvariant(c));
+        return sb.ToString();
     }
 
     private static void PickHit((string label, int hub, int branch) hit)

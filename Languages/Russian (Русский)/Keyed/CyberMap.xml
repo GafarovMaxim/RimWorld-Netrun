@@ -158,4 +158,7 @@
 Автопаузу можно отключить в настройках.</NR_MapThreat>
   <NR_MapGoHome>⌂ Домой</NR_MapGoHome>
   <NR_MapGoHomeTip>Отправить раннера в Дом (это точка выхода: оттуда можно выйти из сети).</NR_MapGoHomeTip>
+  <NR_MapActiveContracts>Текущие контракты</NR_MapActiveContracts>
+  <NR_MapGoAndExit>⇥ К выходу и выйти</NR_MapGoAndExit>
+  <NR_MapGoAndExitTip>Дойти до ближайшей точки выхода и выйти там из сети, одним действием.</NR_MapGoAndExitTip>
 </LanguageData>

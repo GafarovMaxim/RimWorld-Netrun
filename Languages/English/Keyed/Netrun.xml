@@ -323,4 +323,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsFirstHintsTip>A short tour the first time the terminal opens, and one card the first time ICE, Netsick, a fixer or an AI event appears.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Glossary in tooltips</NR_SettingsGlossary>
   <NR_SettingsGlossaryTip>While you are new (the Newcomer preset, or the first 15 days of a game): when a tooltip of the mod mentions Heat, ICE, Netsick, cyberdata or trace, a short definition is added under it.</NR_SettingsGlossaryTip>
+  <NR_SettingsWasd>Move the cyberspace map with W A S D</NR_SettingsWasd>
+  <NR_SettingsWasdTip>Off by default: these keys may be bound to the game's camera.</NR_SettingsWasdTip>
+  <NR_SettingsTerminalScale>Terminal window size: {0}</NR_SettingsTerminalScale>
+  <NR_SettingsHubScale>Hubs in new cyberspace maps: {0}</NR_SettingsHubScale>
+  <NR_SettingsHubScaleWarn>More hubs make the map and the game heavier (lower TPS). Applies to maps created after the change.</NR_SettingsHubScaleWarn>
 </LanguageData>

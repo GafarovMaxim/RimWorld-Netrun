@@ -158,4 +158,7 @@
 Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapGoHome>⌂ Home</NR_MapGoHome>
   <NR_MapGoHomeTip>Send the runner back to Home (an exit point: from there it can leave the net).</NR_MapGoHomeTip>
+  <NR_MapActiveContracts>Running contracts</NR_MapActiveContracts>
+  <NR_MapGoAndExit>⇥ Go and exit</NR_MapGoAndExit>
+  <NR_MapGoAndExitTip>Walk to the nearest exit point and leave the net there, in one action.</NR_MapGoAndExitTip>
 </LanguageData>

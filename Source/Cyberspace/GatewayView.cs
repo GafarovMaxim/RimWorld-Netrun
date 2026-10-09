@@ -303,7 +303,13 @@ public static partial class GatewayView
         }
         else if (e.type == EventType.ScrollWheel && Mouse.IsOver(rect))
         {
+            // Zoom toward the cursor: the point under it stays under it.
+            var local = new Rect(0f, 0f, rect.width, rect.height);
+            Vector2 cursor = e.mousePosition - rect.position;
+            Vector2 world = ToWorld(local, cursor);
             _zoom = Mathf.Clamp(_zoom - e.delta.y * 0.05f, MinZoom, MaxZoom);
+            _pan = cursor - local.center - (world - FieldCenter) * FitScale(local) * _zoom;
+            ClampPan(local);
             e.Use();
         }
     }

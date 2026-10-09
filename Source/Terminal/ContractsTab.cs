@@ -373,6 +373,19 @@ public static class ContractsTab
             if (NetrunUI.Button(new Rect(bx, by, dw, 30f), deliver, NetrunUI.Ok, canDeliver, "NR_BoardTag_FragmentTip".Translate()))
                 contracts.DeliverFragment(contract, map);
         }
+        // The contract's fixer can be called from here, without going to the Club.
+        if (fixer != null && !fixer.ChannelOpen)
+        {
+            string callLabel = "NR_FixerCall".Translate(fixer.EffectiveCallCost);
+            float cw = NetrunUI.ButtonWidth(callLabel, NetrunTex.CallFixer != null);
+            bx -= cw + 8f;
+            AcceptanceReport canCall = NetworkIsolation.Active ? NetworkIsolation.Check()
+                : fixer.IsSilent ? (AcceptanceReport)"NR_FixerSilent".Translate(fixer.Name)
+                : fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
+            if (NetrunUI.Button(new Rect(bx, by, cw, 30f), callLabel, NetrunUI.Warn, canCall,
+                    "NR_FixerCallTip".Translate(NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
+                FixerDeals.Call(fixer, map);
+        }
         // A contract with a target on the map: one click opens the Gateway on it.
         if (contract.Type is ContractType.SystemTap or ContractType.QuietRun && GatewayManager.MapReady
             && GatewayManager.Get()?.AllBranches.FirstOrDefault(b => b.Contract && !b.Hidden && b.MapNodeId >= 0) is { } target)
