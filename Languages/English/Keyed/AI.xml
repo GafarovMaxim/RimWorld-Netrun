@@ -276,4 +276,6 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AIFragmentStable>Stable near the AI server ({0} days left elsewhere).</NR_AIFragmentStable>
   <NR_NoiseFloorLine>Network noise: {0} awake AIs, Heat does not cool below {1}.</NR_NoiseFloorLine>
   <NR_AwakenNoResearch>Fresh fragments need the "{0}" research.</NR_AwakenNoResearch>
+  <NR_AIToOtherCoprocessor>To another pod</NR_AIToOtherCoprocessor>
+  <NR_AIToOtherCoprocessorTip>Move the AI straight into another free coprocessor, without going back to the server.</NR_AIToOtherCoprocessorTip>
 </LanguageData>

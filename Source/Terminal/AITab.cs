@@ -300,6 +300,9 @@ public static class AITab
         {
             Add("NR_AIDownload".Translate(), HostColor, AIHosting.CanDownload(ai, map), "NR_AIDownloadTip".Translate(), NetrunTex.AIReturnServer,
                 () => AIHosting.Download(ai, map));
+            if (ai.InCoprocessor)
+                Add("NR_AIToOtherCoprocessor".Translate(), NetrunUI.Purple, AIHosting.CanMoveBetweenCoprocessors(ai, map), "NR_AIToOtherCoprocessorTip".Translate(),
+                    NetrunTex.AIToCoprocessor, () => AIHosting.OpenCoprocessorMenu(ai, map));
         }
         if (ai.Housed)
         {

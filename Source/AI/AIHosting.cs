@@ -103,6 +103,36 @@ public static class AIHosting
         Messages.Message("NR_AIMovedToCoprocessor".Translate(ai.Name), coprocessor, MessageTypeDefOf.NeutralEvent, historical: true);
     }
 
+    /// <summary>Powered coprocessors with a free slot other than the AI's own one.</summary>
+    public static List<Building> OtherCoprocessors(NetAI ai, Map map)
+        => map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_NetrunCoprocessor)
+            .Where(b => b != ai.Server && b.GetComp<CompAIServer>() is { Powered: true, HasFreeSlot: true }).ToList();
+
+    public static AcceptanceReport CanMoveBetweenCoprocessors(NetAI ai, Map map)
+    {
+        if (!ai.InCoprocessor)
+            return false;
+        return OtherCoprocessors(ai, map).Count > 0 ? true : (AcceptanceReport)"NR_AINoCoprocessor".Translate();
+    }
+
+    /// <summary>C8: a menu of the other free coprocessors (by the pod's occupant); the AI moves over directly.</summary>
+    public static void OpenCoprocessorMenu(NetAI ai, Map map)
+    {
+        var options = new List<FloatMenuOption>();
+        foreach (Building c in OtherCoprocessors(ai, map))
+        {
+            Building target = c;
+            string where = c.LabelCap + (c.GetComp<CompFacility>()?.LinkedBuildings.OfType<Building_Cyberpod>().FirstOrDefault()?.ContainedThing is Pawn p ? " (" + p.LabelShort + ")" : string.Empty);
+            options.Add(new FloatMenuOption(where, () =>
+            {
+                ai.Server = target;
+                Messages.Message("NR_AIMovedToCoprocessor".Translate(ai.Name), target, MessageTypeDefOf.NeutralEvent, historical: true);
+            }));
+        }
+        if (options.Count > 0)
+            Find.WindowStack.Add(new FloatMenu(options));
+    }
+
     /// <summary>
     /// Safety net: every colonist carries exactly the passenger hediff of the AI riding in them, and nothing else.
     /// </summary>
