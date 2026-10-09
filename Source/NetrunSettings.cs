@@ -68,6 +68,8 @@ public class NetrunSettings : ModSettings
     public bool Scanlines = true;
     /// <summary>The minimap in the corner of the cyberspace map.</summary>
     public bool MapMinimap = true;
+    /// <summary>Pause the game once when a patrol or an intrusion appears on a runner's route.</summary>
+    public bool MapAutopause = true;
     /// <summary>The cyberspace map's lens (MapLens), remembered between games.</summary>
     public int MapLens;
 
@@ -458,6 +460,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
         Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
         Toggle("NR_SettingsMinimap", ref MapMinimap, "NR_SettingsMinimapTip");
+        Toggle("NR_SettingAutopause", ref MapAutopause, "NR_SettingAutopauseTip");
         _y += 6f;
     }
 
@@ -654,6 +657,7 @@ public class NetrunSettings : ModSettings
         ShowDiveReport = true;
         PauseOnOpen = true;
         MapMinimap = true;
+        MapAutopause = true;
     }
 
     private void ResetCustomization()
@@ -699,6 +703,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Glitches, "glitches", true);
         Scribe_Values.Look(ref Scanlines, "scanlines", true);
         Scribe_Values.Look(ref MapMinimap, "mapMinimap", true);
+        Scribe_Values.Look(ref MapAutopause, "mapAutopause", true);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);

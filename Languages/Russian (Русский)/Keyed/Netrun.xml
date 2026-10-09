@@ -317,4 +317,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_RitualCleansingLog>Ритуал очищения следа</NR_RitualCleansingLog>
   <NR_SettingsMinimap>Мини-карта на карте киберпространства</NR_SettingsMinimap>
   <NR_SettingsMinimapTip>Маленькая карта всей сети в углу: рамка показывает вид, клик переносит туда.</NR_SettingsMinimapTip>
+  <NR_SettingAutopause>Автопауза при угрозе на маршруте</NR_SettingAutopause>
+  <NR_SettingAutopauseTip>Когда на маршруте раннера появляется патруль или вторжение, игра один раз встаёт на паузу и приходит письмо.</NR_SettingAutopauseTip>
 </LanguageData>

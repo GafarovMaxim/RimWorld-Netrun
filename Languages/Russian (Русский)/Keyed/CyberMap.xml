@@ -137,4 +137,23 @@
   <NR_MapCardLast>Последний визит: {0} назад</NR_MapCardLast>
   <NR_MapCardClicks>Клик: выбрать · двойной клик или Shift: отправить раннера · Shift при движении: точка пути · правый клик: меню</NR_MapCardClicks>
   <NR_MapMenuWaypoint>Добавить точку пути (продолжить от конца маршрута)</NR_MapMenuWaypoint>
+  <NR_MapTimerTransit>окно транзита закрывается: {0}</NR_MapTimerTransit>
+  <NR_MapTimerPatrol>патруль уходит: {0}</NR_MapTimerPatrol>
+  <NR_MapTimerOffline>{0} снова в сети</NR_MapTimerOffline>
+  <NR_MapTimerStorm>шторм кончается: {0}</NR_MapTimerStorm>
+  <NR_MapTimerQuarantine>карантин снимается: {0}</NR_MapTimerQuarantine>
+  <NR_MapTimerCoreCloses>корп-ядро закрывается ({0})</NR_MapTimerCoreCloses>
+  <NR_MapTimerCoreOpens>откроется корп-ядро{0}</NR_MapTimerCoreOpens>
+  <NR_MapTimerIntrusion>вторжение в пути: {0}</NR_MapTimerIntrusion>
+  <NR_MapTimerNow>сейчас</NR_MapTimerNow>
+  <NR_MapNext3Days>Ближайшие 3 дня</NR_MapNext3Days>
+  <NR_MapRunnerTag>{0} → {1} · {2}</NR_MapRunnerTag>
+  <NR_MapPingNow>Пинг сейчас ({0} cyberdata)</NR_MapPingNow>
+  <NR_MapPingTip>Раннер сканирует ноды в пределах {0} переходов. Стоящие раннеры пингуют сами каждый час.</NR_MapPingTip>
+  <NR_MapPingMoving>Раннер в пути.</NR_MapPingMoving>
+  <NR_MapPinged>{0} просканировал(а) окрестность: найдено нод: {1}.</NR_MapPinged>
+  <NR_MapThreatLabel>Угроза на маршруте: {0}</NR_MapThreatLabel>
+  <NR_MapThreat>На маршруте {0} в узле {1} патруль или вторжение. Игра на паузе: смените маршрут или остановите раннера.
+
+Автопаузу можно отключить в настройках.</NR_MapThreat>
 </LanguageData>

@@ -23,6 +23,9 @@ public class CyberMapSettingsDef : Def
     public float remotePortSpeed = 1.33f;
     public float naturalSpeed = 1.18f;
     public float patrolHitChance = 0.3f;
+    /// <summary>A runner standing on a hub pings the branches within this many hops every hour; a ping now costs cyberdata.</summary>
+    public int pingHops = 2;
+    public int pingCost = 3;
     public float patrolNetsick = 0.02f;
     public IntRange eventIntervalDays = new(1, 2);
     public int permanentChangeDays = 15;
@@ -416,8 +419,60 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             HourlyTick(now);
     }
 
+    /// <summary>Reveals the branches within pingHops of the runner's hub; the terminal shows a wave.</summary>
+    public int Ping(NetRunner runner)
+    {
+        if (runner == null)
+            return 0;
+        GatewayView.NotePing(runner.NodeId);
+        return RevealAround(runner.NodeId, Settings.pingHops);
+    }
+
+    public AcceptanceReport CanPingNow(NetRunner runner, Map map)
+        => runner == null ? (AcceptanceReport)"NR_MapNoRunner".Translate()
+            : runner.Moving ? (AcceptanceReport)"NR_MapPingMoving".Translate()
+            : ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) < Settings.pingCost ? (AcceptanceReport)"NR_NotEnoughCyberdata".Translate()
+            : true;
+
+    public void PingNow(NetRunner runner, Map map)
+    {
+        if (!CanPingNow(runner, map).Accepted || !ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, Settings.pingCost))
+            return;
+        int found = Ping(runner);
+        Messages.Message("NR_MapPinged".Translate(runner.Pawn?.LabelShort ?? "?", found), MessageTypeDefOf.NeutralEvent, historical: false);
+    }
+
+    // Threats already announced (runner and hub), so the game pauses once per threat, not every check.
+    private static readonly HashSet<(int pawn, int hub)> Warned = [];
+
+    /// <summary>A patrol or an intrusion on a runner's route or at its target: pause once and say where (a setting).</summary>
+    private void CheckThreats()
+    {
+        if (!NetrunMod.Settings.MapAutopause)
+            return;
+        IntrusionManager intrusions = IntrusionManager.Get();
+        foreach (NetRunner r in Runners)
+        {
+            if (!r.Moving || r.Pawn == null)
+                continue;
+            foreach (int hub in r.Path)
+            {
+                MapNode n = Map.Node(hub);
+                bool threat = n != null && n.Patrol || intrusions?.At(hub) != null;
+                if (!threat || !Warned.Add((r.Pawn.thingIDNumber, hub)))
+                    continue;
+                if (Find.TickManager.CurTimeSpeed != TimeSpeed.Paused)
+                    Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
+                Find.LetterStack.ReceiveLetter("NR_MapThreatLabel".Translate(r.Pawn.LabelShort),
+                    "NR_MapThreat".Translate(r.Pawn.LabelShort, NodeLabel(n)), LetterDefOf.ThreatSmall);
+                break;
+            }
+        }
+    }
+
     private void TickRunners(int ticks)
     {
+        CheckThreats();
         foreach (NetRunner runner in Runners.ToList())
         {
             // Out of the pod (woken, ejected, dead): the session simply ends.
@@ -505,6 +560,10 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     private void HourlyTick(int now)
     {
         EnsureOrbit();
+        // The runners' ping: whoever stands still scans around (this replaces the paid Discover).
+        foreach (NetRunner r in Runners)
+            if (!r.Moving)
+                Ping(r);
         for (int i = _refillTick.Count - 1; i >= 0; i--)
         {
             if (now < _refillTick[i])

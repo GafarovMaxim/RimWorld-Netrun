@@ -137,6 +137,8 @@ public static partial class GatewayView
         float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
         DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
         DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
+        DrawHeatEdge(rect);
+        DrawRunnerArrows(rect, net);
         DrawMinimap(rect, net);
         DrawLensScale(rect, net);
         DrawLensBar(rect);
@@ -287,6 +289,8 @@ public static partial class GatewayView
         if (selected || hover)
             NetrunUI.Glow(rect, c, 0.7f, 8f);
         DrawPulse(rect, n.Id);
+        DrawPing(rect, n.Id);
+        DrawVisited(rect, n);
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(rect.ExpandedBy(2f), NetrunUI.Disc);
         GUI.color = new Color(c.r, c.g, c.b, n.Offline ? 0.5f : 1f);
@@ -363,6 +367,8 @@ public static partial class GatewayView
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
+        DrawTimerTag(rect, n, net);
+        DrawHubName(rect, n, net, branches);
 
         if (hover)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
@@ -422,6 +428,21 @@ public static partial class GatewayView
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
         TooltipHandler.TipRegion(rect, r.Pawn?.LabelShort ?? "?");
+        if (r.Moving && _zoom >= 0.8f)
+        {
+            string tag = RunnerTag(r, net);
+            Text.Font = GameFont.Tiny;
+            float w = Text.CalcSize(tag).x + 10f;
+            var box = new Rect(rect.center.x - w / 2f, rect.y - 20f, w, 16f);
+            Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
+            GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.7f);
+            Widgets.DrawBox(box);
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(box, tag.Colorize(NetrunUI.Ok));
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+        }
         if (Widgets.ButtonInvisible(rect))
             _selectedRunner = net.Runners.IndexOf(r);
     }
@@ -490,6 +511,10 @@ public static partial class GatewayView
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_MapEmergencyConfirm".Translate(selected.Pawn?.LabelShort ?? "?"),
                     () => net.Disconnect(selected, emergency: true), destructive: true));
             y += 34f;
+            if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapPingNow".Translate(NetMapManager.Settings.pingCost), NetrunUI.Accent,
+                    net.CanPingNow(selected, colonyMap), "NR_MapPingTip".Translate(NetMapManager.Settings.pingHops)))
+                net.PingNow(selected, colonyMap);
+            y += 32f;
         }
 
         // Pawns lying in pods who are not connected yet.
@@ -512,6 +537,8 @@ public static partial class GatewayView
             Text.Font = GameFont.Small;
             y += 36f;
         }
+
+        y = DrawTimeline(inner, y, net);
 
         // The selected node.
         MapNode node = net.Map.Node(_selectedMapNode);

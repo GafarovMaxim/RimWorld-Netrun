@@ -137,4 +137,23 @@
   <NR_MapCardLast>Last visit: {0} ago</NR_MapCardLast>
   <NR_MapCardClicks>Click: select · double click or Shift: send the runner · Shift on a moving runner: waypoint · right click: menu</NR_MapCardClicks>
   <NR_MapMenuWaypoint>Add a waypoint (continue from the route's end)</NR_MapMenuWaypoint>
+  <NR_MapTimerTransit>transit window closes at {0}</NR_MapTimerTransit>
+  <NR_MapTimerPatrol>patrol leaves {0}</NR_MapTimerPatrol>
+  <NR_MapTimerOffline>{0} back online</NR_MapTimerOffline>
+  <NR_MapTimerStorm>storm ends at {0}</NR_MapTimerStorm>
+  <NR_MapTimerQuarantine>quarantine lifted at {0}</NR_MapTimerQuarantine>
+  <NR_MapTimerCoreCloses>corporate core closes ({0})</NR_MapTimerCoreCloses>
+  <NR_MapTimerCoreOpens>a corporate core opens{0}</NR_MapTimerCoreOpens>
+  <NR_MapTimerIntrusion>intrusion on the way: {0}</NR_MapTimerIntrusion>
+  <NR_MapTimerNow>now</NR_MapTimerNow>
+  <NR_MapNext3Days>Next 3 days</NR_MapNext3Days>
+  <NR_MapRunnerTag>{0} → {1} · {2}</NR_MapRunnerTag>
+  <NR_MapPingNow>Ping now ({0} cyberdata)</NR_MapPingNow>
+  <NR_MapPingTip>The runner scans the branches within {0} hops. Standing runners ping on their own every hour.</NR_MapPingTip>
+  <NR_MapPingMoving>The runner is on the move.</NR_MapPingMoving>
+  <NR_MapPinged>{0} pinged around: {1} nodes found.</NR_MapPinged>
+  <NR_MapThreatLabel>Threat on {0}'s route</NR_MapThreatLabel>
+  <NR_MapThreat>A patrol or an intrusion stands on {0}'s route at {1}. The game is paused: change the route or stop the runner.
+
+Autopause can be turned off in the settings.</NR_MapThreat>
 </LanguageData>
