@@ -324,7 +324,7 @@ public static partial class GatewayView
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
         // A plain link is a thin, quiet line (map v4, D9): the hubs are the picture. Fast links keep their colour, thinner.
-        float alpha = l.Broken ? 0.2f : l.Kind == LinkKind.Normal ? 0.35f : 0.55f;
+        float alpha = l.Broken ? 0.25f : l.Kind == LinkKind.Normal ? 0.5f : 0.65f;
         float width = 1.5f;
         if (nearSelected)
         {
@@ -332,7 +332,7 @@ public static partial class GatewayView
             width = 2f;
         }
         if (dim)
-            alpha *= 0.4f;
+            alpha *= 0.25f;
         if (onRoute)
         {
             Widgets.DrawLine(a, b, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f), 7f);

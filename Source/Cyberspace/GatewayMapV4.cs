@@ -353,16 +353,30 @@ public static partial class GatewayView
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapWatchlist".Translate());
         foreach ((string label, int hub, int branch, bool contract) in rows)
         {
-            var row = new Rect(inner.x, y, inner.width, 26f);
-            Text.Font = GameFont.Tiny;
+            // A card per pin: a star (amber for a contract target), the hub, its timer if one runs, "Show".
+            var row = new Rect(inner.x, y, inner.width, 34f);
+            Color c = contract ? NetrunUI.Warn : NetrunUI.Accent;
+            NetrunUI.Card(row, c);
+            GUI.color = c;
+            GUI.DrawTexture(new Rect(row.x + 10f, row.y + 11f, 12f, 12f), ShapeTex(Shape.Diamond, contract));
+            GUI.color = NetrunUI.TextColor;
+            Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(row.x + 4f, row.y, row.width - 80f, row.height),
-                ((contract ? "★ " : "☆ ") + label).Colorize(contract ? NetrunUI.Warn : NetrunUI.TextColor));
+            float w = row.width - 30f - 80f;
+            Widgets.Label(new Rect(row.x + 30f, row.y, w, row.height), label.Truncate(w));
+            if (_nearestTimer.TryGetValue(hub, out TimerEntry timer))
+            {
+                Text.Font = GameFont.Tiny;
+                GUI.color = NetrunUI.Warn;
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(new Rect(row.x + 30f, row.y, w, row.height), "◷ " + Short(Mathf.Max(1, Left(timer))));
+            }
+            GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
-            if (NetrunUI.Button(new Rect(row.xMax - 74f, row.y + 1f, 74f, 24f), "NR_MapShow".Translate(), NetrunUI.Warn, true))
+            if (NetrunUI.Button(new Rect(row.xMax - 74f, row.y + 4f, 66f, 26f), "NR_MapShow".Translate(), c, true))
                 FocusNode(hub, branch);
-            y += 28f;
+            y += 38f;
         }
         GuideRegistry.InScroll("gateway.watchlist", _panelOuter, _panelScroll, new Rect(inner.x, top, inner.width, y - top));
         return y + 4f;
