@@ -52,6 +52,7 @@ public static partial class GatewayView
         Home,
         Exit,
         Fortress,
+        Guarded,
         Visited,
         Watched,
         Patrol,
@@ -203,6 +204,7 @@ public static partial class GatewayView
                 LegendItem.Home => n.District == District.Home,
                 LegendItem.Exit => n.Exit,
                 LegendItem.Fortress => n.Fortress,
+                LegendItem.Guarded => n.Guarded && NetrunMod.Settings.ProtectedHubs || GatewayManager.Get()?.AllBranches.Any(b => b.GuardFor >= 0 && b.MapNodeId == n.Id) == true,
                 LegendItem.Visited => n.LastVisitTick >= 0,
                 LegendItem.Watched => watched.Contains(n.Id) || net.Watch.Contains(n.Id),
                 LegendItem.Patrol => n.Patrol,
@@ -253,6 +255,12 @@ public static partial class GatewayView
             case LegendItem.Fortress:
                 GUI.color = NetrunUI.Bad;
                 GUI.DrawTexture(r, DashedRing);
+                break;
+            case LegendItem.Guarded:
+                GUI.color = NetrunUI.Warn;
+                GUI.DrawTexture(r, DashedRing);
+                if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+                    GUI.DrawTexture(r.ContractedBy(3f), lockTex);
                 break;
             case LegendItem.Visited:
                 GUI.color = NetrunUI.TextColor;

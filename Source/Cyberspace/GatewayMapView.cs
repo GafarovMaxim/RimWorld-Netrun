@@ -391,6 +391,15 @@ public static partial class GatewayView
             GUI.color = new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, LegendDims(n.Id) ? 0.35f : 1f);
             GUI.DrawTexture(rect.ExpandedBy(5f), DashedRing);
         }
+        if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
+        {
+            // D2: a protected hub: a lock while shut, an open amber ring while the guard is broken.
+            bool shut = n.GuardLocked;
+            GUI.color = shut ? NetrunUI.Warn : new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.5f);
+            GUI.DrawTexture(rect.ExpandedBy(7f), DashedRing);
+            if (shut && NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+                GUI.DrawTexture(new Rect(rect.center.x - 7f, rect.y - 18f, 14f, 14f), lockTex);
+        }
         if (n.Id == net?.MarkedNodeId)
         {
             GUI.color = NetrunUI.Accent;
@@ -455,6 +464,13 @@ public static partial class GatewayView
             }
             if (b.Contract && !b.Hidden)
                 Widgets.Label(new Rect(bp.x + br - 2f, bp.y - br - 12f, 14f, 14f), "★".Colorize(NetrunUI.Warn));
+            if (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+            {
+                // D2: the guard gateway of a protected hub: a key mark.
+                GUI.color = NetrunUI.Warn;
+                Widgets.Label(new Rect(bp.x + br - 2f, bp.y - br - 12f, 14f, 14f), "⚿");
+                GUI.color = Color.white;
+            }
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;

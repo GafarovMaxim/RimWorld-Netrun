@@ -222,8 +222,13 @@ public class ExternalNode : IExposable
     public bool AlertHardened;
     /// <summary>The intrusion packet this branch intercepts (a short dive on the packet's path), -1 none.</summary>
     public int InterceptPacketId = -1;
+    /// <summary>D2: this branch is the guard gateway of a protected hub (that hub's id), -1 none.</summary>
+    public int GuardFor = -1;
 
     public bool IsBoss => Type == ExternalNodeType.CorpCore;
+
+    /// <summary>D2: the branch hangs on a protected hub (its loot is richer).</summary>
+    public bool InGuardedHub => MapNodeId >= 0 && NetrunMod.Settings.ProtectedHubs && NetMapManager.Get()?.Map?.Node(MapNodeId)?.Guarded == true;
     public bool Offline => Find.TickManager.TicksGame < OfflineUntil;
 
     public string Name => CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
@@ -294,6 +299,7 @@ public class ExternalNode : IExposable
     /// <summary>How many times the dive cost the main files pay back.</summary>
     public float RewardMultiplier => BaseRewardMultiplier
         * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
+        * (InGuardedHub ? NetMapManager.GuardedRewardMult : 1f)
         * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
 
     private float BaseRewardMultiplier => (IsBoss || Ancient) ? NetrunDefOf.NR_Cyberspace.bossRewardMult
@@ -437,5 +443,6 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref OpenDoorUntil, "openDoorUntil", -1);
         Scribe_Values.Look(ref ForgottenCache, "forgottenCache");
         Scribe_Values.Look(ref InterceptPacketId, "interceptPacket", -1);
+        Scribe_Values.Look(ref GuardFor, "guardFor", -1);
     }
 }

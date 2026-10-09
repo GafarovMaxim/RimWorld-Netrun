@@ -72,6 +72,13 @@ public class MapNode : IExposable
     public int RivalTrapUntil = -1;
     /// <summary>Last tick a runner stood here (branches near it are visible for some days).</summary>
     public int LastVisitTick = -1;
+    /// <summary>D2: a protected corporate hub; its branches stay shut until a guard gateway next door is broken.</summary>
+    public bool Guarded;
+    /// <summary>D2: the tick the protection comes back (after a broken guard gateway), -1 shut.</summary>
+    public int GuardOpenUntil = -1;
+
+    /// <summary>D2: diving into this hub's branches is shut now (protected, the guard not broken, the option on).</summary>
+    public bool GuardLocked => Guarded && NetrunMod.Settings.ProtectedHubs && Now >= GuardOpenUntil;
 
     public Vector2 Pos => new(X, Y);
 
@@ -101,6 +108,8 @@ public class MapNode : IExposable
         Scribe_Values.Look(ref QuarantineUntil, "quarantineUntil", -1);
         Scribe_Values.Look(ref RivalTrapUntil, "rivalTrapUntil", -1);
         Scribe_Values.Look(ref LastVisitTick, "lastVisit", -1);
+        Scribe_Values.Look(ref Guarded, "guarded");
+        Scribe_Values.Look(ref GuardOpenUntil, "guardOpenUntil", -1);
     }
 }
 

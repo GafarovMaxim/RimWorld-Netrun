@@ -51,6 +51,8 @@ public class NetrunSettings : ModSettings
     public bool SurveillanceInNode = true;
     /// <summary>D5: isolating the network has a 6-hour cooldown, and a very short isolation costs trace and Netsick.</summary>
     public bool IsolationCooldown = true;
+    /// <summary>D2: two or three corporate hubs are shut until a guard gateway next door is broken.</summary>
+    public bool ProtectedHubs = true;
 
     // ---- Interface ----
     /// <summary>Index into NetrunTex.Accents: the terminal's highlight color.</summary>
@@ -464,6 +466,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
         Toggle("NR_SettingsSurveillanceNode", ref SurveillanceInNode, "NR_SettingsSurveillanceNodeTip");
         Toggle("NR_SettingsIsolationCooldown", ref IsolationCooldown, "NR_SettingsIsolationCooldownTip");
+        Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
         _y += 6f;
     }
 
@@ -681,6 +684,7 @@ public class NetrunSettings : ModSettings
         NewcomerProtection = true;
         SurveillanceInNode = true;
         IsolationCooldown = true;
+        ProtectedHubs = true;
     }
 
     private void ResetInterface()
@@ -733,6 +737,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
         Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref IsolationCooldown, "isolationCooldown", true);
+        Scribe_Values.Look(ref ProtectedHubs, "protectedHubs", true);
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);
         Scribe_Values.Look(ref TextScale, "textScale", 1f);

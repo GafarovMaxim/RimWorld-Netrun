@@ -1160,6 +1160,7 @@ public class DiveSession : IExposable
         NetRanking.Get()?.NotifyDive(this, success);
         if (Node.Rival)
             CrewSim.Get()?.NotifyRace(this, success && !RivalTook);
+        NetMapManager.Get()?.NotifyGuardDive(Node, success);
         if (success && Node.InterceptPacketId >= 0)
             IntrusionManager.Get()?.Intercepted(Node.InterceptPacketId, Runner);
 

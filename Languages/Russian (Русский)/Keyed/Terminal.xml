@@ -426,4 +426,6 @@
   <NR_SettingsIsolationCooldownTip>После снятия изоляции сеть нельзя снова изолировать 6 игровых часов. Снятие изоляции, длившейся меньше 2 часов, даёт +4 Heat и немного Netsick раннерам в капсулах. Выкл.: изоляция переключается свободно.</NR_SettingsIsolationCooldownTip>
   <NR_SettingsLegend>Легенда на карте</NR_SettingsLegend>
   <NR_SettingsLegendTip>Сворачиваемая легенда в левом нижнем углу карты киберпространства; щелчок по строке подсвечивает узлы, к которым она относится.</NR_SettingsLegendTip>
+  <NR_SettingsProtectedHubs>Защищённые узлы корпораций</NR_SettingsProtectedHubs>
+  <NR_SettingsProtectedHubsTip>Два-три корпоративных узла закрыты, пока раннер не сломает шлюз охраны (⚿) в соседнем узле; после этого они открыты 3 дня, добыча ×1,8. Провал нырка там даёт +6 Heat.</NR_SettingsProtectedHubsTip>
 </LanguageData>

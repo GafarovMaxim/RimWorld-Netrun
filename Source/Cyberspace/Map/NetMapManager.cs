@@ -616,6 +616,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     private void HourlyTick(int now)
     {
         EnsureOrbit();
+        EnsureGuards(now);
         // The runners' ping: whoever stands still scans around (this replaces the paid Discover).
         foreach (NetRunner r in Runners)
             if (!r.Moving)
@@ -645,6 +646,64 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             RunEvent();
             UpdateVisibility();
         }
+    }
+
+    // ---- D2: protected corporate hubs (docs/CONCEPTS_D_2026-10-09.md, variant A) ----
+
+    public const float GuardedRewardMult = 1.8f;
+    private const int GuardOpenTicks = 3 * GenDate.TicksPerDay;
+    private const float GuardFailHeat = 6f;
+
+    /// <summary>
+    /// Keeps two (three on a large net) corporate hubs protected, each with a guard gateway in a neighbouring hub. A
+    /// protected hub without any guard to break is opened for an hour, so the lock is never a dead end.
+    /// </summary>
+    private void EnsureGuards(int now)
+    {
+        if (!NetrunMod.Settings.ProtectedHubs || !Ready || Gateway == null)
+            return;
+        int want = Map.Nodes.Count >= 60 ? 3 : 2;
+        int have = Map.Nodes.Count(n => n.Guarded);
+        if (have < want)
+        {
+            foreach (MapNode n in Map.Nodes.Where(n => !n.Guarded && n.District == District.Corp && !n.Fortress && !n.Exit && CorpOfSlot(n.CorpSlot) != null
+                         && Gateway.AllBranches.Any(b => b.MapNodeId == n.Id)).InRandomOrder().Take(want - have))
+            {
+                n.Guarded = true;
+                n.GuardOpenUntil = -1;
+            }
+        }
+        foreach (MapNode hub in Map.Nodes.Where(n => n.Guarded))
+        {
+            if (Gateway.AllBranches.Any(b => b.GuardFor == hub.Id))
+                continue;
+            List<int> next = Map.LinksOf(hub.Id).Select(l => l.A == hub.Id ? l.B : l.A).ToList();
+            ExternalNode guard = Gateway.AllBranches
+                .Where(b => b.MapNodeId >= 0 && next.Contains(b.MapNodeId) && b.GuardFor < 0 && !b.IsBoss && !b.Ancient && !b.CounterHack
+                            && b.InterceptPacketId < 0 && Map.Node(b.MapNodeId)?.Guarded == false)
+                .OrderByDescending(b => Map.Node(b.MapNodeId)?.CorpSlot == hub.CorpSlot)
+                .FirstOrDefault();
+            if (guard != null)
+                guard.GuardFor = hub.Id;
+            else if (hub.GuardLocked)
+                hub.GuardOpenUntil = now + GenDate.TicksPerHour;
+        }
+    }
+
+    /// <summary>D2: a dive into a guard gateway ended; a clean one opens the protected hub for three days.</summary>
+    public void NotifyGuardDive(ExternalNode branch, bool success)
+    {
+        if (!Ready)
+            return;
+        if (success && branch.GuardFor >= 0 && Map.Node(branch.GuardFor) is { } hub)
+        {
+            hub.GuardOpenUntil = Find.TickManager.TicksGame + GuardOpenTicks;
+            branch.GuardFor = -1;
+            Messages.Message("NR_GuardBroken".Translate(NodeLabel(hub), GuardOpenTicks.ToStringTicksToPeriod()), MessageTypeDefOf.PositiveEvent, historical: true);
+        }
+        // A failed dive in a protected hub: the corporation notices.
+        if (!success && branch.MapNodeId >= 0 && Map.Node(branch.MapNodeId) is { Guarded: true } && NetrunMod.Settings.ProtectedHubs)
+            HeatTracker.Get()?.AddHeat(GuardFailHeat, "NR_GuardFailHeat".Translate(), HeatSource.Other);
     }
 
     public static string NodeLabel(MapNode n)

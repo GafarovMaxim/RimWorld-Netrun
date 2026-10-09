@@ -426,4 +426,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_SettingsIsolationCooldownTip>After isolation ends, the network cannot be isolated again for 6 game hours. Lifting an isolation that lasted under 2 hours adds +4 Heat and a little Netsick to runners in pods. Off: isolation toggles freely.</NR_SettingsIsolationCooldownTip>
   <NR_SettingsLegend>Map legend</NR_SettingsLegend>
   <NR_SettingsLegendTip>A folding legend in the lower left corner of the cyberspace map; a click on a row lights the hubs it stands for.</NR_SettingsLegendTip>
+  <NR_SettingsProtectedHubs>Protected corporate hubs</NR_SettingsProtectedHubs>
+  <NR_SettingsProtectedHubsTip>Two or three corporate hubs are shut until a runner breaks the guard gateway (⚿) in a hub next door; then they open for 3 days with ×1.8 loot. A failed dive there adds +6 Heat.</NR_SettingsProtectedHubsTip>
 </LanguageData>

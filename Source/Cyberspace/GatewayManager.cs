@@ -352,6 +352,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             return "NR_GatewayNodeHidden".Translate();
         if (node.Offline || NetMapManager.Get()?.NodeOf(node)?.Offline == true)
             return "NR_MapBranchOffline".Translate();
+        if (NetMapManager.Get()?.NodeOf(node) is { GuardLocked: true })
+            return "NR_GuardLocked".Translate();
         if (Runner(map, node, out Building_Cyberpod pod) == null)
             return NetMapManager.Get() is { Ready: true } && node.MapNodeId >= 0 ? "NR_MapNeedRunnerHere".Translate() : "NR_GatewayNoPod".Translate();
         int cost = DiveCost(map, node, out _);
