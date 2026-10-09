@@ -403,4 +403,17 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_MenuIntro>Intro tour</NR_MenuIntro>
   <NR_CommandCyberspace>Cyberspace</NR_CommandCyberspace>
   <NR_CommandCyberspaceDesc>Open the terminal straight on the cyberspace map.</NR_CommandCyberspaceDesc>
+  <NR_GlossCaption>// GLOSSARY</NR_GlossCaption>
+  <NR_GlossTerms_BlackIce>Black ICE</NR_GlossTerms_BlackIce>
+  <NR_GlossTerms_Ice>ICE</NR_GlossTerms_Ice>
+  <NR_GlossTerms_Heat>Heat</NR_GlossTerms_Heat>
+  <NR_GlossTerms_Netsick>Netsick</NR_GlossTerms_Netsick>
+  <NR_GlossTerms_Cyberdata>cyberdata</NR_GlossTerms_Cyberdata>
+  <NR_GlossTerms_Trace>trace</NR_GlossTerms_Trace>
+  <NR_Gloss_BlackIce>Black ICE: lethal defense of rich nodes. Its hits burn the link and can take the cyberlink itself.</NR_Gloss_BlackIce>
+  <NR_Gloss_Ice>ICE: a node's defense program. A failed hack against it strikes back at the netrunner.</NR_Gloss_Ice>
+  <NR_Gloss_Heat>Heat: how loud the colony is in the net (0-100). It grows with hacks and dives and brings attacks; fixers scrub it.</NR_Gloss_Heat>
+  <NR_Gloss_Netsick>Netsick: dependency on the net. It grows online, fades offline; high levels bring withdrawal and craving breaks.</NR_Gloss_Netsick>
+  <NR_Gloss_Cyberdata>Cyberdata: data as a resource (Hacking Expansion). The currency of the net: scrubs, programs, contracts.</NR_Gloss_Cyberdata>
+  <NR_Gloss_Trace>Trace: what a dive or hack leaves behind; after it ends the trace turns into Heat.</NR_Gloss_Trace>
 </LanguageData>

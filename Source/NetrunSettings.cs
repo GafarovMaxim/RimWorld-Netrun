@@ -72,6 +72,8 @@ public class NetrunSettings : ModSettings
     public bool MapAutopause = true;
     /// <summary>The intro tour on the first terminal and one card the first time ICE, Netsick, a fixer or an AI event shows up.</summary>
     public bool FirstHints = true;
+    /// <summary>Short definitions of key terms under the mod's tooltips.</summary>
+    public bool Glossary = true;
 
     /// <summary>The Newcomer preset is gentler for the first ten days: less trace, weaker ICE.</summary>
     public float NewcomerEase => Difficulty == HeatDifficulty.Easy && Current.Game != null && GenDate.DaysPassed < 10 ? 0.75f : 1f;
@@ -467,6 +469,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsMinimap", ref MapMinimap, "NR_SettingsMinimapTip");
         Toggle("NR_SettingAutopause", ref MapAutopause, "NR_SettingAutopauseTip");
         Toggle("NR_SettingsFirstHints", ref FirstHints, "NR_SettingsFirstHintsTip");
+        Toggle("NR_SettingsGlossary", ref Glossary, "NR_SettingsGlossaryTip");
         _y += 6f;
     }
 
@@ -665,6 +668,7 @@ public class NetrunSettings : ModSettings
         MapMinimap = true;
         MapAutopause = true;
         FirstHints = true;
+        Glossary = true;
     }
 
     private void ResetCustomization()
@@ -712,6 +716,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref MapMinimap, "mapMinimap", true);
         Scribe_Values.Look(ref MapAutopause, "mapAutopause", true);
         Scribe_Values.Look(ref FirstHints, "firstHints", true);
+        Scribe_Values.Look(ref Glossary, "glossary", true);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);

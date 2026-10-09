@@ -403,4 +403,17 @@
   <NR_MenuIntro>Знакомство</NR_MenuIntro>
   <NR_CommandCyberspace>Киберпространство</NR_CommandCyberspace>
   <NR_CommandCyberspaceDesc>Открыть терминал сразу на карте киберпространства.</NR_CommandCyberspaceDesc>
+  <NR_GlossCaption>// СЛОВАРЬ</NR_GlossCaption>
+  <NR_GlossTerms_BlackIce>Black ICE,чёрный лёд,чёрного льда</NR_GlossTerms_BlackIce>
+  <NR_GlossTerms_Ice>ICE,лёд,льда</NR_GlossTerms_Ice>
+  <NR_GlossTerms_Heat>Heat</NR_GlossTerms_Heat>
+  <NR_GlossTerms_Netsick>Netsick</NR_GlossTerms_Netsick>
+  <NR_GlossTerms_Cyberdata>cyberdata,кибердат</NR_GlossTerms_Cyberdata>
+  <NR_GlossTerms_Trace>след,следа,следу</NR_GlossTerms_Trace>
+  <NR_Gloss_BlackIce>Black ICE: смертельная защита богатых нод. Его удары выжигают связь и могут уничтожить сам кибер-линк.</NR_Gloss_BlackIce>
+  <NR_Gloss_Ice>ICE: защитная программа ноды. Сорванный взлом против неё бьёт по нетраннеру.</NR_Gloss_Ice>
+  <NR_Gloss_Heat>Heat: насколько колония заметна в сети (0–100). Растёт от взломов и нырков, приводит атаки; фиксеры его сбрасывают.</NR_Gloss_Heat>
+  <NR_Gloss_Netsick>Netsick: зависимость от сети. Растёт в сети, спадает вне её; на высоких уровнях ломка и срывы.</NR_Gloss_Netsick>
+  <NR_Gloss_Cyberdata>Cyberdata: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
+  <NR_Gloss_Trace>След: то, что оставляют нырок или взлом; после окончания он превращается в Heat.</NR_Gloss_Trace>
 </LanguageData>

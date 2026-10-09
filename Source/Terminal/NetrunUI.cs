@@ -852,6 +852,7 @@ public static partial class NetrunUI
     {
         if (text.NullOrEmpty() || !Mouse.IsOver(rect) || Event.current.type != EventType.Repaint)
             return;
+        text = Glossary.With(text);
         // A short delay, then the card appears at once (no fade).
         if (NetrunMod.Settings.Animations && HoverTime(rect) < 0.25f)
             return;
