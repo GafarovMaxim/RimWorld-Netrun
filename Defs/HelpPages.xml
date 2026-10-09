@@ -88,7 +88,7 @@
     <defName>NR_Help_Heat_Levels</defName>
     <parent>NR_Help_Heat</parent>
     <order>1</order>
-    <color>Accent</color>
+    <color>Bad</color>
     <label>Levels and their effects</label>
     <body>[[cards]]\n- !heat:Shadow Shadow (0–24): Nobody is looking. No attacks; fixers scrub at their best rate.\n- !heat:Noticed Noticed (25–49): Neural noise and data theft can come.\n- !heat:Tracked Tracked (50–74): Malware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod. Scrubbing gets less effective.\n- !heat:Target Target (75–94): Ransomware, Black Book mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n- !heat:RedZone Red Zone (95–100): Everything from Target, with the worst scrub rate. The exact list for your current level is on the Heat screen under "Level effects".</body>
     <icon>Dive_Lightning_Yellow</icon>
@@ -98,7 +98,7 @@
     <defName>NR_Help_Heat_Lower</defName>
     <parent>NR_Help_Heat</parent>
     <order>2</order>
-    <color>Accent</color>
+    <color>Bad</color>
     <label>How to lower Heat</label>
     <body>Four ways down, compared for the Heat you pick (your own settings):\n[[lowerheat]]\n## !Fixers/Fixer_Corp Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours) and hand over cyberdata. The rate falls as Heat grows: from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone.\n&gt; page:NR_Help_Fixers_Scrub|How a scrub works\n&gt; open:Heat|Ways to lower on the Heat screen</body>
     <icon>Dive_Heat</icon>
@@ -108,7 +108,7 @@
     <defName>NR_Help_Heat_Netsick</defName>
     <parent>NR_Help_Heat</parent>
     <order>3</order>
-    <color>Accent</color>
+    <color>Bad</color>
     <label>Netsick</label>
     <body>Netsick is a netrunner's dependency on cyberspace. It grows with time in a pod, dives ({netsick.dive} per dive) and Black ICE hits, and fades offline.\n[[netsick]]\n## Stages\n- Mild: no effect yet.\n- Noticeable (30%+): after a day offline, the mood drops ("reality feels flat").\n- Strong (60%+): a little less consciousness, "net craving" breaks every few days.\n- Severe (85%+): worse mood and more frequent breaks.\n## Treatment\nTime offline is the cure, and live leisure doubles it: talks, walks and meditation, games, the telescope, art (screens and drugs do not count). A neurostabilizer (drug lab: 1 neutroamine and 2 cyberdata) takes off 15% at once and holds the withdrawal and the craving off for two days, but taken often it hooks like smokeleaf. A Doc AI eases it; an AI in a AI coprocessor reduces the growth. A dive every 2–3 days keeps Netsick steady; daily dives build a strong dependency.\n## Traits\n- Natural netrunner (a rare trait): Netsick grows 40% slower, hacks in dives +5%.\n- Neurotic: Netsick grows 15% faster (very neurotic 30%).\n- Industrious: it fades 15% faster offline (hard worker 30%); lazy 15% slower.\nThe bottom bar of the terminal shows how many colonists have it.</body>
     <icon>Icon_Netsick</icon>
@@ -121,7 +121,7 @@
     <defName>NR_Help_AI_Traits</defName>
     <parent>NR_Help_AI</parent>
     <order>4</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>AI traits</label>
     <body>Besides its archetype, each AI may have traits of its own. Every trait helps and hurts; pick one to read both sides:\n[[aitraits]]</body>
     <icon>Tabs/Tab_AI</icon>
@@ -144,7 +144,7 @@
     <color>Accent</color>
     <label>Netrun and the rest of the game</label>
     <body>## Hacking Expansion\nA hackable target shows in its info how much Heat a hack would leave (less with hacking stealth or from a cyberpod).\n## Pawn traits\n- Natural netrunner (a rare new trait): Netsick grows 40% slower, hacks in dives +5%.\n- Neurotic: Netsick grows faster. Industrious: it fades faster offline; lazy: slower.\n## Ideology (DLC)\nThe "net culture" issue: sacred (a dive is communion, a good mood), wary (a dive is unsettling, high Heat weighs on the mood), abhorrent (a dive is a disgrace, any trace stains the colony).\n## Royalty (DLC)\nImperial clients join the fixer pool while you are at peace with the Empire: less silver, royal favor for finished contracts.</body>
-    <icon>Gizmo_NetTerminal</icon>
+    <icon>Help/Header_Mod</icon>
   </Netrun.HelpPageDef>
 
   <Netrun.HelpPageDef>
@@ -172,7 +172,7 @@
     <defName>NR_Help_Fixers_Pool</defName>
     <parent>NR_Help_Fixers</parent>
     <order>1</order>
-    <color>Accent</color>
+    <color>Warn</color>
     <label>The pool and reputation</label>
     <body>The pool has {fixers.pool} fixers and changes every {fixers.rotation} days. Unpinned fixers leave unless a contract with them is running or you hold them. Pick a fixer and move their reputation: the trait shows from the purple mark, pinning comes at the gold one, and prices and the scrub rate change with it (the same formulas the game uses).\n[[fixerpool]]</body>
     <icon>Fixers/Star</icon>
@@ -185,7 +185,7 @@
     <defName>NR_Help_Fixers_Types</defName>
     <parent>NR_Help_Fixers</parent>
     <order>2</order>
-    <color>Accent</color>
+    <color>Warn</color>
     <label>Specialties and traits</label>
     <body>Every fixer has a specialty and a trait. Pick one to read it:\n[[cards]]\n- !Fixers/Fixer_ShadowBroker Broker: lives on contracts: more offers and better pay for data.\n- !Fixers/Fixer_Corp Cleaner: scrubs the trace cheaper than anyone.\n- !Fixers/Fixer_Street Fence: runs a shop: goods for silver, rare items for pinned contacts.\n- !Fixers/Fixer_Corp Imperial client: comes only while you are at peace with the Empire (Royalty). Pays less silver, but each finished contract adds royal favor to the colonist the Empire knows best.\n## Traits (each helps and hurts)\n[[fixertraits]]\nCleaners are often veterans, fences often collectors.</body>
     <icon>Fixers/Fixer_Street</icon>
@@ -195,7 +195,7 @@
     <defName>NR_Help_Fixers_Contracts</defName>
     <parent>NR_Help_Fixers</parent>
     <order>3</order>
-    <color>Accent</color>
+    <color>Warn</color>
     <label>Contracts</label>
     <body>Each fixer offers contracts on the Board. Click a stage to see what happens there, then a kind of contract to see an example with the real numbers.\n[[contractflow]]\n&gt; open:Board|Open the Board</body>
     <icon>Nodes/Home_Board</icon>
@@ -213,7 +213,7 @@
     <defName>NR_Help_Fixers_Scrub</defName>
     <parent>NR_Help_Fixers</parent>
     <order>4</order>
-    <color>Accent</color>
+    <color>Warn</color>
     <label>Scrubbing the trace</label>
     <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones.\nReputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Heat/Heat_Reduction</icon>
@@ -227,7 +227,7 @@
     <defName>NR_Help_Fixers_Market</defName>
     <parent>NR_Help_Fixers</parent>
     <order>5</order>
-    <color>Accent</color>
+    <color>Warn</color>
     <label>Shop and black market</label>
     <body>Fences sell goods for silver: the price is the item's value with the shop's markup, lower with reputation. Pinned fences add rare items, and in the black market event fixers who trust you sell what is not in their stock, dearer. Try it:\n[[market]]</body>
     <icon>Fixers/Fixer_Shop</icon>
@@ -256,7 +256,7 @@
     <defName>NR_Help_AI_Basics</defName>
     <parent>NR_Help_AI</parent>
     <order>1</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Homes, trust and hunger</label>
     <body>An AI can live in three places, and each gives something different. Click a home:\n[[aihomes]]\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
     <icon>Gizmo_AI_Use</icon>
@@ -266,7 +266,7 @@
     <defName>NR_Help_AI_Feeding</defName>
     <parent>NR_Help_AI</parent>
     <order>2</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Feeding and requests</label>
     <body>Every archetype eats something of its own (see the archetypes). Hunger grows every day; above {ai.starving} the AI starves and loses trust. Feeding lowers hunger and adds a little trust; an isolated AI hungers twice as fast.\n## !Icon_AIRequest Requests\nNow and then an AI asks for something: a double meal, attention, silence. Do it in time for trust; ignore it and trust drops.\n&gt; open:Server|Open the server room</body>
     <icon>Tabs/Tab_Events_AI</icon>
@@ -280,7 +280,7 @@
     <defName>NR_Help_AI_Awaken</defName>
     <parent>NR_Help_AI</parent>
     <order>3</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Fragments and awakening</label>
     <body>A fragment is a sleeping AI. A colonist carries it to a powered AI server with a free slot and wakes it there; the archetype is revealed at waking.\nA fresh fragment needs the "AI awakening" research and 10 cyberdata to wake. Seven in ten wake up; two in ten are empty shells that fall apart into 3 cyberdata; one in ten slips out into the net and hides in an abandoned node, where a dive can find it. An AI that already lived with you wakes for free.\nAn unwoken fragment falls apart in 30 days unless it lies near a powered AI server.\nEvery awake AI after the first makes network noise: Heat does not cool below 5 per such AI (Ghost half, Predator double). AIs on an isolated server are silent.\n[[aiawaken]]\n!Gizmo_AI_Erase An AI can be erased for advanced cyberdata.</body>
     <icon>thing:NR_AIFragment</icon>
@@ -294,7 +294,7 @@
     <defName>NR_Help_AI_Archetypes</defName>
     <parent>NR_Help_AI</parent>
     <order>5</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>AI archetypes</label>
     <body>Every awakened AI has one of thirteen archetypes. Archetypes you have met open here; the rest stay "?" until you wake one. Pick an archetype to see its service and food, then move the trust slider: it shows when the service works, when traits show, and when the AI turns against you.\n[[aigallery]]</body>
     <icon>Tabs/Tab_AI</icon>
@@ -304,7 +304,7 @@
     <defName>NR_Help_AI_DataHunter</defName>
     <parent>NR_Help_AI</parent>
     <order>10</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Data Hunter</label>
     <body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}</body>
     <icon>ai:DataHunter</icon>
@@ -318,7 +318,7 @@
     <defName>NR_Help_AI_Ghost</defName>
     <parent>NR_Help_AI</parent>
     <order>11</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Ghost</label>
     <body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}</body>
     <icon>ai:Ghost</icon>
@@ -332,7 +332,7 @@
     <defName>NR_Help_AI_Muse</defName>
     <parent>NR_Help_AI</parent>
     <order>12</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Muse</label>
     <body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}</body>
     <icon>ai:Muse</icon>
@@ -346,7 +346,7 @@
     <defName>NR_Help_AI_Predator</defName>
     <parent>NR_Help_AI</parent>
     <order>13</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Predator</label>
     <body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}</body>
     <icon>ai:Predator</icon>
@@ -360,7 +360,7 @@
     <defName>NR_Help_AI_Warden</defName>
     <parent>NR_Help_AI</parent>
     <order>14</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Warden</label>
     <body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}</body>
     <icon>ai:Warden</icon>
@@ -374,7 +374,7 @@
     <defName>NR_Help_AI_Oracle</defName>
     <parent>NR_Help_AI</parent>
     <order>15</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Oracle</label>
     <body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}</body>
     <icon>ai:Oracle</icon>
@@ -388,7 +388,7 @@
     <defName>NR_Help_AI_Forge</defName>
     <parent>NR_Help_AI</parent>
     <order>16</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Forge</label>
     <body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}</body>
     <icon>ai:Forge</icon>
@@ -402,7 +402,7 @@
     <defName>NR_Help_AI_Siren</defName>
     <parent>NR_Help_AI</parent>
     <order>17</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Siren</label>
     <body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}</body>
     <icon>ai:Siren</icon>
@@ -416,7 +416,7 @@
     <defName>NR_Help_AI_Trickster</defName>
     <parent>NR_Help_AI</parent>
     <order>18</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Trickster</label>
     <body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}</body>
     <icon>ai:Trickster</icon>
@@ -430,7 +430,7 @@
     <defName>NR_Help_AI_Echo</defName>
     <parent>NR_Help_AI</parent>
     <order>19</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Echo</label>
     <body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}</body>
     <icon>ai:Echo</icon>
@@ -444,7 +444,7 @@
     <defName>NR_Help_AI_Doc</defName>
     <parent>NR_Help_AI</parent>
     <order>20</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Doc</label>
     <body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}</body>
     <icon>ai:Doc</icon>
@@ -458,7 +458,7 @@
     <defName>NR_Help_AI_Archivist</defName>
     <parent>NR_Help_AI</parent>
     <order>21</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Archivist</label>
     <body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}</body>
     <icon>ai:Archivist</icon>
@@ -472,7 +472,7 @@
     <defName>NR_Help_AI_Seed</defName>
     <parent>NR_Help_AI</parent>
     <order>22</order>
-    <color>Accent</color>
+    <color>Purple</color>
     <label>Archetype: Seed</label>
     <body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}</body>
     <icon>ai:Seed</icon>
@@ -606,7 +606,7 @@
     <defName>NR_Help_BD_Record</defName>
     <parent>NR_Help_Braindance</parent>
     <order>1</order>
-    <color>Accent</color>
+    <color>Studio</color>
     <label>Goggles and recording</label>
     <body>Braindance goggles record their wearer's strongest moments by themselves. The result is a raw recording: a memory waiting to be edited.\n[[cards]]\n- !thing:NR_BraindanceGoggles Goggles: craft them at a fabrication bench (Crafting 5) and put them on a colonist. Only the goggles record; a cyberlink can watch chips but does not record.\n- !Gizmo_BD_Record What gets recorded: a strong feeling (a big mood swing, joy or grief) or a kill. The goggles capture it on their own.\n- !thing:NR_BraindanceRaw The raw recording: it keeps the moment's mood (bright, dark or combat) and its strength, and lies next to the colonist. It is not a chip yet and cannot be watched.\n- !Icon_Lock One a day: at most one recording a day per colonist, so a bad day does not flood the storage.\n- !Nodes/Home_Studio Where to see them: the Studio's "Raw recordings" tab lists every raw recording on the map with its author, mood and quality.\n&gt; page:NR_Help_BD_Chips|Editing and chips\n&gt; open:Studio|Open the Studio</body>
     <icon>Gizmo_BD_Record</icon>
@@ -616,7 +616,7 @@
     <defName>NR_Help_BD_Chips</defName>
     <parent>NR_Help_Braindance</parent>
     <order>2</order>
-    <color>Accent</color>
+    <color>Studio</color>
     <label>Editing and chips</label>
     <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch. Switch the mood and the strength of the moment: the chip, its quality and its effect change.\n[[braindance]]\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: recreation and a mood, and regular use builds tolerance. Put chips in the drug policy to decide who may watch them and how often.</body>
     <icon>thing:NR_BraindanceChip</icon>
@@ -626,7 +626,7 @@
     <defName>NR_Help_BD_Black</defName>
     <parent>NR_Help_Braindance</parent>
     <order>3</order>
-    <color>Accent</color>
+    <color>Studio</color>
     <label>Black braindance and addiction</label>
     <body>[[braindance:Dark]]\nBlack chips hold real pain, fear and death. The rush is far stronger than any ordinary recording, and so is the risk of addiction: without regular braindances an addict gets withdrawal.</body>
     <icon>thing:NR_BlackBraindanceChip</icon>
@@ -638,7 +638,7 @@
     <defName>NR_Help_BD_Unique</defName>
     <parent>NR_Help_Braindance</parent>
     <order>4</order>
-    <color>Accent</color>
+    <color>Studio</color>
     <label>Unique recordings</label>
     <body>Rare named recordings with an effect of their own: a mood that lasts days, a skill edge, a market know-how, a glimpse of the future. There are eight, and they are rare; the same one can turn up again.\n## Where to find them\n[[cards]]\n- !Node_CorpCore The corporate core, sometimes instead of a daemon.\n- !Reward_Valuables A dive's special find.\n- !Event_BlackMarket The black market, now and then, for a high price.\n- !Fixers/Handshake A fixer's bonus for a finished contract.\n## Watching\nLike any chip: braindance goggles or a cyberlink. A recording lasts 1 to 3 views, then burns out. Ordinary ones do not hook; black ones hook faster than a black chip. The Studio's library shows what you have found and keeps "???" for the rest.\n&gt; open:Studio|Open the Studio</body>
     <icon>Reward_UniqueBraindance</icon>
@@ -651,7 +651,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Events</defName>
     <order>70</order>
-    <color>Muted</color>
+    <color>Blue</color>
     <label>Events</label>
     <body>Netrun brings four groups of events. The frequency of each group can be changed in the mod settings; everything that touches your trace is logged in the Archive.\n[[cards]]\n- !Event_Cyberspace_Ransomware Network attacks: what the net throws at you as Heat grows. [[NR_Help_Events_Attacks|Read]]\n- !Event_MapEvents Map events: couriers, hunts, the black market, the distress signal. [[NR_Help_Events_Map|Read]]\n- !Tabs/Tab_Events_Cyberspace Cyberspace events: hunters, rivals, storms and the news. [[NR_Help_Events_Cyber|Read]]\n- !Tabs/Tab_Events_AI AI events: what your AIs do on their own. [[NR_Help_Events_AI|Read]]\n&gt; open:Archive|Open the Archive</body>
     <icon>Tabs/Tab_Events_Blue</icon>
@@ -667,7 +667,7 @@
     <defName>NR_Help_Events_Attacks</defName>
     <parent>NR_Help_Events</parent>
     <order>1</order>
-    <color>Accent</color>
+    <color>Blue</color>
     <label>Network attacks</label>
     <body>Come from the storyteller as Heat grows.\n[[cards]]\n- !Event_Cyberspace_NeuralNoise Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
     <icon>Help/Header_NetworkAttacks</icon>
@@ -677,7 +677,7 @@
     <defName>NR_Help_Events_Map</defName>
     <parent>NR_Help_Events</parent>
     <order>2</order>
-    <color>Accent</color>
+    <color>Blue</color>
     <label>Map events</label>
     <body>[[cards]]\n- !Event_DataCourier Data courier: a fixer's courier with cyberdata stays a day; mercenaries come for the data. Keep them alive for silver and reputation, or take the data: if the courier dies, the cyberdata is yours, but the job fails.\n- !Event_CorpHunt Corporate hunt (Target+, with an AI server): a corporate team comes for your server.\n- !Event_BlackMarket Black market: rare goods at trusted fixers for a few days.\n- !Event_DistressSignal Distress signal: a quest in the Quests tab. An abandoned server sits in a sealed compound on the world map, guarded by turrets (and hunter drones with Odyssey); reach it and connect for an AI fragment (or ICE backlash).\n- !Event_MapHack Turret hijack (Tracked+, netrunner in a pod): turrets switch off; dive into the counter-hack node to take them back.</body>
     <icon>Event_MapEvents</icon>
@@ -687,7 +687,7 @@
     <defName>NR_Help_Events_Cyber</defName>
     <parent>NR_Help_Events</parent>
     <order>3</order>
-    <color>Accent</color>
+    <color>Blue</color>
     <label>Cyberspace events</label>
     <body>[[cards]]\n- !Event_HunterICE ICE hunter (Target+): strikes every node turn; hack it or leave before it follows you home.\n- !Event_Rival Rival netrunner: takes the files after a few turns; be faster.\n- !Event_Honeypot Too good to be true: now and then a node looks richer than it should. Trust your scans more than your greed.\n- !Event_DataStorm Data storm: harder gates, bigger haul for a day or two.\n- !Event_WildAI Wild AI: in an abandoned server; tame it, erase it or sell it.\n- !Node_Counterhack Counter-hack: the node to free your hijacked turrets.\n## News that changes the net\nEvery few days the news line reports something with a real effect: a node hardens its ICE or has its codes leaked, data floods the market (more cyberdata from dives), the net goes quiet (less trace). When the corporate core falls, corp nodes go on lockdown for a week. A runaway AI hides in an abandoned node: dive there to find it.</body>
     <icon>Tabs/Tab_Events_Cyberspace</icon>
@@ -697,7 +697,7 @@
     <defName>NR_Help_Events_AI</defName>
     <parent>NR_Help_Events</parent>
     <order>4</order>
-    <color>Accent</color>
+    <color>Blue</color>
     <label>AI events</label>
     <body>Awakened AIs are not tools: they want things and act on their own. Now and then one of them does something, and what it does depends on who it is and how it feels.\n[[cards]]\n- !Icon_AIRequest What drives them: Trust: a trusting AI brings gifts, favors and help; a resentful one plays tricks and makes trouble. Hunger: a hungry AI gets restless, and its events turn darker. Home: an AI behaves differently on the server, in a cyberpod's coprocessor and inside a host.\n- !Tabs/Tab_Log Letters and choices: Most events come as a letter. Some simply happen; others offer up to three answers. Leaving a letter unanswered is an answer too.\n- !Tabs/Tab_AI Archetypes: Any AI can have the general events, and every archetype has several of its own that fit its character. A new archetype means new surprises.\n- !Icon_GroupFavor What can change: Trust and hunger, Heat, your stores, your colonists' mood, skills and health, the work of your machines and sometimes your dealings with fixers. The letter always says what is at stake.\n&gt; page:NR_Help_AI_Feeding|Feeding and requests</body>
     <icon>Tabs/Tab_Events_AI</icon>
@@ -706,7 +706,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Settings</defName>
     <order>80</order>
-    <color>Muted</color>
+    <color>#e08a4f</color>
     <label>Settings and bug reports</label>
     <body>## Bug reports\nPress the button and paste what it copies into your bug report: versions, DLC, mods, changed settings and the last Netrun errors. No personal data.\n[[diagnostics]]\nOptions → Mod settings → Hacking Expansion: Netrun.\n- !Dive_Heat Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Tabs/Tab_Events_Blue Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
     <icon>Tabs/Tab_Settings</icon>
