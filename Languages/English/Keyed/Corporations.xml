@@ -8,8 +8,6 @@
   <NR_ClubNoCorps>The net is quiet. No corporation has made a move yet.</NR_ClubNoCorps>
   <NR_ClubOnMap>On the map</NR_ClubOnMap>
   <NR_ClubCorpTerritory>Territory: {0} hubs</NR_ClubCorpTerritory>
-  <NR_ClubCorpAlert>Alert {0}</NR_ClubCorpAlert>
-  <NR_ClubCorpStrength>Strength {0}</NR_ClubCorpStrength>
   <NR_ClubCorpBarsTip>Alert: how hard the corporation looks for the colony. +3 for a node, +10 the fortress, +25 the core; -2 a day. At 40 its ICE hardens and walking its ground leaves trace, at 60 ICE patrols, at 80 intrusions, mercenaries and raids.\n\nStrength: how rich it is. Strong and calm, it captures neighboring hubs; weak for long, it may collapse.</NR_ClubCorpBarsTip>
   <NR_ClubCorpIntrusion>Intrusion on the way: {0}, about {1} h to Home</NR_ClubCorpIntrusion>
   <NR_ClubCorpsHelp>Corporations live in their districts on the cyberspace map. Taking their branches, fortress and core raises their Alert; a corporation broken twice in a month or weak for long may collapse, and a new one takes its district.</NR_ClubCorpsHelp>
@@ -19,9 +17,7 @@
   <NR_CorpStatus_Lockdown>lockdown</NR_CorpStatus_Lockdown>
   <NR_CorpStatus_Expanding>expanding</NR_CorpStatus_Expanding>
   <NR_CorpStatus_Brink>on the brink</NR_CorpStatus_Brink>
-  <NR_ClubCrewRelation>relations {0}</NR_ClubCrewRelation>
   <NR_ClubCrewSkill>skill {0}/10</NR_ClubCrewSkill>
-  <NR_ClubCrewFame>fame {0} (#{1})</NR_ClubCrewFame>
   <NR_ClubCrewLast>Last:</NR_ClubCrewLast>
   <NR_ClubCrewCall>Call for help</NR_ClubCrewCall>
   <NR_ClubCrewNotBest>Only the friendliest crew answers.</NR_ClubCrewNotBest>
@@ -92,4 +88,12 @@
   <NR_CrewGoodwillRace>{0} did not like losing the race: {1}.</NR_CrewGoodwillRace>
   <NR_CrewGoodwillOrder>{0} found out who paid: {1}.</NR_CrewGoodwillOrder>
 
+  <NR_ClubCorpAlertLabel>Alert</NR_ClubCorpAlertLabel>
+  <NR_ClubCorpStrengthLabel>Strength</NR_ClubCorpStrengthLabel>
+  <NR_ClubCrewRelationLabel>Relation</NR_ClubCrewRelationLabel>
+  <NR_ClubCrewFameLabel>Fame</NR_ClubCrewFameLabel>
+  <NR_ClubTopColName>Callsign</NR_ClubTopColName>
+  <NR_ClubTopColKind>Who</NR_ClubTopColKind>
+  <NR_ClubTopColFame>Fame</NR_ClubTopColFame>
+  <NR_ClubTopColWeek>Week</NR_ClubTopColWeek>
 </LanguageData>

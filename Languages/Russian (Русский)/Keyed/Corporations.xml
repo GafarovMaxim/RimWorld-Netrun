@@ -8,8 +8,6 @@
   <NR_ClubNoCorps>В сети тихо. Ни одна корпорация пока не пошевелилась.</NR_ClubNoCorps>
   <NR_ClubOnMap>На карте</NR_ClubOnMap>
   <NR_ClubCorpTerritory>Территория: {0} узлов</NR_ClubCorpTerritory>
-  <NR_ClubCorpAlert>Тревога {0}</NR_ClubCorpAlert>
-  <NR_ClubCorpStrength>Сила {0}</NR_ClubCorpStrength>
   <NR_ClubCorpBarsTip>Тревога: насколько корпорация ищет колонию. +3 за ответвление, +10 за крепость, +25 за ядро; −2 в день. На 40 её ICE крепнет и проход по её земле оставляет след, на 60 патрули ICE, на 80 вторжения, наёмники и рейды.\n\nСила: насколько она богата. Сильная и спокойная захватывает соседние узлы; долго слабая может рухнуть.</NR_ClubCorpBarsTip>
   <NR_ClubCorpIntrusion>Идёт вторжение: {0}, около {1} ч до Дома</NR_ClubCorpIntrusion>
   <NR_ClubCorpsHelp>Корпорации живут в своих районах на карте киберпространства. Взломы их ответвлений, крепости и ядра поднимают Тревогу; корпорация, сломанная дважды за месяц или долго слабая, может рухнуть, и её район займёт новая.</NR_ClubCorpsHelp>
@@ -19,9 +17,7 @@
   <NR_CorpStatus_Lockdown>локдаун</NR_CorpStatus_Lockdown>
   <NR_CorpStatus_Expanding>расширяется</NR_CorpStatus_Expanding>
   <NR_CorpStatus_Brink>на грани краха</NR_CorpStatus_Brink>
-  <NR_ClubCrewRelation>отношения {0}</NR_ClubCrewRelation>
   <NR_ClubCrewSkill>мастерство {0}/10</NR_ClubCrewSkill>
-  <NR_ClubCrewFame>слава {0} (№{1})</NR_ClubCrewFame>
   <NR_ClubCrewLast>Последнее:</NR_ClubCrewLast>
   <NR_ClubCrewCall>Позвать на помощь</NR_ClubCrewCall>
   <NR_ClubCrewNotBest>Откликается только самая дружелюбная команда.</NR_ClubCrewNotBest>
@@ -92,4 +88,12 @@
   <NR_CrewGoodwillRace>{0} не понравилось проиграть гонку: {1}.</NR_CrewGoodwillRace>
   <NR_CrewGoodwillOrder>{0} узнали, кто заплатил: {1}.</NR_CrewGoodwillOrder>
 
+  <NR_ClubCorpAlertLabel>Тревога</NR_ClubCorpAlertLabel>
+  <NR_ClubCorpStrengthLabel>Сила</NR_ClubCorpStrengthLabel>
+  <NR_ClubCrewRelationLabel>Отношения</NR_ClubCrewRelationLabel>
+  <NR_ClubCrewFameLabel>Слава</NR_ClubCrewFameLabel>
+  <NR_ClubTopColName>Позывной</NR_ClubTopColName>
+  <NR_ClubTopColKind>Кто</NR_ClubTopColKind>
+  <NR_ClubTopColFame>Слава</NR_ClubTopColFame>
+  <NR_ClubTopColWeek>Неделя</NR_ClubTopColWeek>
 </LanguageData>
