@@ -322,5 +322,5 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsFirstHints>Intro tour and first-time hints</NR_SettingsFirstHints>
   <NR_SettingsFirstHintsTip>A short tour the first time the terminal opens, and one card the first time ICE, Netsick, a fixer or an AI event appears.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Glossary in tooltips</NR_SettingsGlossary>
-  <NR_SettingsGlossaryTip>When a tooltip of the mod mentions Heat, ICE, Netsick, cyberdata or trace, a short definition is added under it.</NR_SettingsGlossaryTip>
+  <NR_SettingsGlossaryTip>While you are new (the Newcomer preset, or the first 15 days of a game): when a tooltip of the mod mentions Heat, ICE, Netsick, cyberdata or trace, a short definition is added under it.</NR_SettingsGlossaryTip>
 </LanguageData>

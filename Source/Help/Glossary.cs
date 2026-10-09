@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
+using RimWorld;
 using Verse;
 
 namespace Netrun;
@@ -34,10 +35,13 @@ public static class Glossary
         return _terms;
     }
 
+    /// <summary>Only for a newcomer: the Newcomer preset, or the first 15 days of a game (decision by Maxim, 2026-10-09).</summary>
+    public static bool ForNewcomer => NetrunMod.Settings.Difficulty == HeatDifficulty.Easy || Current.Game == null || GenDate.DaysPassed < 15;
+
     /// <summary>The tooltip with definitions of the terms it mentions (at most two), or the same text.</summary>
     public static string With(string text)
     {
-        if (!NetrunMod.Settings.Glossary || text.NullOrEmpty())
+        if (!NetrunMod.Settings.Glossary || text.NullOrEmpty() || !ForNewcomer)
             return text;
         if (Cache.TryGetValue(text, out string done))
             return done;

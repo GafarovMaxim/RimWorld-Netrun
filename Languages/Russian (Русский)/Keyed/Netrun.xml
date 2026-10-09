@@ -322,5 +322,5 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFirstHints>Знакомство и подсказки первого раза</NR_SettingsFirstHints>
   <NR_SettingsFirstHintsTip>Короткий тур при первом открытии терминала и одна карточка, когда впервые встречаются ICE, Netsick, фиксер или событие ИИ.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Словарь в подсказках</NR_SettingsGlossary>
-  <NR_SettingsGlossaryTip>Если подсказка мода упоминает Heat, ICE, Netsick, cyberdata или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
+  <NR_SettingsGlossaryTip>Пока вы новичок (пресет «Новичок» или первые 15 дней игры): если подсказка мода упоминает Heat, ICE, Netsick, cyberdata или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
 </LanguageData>
