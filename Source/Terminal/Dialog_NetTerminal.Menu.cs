@@ -269,7 +269,7 @@ public partial class Dialog_NetTerminal
             bool hidden = a.Secret && !got;
             Widgets.Label(new Rect(tx, r.y + 6f, tw, 22f), (hidden ? "???" : a.LabelCap.ToString()).Colorize(got ? AchYellow : NetrunUI.TextColor));
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(tx, r.y + 28f, tw, 34f), (hidden ? (string)"NR_MenuAchSecret".Translate() : a.description).Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(tx, r.y + 28f, tw, 34f), (hidden ? (string)"NR_MenuAchSecret".Translate() : HelpPageDef.StripModName(a.description)).Colorize(NetrunUI.Muted));
             Text.Font = GameFont.Small;
             // Progress, and the frame theme this achievement opens.
             var bar = new Rect(tx, r.yMax - 16f, tw - 60f, 8f);
@@ -278,7 +278,7 @@ public partial class Dialog_NetTerminal
             Widgets.Label(new Rect(bar.xMax + 6f, r.yMax - 22f, 56f, 18f), $"{a.Progress}/{a.count}".Colorize(NetrunUI.Muted));
             Text.Font = GameFont.Small;
             DeckTheme reward = DeckThemes.All.FirstOrDefault(t => t.UnlockKey == a.key);
-            string tip = hidden ? (string)"NR_MenuAchSecret".Translate() : a.description;
+            string tip = hidden ? (string)"NR_MenuAchSecret".Translate() : HelpPageDef.StripModName(a.description);
             if (reward != null)
             {
                 var badge = new Rect(r.xMax - 26f, r.y + 6f, 20f, 20f);
