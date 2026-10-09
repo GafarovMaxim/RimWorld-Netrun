@@ -84,6 +84,7 @@ public static partial class GatewayView
         var local = new Rect(0f, 0f, rect.width, rect.height);
         ApplyCenter(local, map);
         MapHotkeys(local, net);
+        WasdPan(local);
         Widgets.BeginGroup(rect);
         // The static layer (grid, district names, links, the route preview, packets) only draws on Repaint; the other GUI
         // events of the frame only need the hubs and runners for clicks (docs/PERF_AUDIT_4.md, 6).

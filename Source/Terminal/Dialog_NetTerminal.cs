@@ -82,6 +82,8 @@ public partial class Dialog_NetTerminal : Window
 
     public override void DoWindowContents(Rect inRect)
     {
+        // W A S D pan the cyberspace map, not the colony camera, while the map is open (option in the settings).
+        preventCameraMotion = _view == View.Gateway && Dive == null && GatewayView.HoldsCamera;
         bool font = NetrunFont.Push();
         bool size = NetrunText.Push();
         try

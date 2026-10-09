@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -131,9 +132,6 @@ public static partial class GatewayView
         }
         if (NetrunMod.Settings.MapWasd && e.keyCode is KeyCode.W or KeyCode.A or KeyCode.S or KeyCode.D)
         {
-            const float step = 60f;
-            _pan += e.keyCode switch { KeyCode.W => new Vector2(0f, step), KeyCode.S => new Vector2(0f, -step), KeyCode.A => new Vector2(step, 0f), _ => new Vector2(-step, 0f) };
-            ClampPan(local);
             e.Use();
             return;
         }
@@ -163,6 +161,40 @@ public static partial class GatewayView
         }
         e.Use();
     }
+
+    private static float _wasdAt;
+
+    /// <summary>
+    /// W A S D (the game's camera keys) move the map smoothly while held (speed per real second, eased in), not by key-repeat steps. The game
+    /// camera stays put meanwhile: the terminal sets preventCameraMotion while the map is shown with this option.
+    /// </summary>
+    private static void WasdPan(Rect local)
+    {
+        if (Event.current.type != EventType.Repaint)
+            return;
+        float now = Time.realtimeSinceStartup;
+        float dt = Mathf.Min(0.05f, now - _wasdAt);
+        _wasdAt = now;
+        if (!NetrunMod.Settings.MapWasd || GUI.GetNameOfFocusedControl() == SearchControl)
+            return;
+        var dir = Vector2.zero;
+        if (KeyBindingDefOf.MapDolly_Up.IsDown)
+            dir.y += 1f;
+        if (KeyBindingDefOf.MapDolly_Down.IsDown)
+            dir.y -= 1f;
+        if (KeyBindingDefOf.MapDolly_Left.IsDown)
+            dir.x += 1f;
+        if (KeyBindingDefOf.MapDolly_Right.IsDown)
+            dir.x -= 1f;
+        if (dir == Vector2.zero)
+            return;
+        float speed = Event.current.shift ? 1100f : 600f;
+        _pan += dir.normalized * speed * dt;
+        ClampPan(local);
+    }
+
+    /// <summary>The map is on screen with W A S D panning: the game camera must not move along.</summary>
+    public static bool HoldsCamera => NetrunMod.Settings.MapWasd;
 
     // ---- Search ----
 
