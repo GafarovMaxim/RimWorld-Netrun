@@ -130,7 +130,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Effects</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>7</order>
+    <order>8</order>
     <color>Accent</color>
     <label>What a dive leaves behind</label>
     <body>Everything below shows in the dive summary when it happens.\n## ICE hits\n- Every hit adds 4% Netsick. Then: nausea (60%), a lockout that ends the dive and wakes the pod (30%) or a coma that ends the dive (10%). The pod lets a comatose runner out, so the coma runs its course even in a Vitality pod.\n- Black ICE: each hit has a 3% chance to burn out the runner's cyberlink. The implant is gone.\n- A failed dive (not an exit or a retreat) leaves a few small burns from the neural feedback.\n## Good\n- Net flow: a clean exit with no ICE hits. For a day learning +20%, research +15%, hacks in dives +5%.\n- Digital memory: 25% after a successful dive: 1500 XP in a random skill.\n- Survived the ICE: a success after an ICE hit lifts the mood.\n## Bad\n- Digital migraine: a dive of 9 turns or more. Pain +15% and consciousness -10% for half a day.\n- Phantom signals: at 60% Netsick or more, a 30% chance per dive. For a day the runner may see ICE in the real world and wander off.\n- Burned link: a failed Black ICE dive after a hit, 25%. For three days hacks in dives -10%, consciousness -5%.\n## Softening it\nA decoy program takes one ICE hit for you. Neurostabilizer pills stop Netsick withdrawal and net cravings for a while. "Exit" while you still can keeps the haul and spares the runner.</body>
@@ -517,7 +517,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Dive</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>2</order>
+    <order>3</order>
     <color>Accent</color>
     <label>How a dive goes</label>
     <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move: to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack: a gate or ICE.\n- !Action_Download Download: files or memory.\n- !Action_Exit Exit: from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks).\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.\n## !Action_Hack Node alert\nA failed gate hack raises the node alert (a failed ICE hack does not: ICE has its own danger). At 3 an ICE patrol wakes up and each node turn may strike (15%). A strike throws the runner out with half the haul and nausea, no coma; a shield or the Aegis daemon takes it instead, and the Wraith daemon lets one more failure slip by. Nodes of defense 1 have no alert.\nAll hack bonuses together (programs, daemons, traits, AI, recordings) add at most +30% to a hack's chance.\n## !Gizmo_NetrunDive Hacking Expansion gear\nA dive is paid from the pod's hack points first, then in cyberdata. With the "combat executables" research one HE item per dive can go in a program slot: an ICE breaker breaks one gate (double trace), an exec data gives +1 action in each of the first three turns. HE's optimization module adds one action in the first turn.</body>
@@ -535,7 +535,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Ice</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>3</order>
+    <order>4</order>
     <color>Accent</color>
     <label>ICE and Black ICE</label>
     <body>[[ice]]\n## !Dive_GATE Code gates\nWalls you must hack; strength grows with the node's defense.\n## !Dive_ICE ICE\nHacking Expansion's defense: it can trace, lock out or hurt the hacker.\n## !Dive_BLACKICE Black ICE\nA killer program on a step of the node. It strikes every node turn: nausea, a lockout (the dive ends) or a coma. A Shield absorbs a strike, a Decoy may draw it off, a Killer breaks it.</body>
@@ -548,7 +548,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Programs</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>4</order>
+    <order>5</order>
     <color>Accent</color>
     <label>Programs and daemons</label>
     <body>[[loadout]]\nPrograms are loaded before a dive: {dive.slots} slots, {dive.program} cyberdata each.\n- !Program_Sword Sword: easier hacks.\n- !Program_Shield Shield: absorbs an ICE strike.\n- !Program_Decoy Decoy: may draw ICE away.\n- !Program_Stealth Stealth: half the trace.\n- !Program_Killer Killer: breaks ICE.\n## Daemons\nDaemons are permanent programs found in cyberspace (often in the corporate core): free and without a slot, but you take only one per dive.\n- !Daemon_Reaper Reaper: hacks much easier.\n- !Daemon_Aegis Aegis: a Shield charge every dive.\n- !Daemon_Wraith Wraith: half the trace.\n- !Daemon_Hound Hound: a Killer charge every dive.\n- !Daemon_Lens Lens: hidden caches are always visible.</body>
@@ -563,7 +563,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Rewards</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>6</order>
+    <order>7</order>
     <color>Accent</color>
     <label>Rewards and the summary</label>
     <body>Files pay back the cost of the dive with a multiplier: more for stronger nodes, most with Black ICE. On a clean exit there is a chance of a special find:\n[[cards]]\n- !thing:NR_AIFragment AI fragment: a sleeping AI, waiting for your server.\n- !Tabs/Tab_Research Research: progress on the project you are researching.\n- !Fixer_Service_Reward A fixer's service: a free scrub of the trace from a fixer in the pool.\n- !Icon_GroupFavor The group's favor: a step toward calling the hacker group.\n- !thing:NR_BraindanceChip Celebrity braindance: a recorded memory of someone famous.\n- !Reward_DaemonProgram Daemon: a permanent program for every later dive.\n- !thing:NR_AICoreModule Core module: one more slot for the AI server.\n!Icon_DiveReport After a dive the summary shows the haul, the costs, Heat and Netsick (can be turned off in the settings).</body>
@@ -573,7 +573,7 @@
   <Netrun.HelpPageDef>
     <defName>NR_Help_Gateway_Group</defName>
     <parent>NR_Help_Gateway</parent>
-    <order>8</order>
+    <order>9</order>
     <color>Accent</color>
     <label>The hacker group</label>
     <body>!Icon_GroupFavor Sometimes a dive's special find is a favor for a hacker group. At {dive.favor} favor, "Call the group" in the Club sends allied fighters (or advanced cyberdata if you have no allies); then the group rests {dive.allies} days.</body>
@@ -735,7 +735,8 @@
 
   <Netrun.HelpPageDef>
     <defName>NR_Help_Defense</defName>
-    <order>55</order>
+    <parent>NR_Help_Gateway</parent>
+    <order>2</order>
     <color>Warn</color>
     <label>Hub defense</label>
     <body>Network attacks on the colony are checked against your hub defense. The total is on the Heat screen.\n## What adds defense\n[[cards]]\n- !Program_Shield Firewalls: Hang on a wall like a lamp. Each powered one adds 2, up to two of them (needs the «Network security» research).\n- !Dive_ICE ICE tier: Set in the terminal (Gateway map, pick Home): firewall +1, ICE +2 (research «Active ICE»), black ICE +3 (research «Black ICE defense»). Paid every 15 days: 1 cyberdata, 3 cyberdata or 1 advanced cyberdata.\n- !Daemon_Hound Hub watch: A netrunner on duty adds 1 per 4 Intellectual.\n- !AI/AI_Warden Warden AI: +2 on a powered server, +1 more at trust 60.\n- !Icon_Lock HE jammer: A jammer coprocessor linked to a pod adds 1.\n## How an attack ends\nDefense 3 or more above the attack's strength repels it; 3 or more below lets it through; in between it becomes an intrusion. Your black ICE burns repelled attackers, and that is noticed (+3 Heat).\n## Honeypot\nOne firewall can be a honeypot instead: it adds nothing, but after a repelled attack it traces the attacker back: 2-4 cyberdata or a revealed hidden node.\n## Isolation\nThe NET LOCK key on the terminal's casing (or the Colony defense block: Gateway map, Home) cuts the colony off the net: attacks cannot reach you, but neither can dives, contracts, fixers or AI services.\n## Intrusions on the map\nWhen the cyberspace map is ready, a corporation's attack comes from its fortress as a red packet, about 2 hours per link. A runner at a hub on its path can «Intercept» it with a short dive; a runner at Home adds +40% to repelling it.</body>
