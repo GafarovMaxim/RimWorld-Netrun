@@ -120,7 +120,7 @@ public static partial class GatewayView
                 MapLens.Loot => known.Count == 0 ? -1f : Mathf.Clamp01((known.Max(b => b.RewardMultiplier) - 0.5f) / 2.5f),
                 MapLens.Danger => Danger(n, known),
                 MapLens.Corps => n.District == District.Corp && net.CorpOfSlot(n.CorpSlot) != null ? 1f : -1f,
-                MapLens.Contracts => known.Any(b => b.Contract) || net.Watch.Contains(n.Id) ? 1f : -1f,
+                MapLens.Contracts => known.Any(b => b.Contract) || net.Watch.Contains(n.Id) || WatchedHubs().Contains(n.Id) ? 1f : -1f,
                 _ => -1f,
             };
             values[n.Id] = v;
@@ -148,6 +148,10 @@ public static partial class GatewayView
         MapLens.Contracts => NetrunUI.Warn,
         _ => t < 0.5f ? Color.Lerp(ScaleLow, ScaleMid, t * 2f) : Color.Lerp(ScaleMid, ScaleHigh, (t - 0.5f) * 2f),
     };
+
+    /// <summary>The active lens's value for a hub (0..1), or -1 when it has none (or in the Overview).</summary>
+    private static float LensValueOf(MapNode n, NetMapManager net)
+        => Lens == MapLens.Overview || !LensValues(net, Lens).TryGetValue(n.Id, out float t) ? -1f : t;
 
     /// <summary>The hub's colour under the active lens; null in the Overview (the hub keeps its own colour).</summary>
     private static Color? LensHubColor(MapNode n, NetMapManager net)

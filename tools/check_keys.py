@@ -27,6 +27,8 @@ DYNAMIC = {
     "NR_Hint_": ["Ice", "Netsick", "Fixer", "AIEvent"],
     "NR_IntroTitle_": ["0", "1", "2"],
     "NR_Intro_": ["0", "1", "2"],
+    "NR_Legend_": ["Home", "Exit", "Fortress", "Visited", "Watched", "Patrol", "Offline", "Storm", "Transit",
+                   "LinkFast", "LinkDark", "LinkWall", "LinkJammed", "LinkToll"],
     "NR_MapLens_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensTip_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensScale_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],

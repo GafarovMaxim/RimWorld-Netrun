@@ -424,4 +424,6 @@
   <NR_SettingsSurveillanceNodeTip>Контракт наблюдения называет узел на карте киберпространства, и считается только раннер, стоящий там. Выкл.: считается любой нетраннер в капсуле, как в старых версиях.</NR_SettingsSurveillanceNodeTip>
   <NR_SettingsIsolationCooldown>Охлаждение изоляции</NR_SettingsIsolationCooldown>
   <NR_SettingsIsolationCooldownTip>После снятия изоляции сеть нельзя снова изолировать 6 игровых часов. Снятие изоляции, длившейся меньше 2 часов, даёт +4 Heat и немного Netsick раннерам в капсулах. Выкл.: изоляция переключается свободно.</NR_SettingsIsolationCooldownTip>
+  <NR_SettingsLegend>Легенда на карте</NR_SettingsLegend>
+  <NR_SettingsLegendTip>Сворачиваемая легенда в левом нижнем углу карты киберпространства; щелчок по строке подсвечивает узлы, к которым она относится.</NR_SettingsLegendTip>
 </LanguageData>

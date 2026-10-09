@@ -78,6 +78,8 @@ public class NetrunSettings : ModSettings
     public bool FirstHints = true;
     /// <summary>Short definitions of key terms under the mod's tooltips.</summary>
     public bool Glossary = true;
+    /// <summary>D1: the legend plate on the cyberspace map.</summary>
+    public bool MapLegend = true;
     /// <summary>Pan the cyberspace map with W, A, S, D.</summary>
     public bool MapWasd;
     /// <summary>Hubs in new cyberspace maps, as a multiplier of the chosen size (more hubs, heavier on the game).</summary>
@@ -482,6 +484,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsDiveReport", ref ShowDiveReport, "NR_SettingsDiveReportTip");
         Toggle("NR_SettingsPause", ref PauseOnOpen, "NR_SettingsPauseTip");
         Toggle("NR_SettingsMinimap", ref MapMinimap, "NR_SettingsMinimapTip");
+        Toggle("NR_SettingsLegend", ref MapLegend, "NR_SettingsLegendTip");
         Toggle("NR_SettingAutopause", ref MapAutopause, "NR_SettingAutopauseTip");
         Toggle("NR_SettingsFirstHints", ref FirstHints, "NR_SettingsFirstHintsTip");
         Toggle("NR_SettingsGlossary", ref Glossary, "NR_SettingsGlossaryTip");
@@ -685,6 +688,7 @@ public class NetrunSettings : ModSettings
         ShowDiveReport = true;
         PauseOnOpen = true;
         MapMinimap = true;
+        MapLegend = true;
         MapAutopause = true;
         FirstHints = true;
         MapWasd = false;
@@ -737,6 +741,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Glitches, "glitches", true);
         Scribe_Values.Look(ref Scanlines, "scanlines", true);
         Scribe_Values.Look(ref MapMinimap, "mapMinimap", true);
+        Scribe_Values.Look(ref MapLegend, "mapLegend", true);
         Scribe_Values.Look(ref MapAutopause, "mapAutopause", true);
         Scribe_Values.Look(ref FirstHints, "firstHints", true);
         Scribe_Values.Look(ref Glossary, "glossary", true);

@@ -32,7 +32,7 @@
   <NR_NetFoundOpen>Настроить сеть</NR_NetFoundOpen>
   <NR_NetFoundPrompt>Сеть ещё не нанесена на карту.</NR_NetFoundPrompt>
   <NR_NetFoundNote>Размер для будущих игр меняется в настройках мода.</NR_NetFoundNote>
-  <NR_MapNodeLabel>{0} {1}</NR_MapNodeLabel>
+  <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Раннеры {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Раннеры {0}/{1}</NR_MapRunnersChip>
   <NR_MapRunnersChipTip>Нетраннеры, подключённые к сети из кибер-капсул. Каждый ходит по карте сам.</NR_MapRunnersChipTip>
@@ -162,4 +162,20 @@
   <NR_MapGoAndExit>⇥ К выходу и выйти</NR_MapGoAndExit>
   <NR_MapGoAndExitTip>Дойти до ближайшей точки выхода и выйти там из сети, одним действием.</NR_MapGoAndExitTip>
   <NR_MapWatchTag>◉ наблюдение</NR_MapWatchTag>
+  <NR_Legend_Title>Легенда</NR_Legend_Title>
+  <NR_Legend_Tip>Что значат метки на карте. Щелчок по строке подсвечивает все узлы, к которым она относится; повторный щелчок (или Esc) снимает подсветку.</NR_Legend_Tip>
+  <NR_Legend_Home>Дом</NR_Legend_Home>
+  <NR_Legend_Exit>Выход</NR_Legend_Exit>
+  <NR_Legend_Fortress>Крепость</NR_Legend_Fortress>
+  <NR_Legend_Visited>Посещён (залит)</NR_Legend_Visited>
+  <NR_Legend_Watched>Под наблюдением</NR_Legend_Watched>
+  <NR_Legend_Patrol>Патруль ICE</NR_Legend_Patrol>
+  <NR_Legend_Offline>Отключён</NR_Legend_Offline>
+  <NR_Legend_Storm>Шторм данных</NR_Legend_Storm>
+  <NR_Legend_Transit>Транзит</NR_Legend_Transit>
+  <NR_Legend_LinkFast>Быстрая связь</NR_Legend_LinkFast>
+  <NR_Legend_LinkDark>Тёмная связь, бэкдор</NR_Legend_LinkDark>
+  <NR_Legend_LinkWall>Стена</NR_Legend_LinkWall>
+  <NR_Legend_LinkJammed>Заглушённая связь</NR_Legend_LinkJammed>
+  <NR_Legend_LinkToll>Платная связь</NR_Legend_LinkToll>
 </LanguageData>

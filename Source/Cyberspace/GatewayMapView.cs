@@ -75,7 +75,8 @@ public static partial class GatewayView
         _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
                           || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse)
                           || LensBarRect(rect).Contains(mouse)
-                          || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - 34f, 300f, 28f).Contains(mouse);
+                          || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - 34f, 300f, 28f).Contains(mouse)
+                          || NetrunMod.Settings.MapLegend && LegendRect(rect, net).Contains(mouse);
         int hovered = _hoverHub;
         _hoverHub = -1;
         if (!_mouseOnOverlay)
@@ -97,16 +98,23 @@ public static partial class GatewayView
             // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
-            foreach ((Vector2 pos, string text, Color color, bool corp) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
+            foreach ((Vector2 pos, string text, Color color, bool corp, float radius) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
             {
                 Vector2 c = ToScreen(local, pos);
-                // A corporation's ground: a soft glow in its own colour (red stays for ICE, patrols and fortresses).
+                // A corporation's ground: a soft glow in its own colour and a thin dashed edge (red stays for ICE,
+                // patrols and fortresses).
                 if (corp)
                 {
                     float s = 34f * _zoom;
-                    NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.16f, 70f * _zoom);
+                    NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.24f, 70f * _zoom);
+                    float edge = radius * MapScale(local) + 26f * Mathf.Sqrt(_zoom);
+                    GUI.color = new Color(color.r, color.g, color.b, 0.3f);
+                    GUI.DrawTexture(new Rect(c.x - edge, c.y - edge, edge * 2f, edge * 2f), DashedRing);
+                    GUI.color = Color.white;
                 }
-                Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), text);
+                // A watermark under the links, moved inside the map when it would run off an edge.
+                float lx = Mathf.Clamp(c.x - 90f, 4f, local.width - 184f);
+                Widgets.Label(new Rect(lx, c.y - 34f * _zoom - 10f, 180f, 18f), text);
             }
             Text.Anchor = TextAnchor.UpperLeft;
 
@@ -149,6 +157,7 @@ public static partial class GatewayView
         DrawRunnerArrows(rect, net);
         DrawMinimap(rect, net);
         DrawLensScale(rect, net);
+        DrawLegend(rect, net);
         DrawLensBar(rect);
         DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
         GuideRegistry.Area("gateway.searchbox", new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f));
@@ -204,17 +213,20 @@ public static partial class GatewayView
         return false;
     }
 
-    private static List<(Vector2, string, Color, bool)> DistrictLabels(NetMapManager net)
+    private static float MapScale(Rect local) => Mathf.Min(local.width / 1.04f, local.height / 0.70f) * _zoom;
+
+    private static List<(Vector2, string, Color, bool, float)> DistrictLabels(NetMapManager net)
     {
-        var list = new List<(Vector2, string, Color, bool)>();
+        var list = new List<(Vector2, string, Color, bool, float)>();
         foreach (IGrouping<string, MapNode> g in net.Map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
                      .GroupBy(n => n.District + "|" + n.CorpSlot))
         {
             MapNode first = g.First();
             bool corp = first.District == District.Corp && net.CorpOfSlot(first.CorpSlot) != null;
             Color dc = HubColor(first, net);
-            list.Add((g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count(),
-                DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.75f : 0.45f)), dc, corp));
+            Vector2 centre = g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count();
+            float radius = g.Max(n => Vector2.Distance(n.Pos, centre));
+            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.5f : 0.3f)), dc, corp, radius));
         }
         return list;
     }
@@ -254,6 +266,8 @@ public static partial class GatewayView
 
     private static void DrawMapLink(Vector2 a, Vector2 b, MapLink l, CyberMap map, bool onRoute)
     {
+        bool nearSelected = _selectedMapNode >= 0 && (l.A == _selectedMapNode || l.B == _selectedMapNode);
+        bool dim = LegendDims(l.A) && LegendDims(l.B);
         Color c = l.Kind switch
         {
             LinkKind.Fast => new Color(0.24f, 0.82f, 0.9f),
@@ -264,8 +278,16 @@ public static partial class GatewayView
         };
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
-        float alpha = l.Broken ? 0.25f : 0.75f;
-        float width = l.Kind == LinkKind.Fast ? 2.5f : 1.5f;
+        // A plain link is a thin, quiet line (map v4, D9): the hubs are the picture. Fast links keep their colour, thinner.
+        float alpha = l.Broken ? 0.2f : l.Kind == LinkKind.Normal ? 0.35f : 0.55f;
+        float width = 1.5f;
+        if (nearSelected)
+        {
+            alpha = Mathf.Max(alpha, 0.85f);
+            width = 2f;
+        }
+        if (dim)
+            alpha *= 0.4f;
         if (onRoute)
         {
             Widgets.DrawLine(a, b, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f), 7f);
@@ -282,7 +304,8 @@ public static partial class GatewayView
         }
         else
         {
-            Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, 0.12f), width + 4f);
+            if (onRoute || nearSelected)
+                Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, 0.12f), width + 4f);
             Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, alpha), width);
         }
         Vector2 mid = (a + b) / 2f;
@@ -324,6 +347,10 @@ public static partial class GatewayView
         // With a runner standing still, the hubs it can step to now are bright and the rest dimmed (Overview only).
         if (Lens == MapLens.Overview && !selected && SelectedRunner(net) is { Moving: false } && !Neighbours(net).Contains(n.Id))
             c = new Color(c.r, c.g, c.b, c.a * 0.55f);
+        // D1: a picked legend row dims every hub it does not stand for.
+        if (LegendDims(n.Id))
+            c = new Color(c.r, c.g, c.b, c.a * 0.35f);
+        bool noData = Lens != MapLens.Overview && LensValueOf(n, net) < 0f;
         if (hover && !_mouseOnOverlay)
             _hoverHub = n.Id;
         if (!paint)
@@ -343,12 +370,26 @@ public static partial class GatewayView
         DrawVisited(rect, n);
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(rect.ExpandedBy(2f), NetrunUI.Disc);
-        GUI.color = new Color(c.r, c.g, c.b, n.Offline ? 0.5f : 1f);
-        GUI.DrawTexture(rect, home ? NetrunUI.Ring : NetrunUI.Disc);
+        // Map v4 (D9): a hollow ring in the hub's colour with a faint fill; full only for hubs a runner has been to,
+        // and under a lens (its colour is the information) unless the lens has no data for it.
+        float a = (n.Offline ? 0.5f : 1f) * c.a;
+        bool full = !home && !noData && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
+        if (home)
+        {
+            GUI.color = new Color(c.r, c.g, c.b, a);
+            GUI.DrawTexture(rect, NetrunUI.Ring);
+        }
+        else
+        {
+            GUI.color = new Color(c.r, c.g, c.b, a * (full ? 1f : 0.18f));
+            GUI.DrawTexture(rect.ContractedBy(1f), NetrunUI.Disc);
+            GUI.color = new Color(c.r, c.g, c.b, a);
+            GUI.DrawTexture(rect, HubRing);
+        }
         if (n.Fortress)
         {
-            GUI.color = NetrunUI.Bad;
-            Widgets.DrawBox(rect.ExpandedBy(3f), 2);
+            GUI.color = new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, LegendDims(n.Id) ? 0.35f : 1f);
+            GUI.DrawTexture(rect.ExpandedBy(5f), DashedRing);
         }
         if (n.Id == net?.MarkedNodeId)
         {

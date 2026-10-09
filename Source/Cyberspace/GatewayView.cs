@@ -278,6 +278,13 @@ public static partial class GatewayView
             _zoom = Mathf.Max(MinZoom, _zoom - 0.2f);
         if (NetrunUI.Button(new Rect(rect.x + 68f, rect.y, 30f, 30f), "◎", NetrunUI.Muted, true, "NR_GatewayZoomReset".Translate()))
             ResetCamera();
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperCenter;
+        GUI.color = NetrunUI.Muted;
+        Widgets.Label(new Rect(rect.x, rect.yMax + 2f, 98f, 16f), Mathf.RoundToInt(_zoom * 100f) + "%");
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
     }
 
     private static void ResetCamera()
@@ -332,13 +339,13 @@ public static partial class GatewayView
         for (float x = ox; x < rect.width; x += step, col++)
         {
             bool major = (col - ix) % 5 == 0;
-            Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.16f : 0.08f));
+            Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.09f : 0.045f));
         }
         int row = 0;
         for (float y = oy; y < rect.height; y += step, row++)
         {
             bool major = (row - iy) % 5 == 0;
-            Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.16f : 0.08f));
+            Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.09f : 0.045f));
         }
         if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
             return;

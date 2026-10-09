@@ -32,7 +32,7 @@
   <NR_NetFoundOpen>Set up the net</NR_NetFoundOpen>
   <NR_NetFoundPrompt>The net has not been mapped yet.</NR_NetFoundPrompt>
   <NR_NetFoundNote>The size can be changed in the mod settings for future games.</NR_NetFoundNote>
-  <NR_MapNodeLabel>{0} {1}</NR_MapNodeLabel>
+  <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Runners {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Runners {0}/{1}</NR_MapRunnersChip>
   <NR_MapRunnersChipTip>Netrunners connected to the net from cyberpods. Each walks the map on their own.</NR_MapRunnersChipTip>
@@ -162,4 +162,20 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapGoAndExit>⇥ Go and exit</NR_MapGoAndExit>
   <NR_MapGoAndExitTip>Walk to the nearest exit point and leave the net there, in one action.</NR_MapGoAndExitTip>
   <NR_MapWatchTag>◉ watch</NR_MapWatchTag>
+  <NR_Legend_Title>Legend</NR_Legend_Title>
+  <NR_Legend_Tip>What the marks on the map mean. Click a row to light every hub it applies to; click it again (or Esc) to let go.</NR_Legend_Tip>
+  <NR_Legend_Home>Home</NR_Legend_Home>
+  <NR_Legend_Exit>Exit port</NR_Legend_Exit>
+  <NR_Legend_Fortress>Fortress</NR_Legend_Fortress>
+  <NR_Legend_Visited>Visited (filled)</NR_Legend_Visited>
+  <NR_Legend_Watched>Watched</NR_Legend_Watched>
+  <NR_Legend_Patrol>ICE patrol</NR_Legend_Patrol>
+  <NR_Legend_Offline>Offline</NR_Legend_Offline>
+  <NR_Legend_Storm>Data storm</NR_Legend_Storm>
+  <NR_Legend_Transit>Transit window</NR_Legend_Transit>
+  <NR_Legend_LinkFast>Fast link</NR_Legend_LinkFast>
+  <NR_Legend_LinkDark>Dark link, backdoor</NR_Legend_LinkDark>
+  <NR_Legend_LinkWall>The Wall</NR_Legend_LinkWall>
+  <NR_Legend_LinkJammed>Jammed link</NR_Legend_LinkJammed>
+  <NR_Legend_LinkToll>Toll link</NR_Legend_LinkToll>
 </LanguageData>

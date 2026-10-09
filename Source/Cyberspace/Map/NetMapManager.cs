@@ -648,7 +648,23 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     }
 
     public static string NodeLabel(MapNode n)
-        => n == null ? "?" : n.District == District.Home ? (string)"NR_District_Home".Translate() : "NR_MapNodeLabel".Translate(("NR_District_" + n.District).Translate(), n.Id);
+    {
+        if (n == null)
+            return "?";
+        if (n.District == District.Home)
+            return "NR_District_Home".Translate();
+        string place = n.District == District.Corp && Get()?.CorpOfSlot(n.CorpSlot) is { } corp ? ShortName(corp.Name) : (string)("NR_District_" + n.District).Translate();
+        return "NR_MapNodeLabel".Translate(place, n.Id);
+    }
+
+    /// <summary>The first word of a corporation's name ("Obsidian Biotech" -> "Obsidian"), for short hub names.</summary>
+    private static string ShortName(string name)
+    {
+        if (name.NullOrEmpty())
+            return "?";
+        int space = name.IndexOf(' ');
+        return space > 2 ? name.Substring(0, space) : name;
+    }
 
     public int Cleanup(CleanupReason reason)
     {
