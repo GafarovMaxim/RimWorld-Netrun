@@ -55,6 +55,23 @@ public static class AIDelivery
             options.Add(new FloatMenuOption(pawn.LabelShort, () => Order(carrier, ai, kind, stack, count, seedGrows)));
         }
 
+        // D7 (Maxim 2026-10-09): the colony's hauling mechanoids are in the same list; the player picks, nothing is automatic.
+        if (ModsConfig.BiotechActive)
+            foreach (Pawn mech in map.mapPawns.SpawnedColonyMechs)
+            {
+                if (mech.Downed || mech.RaceProps.mechEnabledWorkTypes?.Contains(WorkTypeDefOf.Hauling) != true
+                    || !mech.CanReserveAndReach(stack, PathEndMode.ClosestTouch, Danger.Some) || !mech.CanReach(ai.Server, PathEndMode.Touch, Danger.Some))
+                    continue;
+                string label = "NR_AICarrierMech".Translate(mech.LabelShort);
+                if (!MechanitorUtility.InMechanitorCommandRange(mech, stack))
+                {
+                    options.Add(new FloatMenuOption(label + ": " + "NR_AICarrierMechRange".Translate(), null));
+                    continue;
+                }
+                Pawn carrier = mech;
+                options.Add(new FloatMenuOption(label, () => Order(carrier, ai, kind, stack, count, seedGrows)));
+            }
+
         if (options.Count == 0)
             options.Add(new FloatMenuOption("NR_AINoCarrier".Translate(), null));
         Find.WindowStack.Add(new FloatMenu(options));

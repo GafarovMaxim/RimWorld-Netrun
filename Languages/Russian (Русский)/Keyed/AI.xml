@@ -278,4 +278,6 @@
   <NR_AwakenNoResearch>Для новых осколков нужно исследование «{0}».</NR_AwakenNoResearch>
   <NR_AIToOtherCoprocessor>В другую капсулу</NR_AIToOtherCoprocessor>
   <NR_AIToOtherCoprocessorTip>Перенести ИИ сразу в другой свободный сопроцессор, без возврата на сервер.</NR_AIToOtherCoprocessorTip>
+  <NR_AICarrierMech>{0} (механоид)</NR_AICarrierMech>
+  <NR_AICarrierMechRange>вне зоны управления механитора</NR_AICarrierMechRange>
 </LanguageData>
