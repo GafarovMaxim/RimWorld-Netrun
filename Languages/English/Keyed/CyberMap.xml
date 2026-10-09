@@ -178,7 +178,7 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_Legend_LinkWall>The Wall</NR_Legend_LinkWall>
   <NR_Legend_LinkJammed>Jammed link</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Toll link</NR_Legend_LinkToll>
-  <NR_Legend_Guarded>Protected hub, guard key</NR_Legend_Guarded>
+  <NR_Legend_Guarded>Guarded hub</NR_Legend_Guarded>
   <NR_GuardLocked>A protected corporate hub: break its guard gateway (⚿, in a hub next door) first.</NR_GuardLocked>
   <NR_GuardBroken>The guard gateway is down: {0} is open for {1}. Its loot is richer than usual.</NR_GuardBroken>
   <NR_GuardFailHeat>Failed dive in a protected hub</NR_GuardFailHeat>

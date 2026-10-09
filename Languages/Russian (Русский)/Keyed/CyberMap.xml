@@ -178,7 +178,7 @@
   <NR_Legend_LinkWall>Стена</NR_Legend_LinkWall>
   <NR_Legend_LinkJammed>Заглушённая связь</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Платная связь</NR_Legend_LinkToll>
-  <NR_Legend_Guarded>Защищённый узел, ключ охраны</NR_Legend_Guarded>
+  <NR_Legend_Guarded>Узел под охраной</NR_Legend_Guarded>
   <NR_GuardLocked>Защищённый корпоративный узел: сначала сломайте шлюз охраны (⚿, в соседнем узле).</NR_GuardLocked>
   <NR_GuardBroken>Шлюз охраны сломан: узел {0} открыт на {1}. Добыча там богаче обычного.</NR_GuardBroken>
   <NR_GuardFailHeat>Провал нырка в защищённом узле</NR_GuardFailHeat>
