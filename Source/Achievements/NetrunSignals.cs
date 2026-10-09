@@ -57,6 +57,22 @@ public class NetrunCounters : GameComponent
         Signal(key, v);
     }
 
+    /// <summary>Debug: sets a counter and sends the signal (an achievement at its goal opens).</summary>
+    public void DevSet(string key, int value)
+    {
+        _values[key] = value;
+        Signal(key, value);
+    }
+
+    /// <summary>Debug: every counter and streak back to zero.</summary>
+    public void DevReset()
+    {
+        _values.Clear();
+        _met.Clear();
+        _redSinceTick = _leftRedTick = _shadowSinceTick = -1;
+        _shadowHacks = 0;
+    }
+
     /// <summary>Sets a working value without a signal (a streak in progress).</summary>
     public void Set(string key, int value) => _values[key] = value;
 

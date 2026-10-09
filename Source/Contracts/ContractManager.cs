@@ -173,6 +173,28 @@ public class ContractManager : GameComponent, INetrunCleanable
         return contract;
     }
 
+    /// <summary>Debug: an accepted contract of this type from the first fixer.</summary>
+    public bool DevGive(ContractType type)
+    {
+        Fixer fixer = FixerManager.Get()?.Fixers.FirstOrDefault();
+        if (fixer == null)
+            return false;
+        Contract contract = MakeOffer(fixer, type);
+        if (type == ContractType.Surveillance && contract.TargetHub < 0)
+            contract.TargetHub = PickWatchHub();
+        contract.DeadlineTick = Find.TickManager.TicksGame + contract.DurationTicks;
+        _contracts.Add(contract);
+        return true;
+    }
+
+    /// <summary>Debug: every accepted contract reaches its goal.</summary>
+    public void DevCompleteActive()
+    {
+        foreach (Contract contract in Active.ToList())
+            if (!contract.Done)
+                AddProgress(contract, contract.Goal - contract.Progress);
+    }
+
     /// <summary>Kinds of work a fixer can offer now: laying low only makes sense when the trace is hot, training needs a novice.</summary>
     private static List<ContractType> OfferableTypes()
     {

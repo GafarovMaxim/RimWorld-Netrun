@@ -165,6 +165,9 @@ public class HelpProgress : GameComponent
 
     // Guide mode: screens opened in the guide and areas looked at.
     public void MarkGuideScreen(string screen) => _seen.Add("guide:" + screen);
+
+    /// <summary>Debug (newcomer test): the guide screens and areas, first hints and the intro are new again.</summary>
+    public void DevResetGuide() => _seen.RemoveWhere(s => s.StartsWith("guide:") || s.StartsWith("area:") || s.StartsWith("hint:") || s.StartsWith("intro"));
     public bool GuideScreenSeen(string screen) => _seen.Contains("guide:" + screen);
     public void MarkGuideArea(GuideAreaDef area) => _seen.Add("area:" + area.defName);
     public bool GuideAreaSeen(GuideAreaDef area) => _seen.Contains("area:" + area.defName);
