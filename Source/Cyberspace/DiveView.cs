@@ -702,6 +702,35 @@ public static class DiveView
         string header = "// " + ((string)"NR_DiveLogHeader".Translate()).ToUpper() + " · " + session.Node.Name.ToLower();
         Widgets.Label(new Rect(rect.x + 6f, rect.y + 2f, rect.width - 12f, 16f), header.Colorize(NetrunUI.Ok));
         var outer = new Rect(rect.x + 4f, rect.y + 20f, rect.width - 8f, rect.height - 24f);
+        // D6: the race with a rival netrunner, over the log: the turns left before the files are gone, red at the end.
+        if (session.Node.Rival && !session.RivalTook && !session.Finished)
+        {
+            int turns = Mathf.Max(1, NetrunDefOf.NR_Cyberspace.rivalTurns);
+            int left = Mathf.Max(0, turns - session.Turn);
+            Color c = left <= 3 ? NetrunUI.Bad : NetrunUI.Warn;
+            var strip = new Rect(outer.x + 2f, outer.y, outer.width - 4f, 18f);
+            Widgets.DrawBoxSolid(strip, new Color(c.r, c.g, c.b, 0.08f));
+            Texture2D icon = NetrunTex.CyberIcon("Event_Rival");
+            if (icon != null)
+                GUI.DrawTexture(new Rect(strip.x + 2f, strip.y + 1f, 16f, 16f), icon);
+            string label = "NR_DiveRivalBar".Translate(left);
+            float lw = Mathf.Min(strip.width * 0.55f, Text.CalcSize(label).x + 4f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = c;
+            Widgets.Label(new Rect(strip.x + 22f, strip.y, lw, strip.height), label);
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
+            var bar = new Rect(strip.x + 26f + lw, strip.y + 6f, strip.xMax - strip.x - 30f - lw, 6f);
+            if (bar.width > 20f)
+            {
+                // Segments: one per turn the rival needs, lit for the turns still left.
+                float seg = bar.width / turns;
+                for (int i = 0; i < turns; i++)
+                    Widgets.DrawBoxSolid(new Rect(bar.x + i * seg + 1f, bar.y, seg - 2f, bar.height), i < left ? c : new Color(c.r, c.g, c.b, 0.15f));
+            }
+            NetrunUI.Tip(strip, () => "NR_DiveRivalBarTip".Translate(left));
+            outer.yMin += 21f;
+        }
 
         List<string> lines = session.Log;
         if (lines.Count != _logCount)

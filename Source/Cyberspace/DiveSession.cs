@@ -927,9 +927,10 @@ public class DiveSession : IExposable
                     files.Looted = true;
                 AddLog("NR_DiveLogRivalTook".Translate().Colorize(NetrunUI.Bad));
             }
-            else
+            else if (Turn <= 1 || left <= 3)
             {
-                AddLog("NR_DiveLogRival".Translate(left).Colorize(NetrunUI.Warn));
+                // The race strip over the log counts every turn; the log only says it at the start and near the end.
+                AddLog("NR_DiveLogRival".Translate(left).Colorize(left <= 3 ? NetrunUI.Bad : NetrunUI.Warn));
             }
         }
 

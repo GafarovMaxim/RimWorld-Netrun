@@ -463,4 +463,6 @@ Next time end the run first: exit the dive, or walk the runner to an exit point 
 
 End the run first (exit the dive, or reach an exit point or Home). Wake anyway?</NR_WakeMidRunConfirm>
   <NR_WakeMidRunTip>The pawn is out in the net: end the run first.</NR_WakeMidRunTip>
+  <NR_DiveRivalBar>Rival: {0} turns left</NR_DiveRivalBar>
+  <NR_DiveRivalBarTip>Another netrunner is in this node. In {0} turns they take the files that are still here. Where they are in the node is unknown, only their pace.</NR_DiveRivalBarTip>
 </LanguageData>
