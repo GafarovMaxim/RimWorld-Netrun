@@ -143,7 +143,7 @@ public static partial class GatewayView
 
     private static Color LensColor(MapLens lens, float t, MapNode n, NetMapManager net) => lens switch
     {
-        MapLens.Loot => Color.Lerp(new Color(0.45f, 0.45f, 0.4f), NetrunUI.Hex(0xffd34a), t),
+        MapLens.Loot => Color.Lerp(NetrunUI.Hex(0x5a4020), NetrunUI.Hex(0xffe066), t),
         MapLens.Corps => HubColor(n, net),
         MapLens.Contracts => NetrunUI.Warn,
         _ => t < 0.5f ? Color.Lerp(ScaleLow, ScaleMid, t * 2f) : Color.Lerp(ScaleMid, ScaleHigh, (t - 0.5f) * 2f),

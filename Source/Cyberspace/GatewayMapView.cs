@@ -180,6 +180,33 @@ public static partial class GatewayView
         return ("NR_District_" + n.District).Translate();
     }
 
+    /// <summary>D9: up to five loot dots per hub (the best known branch), rebuilt every 2 s, not per frame.</summary>
+    private static Dictionary<int, int> LootDots() => NetrunUI.Cached("map.lootDots", () =>
+    {
+        var dots = new Dictionary<int, int>();
+        foreach (KeyValuePair<int, List<ExternalNode>> kv in BranchIndex)
+        {
+            float best = -1f;
+            foreach (ExternalNode b in kv.Value)
+                if (!b.Hidden)
+                    best = Mathf.Max(best, Mathf.Clamp01((b.RewardMultiplier - 0.5f) / 2.5f));
+            if (best >= 0f)
+                dots[kv.Key] = Mathf.Clamp(Mathf.CeilToInt(best * 5f), 1, 5);
+        }
+        return dots;
+    }, 2f);
+
+    private static void DrawLootDots(Rect hubRect, MapNode n)
+    {
+        if (Lens != MapLens.Overview || _zoom < 1.1f || !LootDots().TryGetValue(n.Id, out int count))
+            return;
+        float y = hubRect.yMax + 10f * Mathf.Sqrt(_zoom) + 17f;
+        float x = hubRect.center.x - count * 3.5f;
+        Color gold = NetrunUI.Hex(0xffd34a);
+        for (int i = 0; i < count; i++)
+            Widgets.DrawBoxSolid(new Rect(x + i * 7f, y, 5f, 3f), new Color(gold.r, gold.g, gold.b, LegendDims(n.Id) ? 0.3f : 0.85f));
+    }
+
     private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
 
     /// <summary>D3: hubs that an accepted surveillance contract watches (twice a second).</summary>
@@ -478,6 +505,7 @@ public static partial class GatewayView
             DrawWatchTag(rect);
         DrawTimerTag(rect, n, net);
         DrawHubName(rect, n, net, branches);
+        DrawLootDots(rect, n);
 
         if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));

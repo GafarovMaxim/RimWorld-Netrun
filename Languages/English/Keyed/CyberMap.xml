@@ -182,4 +182,7 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_GuardLocked>A protected corporate hub: break its guard gateway (⚿, in a hub next door) first.</NR_GuardLocked>
   <NR_GuardBroken>The guard gateway is down: {0} is open for {1}. Its loot is richer than usual.</NR_GuardBroken>
   <NR_GuardFailHeat>Failed dive in a protected hub</NR_GuardFailHeat>
+  <NR_MapHomeButtonTip>Centre the map on Home (H).</NR_MapHomeButtonTip>
+  <NR_MapNextRunnerTip>Select the next runner and centre on it (R or Tab).</NR_MapNextRunnerTip>
+  <NR_MapNoRunnerToCycle>No runner on the map.</NR_MapNoRunnerToCycle>
 </LanguageData>

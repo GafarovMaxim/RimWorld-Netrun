@@ -182,4 +182,7 @@
   <NR_GuardLocked>Защищённый корпоративный узел: сначала сломайте шлюз охраны (⚿, в соседнем узле).</NR_GuardLocked>
   <NR_GuardBroken>Шлюз охраны сломан: узел {0} открыт на {1}. Добыча там богаче обычного.</NR_GuardBroken>
   <NR_GuardFailHeat>Провал нырка в защищённом узле</NR_GuardFailHeat>
+  <NR_MapHomeButtonTip>Показать Дом (H).</NR_MapHomeButtonTip>
+  <NR_MapNextRunnerTip>Выбрать следующего раннера и показать его (R или Tab).</NR_MapNextRunnerTip>
+  <NR_MapNoRunnerToCycle>На карте нет раннеров.</NR_MapNoRunnerToCycle>
 </LanguageData>

@@ -285,6 +285,20 @@ public static partial class GatewayView
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
+        // The H and R hotkeys as buttons too (map v4, D9).
+        NetMapManager net = NetMapManager.Get();
+        if (net is { Ready: true })
+        {
+            float by = rect.yMax + 20f;
+            if (NetrunUI.Button(new Rect(rect.x, by, 47f, 26f), "⌂ H", NetrunUI.Accent, true, "NR_MapHomeButtonTip".Translate()))
+                FocusNode(net.Map.HomeId);
+            AcceptanceReport anyRunner = net.Runners.Count > 0 ? true : (AcceptanceReport)"NR_MapNoRunnerToCycle".Translate();
+            if (NetrunUI.Button(new Rect(rect.x + 51f, by, 47f, 26f), "▸ R", NetrunUI.Accent, anyRunner, "NR_MapNextRunnerTip".Translate()))
+            {
+                _selectedRunner = (Mathf.Clamp(_selectedRunner, 0, net.Runners.Count - 1) + 1) % net.Runners.Count;
+                _centerOn = net.Runners[_selectedRunner].NodeId;
+            }
+        }
     }
 
     private static void ResetCamera()
