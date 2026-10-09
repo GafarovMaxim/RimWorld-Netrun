@@ -91,13 +91,43 @@ public partial class Dialog_NetTerminal : Window
             // The loop of this screen: the dive, the Gateway's open net, or the terminal's hum.
             // One continuous loop for the whole terminal (the cyberspace one): it never restarts when the screen changes.
             NetrunSound.Ambient("Ambient_Cyberspace");
-            DrawContents(inRect);
+            // The interface grows with the window (Maxim, 2026-10-09): past the base size everything is drawn at a
+            // larger scale, so a big terminal is not the same small layout with more empty room.
+            float scale = ContentScale(inRect.size);
+            if (scale > 1.001f)
+            {
+                Matrix4x4 old = GUI.matrix;
+                try
+                {
+                    GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), inRect.position);
+                    DrawContents(new Rect(inRect.x, inRect.y, inRect.width / scale, inRect.height / scale));
+                }
+                finally
+                {
+                    GUI.matrix = old;
+                }
+            }
+            else
+                DrawContents(inRect);
         }
         finally
         {
             NetrunText.Pop(size);
             NetrunFont.Pop(font);
         }
+    }
+
+    /// <summary>The layout's base size (the default window at 100%) and how far the content may grow.</summary>
+    private static readonly Vector2 BaseContentSize = new(1100f, 880f);
+    private const float MaxContentScale = 1.6f;
+
+    private static float ContentScale(Vector2 size)
+    {
+        if (!NetrunMod.Settings.TerminalAutoScale)
+            return 1f;
+        float s = Mathf.Min(size.x / BaseContentSize.x, size.y / BaseContentSize.y);
+        // Steps of 5% keep text from shimmering while the window is dragged larger.
+        return Mathf.Clamp(Mathf.Floor(s * 20f) / 20f, 1f, MaxContentScale);
     }
 
     private void DrawContents(Rect inRect)

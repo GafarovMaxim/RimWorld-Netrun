@@ -438,4 +438,6 @@
   <NR_StateQuiet>ТИХО</NR_StateQuiet>
   <NR_StateNotFound>НЕ НАЙДЕНО</NR_StateNotFound>
   <NR_StateOffline>НЕ В СЕТИ</NR_StateOffline>
+  <NR_SettingsTerminalAutoScale>Масштаб интерфейса по окну</NR_SettingsTerminalAutoScale>
+  <NR_SettingsTerminalAutoScaleTip>Когда окно терминала больше базового размера, всё внутри (рамка, текст, карта, кнопки) растёт вместе с ним, до 160%. Выкл.: большое окно даёт больше места при том же размере.</NR_SettingsTerminalAutoScaleTip>
 </LanguageData>

@@ -622,7 +622,6 @@ public static partial class NetrunUI
         LateIcons.Clear();
     }
 
-    /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
     /// <summary>
     /// B21b: an empty state in the terminal's voice: a framed status line, a code tag on the left ("[NO AI]") with a
     /// glyph (◇ empty, ▲ not now), the explanation on the right, a blinking cursor. Centred in <paramref name="area"/>
@@ -659,6 +658,7 @@ public static partial class NetrunUI
         return h + 8f;
     }
 
+    /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
     public static string Prompt(string text)
     {
         bool cursor = NetrunMod.Settings.Animations && Time.realtimeSinceStartup % 1.1f < 0.55f;

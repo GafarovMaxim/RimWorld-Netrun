@@ -90,6 +90,8 @@ public class NetrunSettings : ModSettings
     public float MapHubScale = 1f;
     /// <summary>The terminal window's size (its default size and minimum scale with it).</summary>
     public float TerminalScale = 1f;
+    /// <summary>The terminal's content grows with its window past the base size.</summary>
+    public bool TerminalAutoScale = true;
 
     /// <summary>The Newcomer preset is gentler for the first ten days: less trace, weaker ICE.</summary>
     public float NewcomerEase => Difficulty == HeatDifficulty.Easy && Current.Game != null && GenDate.DaysPassed < 10 ? 0.75f : 1f;
@@ -495,6 +497,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsGlossary", ref Glossary, "NR_SettingsGlossaryTip");
         Toggle("NR_SettingsWasd", ref MapWasd, "NR_SettingsWasdTip");
         TerminalScale = Slider("NR_SettingsTerminalScale".Translate(TerminalScale.ToStringPercent()), TerminalScale, 0.8f, 1.4f);
+        Toggle("NR_SettingsTerminalAutoScale", ref TerminalAutoScale, "NR_SettingsTerminalAutoScaleTip");
         _y += 6f;
     }
 
@@ -705,6 +708,7 @@ public class NetrunSettings : ModSettings
         FirstHints = true;
         MapWasd = false;
         TerminalScale = 1f;
+        TerminalAutoScale = true;
         Glossary = true;
     }
 
@@ -763,6 +767,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref MapWasd, "mapWasd");
         Scribe_Values.Look(ref MapHubScale, "mapHubScale", 1f);
         Scribe_Values.Look(ref TerminalScale, "terminalScale", 1f);
+        Scribe_Values.Look(ref TerminalAutoScale, "terminalAutoScale", true);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");
         Scribe_Values.Look(ref FrameLights, "frameLights", true);
