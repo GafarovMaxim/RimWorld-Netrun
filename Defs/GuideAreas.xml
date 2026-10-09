@@ -505,7 +505,7 @@
     <helpPage>NR_Help_Gateway_Nodes</helpPage>
     <steps>
       <li>
-        <text>External nodes in cyberspace. Bigger circles pay more; grey ones are hidden.</text>
+        <text>The cyberspace map: hubs, and the nodes around each hub by their type icon (outlined: not known yet). Right click a hub for its menu, double click to send the runner.</text>
         <hint>drag the field, scroll to zoom, middle mouse to reset.</hint>
       </li>
       <li>
@@ -882,6 +882,118 @@
     <steps>
       <li>
         <text>Picking Home shows the colony's defense: the total and its parts, the ICE tier and its upkeep, the firewalls and the honeypot, isolation and intrusions on the way. Everything about the defense is set here.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_panel</defName>
+    <label>Side panel</label>
+    <area>gateway.panel</area>
+    <screen>Gateway</screen>
+    <order>2</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Runners and pods ready to connect, the watchlist, the next three days, then the picked hub: its nodes, the route and the dive. Home shows the colony defense.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_searchbox</defName>
+    <label>Search</label>
+    <area>gateway.searchbox</area>
+    <screen>Gateway</screen>
+    <order>10</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Type a hub, node or corporation (F). Enter jumps to the first hit. Keys: H home, R or Tab the next runner, 0 the whole map.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_lenses</defName>
+    <label>Lenses</label>
+    <area>gateway.lenses</area>
+    <screen>Gateway</screen>
+    <order>11</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Keys 1-6 recolour the map: everything, loot, danger, corporations, jobs, travel time from the selected runner. The scale shows in the lower left.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_minimap</defName>
+    <label>Minimap</label>
+    <area>gateway.minimap</area>
+    <screen>Gateway</screen>
+    <order>12</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>The whole net; the frame is your view. Click or drag to jump.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_watchlist</defName>
+    <label>Watchlist</label>
+    <area>gateway.watchlist</area>
+    <screen>Gateway</screen>
+    <order>13</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>Hubs you watch (right click on a hub) and contract targets. «Show» centres the map on one.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_gateway_timeline</defName>
+    <label>Next 3 days</label>
+    <area>gateway.timeline</area>
+    <screen>Gateway</screen>
+    <order>14</order>
+    <helpPage>NR_Help_Gateway</helpPage>
+    <steps>
+      <li>
+        <text>What ends or starts soon: transit windows, patrols, storms, the corporate core, intrusions. A row centres its hub.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_studio_main</defName>
+    <label>The Studio</label>
+    <area>studio.main</area>
+    <screen>Studio</screen>
+    <order>0</order>
+    <helpPage>NR_Help_Braindance</helpPage>
+    <steps>
+      <li>
+        <text>Raw recordings from your colonists turn into braindance chips here: edit them, mix moods, sell or play them.</text>
+      </li>
+    </steps>
+  </Netrun.GuideAreaDef>
+
+  <Netrun.GuideAreaDef>
+    <defName>NR_Guide_board_list</defName>
+    <label>The Board</label>
+    <area>board.list</area>
+    <screen>Board</screen>
+    <order>0</order>
+    <helpPage>NR_Help_Fixers_Contracts</helpPage>
+    <steps>
+      <li>
+        <text>Offers from your fixers and the contracts you run: their goal, time, reward and what failing costs. A contract with a target on the map has «Show».</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>

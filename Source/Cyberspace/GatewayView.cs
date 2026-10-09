@@ -39,6 +39,8 @@ public static partial class GatewayView
     /// <summary>The vanilla transport pod: the haul comes home by pod.</summary>
     private static Texture2D RewardIcon => (DefDatabase<ThingDef>.GetNamedSilentFail("TransportPod") ?? DefDatabase<ThingDef>.GetNamedSilentFail("DropPodIncoming"))?.uiIcon;
     private static float _panelHeight;
+    /// <summary>The panel's scroll frame, for guide areas registered from inside it.</summary>
+    private static Rect _panelOuter;
 
     public static void Draw(Rect rect, Map map)
     {
@@ -560,6 +562,7 @@ public static partial class GatewayView
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
         // The panel scrolls when the window is too short for it (height measured on the previous frame).
         Rect outer = rect.ContractedBy(10f);
+        _panelOuter = outer;
         bool scrolls = _panelHeight > outer.height;
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         NetrunUI.BeginScroll(outer, ref _panelScroll, inner);

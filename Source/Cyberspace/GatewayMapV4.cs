@@ -254,6 +254,7 @@ public static partial class GatewayView
                 rows.Add((NetMapManager.NodeLabel(n), id, -1, false));
         if (rows.Count == 0)
             return y;
+        float top = y;
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapWatchlist".Translate());
         foreach ((string label, int hub, int branch, bool contract) in rows)
         {
@@ -268,6 +269,7 @@ public static partial class GatewayView
                 FocusNode(hub, branch);
             y += 28f;
         }
+        GuideRegistry.InScroll("gateway.watchlist", _panelOuter, _panelScroll, new Rect(inner.x, top, inner.width, y - top));
         return y + 4f;
     }
 

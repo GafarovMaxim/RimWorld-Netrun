@@ -89,7 +89,7 @@
   <NR_Guide_server_card.steps.1.hint>наведите на просьбу.</NR_Guide_server_card.steps.1.hint>
   <NR_Guide_server_card.steps.2.text>Кнопки: накормить, воспользоваться услугой (стоит доверия и голода), перенести в носителя или сопроцессор, изолировать или стереть.</NR_Guide_server_card.steps.2.text>
   <NR_Guide_gateway_field.label>Поле нод</NR_Guide_gateway_field.label>
-  <NR_Guide_gateway_field.steps.0.text>Внешние ноды киберпространства. Крупные круги платят больше; серые скрыты.</NR_Guide_gateway_field.steps.0.text>
+  <NR_Guide_gateway_field.steps.0.text>Карта киберпространства: узлы и ноды вокруг каждого узла по иконке типа (контур: ещё не известна). Правый клик по узлу — меню, двойной клик — отправить раннера.</NR_Guide_gateway_field.steps.0.text>
   <NR_Guide_gateway_field.steps.0.hint>потащите поле, колесо — масштаб, средняя кнопка — сброс.</NR_Guide_gateway_field.steps.0.hint>
   <NR_Guide_gateway_field.steps.1.text>Кольца — точки выхода. Квадраты — крепости. Точки вокруг узла — его ноды (серые: ещё не известны). Пунктир — тёмные связи, бэкдоры и Стена. ★ — нода, нужная контракту.</NR_Guide_gateway_field.steps.1.text>
   <NR_Guide_gateway_zoom.label>Камера</NR_Guide_gateway_zoom.label>
@@ -150,4 +150,20 @@
   <NR_Guide_menu_custompage.steps.0.text>Изменения применяются сразу и сохраняются при закрытии терминала. Темы рамки открываются достижениями, остальное доступно сразу.</NR_Guide_menu_custompage.steps.0.text>
   <NR_Guide_gateway_defense.label>Защита колонии</NR_Guide_gateway_defense.label>
   <NR_Guide_gateway_defense.steps.0.text>Выбор Дома показывает защиту колонии: итог и разбивку, уровень ICE и его цену, файерволы и приманку, изоляцию и вторжения в пути. Вся защита настраивается здесь.</NR_Guide_gateway_defense.steps.0.text>
+  <NR_Guide_gateway_panel.label>Боковая панель</NR_Guide_gateway_panel.label>
+  <NR_Guide_gateway_panel.steps.0.text>Раннеры и капсулы, готовые к подключению, наблюдение, ближайшие три дня, затем выбранный узел: его ноды, маршрут и нырок. Дом показывает защиту колонии.</NR_Guide_gateway_panel.steps.0.text>
+  <NR_Guide_gateway_searchbox.label>Поиск</NR_Guide_gateway_searchbox.label>
+  <NR_Guide_gateway_searchbox.steps.0.text>Введите узел, ноду или корпорацию (F). Enter переносит к первому результату. Клавиши: H Дом, R или Tab следующий раннер, 0 вся карта.</NR_Guide_gateway_searchbox.steps.0.text>
+  <NR_Guide_gateway_lenses.label>Линзы</NR_Guide_gateway_lenses.label>
+  <NR_Guide_gateway_lenses.steps.0.text>Клавиши 1–6 перекрашивают карту: всё, добыча, угроза, корпорации, работа, время пути от выбранного раннера. Шкала внизу слева.</NR_Guide_gateway_lenses.steps.0.text>
+  <NR_Guide_gateway_minimap.label>Мини-карта</NR_Guide_gateway_minimap.label>
+  <NR_Guide_gateway_minimap.steps.0.text>Вся сеть; рамка — ваш вид. Клик или перетаскивание переносит.</NR_Guide_gateway_minimap.steps.0.text>
+  <NR_Guide_gateway_watchlist.label>Наблюдение</NR_Guide_gateway_watchlist.label>
+  <NR_Guide_gateway_watchlist.steps.0.text>Узлы под наблюдением (правый клик по узлу) и цели контрактов. «Показать» наводит карту.</NR_Guide_gateway_watchlist.steps.0.text>
+  <NR_Guide_gateway_timeline.label>Ближайшие 3 дня</NR_Guide_gateway_timeline.label>
+  <NR_Guide_gateway_timeline.steps.0.text>Что скоро кончается или начинается: окна транзита, патрули, штормы, корп-ядро, вторжения. Строка наводит на узел.</NR_Guide_gateway_timeline.steps.0.text>
+  <NR_Guide_studio_main.label>Студия</NR_Guide_studio_main.label>
+  <NR_Guide_studio_main.steps.0.text>Здесь сырые записи колонистов превращаются в чипы брейнданса: монтируйте, смешивайте настроения, продавайте или смотрите.</NR_Guide_studio_main.steps.0.text>
+  <NR_Guide_board_list.label>Доска</NR_Guide_board_list.label>
+  <NR_Guide_board_list.steps.0.text>Предложения фиксеров и ваши контракты: цель, срок, награда и цена провала. У контракта с целью на карте есть «Показать».</NR_Guide_board_list.steps.0.text>
 </LanguageData>

@@ -143,6 +143,10 @@ public static partial class GatewayView
         DrawLensScale(rect, net);
         DrawLensBar(rect);
         DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
+        GuideRegistry.Area("gateway.searchbox", new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f));
+        GuideRegistry.Area("gateway.lenses", LensBarRect(rect));
+        if (NetrunMod.Settings.MapMinimap)
+            GuideRegistry.Area("gateway.minimap", new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f));
     }
 
     private static string DistrictLabel(MapNode n, NetMapManager net)

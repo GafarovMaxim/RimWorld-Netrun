@@ -71,6 +71,7 @@ public static partial class GatewayView
         List<TimerEntry> list = Timeline(net);
         if (list.Count == 0)
             return y;
+        float top = y;
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapNext3Days".Translate());
         Text.Font = GameFont.Tiny;
         foreach (TimerEntry e in list.Take(6))
@@ -85,6 +86,7 @@ public static partial class GatewayView
             y += 21f;
         }
         Text.Font = GameFont.Small;
+        GuideRegistry.InScroll("gateway.timeline", _panelOuter, _panelScroll, new Rect(inner.x, top, inner.width, y - top));
         return y + 6f;
     }
 
