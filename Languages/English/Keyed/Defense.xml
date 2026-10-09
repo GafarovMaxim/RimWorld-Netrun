@@ -43,4 +43,7 @@
   <NR_DefensePanelReconnect>Connect the network again</NR_DefensePanelReconnect>
   <NR_DefensePanelIntrusions>Intrusions on their way to Home: {0}. A runner can meet them on the map.</NR_DefensePanelIntrusions>
   <NR_DefensePanelQuiet>No intrusions on the way.</NR_DefensePanelQuiet>
+  <NR_IsolationCooldown>The ports are cooling down after the last isolation: {0} left.</NR_IsolationCooldown>
+  <NR_IsolationShortHeat>Isolation lifted too soon</NR_IsolationShortHeat>
+  <NR_IsolationShort>The network came back too soon after isolation: the reconnect lit up the trace (+{0} Heat) and jolted the netrunners in pods.</NR_IsolationShort>
 </LanguageData>

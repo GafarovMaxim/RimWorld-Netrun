@@ -141,10 +141,25 @@ public class NodeDefense : GameComponent
 
     // ---- Isolation ----
 
+    // D5 "port cooldown" (docs/CONCEPTS_D_2026-10-09.md): no new isolation for 6 game hours after it ends, and a short
+    // isolation (under 2 hours) costs trace and Netsick when it is lifted, so it is no free shield against one intrusion.
+    private const int CooldownTicks = 6 * GenDate.TicksPerHour;
+    private const int ShortIsolationTicks = 2 * GenDate.TicksPerHour;
+    private const float ShortIsolationHeat = 4f;
+    private const float ShortIsolationNetsick = 0.05f;
+    private int _isolatedAt = -1;
+    private int _liftedAt = -1;
+
+    /// <summary>Ticks until the network can be isolated again (0: now).</summary>
+    public int IsolationCooldownLeft
+        => !NetrunMod.Settings.IsolationCooldown || Isolated || _liftedAt < 0 ? 0 : System.Math.Max(0, _liftedAt + CooldownTicks - Find.TickManager.TicksGame);
+
     public AcceptanceReport CanToggleIsolation()
     {
         if (!Isolated && GatewayManager.Get()?.Session is { Finished: false })
             return "NR_IsolationDiveActive".Translate();
+        if (!Isolated && IsolationCooldownLeft > 0)
+            return "NR_IsolationCooldown".Translate(IsolationCooldownLeft.ToStringTicksToPeriod());
         return true;
     }
 
@@ -153,9 +168,29 @@ public class NodeDefense : GameComponent
         if (!CanToggleIsolation().Accepted)
             return;
         Isolated = !Isolated;
+        int now = Find.TickManager.TicksGame;
+        if (Isolated)
+            _isolatedAt = now;
+        else
+        {
+            if (NetrunMod.Settings.IsolationCooldown && _isolatedAt >= 0 && now - _isolatedAt < ShortIsolationTicks)
+                ShortIsolationPenalty();
+            _liftedAt = now;
+        }
         AIBalance.ResetCache();
         Messages.Message((Isolated ? "NR_IsolationOn" : "NR_IsolationOff").Translate(), MessageTypeDefOf.NeutralEvent, historical: true);
         HeatTracker.Get()?.Note((Isolated ? "NR_IsolationOn" : "NR_IsolationOff").Translate(), HeatSource.Other);
+    }
+
+    /// <summary>The links dropped and came back too fast: a trace spike and a jolt for the runners in pods.</summary>
+    private static void ShortIsolationPenalty()
+    {
+        HeatTracker.Get()?.AddHeat(ShortIsolationHeat, "NR_IsolationShortHeat".Translate(), HeatSource.Other);
+        foreach (Map map in Find.Maps)
+            foreach (Building_Cyberpod pod in CyberpodUtility.PlayerPods(map))
+                if (pod.ContainedThing is Pawn p && p.Faction == Faction.OfPlayer)
+                    NetsickManager.AddNetsickFor(p, ShortIsolationNetsick);
+        Messages.Message("NR_IsolationShort".Translate(ShortIsolationHeat.ToString("0")), MessageTypeDefOf.NegativeEvent, historical: true);
     }
 
     // ---- Defense value ----
@@ -291,6 +326,8 @@ public class NodeDefense : GameComponent
         Scribe_Values.Look(ref Tier, "tier");
         Scribe_Values.Look(ref HoneypotId, "honeypotId", -1);
         Scribe_Values.Look(ref _nextUpkeepTick, "nextUpkeepTick", -1);
+        Scribe_Values.Look(ref _isolatedAt, "isolatedAt", -1);
+        Scribe_Values.Look(ref _liftedAt, "liftedAt", -1);
         Scribe_Collections.Look(ref DutyPods, "dutyPods", LookMode.Value);
         DutyPods ??= [];
     }

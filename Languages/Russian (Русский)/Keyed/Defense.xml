@@ -43,4 +43,7 @@
   <NR_DefensePanelReconnect>Подключить сеть снова</NR_DefensePanelReconnect>
   <NR_DefensePanelIntrusions>Вторжения идут к Дому: {0}. Раннер может перехватить их на карте.</NR_DefensePanelIntrusions>
   <NR_DefensePanelQuiet>Вторжений в пути нет.</NR_DefensePanelQuiet>
+  <NR_IsolationCooldown>Порты остывают после прошлой изоляции: ещё {0}.</NR_IsolationCooldown>
+  <NR_IsolationShortHeat>Изоляция снята слишком быстро</NR_IsolationShortHeat>
+  <NR_IsolationShort>Сеть вернулась слишком быстро после изоляции: переподключение засветило след (+{0} Heat) и тряхнуло нетраннеров в капсулах.</NR_IsolationShort>
 </LanguageData>
