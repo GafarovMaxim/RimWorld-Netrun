@@ -6,15 +6,17 @@ using Verse;
 namespace Netrun;
 
 /// <summary>
-/// Odyssey (docs/CONCEPTS_10.md, section 9): an "Orbit" of 2-3 backbone nodes along the top of the map, linked to the
-/// transit. They are offline unless a colony map is in space (a gravship in orbit with a pod on board); loot there is
-/// richer (x1.5) and the ICE harder.
+/// Odyssey (docs/CONCEPTS_10.md, section 9): orbital uplinks, offline unless a colony map is in space (a gravship in
+/// orbit with a pod on board); loot there is richer (x1.5) and the ICE harder. Since 2026-10-09 (Maxim): one uplink per
+/// corporation, set beside its ground and tied only to its own hubs (the old belt along the top drew long lines across
+/// the map).
 /// </summary>
 public partial class NetMapManager
 {
     private static int _orbitCheckTick = -1;
     private static bool _orbitOpen;
     private bool _orbitWasOpen;
+    private bool _orbitByCorp;
 
     /// <summary>A player home map is in space right now (checked at most every 250 ticks).</summary>
     public static bool OrbitOpen
@@ -38,36 +40,10 @@ public partial class NetMapManager
     {
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;
-        if (!Map.Nodes.Any(n => n.District == District.Orbit))
+        if (!_orbitByCorp || !Map.Nodes.Any(n => n.District == District.Orbit))
         {
-            var transit = Map.Nodes.Where(n => n.District == District.Transit).ToList();
-            if (transit.Count == 0)
-                return;
-            int count = Settings.orbitNodes.RandomInRange;
-            for (int i = 0; i < count; i++)
-            {
-                var n = new MapNode
-                {
-                    Id = Map.NextNodeId++,
-                    District = District.Orbit,
-                    X = Mathf.Lerp(0.35f, 0.8f, count == 1 ? 0.5f : i / (float)(count - 1)),
-                    Y = 0.03f,
-                    Slots = 2,
-                };
-                Map.Nodes.Add(n);
-                for (int s = 0; s < n.Slots; s++)
-                {
-                    ExternalNode branch = ExternalNode.ForDistrict(Gateway.NextBranchId(), District.Orbit);
-                    Attach(branch, n);
-                }
-            }
-            LinkOrbit();
-            Map.Dirty();
-        }
-        else if (OrbitLinksTooLong())
-        {
-            // Older maps: the orbit was tied to far transit hubs with lines across the whole map.
-            LinkOrbit();
+            PlaceOrbitByCorp();
+            _orbitByCorp = true;
             Map.Dirty();
         }
         bool open = OrbitOpen;
@@ -78,36 +54,52 @@ public partial class NetMapManager
         }
     }
 
-    /// <summary>The orbit as a belt along the top: neighbours linked in a row, each tied to the two nearest hubs below.</summary>
-    private void LinkOrbit()
+    /// <summary>
+    /// One orbital uplink per corporation: beside its ground, pushed away from the map's middle and from other hubs,
+    /// linked to its two nearest hubs of that corporation. Existing orbital hubs are reused (runners and branches stay),
+    /// missing ones are added, extra ones keep a place next to the nearest corporation.
+    /// </summary>
+    private void PlaceOrbitByCorp()
     {
-        var orbit = Map.Nodes.Where(n => n.District == District.Orbit).OrderBy(n => n.X).ToList();
+        var corps = Map.Nodes.Where(n => n.District == District.Corp && CorpOfSlot(n.CorpSlot) != null)
+            .GroupBy(n => n.CorpSlot).Select(g => g.ToList()).ToList();
+        if (corps.Count == 0)
+            return;
+        var orbit = Map.Nodes.Where(n => n.District == District.Orbit).OrderBy(n => n.Id).ToList();
+        while (orbit.Count < corps.Count)
+        {
+            var n = new MapNode { Id = Map.NextNodeId++, District = District.Orbit, Slots = 2 };
+            Map.Nodes.Add(n);
+            for (int s = 0; s < n.Slots; s++)
+                Attach(ExternalNode.ForDistrict(Gateway.NextBranchId(), District.Orbit), n);
+            orbit.Add(n);
+        }
         var ids = new System.Collections.Generic.HashSet<int>(orbit.Select(n => n.Id));
         Map.Links.RemoveAll(l => ids.Contains(l.A) || ids.Contains(l.B));
-        var below = Map.Nodes.Where(n => n.District != District.Orbit && n.District != District.OldNet).ToList();
+        var middle = new Vector2(0.5f, 0.35f);
         for (int i = 0; i < orbit.Count; i++)
         {
             MapNode n = orbit[i];
-            if (i > 0)
-                Map.Links.Add(new MapLink { A = orbit[i - 1].Id, B = n.Id, Kind = LinkKind.Normal });
-            foreach (MapNode down in below.OrderBy(t => Vector2.Distance(t.Pos, n.Pos)).Take(2))
+            System.Collections.Generic.List<MapNode> ground = corps[i % corps.Count];
+            Vector2 centre = ground.Aggregate(Vector2.zero, (s, h) => s + h.Pos) / ground.Count;
+            Vector2 away = (centre - middle).sqrMagnitude < 0.0001f ? Vector2.down : (centre - middle).normalized;
+            Vector2 p = centre + away * (0.1f + 0.03f * (i / corps.Count));
+            // Step further out until no other hub is close.
+            for (int step = 0; step < 8 && Map.Nodes.Any(o => o != n && Vector2.Distance(o.Pos, p) < 0.06f); step++)
+                p += away * 0.03f + new Vector2(away.y, -away.x) * 0.02f;
+            p.x = Mathf.Clamp(p.x, 0.03f, 0.97f);
+            p.y = Mathf.Clamp(p.y, 0.03f, 0.66f);
+            n.X = p.x;
+            n.Y = p.y;
+            n.CorpSlot = ground[0].CorpSlot;
+            foreach (MapNode down in ground.OrderBy(h => Vector2.Distance(h.Pos, p)).Take(2))
                 Map.Links.Add(new MapLink { A = n.Id, B = down.Id, Kind = LinkKind.Normal });
         }
     }
 
-    /// <summary>An orbit link that leaves the belt for a hub far down the map.</summary>
-    private bool OrbitLinksTooLong()
+    private void ExposeOrbit()
     {
-        foreach (MapLink l in Map.Links)
-        {
-            MapNode a = Map.Node(l.A), b = Map.Node(l.B);
-            if (a == null || b == null || (a.District != District.Orbit) == (b.District != District.Orbit))
-                continue;
-            if (Vector2.Distance(a.Pos, b.Pos) > 0.3f)
-                return true;
-        }
-        return false;
+        Scribe_Values.Look(ref _orbitWasOpen, "orbitWasOpen");
+        Scribe_Values.Look(ref _orbitByCorp, "orbitByCorp");
     }
-
-    private void ExposeOrbit() => Scribe_Values.Look(ref _orbitWasOpen, "orbitWasOpen");
 }

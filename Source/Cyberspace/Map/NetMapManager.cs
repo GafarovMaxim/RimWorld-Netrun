@@ -78,6 +78,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         int seed = Find.World?.info?.Seed.GetHashCode() ?? Rand.Int;
         Map = CyberMapGenerator.Generate(size, seed);
+        _orbitByCorp = false;
         MarkedNodeId = -1;
         Runners.Clear();
         _refillNode.Clear();
