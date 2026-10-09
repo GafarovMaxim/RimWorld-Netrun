@@ -488,7 +488,7 @@
     <area>gateway.field</area>
     <screen>Gateway</screen>
     <order>1</order>
-    <helpPage>NR_Help_Gateway_Nodes</helpPage>
+    <helpPage>NR_Help_Gateway_Map</helpPage>
     <steps>
       <li>
         <text>The cyberspace map: hubs, and the nodes around each hub by their type icon (outlined: not known yet). Right click a hub for its menu, double click to send the runner.</text>
