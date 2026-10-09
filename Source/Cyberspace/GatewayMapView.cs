@@ -474,6 +474,9 @@ public static partial class GatewayView
 
     // ---- Panel ----
 
+    private static int _exitFor = -1;
+    private static float _exitAt = -10f;
+    private static bool _exitFound;
     private static (int from, int to) _panelRouteFor = (-1, -1);
     private static float _panelRouteAt = -10f;
     private static int _panelRouteSteps;
@@ -528,7 +531,16 @@ public static partial class GatewayView
             y += 34f;
             if (!net.AtExit(selected))
             {
-                AcceptanceReport goExit = net.NearestExit(selected) >= 0 ? true : (AcceptanceReport)"NR_MapNoRoute".Translate();
+                // NearestExit runs a route search per exit hub: once a second or when the runner's hub changes, not per GUI event.
+                int exitFrom = selected.Moving ? selected.NextNodeId : selected.NodeId;
+                float exitNow = Time.realtimeSinceStartup;
+                if (_exitFor != exitFrom || exitNow - _exitAt > 1f)
+                {
+                    _exitFor = exitFrom;
+                    _exitAt = exitNow;
+                    _exitFound = net.NearestExit(selected) >= 0;
+                }
+                AcceptanceReport goExit = _exitFound ? true : (AcceptanceReport)"NR_MapNoRoute".Translate();
                 if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoAndExit".Translate(), NetrunUI.Ok, goExit, "NR_MapGoAndExitTip".Translate()))
                     net.GoAndExit(selected);
                 y += 32f;
