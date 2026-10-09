@@ -636,8 +636,11 @@ public partial class Dialog_NetTerminal
             MapNode hub = net is { Ready: true } && boss.MapNodeId >= 0 ? net.Map.Node(boss.MapNodeId) : null;
             Faction corp = hub != null ? net.CorpOfSlot(hub.CorpSlot) : null;
             string label = corp != null ? (string)"NR_CoreBossActiveAt".Translate(corp.Name) : (string)"NR_CoreBossActive".Translate();
-            GaugeRow(inner, y, bossIcon, label, boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓",
+            float rowY = y;
+            y = GaugeRow(inner, y, bossIcon, label, boss.ExpireTick > 0 ? (boss.ExpireTick - Find.TickManager.TicksGame).ToStringTicksToPeriod() : "✓",
                 1f, NetrunUI.Bad, null);
+            if (hub != null && NetrunUI.Button(new Rect(inner.xMax - 96f, y + 2f, 96f, 24f), "NR_MapShow".Translate(), NetrunUI.Warn, true))
+                OpenGatewayAt(hub.Id);
         }
         else if (gateway.TicksUntilBoss >= 0)
             GaugeRow(inner, y, bossIcon, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(),

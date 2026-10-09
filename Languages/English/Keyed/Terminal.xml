@@ -401,4 +401,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_IntroDone>Start</NR_IntroDone>
   <NR_IntroSkip>Skip</NR_IntroSkip>
   <NR_MenuIntro>Intro tour</NR_MenuIntro>
+  <NR_CommandCyberspace>Cyberspace</NR_CommandCyberspace>
+  <NR_CommandCyberspaceDesc>Open the terminal straight on the cyberspace map.</NR_CommandCyberspaceDesc>
 </LanguageData>

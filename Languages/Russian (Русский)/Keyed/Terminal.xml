@@ -401,4 +401,6 @@
   <NR_IntroDone>Начать</NR_IntroDone>
   <NR_IntroSkip>Пропустить</NR_IntroSkip>
   <NR_MenuIntro>Знакомство</NR_MenuIntro>
+  <NR_CommandCyberspace>Киберпространство</NR_CommandCyberspace>
+  <NR_CommandCyberspaceDesc>Открыть терминал сразу на карте киберпространства.</NR_CommandCyberspaceDesc>
 </LanguageData>

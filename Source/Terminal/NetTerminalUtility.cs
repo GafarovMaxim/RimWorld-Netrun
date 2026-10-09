@@ -22,11 +22,30 @@ public static class NetTerminalUtility
         return command;
     }
 
-    public static void OpenTerminal(Map map)
+    public static void OpenTerminal(Map map, bool gateway = false)
     {
-        if (Find.WindowStack.IsOpen<Dialog_NetTerminal>())
+        if (Find.WindowStack.WindowOfType<Dialog_NetTerminal>() is { } open)
+        {
+            if (gateway)
+                open.OpenGatewayAt(-1);
             return;
+        }
 
-        Find.WindowStack.Add(new Dialog_NetTerminal(map));
+        Find.WindowStack.Add(new Dialog_NetTerminal(map, gateway));
+    }
+
+    /// <summary>The cyberpod's own button: straight to the cyberspace map.</summary>
+    public static Command_Action MakeCyberspaceGizmo(Map map, bool powered)
+    {
+        var command = new Command_Action
+        {
+            defaultLabel = "NR_CommandCyberspace".Translate(),
+            defaultDesc = "NR_CommandCyberspaceDesc".Translate(),
+            icon = NetrunTex.Cyberspace,
+            action = () => OpenTerminal(map, gateway: true),
+        };
+        if (!powered)
+            command.Disable("NR_TerminalNoPower".Translate());
+        return command;
     }
 }

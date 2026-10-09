@@ -60,9 +60,15 @@ public partial class Dialog_NetTerminal : Window
     }
     protected override float Margin => 0f;
 
-    public Dialog_NetTerminal(Map map)
+    /// <summary>The screen the terminal was closed on, to open there again (kept for the session, not in the save).</summary>
+    private static View _lastView = View.Map;
+
+    public Dialog_NetTerminal(Map map, bool gateway = false)
     {
         _map = map;
+        // Straight to the Gateway only once it is open; a locked section falls back to the navigation screen.
+        View wanted = gateway ? View.Gateway : _lastView is View.Help or View.Menu ? View.Map : _lastView;
+        _view = wanted == View.Map || NetworkGate.Get()?.IsUnlocked(wanted.ToString()) == true ? wanted : View.Map;
         doCloseX = false;
         doCloseButton = false;
         draggable = true;
@@ -331,6 +337,7 @@ public partial class Dialog_NetTerminal : Window
         NetrunSound.EndAmbient();
         // What was changed in the menu's settings pages.
         NetrunMod.Settings.Write();
+        _lastView = _view;
         _savedSize = windowRect.size;
         GatewayManager.Get()?.ClearFinished();
     }
@@ -389,7 +396,8 @@ public partial class Dialog_NetTerminal : Window
     /// <summary>Opens the Gateway with a map node selected (from the Club's "On the map").</summary>
     public void OpenGatewayAt(int mapNodeId)
     {
-        GatewayView.SelectMapNode(mapNodeId);
+        if (mapNodeId >= 0)
+            GatewayView.SelectMapNode(mapNodeId);
         OpenNode(View.Gateway);
     }
 
