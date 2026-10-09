@@ -149,10 +149,7 @@ public static partial class GatewayView
             DrawRunner(local, r, net, r == selRunner);
         Widgets.EndGroup();
 
-        string reports = "NR_GatewayReports".Translate(GatewayManager.Get()?.Reports.Count ?? 0);
-        float rw = Mathf.Max(3 * 34f - 4f, NetrunUI.ButtonWidth(reports, icon: true));
-        DrawReportsButton(new Rect(rect.xMax - rw - 4f, rect.y + 4f, rw, 34f), reports);
-        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f, rect.y + 44f, 3 * 34f, 30f));
+        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f - 4f, rect.y + 6f, 3 * 34f, 30f));
         DrawHeatEdge(rect);
         DrawRunnerArrows(rect, net);
         DrawMinimap(rect, net);
@@ -623,27 +620,13 @@ public static partial class GatewayView
     /// <summary>Runners and the selected map node, above the branch panel.</summary>
     private static float DrawMapPanel(Rect inner, float y, Map colonyMap, NetMapManager net)
     {
-        y = DrawWatchlist(inner, y, net);
         // Runners: connected ones, then pawns in pods who could connect.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapRunners".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners));
         for (int i = 0; i < net.Runners.Count; i++)
         {
             NetRunner r = net.Runners[i];
             bool sel = i == Mathf.Clamp(_selectedRunner, 0, net.Runners.Count - 1);
-            var row = new Rect(inner.x, y, inner.width, 44f);
-            NetrunUI.Card(row, sel ? NetrunUI.Ok : NetrunUI.Muted);
-            if (Widgets.ButtonInvisible(row))
-                _selectedRunner = i;
-            string where = r.Moving
-                ? "NR_MapRunnerMoving".Translate(NetMapManager.NodeLabel(net.Map.Node(r.Path[r.Path.Count - 1])), net.HoursLeft(r).ToString("0.#"))
-                : "NR_MapRunnerAt".Translate(NetMapManager.NodeLabel(net.Map.Node(r.NodeId)));
-            int hours = (Find.TickManager.TicksGame - r.SessionStartTick) / GenDate.TicksPerHour;
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(row.x + 8f, row.y + 3f, row.width - 12f, 18f), (r.Pawn?.LabelShort ?? "?").Colorize(sel ? NetrunUI.Ok : NetrunUI.TextColor)
-                + "  " + "NR_MapSessionHours".Translate(hours).Colorize(NetrunUI.Muted));
-            Widgets.Label(new Rect(row.x + 8f, row.y + 21f, row.width - 12f, 18f), where.Colorize(NetrunUI.Muted));
-            Text.Font = GameFont.Small;
-            y += 48f;
+            y = RunnerCard(inner, y, r, net, sel, i);
         }
 
         NetRunner selected = SelectedRunner(net);
@@ -689,10 +672,6 @@ public static partial class GatewayView
                     net.Travel(selected, net.Map.HomeId);
                 y += 32f;
             }
-            if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapPingNow".Translate(NetMapManager.Settings.pingCost), NetrunUI.Accent,
-                    net.CanPingNow(selected, colonyMap), "NR_MapPingTip".Translate(NetMapManager.Settings.pingHops)))
-                net.PingNow(selected, colonyMap);
-            y += 32f;
         }
 
         // Pawns lying in pods who are not connected yet (the list twice a second: PERF_AUDIT_4, 21).
@@ -717,12 +696,14 @@ public static partial class GatewayView
             y += 36f;
         }
 
-        y = DrawTimeline(inner, y, net);
-
-        // The selected node; with nothing picked, the running contracts.
+        // The selected hub; with nothing picked, the running contracts, the watchlist and the next three days.
         MapNode node = net.Map.Node(_selectedMapNode);
         if (node == null)
-            return DrawActiveContracts(inner, y + 4f);
+        {
+            y = DrawActiveContracts(inner, y + 4f);
+            y = DrawWatchlist(inner, y, net);
+            return DrawTimeline(inner, y, net);
+        }
         if (node.District == District.Home)
             return DefensePanel.Draw(inner, y, colonyMap);
         y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), NetMapManager.NodeLabel(node));

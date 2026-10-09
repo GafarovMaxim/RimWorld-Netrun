@@ -48,8 +48,6 @@
   <NR_MapAlreadyHere>The runner is already here.</NR_MapAlreadyHere>
   <NR_MapNoRoute>No way there now.</NR_MapNoRoute>
   <NR_MapRouteInfo>{0} links, about {1} h</NR_MapRouteInfo>
-  <NR_MapRunnerAt>at {0}</NR_MapRunnerAt>
-  <NR_MapRunnerMoving>to {0}, {1} h left</NR_MapRunnerMoving>
   <NR_MapSessionHours>{0} h in the net</NR_MapSessionHours>
   <NR_MapGo>Go here</NR_MapGo>
   <NR_MapGoTip>The selected runner walks the shortest route. The game keeps running; a message comes on arrival.</NR_MapGoTip>
@@ -148,8 +146,6 @@
   <NR_MapTimerNow>now</NR_MapTimerNow>
   <NR_MapNext3Days>Next 3 days</NR_MapNext3Days>
   <NR_MapRunnerTag>{0} → {1} · {2}</NR_MapRunnerTag>
-  <NR_MapPingNow>Ping now ({0} cyberdata)</NR_MapPingNow>
-  <NR_MapPingTip>The runner scans the branches within {0} hops. Standing runners ping on their own every hour.</NR_MapPingTip>
   <NR_MapPingMoving>The runner is on the move.</NR_MapPingMoving>
   <NR_MapPinged>{0} pinged around: {1} nodes found.</NR_MapPinged>
   <NR_MapThreatLabel>Threat on {0}'s route</NR_MapThreatLabel>
@@ -185,4 +181,6 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapHomeButtonTip>Centre the map on Home (H).</NR_MapHomeButtonTip>
   <NR_MapNextRunnerTip>Select the next runner and centre on it (R or Tab).</NR_MapNextRunnerTip>
   <NR_MapNoRunnerToCycle>No runner on the map.</NR_MapNoRunnerToCycle>
+  <NR_MapRunnerWalking>walking</NR_MapRunnerWalking>
+  <NR_MapRunnerStanding>standing by</NR_MapRunnerStanding>
 </LanguageData>

@@ -205,6 +205,9 @@ public static class ContractsTab
 
     // ---- Shared bits ----
 
+    /// <summary>The contract type's icon (also for the cyberspace map's contract cards).</summary>
+    public static Texture2D IconOf(ContractType type) => TypeIcon(type);
+
     private static Texture2D TypeIcon(ContractType type) => type switch
     {
         ContractType.DataDelivery => NetrunTex.TabIcon(2),

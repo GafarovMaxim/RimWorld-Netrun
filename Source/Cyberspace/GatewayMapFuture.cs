@@ -161,24 +161,6 @@ public static partial class GatewayView
         Text.Font = GameFont.Small;
     }
 
-    /// <summary>The contracts running now, with their time left (the panel's content when no hub is picked).</summary>
-    private static float DrawActiveContracts(Rect inner, float y)
-    {
-        var active = ContractManager.Get()?.Active.Where(c => c.Accepted).ToList();
-        if (active == null || active.Count == 0)
-            return y;
-        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapActiveContracts".Translate());
-        Text.Font = GameFont.Tiny;
-        foreach (Contract c in active)
-        {
-            string text = c.Title + "  " + $"{c.Progress}/{c.Goal}".Colorize(NetrunUI.Ok) + "  · " + c.TicksLeft.ToStringTicksToPeriod().Colorize(NetrunUI.Muted);
-            Widgets.Label(new Rect(inner.x + 4f, y, inner.width - 6f, 20f), text);
-            y += 21f;
-        }
-        Text.Font = GameFont.Small;
-        return y + 6f;
-    }
-
     // ---- Runners: a label on the way, an arrow at the edge when off screen ----
 
     private static Vector2 RunnerPos(Rect local, NetRunner r, CyberMap map)

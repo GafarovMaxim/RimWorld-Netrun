@@ -614,9 +614,19 @@ public static partial class GatewayView
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         NetrunUI.BeginScroll(outer, ref _panelScroll, inner);
         float y = inner.y;
-        if (NetMapManager.Get() is { Ready: true } net)
-            y = DrawMapPanel(inner, y, map, net);
+        bool mapPanel = NetMapManager.Get() is { Ready: true };
+        if (mapPanel)
+            y = DrawMapPanel(inner, y, map, NetMapManager.Get());
         float gNodeStart = y;
+
+        // No hub picked on the map: the overview above, then the dive reports and the view switch.
+        if (mapPanel && _selectedMapNode < 0)
+        {
+            y = DrawPanelFooter(inner, y + 6f, outer, withReports: true);
+            _panelHeight = y + 4f;
+            Widgets.EndScrollView();
+            return;
+        }
 
         if (HomeSelected)
         {
@@ -764,14 +774,31 @@ public static partial class GatewayView
         y += 52f;
 
         GuideRegistry.InScroll("gateway.dive", outer, _panelScroll, new Rect(inner.x, gDive, inner.width, y - gDive));
-        float gSearch = y;
-        // Switch the view (the map or a list).
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 26f), (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
-            _listMode = !_listMode;
-        y += 32f;
-        GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
+        y = DrawPanelFooter(inner, y, outer, withReports: !mapPanel);
         _panelHeight = y + 4f;
         Widgets.EndScrollView();
+    }
+
+    /// <summary>The panel's last row: dive reports (when shown) and the view switch (the map or a list), side by side.</summary>
+    private static float DrawPanelFooter(Rect inner, float y, Rect outer, bool withReports)
+    {
+        float gSearch = y;
+        float w = withReports ? (inner.width - 6f) / 2f : inner.width;
+        if (withReports)
+        {
+            int count = GatewayManager.Get()?.Reports.Count ?? 0;
+            var rr = new Rect(inner.x, y, w, 30f);
+            if (NetrunUI.Button(rr, "NR_GatewayReports".Translate(count), NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(),
+                    "NR_GatewayReportsTip".Translate(count), NetrunTex.DiveReport))
+                Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenArchive(ArchiveTab.Tab.Reports);
+            GuideRegistry.InScroll("gateway.reports", outer, _panelScroll, rr);
+        }
+        var vr = new Rect(withReports ? inner.x + w + 6f : inner.x, y, w, 30f);
+        if (NetrunUI.Button(vr, (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
+            _listMode = !_listMode;
+        y += 36f;
+        GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
+        return y;
     }
 
 

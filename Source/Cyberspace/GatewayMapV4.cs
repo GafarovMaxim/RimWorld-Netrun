@@ -285,26 +285,32 @@ public static partial class GatewayView
 
     private static void HubMenu(MapNode n, NetMapManager net)
     {
-        var options = new List<FloatMenuOption>();
+        var items = new List<TerminalMenu.Item>();
         NetRunner runner = SelectedRunner(net);
-        if (runner != null && runner.NodeId != n.Id)
+        if (runner != null && (runner.NodeId != n.Id || runner.Moving))
         {
             AcceptanceReport can = net.CanTravel(runner, n.Id);
-            options.Add(can.Accepted
-                ? new FloatMenuOption("NR_MapMenuSend".Translate(runner.Pawn?.LabelShort ?? "?"), () => net.Travel(runner, n.Id))
-                : new FloatMenuOption("NR_MapMenuSend".Translate(runner.Pawn?.LabelShort ?? "?") + ": " + can.Reason, null));
+            items.Add(new TerminalMenu.Item
+            {
+                Label = "NR_MapMenuSend".Translate(runner.Pawn?.LabelShort ?? "?"), Glyph = "▶",
+                Action = () => net.Travel(runner, n.Id), Disabled = can.Accepted ? null : can.Reason,
+            });
         }
         if (runner != null && runner.Moving && runner.Path[runner.Path.Count - 1] != n.Id)
-            options.Add(new FloatMenuOption("NR_MapMenuWaypoint".Translate(), () =>
+            items.Add(new TerminalMenu.Item
             {
-                List<int> more = net.Map.Route(runner.Path[runner.Path.Count - 1], n.Id, out _);
-                if (more.Count > 0)
-                    runner.Path.AddRange(more);
-            }));
+                Label = "NR_MapMenuWaypoint".Translate(), Glyph = "⇢",
+                Action = () =>
+                {
+                    List<int> more = net.Map.Route(runner.Path[runner.Path.Count - 1], n.Id, out _);
+                    if (more.Count > 0)
+                        runner.Path.AddRange(more);
+                },
+            });
         bool watched = net.Watch.Contains(n.Id);
-        options.Add(new FloatMenuOption((watched ? "NR_MapMenuUnwatch" : "NR_MapMenuWatch").Translate(), () => net.ToggleWatch(n.Id)));
-        options.Add(new FloatMenuOption("NR_MapMenuCenter".Translate(), () => FocusNode(n.Id)));
-        Find.WindowStack.Add(new FloatMenu(options));
+        items.Add(new TerminalMenu.Item { Label = (watched ? "NR_MapMenuUnwatch" : "NR_MapMenuWatch").Translate(), Glyph = watched ? "☆" : "★", Action = () => net.ToggleWatch(n.Id) });
+        items.Add(new TerminalMenu.Item { Label = "NR_MapMenuCenter".Translate(), Glyph = "◎", Action = () => FocusNode(n.Id) });
+        TerminalMenu.Open(NetMapManager.NodeLabel(n), items);
     }
 
     // ---- Watchlist: pinned hubs and contract targets ----
