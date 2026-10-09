@@ -589,7 +589,7 @@ public class NetrunSettings : ModSettings
         Label("NR_CustomFramePreview".Translate(), NetrunUI.Muted);
         Label("NR_CustomFrameParts".Translate(), NetrunUI.Accent);
         Toggle("NR_CustomLights", ref FrameLights, "NR_CustomLightsTip");
-        Toggle("NR_CustomGlass", ref FrameGlass, "NR_CustomGlassTip");
+        // Toggle("NR_CustomGlass", ref FrameGlass, "NR_CustomGlassTip"); // Glass Screen is off for now
         Toggle("NR_CustomLcd", ref FrameLcd, "NR_CustomLcdTip");
         _y += 6f;
     }

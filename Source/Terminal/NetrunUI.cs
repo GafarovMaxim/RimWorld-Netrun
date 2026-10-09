@@ -425,6 +425,9 @@ public static partial class NetrunUI
             _tickerNext %= items.Count;
         Widgets.BeginGroup(rect);
         Text.Anchor = TextAnchor.MiddleLeft;
+        // One line, never wrapped (a wrapped item showed as two half lines).
+        bool wrap = Text.WordWrap;
+        Text.WordWrap = false;
         for (int i = 0; i < _strip.Count; i++)
         {
             TickerItem it = _strip[i];
@@ -437,6 +440,7 @@ public static partial class NetrunUI
             if (sx + sepW > 0f && sx < rect.width)
                 Widgets.Label(new Rect(Mathf.Round(sx), 0f, sepW + 4f, rect.height), _tickerSepColored);
         }
+        Text.WordWrap = wrap;
         Text.Anchor = TextAnchor.UpperLeft;
         Widgets.EndGroup();
         // Soft fade at both ends.
@@ -598,10 +602,15 @@ public static partial class NetrunUI
             LateIcons.Clear();
             _lateFrame = Time.frameCount;
         }
+        if (ContentScaled)
+            return;
         if (VisibleRect != null && VisibleRect() is var visible && !(visible.Contains(rect.min) && visible.Contains(rect.max)))
             return;
         LateIcons.Add((new Rect(GUIUtility.GUIToScreenPoint(rect.position), rect.size), tex, GUI.color));
     }
+
+    /// <summary>Set by the terminal while its content is drawn at a scale (no late icons then).</summary>
+    public static bool ContentScaled;
 
     /// <summary>Faint CRT lines over a screen (one draw call); the bright icons go back on top.</summary>
     public static void Scanlines(Rect screen)
@@ -1005,7 +1014,7 @@ public static partial class NetrunUI
             return;
         const float shown = 1f;
         const float head = 16f;
-        Vector2 mouse = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+        Vector2 mouse = UI.MousePositionOnUIInverted;
         // Measure in the tooltip's font, then give the caller its font back: rows drawn after a hovered one keep their size.
         GameFont callerFont = Text.Font;
         Text.Font = GameFont.Small;

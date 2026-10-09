@@ -79,7 +79,7 @@ public class Dialog_AIServer : Window
             GUI.color = Color.white;
             AITab.Draw(new Rect(screen.x, title.yMax, screen.width, screen.height - title.height).ContractedBy(12f), _map, ref _scroll);
             NetrunUI.Scanlines(screen);
-            NetrunUI.DeckGlass(screen);
+            // NetrunUI.DeckGlass(screen); // Glass Screen is off for now (Maxim, 2026-10-09: works badly)
         }
         finally
         {

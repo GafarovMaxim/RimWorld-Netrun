@@ -97,6 +97,7 @@ public partial class Dialog_NetTerminal : Window
             if (scale > 1.001f)
             {
                 Matrix4x4 old = GUI.matrix;
+                NetrunUI.ContentScaled = true;
                 try
                 {
                     GUIUtility.ScaleAroundPivot(new Vector2(scale, scale), inRect.position);
@@ -105,6 +106,7 @@ public partial class Dialog_NetTerminal : Window
                 finally
                 {
                     GUI.matrix = old;
+                    NetrunUI.ContentScaled = false;
                 }
             }
             else
@@ -183,7 +185,7 @@ public partial class Dialog_NetTerminal : Window
         DrawWindow(inRect);
         GuideRegistry.End();
         NetrunUI.Scanlines(inRect);
-        NetrunUI.DeckGlass(inRect);
+        // NetrunUI.DeckGlass(inRect); // Glass Screen is off for now (Maxim, 2026-10-09: works badly)
         DrawGuideOverlay(inRect);
         MaybeStartIntro();
         DrawIntro(inRect);
@@ -202,7 +204,6 @@ public partial class Dialog_NetTerminal : Window
                 _drawCount = 0;
                 _drawMax = 0f;
                 _drawWindowAt = Time.realtimeSinceStartup;
-                Log.Message($"[Netrun] {HelpContext}: {_drawShown}");
             }
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.LowerRight;
