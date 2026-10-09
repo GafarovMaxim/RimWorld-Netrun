@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_StudioRecordings>Raw recordings ({0})</NR_StudioRecordings>
-  <NR_StudioNoRecordings>No raw recordings. Colonists wearing braindance goggles record strong moments on their own.</NR_StudioNoRecordings>
+  <NR_StudioNoRecordings>The reel is empty. Colonists in braindance goggles record strong moments on their own.</NR_StudioNoRecordings>
   <NR_StudioLibrary>Chip library ({0})</NR_StudioLibrary>
   <NR_StudioNoChips>No chips in storage.</NR_StudioNoChips>
   <NR_StudioHooked>Dependency ({0})</NR_StudioHooked>
-  <NR_StudioNoneHooked>Nobody is hooked on braindance.</NR_StudioNoneHooked>
+  <NR_StudioNoneHooked>Nobody is hooked.</NR_StudioNoneHooked>
   <NR_StudioEdit>Edit into: {0}</NR_StudioEdit>
   <NR_StudioEditTip>Pick a colonist: they carry the recording to the network console and edit it.</NR_StudioEditTip>
   <NR_StudioAddicted>addicted ({0})</NR_StudioAddicted>

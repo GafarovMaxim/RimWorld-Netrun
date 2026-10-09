@@ -692,10 +692,5 @@ public static class ArchiveTab
         return y + h + 2f;
     }
 
-    private static void Empty(Rect rect, string text)
-    {
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
-    }
+    private static void Empty(Rect rect, string text) => NetrunUI.EmptyState(rect, NetrunUI.T("NR_StateNoRecords"), text, NetrunUI.Muted);
 }

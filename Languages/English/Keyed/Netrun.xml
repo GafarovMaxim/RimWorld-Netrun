@@ -40,7 +40,7 @@
   <!-- Network terminal -->
   <NR_CommandNetTerminal>Network terminal</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Open the network terminal: your digital trace, fixers, contracts and the journal of recent events.</NR_CommandNetTerminalDesc>
-  <NR_TerminalNoPower>No power.</NR_TerminalNoPower>
+  <NR_TerminalNoPower>Terminal dark. No power.</NR_TerminalNoPower>
   <NR_TerminalComingSoon>Coming soon.</NR_TerminalComingSoon>
 
   <!-- Cyberpod and ICE -->

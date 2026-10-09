@@ -45,9 +45,9 @@
 
 The ring shows the five levels; the arrow is the change over the last day. Click for details.</NR_CoreRingTip>
   <NR_CoreSummaryAlerts>Alerts</NR_CoreSummaryAlerts>
-  <NR_CoreNoAlerts>Nothing urgent.</NR_CoreNoAlerts>
+  <NR_CoreNoAlerts>All clear.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Click to open: {0}</NR_CoreAlertGo>
-  <NR_CoreNoServer>no server</NR_CoreNoServer>
+  <NR_CoreNoServer>server offline</NR_CoreNoServer>
   <NR_CoreAlertEscape>{0} is escaping in {1}</NR_CoreAlertEscape>
   <NR_CoreAlertContract>Contract "{0}" ends in {1}</NR_CoreAlertContract>
   <NR_CoreAlertMercs>Trace at Target: mercenary raids possible</NR_CoreAlertMercs>
@@ -56,9 +56,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreAlertNetsick>Netsick: {0} colonists</NR_CoreAlertNetsick>
   <NR_HeatScreenGraph>Heat over 7 days</NR_HeatScreenGraph>
   <NR_HeatScreenLowers>What lowers Heat</NR_HeatScreenLowers>
-  <NR_HeatScreenNoFixer>Scrub at a fixer: no fixer is answering right now</NR_HeatScreenNoFixer>
+  <NR_HeatScreenNoFixer>Scrub: no fixer picks up. Try later.</NR_HeatScreenNoFixer>
   <NR_HeatScreenRaises>What raised it this week</NR_HeatScreenRaises>
-  <NR_HeatScreenNothingRaised>Nothing this week.</NR_HeatScreenNothingRaised>
+  <NR_HeatScreenNothingRaised>No heat raised this week.</NR_HeatScreenNothingRaised>
   <NR_HeatScreenNetsickTip>Cyberspace dependency of colonists who dive a lot. It grows with time in the pod and Black ICE hits.</NR_HeatScreenNetsickTip>
   <NR_TipTrace>Digital trace (Heat), 0-100. Hacks raise it, it cools over time; a fixer can scrub it.</NR_TipTrace>
   <NR_TipNet>Whether a powered network console is on the map. Without it the terminal works only from a cyberpod.</NR_TipNet>
@@ -118,7 +118,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_OnboardingSkip>Skip</NR_OnboardingSkip>
   <NR_OnboardingSkipTip>Show the full Core right away with every section open.</NR_OnboardingSkipTip>
   <NR_OnboardingDone>Netrun: the colony is online. The Core opens section by section.</NR_OnboardingDone>
-  <NR_NodeLockedSub>locked</NR_NodeLockedSub>
+  <NR_NodeLockedSub>no access</NR_NodeLockedSub>
   <NR_NodeLocked_Club>Opens with the first Heat (the first hack).</NR_NodeLocked_Club>
   <NR_NodeLocked_Board>Opens after the first call to a fixer in the Club.</NR_NodeLocked_Board>
   <NR_NodeLocked_Archive>Opens with the first trace event.</NR_NodeLocked_Archive>
@@ -181,7 +181,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpSearch>Search the Cyberpedia…</NR_HelpSearch>
   <NR_HelpTopics>Topics</NR_HelpTopics>
   <NR_HelpResults>Search results</NR_HelpResults>
-  <NR_HelpNoResults>Nothing found.</NR_HelpNoResults>
+  <NR_HelpNoResults>No such entry.</NR_HelpNoResults>
   <NR_HelpHere>you are here</NR_HelpHere>
   <NR_HelpNew>new</NR_HelpNew>
   <NR_HelpLocked>Opens when you meet it in the game.</NR_HelpLocked>
@@ -215,7 +215,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreRowEnergy>Energy consumption</NR_CoreRowEnergy>
   <NR_CoreRowEnergyValue>{0} W · {1}</NR_CoreRowEnergyValue>
   <NR_HelpLinkTip>Cyberpedia: {0}</NR_HelpLinkTip>
-  <NR_NodeLockedMark>LOCKED</NR_NodeLockedMark>
+  <NR_NodeLockedMark>NO ACCESS</NR_NodeLockedMark>
   <NR_ArchiveTab_Journal>Trace journal</NR_ArchiveTab_Journal>
   <NR_ArchiveTab_Reports>Dive reports</NR_ArchiveTab_Reports>
   <NR_ArchiveTab_Raids>Raids and revenge</NR_ArchiveTab_Raids>
@@ -240,9 +240,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_ArchiveDayChip>Day: {0} ✕</NR_ArchiveDayChip>
   <NR_ArchiveDayChipTip>Show all days.</NR_ArchiveDayChipTip>
   <NR_ArchiveDaySum>{0} Heat for the day</NR_ArchiveDaySum>
-  <NR_ArchiveEmpty>Nothing matches.</NR_ArchiveEmpty>
-  <NR_ArchiveNoReports>No dives yet.</NR_ArchiveNoReports>
-  <NR_ArchiveNoRaids>No raids or attacks yet.</NR_ArchiveNoRaids>
+  <NR_ArchiveEmpty>No records match.</NR_ArchiveEmpty>
+  <NR_ArchiveNoReports>No dives on record.</NR_ArchiveNoReports>
+  <NR_ArchiveNoRaids>No raids or attacks on record.</NR_ArchiveNoRaids>
   <NR_ArchivePick>Pick a line to see the details.</NR_ArchivePick>
   <NR_ArchiveDetail>Event</NR_ArchiveDetail>
   <NR_ArchiveDetailReport>Dive</NR_ArchiveDetailReport>
@@ -311,7 +311,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckThemeDesc_Milspec>Olive drab, worn stencils.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Rust and street paint.</NR_DeckThemeDesc_Street>
   <NR_DeckThemeDesc_OpsPad>Light, clean, dark keys.</NR_DeckThemeDesc_OpsPad>
-  <NR_MenuTitle>NETRUN // MENU</NR_MenuTitle>
+  <NR_MenuTitle>NETRUN // SYSTEM</NR_MenuTitle>
   <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
   <NR_MenuButtonTip>Menu (the MENU key on the casing does the same)</NR_MenuButtonTip>
   <NR_MenuBack>◀ Back</NR_MenuBack>
@@ -432,4 +432,10 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_SettingsNotifySoundsTip>Sounds of Netrun's messages and letters. Only important: threats, losses, finished contracts and dives, choices to make; the rest arrive quietly. Off: no notification sounds from Netrun at all. Clicks and dive sounds are not affected.</NR_SettingsNotifySoundsTip>
   <NR_SettingsNotifyAll>All</NR_SettingsNotifyAll>
   <NR_SettingsNotifyImportant>Only important</NR_SettingsNotifyImportant>
+  <NR_StateNoAI>NO AI</NR_StateNoAI>
+  <NR_StateNoRecords>NO RECORDS</NR_StateNoRecords>
+  <NR_StateEmpty>EMPTY</NR_StateEmpty>
+  <NR_StateQuiet>QUIET</NR_StateQuiet>
+  <NR_StateNotFound>NOT FOUND</NR_StateNotFound>
+  <NR_StateOffline>OFFLINE</NR_StateOffline>
 </LanguageData>

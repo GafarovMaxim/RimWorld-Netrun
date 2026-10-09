@@ -834,10 +834,5 @@ public partial class Dialog_NetTerminal : Window
 
     private bool _archiveFromGateway;
 
-    private static void DrawCentered(Rect rect, string text)
-    {
-        Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(rect, NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
-    }
+    private static void DrawCentered(Rect rect, string text) => NetrunUI.EmptyState(rect, NetrunUI.T("NR_StateOffline"), text, NetrunUI.Muted, blocked: true);
 }

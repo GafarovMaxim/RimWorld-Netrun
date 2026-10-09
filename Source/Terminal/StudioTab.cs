@@ -272,7 +272,7 @@ public static class StudioTab
         NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = NetrunUI.Section(new Rect(0f, 0f, width, SectionHeight), title);
         if (count == 0)
-            Widgets.Label(new Rect(0f, y, width, RowHeight), NetrunUI.Prompt(empty).Colorize(NetrunUI.Muted));
+            NetrunUI.EmptyState(new Rect(0f, y, width, RowHeight), NetrunUI.T("NR_StateEmpty"), empty, NetrunUI.Muted, center: false);
         else
             rows(y, width);
         Widgets.EndScrollView();
@@ -301,7 +301,7 @@ public static class StudioTab
 
         y = NetrunUI.Section(new Rect(0f, y + 10f, width, SectionHeight), "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)));
         if (chips.Count == 0)
-            Widgets.Label(new Rect(0f, y, width, RowHeight), NetrunUI.Prompt("NR_StudioNoChips".Translate()).Colorize(NetrunUI.Muted));
+            NetrunUI.EmptyState(new Rect(0f, y, width, RowHeight), NetrunUI.T("NR_StateEmpty"), NetrunUI.T("NR_StudioNoChips"), NetrunUI.Muted, center: false);
         foreach (Thing chip in chips)
             y = DrawChip(new Rect(0f, y, width, RowHeight), chip);
         Widgets.EndScrollView();

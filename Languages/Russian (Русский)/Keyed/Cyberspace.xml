@@ -56,17 +56,17 @@
   <NR_Program_Killer>Убийца</NR_Program_Killer>
   <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки. Стоит {0} cyberdata.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} подключается к {1}.</NR_DiveLogStart>
-  <NR_DiveNoFurther>дальше некуда</NR_DiveNoFurther>
+  <NR_DiveNoFurther>тупик</NR_DiveNoFurther>
   <NR_DiveHiddenAhead>впереди что-то скрыто: сначала сканируйте</NR_DiveHiddenAhead>
   <NR_DiveBlocked>путь закрыт: сначала взломайте</NR_DiveBlocked>
   <NR_DiveLogMove>Переход: {0}.</NR_DiveLogMove>
   <NR_DiveNothingToScan>впереди ничего не скрыто</NR_DiveNothingToScan>
   <NR_DiveLogScan>Сканирование нашло: {0}.</NR_DiveLogScan>
-  <NR_DiveNothingToHack>впереди нечего взламывать</NR_DiveNothingToHack>
+  <NR_DiveNothingToHack>впереди нет целей для взлома</NR_DiveNothingToHack>
   <NR_DiveLogKiller>Убийца сломал: {0}.</NR_DiveLogKiller>
   <NR_DiveLogHackOk>{0}: пройдено.</NR_DiveLogHackOk>
   <NR_DiveLogHackFail>{0} устоял(и).</NR_DiveLogHackFail>
-  <NR_DiveNothingToDownload>здесь нечего скачивать</NR_DiveNothingToDownload>
+  <NR_DiveNothingToDownload>качать здесь нечего</NR_DiveNothingToDownload>
   <NR_DiveAlreadyLooted>уже скачано</NR_DiveAlreadyLooted>
   <NR_DiveLogDownload>Скачано. Добыча: {0}.</NR_DiveLogDownload>
   <NR_DiveLogTimeout>Слишком долго в сети: нода выбросила вас. Нетраннер без сознания.</NR_DiveLogTimeout>
@@ -83,9 +83,9 @@
   <NR_DiveDone>{0} закончил(а) нырок в {1}. Добыча: {2}. След: +{3} Heat.</NR_DiveDone>
   <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>Нырок прерван: нетраннер больше не в капсуле.</NR_DiveAborted>
-  <NR_GatewayPickNode>Выберите ноду.</NR_GatewayPickNode>
+  <NR_GatewayPickNode>Выберите ноду, чтобы прочесть её.</NR_GatewayPickNode>
   <NR_GatewayNodeHidden>Нода скрыта. Её может раскрыть обратный след ловушки.</NR_GatewayNodeHidden>
-  <NR_GatewayNoPod>нужен колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
+  <NR_GatewayNoPod>нужен раннер: колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
   <NR_GatewayHidden>скрыта</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
@@ -102,12 +102,12 @@
   <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
   <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
-  <NR_GatewayNoSlots>нет свободных слотов</NR_GatewayNoSlots>
+  <NR_GatewayNoSlots>все слоты заняты</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
   <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>
   <NR_GatewayViewList>Вид: ☰ список</NR_GatewayViewList>
   <NR_GatewayPodReady>Капсула готова</NR_GatewayPodReady>
-  <NR_GatewayPodNone>Нет капсулы</NR_GatewayPodNone>
+  <NR_GatewayPodNone>Капсула не подключена</NR_GatewayPodNone>
   <NR_GatewayRunner>Нетраннер: {0}</NR_GatewayRunner>
   <NR_DiveOver>Нырок окончен</NR_DiveOver>
   <NR_DivePrograms>Программы</NR_DivePrograms>
@@ -118,7 +118,7 @@
   <NR_DiveActionsChip>Сет. действий: {0}/{1}</NR_DiveActionsChip>
   <NR_DiveBackToGateway>◄ Шлюз</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
-  <NR_TerminalTitleDive>NETRUN // НЫРОК: {0}</NR_TerminalTitleDive>
+  <NR_TerminalTitleDive>NETRUN // В СЕТИ: {0}</NR_TerminalTitleDive>
   <NR_DiveCostLine>Стоимость: {0} cyberdata</NR_DiveCostLine>
   <NR_DiveCostEntry>Вход в ноду: {0}</NR_DiveCostEntry>
   <NR_DiveCostPrograms>Программы ({0}): {1}</NR_DiveCostPrograms>
@@ -211,7 +211,7 @@
   <NR_ReportFail>Провал</NR_ReportFail>
   <NR_ReportRunner>{0}, ходов: {1}</NR_ReportRunner>
   <NR_ReportHaul>Добыча</NR_ReportHaul>
-  <NR_ReportNothing>Ничего не вынесено.</NR_ReportNothing>
+  <NR_ReportNothing>Вернулись с пустыми руками.</NR_ReportNothing>
   <NR_ReportSpecial>★ Особая находка на выходе.</NR_ReportSpecial>
   <NR_ReportLost>Потеряно при отходе: cyberdata {0}, продвинутых {1}, серебра {2}, предметов {3}.</NR_ReportLost>
   <NR_ReportCosts>Затраты и последствия</NR_ReportCosts>
@@ -234,10 +234,10 @@
   <NR_DiveHudTrace>След {0} (≈ +{1} Heat на выходе)</NR_DiveHudTrace>
   <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. Призрак и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
-  <NR_DiveHudHaulEmpty>Пока пусто.</NR_DiveHudHaulEmpty>
+  <NR_DiveHudHaulEmpty>Добыча: пусто.</NR_DiveHudHaulEmpty>
   <NR_GatewayRewardMult>x{0} от стоимости нырка</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Итоги вылазок: последние {0}.</NR_GatewayReportsTip>
-  <NR_GatewayNoReports>Нырков ещё не было.</NR_GatewayNoReports>
+  <NR_GatewayNoReports>Нырки не записаны.</NR_GatewayNoReports>
   <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>
   <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}: небольших ожогов: {1}.</NR_DiveLogBurns>
   <NR_GatewayHome>Дом</NR_GatewayHome>
@@ -282,7 +282,7 @@
   <NR_NewsEffectDaemon>Демон {0}: {1}</NR_NewsEffectDaemon>
   <NR_NewsEffectPrograms>Программы на следующий нырок: {0}</NR_NewsEffectPrograms>
   <NR_NewsEffectConfession>Просмотренная исповедь: следующий нырок покажет всё скрытое</NR_NewsEffectConfession>
-  <NR_NewsEffectNone>Ничего особенного.</NR_NewsEffectNone>
+  <NR_NewsEffectNone>Особых эффектов нет.</NR_NewsEffectNone>
   <NR_DiveEffectFlow>{0} в потоке: сутки учёба и исследования быстрее, взломы удаются чаще.</NR_DiveEffectFlow>
   <NR_DiveEffectMemory>{0} вынес кое-что из сети: +{2} опыта к навыку «{1}».</NR_DiveEffectMemory>
   <NR_DiveEffectAdrenaline>{0} пережил ICE и чувствует себя неудержимым.</NR_DiveEffectAdrenaline>

@@ -5,7 +5,7 @@
   <NR_ClubTab_Corps>Corporations</NR_ClubTab_Corps>
   <NR_ClubTab_Crews>Crews</NR_ClubTab_Crews>
   <NR_ClubTab_Top>Top 100</NR_ClubTab_Top>
-  <NR_ClubNoCorps>No corporations play in the net yet.</NR_ClubNoCorps>
+  <NR_ClubNoCorps>The net is quiet. No corporation has made a move yet.</NR_ClubNoCorps>
   <NR_ClubOnMap>On the map</NR_ClubOnMap>
   <NR_ClubCorpTerritory>Territory: {0} hubs</NR_ClubCorpTerritory>
   <NR_ClubCorpAlert>Alert {0}</NR_ClubCorpAlert>

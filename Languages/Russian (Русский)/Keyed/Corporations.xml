@@ -5,7 +5,7 @@
   <NR_ClubTab_Corps>Корпорации</NR_ClubTab_Corps>
   <NR_ClubTab_Crews>Команды</NR_ClubTab_Crews>
   <NR_ClubTab_Top>Топ-100</NR_ClubTab_Top>
-  <NR_ClubNoCorps>В сети пока не играет ни одна корпорация.</NR_ClubNoCorps>
+  <NR_ClubNoCorps>В сети тихо. Ни одна корпорация пока не пошевелилась.</NR_ClubNoCorps>
   <NR_ClubOnMap>На карте</NR_ClubOnMap>
   <NR_ClubCorpTerritory>Территория: {0} узлов</NR_ClubCorpTerritory>
   <NR_ClubCorpAlert>Тревога {0}</NR_ClubCorpAlert>

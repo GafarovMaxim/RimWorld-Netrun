@@ -37,10 +37,10 @@
   <!-- Пробуждение -->
   <NR_CommandAwakenAI>Пробудить ИИ</NR_CommandAwakenAI>
   <NR_CommandAwakenAIDesc>Пробудить осколок ИИ: колонист относит его к запитанному ИИ-серверу со свободным слотом и будит его прямо там. Пробуждение шумное: чем выше Heat, тем вероятнее, что кто-то заметит.</NR_CommandAwakenAIDesc>
-  <NR_AwakenNoFragment>В колонии нет осколков ИИ.</NR_AwakenNoFragment>
-  <NR_AwakenNoServer>Нужен запитанный ИИ-сервер со свободным слотом.</NR_AwakenNoServer>
-  <NR_AwakenNoConsole>Нужна запитанная сетевая консоль.</NR_AwakenNoConsole>
-  <NR_AwakenNoWorker>Нет колонистов, способных к интеллектуальному труду.</NR_AwakenNoWorker>
+  <NR_AwakenNoFragment>Будить нечего. В колонии нет осколков ИИ.</NR_AwakenNoFragment>
+  <NR_AwakenNoServer>Нет хоста. Нужен запитанный ИИ-сервер со свободным слотом.</NR_AwakenNoServer>
+  <NR_AwakenNoConsole>Нет канала. Нужна запитанная сетевая консоль.</NR_AwakenNoConsole>
+  <NR_AwakenNoWorker>Нет оператора. Никто в колонии не способен к интеллектуальному труду.</NR_AwakenNoWorker>
   <NR_AwakenFragmentUnknown>Неизвестный осколок ИИ</NR_AwakenFragmentUnknown>
   <NR_AwakenFragmentStored>Осколок: {0}</NR_AwakenFragmentStored>
   <NR_AIAwakenedLabel>ИИ пробуждён: {0}</NR_AIAwakenedLabel>
@@ -52,7 +52,7 @@
   <NR_Find>За ICE цели «{1}» {0} нашёл(ла) нечто необычное: {2}.</NR_Find>
 
   <!-- Вкладка «ИИ» -->
-  <NR_AINone>ИИ пока нет. Найдите осколок ИИ (за сильным ICE или у скупщика), постройте ИИ-сервер, затем нажмите «Пробудить ИИ» в серверной (или в гизмо сервера «Комната ИИ»): выберите осколок и колониста, он отнесёт его к серверу и разбудит там.</NR_AINone>
+  <NR_AINone>ИИ не в сети. Найдите осколок ИИ (за сильным ICE или у скупщика), постройте ИИ-сервер и нажмите «Пробудить ИИ» в серверной или в гизмо «Комната ИИ» сервера.</NR_AINone>
 
   <!-- Услуги -->
   <NR_AIService_DataHunter>Добыть данные</NR_AIService_DataHunter>
@@ -78,7 +78,7 @@
 
   <!-- Проверки и результаты услуг -->
   <NR_AIAsleep>ИИ спит: у сервера нет питания.</NR_AIAsleep>
-  <NR_AIIsolatedNoService>ИИ в изоляции не работают.</NR_AIIsolatedNoService>
+  <NR_AIIsolatedNoService>Отрезан от сети: изолированный ИИ не работает.</NR_AIIsolatedNoService>
   <NR_AIRefuses>{0} недостаточно вам доверяет.</NR_AIRefuses>
   <NR_AICooldown>Будет готов через {0}.</NR_AICooldown>
   <NR_LogAIService>Работа ИИ {0}</NR_LogAIService>

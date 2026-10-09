@@ -94,8 +94,7 @@ public partial class HelpBrowser
         HelpProgress progress = HelpProgress.Get();
         if (rows.Count == 0)
         {
-            Widgets.Label(new Rect(0f, 0f, view.width, 40f), "NR_HelpNoResults".Translate().Colorize(NetrunUI.Muted));
-            ry = 40f;
+            ry = NetrunUI.EmptyState(new Rect(0f, 0f, view.width, 40f), NetrunUI.T("NR_StateNotFound"), NetrunUI.T("NR_HelpNoResults"), NetrunUI.Muted, center: false);
         }
         foreach ((HelpPageDef page, int depth) in rows)
         {

@@ -33,9 +33,7 @@ public static class AITab
         IReadOnlyList<NetAI> ais = manager.AIs;
         if (ais.Count == 0)
         {
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(listRect, "NR_AINone".Translate().Colorize(NetrunUI.Muted));
-            Text.Anchor = TextAnchor.UpperLeft;
+            NetrunUI.EmptyState(listRect, NetrunUI.T("NR_StateNoAI"), NetrunUI.T("NR_AINone"), NetrunUI.Purple);
             return;
         }
 

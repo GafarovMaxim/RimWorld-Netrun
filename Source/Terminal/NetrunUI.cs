@@ -623,6 +623,42 @@ public static partial class NetrunUI
     }
 
     /// <summary>A prompt line for empty states and hints: "> text" with a blinking cursor.</summary>
+    /// <summary>
+    /// B21b: an empty state in the terminal's voice: a framed status line, a code tag on the left ("[NO AI]") with a
+    /// glyph (◇ empty, ▲ not now), the explanation on the right, a blinking cursor. Centred in <paramref name="area"/>
+    /// when <paramref name="center"/>, else at its top. Returns the height used.
+    /// </summary>
+    public static float EmptyState(Rect area, string code, string text, Color color, bool center = true, bool blocked = false)
+    {
+        float w = Mathf.Min(area.width - 8f, 560f);
+        Text.Font = GameFont.Tiny;
+        string tag = (blocked ? "▲ " : "◇ ") + "[" + code + "]";
+        float tagW = Width(tag) + 16f;
+        Text.Font = GameFont.Small;
+        float textW = w - tagW - 30f;
+        float h = Mathf.Max(40f, Text.CalcHeight(text, textW) + 18f);
+        var box = new Rect(area.x + (area.width - w) / 2f, center ? area.y + (area.height - h) / 2f : area.y + 4f, w, h);
+        Widgets.DrawBoxSolid(box, new Color(BgCard.r, BgCard.g, BgCard.b, 0.9f));
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), color);
+        GUI.color = new Color(color.r, color.g, color.b, 0.45f);
+        Widgets.DrawBox(box);
+        GUI.color = Color.white;
+        var tagRect = new Rect(box.x + 10f, box.y + (h - 20f) / 2f, tagW, 20f);
+        Widgets.DrawBoxSolid(tagRect, new Color(color.r, color.g, color.b, 0.14f));
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleCenter;
+        GUI.color = color;
+        Widgets.Label(tagRect, tag);
+        Text.Anchor = TextAnchor.MiddleLeft;
+        GUI.color = TextColor;
+        Text.Font = GameFont.Small;
+        bool cursor = NetrunMod.Settings.Animations && Time.realtimeSinceStartup % 1.1f < 0.55f;
+        Widgets.Label(new Rect(tagRect.xMax + 12f, box.y, textW, box.height), text + (cursor ? " _" : string.Empty));
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        return h + 8f;
+    }
+
     public static string Prompt(string text)
     {
         bool cursor = NetrunMod.Settings.Animations && Time.realtimeSinceStartup % 1.1f < 0.55f;

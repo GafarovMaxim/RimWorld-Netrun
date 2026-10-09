@@ -37,10 +37,10 @@
   <!-- Awakening -->
   <NR_CommandAwakenAI>Awake AI</NR_CommandAwakenAI>
   <NR_CommandAwakenAIDesc>Wake an AI fragment: a colonist carries it to a powered AI server with a free slot and coaxes it awake there. Waking an AI is loud: the higher your Heat, the likelier someone notices.</NR_CommandAwakenAIDesc>
-  <NR_AwakenNoFragment>No AI fragment in the colony.</NR_AwakenNoFragment>
-  <NR_AwakenNoServer>Needs a powered AI server with a free slot.</NR_AwakenNoServer>
-  <NR_AwakenNoConsole>Needs a powered network console.</NR_AwakenNoConsole>
-  <NR_AwakenNoWorker>No colonist can do intellectual work.</NR_AwakenNoWorker>
+  <NR_AwakenNoFragment>No fragment to wake. The colony holds no AI fragment.</NR_AwakenNoFragment>
+  <NR_AwakenNoServer>No host. Needs a powered AI server with a free slot.</NR_AwakenNoServer>
+  <NR_AwakenNoConsole>No uplink. Needs a powered network console.</NR_AwakenNoConsole>
+  <NR_AwakenNoWorker>No operator. Nobody here can do intellectual work.</NR_AwakenNoWorker>
   <NR_AwakenFragmentUnknown>Unknown AI fragment</NR_AwakenFragmentUnknown>
   <NR_AwakenFragmentStored>Fragment: {0}</NR_AwakenFragmentStored>
   <NR_AIAwakenedLabel>AI awakened: {0}</NR_AIAwakenedLabel>
@@ -52,7 +52,7 @@
   <NR_Find>Behind the ICE of {1}, {0} found something unusual: {2}.</NR_Find>
 
   <!-- AI tab -->
-  <NR_AINone>No AIs yet. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awake AI" in the server room (or on the server's "AI room" gizmo): pick the fragment and a colonist, who carries it to the server and wakes it there.</NR_AINone>
+  <NR_AINone>No AI online. Find an AI fragment (behind strong ICE or at a fence), build the AI server, then press "Awake AI" in the server room or on the server's "AI room" gizmo.</NR_AINone>
 
   <!-- Services -->
   <NR_AIService_DataHunter>Hunt for data</NR_AIService_DataHunter>
@@ -78,7 +78,7 @@
 
   <!-- Service checks and results -->
   <NR_AIAsleep>The AI is asleep: its server has no power.</NR_AIAsleep>
-  <NR_AIIsolatedNoService>Isolated AIs do not work.</NR_AIIsolatedNoService>
+  <NR_AIIsolatedNoService>Cut off from the net: an isolated AI does no work.</NR_AIIsolatedNoService>
   <NR_AIRefuses>{0} does not trust you enough.</NR_AIRefuses>
   <NR_AICooldown>Ready again in {0}.</NR_AICooldown>
   <NR_LogAIService>Work of {0}</NR_LogAIService>

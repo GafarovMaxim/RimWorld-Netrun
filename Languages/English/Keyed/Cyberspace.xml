@@ -56,17 +56,17 @@
   <NR_Program_Killer>Killer</NR_Program_Killer>
   <NR_ProgramDesc_Killer>Breaks one gate or ICE without a roll. Costs {0} cyberdata.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} jacks into {1}.</NR_DiveLogStart>
-  <NR_DiveNoFurther>nowhere further to go</NR_DiveNoFurther>
+  <NR_DiveNoFurther>dead end</NR_DiveNoFurther>
   <NR_DiveHiddenAhead>something hidden ahead: scan it first</NR_DiveHiddenAhead>
   <NR_DiveBlocked>the way is blocked: hack it first</NR_DiveBlocked>
   <NR_DiveLogMove>Moved to: {0}.</NR_DiveLogMove>
   <NR_DiveNothingToScan>nothing hidden ahead</NR_DiveNothingToScan>
   <NR_DiveLogScan>Scan found: {0}.</NR_DiveLogScan>
-  <NR_DiveNothingToHack>nothing to hack ahead</NR_DiveNothingToHack>
+  <NR_DiveNothingToHack>no hackable target ahead</NR_DiveNothingToHack>
   <NR_DiveLogKiller>Killer broke {0}.</NR_DiveLogKiller>
   <NR_DiveLogHackOk>{0}: passed.</NR_DiveLogHackOk>
   <NR_DiveLogHackFail>{0} held.</NR_DiveLogHackFail>
-  <NR_DiveNothingToDownload>nothing to download here</NR_DiveNothingToDownload>
+  <NR_DiveNothingToDownload>no data worth pulling here</NR_DiveNothingToDownload>
   <NR_DiveAlreadyLooted>already downloaded</NR_DiveAlreadyLooted>
   <NR_DiveLogDownload>Downloaded. Haul so far: {0}.</NR_DiveLogDownload>
   <NR_DiveLogTimeout>Too long in the net: the node threw you out. The netrunner is unconscious.</NR_DiveLogTimeout>
@@ -83,9 +83,9 @@
   <NR_DiveDone>{0} finished the dive into {1}. Haul: {2}. Trace: +{3} Heat.</NR_DiveDone>
   <NR_DiveFailed>{0} left {1} early. Trace: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>The dive was cut: the netrunner is no longer in the cyberpod.</NR_DiveAborted>
-  <NR_GatewayPickNode>Pick a node.</NR_GatewayPickNode>
+  <NR_GatewayPickNode>Pick a node to read it.</NR_GatewayPickNode>
   <NR_GatewayNodeHidden>This node is hidden. A honeypot trace can reveal it.</NR_GatewayNodeHidden>
-  <NR_GatewayNoPod>needs a colonist with a cyberlink in a powered cyberpod</NR_GatewayNoPod>
+  <NR_GatewayNoPod>needs a runner: a colonist with a cyberlink in a powered cyberpod</NR_GatewayNoPod>
   <NR_GatewayHidden>hidden</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>defense {0}</NR_GatewayDefense>
@@ -102,12 +102,12 @@
   <NR_GatewayRowRisk>Risk</NR_GatewayRowRisk>
   <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
   <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
-  <NR_GatewayNoSlots>no free slots</NR_GatewayNoSlots>
+  <NR_GatewayNoSlots>all slots taken</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} dives from the cyberpod. The game stays paused while you play the dive.</NR_GatewayDiveTip>
   <NR_GatewayViewCircles>View: ◉ circles</NR_GatewayViewCircles>
   <NR_GatewayViewList>View: ☰ list</NR_GatewayViewList>
   <NR_GatewayPodReady>Cyberpod ready</NR_GatewayPodReady>
-  <NR_GatewayPodNone>No cyberpod</NR_GatewayPodNone>
+  <NR_GatewayPodNone>No pod linked</NR_GatewayPodNone>
   <NR_GatewayRunner>Netrunner: {0}</NR_GatewayRunner>
   <NR_DiveOver>Dive over</NR_DiveOver>
   <NR_DivePrograms>Programs</NR_DivePrograms>
@@ -118,7 +118,7 @@
   <NR_DiveActionsChip>Net actions: {0}/{1}</NR_DiveActionsChip>
   <NR_DiveBackToGateway>◄ Gateway</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Retreat</NR_DiveRetreatButton>
-  <NR_TerminalTitleDive>NETRUN // DIVE: {0}</NR_TerminalTitleDive>
+  <NR_TerminalTitleDive>NETRUN // IN THE NET: {0}</NR_TerminalTitleDive>
   <NR_DiveCostLine>Cost: {0} cyberdata</NR_DiveCostLine>
   <NR_DiveCostEntry>Node entry: {0}</NR_DiveCostEntry>
   <NR_DiveCostPrograms>Programs ({0}): {1}</NR_DiveCostPrograms>
@@ -211,7 +211,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_ReportFail>Failed</NR_ReportFail>
   <NR_ReportRunner>{0}, turns: {1}</NR_ReportRunner>
   <NR_ReportHaul>Haul</NR_ReportHaul>
-  <NR_ReportNothing>Nothing brought back.</NR_ReportNothing>
+  <NR_ReportNothing>Came back empty-handed.</NR_ReportNothing>
   <NR_ReportSpecial>★ A special find on the exit.</NR_ReportSpecial>
   <NR_ReportLost>Lost on the way out: {0} cyberdata, {1} advanced, {2} silver, {3} items.</NR_ReportLost>
   <NR_ReportCosts>Costs and consequences</NR_ReportCosts>
@@ -234,10 +234,10 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHudTrace>Trace {0} (≈ +{1} Heat on exit)</NR_DiveHudTrace>
   <NR_DiveHudTraceTip>Every action raises the dive's trace; on leaving it becomes Heat. Stealth and the Wraith halve it.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Haul</NR_DiveHudHaul>
-  <NR_DiveHudHaulEmpty>Nothing yet.</NR_DiveHudHaulEmpty>
+  <NR_DiveHudHaulEmpty>Haul: empty.</NR_DiveHudHaulEmpty>
   <NR_GatewayRewardMult>x{0} of the dive cost</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Dive summaries: the last {0} runs.</NR_GatewayReportsTip>
-  <NR_GatewayNoReports>No dives yet.</NR_GatewayNoReports>
+  <NR_GatewayNoReports>No dives on record.</NR_GatewayNoReports>
   <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>
   <NR_DiveLogBurns>Neural feedback burns {0}: {1} small burns.</NR_DiveLogBurns>
   <NR_GatewayHome>Home</NR_GatewayHome>
@@ -282,7 +282,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_NewsEffectDaemon>Daemon {0}: {1}</NR_NewsEffectDaemon>
   <NR_NewsEffectPrograms>Programs loaded for the next dive: {0}</NR_NewsEffectPrograms>
   <NR_NewsEffectConfession>A watched confession: the next dive shows everything hidden</NR_NewsEffectConfession>
-  <NR_NewsEffectNone>Nothing special.</NR_NewsEffectNone>
+  <NR_NewsEffectNone>No active effects.</NR_NewsEffectNone>
   <NR_DiveEffectFlow>{0} is in the flow: a day of faster learning and research, hacks land more often.</NR_DiveEffectFlow>
   <NR_DiveEffectMemory>{0} brought something back from the net: +{2} XP to {1}.</NR_DiveEffectMemory>
   <NR_DiveEffectAdrenaline>{0} survived the ICE and feels unstoppable.</NR_DiveEffectAdrenaline>

@@ -45,9 +45,9 @@
 
 Кольцо — пять уровней, стрелка — изменение за сутки. Клик — подробности.</NR_CoreRingTip>
   <NR_CoreSummaryAlerts>Тревоги</NR_CoreSummaryAlerts>
-  <NR_CoreNoAlerts>Ничего срочного.</NR_CoreNoAlerts>
+  <NR_CoreNoAlerts>Всё чисто.</NR_CoreNoAlerts>
   <NR_CoreAlertGo>Клик — открыть: {0}</NR_CoreAlertGo>
-  <NR_CoreNoServer>нет сервера</NR_CoreNoServer>
+  <NR_CoreNoServer>сервер не в сети</NR_CoreNoServer>
   <NR_CoreAlertEscape>{0} сбегает через {1}</NR_CoreAlertEscape>
   <NR_CoreAlertContract>Контракт «{0}» истекает через {1}</NR_CoreAlertContract>
   <NR_CoreAlertMercs>След на уровне «Цель»: возможны рейды наёмников</NR_CoreAlertMercs>
@@ -56,9 +56,9 @@
   <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
   <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
   <NR_HeatScreenLowers>Что снижает Heat</NR_HeatScreenLowers>
-  <NR_HeatScreenNoFixer>Сброс у фиксера: сейчас никто не отвечает</NR_HeatScreenNoFixer>
+  <NR_HeatScreenNoFixer>Сброс: ни один фиксер не отвечает. Позже.</NR_HeatScreenNoFixer>
   <NR_HeatScreenRaises>Что поднимало за неделю</NR_HeatScreenRaises>
-  <NR_HeatScreenNothingRaised>За неделю ничего.</NR_HeatScreenNothingRaised>
+  <NR_HeatScreenNothingRaised>За неделю Heat не растёт.</NR_HeatScreenNothingRaised>
   <NR_HeatScreenNetsickTip>Зависимость от киберпространства у тех, кто много ныряет. Растёт от времени в капсуле и ударов Black ICE.</NR_HeatScreenNetsickTip>
   <NR_TipTrace>Цифровой след (Heat), 0–100. Растёт от взломов, остывает со временем, фиксер может сбросить.</NR_TipTrace>
   <NR_TipNet>Есть ли на карте запитанная сетевая консоль. Без неё терминал работает только из капсулы.</NR_TipNet>
@@ -118,7 +118,7 @@
   <NR_OnboardingSkip>Пропустить</NR_OnboardingSkip>
   <NR_OnboardingSkipTip>Сразу показать полный Core со всеми разделами.</NR_OnboardingSkipTip>
   <NR_OnboardingDone>Netrun: колония в сети. Разделы Core открываются по одному.</NR_OnboardingDone>
-  <NR_NodeLockedSub>закрыто</NR_NodeLockedSub>
+  <NR_NodeLockedSub>нет доступа</NR_NodeLockedSub>
   <NR_NodeLocked_Club>Откроется с первым Heat (первым взломом).</NR_NodeLocked_Club>
   <NR_NodeLocked_Board>Откроется после первого звонка фиксеру в Клубе.</NR_NodeLocked_Board>
   <NR_NodeLocked_Archive>Откроется с первым событием следа.</NR_NodeLocked_Archive>
@@ -181,7 +181,7 @@
   <NR_HelpSearch>Поиск по Киберпедии…</NR_HelpSearch>
   <NR_HelpTopics>Темы</NR_HelpTopics>
   <NR_HelpResults>Найдено</NR_HelpResults>
-  <NR_HelpNoResults>Ничего не найдено.</NR_HelpNoResults>
+  <NR_HelpNoResults>Такой записи нет.</NR_HelpNoResults>
   <NR_HelpHere>вы здесь</NR_HelpHere>
   <NR_HelpNew>новое</NR_HelpNew>
   <NR_HelpLocked>Откроется, когда встретите это в игре.</NR_HelpLocked>
@@ -215,7 +215,7 @@
   <NR_CoreRowEnergy>Энергопотребление</NR_CoreRowEnergy>
   <NR_CoreRowEnergyValue>{0} Вт · {1}</NR_CoreRowEnergyValue>
   <NR_HelpLinkTip>Киберпедия: {0}</NR_HelpLinkTip>
-  <NR_NodeLockedMark>ЗАБЛОКИРОВАНО</NR_NodeLockedMark>
+  <NR_NodeLockedMark>НЕТ ДОСТУПА</NR_NodeLockedMark>
   <NR_ArchiveTab_Journal>Журнал следа</NR_ArchiveTab_Journal>
   <NR_ArchiveTab_Reports>Отчёты о нырках</NR_ArchiveTab_Reports>
   <NR_ArchiveTab_Raids>Рейды и месть</NR_ArchiveTab_Raids>
@@ -240,9 +240,9 @@
   <NR_ArchiveDayChip>День: {0} ✕</NR_ArchiveDayChip>
   <NR_ArchiveDayChipTip>Показать все дни.</NR_ArchiveDayChipTip>
   <NR_ArchiveDaySum>{0} Heat за день</NR_ArchiveDaySum>
-  <NR_ArchiveEmpty>Ничего не найдено.</NR_ArchiveEmpty>
-  <NR_ArchiveNoReports>Нырков ещё не было.</NR_ArchiveNoReports>
-  <NR_ArchiveNoRaids>Рейдов и атак ещё не было.</NR_ArchiveNoRaids>
+  <NR_ArchiveEmpty>Записей нет.</NR_ArchiveEmpty>
+  <NR_ArchiveNoReports>Нырки не записаны.</NR_ArchiveNoReports>
+  <NR_ArchiveNoRaids>Рейды и атаки не записаны.</NR_ArchiveNoRaids>
   <NR_ArchivePick>Выбери строку, чтобы увидеть подробности.</NR_ArchivePick>
   <NR_ArchiveDetail>Событие</NR_ArchiveDetail>
   <NR_ArchiveDetailReport>Нырок</NR_ArchiveDetailReport>
@@ -311,7 +311,7 @@
   <NR_DeckThemeDesc_Milspec>Оливковый армейский корпус, потёртые трафареты.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Ржавчина и уличная краска.</NR_DeckThemeDesc_Street>
   <NR_DeckThemeDesc_OpsPad>Светлый корпус, тёмные клавиши.</NR_DeckThemeDesc_OpsPad>
-  <NR_MenuTitle>NETRUN // МЕНЮ</NR_MenuTitle>
+  <NR_MenuTitle>NETRUN // СИСТЕМА</NR_MenuTitle>
   <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
   <NR_MenuButtonTip>Меню (клавиша MENU на корпусе делает то же)</NR_MenuButtonTip>
   <NR_MenuBack>◀ Назад</NR_MenuBack>
@@ -432,4 +432,10 @@
   <NR_SettingsNotifySoundsTip>Звуки сообщений и писем Netrun. Только важные: угрозы, потери, итоги контрактов и нырков, события с выбором; остальное приходит без звука. Выкл.: никаких звуков уведомлений Netrun. Клики и звуки нырка не меняются.</NR_SettingsNotifySoundsTip>
   <NR_SettingsNotifyAll>Все</NR_SettingsNotifyAll>
   <NR_SettingsNotifyImportant>Только важные</NR_SettingsNotifyImportant>
+  <NR_StateNoAI>НЕТ ИИ</NR_StateNoAI>
+  <NR_StateNoRecords>НЕТ ЗАПИСЕЙ</NR_StateNoRecords>
+  <NR_StateEmpty>ПУСТО</NR_StateEmpty>
+  <NR_StateQuiet>ТИХО</NR_StateQuiet>
+  <NR_StateNotFound>НЕ НАЙДЕНО</NR_StateNotFound>
+  <NR_StateOffline>НЕ В СЕТИ</NR_StateOffline>
 </LanguageData>

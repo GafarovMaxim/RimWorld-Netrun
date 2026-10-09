@@ -94,7 +94,7 @@
   <NR_BoardTag_Mood>Настроение: {0}</NR_BoardTag_Mood>
   <NR_BoardTag_MoodTip>Считаются только чипы, смонтированные из записи с настроением «{0}».</NR_BoardTag_MoodTip>
   <NR_BoardDeliverFragment>Передать осколок ({0})</NR_BoardDeliverFragment>
-  <NR_ContractNoFragment>На складе нет осколка ИИ.</NR_ContractNoFragment>
+  <NR_ContractNoFragment>Сдавать нечего: на складе нет осколка ИИ.</NR_ContractNoFragment>
   <NR_ContractRookieReset>{0} провалил нырок: тренировка новичка начинается заново.</NR_ContractRookieReset>
   <NR_BoardTag_Favor>+{0} расположения</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>Имперский заказ: кроме серебра, {0} ед. расположения получит колонист, которого Империя знает лучше всех.</NR_BoardTag_FavorTip>

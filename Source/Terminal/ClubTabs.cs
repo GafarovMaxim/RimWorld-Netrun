@@ -81,8 +81,7 @@ public static class ClubTabs
         float y = 0f;
         if (corps.Count == 0)
         {
-            Widgets.Label(new Rect(0f, y, view.width, 40f), "NR_ClubNoCorps".Translate().Colorize(NetrunUI.Muted));
-            y += 44f;
+            y += NetrunUI.EmptyState(new Rect(0f, y, view.width, 40f), NetrunUI.T("NR_StateQuiet"), NetrunUI.T("NR_ClubNoCorps"), NetrunUI.Warn, center: false);
         }
         NetMapManager net = NetMapManager.Get();
         foreach (CorpState c in corps)
