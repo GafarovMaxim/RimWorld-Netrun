@@ -20,7 +20,7 @@ public static class NetrunTint
         "Disconnect", "Fixer_Corp", "Fixer_Shop", "Fixer_Street", "Handshake",
         "Gizmo_AI_Awaken", "Gizmo_AI_CoprocessorUpload", "Gizmo_AI_Embody", "Gizmo_AI_Erase", "Gizmo_AI_Feed",
         "Gizmo_AI_Isolate", "Gizmo_AI_ReturnServer", "Gizmo_AI_Use", "Gizmo_BD_Record", "Gizmo_BD_Watch",
-        "Gizmo_CallFixer", "Gizmo_NetrunDive",
+        "Gizmo_CallFixer", "Gizmo_NetrunDive", "Gizmo_Watcher",
         "Header_NetworkAttacks", "Header_Nodes", "Icon_DiveReport",
         "Tab_AI", "Tab_Braindance", "Tab_Contracts", "Tab_Cyberpedia", "Tab_Events_AI", "Tab_Events_Blue",
         "Tab_Events_Cyberspace", "Tab_Fixers", "Tab_Log", "Tab_Overview", "Tab_Settings",
