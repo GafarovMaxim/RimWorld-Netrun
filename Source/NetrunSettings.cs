@@ -53,6 +53,8 @@ public class NetrunSettings : ModSettings
     public bool IsolationCooldown = true;
     /// <summary>D2: two or three corporate hubs are shut until a guard gateway next door is broken.</summary>
     public bool ProtectedHubs = true;
+    /// <summary>C9: Netrun's notification sounds: 0 all, 1 only important, 2 off (NetrunNotify.Mode).</summary>
+    public int NotifySounds;
 
     // ---- Interface ----
     /// <summary>Index into NetrunTex.Accents: the terminal's highlight color.</summary>
@@ -591,6 +593,12 @@ public class NetrunSettings : ModSettings
 
     private void DrawSound()
     {
+        Label("NR_SettingsNotifySounds".Translate(), NetrunUI.Accent, "NR_SettingsNotifySoundsTip".Translate());
+        string[] notify = ["NR_SettingsNotifyAll".Translate(), "NR_SettingsNotifyImportant".Translate(), "NR_SettingsOff".Translate()];
+        int notifyPicked = Chips(notify, NotifySounds);
+        if (notifyPicked >= 0)
+            NotifySounds = notifyPicked;
+
         Label("NR_SettingsSoundPack".Translate(), NetrunUI.Accent, "NR_SettingsSoundPackTip".Translate());
         string[] ids = [.. NetrunSound.Packs, NetrunSound.Off];
         string[] names = ids.Select(id => id == NetrunSound.Off ? (string)"NR_SettingsOff".Translate() : (string)("NR_SoundPack_" + id).Translate()).ToArray();
@@ -713,6 +721,7 @@ public class NetrunSettings : ModSettings
 
     private void ResetSound()
     {
+        NotifySounds = 0;
         SoundPack = "Clean";
         UiVolume = AmbientVolume = 0.6f;
         AmbientTerminal = AmbientCyberspace = AmbientDive = AmbientServer = 1f;
@@ -738,6 +747,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref IsolationCooldown, "isolationCooldown", true);
         Scribe_Values.Look(ref ProtectedHubs, "protectedHubs", true);
+        Scribe_Values.Look(ref NotifySounds, "notifySounds");
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);
         Scribe_Values.Look(ref TextScale, "textScale", 1f);

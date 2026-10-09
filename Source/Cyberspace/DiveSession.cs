@@ -1173,6 +1173,7 @@ public class DiveSession : IExposable
         AIQuests.NotifyDive(this, success);
         DiveSignals(success);
 
+        using NetrunNotify.ImportantScope important = NetrunNotify.Important();
         Messages.Message(success
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))
                 : "NR_DiveFailed".Translate(Runner?.LabelShort ?? "?", Node.Name, heat.ToString("0")),

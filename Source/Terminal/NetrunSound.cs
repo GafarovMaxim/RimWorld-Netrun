@@ -45,7 +45,7 @@ public static class NetrunSound
     /// <summary>A one-shot from the pack, at the interface volume.</summary>
     public static void Play(string id)
     {
-        if (!Enabled || Settings.UiVolume <= 0f || Def(id) is not { } def)
+        if (!Enabled || Settings.UiVolume <= 0f || !NetrunNotify.AllowsOwnSound(id) || Def(id) is not { } def)
             return;
         SoundInfo info = SoundInfo.OnCamera();
         info.volumeFactor = Settings.UiVolume;
