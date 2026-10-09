@@ -312,7 +312,20 @@ public static partial class GatewayView
             return;
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.UpperCenter;
-        Widgets.Label(new Rect(hubRect.center.x - 60f, hubRect.yMax + 10f * Mathf.Sqrt(_zoom), 120f, 16f), HubName(n, net.Map, interesting));
+        if (n.Fortress && net.CorpOfSlot(n.CorpSlot) is { } corp)
+        {
+            // A capital: the corporation's name in capitals and its colour.
+            Color cc = HubColor(n, net);
+            GUI.color = LegendDims(n.Id) ? new Color(cc.r, cc.g, cc.b, 0.3f) : cc;
+            Widgets.Label(new Rect(hubRect.center.x - 90f, hubRect.yMax + 8f * Mathf.Sqrt(_zoom), 180f, 16f), NetrunUI.Upper(corp.Name));
+            GUI.color = Color.white;
+        }
+        else
+        {
+            GUI.color = LegendDims(n.Id) ? new Color(1f, 1f, 1f, 0.3f) : Color.white;
+            Widgets.Label(new Rect(hubRect.center.x - 60f, hubRect.yMax + 8f * Mathf.Sqrt(_zoom), 120f, 16f), HubName(n, net.Map, interesting));
+            GUI.color = Color.white;
+        }
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
     }

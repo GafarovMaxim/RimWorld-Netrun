@@ -75,7 +75,7 @@ public static partial class GatewayView
         _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
                           || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse)
                           || LensBarRect(rect).Contains(mouse)
-                          || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - 34f, 300f, 28f).Contains(mouse)
+                          || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - LensBoxH - 6f, 360f, LensBoxH).Contains(mouse)
                           || NetrunMod.Settings.MapLegend && LegendRect(rect, net).Contains(mouse);
         int hovered = _hoverHub;
         _hoverHub = -1;
@@ -193,15 +193,36 @@ public static partial class GatewayView
         return dots;
     }, 2f);
 
+    /// <summary>The exit mark: a small green square with an arrow pointing out; the word "EXIT" from zoom 130%.</summary>
+    private static void DrawExitMark(Rect r, float alpha)
+    {
+        Color g = new(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, alpha);
+        Widgets.DrawBoxSolid(r, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f * alpha));
+        GUI.color = g;
+        Widgets.DrawBox(r);
+        GUI.color = Color.white;
+        float cy = r.center.y;
+        Widgets.DrawLine(new Vector2(r.x + 3f, cy), new Vector2(r.xMax - 3f, cy), g, 1.5f);
+        Widgets.DrawLine(new Vector2(r.xMax - 6f, cy - 3f), new Vector2(r.xMax - 3f, cy), g, 1.5f);
+        Widgets.DrawLine(new Vector2(r.xMax - 6f, cy + 3f), new Vector2(r.xMax - 3f, cy), g, 1.5f);
+        if (_zoom >= 1.3f)
+        {
+            Text.Font = GameFont.Tiny;
+            GUI.color = g;
+            Widgets.Label(new Rect(r.x - 2f, r.y - 15f, 40f, 14f), "EXIT");
+            GUI.color = Color.white;
+        }
+    }
+
     private static void DrawLootDots(Rect hubRect, MapNode n)
     {
         if (Lens != MapLens.Overview || _zoom < 1.1f || !LootDots().TryGetValue(n.Id, out int count))
             return;
-        float y = hubRect.yMax + 10f * Mathf.Sqrt(_zoom) + 17f;
-        float x = hubRect.center.x - count * 3.5f;
+        float y = hubRect.yMax + 10f * Mathf.Sqrt(_zoom) + 16f;
+        float x = hubRect.center.x - count * 2.5f + 0.5f;
         Color gold = NetrunUI.Hex(0xffd34a);
         for (int i = 0; i < count; i++)
-            Widgets.DrawBoxSolid(new Rect(x + i * 7f, y, 5f, 3f), new Color(gold.r, gold.g, gold.b, LegendDims(n.Id) ? 0.3f : 0.85f));
+            Widgets.DrawBoxSolid(new Rect(x + i * 5f, y, 3f, 3f), new Color(gold.r, gold.g, gold.b, LegendDims(n.Id) ? 0.2f : 0.75f));
     }
 
     private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
@@ -372,8 +393,9 @@ public static partial class GatewayView
         if (Lens == MapLens.Overview && !selected && SelectedRunner(net) is { Moving: false } && !Neighbours(net).Contains(n.Id))
             c = new Color(c.r, c.g, c.b, c.a * 0.55f);
         // D1: a picked legend row dims every hub it does not stand for.
+        bool legendLit = _legendLit != null && !LegendDims(n.Id);
         if (LegendDims(n.Id))
-            c = new Color(c.r, c.g, c.b, c.a * 0.35f);
+            c = new Color(c.r, c.g, c.b, c.a * 0.2f);
         bool noData = Lens != MapLens.Overview && LensValueOf(n, net) < 0f;
         if (hover && !_mouseOnOverlay)
             _hoverHub = n.Id;
@@ -387,8 +409,8 @@ public static partial class GatewayView
             NetrunUI.Glow(rect, NetrunUI.Purple, 0.6f, 10f);
         if (n.Transit)
             NetrunUI.Glow(rect, new Color(0.24f, 0.82f, 0.9f), 0.6f, 8f);
-        if (selected || hover)
-            NetrunUI.Glow(rect, c, 0.7f, 8f);
+        if (selected || hover || legendLit)
+            NetrunUI.Glow(rect, selected ? NetrunUI.Accent : c, selected ? 1f : 0.7f, selected ? 14f : 8f);
         DrawPulse(rect, n.Id);
         DrawPing(rect, n.Id);
         DrawVisited(rect, n);
@@ -397,23 +419,46 @@ public static partial class GatewayView
         // Map v4 (D9): a hollow ring in the hub's colour with a faint fill; full only for hubs a runner has been to,
         // and under a lens (its colour is the information) unless the lens has no data for it.
         float a = (n.Offline ? 0.5f : 1f) * c.a;
-        bool full = !home && !noData && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
+        bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
+        bool orbit = n.District == District.Orbit;
         if (home)
         {
             GUI.color = new Color(c.r, c.g, c.b, a);
             GUI.DrawTexture(rect, NetrunUI.Ring);
         }
+        else if (n.Offline)
+        {
+            // Offline: only a faint dashed outline, no fill and no cross.
+            GUI.color = new Color(c.r, c.g, c.b, 0.55f * c.a);
+            GUI.DrawTexture(rect, orbit ? ShapeTex(Shape.Diamond, false) : DashedRing);
+        }
         else
         {
+            Texture2D fill = orbit ? ShapeTex(Shape.Diamond, true) : NetrunUI.Disc;
+            Texture2D ring = orbit ? ShapeTex(Shape.Diamond, false) : HubRing;
             GUI.color = new Color(c.r, c.g, c.b, a * (full ? 1f : 0.18f));
-            GUI.DrawTexture(rect.ContractedBy(1f), NetrunUI.Disc);
+            GUI.DrawTexture(orbit ? rect.ExpandedBy(2f) : rect.ContractedBy(1f), fill);
             GUI.color = new Color(c.r, c.g, c.b, a);
-            GUI.DrawTexture(rect, HubRing);
+            GUI.DrawTexture(orbit ? rect.ExpandedBy(2f) : rect, ring);
         }
         if (n.Fortress)
         {
-            GUI.color = new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, LegendDims(n.Id) ? 0.35f : 1f);
-            GUI.DrawTexture(rect.ExpandedBy(5f), DashedRing);
+            // A capital: a diamond core in the corporation's colour and a dashed red ring.
+            GUI.color = new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, a);
+            GUI.DrawTexture(rect.ContractedBy(rect.width * 0.18f), NetrunUI.Disc);
+            Color core = HubColor(n, net);
+            GUI.color = new Color(core.r, core.g, core.b, a);
+            GUI.DrawTexture(rect.ContractedBy(rect.width * 0.3f), ShapeTex(Shape.Diamond, true));
+            GUI.color = new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, LegendDims(n.Id) ? 0.25f : 0.9f);
+            GUI.DrawTexture(rect.ExpandedBy(6f), DashedRing);
+        }
+        if (selected)
+        {
+            // The picked hub: corner brackets and a slow pulse ring.
+            float pulse = NetrunMod.Settings.Animations ? (Time.realtimeSinceStartup * 0.8f) % 1f : 0.3f;
+            NetrunUI.Brackets(rect.ExpandedBy(10f), NetrunUI.Accent, 2f, 6f);
+            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.7f * (1f - pulse));
+            GUI.DrawTexture(rect.ExpandedBy(4f + 14f * pulse), NetrunUI.ThinRing);
         }
         if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
         {
@@ -431,27 +476,24 @@ public static partial class GatewayView
         }
         if (n.Exit && !home)
         {
-            GUI.color = NetrunUI.Ok;
-            GUI.DrawTexture(rect.ExpandedBy(5f), NetrunUI.ThinRing);
-            if (_zoom >= 0.8f)
-            {
-                // An exit port: a small green tag, readable without hovering.
-                var tag = new Rect(rect.x - 30f, rect.y - 20f, 30f, 14f);
-                Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
-                Widgets.DrawBox(tag);
-                GUI.color = Color.white;
-                Text.Font = GameFont.Tiny;
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(tag, "EXIT".Colorize(NetrunUI.Ok));
-                Text.Anchor = TextAnchor.UpperLeft;
-            }
+            GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.8f * c.a);
+            GUI.DrawTexture(rect.ExpandedBy(4f), NetrunUI.ThinRing);
+            DrawExitMark(new Rect(rect.x - 15f, rect.y - 15f, 12f, 12f), c.a);
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
-        if (n.Offline)
-            Widgets.Label(new Rect(p.x - 5f, p.y - 9f, 14f, 18f), "✕".Colorize(NetrunUI.Bad));
         if (n.Patrol)
-            Widgets.Label(new Rect(rect.xMax - 2f, rect.y - 12f, 16f, 16f), "!".Colorize(NetrunUI.Bad));
+        {
+            // An ICE patrol: a small red triangle with a mark.
+            var warn = new Rect(rect.xMax - 1f, rect.y - 13f, 12f, 12f);
+            GUI.color = NetrunUI.Bad;
+            GUI.DrawTexture(warn, ShapeTex(Shape.Triangle, true));
+            GUI.color = NetrunUI.BgWindow;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(new Rect(warn.x, warn.y + 1f, warn.width, warn.height), "!");
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
+        }
         if (home)
         {
             Text.Anchor = TextAnchor.UpperCenter;
@@ -467,32 +509,18 @@ public static partial class GatewayView
             ExternalNode b = branches[i];
             float ang = -Mathf.PI / 2f + i * (Mathf.PI * 2f / Mathf.Max(3, branches.Count));
             Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + (markers ? 11f : 7f) * Mathf.Sqrt(_zoom));
-            float br = (markers ? (b.IsBoss || b.Ancient ? 8f : 6.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
+            float br = (markers ? (b.IsBoss || b.Ancient ? 7.5f : 5.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
             var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
-            if (b.Hidden)
+            // The node's type as a shape (square market, ring archive, hexagon corp, triangle abandoned, diamond exchange).
+            DrawShape(brect, b, c.a);
+            if ((b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs) && !b.Hidden)
             {
-                // Unknown: an outline, not hidden (the graph is visible, only the content is fogged).
-                GUI.color = new Color(NetrunUI.Muted.r, NetrunUI.Muted.g, NetrunUI.Muted.b, 0.6f);
-                GUI.DrawTexture(brect, NetrunUI.ThinRing);
-            }
-            else if (markers && b.Icon != null)
-            {
-                // The node's type by its own icon: readable without hovering.
-                GUI.color = b.Offline ? new Color(1f, 1f, 1f, 0.35f) : Color.white;
-                GUI.DrawTexture(brect, b.Icon);
-            }
-            else
-            {
-                GUI.color = b.Offline ? NetrunUI.Muted : b.Color;
-                GUI.DrawTexture(brect, NetrunUI.Disc);
-            }
-            if (b.Contract && !b.Hidden)
-                Widgets.Label(new Rect(bp.x + br - 2f, bp.y - br - 12f, 14f, 14f), "★".Colorize(NetrunUI.Warn));
-            if (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
-            {
-                // D2: the guard gateway of a protected hub: a key mark.
+                // A contract target or a guard gateway: a small amber diamond badge on the node.
+                var badge = new Rect(brect.xMax - 3f, brect.y - 5f, 8f, 8f);
+                GUI.color = NetrunUI.BgWindow;
+                GUI.DrawTexture(badge.ExpandedBy(1.5f), ShapeTex(Shape.Diamond, true));
                 GUI.color = NetrunUI.Warn;
-                Widgets.Label(new Rect(bp.x + br - 2f, bp.y - br - 12f, 14f, 14f), "⚿");
+                GUI.DrawTexture(badge, ShapeTex(Shape.Diamond, true));
                 GUI.color = Color.white;
             }
         }
@@ -563,8 +591,19 @@ public static partial class GatewayView
         float s = 9f * Mathf.Sqrt(_zoom);
         var rect = new Rect(p.x - s, p.y - s - 14f * Mathf.Sqrt(_zoom), s * 2f, s * 2f);
         NetrunUI.Glow(rect, NetrunUI.Ok, selected ? 0.9f : 0.5f, 8f);
-        GUI.color = selected ? NetrunUI.Ok : new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.8f);
-        GUI.DrawTexture(rect, NetrunUI.Disc);
+        // A pin: a stem down to the hub, a pulsing ring, a dark badge with a green rim and the initial.
+        Widgets.DrawLine(new Vector2(rect.center.x, rect.yMax), new Vector2(p.x, p.y), new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.7f), 1.5f);
+        if (NetrunMod.Settings.Animations)
+        {
+            float pulse = (Time.realtimeSinceStartup * 0.9f + r.Pawn?.thingIDNumber % 7 * 0.13f ?? 0f) % 1f;
+            GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.6f * (1f - pulse));
+            GUI.DrawTexture(rect.ExpandedBy(2f + 8f * pulse), NetrunUI.ThinRing);
+        }
+        GUI.color = NetrunUI.BgWindow;
+        GUI.DrawTexture(rect.ExpandedBy(1f), NetrunUI.Disc);
+        GUI.color = selected ? NetrunUI.Ok : new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.85f);
+        GUI.DrawTexture(rect.ContractedBy(2f), NetrunUI.Disc);
+        GUI.DrawTexture(rect.ExpandedBy(1f), HubRing);
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleCenter;
@@ -778,27 +817,60 @@ public static partial class GatewayView
             y += 34f;
         }
 
-        // Branches of the node: rows to pick the dive target.
-        foreach (ExternalNode b in BranchesOf(node.Id))
+        // The hub's nodes, as in the mockup: the type's shape, the name and type, the defense as pips, marks on the right.
+        List<ExternalNode> nodes = BranchesOf(node.Id);
+        if (nodes.Count > 0)
         {
-            var row = new Rect(inner.x, y, inner.width, 26f);
-            Color bc = b.Hidden ? NetrunUI.Muted : b.Color;
-            if (b.Id == _selectedId)
-                Widgets.DrawBoxSolid(row, new Color(bc.r, bc.g, bc.b, 0.15f));
+            Text.Font = GameFont.Tiny;
+            GUI.color = NetrunUI.Muted;
+            Widgets.Label(new Rect(inner.x, y, inner.width, 16f), NetrunUI.Upper(NetrunUI.T("NR_MapHubNodes")));
+            GUI.color = Color.white;
+            Text.Font = GameFont.Small;
+            y += 18f;
+        }
+        foreach (ExternalNode b in nodes)
+        {
+            var row = new Rect(inner.x, y, inner.width, 30f);
+            Color bc = b.Hidden ? NetrunUI.Muted : b.Offline ? NetrunUI.Muted : b.Color;
+            bool picked = b.Id == _selectedId;
+            Widgets.DrawBoxSolid(row, picked ? new Color(bc.r, bc.g, bc.b, 0.16f) : Mouse.IsOver(row) ? new Color(1f, 1f, 1f, 0.05f) : new Color(0f, 0f, 0f, 0.18f));
+            if (picked)
+                Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), bc);
+            DrawShape(new Rect(row.x + 9f, row.y + 8f, 14f, 14f), b, 1f);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            string label = b.Hidden ? (string)"NR_GatewayHiddenRow".Translate()
-                : b.Name + "  " + (string)(b.BlackIce ? "NR_GatewayBlackIce" : "NR_GatewayDefense").Translate(b.Defense)
-                  + (b.Deserted ? "  " + (string)"NR_MapDeserted".Translate() : "") + (b.Offline ? "  " + (string)"NR_MapStateOffline".Translate() : "") + (b.Contract ? "  ★" : "");
-            Widgets.Label(new Rect(row.x + 6f, row.y, row.width - 8f, row.height), label.Colorize(bc));
+            float right = row.xMax - 74f;
+            string name = b.Hidden ? (string)"NR_GatewayHiddenRow".Translate() : b.Name;
+            GUI.color = b.Hidden ? NetrunUI.Muted : NetrunUI.TextColor;
+            Widgets.Label(new Rect(row.x + 30f, row.y, right - row.x - 30f, 16f + 2f), name.Truncate(right - row.x - 30f));
+            if (!b.Hidden)
+            {
+                GUI.color = NetrunUI.Muted;
+                string sub = b.TypeLabel + (b.Deserted ? " · " + NetrunUI.T("NR_MapDeserted") : "") + (b.Offline ? " · " + NetrunUI.T("NR_MapStateOffline") : "");
+                Widgets.Label(new Rect(row.x + 30f, row.y + 14f, right - row.x - 30f, 16f), sub.Truncate(right - row.x - 30f));
+                // Defense as pips (red with Black ICE), marks after them.
+                Color pip = b.BlackIce ? NetrunUI.Bad : NetrunUI.Warn;
+                int def = Mathf.Clamp(b.Defense, 0, 6);
+                for (int i = 0; i < 6; i++)
+                    Widgets.DrawBoxSolid(new Rect(right + 4f + i * 7f, row.center.y - 3f, 5f, 6f), i < def ? pip : new Color(pip.r, pip.g, pip.b, 0.15f));
+                if (b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+                {
+                    GUI.color = NetrunUI.Warn;
+                    GUI.DrawTexture(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), ShapeTex(Shape.Diamond, true));
+                }
+            }
+            GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
+            if (!b.Hidden && Mouse.IsOver(row))
+                NetrunUI.Tip(row, () => b.Name + " · " + b.TypeLabel + "\n" + (string)(b.BlackIce ? "NR_GatewayBlackIce" : "NR_GatewayDefense").Translate(b.Defense)
+                    + (b.Contract ? "\n" + (string)"NR_GatewayContract".Translate() : string.Empty));
             if (Widgets.ButtonInvisible(row))
             {
                 NetrunSound.Click();
                 _selectedId = b.Id;
             }
-            y += 28f;
+            y += 32f;
         }
         return y + 4f;
     }

@@ -198,23 +198,46 @@ public static partial class GatewayView
 
     // ---- Search ----
 
+    private static GUIStyle SearchStyle;
+
     private static void DrawSearch(Rect at, NetMapManager net)
     {
         var field = new Rect(at.x, at.y, Mathf.Min(260f, at.width), 26f);
-        Widgets.DrawBoxSolid(field, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.92f));
+        bool focused = GUI.GetNameOfFocusedControl() == SearchControl;
+        // A terminal prompt instead of the game's grey text box: a dark field, an accent frame that lights on focus,
+        // a ">" in front and the text in the terminal's colour.
+        if (focused)
+            NetrunUI.Glow(field, NetrunUI.Accent, 0.35f, 6f);
+        Widgets.DrawBoxSolid(field, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.95f));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, focused ? 0.9f : 0.45f);
+        Widgets.DrawBox(field);
+        GUI.color = Color.white;
+        Widgets.DrawBoxSolid(new Rect(field.x, field.y, 3f, field.height), NetrunUI.Accent);
+        Text.Font = GameFont.Small;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        GUI.color = NetrunUI.Accent;
+        Widgets.Label(new Rect(field.x + 8f, field.y, 14f, field.height), ">");
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        SearchStyle ??= new GUIStyle(Text.CurTextFieldStyle)
+        {
+            normal = { background = null, textColor = NetrunUI.TextColor },
+            focused = { background = null, textColor = NetrunUI.TextColor },
+            hover = { background = null, textColor = NetrunUI.TextColor },
+            active = { background = null, textColor = NetrunUI.TextColor },
+        };
         GUI.SetNextControlName(SearchControl);
-        _search = Widgets.TextField(field.ContractedBy(2f), _search ?? string.Empty);
-        if (_search.NullOrEmpty() && GUI.GetNameOfFocusedControl() != SearchControl)
+        _search = GUI.TextField(new Rect(field.x + 22f, field.y + 1f, field.width - 26f, field.height - 2f), _search ?? string.Empty, SearchStyle);
+        if (_search.NullOrEmpty() && !focused)
         {
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(field.x + 8f, field.y, field.width - 10f, field.height), ((string)"NR_MapSearchHint".Translate()).Colorize(NetrunUI.Muted));
+            GUI.color = NetrunUI.Muted;
+            Widgets.Label(new Rect(field.x + 24f, field.y, field.width - 28f, field.height), NetrunUI.T("NR_MapSearchHint"));
+            GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
-        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f);
-        Widgets.DrawBox(field);
-        GUI.color = Color.white;
         if (_search != _searchFor)
             FindHits(net);
         if (_search.NullOrEmpty())

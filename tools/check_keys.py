@@ -31,6 +31,7 @@ DYNAMIC = {
     "NR_CustomGlass": ["", "Tip"],
     "NR_Legend_": ["Home", "Exit", "Fortress", "Guarded", "Visited", "Watched", "Patrol", "Offline", "Storm", "Transit",
                    "LinkFast", "LinkDark", "LinkWall", "LinkJammed", "LinkToll"],
+    "NR_MapLensLow_": ["Loot", "Danger", "Time"],
     "NR_MapLens_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensTip_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],
     "NR_MapLensScale_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],

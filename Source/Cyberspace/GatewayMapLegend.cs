@@ -73,17 +73,19 @@ public static partial class GatewayView
     private static int _legendPick = -1;
     private static HashSet<int> _legendLit;
 
-    private const float LegendRow = 17f, LegendColW = 150f;
+    private const float LegendRow = 18f, LegendColW = 168f;
 
     /// <summary>The plate's rect over the map (folded: the small button only), above the lens scale.</summary>
     private static Rect LegendRect(Rect mapRect, NetMapManager net)
     {
-        float bottom = mapRect.yMax - 6f - (Lens != MapLens.Overview ? 32f : 0f);
+        float bottom = mapRect.yMax - 6f - (Lens != MapLens.Overview ? LensBoxH + 6f : 0f);
         if (!_legendOpen)
-            return new Rect(mapRect.x + 6f, bottom - 24f, 96f, 24f);
-        int rows = Mathf.CeilToInt((LegendItems.Length + LegendCorps(net).Count) / 2f);
-        float h = 26f + rows * LegendRow + 6f;
-        return new Rect(mapRect.x + 6f, bottom - h, LegendColW * 2f + 12f, h);
+            return new Rect(mapRect.x + 6f, bottom - 26f, 110f, 26f);
+        int hubs = (int)LegendItem.LinkFast;
+        int links = LegendItems.Length - hubs;
+        int right = links + 1 + LegendCorps(net).Count;
+        float h = 30f + 20f + Mathf.Max(hubs, right) * LegendRow + 8f;
+        return new Rect(mapRect.x + 6f, bottom - h, LegendColW * 2f + 20f, h);
     }
 
     private static List<(int slot, Faction corp)> LegendCorps(NetMapManager net) => NetrunUI.Cached("map.legendCorps",
@@ -103,68 +105,67 @@ public static partial class GatewayView
         }
         _legendKeys ??= LegendItems.Select(i => "NR_Legend_" + i).ToArray();
         Rect box = LegendRect(mapRect, net);
-        Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.92f));
-        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.4f);
+        Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.94f));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, _legendOpen ? 0.5f : 0.35f);
         Widgets.DrawBox(box);
         GUI.color = Color.white;
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), NetrunUI.Accent);
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleLeft;
-        var head = new Rect(box.x, box.y, box.width, 24f);
+        var head = new Rect(box.x, box.y, box.width, 26f);
+        if (Mouse.IsOver(head))
+            Widgets.DrawBoxSolid(head, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.1f));
         GUI.color = NetrunUI.Accent;
-        Widgets.Label(new Rect(head.x + 8f, head.y, head.width - 16f, head.height), NetrunUI.Upper(NetrunUI.T("NR_Legend_Title")) + (_legendOpen ? "  ▾" : "  ▸"));
+        Widgets.Label(new Rect(head.x + 10f, head.y, head.width - 16f, head.height), (_legendOpen ? "▾  " : "▸  ") + NetrunUI.Upper(NetrunUI.T("NR_Legend_Title")));
+        if (_legendPick >= 0)
+        {
+            // While a row is lit, the head offers to clear it.
+            Text.Anchor = TextAnchor.MiddleRight;
+            GUI.color = NetrunUI.Warn;
+            Widgets.Label(new Rect(head.x, head.y, head.width - 10f, head.height), NetrunUI.T("NR_Legend_Clear"));
+        }
         GUI.color = Color.white;
+        Text.Anchor = TextAnchor.MiddleLeft;
         NetrunUI.Tip(head, () => NetrunUI.T("NR_Legend_Tip"));
         if (Widgets.ButtonInvisible(head))
         {
             NetrunSound.Click();
-            _legendOpen = !_legendOpen;
+            if (_legendPick >= 0 && Event.current.mousePosition.x > head.center.x)
+            {
+                _legendPick = -1;
+                _legendLit = null;
+            }
+            else
+                _legendOpen = !_legendOpen;
         }
         if (_legendOpen)
         {
-            List<(int slot, Faction corp)> corps = LegendCorps(net);
-            int count = LegendItems.Length + corps.Count;
-            int rows = Mathf.CeilToInt(count / 2f);
-            for (int i = 0; i < count; i++)
+            Widgets.DrawBoxSolid(new Rect(box.x + 8f, head.yMax, box.width - 16f, 1f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f));
+            int hubs = (int)LegendItem.LinkFast;
+            float y0 = head.yMax + 4f;
+            float lx = box.x + 10f, rx = box.x + 10f + LegendColW + 4f;
+            LegendHeading(new Rect(lx, y0, LegendColW, 18f), "NR_Legend_HeadHubs");
+            LegendHeading(new Rect(rx, y0, LegendColW, 18f), "NR_Legend_HeadLinks");
+            y0 += 20f;
+            for (int i = 0; i < LegendItems.Length; i++)
             {
-                var row = new Rect(box.x + 6f + i / rows * LegendColW, box.y + 26f + i % rows * LegendRow, LegendColW, LegendRow);
-                int pick = i < LegendItems.Length ? i : 100 + corps[i - LegendItems.Length].slot;
-                bool on = pick == _legendPick;
-                if (on)
-                    Widgets.DrawBoxSolid(row, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.2f));
-                else if (Mouse.IsOver(row))
-                    Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.06f));
-                var sw = new Rect(row.x + 2f, row.y + 2f, 13f, 13f);
-                string label;
-                if (i < LegendItems.Length)
+                bool left = i < hubs;
+                float ry = y0 + (left ? i : i - hubs) * LegendRow;
+                LegendLine(new Rect(left ? lx : rx, ry, LegendColW, LegendRow), i, NetrunUI.T(_legendKeys[i]), r => DrawLegendSwatch(r, LegendItems[i]), net);
+            }
+            List<(int slot, Faction corp)> corps = LegendCorps(net);
+            float cy = y0 + (LegendItems.Length - hubs) * LegendRow + 4f;
+            LegendHeading(new Rect(rx, cy, LegendColW, 18f), "NR_Legend_HeadCorps");
+            cy += 20f;
+            for (int k = 0; k < corps.Count; k++)
+            {
+                Faction corp = corps[k].corp;
+                LegendLine(new Rect(rx, cy + k * LegendRow, LegendColW, LegendRow), 100 + corps[k].slot, corp.Name, r =>
                 {
-                    DrawLegendSwatch(sw, LegendItems[i]);
-                    label = NetrunUI.T(_legendKeys[i]);
-                }
-                else
-                {
-                    Faction corp = corps[i - LegendItems.Length].corp;
                     GUI.color = CorpColor(corp);
-                    GUI.DrawTexture(sw.ContractedBy(1f), NetrunUI.Disc);
+                    GUI.DrawTexture(r.ContractedBy(2f), ShapeTex(Shape.Hexagon, true));
                     GUI.color = Color.white;
-                    label = corp.Name;
-                }
-                GUI.color = on ? Color.white : NetrunUI.TextColor;
-                Widgets.Label(new Rect(row.x + 20f, row.y, row.width - 22f, row.height), label);
-                GUI.color = Color.white;
-                if (Widgets.ButtonInvisible(row))
-                {
-                    NetrunSound.Click();
-                    if (on)
-                    {
-                        _legendPick = -1;
-                        _legendLit = null;
-                    }
-                    else
-                    {
-                        _legendPick = pick;
-                        _legendLit = LegendHubs(net, pick);
-                    }
-                }
+                }, net);
             }
         }
         Text.Anchor = TextAnchor.UpperLeft;
@@ -174,6 +175,45 @@ public static partial class GatewayView
             _legendPick = -1;
             _legendLit = null;
             Event.current.Use();
+        }
+    }
+
+    private static void LegendHeading(Rect r, string key)
+    {
+        GUI.color = NetrunUI.Muted;
+        Widgets.Label(r, NetrunUI.Upper(NetrunUI.T(key)));
+        GUI.color = Color.white;
+    }
+
+    /// <summary>One legend row: swatch, label (cut to fit), lit when picked; a click lights its hubs.</summary>
+    private static void LegendLine(Rect row, int pick, string label, System.Action<Rect> swatch, NetMapManager net)
+    {
+        bool on = pick == _legendPick;
+        if (on)
+        {
+            Widgets.DrawBoxSolid(row, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.22f));
+            Widgets.DrawBoxSolid(new Rect(row.x, row.y, 2f, row.height), NetrunUI.Accent);
+        }
+        else if (Mouse.IsOver(row))
+            Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.06f));
+        swatch(new Rect(row.x + 4f, row.y + 2f, 14f, 14f));
+        GUI.color = on ? Color.white : NetrunUI.TextColor;
+        float w = row.width - 26f;
+        Widgets.Label(new Rect(row.x + 22f, row.y, w, row.height), label.Truncate(w));
+        GUI.color = Color.white;
+        if (Widgets.ButtonInvisible(row))
+        {
+            NetrunSound.Click();
+            if (on)
+            {
+                _legendPick = -1;
+                _legendLit = null;
+            }
+            else
+            {
+                _legendPick = pick;
+                _legendLit = LegendHubs(net, pick);
+            }
         }
     }
 
@@ -249,12 +289,13 @@ public static partial class GatewayView
                 GUI.DrawTexture(r, NetrunUI.Ring);
                 break;
             case LegendItem.Exit:
-                GUI.color = NetrunUI.Ok;
-                GUI.DrawTexture(r, NetrunUI.ThinRing);
+                DrawExitMark(r.ContractedBy(1f), 1f);
                 break;
             case LegendItem.Fortress:
                 GUI.color = NetrunUI.Bad;
                 GUI.DrawTexture(r, DashedRing);
+                GUI.color = NetrunUI.Warn;
+                GUI.DrawTexture(r.ContractedBy(4f), ShapeTex(Shape.Diamond, true));
                 break;
             case LegendItem.Guarded:
                 GUI.color = NetrunUI.Warn;
@@ -272,11 +313,11 @@ public static partial class GatewayView
                 break;
             case LegendItem.Patrol:
                 GUI.color = NetrunUI.Bad;
-                Widgets.Label(r.ExpandedBy(2f), " !");
+                GUI.DrawTexture(r.ContractedBy(1f), ShapeTex(Shape.Triangle, true));
                 break;
             case LegendItem.Offline:
-                GUI.color = NetrunUI.Bad;
-                Widgets.Label(r.ExpandedBy(2f), "✕");
+                GUI.color = NetrunUI.Muted;
+                GUI.DrawTexture(r, DashedRing);
                 break;
             case LegendItem.Storm:
                 GUI.color = NetrunUI.Purple;

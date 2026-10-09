@@ -364,11 +364,10 @@ public static partial class GatewayView
     /// </summary>
     private static void DrawGrid(Rect rect)
     {
-        float step = 40f * _zoom;
-        float ox = Mathf.Repeat(_pan.x, step);
-        float oy = Mathf.Repeat(_pan.y, step);
-        int ix = Mathf.FloorToInt(_pan.x / step);
-        int iy = Mathf.FloorToInt(_pan.y / step);
+        // A fixed backdrop: the grid and its sparks do not move with the pan (Maxim 2026-10-09).
+        float step = 40f;
+        float ox = 0f, oy = 0f;
+        int ix = 0, iy = 0;
         int col = 0;
         for (float x = ox; x < rect.width; x += step, col++)
         {

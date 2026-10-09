@@ -143,7 +143,7 @@ public static partial class GatewayView
 
     private static Color LensColor(MapLens lens, float t, MapNode n, NetMapManager net) => lens switch
     {
-        MapLens.Loot => Color.Lerp(NetrunUI.Hex(0x5a4020), NetrunUI.Hex(0xffe066), t),
+        MapLens.Loot => t < 0.5f ? Color.Lerp(NetrunUI.Hex(0x4a5f78), NetrunUI.Hex(0x2fc4a4), t * 2f) : Color.Lerp(NetrunUI.Hex(0x2fc4a4), NetrunUI.Hex(0xffd34a), (t - 0.5f) * 2f),
         MapLens.Corps => HubColor(n, net),
         MapLens.Contracts => NetrunUI.Warn,
         _ => t < 0.5f ? Color.Lerp(ScaleLow, ScaleMid, t * 2f) : Color.Lerp(ScaleMid, ScaleHigh, (t - 0.5f) * 2f),
@@ -164,34 +164,63 @@ public static partial class GatewayView
         return LensColor(lens, t, n, net);
     }
 
-    /// <summary>One line under the map: the active lens and its scale.</summary>
+    internal const float LensBoxH = 52f;
+
+    /// <summary>
+    /// The active lens under the map: its name, what it shows, and its scale (a gradient with both ends named) or a
+    /// colour note for the lenses without a scale.
+    /// </summary>
     private static void DrawLensScale(Rect mapRect, NetMapManager net)
     {
         MapLens lens = Lens;
         if (lens == MapLens.Overview)
             return;
-        var box = new Rect(mapRect.x + 6f, mapRect.yMax - 34f, 300f, 28f);
-        Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
-        Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.MiddleLeft;
         LensKeys();
         int li = System.Array.IndexOf(Lenses, lens);
-        string name = NetrunUI.Upper(NetrunUI.T(_lensKeys[li]));
-        Widgets.Label(new Rect(box.x + 6f, box.y, 70f, box.height), name.Colorize(NetrunUI.Accent));
-        var bar = new Rect(box.x + 80f, box.y + 9f, box.width - 150f, 10f);
+        var box = new Rect(mapRect.x + 6f, mapRect.yMax - LensBoxH - 6f, 360f, LensBoxH);
+        Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.94f));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.45f);
+        Widgets.DrawBox(box);
+        GUI.color = Color.white;
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), NetrunUI.Accent);
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperLeft;
+        GUI.color = NetrunUI.Accent;
+        string name = NetrunUI.Upper(NetrunUI.T(_lensKeys[li])) + " //";
+        Widgets.Label(new Rect(box.x + 10f, box.y + 4f, 120f, 16f), name);
+        float nameW = NetrunUI.Width(name) + 14f;
+        GUI.color = NetrunUI.Muted;
+        // What the lens shows (its tooltip text without the "Name:" part).
+        string tip = NetrunUI.T(_lensTipKeys[li]);
+        int colon = tip.IndexOf(": ", System.StringComparison.Ordinal);
+        string what = colon > 0 ? tip.Substring(colon + 2) : tip;
+        Widgets.Label(new Rect(box.x + 10f + nameW, box.y + 4f, box.width - nameW - 16f, 16f), what.Truncate(box.width - nameW - 16f));
+        GUI.color = Color.white;
+        var bar = new Rect(box.x + 10f, box.y + 26f, box.width - 20f, 8f);
         if (lens is MapLens.Corps or MapLens.Contracts)
         {
-            Widgets.Label(new Rect(bar.x, box.y, box.width - 86f, box.height), NetrunUI.T(_lensScaleKeys[li]).Colorize(NetrunUI.TextColor));
+            GUI.color = NetrunUI.TextColor;
+            Widgets.Label(new Rect(bar.x, box.y + 24f, bar.width, 20f), NetrunUI.T(_lensScaleKeys[li]));
+            GUI.color = Color.white;
         }
         else
         {
-            for (int i = 0; i < 20; i++)
-                Widgets.DrawBoxSolid(new Rect(bar.x + bar.width * i / 20f, bar.y, bar.width / 20f + 1f, bar.height), LensColor(lens, i / 19f, null, net));
-            Widgets.Label(new Rect(bar.xMax + 6f, box.y, 64f, box.height), NetrunUI.T(_lensScaleKeys[li]).Colorize(NetrunUI.Muted));
+            for (int i = 0; i < 40; i++)
+                Widgets.DrawBoxSolid(new Rect(bar.x + bar.width * i / 40f, bar.y, bar.width / 40f + 1f, bar.height), LensColor(lens, i / 39f, null, net));
+            GUI.color = NetrunUI.Muted;
+            Widgets.Label(new Rect(bar.x, bar.yMax + 1f, 120f, 16f), NetrunUI.T("NR_MapLensLow_" + lens));
+            Text.Anchor = TextAnchor.UpperRight;
+            Widgets.Label(new Rect(bar.xMax - 120f, bar.yMax + 1f, 120f, 16f), NetrunUI.T(_lensScaleKeys[li]));
+            Text.Anchor = TextAnchor.UpperLeft;
             if (lens == MapLens.Time && SelectedRunner(net) == null)
-                Widgets.Label(new Rect(bar.x, box.y, bar.width, box.height), ((string)"NR_MapLensNoRunner".Translate()).Colorize(NetrunUI.Warn));
+            {
+                GUI.color = NetrunUI.Warn;
+                Text.Anchor = TextAnchor.UpperCenter;
+                Widgets.Label(new Rect(bar.x, bar.yMax + 1f, bar.width, 16f), NetrunUI.T("NR_MapLensNoRunner"));
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
+            GUI.color = Color.white;
         }
-        Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
     }
 
