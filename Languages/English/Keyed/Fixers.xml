@@ -59,7 +59,6 @@
   <NR_ClubCallAlliesTip>Spend the favor: an allied faction sends fighters (or the group sends advanced data). Once a season.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Favor ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>The fixer owes you: scrub {0} Heat for free, no call needed.</NR_FixerFreeScrubTip>
-  <NR_ClubFavorTip>Hacker group favor. +1 from a "group favor" find in cyberspace (a special find on a clean exit). At {0}, "Call the group" sends allied fighters (or 3 advanced cyberdata if you have no allies); then {1} days to rest.</NR_ClubFavorTip>
   <NR_FixerNewTag>NEW</NR_FixerNewTag>
   <NR_FixerNewTip>Joined the pool recently.</NR_FixerNewTip>
   <NR_FixerHeldTag>HELD</NR_FixerHeldTag>

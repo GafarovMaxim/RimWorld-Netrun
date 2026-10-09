@@ -97,8 +97,6 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_CoreTileChips>Chips</NR_CoreTileChips>
   <NR_CoreTileBlack>{0} black</NR_CoreTileBlack>
   <NR_CoreTileChipsTip>Braindance chips in the colony; the small number is black chips.</NR_CoreTileChipsTip>
-  <NR_CoreTileGroup>Group</NR_CoreTileGroup>
-  <NR_CoreTileFavor>favor</NR_CoreTileFavor>
   <NR_CoreRowNetTip>Power drawn by the network: console, cyberpods, coprocessors, servers. Online = a powered network console.</NR_CoreRowNetTip>
   <NR_CoreOnline>online</NR_CoreOnline>
   <NR_CoreOffline>offline</NR_CoreOffline>
@@ -417,4 +415,9 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_Gloss_Cyberdata>Cyberdata: data as a resource (Hacking Expansion). The currency of the net: scrubs, programs, contracts.</NR_Gloss_Cyberdata>
   <NR_Gloss_Trace>Trace: what a dive or hack leaves behind; after it ends the trace turns into Heat.</NR_Gloss_Trace>
   <NR_HelpNewTag>NEW</NR_HelpNewTag>
+  <NR_CoreTileToday>Map today</NR_CoreTileToday>
+  <NR_CoreTodayQuiet>The map is quiet</NR_CoreTodayQuiet>
+  <NR_CoreTodayTip>What happens on the cyberspace map in the next 24 hours: timers on hubs, intrusions, contracts that close. Click to open the Gateway at the nearest one.</NR_CoreTodayTip>
+  <NR_CoreTodayMore>…and {0} more</NR_CoreTodayMore>
+  <NR_CoreTodayContract>contract closes: {0}</NR_CoreTodayContract>
 </LanguageData>

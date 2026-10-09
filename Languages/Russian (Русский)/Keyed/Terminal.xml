@@ -97,8 +97,6 @@
   <NR_CoreTileChips>Чипы</NR_CoreTileChips>
   <NR_CoreTileBlack>{0} чёрн.</NR_CoreTileBlack>
   <NR_CoreTileChipsTip>Брейнданс-чипы в колонии; малое число — чёрные.</NR_CoreTileChipsTip>
-  <NR_CoreTileGroup>Группа</NR_CoreTileGroup>
-  <NR_CoreTileFavor>благоскл.</NR_CoreTileFavor>
   <NR_CoreRowNetTip>Сколько тянет сеть: консоль, капсулы, сопроцессоры, серверы. Онлайн — консоль с питанием.</NR_CoreRowNetTip>
   <NR_CoreOnline>онлайн</NR_CoreOnline>
   <NR_CoreOffline>оффлайн</NR_CoreOffline>
@@ -417,4 +415,9 @@
   <NR_Gloss_Cyberdata>Cyberdata: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
   <NR_Gloss_Trace>След: то, что оставляют нырок или взлом; после окончания он превращается в Heat.</NR_Gloss_Trace>
   <NR_HelpNewTag>НОВОЕ</NR_HelpNewTag>
+  <NR_CoreTileToday>Карта сегодня</NR_CoreTileToday>
+  <NR_CoreTodayQuiet>На карте тихо</NR_CoreTodayQuiet>
+  <NR_CoreTodayTip>Что случится на карте киберпространства в ближайшие 24 часа: таймеры на узлах, вторжения, закрывающиеся контракты. Щелчок откроет Шлюз у ближайшего.</NR_CoreTodayTip>
+  <NR_CoreTodayMore>…и ещё {0}</NR_CoreTodayMore>
+  <NR_CoreTodayContract>закрывается контракт: {0}</NR_CoreTodayContract>
 </LanguageData>

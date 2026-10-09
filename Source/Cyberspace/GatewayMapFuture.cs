@@ -73,6 +73,31 @@ public static partial class GatewayView
         return list;
     }
 
+    /// <summary>
+    /// D4 "Today on the map" for the Core: the events of the next 24 game hours, nearest first (map timers, intrusions,
+    /// contracts that close), as (hub or -1, ticks left, text, bad). Uses the hourly timeline, so it costs nothing extra.
+    /// </summary>
+    public static List<(int hub, int left, string text, bool bad)> Today()
+    {
+        var list = new List<(int, int, string, bool)>();
+        NetMapManager net = NetMapManager.Get();
+        if (net is { Ready: true })
+            foreach (TimerEntry e in Timeline(net))
+            {
+                int left = Left(e);
+                if (left <= GenDate.TicksPerDay)
+                    list.Add((e.Hub, left, e.Text, e.Bad));
+            }
+        foreach (Contract c in ContractManager.Get()?.Active ?? [])
+            if (c.Accepted && c.TicksLeft <= GenDate.TicksPerDay)
+                list.Add((-1, c.TicksLeft, "NR_CoreTodayContract".Translate(c.Title), true));
+        list.Sort((a, b) => a.Item2.CompareTo(b.Item2));
+        return list;
+    }
+
+    /// <summary>A short "3h" / "now" for a time left.</summary>
+    public static string ShortLeft(int ticks) => Short(ticks);
+
     /// <summary>Ticks left now (the list was built at the start of the hour).</summary>
     private static int Left(TimerEntry e) => e.Ticks <= 0 ? 0 : Mathf.Max(0, e.Ticks - (Find.TickManager.TicksGame - _timelineTick));
 

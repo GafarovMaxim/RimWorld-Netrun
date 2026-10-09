@@ -637,10 +637,22 @@ public partial class Dialog_NetTerminal
         Tile(new Rect(inner.x, y, tw, th), "NR_CoreTileChips".Translate(), s.Chips.ToString(), "NR_CoreTileBlack".Translate(s.BlackChips), StudioColor,
             "NR_CoreTileChipsTip".Translate());
         GatewayManager gateway = GatewayManager.Get();
-        int favor = gateway?.GroupFavor ?? 0;
-        Tile(new Rect(inner.x + tw + 6f, y, tw, th), "NR_CoreTileGroup".Translate(), $"{favor}/{NetrunDefOf.NR_Cyberspace.groupFavorForAllies}",
-            "NR_CoreTileFavor".Translate(), NetrunUI.Warn,
-            "NR_ClubFavorTip".Translate(NetrunDefOf.NR_Cyberspace.groupFavorForAllies, NetrunDefOf.NR_Cyberspace.alliesCooldownDays), NetrunTex.GroupFavor);
+        // D4 (C5): "Today on the map" instead of the old group favor tile (every team has its own favor now).
+        var todayRect = new Rect(inner.x + tw + 6f, y, tw, th);
+        List<(int hub, int left, string text, bool bad)> today = NetrunUI.Cached(TodayKey, GatewayView.Today, 2f);
+        string nearest = today.Count == 0 ? (string)"NR_CoreTodayQuiet".Translate() : GatewayView.ShortLeft(today[0].left) + " · " + today[0].text;
+        Tile(todayRect, "NR_CoreTileToday".Translate(), today.Count.ToString(), nearest, today.Any(t => t.bad) ? NetrunUI.Warn : NetrunUI.Accent,
+            null, NetrunTex.Cyberspace);
+        if (Mouse.IsOver(todayRect))
+            NetrunUI.Tip(todayRect, TodayTip(today));
+        if (Widgets.ButtonInvisible(todayRect))
+        {
+            int hub = today.FirstOrDefault(t => t.hub >= 0).hub;
+            if (today.Any(t => t.hub >= 0))
+                OpenGatewayAt(hub);
+            else
+                OpenNode(View.Gateway);
+        }
         y += th + 8f;
 
         bool online = AIAwakening.Console(_map) != null;
@@ -673,6 +685,23 @@ public partial class Dialog_NetTerminal
         else if (gateway.TicksUntilBoss >= 0)
             GaugeRow(inner, y, bossIcon, "NR_CoreBossNext".Translate(), gateway.TicksUntilBoss.ToStringTicksToPeriod(),
                 1f - gateway.TicksUntilBoss / (NetrunDefOf.NR_Cyberspace.bossIntervalDays * GenDate.TicksPerDay), NetrunUI.Purple, null);
+    }
+
+    private const string TodayKey = "core.today";
+
+    private static string TodayTip(List<(int hub, int left, string text, bool bad)> today)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.Append("NR_CoreTodayTip".Translate());
+        if (today.Count == 0)
+            sb.Append("\n\n").Append("NR_CoreTodayQuiet".Translate());
+        else
+            sb.Append('\n');
+        foreach ((int _, int left, string text, bool bad) in today.Take(3))
+            sb.Append("\n").Append((bad ? "⚠ " : "◷ ") + GatewayView.ShortLeft(left) + " · " + text);
+        if (today.Count > 3)
+            sb.Append("\n").Append("NR_CoreTodayMore".Translate(today.Count - 3));
+        return sb.ToString();
     }
 
     private static void Tile(Rect rect, string label, string big, string small, Color color, string tip, Texture2D icon = null)

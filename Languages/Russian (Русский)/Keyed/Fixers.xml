@@ -59,7 +59,6 @@
   <NR_ClubCallAlliesTip>Потратить благосклонность: союзная фракция пришлёт бойцов (или группа пришлёт продвинутые данные). Раз в сезон.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Услуга ×{0}</NR_FixerFreeScrub>
   <NR_FixerFreeScrubTip>Фиксер должен вам: сбросить {0} Heat бесплатно, без звонка.</NR_FixerFreeScrubTip>
-  <NR_ClubFavorTip>Благосклонность хакерской группы. +1 за находку «услуга группе» в киберпространстве (особая находка при чистом выходе). При {0} кнопка «Позвать группу» присылает союзных бойцов (или 3 продвинутых cyberdata, если союзников нет); затем {1} дней перерыва.</NR_ClubFavorTip>
   <NR_FixerNewTag>НОВЫЙ</NR_FixerNewTag>
   <NR_FixerNewTip>Недавно появился в пуле.</NR_FixerNewTip>
   <NR_FixerHeldTag>УДЕРЖАН</NR_FixerHeldTag>
