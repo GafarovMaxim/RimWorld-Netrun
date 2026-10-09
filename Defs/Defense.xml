@@ -39,6 +39,8 @@
       <texPath>Things/Building/Misc/NR_Firewall</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(1,1)</drawSize>
+      <!-- The front panel (wall to the north) is drawn on the wall's face, as the vanilla wall lamp is. -->
+      <drawOffsetNorth>(0,0,0.65)</drawOffsetNorth>
       <damageData>
         <rect>(0.2,0.2,0.6,0.6)</rect>
       </damageData>
@@ -67,6 +69,10 @@
     <researchPrerequisites>
       <li>NR_Res_NetSecurity</li>
     </researchPrerequisites>
+    <placeWorkers>
+      <li>Placeworker_AttachedToWall</li>
+    </placeWorkers>
+    <terrainAffordanceNeeded IsNull="True" />
     <building>
       <isAttachment>true</isAttachment>
       <isEdifice>false</isEdifice>
