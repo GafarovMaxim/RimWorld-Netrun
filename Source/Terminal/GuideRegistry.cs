@@ -11,16 +11,19 @@ namespace Netrun;
 public static class GuideRegistry
 {
     private static readonly List<(string id, Rect rect)> Areas = [];
+    private static readonly Dictionary<string, int> Index = [];
 
     /// <summary>True while the terminal collects areas (outside the terminal, calls are ignored).</summary>
     public static bool Collecting;
 
     public static IReadOnlyList<(string id, Rect rect)> Current => Areas;
 
-    public static void Begin()
+    /// <summary>Starts a frame; areas are only collected while the guide is on (they cost nothing otherwise).</summary>
+    public static void Begin(bool collect = true)
     {
         Areas.Clear();
-        Collecting = true;
+        Index.Clear();
+        Collecting = collect;
     }
 
     public static void End() => Collecting = false;
@@ -41,7 +44,12 @@ public static class GuideRegistry
     {
         if (!Collecting || rect.width < 4f || rect.height < 4f)
             return;
-        Areas.RemoveAll(a => a.id == id);
+        if (Index.TryGetValue(id, out int i))
+        {
+            Areas[i] = (id, rect);
+            return;
+        }
+        Index[id] = Areas.Count;
         Areas.Add((id, rect));
     }
 }

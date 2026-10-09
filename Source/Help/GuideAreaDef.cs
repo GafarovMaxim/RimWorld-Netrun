@@ -32,6 +32,13 @@ public class GuideAreaDef : Def
 
     /// <summary>The areas of a screen in order (the screen's own, then "Any").</summary>
     public static List<GuideAreaDef> ForScreen(string screen)
-        => DefDatabase<GuideAreaDef>.AllDefs.Where(d => d.screen == screen).OrderBy(d => d.order)
-            .Concat(DefDatabase<GuideAreaDef>.AllDefs.Where(d => d.screen == "Any").OrderBy(d => d.order)).ToList();
+    {
+        // Built once per screen: the defs never change while the game runs.
+        if (!ByScreen.TryGetValue(screen, out List<GuideAreaDef> list))
+            ByScreen[screen] = list = DefDatabase<GuideAreaDef>.AllDefs.Where(d => d.screen == screen).OrderBy(d => d.order)
+                .Concat(DefDatabase<GuideAreaDef>.AllDefs.Where(d => d.screen == "Any").OrderBy(d => d.order)).ToList();
+        return list;
+    }
+
+    private static readonly Dictionary<string, List<GuideAreaDef>> ByScreen = [];
 }

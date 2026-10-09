@@ -146,7 +146,7 @@ public partial class Dialog_NetTerminal : Window
         });
         _guideScreen = inRect;
         GuideInput();
-        GuideRegistry.Begin();
+        GuideRegistry.Begin(_guide);
         DrawWindow(inRect);
         GuideRegistry.End();
         NetrunUI.Scanlines(inRect);
@@ -157,10 +157,23 @@ public partial class Dialog_NetTerminal : Window
         DrawAmbientGlitch(inRect);
         if (Prefs.DevMode && Event.current.type == EventType.Repaint)
         {
-            _drawMs = Mathf.Lerp(_drawMs, (float)_drawTimer.Elapsed.TotalMilliseconds, 0.1f);
+            float ms = (float)_drawTimer.Elapsed.TotalMilliseconds;
+            _drawMs = Mathf.Lerp(_drawMs, ms, 0.1f);
+            _drawSum += ms;
+            _drawCount++;
+            _drawMax = Mathf.Max(_drawMax, ms);
+            if (Time.realtimeSinceStartup - _drawWindowAt >= 5f)
+            {
+                _drawShown = $"dev: draw {_drawMs:0.00} ms · 5s avg {_drawSum / Mathf.Max(1, _drawCount):0.00} max {_drawMax:0.00}" + (_guide ? " · guide" : "");
+                _drawSum = 0f;
+                _drawCount = 0;
+                _drawMax = 0f;
+                _drawWindowAt = Time.realtimeSinceStartup;
+                Log.Message($"[Netrun] {HelpContext}: {_drawShown}");
+            }
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.LowerRight;
-            Widgets.Label(new Rect(inRect.xMax - 160f, inRect.yMax - StatusHeight - 18f, 156f, 16f), $"dev: draw {_drawMs:0.00} ms".Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(inRect.xMax - 420f, inRect.yMax - StatusHeight - 18f, 416f, 16f), (_drawShown ?? $"dev: draw {_drawMs:0.00} ms").Colorize(NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
@@ -168,6 +181,10 @@ public partial class Dialog_NetTerminal : Window
 
     private readonly System.Diagnostics.Stopwatch _drawTimer = new();
     private float _drawMs;
+    // The 5-second window of the dev measure (A1): sum, count and maximum, shown and logged every 5 s.
+    private float _drawSum, _drawMax, _drawWindowAt;
+    private int _drawCount;
+    private string _drawShown;
 
     /// <summary>In the Red Zone the terminal flickers now and then: a few torn slices for a tenth of a second.</summary>
     private static void DrawAmbientGlitch(Rect rect)

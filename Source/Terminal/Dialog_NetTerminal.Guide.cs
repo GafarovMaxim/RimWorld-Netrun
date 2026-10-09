@@ -134,18 +134,26 @@ public partial class Dialog_NetTerminal
     }
 
     /// <summary>Registered rects that have a guide def, in the screen's order.</summary>
+    private readonly List<(GuideAreaDef def, Rect rect)> _areasNow = [];
+    private int _areasFrame = -1;
+
+    /// <summary>Built once per frame (input and drawing share it) into a reused list.</summary>
     private List<(GuideAreaDef def, Rect rect)> AreasNow()
     {
-        var list = new List<(GuideAreaDef, Rect)>();
+        if (_areasFrame == Time.frameCount)
+            return _areasNow;
+        _areasFrame = Time.frameCount;
+        _areasNow.Clear();
+        IReadOnlyList<(string id, Rect rect)> current = GuideRegistry.Current;
         foreach (GuideAreaDef def in GuideAreaDef.ForScreen(HelpContext))
         {
-            foreach ((string id, Rect rect) in GuideRegistry.Current)
+            for (int i = 0; i < current.Count; i++)
             {
-                if (id == def.area)
-                    list.Add((def, rect));
+                if (current[i].id == def.area)
+                    _areasNow.Add((def, current[i].rect));
             }
         }
-        return list;
+        return _areasNow;
     }
 
     private void DrawGuideOverlay(Rect inRect)
@@ -158,9 +166,20 @@ public partial class Dialog_NetTerminal
         string pulse = _guideArea != null && _guideStep < _guideArea.steps.Count ? _guideArea.steps[_guideStep].highlight : null;
         HelpProgress progress = HelpProgress.Get();
         // Only the smallest area under the mouse is hovered: a part inside a bigger one (the news line in the bottom bar).
-        GuideAreaDef hovered = _guideArea == null
-            ? areas.Where(a => a.rect.Contains(mouse)).OrderBy(a => a.rect.width * a.rect.height).Select(a => a.def).FirstOrDefault()
-            : null;
+        GuideAreaDef hovered = null;
+        if (_guideArea == null)
+        {
+            float best = float.MaxValue;
+            foreach ((GuideAreaDef def, Rect rect) in areas)
+            {
+                float size = rect.width * rect.height;
+                if (rect.Contains(mouse) && size < best)
+                {
+                    best = size;
+                    hovered = def;
+                }
+            }
+        }
 
         for (int i = 0; i < areas.Count; i++)
         {

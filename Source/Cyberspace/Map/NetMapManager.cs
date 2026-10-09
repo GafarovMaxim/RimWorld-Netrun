@@ -203,10 +203,22 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     /// <summary>Shows the hidden branches within some hops of a node (honeypot back-traces, the future runner ping).</summary>
     public int RevealAround(int nodeId, int hops)
     {
-        int count = 0;
-        foreach (ExternalNode b in Gateway?.AllBranches.Where(b => b.Hidden && b.MapNodeId >= 0).ToList() ?? [])
+        // One breadth-first pass collects the hubs in range, then one pass over the branches (not a search per branch).
+        var near = new HashSet<int> { nodeId };
+        var frontier = new List<int> { nodeId };
+        for (int h = 0; h < hops && frontier.Count > 0; h++)
         {
-            if (Map.Hops(nodeId, b.MapNodeId, hops) <= hops)
+            var next = new List<int>();
+            foreach (int u in frontier)
+                foreach (MapLink l in Map.LinksOf(u))
+                    if (l.Known && near.Add(l.Other(u)))
+                        next.Add(l.Other(u));
+            frontier = next;
+        }
+        int count = 0;
+        foreach (ExternalNode b in Gateway?.AllBranches ?? Enumerable.Empty<ExternalNode>())
+        {
+            if (b.Hidden && b.MapNodeId >= 0 && near.Contains(b.MapNodeId))
             {
                 b.Hidden = false;
                 count++;

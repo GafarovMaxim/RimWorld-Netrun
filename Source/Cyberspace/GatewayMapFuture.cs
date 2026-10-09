@@ -24,14 +24,18 @@ public static partial class GatewayView
     }
 
     private static List<TimerEntry> _timeline = [];
-    private static float _timelineAt = -10f;
+    private static int _timelineHour = -1;
+    private static int _timelineTick = -1;
 
+    /// <summary>Rebuilt once per game hour (or when the game ticks back); the times shown count down from the build.</summary>
     private static List<TimerEntry> Timeline(NetMapManager net)
     {
-        float now = Time.realtimeSinceStartup;
-        if (now - _timelineAt < 1f)
+        int nowTick = Find.TickManager.TicksGame;
+        int hour = nowTick / GenDate.TicksPerHour;
+        if (hour == _timelineHour && nowTick >= _timelineTick)
             return _timeline;
-        _timelineAt = now;
+        _timelineHour = hour;
+        _timelineTick = nowTick;
         var list = new List<TimerEntry>();
         int tick = Find.TickManager.TicksGame;
         int horizon = 3 * GenDate.TicksPerDay;
@@ -62,6 +66,9 @@ public static partial class GatewayView
         return list;
     }
 
+    /// <summary>Ticks left now (the list was built at the start of the hour).</summary>
+    private static int Left(TimerEntry e) => e.Ticks <= 0 ? 0 : Mathf.Max(0, e.Ticks - (Find.TickManager.TicksGame - _timelineTick));
+
     private static string Short(int ticks) => ticks <= 0 ? (string)"NR_MapTimerNow".Translate()
         : ticks < GenDate.TicksPerDay ? (ticks / (float)GenDate.TicksPerHour).ToString("0") + "h" : (ticks / (float)GenDate.TicksPerDay).ToString("0.#") + "d";
 
@@ -79,7 +86,7 @@ public static partial class GatewayView
             var row = new Rect(inner.x, y, inner.width, 20f);
             if (Mouse.IsOver(row))
                 Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.05f));
-            string text = (e.Bad ? "⚠ " : "◷ ") + Short(e.Ticks) + " · " + e.Text;
+            string text = (e.Bad ? "⚠ " : "◷ ") + Short(Left(e)) + " · " + e.Text;
             Widgets.Label(new Rect(row.x + 4f, row.y + 2f, row.width - 6f, row.height), text.Colorize(e.Bad ? NetrunUI.Bad : NetrunUI.TextColor));
             if (e.Hub >= 0 && Widgets.ButtonInvisible(row))
                 FocusNode(e.Hub);
@@ -97,8 +104,8 @@ public static partial class GatewayView
             return;
         int best = int.MaxValue;
         foreach (TimerEntry e in Timeline(net))
-            if (e.Hub == n.Id && e.Ticks > 0 && e.Ticks < best)
-                best = e.Ticks;
+            if (e.Hub == n.Id && e.Ticks > 0 && Left(e) < best)
+                best = Mathf.Max(1, Left(e));
         if (best == int.MaxValue)
             return;
         string text = "◷ " + Short(best);
