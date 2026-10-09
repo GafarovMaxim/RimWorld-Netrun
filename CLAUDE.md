@@ -4,6 +4,8 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 
 **Mandatory optimization rules: `docs/TECH_DETAILS.md`, follow them on every code change; beyond the rules, always look for ways to optimize the mod yourself** (Maxim's decision, 2026-10-08). Rules for ticks, save list caps, data cleanup, compatibility; check its checklist before each commit.
 
+**Routine data work (reading, comparing, searching) and simple operations go to an agent with the Haiku model (Agent tool, model "haiku"); design, code and mockups are done directly** (Maxim's decision, 2026-10-09).
+
 **PC session: fix bugs and small corrections right away; do not queue them or wait to be asked** (Maxim's decision, 2026-10-08).
 
 ## Start of every session
