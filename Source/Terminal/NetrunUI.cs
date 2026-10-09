@@ -337,9 +337,14 @@ public static partial class NetrunUI
         float speed = 38f;
         // A running position, not time × speed: new lines join the loop without the line jumping back.
         float now = Time.realtimeSinceStartup;
-        if (Event.current.type == EventType.Repaint && NetrunMod.Settings.Animations)
-            _tickerPos += Mathf.Min(0.1f, now - _tickerAt) * speed;
-        _tickerAt = now;
+        // The clock moves on Repaint only: set on every event, it measured just the gap between Layout and Repaint of one
+        // frame, and the line crawled at a fraction of its speed (docs/PERF_AUDIT_4.md).
+        if (Event.current.type == EventType.Repaint)
+        {
+            if (NetrunMod.Settings.Animations)
+                _tickerPos += Mathf.Min(0.1f, now - _tickerAt) * speed;
+            _tickerAt = now;
+        }
         if (_tickerPos >= total)
             _tickerPos %= total;
         float offset = NetrunMod.Settings.Animations ? _tickerPos : 0f;

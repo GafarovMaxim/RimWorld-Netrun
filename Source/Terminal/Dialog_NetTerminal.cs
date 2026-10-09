@@ -661,7 +661,8 @@ public partial class Dialog_NetTerminal : Window
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(sx, seg.y, levelW + 4f, seg.height), Decode(levelLabel).Colorize(levelColor));
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
+            if (Mouse.IsOver(seg))
+                NetrunUI.Tip(seg, "NR_TipTrace".Translate() + "\n\n" + level.Description() + "\n\n" + "NR_StatusTraceClick".Translate());
             if (Widgets.ButtonInvisible(seg))
                 OpenNode(View.Core);
 
@@ -694,10 +695,14 @@ public partial class Dialog_NetTerminal : Window
             GUI.DrawTexture(new Rect(sickSeg.x + 6f, sickSeg.center.y - 11f, 22f, 22f), sickIcon);
         Widgets.Label(new Rect(sickSeg.x + sickPad, sickSeg.y, sickW + 4f, sickSeg.height), Decode(sickText).Colorize(sickColor));
         Text.Font = GameFont.Small;
-        string sickTip = "NR_HeatScreenNetsickTip".Translate();
-        if (sick.Count > 0)
-            sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
-        NetrunUI.Tip(sickSeg, sickTip);
+        // Tooltip texts are built only under the mouse (Tip ignores them otherwise); before, every GUI event built them.
+        if (Mouse.IsOver(sickSeg))
+        {
+            string sickTip = "NR_HeatScreenNetsickTip".Translate();
+            if (sick.Count > 0)
+                sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
+            NetrunUI.Tip(sickSeg, sickTip);
+        }
 
         // On the Heat screen: one sentence of advice instead of the latest event.
         if (tracker != null && _view == View.Core && rect.xMax - 10f - x > 80f)

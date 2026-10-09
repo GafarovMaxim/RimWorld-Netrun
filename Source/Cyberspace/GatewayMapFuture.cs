@@ -262,18 +262,23 @@ public static partial class GatewayView
 
     // ---- Hub names by zoom: interesting hubs from 0.8, all from 1.3 ----
 
+    // Names already coloured (bright for interesting hubs, muted for the rest): Colorize per hub per event made a new
+    // string for every visible name several times a frame (docs/PERF_AUDIT_4.md).
     private static readonly Dictionary<int, string> HubNames = [];
+    private static readonly Dictionary<int, string> HubNamesMuted = [];
     private static CyberMap _hubNamesFor;
 
-    private static string HubName(MapNode n, CyberMap map)
+    private static string HubName(MapNode n, CyberMap map, bool interesting)
     {
         if (_hubNamesFor != map)
         {
             HubNames.Clear();
+            HubNamesMuted.Clear();
             _hubNamesFor = map;
         }
-        if (!HubNames.TryGetValue(n.Id, out string s))
-            HubNames[n.Id] = s = NetMapManager.NodeLabel(n);
+        Dictionary<int, string> names = interesting ? HubNames : HubNamesMuted;
+        if (!names.TryGetValue(n.Id, out string s))
+            names[n.Id] = s = NetMapManager.NodeLabel(n).Colorize(interesting ? NetrunUI.TextColor : NetrunUI.Muted);
         return s;
     }
 
@@ -286,8 +291,7 @@ public static partial class GatewayView
             return;
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.UpperCenter;
-        Color c = interesting ? NetrunUI.TextColor : NetrunUI.Muted;
-        Widgets.Label(new Rect(hubRect.center.x - 60f, hubRect.yMax + 10f * Mathf.Sqrt(_zoom), 120f, 16f), HubName(n, net.Map).Colorize(c));
+        Widgets.Label(new Rect(hubRect.center.x - 60f, hubRect.yMax + 10f * Mathf.Sqrt(_zoom), 120f, 16f), HubName(n, net.Map, interesting));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
     }

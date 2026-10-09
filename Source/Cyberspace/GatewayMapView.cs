@@ -474,6 +474,11 @@ public static partial class GatewayView
 
     // ---- Panel ----
 
+    private static (int from, int to) _panelRouteFor = (-1, -1);
+    private static float _panelRouteAt = -10f;
+    private static int _panelRouteSteps;
+    private static float _panelRouteHours;
+
     /// <summary>Runners and the selected map node, above the branch panel.</summary>
     private static float DrawMapPanel(Rect inner, float y, Map colonyMap, NetMapManager net)
     {
@@ -581,9 +586,19 @@ public static partial class GatewayView
         info.AddRange(NodeStates(node));
         if (selected != null && selected.NodeId != node.Id)
         {
-            List<int> route = net.Map.Route(selected.Moving ? selected.NextNodeId : selected.NodeId, node.Id, out float hours);
-            info.Add(route.Count > 0 || selected.NextNodeId == node.Id
-                ? "NR_MapRouteInfo".Translate(route.Count + (selected.Moving ? 1 : 0), (hours / NetMapManager.Speed(selected.Pawn)).ToString("0.#"))
+            // The route search (Dijkstra with fresh collections) ran on every GUI event; now once a second or on a new pair.
+            int routeFrom = selected.Moving ? selected.NextNodeId : selected.NodeId;
+            float now = Time.realtimeSinceStartup;
+            if (_panelRouteFor != (routeFrom, node.Id) || now - _panelRouteAt > 1f)
+            {
+                List<int> route = net.Map.Route(routeFrom, node.Id, out float routeHours);
+                _panelRouteFor = (routeFrom, node.Id);
+                _panelRouteAt = now;
+                _panelRouteSteps = route.Count;
+                _panelRouteHours = routeHours;
+            }
+            info.Add(_panelRouteSteps > 0 || selected.NextNodeId == node.Id
+                ? "NR_MapRouteInfo".Translate(_panelRouteSteps + (selected.Moving ? 1 : 0), (_panelRouteHours / NetMapManager.Speed(selected.Pawn)).ToString("0.#"))
                 : "NR_MapNoRoute".Translate());
         }
         string infoText = info.ToLineList();

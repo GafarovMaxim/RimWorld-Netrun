@@ -158,7 +158,8 @@ public partial class Dialog_NetTerminal
 
     private void DrawGuideOverlay(Rect inRect)
     {
-        if (!_guide)
+        // Drawing only: clicks are read in GuideInput, the card's rects are kept from the last repaint.
+        if (!_guide || Event.current.type != EventType.Repaint)
             return;
         List<(GuideAreaDef def, Rect rect)> areas = AreasNow();
         Widgets.DrawBoxSolid(new Rect(inRect.x, inRect.y + TitleHeight, inRect.width, inRect.height - TitleHeight), new Color(0f, 0f, 0f, 0.55f));
