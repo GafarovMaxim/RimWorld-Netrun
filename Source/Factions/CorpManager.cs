@@ -105,7 +105,7 @@ public class CorpManager : GameComponent, INetrunCleanable
     {
     }
 
-    public static CorpManager Get() => Current.Game?.GetComponent<CorpManager>();
+    public static CorpManager Get() => GameComp<CorpManager>.Get();
 
     public static CorpSettingsDef Settings => NetrunDefOf.NR_Corporations;
 

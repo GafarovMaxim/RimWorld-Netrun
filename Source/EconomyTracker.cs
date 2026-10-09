@@ -25,7 +25,7 @@ public class EconomyTracker : GameComponent, INetrunCleanable
         return _days.RemoveAll(d => d == null || d.day < day - KeepDays);
     }
 
-    public static EconomyTracker Get() => Current.Game?.GetComponent<EconomyTracker>();
+    public static EconomyTracker Get() => GameComp<EconomyTracker>.Get();
 
     private DayStats Today
     {

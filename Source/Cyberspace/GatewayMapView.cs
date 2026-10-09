@@ -85,48 +85,55 @@ public static partial class GatewayView
         ApplyCenter(local, map);
         MapHotkeys(local, net);
         Widgets.BeginGroup(rect);
-        DrawGrid(local);
-
-        // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
-        Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.MiddleCenter;
-        foreach ((Vector2 pos, string text, Color color, bool corp) in NetrunUI.Cached("map.districts", () => DistrictLabels(net), 2f))
-        {
-            Vector2 c = ToScreen(local, pos);
-            // A corporation's ground: a soft glow in its own colour (red stays for ICE, patrols and fortresses).
-            if (corp && Event.current.type == EventType.Repaint)
-            {
-                float s = 34f * _zoom;
-                NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.16f, 70f * _zoom);
-            }
-            Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), text);
-        }
-        Text.Anchor = TextAnchor.UpperLeft;
-
-        // Links.
+        // The static layer (grid, district names, links, the route preview, packets) only draws on Repaint; the other GUI
+        // events of the frame only need the hubs and runners for clicks (docs/PERF_AUDIT_4.md, 6).
+        bool paint = Event.current.type == EventType.Repaint;
         NetRunner selRunner = SelectedRunner(net);
-        HashSet<(int, int)> route = RouteSet(selRunner);
-        foreach (MapLink l in map.Links)
+        if (paint)
         {
-            if (!l.Known)
-                continue;
-            DrawMapLink(ToScreen(local, map.Node(l.A).Pos), ToScreen(local, map.Node(l.B).Pos), l, map,
-                route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B))));
-        }
+            DrawGrid(local);
 
-        DrawPreview(local, net, hovered);
+            // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            foreach ((Vector2 pos, string text, Color color, bool corp) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
+            {
+                Vector2 c = ToScreen(local, pos);
+                // A corporation's ground: a soft glow in its own colour (red stays for ICE, patrols and fortresses).
+                if (corp)
+                {
+                    float s = 34f * _zoom;
+                    NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.16f, 70f * _zoom);
+                }
+                Widgets.Label(new Rect(c.x - 90f, c.y - 34f * _zoom - 10f, 180f, 18f), text);
+            }
+            Text.Anchor = TextAnchor.UpperLeft;
+
+            // Links.
+            HashSet<(int, int)> route = RouteSet(selRunner);
+            foreach (MapLink l in map.Links)
+            {
+                if (!l.Known)
+                    continue;
+                DrawMapLink(ToScreen(local, map.Node(l.A).Pos), ToScreen(local, map.Node(l.B).Pos), l, map,
+                    route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B))));
+            }
+
+            DrawPreview(local, net, hovered);
+        }
 
         // Nodes.
         foreach (MapNode n in map.Nodes)
         {
-            if (n.District == District.Dark && !map.LinksOf(n.Id).Any(l => l.Known))
+            if (n.District == District.Dark && !HasKnownLink(map, n.Id))
                 continue;
-            DrawMapNode(local, n, net);
+            DrawMapNode(local, n, net, paint);
         }
 
         // Intrusion packets walking toward Home.
-        foreach (IntrusionPacket packet in IntrusionManager.Get()?.Packets ?? [])
-            DrawPacket(local, packet, map);
+        if (paint)
+            foreach (IntrusionPacket packet in IntrusionManager.Get()?.Packets ?? [])
+                DrawPacket(local, packet, map);
 
         // Runners.
         foreach (NetRunner r in net.Runners)
@@ -161,6 +168,18 @@ public static partial class GatewayView
         if (n.District == District.OldNet && !net.Map.WallOpen)
             return "NR_DistrictOldNetWalled".Translate();
         return ("NR_District_" + n.District).Translate();
+    }
+
+    private const string DistrictsKey = "map.districts";
+
+    /// <summary>A dark hub shows once one of its links is known (a loop, no LINQ enumerator per hub per event).</summary>
+    private static bool HasKnownLink(CyberMap map, int id)
+    {
+        List<MapLink> links = map.LinksOf(id);
+        for (int i = 0; i < links.Count; i++)
+            if (links[i].Known)
+                return true;
+        return false;
     }
 
     private static List<(Vector2, string, Color, bool)> DistrictLabels(NetMapManager net)
@@ -268,7 +287,7 @@ public static partial class GatewayView
         Text.Font = GameFont.Small;
     }
 
-    private static void DrawMapNode(Rect local, MapNode n, NetMapManager net)
+    private static void DrawMapNode(Rect local, MapNode n, NetMapManager net, bool paint)
     {
         Vector2 p = ToScreen(local, n.Pos);
         bool home = n.District == District.Home;
@@ -285,6 +304,11 @@ public static partial class GatewayView
             c = new Color(c.r, c.g, c.b, c.a * 0.55f);
         if (hover && !_mouseOnOverlay)
             _hoverHub = n.Id;
+        if (!paint)
+        {
+            HubInput(n, net, rect, hover, selected);
+            return;
+        }
 
         if (n.Storm)
             NetrunUI.Glow(rect, NetrunUI.Purple, 0.6f, 10f);
@@ -374,29 +398,34 @@ public static partial class GatewayView
         DrawTimerTag(rect, n, net);
         DrawHubName(rect, n, net, branches);
 
-        if (hover)
+        if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
+    }
+
+    /// <summary>Right click (menu) and left click (select, deselect, travel) on a hub.</summary>
+    private static void HubInput(MapNode n, NetMapManager net, Rect rect, bool hover, bool selected)
+    {
         if (_mouseOnOverlay)
-            hover = false;
+            return;
         if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && hover)
         {
             HubMenu(n, net);
             Event.current.Use();
+            return;
         }
-        if (!_mouseOnOverlay && Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
+        if (!Widgets.ButtonInvisible(rect.ExpandedBy(4f)))
+            return;
+        NetrunSound.Click();
+        float sinceLast = Time.realtimeSinceStartup - _lastClickAt;
+        if (!TravelClick(n, net) && selected && sinceLast > 0.4f)
         {
-            NetrunSound.Click();
-            float sinceLast = Time.realtimeSinceStartup - _lastClickAt;
-            if (!TravelClick(n, net) && selected && sinceLast > 0.4f)
-            {
-                _selectedMapNode = -1;
-                _selectedId = -1;
-                return;
-            }
-            _selectedMapNode = n.Id;
-            ExternalNode first = branches.FirstOrDefault(b => !b.Hidden);
-            _selectedId = first?.Id ?? -1;
+            _selectedMapNode = -1;
+            _selectedId = -1;
+            return;
         }
+        _selectedMapNode = n.Id;
+        ExternalNode first = BranchesOf(n.Id).FirstOrDefault(b => !b.Hidden);
+        _selectedId = first?.Id ?? -1;
     }
 
     private static IEnumerable<string> NodeStates(MapNode n)

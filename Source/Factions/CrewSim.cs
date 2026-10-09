@@ -48,7 +48,7 @@ public class CrewSim : GameComponent, INetrunCleanable
     {
     }
 
-    public static CrewSim Get() => Current.Game?.GetComponent<CrewSim>();
+    public static CrewSim Get() => GameComp<CrewSim>.Get();
 
     private static int Now => Find.TickManager.TicksGame;
     private static GatewayManager Gateway => GatewayManager.Get();

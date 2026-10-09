@@ -25,7 +25,7 @@ public class AIManager : GameComponent, INetrunCleanable
 
     public AIManager(Game game) { }
 
-    public static AIManager Get() => Current.Game?.GetComponent<AIManager>();
+    public static AIManager Get() => GameComp<AIManager>.Get();
 
     public IReadOnlyList<NetAI> AIs => _ais;
     public NetAI ById(int id) => _ais.Find(a => a.Id == id);

@@ -12,7 +12,7 @@ public class NetsickManager : GameComponent
 
     public NetsickManager(Game game) { }
 
-    public static NetsickManager Get() => Current.Game?.GetComponent<NetsickManager>();
+    public static NetsickManager Get() => GameComp<NetsickManager>.Get();
 
     private static NetsickSettingsDef Settings => NetrunDefOf.NR_NetsickSettings;
     private static float DayFraction => (float)TickInterval / GenDate.TicksPerDay;

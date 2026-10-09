@@ -54,7 +54,7 @@ public class AIEventManager : GameComponent
     {
     }
 
-    public static AIEventManager Get() => Current.Game?.GetComponent<AIEventManager>();
+    public static AIEventManager Get() => GameComp<AIEventManager>.Get();
 
     public float DefenseBonus => Find.TickManager.TicksGame < _defenseUntilTick ? _defenseBonus : 0f;
     /// <summary>Dev: forget the colony-wide gap between AI events.</summary>

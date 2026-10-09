@@ -21,7 +21,7 @@ public class HeatTracker : GameComponent, INetrunCleanable
 
     public HeatTracker(Game game) { }
 
-    public static HeatTracker Get() => Current.Game?.GetComponent<HeatTracker>();
+    public static HeatTracker Get() => GameComp<HeatTracker>.Get();
 
     public float Heat => _heat;
     public HeatLevel Level => HeatLevelUtility.LevelOf(_heat);

@@ -23,7 +23,7 @@ public class NetFactions : GameComponent
     {
     }
 
-    public static NetFactions Get() => Current.Game?.GetComponent<NetFactions>();
+    public static NetFactions Get() => GameComp<NetFactions>.Get();
 
     /// <summary>Corporations wanted now: one per corporate district of the map (four on a large map), three before it.</summary>
     public static int WantedCorps

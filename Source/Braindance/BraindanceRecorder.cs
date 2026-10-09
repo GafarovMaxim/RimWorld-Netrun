@@ -26,7 +26,7 @@ public class BraindanceRecorder : GameComponent, INetrunCleanable
     {
     }
 
-    public static BraindanceRecorder Get() => Current.Game?.GetComponent<BraindanceRecorder>();
+    public static BraindanceRecorder Get() => GameComp<BraindanceRecorder>.Get();
 
     public void TryRecord(Pawn pawn, string what, BraindanceMood mood, float strength)
     {

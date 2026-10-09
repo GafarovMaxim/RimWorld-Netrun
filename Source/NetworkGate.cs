@@ -38,7 +38,7 @@ public class NetworkGate : GameComponent
 
     public NetworkGate(Game game) { }
 
-    public static NetworkGate Get() => Current.Game?.GetComponent<NetworkGate>();
+    public static NetworkGate Get() => GameComp<NetworkGate>.Get();
 
     public bool Opened => _opened;
     public bool OnboardingDone => _onboardingDone;

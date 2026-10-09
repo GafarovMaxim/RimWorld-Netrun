@@ -100,7 +100,7 @@ public class AIQuests : GameComponent
     {
     }
 
-    public static AIQuests Get() => Current.Game?.GetComponent<AIQuests>();
+    public static AIQuests Get() => GameComp<AIQuests>.Get();
 
     private static int Now => Find.TickManager.TicksGame;
     private static AIManager Manager => AIManager.Get();

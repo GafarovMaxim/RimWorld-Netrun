@@ -314,6 +314,11 @@ public static partial class GatewayView
         if (!NetrunMod.Settings.MapMinimap)
             return;
         var box = new Rect(mapRect.xMax - 186f, mapRect.yMax - 122f, 180f, 116f);
+        if (Event.current.type != EventType.Repaint)
+        {
+            MinimapInput(mapRect, box);
+            return;
+        }
         Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.45f);
         Widgets.DrawBox(box);
@@ -342,14 +347,21 @@ public static partial class GatewayView
             Widgets.DrawBox(view);
             GUI.color = Color.white;
         }
-        NetrunUI.Tip(box, "NR_MapMinimapTip".Translate());
+        if (Mouse.IsOver(box))
+            NetrunUI.Tip(box, "NR_MapMinimapTip".Translate());
+    }
+
+    private static void MinimapInput(Rect mapRect, Rect box)
+    {
         Event e = Event.current;
-        if ((e.type == EventType.MouseDown || e.type == EventType.MouseDrag) && e.button == 0 && box.Contains(e.mousePosition))
-        {
-            Vector2 world = (e.mousePosition - inner.center) / ms + FieldCenter;
-            _pan = -(world - FieldCenter) * FitScale(local) * _zoom;
-            ClampPan(local);
-            e.Use();
-        }
+        if ((e.type != EventType.MouseDown && e.type != EventType.MouseDrag) || e.button != 0 || !box.Contains(e.mousePosition))
+            return;
+        Rect inner = box.ContractedBy(6f);
+        float ms = Mathf.Min(inner.width / 1.04f, inner.height / 0.70f);
+        var local = new Rect(0f, 0f, mapRect.width, mapRect.height);
+        Vector2 world = (e.mousePosition - inner.center) / ms + FieldCenter;
+        _pan = -(world - FieldCenter) * FitScale(local) * _zoom;
+        ClampPan(local);
+        e.Use();
     }
 }

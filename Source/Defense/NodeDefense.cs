@@ -61,7 +61,7 @@ public class NodeDefense : GameComponent
     {
     }
 
-    public static NodeDefense Get() => Current.Game?.GetComponent<NodeDefense>();
+    public static NodeDefense Get() => GameComp<NodeDefense>.Get();
 
     private static DefenseSettingsDef Settings => NetrunDefOf.NR_Defense;
 

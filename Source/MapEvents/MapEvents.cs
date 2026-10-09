@@ -62,7 +62,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     {
     }
 
-    public static MapEventsManager Get() => Current.Game?.GetComponent<MapEventsManager>();
+    public static MapEventsManager Get() => GameComp<MapEventsManager>.Get();
 
     // ---- Courier ----
 

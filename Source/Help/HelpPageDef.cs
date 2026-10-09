@@ -145,7 +145,7 @@ public class HelpProgress : GameComponent
 
     public HelpProgress(Game game) { }
 
-    public static HelpProgress Get() => Current.Game?.GetComponent<HelpProgress>();
+    public static HelpProgress Get() => GameComp<HelpProgress>.Get();
 
     /// <summary>The "?" button pulses until the help has been opened once.</summary>
     public bool HelpOpened

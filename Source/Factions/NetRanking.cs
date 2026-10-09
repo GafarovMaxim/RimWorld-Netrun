@@ -71,7 +71,7 @@ public class NetRanking : GameComponent, INetrunCleanable
     {
     }
 
-    public static NetRanking Get() => Current.Game?.GetComponent<NetRanking>();
+    public static NetRanking Get() => GameComp<NetRanking>.Get();
 
     public static RankingSettingsDef Settings => NetrunDefOf.NR_Ranking;
 

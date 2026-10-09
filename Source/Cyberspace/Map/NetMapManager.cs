@@ -63,7 +63,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
     }
 
-    public static NetMapManager Get() => Current.Game?.GetComponent<NetMapManager>();
+    public static NetMapManager Get() => GameComp<NetMapManager>.Get();
 
     public static CyberMapSettingsDef Settings => NetrunDefOf.NR_CyberMap;
 

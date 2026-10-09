@@ -46,7 +46,7 @@ public class NetrunCounters : GameComponent
     {
     }
 
-    public static NetrunCounters Get() => Current.Game?.GetComponent<NetrunCounters>();
+    public static NetrunCounters Get() => GameComp<NetrunCounters>.Get();
 
     public int Value(string key) => _values.TryGetValue(key, out int v) ? v : 0;
 

@@ -38,7 +38,7 @@ public class NetrunJanitor : GameComponent
     {
     }
 
-    public static NetrunJanitor Get() => Current.Game?.GetComponent<NetrunJanitor>();
+    public static NetrunJanitor Get() => GameComp<NetrunJanitor>.Get();
 
     public override void LoadedGame()
     {

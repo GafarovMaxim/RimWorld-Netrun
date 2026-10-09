@@ -67,7 +67,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         return n;
     }
 
-    public static GatewayManager Get() => Current.Game?.GetComponent<GatewayManager>();
+    public static GatewayManager Get() => GameComp<GatewayManager>.Get();
 
     /// <summary>Every branch (dive target) as stored, without refreshing.</summary>
     public IReadOnlyList<ExternalNode> AllBranches => _nodes;

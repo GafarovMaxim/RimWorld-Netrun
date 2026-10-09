@@ -29,7 +29,7 @@ public class ContractManager : GameComponent, INetrunCleanable
         return n;
     }
 
-    public static ContractManager Get() => Current.Game?.GetComponent<ContractManager>();
+    public static ContractManager Get() => GameComp<ContractManager>.Get();
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
 

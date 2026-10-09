@@ -193,7 +193,7 @@ public class UniqueBraindanceManager : GameComponent
 
     public UniqueBraindanceManager(Game game) { }
 
-    public static UniqueBraindanceManager Get() => Current.Game?.GetComponent<UniqueBraindanceManager>();
+    public static UniqueBraindanceManager Get() => GameComp<UniqueBraindanceManager>.Get();
 
     public IReadOnlyList<ThingDef> Found => _found;
 

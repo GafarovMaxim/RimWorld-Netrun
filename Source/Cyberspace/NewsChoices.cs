@@ -54,7 +54,7 @@ public class NewsChoices : GameComponent, INetrunCleanable
     {
     }
 
-    public static NewsChoices Get() => Current.Game?.GetComponent<NewsChoices>();
+    public static NewsChoices Get() => GameComp<NewsChoices>.Get();
 
     private static int Now => Find.TickManager.TicksGame;
 

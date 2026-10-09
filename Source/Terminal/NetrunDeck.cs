@@ -142,6 +142,20 @@ public static partial class NetrunUI
         }
 
         var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
+        var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);
+        // Everything but the keys only draws on Repaint (the other GUI events of the frame skip it: docs/PERF_AUDIT_4.md, 5).
+        bool paint = Event.current.type == EventType.Repaint;
+        if (paint)
+            DrawCasing(outer, body, screen);
+        DrawDeckTop(body, outer, plate, level, online, anim, time, onKey, menu, paint);
+        DrawDeckBottom(body, level, heat, online, menu ? onKey : null, paint);
+        return screen;
+    }
+
+    private static readonly float[] SeamOffsets = [6f, -6f];
+
+    private static void DrawCasing(Rect outer, Rect body, Rect screen)
+    {
         DrawRails(outer, body);
 
         // The body: a vertical gradient in bands, panel seams across the top and bottom bands, a lit edge.
@@ -154,25 +168,21 @@ public static partial class NetrunUI
         Widgets.DrawBox(body);
         GUI.color = Color.white;
         Bevel(body.ContractedBy(1f), true, 0.8f);
-        foreach (float sy in new[] { body.y + 6f, body.yMax - 6f })
-            Widgets.DrawBoxSolid(new Rect(body.x + 80f, sy, body.width - 160f, 1f), new Color(0f, 0f, 0f, 0.35f));
+        foreach (float d in SeamOffsets)
+            Widgets.DrawBoxSolid(new Rect(body.x + 80f, d > 0f ? body.y + d : body.yMax + d, body.width - 160f, 1f), new Color(0f, 0f, 0f, 0.35f));
 
         // The screen sits in a deep recess: a dark frame, a thin accent line.
-        var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);
         var recess = screen.ExpandedBy(6f);
         Widgets.DrawBoxSolid(recess, Hex(0x0b0d10));
         Bevel(recess, false, 1.2f);
         GUI.color = new Color(Accent.r, Accent.g, Accent.b, 0.35f);
         Widgets.DrawBox(screen.ExpandedBy(2f));
         GUI.color = Color.white;
-        foreach (float sx in new[] { body.x + DeckSide / 2f, body.xMax - DeckSide / 2f })
+        for (int side = 0; side < 2; side++)
             for (int i = 1; i <= 3; i++)
-                Screw(new Vector2(sx, screen.y + screen.height * i / 4f), 6f);
+                Screw(new Vector2(side == 0 ? body.x + DeckSide / 2f : body.xMax - DeckSide / 2f, screen.y + screen.height * i / 4f), 6f);
 
         DrawBumpers(body);
-        DrawDeckTop(body, outer, plate, level, online, anim, time, onKey, menu);
-        DrawDeckBottom(body, level, heat, online, menu ? onKey : null);
-        return screen;
     }
 
     /// <summary>The glass over the screen: a soft diagonal sheen (Customization: glass sheen). Call after the content.</summary>
@@ -271,6 +281,15 @@ public static partial class NetrunUI
     {
         bool over = active && Mouse.IsOver(key);
         bool down = over && _pressed;
+        if (Event.current.type != EventType.Repaint)
+        {
+            if (active && Widgets.ButtonInvisible(key, doMouseoverSound: false))
+            {
+                NetrunSound.Click();
+                return true;
+            }
+            return false;
+        }
         var faceRect = down ? new Rect(key.x, key.y + 1f, key.width, key.height - 1f) : key;
         Color f = active ? face : Color.Lerp(face, _t.Bottom, 0.5f);
         bool hot = face == DeckOrange || face.r > 0.5f && face.g < 0.3f;
@@ -350,7 +369,7 @@ public static partial class NetrunUI
         GUI.color = Color.white;
     }
 
-    private static void DrawDeckTop(Rect body, Rect outer, string plate, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu)
+    private static void DrawDeckTop(Rect body, Rect outer, string plate, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu, bool paint)
     {
         NetrunSettings set = NetrunMod.Settings;
         float x = body.x + Bump + 10f;
@@ -368,7 +387,7 @@ public static partial class NetrunUI
             Color face = i == 0 || i == 3 && isolated ? Hex(0x9a2b25) : _t.KeyFace;
             AcceptanceReport lockReport = defense?.CanToggleIsolation() ?? false;
             bool active = i switch { 0 => onKey != null, 1 or 2 => onKey != null && menu, _ => defense != null && lockReport.Accepted };
-            string tip = i == 3
+            string tip = !Mouse.IsOver(key) ? null : i == 3
                 ? (string)(isolated ? "NR_DeckKey_IsolateOff" : "NR_DeckKey_IsolateOn").Translate() + "\n\n" + "NR_IsolationGizmoDesc".Translate()
                   + (lockReport.Reason.NullOrEmpty() ? string.Empty : "\n\n" + lockReport.Reason)
                 : !active && i > 0 ? (string)"NR_DeckKey_TerminalOnly".Translate() : (string)("NR_DeckKey_" + (KeyClose + i)).Translate();
@@ -391,6 +410,8 @@ public static partial class NetrunUI
             Stencil(new Rect(key.x - 10f, tray.yMax + 2f, key.width + 20f, 14f), names[i]);
         }
         x = tray.xMax + 18f;
+        if (!paint)
+            return;
 
         // From the right: the RF signal meter, the lights; the plate and the tuner fill the middle.
         float right = body.xMax - Bump - 10f;
@@ -494,7 +515,7 @@ public static partial class NetrunUI
         }
     }
 
-    private static void DrawDeckBottom(Rect body, HeatLevel level, float heat, bool online, System.Action<int> onKey)
+    private static void DrawDeckBottom(Rect body, HeatLevel level, float heat, bool online, System.Action<int> onKey, bool paint)
     {
         float by0 = body.yMax - DeckBottom;
         float left = body.x + Bump + 10f;
@@ -503,6 +524,28 @@ public static partial class NetrunUI
         if (NetrunMod.Settings.FrameLcd)
         {
             var lcd = new Rect(left, by0 + 6f, 196f, 46f);
+            left = lcd.xMax + 20f;
+            if (paint)
+                DrawLcd(lcd, heat, level, online);
+        }
+
+        // From the right, at least 120 px clear of the bumper: the NET LINK switch, then the Heat scale.
+        float right = body.xMax - Bump - 120f;
+        var sw = new Rect(right - 58f, by0 + 14f, 58f, 30f);
+        const float segW = 20f, segH = 30f, segGap = 3f;
+        float scaleW = 5f * segW + 4f * segGap;
+        var scale = new Rect(sw.x - 40f - scaleW, by0 + 14f, scaleW, segH);
+        if (paint)
+        {
+            DrawNetSwitch(sw, online);
+            DrawHeatScale(scale, level, heat, segW, segH, segGap);
+        }
+        DrawBottomKeys(body, by0, left, scale, onKey, paint);
+    }
+
+    private static void DrawLcd(Rect lcd, float heat, HeatLevel level, bool online)
+    {
+        {
             Recess(lcd, Hex(0x06120a));
             string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
             Text.Font = GameFont.Tiny;
@@ -516,13 +559,13 @@ public static partial class NetrunUI
             // Faint LCD rows.
             for (float ly = lcd.y + 2f; ly < lcd.yMax - 2f; ly += 3f)
                 Widgets.DrawBoxSolid(new Rect(lcd.x + 2f, ly, lcd.width - 4f, 1f), new Color(0f, 0f, 0f, 0.18f));
-            Tip(lcd, "NR_DeckLcd".Translate());
-            left = lcd.xMax + 20f;
+            if (Mouse.IsOver(lcd))
+                Tip(lcd, "NR_DeckLcd".Translate());
         }
+    }
 
-        // From the right, at least 120 px clear of the bumper: the NET LINK switch, then the Heat scale.
-        float right = body.xMax - Bump - 120f;
-        var sw = new Rect(right - 58f, by0 + 14f, 58f, 30f);
+    private static void DrawNetSwitch(Rect sw, bool online)
+    {
         Recess(sw, Hex(0x07080a));
         var lever = new Rect(online ? sw.xMax - 30f : sw.x + 4f, sw.y + 4f, 26f, sw.height - 8f);
         if (online)
@@ -530,12 +573,13 @@ public static partial class NetrunUI
         Widgets.DrawBoxSolid(lever, online ? PodGreen : Hex(0x2c3238));
         Bevel(lever, true);
         Widgets.DrawBoxSolid(new Rect(lever.x + 3f, lever.y + 2f, lever.width - 6f, 2f), new Color(1f, 1f, 1f, online ? 0.45f : 0.15f));
-        Tip(sw, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
+        if (Mouse.IsOver(sw))
+            Tip(sw, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
+    }
 
+    private static void DrawHeatScale(Rect scale, HeatLevel level, float heat, float segW, float segH, float segGap)
+    {
         // HEAT LEVEL: five segments in the level colours, lit up to the current level.
-        const float segW = 20f, segH = 30f, segGap = 3f;
-        float scaleW = 5f * segW + 4f * segGap;
-        var scale = new Rect(sw.x - 40f - scaleW, by0 + 14f, scaleW, segH);
         for (int i = 0; i < 5; i++)
         {
             var seg = new Rect(scale.x + i * (segW + segGap), scale.y, segW, segH);
@@ -546,22 +590,29 @@ public static partial class NetrunUI
             Widgets.DrawBoxSolid(seg, lit ? c : new Color(c.r, c.g, c.b, 0.25f));
             Bevel(seg, lit, 0.7f);
         }
-        Tip(scale.ExpandedBy(4f), "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
+        if (Mouse.IsOver(scale.ExpandedBy(4f)))
+            Tip(scale.ExpandedBy(4f), "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
+    }
 
+    private static readonly string[] BottomGlyphs = ["◁", "○", "?"];
+
+    private static void DrawBottomKeys(Rect body, float by0, float left, Rect scale, System.Action<int> onKey, bool paint)
+    {
         // Three keys in a recessed tray: back, core, Cyberpedia; centred, or left of the Heat scale when narrow.
-        string[] glyphs = ["◁", "○", "?"];
+        string[] glyphs = BottomGlyphs;
         const float kw = 46f, kh = 26f;
         float trayW = 3f * kw + 2f * 14f + 16f;
         float tx = Mathf.Clamp(body.center.x - trayW / 2f, left, scale.x - 24f - trayW);
         var tray = new Rect(tx, by0 + 12f, trayW, kh + 8f);
-        Recess(tray, Hex(0x111418));
+        if (paint)
+            Recess(tray, Hex(0x111418));
         for (int i = 0; i < 3; i++)
         {
             var key = new Rect(tray.x + 8f + i * (kw + 14f), tray.y + 4f, kw, kh);
             Color face = i == 1 ? DeckOrange : _t.KeyFace;
             string g = glyphs[i];
             bool core = i == 1;
-            if (DeckKey(key, face, onKey != null ? (string)("NR_DeckKey_" + i).Translate() : null, onKey != null,
+            if (DeckKey(key, face, onKey != null && Mouse.IsOver(key) ? (string)("NR_DeckKey_" + i).Translate() : null, onKey != null,
                     (r, c) => GlyphText(r, core ? Hex(0x1b1e22) : c, g)))
                 onKey?.Invoke(i);
         }

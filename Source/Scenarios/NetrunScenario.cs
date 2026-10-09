@@ -53,7 +53,7 @@ public class NetrunScenario : GameComponent
     {
     }
 
-    public static NetrunScenario Get() => Current.Game?.GetComponent<NetrunScenario>();
+    public static NetrunScenario Get() => GameComp<NetrunScenario>.Get();
 
     public void Begin(NetrunStart start)
     {

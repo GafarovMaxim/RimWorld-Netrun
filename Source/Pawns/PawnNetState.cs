@@ -38,7 +38,7 @@ public class PawnNetState : GameComponent, INetrunCleanable
     {
     }
 
-    public static PawnNetState Get() => Current.Game?.GetComponent<PawnNetState>();
+    public static PawnNetState Get() => GameComp<PawnNetState>.Get();
 
     private Entry For(Pawn pawn, bool create)
     {

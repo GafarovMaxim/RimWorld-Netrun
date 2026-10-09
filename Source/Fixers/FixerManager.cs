@@ -20,7 +20,7 @@ public class FixerManager : GameComponent, INetrunCleanable
 
     public FixerManager(Game game) { }
 
-    public static FixerManager Get() => Current.Game?.GetComponent<FixerManager>();
+    public static FixerManager Get() => GameComp<FixerManager>.Get();
 
     public IReadOnlyList<Fixer> Fixers => _fixers;
     public Fixer ById(int id) => _fixers.Find(f => f.Id == id);

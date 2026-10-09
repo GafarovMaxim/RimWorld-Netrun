@@ -50,7 +50,7 @@ public class IntrusionManager : GameComponent, INetrunCleanable
     {
     }
 
-    public static IntrusionManager Get() => Current.Game?.GetComponent<IntrusionManager>();
+    public static IntrusionManager Get() => GameComp<IntrusionManager>.Get();
 
     private static NetMapManager Net => NetMapManager.Get();
 
