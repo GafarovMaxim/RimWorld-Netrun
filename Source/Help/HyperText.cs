@@ -91,16 +91,50 @@ public static class HyperText
         return parts;
     }
 
-    /// <summary>Lays segments out word by word in the current font; links call <paramref name="go"/>. Returns the height.</summary>
-    public static float Flow(List<Segment> segments, float x, float y, float width, bool draw, System.Action<HelpPageDef> go, Color? textColor = null)
+    /// <summary>One laid-out piece: a run of plain words on one row, or one word of a link.</summary>
+    private struct Run
     {
+        public Rect R;
+        public string Text;
+        public int Seg;
+    }
+
+    private sealed class Layout
+    {
+        public readonly List<Run> Runs = [];
+        public float Height;
+    }
+
+    // Layouts by (segments, width, font, font size): the words are measured once, not on every GUI event
+    // (docs/PERF_AUDIT_4.md, 4). The segment lists are themselves cached, so the reference is a stable key.
+    private static readonly Dictionary<(List<Segment>, int, int, int), Layout> Layouts = [];
+
+    private static Layout LayoutOf(List<Segment> segments, float width)
+    {
+        var key = (segments, Mathf.RoundToInt(width), (int)Text.Font, Text.CurFontStyle.fontSize);
+        if (Layouts.TryGetValue(key, out Layout done))
+            return done;
+        if (Layouts.Count > 500)
+            Layouts.Clear();
+        var layout = new Layout();
         float lineH = NetrunText.LineHeight;
         float cx = 0f, cy = 0f;
         float space = Text.CalcSize("a a").x - Text.CalcSize("aa").x;
-        // Lay out first: every word with its rect and the segment it belongs to.
-        var words = new List<(Rect r, string word, int seg)>();
+        var sb = new System.Text.StringBuilder();
+        Run open = default;
+        bool hasOpen = false;
+        void Close()
+        {
+            if (!hasOpen)
+                return;
+            open.Text = sb.ToString();
+            layout.Runs.Add(open);
+            sb.Length = 0;
+            hasOpen = false;
+        }
         for (int s = 0; s < segments.Count; s++)
         {
+            bool link = segments[s].Link != null;
             string[] parts = segments[s].Text.Split(' ');
             for (int i = 0; i < parts.Length; i++)
             {
@@ -111,51 +145,90 @@ public static class HyperText
                 float ww = Text.CalcSize(parts[i]).x;
                 if (cx > 0f && cx + ww > width)
                 {
+                    Close();
                     cx = 0f;
                     cy += lineH;
                 }
-                words.Add((new Rect(x + cx, y + cy, ww + 1f, lineH), parts[i], s));
+                var r = new Rect(cx, cy, ww + 1f, lineH);
+                // Plain words on one row join into one run (one Label); link words stay apart for the underline.
+                if (!link && hasOpen && segments[open.Seg].Link == null && Mathf.Approximately(open.R.y, cy))
+                {
+                    sb.Append(' ', Mathf.Max(1, Mathf.RoundToInt((r.x - open.R.xMax + 1f) / Mathf.Max(1f, space)))).Append(parts[i]);
+                    open.R.xMax = r.xMax;
+                }
+                else
+                {
+                    Close();
+                    if (link)
+                        layout.Runs.Add(new Run { R = r, Text = parts[i], Seg = s });
+                    else
+                    {
+                        open = new Run { R = r, Seg = s };
+                        sb.Append(parts[i]);
+                        hasOpen = true;
+                    }
+                }
                 cx += ww;
             }
         }
+        Close();
+        layout.Height = cy + lineH;
+        Layouts[key] = layout;
+        return layout;
+    }
+
+    /// <summary>Lays segments out in the current font (cached); links call <paramref name="go"/>. Returns the height.</summary>
+    public static float Flow(List<Segment> segments, float x, float y, float width, bool draw, System.Action<HelpPageDef> go, Color? textColor = null)
+    {
+        Layout layout = LayoutOf(segments, width);
         if (!draw)
-            return cy + lineH;
+            return layout.Height;
+        List<Run> runs = layout.Runs;
+        // Only the rows inside the visible part of a scroll view are drawn.
+        Rect visible = NetrunUI.ClipRect();
+        bool clip = visible.width > 0f;
 
         // A link is one thing: hovering any of its words lights the whole phrase, one tooltip, one click.
         int hovered = -1;
-        foreach ((Rect r, string _, int seg) in words)
-            if (segments[seg].Link != null && go != null && Mouse.IsOver(r))
-                hovered = seg;
-        for (int k = 0; k < words.Count; k++)
+        if (go != null)
+            for (int k = 0; k < runs.Count; k++)
+                if (segments[runs[k].Seg].Link != null && Mouse.IsOver(Shift(runs[k].R, x, y)))
+                    hovered = runs[k].Seg;
+        Color before = GUI.color;
+        Color plain = textColor is { } tc ? tc * before : before;
+        for (int k = 0; k < runs.Count; k++)
         {
-            (Rect r, string word, int seg) = words[k];
-            HelpPageDef link = go == null ? null : segments[seg].Link;
+            Run run = runs[k];
+            Rect r = Shift(run.R, x, y);
+            if (clip && (r.yMax < visible.y || r.y > visible.yMax))
+                continue;
+            HelpPageDef link = go == null ? null : segments[run.Seg].Link;
             if (link == null)
             {
-                Widgets.Label(r, textColor is { } tc ? word.Colorize(tc) : word);
+                GUI.color = plain;
+                Widgets.Label(r, run.Text);
+                GUI.color = before;
                 continue;
             }
-            Color c = hovered == seg ? Color.white : NetrunUI.Accent;
-            Widgets.Label(r, word.Colorize(c));
+            Color c = hovered == run.Seg ? Color.white : NetrunUI.Accent;
+            GUI.color = c * before;
+            Widgets.Label(r, run.Text);
             // The underline bridges the space to the previous word of the same link on this row.
-            bool joined = k > 0 && words[k - 1].seg == seg && Mathf.Approximately(words[k - 1].r.y, r.y);
-            float from = joined ? words[k - 1].r.xMax - 1f : r.x;
+            bool joined = k > 0 && runs[k - 1].Seg == run.Seg && Mathf.Approximately(runs[k - 1].R.y, run.R.y);
+            float from = joined ? runs[k - 1].R.xMax + x - 1f : r.x;
             GUI.color = new Color(c.r, c.g, c.b, 0.5f);
             Widgets.DrawLineHorizontal(from, r.yMax - 3f, r.xMax - 1f - from);
-            GUI.color = Color.white;
-            if (joined)
-            {
-                var gap = new Rect(from, r.y, r.x - from, r.height);
-                NetrunUI.Tip(gap, "NR_HelpLinkTip".Translate(link.LabelCap));
-                if (Widgets.ButtonInvisible(gap))
-                    go(link);
-            }
-            NetrunUI.Tip(r, "NR_HelpLinkTip".Translate(link.LabelCap));
-            if (Widgets.ButtonInvisible(r))
+            GUI.color = before;
+            Rect hit = joined ? new Rect(from, r.y, r.xMax - from, r.height) : r;
+            if (Mouse.IsOver(hit))
+                NetrunUI.Tip(hit, "NR_HelpLinkTip".Translate(link.LabelCap));
+            if (Widgets.ButtonInvisible(hit))
                 go(link);
         }
-        return cy + lineH;
+        return layout.Height;
     }
+
+    private static Rect Shift(Rect r, float x, float y) => new(r.x + x, r.y + y, r.width, r.height);
 
     // ---- Outside the Cyberpedia: one block of text, links open the page in the terminal ----
 

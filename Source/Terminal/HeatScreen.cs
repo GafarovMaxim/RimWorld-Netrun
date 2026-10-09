@@ -315,8 +315,8 @@ public static class HeatScreen
         float y = 0f;
 
         // Through a fixer.
-        int data = ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata);
-        int adv = ColonyGoods.Count(map, NetrunDefOf.USH_AdvancedCyberdata);
+        int data = ColonyGoods.CountCached(map, NetrunDefOf.USH_Cyberdata);
+        int adv = ColonyGoods.CountCached(map, NetrunDefOf.USH_AdvancedCyberdata);
         List<Fixer> fixers = FixerManager.Get()?.Fixers.ToList() ?? [];
         float cardH = 44f + Mathf.Max(1, fixers.Count) * 30f + 8f;
         var card = new Rect(0f, y, view.width, cardH);

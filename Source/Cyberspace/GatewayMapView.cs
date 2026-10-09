@@ -170,7 +170,7 @@ public static partial class GatewayView
         return ("NR_District_" + n.District).Translate();
     }
 
-    private const string DistrictsKey = "map.districts";
+    private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns";
 
     /// <summary>A dark hub shows once one of its links is known (a loop, no LINQ enumerator per hub per event).</summary>
     private static bool HasKnownLink(CyberMap map, int id)
@@ -586,8 +586,9 @@ public static partial class GatewayView
             y += 32f;
         }
 
-        // Pawns lying in pods who are not connected yet.
-        foreach ((Pawn pawn, Building_Cyberpod _) in NetMapManager.PodPawns(colonyMap).ToList())
+        // Pawns lying in pods who are not connected yet (the list twice a second: PERF_AUDIT_4, 21).
+        List<(Pawn pawn, Building_Cyberpod pod)> podPawns = NetrunUI.Cached(PodPawnsKey, () => NetMapManager.PodPawns(colonyMap).ToList(), 0.5f);
+        foreach ((Pawn pawn, Building_Cyberpod _) in podPawns)
         {
             if (net.RunnerOf(pawn) != null)
                 continue;
@@ -599,7 +600,7 @@ public static partial class GatewayView
             }
             y += 32f;
         }
-        if (net.Runners.Count == 0 && !NetMapManager.PodPawns(colonyMap).Any())
+        if (net.Runners.Count == 0 && podPawns.Count == 0)
         {
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(inner.x, y, inner.width, 34f), "NR_MapNoPodPawn".Translate().Colorize(NetrunUI.Muted));
@@ -657,7 +658,7 @@ public static partial class GatewayView
         // Connect straight at an exit point (a jump for a little cyberdata).
         if (node.Exit && node.District != District.Home)
         {
-            foreach ((Pawn pawn, Building_Cyberpod _) in NetMapManager.PodPawns(colonyMap).Where(p => net.RunnerOf(p.pawn) == null).Take(1).ToList())
+            foreach ((Pawn pawn, Building_Cyberpod _) in podPawns.Where(p => net.RunnerOf(p.pawn) == null).Take(1).ToList())
             {
                 if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapJump".Translate(pawn.LabelShort, NetMapManager.Settings.jumpCost), NetrunUI.Ok,
                         net.CanConnect(pawn), "NR_MapJumpTip".Translate()))
@@ -688,7 +689,7 @@ public static partial class GatewayView
         }
 
         // Branches of the node: rows to pick the dive target.
-        foreach (ExternalNode b in net.BranchesAt(node.Id).ToList())
+        foreach (ExternalNode b in BranchesOf(node.Id))
         {
             var row = new Rect(inner.x, y, inner.width, 26f);
             Color bc = b.Hidden ? NetrunUI.Muted : b.Color;

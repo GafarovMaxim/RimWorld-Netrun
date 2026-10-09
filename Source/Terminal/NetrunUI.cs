@@ -30,23 +30,78 @@ public static partial class NetrunUI
 
     public static Color Accent => NetrunTex.Accent;
 
-    private static readonly System.Collections.Generic.Dictionary<string, (float time, object value)> Cache = [];
+    /// <summary>One typed store per value type: no boxing of ints and structs, no type test on read (PERF_AUDIT_4, 12).</summary>
+    private static class Slot<T>
+    {
+        public static readonly System.Collections.Generic.Dictionary<string, (float time, T value)> Map = [];
+    }
 
     /// <summary>
     /// A value for the UI recomputed at most every few real seconds. OnGUI runs several times a frame, so counts
-    /// and lists shown in the terminal come from here instead of being rebuilt on every call.
+    /// and lists shown in the terminal come from here instead of being rebuilt on every call. Pass constant keys
+    /// (a const or static string), not keys built per call.
     /// </summary>
     public static T Cached<T>(string key, System.Func<T> compute, float seconds = 0.5f)
     {
         float now = Time.realtimeSinceStartup;
-        if (Cache.TryGetValue(key, out var entry) && now - entry.time < seconds && entry.value is T value)
-            return value;
+        System.Collections.Generic.Dictionary<string, (float time, T value)> map = Slot<T>.Map;
+        if (map.TryGetValue(key, out var entry) && now - entry.time < seconds)
+            return entry.value;
         T fresh = compute();
         // Keys can carry state (filters, counts): drop the lot now and then so old ones do not pile up.
-        if (Cache.Count > 400)
-            Cache.Clear();
-        Cache[key] = (now, fresh);
+        if (map.Count > 400)
+            map.Clear();
+        map[key] = (now, fresh);
         return fresh;
+    }
+
+    // ---- String caches (PERF_AUDIT_4, 13 and 14) ----
+
+    private static readonly System.Collections.Generic.Dictionary<string, string> Translations = [];
+    private static LoadedLanguage _translationsFor;
+
+    /// <summary>A translated key without arguments, cached per language (Translate makes a new string every call).</summary>
+    public static string T(string key)
+    {
+        if (_translationsFor != LanguageDatabase.activeLanguage)
+        {
+            Translations.Clear();
+            _translationsFor = LanguageDatabase.activeLanguage;
+        }
+        if (!Translations.TryGetValue(key, out string s))
+            Translations[key] = s = key.Translate();
+        return s;
+    }
+
+    private static readonly System.Collections.Generic.Dictionary<string, string> Uppers = [];
+
+    /// <summary>A label in capitals, cached by the label (for translated labels from T).</summary>
+    public static string Upper(string text)
+    {
+        if (text == null)
+            return null;
+        if (!Uppers.TryGetValue(text, out string up))
+        {
+            if (Uppers.Count > 500)
+                Uppers.Clear();
+            Uppers[text] = up = text.ToUpper();
+        }
+        return up;
+    }
+
+    private static readonly System.Collections.Generic.Dictionary<(string, int, int), float> Widths = [];
+
+    /// <summary>The width of a label in the current font, cached by (text, font, font size).</summary>
+    public static float Width(string text)
+    {
+        if (text.NullOrEmpty())
+            return 0f;
+        var key = (text, (int)Text.Font, Text.CurFontStyle.fontSize);
+        if (Widths.TryGetValue(key, out float w))
+            return w;
+        if (Widths.Count > 2000)
+            Widths.Clear();
+        return Widths[key] = Text.CalcSize(text).x;
     }
 
     /// <summary>White circle textures for round widgets (Heat ring, Gateway nodes); tint with GUI.color.</summary>
@@ -322,48 +377,65 @@ public static partial class NetrunUI
         GUI.color = Color.white;
     }
 
-    /// <summary>A news line running right to left inside <paramref name="rect"/>, items split by " /// ", clipped at the edges.</summary>
     private static float _tickerPos, _tickerAt;
 
+    /// <summary>One item on the running line: its text (already coloured), width, and where it starts on the strip.</summary>
+    private struct TickerItem
+    {
+        public string Text;
+        public float Width;
+        public float X;
+    }
+
+    // The strip: items keep their place once laid out and new ones join at the right end, so a rebuilt list (new
+    // countdowns, new widths) never moves what is already on screen; it shows up as the line runs on.
+    private static readonly System.Collections.Generic.List<TickerItem> _strip = [];
+    private static int _tickerNext;
+    private const string TickerSep = "   ///   ";
+    private static string _tickerSepColored;
+
+    /// <summary>A news line running right to left inside <paramref name="rect"/>, items split by " /// ", clipped at the edges.</summary>
     public static void Ticker(Rect rect, System.Collections.Generic.List<(string text, Color color)> items)
     {
         if (items.Count == 0)
             return;
-        string sep = "   ///   ";
-        float sepW = Text.CalcSize(sep).x;
-        float total = 0f;
-        foreach ((string text, Color _) in items)
-            total += Text.CalcSize(text).x + sepW;
-        float speed = 38f;
-        // A running position, not time × speed: new lines join the loop without the line jumping back.
-        float now = Time.realtimeSinceStartup;
+        float sepW = Width(TickerSep);
+        _tickerSepColored ??= TickerSep.Colorize(new Color(1f, 1f, 1f, 0.25f));
+        const float speed = 38f;
         // The clock moves on Repaint only: set on every event, it measured just the gap between Layout and Repaint of one
         // frame, and the line crawled at a fraction of its speed (docs/PERF_AUDIT_4.md).
+        float now = Time.realtimeSinceStartup;
         if (Event.current.type == EventType.Repaint)
         {
             if (NetrunMod.Settings.Animations)
                 _tickerPos += Mathf.Min(0.1f, now - _tickerAt) * speed;
             _tickerAt = now;
         }
-        if (_tickerPos >= total)
-            _tickerPos %= total;
-        float offset = NetrunMod.Settings.Animations ? _tickerPos : 0f;
+        // Drop what has run off the left, add from the current list until the right edge is covered.
+        while (_strip.Count > 0 && _strip[0].X + _strip[0].Width + sepW < _tickerPos)
+            _strip.RemoveAt(0);
+        int guard = 0;
+        while ((_strip.Count == 0 || _strip[_strip.Count - 1].X + _strip[_strip.Count - 1].Width + sepW - _tickerPos < rect.width + 40f) && guard++ < 64)
+        {
+            (string text, Color color) = items[_tickerNext++ % items.Count];
+            float x = _strip.Count == 0 ? _tickerPos : _strip[_strip.Count - 1].X + _strip[_strip.Count - 1].Width + sepW;
+            _strip.Add(new TickerItem { Text = text.Colorize(color), Width = Text.CalcSize(text).x, X = x });
+        }
+        if (_tickerNext > 100000)
+            _tickerNext %= items.Count;
         Widgets.BeginGroup(rect);
         Text.Anchor = TextAnchor.MiddleLeft;
-        // Two passes so the line wraps around without a gap.
-        for (int pass = 0; pass < 2; pass++)
+        for (int i = 0; i < _strip.Count; i++)
         {
-            float x = -offset + pass * total;
-            foreach ((string text, Color color) in items)
-            {
-                float w = Text.CalcSize(text).x;
-                if (x + w > 0f && x < rect.width)
-                    Widgets.Label(new Rect(Mathf.Round(x), 0f, w + 4f, rect.height), text.Colorize(color));
-                x += w;
-                if (x + sepW > 0f && x < rect.width)
-                    Widgets.Label(new Rect(Mathf.Round(x), 0f, sepW + 4f, rect.height), sep.Colorize(new Color(1f, 1f, 1f, 0.25f)));
-                x += sepW;
-            }
+            TickerItem it = _strip[i];
+            float x = it.X - _tickerPos;
+            if (x >= rect.width)
+                break;
+            if (x + it.Width > 0f)
+                Widgets.Label(new Rect(Mathf.Round(x), 0f, it.Width + 4f, rect.height), it.Text);
+            float sx = x + it.Width;
+            if (sx + sepW > 0f && sx < rect.width)
+                Widgets.Label(new Rect(Mathf.Round(sx), 0f, sepW + 4f, rect.height), _tickerSepColored);
         }
         Text.Anchor = TextAnchor.UpperLeft;
         Widgets.EndGroup();
@@ -495,8 +567,19 @@ public static partial class NetrunUI
 
     private static readonly System.Collections.Generic.List<(Rect screen, Texture2D tex, Color color)> LateIcons = [];
     private static int _lateFrame;
-    private static readonly System.Reflection.PropertyInfo VisibleRect =
-        typeof(GUI).Assembly.GetType("UnityEngine.GUIClip")?.GetProperty("visibleRect", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+    // GUIClip.visibleRect through a delegate on its getter (not PropertyInfo.GetValue, which boxes: PERF_AUDIT_4, 16).
+    private static readonly System.Func<Rect> VisibleRect = MakeVisibleRect();
+
+    private static System.Func<Rect> MakeVisibleRect()
+    {
+        System.Reflection.MethodInfo getter = typeof(GUI).Assembly.GetType("UnityEngine.GUIClip")?
+            .GetProperty("visibleRect", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)?
+            .GetGetMethod(true);
+        return getter == null ? null : (System.Func<Rect>)System.Delegate.CreateDelegate(typeof(System.Func<Rect>), getter, false);
+    }
+
+    /// <summary>The visible part of the current clip (a scroll view) in local coordinates, or an empty rect if unknown.</summary>
+    public static Rect ClipRect() => VisibleRect?.Invoke() ?? default;
 
     /// <summary>
     /// Draws an icon and remembers it, so the CRT lines drawn over the screen afterwards do not dim it. Only icons that
@@ -515,7 +598,7 @@ public static partial class NetrunUI
             LateIcons.Clear();
             _lateFrame = Time.frameCount;
         }
-        if (VisibleRect?.GetValue(null) is Rect visible && !(visible.Contains(rect.min) && visible.Contains(rect.max)))
+        if (VisibleRect != null && VisibleRect() is var visible && !(visible.Contains(rect.min) && visible.Contains(rect.max)))
             return;
         LateIcons.Add((new Rect(GUIUtility.GUIToScreenPoint(rect.position), rect.size), tex, GUI.color));
     }
@@ -718,20 +801,27 @@ public static partial class NetrunUI
             BrightIcon(new Rect(rect.x + 5f, rect.center.y - size / 2f, size, size), icon);
             GUI.color = Color.white;
             // Keep the label centred on the whole button when the icon fits beside it.
-            float labelWidth = Text.CalcSize(label).x;
+            float labelWidth = Width(label);
             if ((rect.width - labelWidth) / 2f < size + 10f)
                 textRect.xMin += size + 6f;
         }
         Text.Anchor = TextAnchor.MiddleCenter;
         string shownLabel = active ? RewriteOnHover(label, hit) : label;
-        Widgets.Label(textRect, shownLabel.Colorize(active ? c : new Color(c.r, c.g, c.b, 0.7f)));
+        // The colour through GUI.color, not Colorize (a new string per button per event: PERF_AUDIT_4, 16).
+        Color before = GUI.color;
+        GUI.color = before * (active ? c : new Color(c.r, c.g, c.b, 0.7f));
+        Widgets.Label(textRect, shownLabel);
+        GUI.color = before;
         Text.Anchor = TextAnchor.UpperLeft;
 
-        string fullTip = tip ?? string.Empty;
-        if (!active && !report.Reason.NullOrEmpty())
-            fullTip = (fullTip.NullOrEmpty() ? string.Empty : fullTip + "\n\n") + report.Reason.Colorize(ColorLibrary.RedReadable);
-        if (!fullTip.NullOrEmpty())
-            Tip(hit, fullTip);
+        if (Mouse.IsOver(hit) && Event.current.type == EventType.Repaint)
+        {
+            string fullTip = tip ?? string.Empty;
+            if (!active && !report.Reason.NullOrEmpty())
+                fullTip = (fullTip.NullOrEmpty() ? string.Empty : fullTip + "\n\n") + report.Reason.Colorize(ColorLibrary.RedReadable);
+            if (!fullTip.NullOrEmpty())
+                Tip(hit, fullTip);
+        }
 
         if (glitch < 0.18f && NetrunMod.Settings.Animations)
             Glitch(rect, glitch / 0.18f, (int)Key(hit), 2);
@@ -860,6 +950,13 @@ public static partial class NetrunUI
 
     private const int TipWindowId = 0x4E52_5450;
     private const float TipMaxWidth = 320f;
+
+    /// <summary>A tooltip whose text is built only when the mouse is over <paramref name="rect"/> on Repaint (PERF_AUDIT_4, 15).</summary>
+    public static void Tip(Rect rect, System.Func<string> text)
+    {
+        if (Event.current.type == EventType.Repaint && Mouse.IsOver(rect))
+            Tip(rect, text());
+    }
 
     /// <summary>A terminal-style tooltip over <paramref name="rect"/>: dark box, accent bar, the text. Use instead of TooltipHandler.TipRegion.</summary>
     public static void Tip(Rect rect, string text)

@@ -15,7 +15,17 @@ public static class NetCulture
     }
 
     public static bool Holds(Pawn pawn, string precept)
-        => ModsConfig.IdeologyActive && pawn?.Ideo != null && DefDatabase<PreceptDef>.GetNamedSilentFail(precept) is { } def && pawn.Ideo.HasPrecept(def);
+        => ModsConfig.IdeologyActive && pawn?.Ideo != null && Precept(precept) is { } def && pawn.Ideo.HasPrecept(def);
+
+    // Looked up once per name (thought workers ask every ~100 ticks per pawn: PERF_AUDIT_4, 32).
+    private static readonly System.Collections.Generic.Dictionary<string, PreceptDef> Precepts = [];
+
+    private static PreceptDef Precept(string name)
+    {
+        if (!Precepts.TryGetValue(name, out PreceptDef def))
+            Precepts[name] = def = DefDatabase<PreceptDef>.GetNamedSilentFail(name);
+        return def;
+    }
 
     public static HeatLevel Level => HeatTracker.Get()?.Level ?? HeatLevel.Shadow;
 }

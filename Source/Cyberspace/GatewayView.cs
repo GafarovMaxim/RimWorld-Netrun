@@ -351,7 +351,7 @@ public static partial class GatewayView
             float f = (now + k * 1.7f) / period;
             int slot = Mathf.FloorToInt(f);
             float t = f - slot;
-            var rnd = new System.Random(slot * 31 + k * 977);
+            var rnd = new GridRng(slot * 31 + k * 977);
             bool horizontal = rnd.Next(2) == 0;
             bool forward = rnd.Next(2) == 0;
             float a = 0.55f * Mathf.Sin(t * Mathf.PI);
@@ -376,7 +376,7 @@ public static partial class GatewayView
             float f = (now + k * 2.3f) / period;
             int slot = Mathf.FloorToInt(f);
             float t = f - slot;
-            var rnd = new System.Random(slot * 131 + k * 7);
+            var rnd = new GridRng(slot * 131 + k * 7);
             var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
             float a = 0.35f * Mathf.Sin(t * Mathf.PI);
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a * 0.5f);
@@ -392,7 +392,7 @@ public static partial class GatewayView
             float t = f - slot;
             if (t < 0.45f)
             {
-                var rnd = new System.Random(slot * 7919);
+                var rnd = new GridRng(slot * 7919);
                 var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
                 float r = Mathf.Lerp(10f, Mathf.Max(rect.width, rect.height) * 0.45f, t / 0.45f);
                 GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, 0.12f * (1f - t / 0.45f));
@@ -449,7 +449,7 @@ public static partial class GatewayView
         GUI.DrawTexture(outer, NetrunUI.ThinRing);
         GUI.color = Color.white;
         float turn = NetrunUI.AnimTime * 8f;
-        foreach ((float angle, float length) in new[] { (-60f, 7f), (75f, 5f), (190f, 9f) })
+        foreach ((float angle, float length) in HomeNotches)
         {
             float ang = (angle + turn) * Mathf.Deg2Rad;
             var dir = new Vector2(Mathf.Cos(ang), Mathf.Sin(ang));
@@ -817,5 +817,27 @@ public static partial class GatewayView
             : "NR_GatewayPodNone".Translate().Colorize(NetrunUI.Bad), "NR_TipPod".Translate()) - 8f;
         if (runner != null)
             NetrunUI.HeaderChip(x, y, "NR_GatewayRunner".Translate(runner.LabelShort), "NR_TipRunner".Translate());
+    }
+
+    private static readonly (float angle, float length)[] HomeNotches = [(-60f, 7f), (75f, 5f), (190f, 9f)];
+
+    /// <summary>A tiny xorshift for the grid's packets and motes (a System.Random per spark made garbage every frame).</summary>
+    private struct GridRng
+    {
+        private uint _s;
+
+        public GridRng(int seed) => _s = (uint)seed * 2654435761u ^ 0x9E3779B9u | 1u;
+
+        private uint Step()
+        {
+            _s ^= _s << 13;
+            _s ^= _s >> 17;
+            _s ^= _s << 5;
+            return _s;
+        }
+
+        public int Next(int n) => n <= 1 ? 0 : (int)(Step() % (uint)n);
+
+        public double NextDouble() => (Step() & 0xFFFFFF) / (double)0x1000000;
     }
 }

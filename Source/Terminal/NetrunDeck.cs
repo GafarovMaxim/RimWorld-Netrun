@@ -622,7 +622,7 @@ public static partial class NetrunUI
     private static string[] LcdLines(float heat, HeatLevel level, bool online)
     {
         Map map = Find.CurrentMap;
-        int data = map == null ? 0 : ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata);
+        int data = map == null ? 0 : ColonyGoods.CountCached(map, NetrunDefOf.USH_Cyberdata);
         string arrow = _heatTrend > 0.5f ? "▲" : _heatTrend < -0.5f ? "▼" : "-";
         string day = "-", clock = "--:--";
         if (Current.Game != null)

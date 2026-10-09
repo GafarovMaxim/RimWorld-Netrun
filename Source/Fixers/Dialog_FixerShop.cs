@@ -56,7 +56,7 @@ public class Dialog_FixerShop : Window
     {
         Widgets.DrawBoxSolid(inRect, NetrunUI.BgWindow);
         Rect r = inRect.ContractedBy(16f);
-        int silver = ColonyGoods.Count(_map, ThingDefOf.Silver);
+        int silver = ColonyGoods.CountCached(_map, ThingDefOf.Silver);
 
         // Header: shop icon, the fixer's plate, silver and when the stock changes.
         float x = r.x;

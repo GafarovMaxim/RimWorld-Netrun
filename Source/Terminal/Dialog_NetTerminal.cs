@@ -321,18 +321,30 @@ public partial class Dialog_NetTerminal : Window
         }
     }
 
-    /// <summary>The dive in progress, shown while the Gateway is open.</summary>
+    /// <summary>The dive in progress, shown while the Gateway is open (looked up once a frame: PERF_AUDIT_4, 27).</summary>
     private DiveSession Dive
     {
         get
         {
             if (_view != View.Gateway)
                 return null;
-            GatewayManager gateway = GatewayManager.Get();
-            gateway?.ValidateSession();
-            return gateway?.Session;
+            if (_diveFrame != Time.frameCount)
+            {
+                GatewayManager gateway = GatewayManager.Get();
+                gateway?.ValidateSession();
+                _dive = gateway?.Session;
+                _diveFrame = Time.frameCount;
+            }
+            return _dive;
         }
     }
+
+    private DiveSession _dive;
+    private int _diveFrame = -1;
+    private string _helpContext;
+    private int _helpContextFrame = -1;
+    private View _helpContextView;
+    private MenuPage _helpContextPage;
 
     public override void PreOpen()
     {
@@ -363,7 +375,22 @@ public partial class Dialog_NetTerminal : Window
     // ---- Title and status bar ----
 
     /// <summary>The help context of the screen that is open now.</summary>
-    private string HelpContext => Dive != null ? "Dive" : _view switch
+    private string HelpContext
+    {
+        get
+        {
+            if (_helpContextFrame != Time.frameCount || _helpContextView != _view || _helpContextPage != _menuPage)
+            {
+                _helpContext = HelpContextNow;
+                _helpContextFrame = Time.frameCount;
+                _helpContextView = _view;
+                _helpContextPage = _menuPage;
+            }
+            return _helpContext;
+        }
+    }
+
+    private string HelpContextNow => Dive != null ? "Dive" : _view switch
     {
         View.Help => "Help",
         View.Menu => _menuPage == MenuPage.Home ? "Menu" : "Menu" + _menuPage,
@@ -597,9 +624,9 @@ public partial class Dialog_NetTerminal : Window
             if (UniqueBraindanceManager.Get() is { MarketDiscountActive: true } ub)
                 x = NetrunUI.HeaderChip(x, y, "NR_ChipMarketDiscount".Translate(NetrunDefOf.NR_UniqueBraindance.marketDiscount.ToStringPercent()).Colorize(NetrunUI.Ok),
                     "NR_UB_MarketDiscount".Translate(NetrunDefOf.NR_UniqueBraindance.marketDiscount.ToStringPercent(), ub.MarketDiscountTicksLeft.ToStringTicksToPeriod())) - 8f;
-            x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.Count(_map, NetrunDefOf.USH_Cyberdata),
-                ColonyGoods.Count(_map, NetrunDefOf.USH_AdvancedCyberdata))) - 8f;
-            NetrunUI.HeaderChip(x, y, "NR_ChipSilver".Translate(ColonyGoods.Count(_map, ThingDefOf.Silver)));
+            x = NetrunUI.HeaderChip(x, y, "NR_ChipCyberdata".Translate(ColonyGoods.CountCached(_map, NetrunDefOf.USH_Cyberdata),
+                ColonyGoods.CountCached(_map, NetrunDefOf.USH_AdvancedCyberdata))) - 8f;
+            NetrunUI.HeaderChip(x, y, "NR_ChipSilver".Translate(ColonyGoods.CountCached(_map, ThingDefOf.Silver)));
         }
 
         GUI.color = new Color(1f, 1f, 1f, 0.25f);
@@ -641,17 +668,18 @@ public partial class Dialog_NetTerminal : Window
             Color levelColor = level.Color();
             string value = tracker.Heat.ToString("0");
             string levelLabel = level.Label().CapitalizeFirst();
+            string traceLabel = NetrunUI.Cached(TraceLabelKey, () => NetrunUI.T("NR_StatusTrace").ToUpper(), 5f);
             Text.Font = GameFont.Tiny;
-            float labelW = Text.CalcSize(((string)"NR_StatusTrace".Translate()).ToUpper()).x;
-            float levelW = Text.CalcSize(levelLabel).x;
+            float labelW = NetrunUI.Width(traceLabel);
+            float levelW = NetrunUI.Width(levelLabel);
             Text.Font = GameFont.Small;
-            float valueW = Text.CalcSize(value).x;
+            float valueW = NetrunUI.Width(value);
             Rect seg = Segment(8f + 18f + 6f + labelW + 8f + 100f + 8f + valueW + 6f + levelW + 10f, levelColor);
             float sx = seg.x + 8f;
             GUI.DrawTexture(new Rect(sx, seg.center.y - 9f, 18f, 18f), NetrunTex.HeatIcon(level));
             sx += 24f;
             Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(sx, seg.y, labelW + 2f, seg.height), Decode(((string)"NR_StatusTrace".Translate()).ToUpper()).Colorize(NetrunUI.Muted));
+            Widgets.Label(new Rect(sx, seg.y, labelW + 2f, seg.height), Decode(traceLabel).Colorize(NetrunUI.Muted));
             sx += labelW + 8f;
             Text.Font = GameFont.Small;
             NetrunUI.Bar(new Rect(sx, seg.center.y - 5f, 100f, 10f), tracker.Heat / HeatTracker.MaxHeat, levelColor);
@@ -667,27 +695,29 @@ public partial class Dialog_NetTerminal : Window
                 OpenNode(View.Core);
 
             // Network: a status dot and the word.
-            bool online = AIAwakening.Console(_map) != null;
+            Map map = _map;
+            bool online = NetrunUI.Cached(ConsoleKey, () => AIAwakening.Console(map) != null, 1f);
             Color netColor = online ? NetrunUI.Ok : NetrunUI.Bad;
-            string net = (online ? "NR_StatusNetOnline" : "NR_StatusNetOffline").Translate();
+            string net = NetrunUI.T(online ? "NR_StatusNetOnline" : "NR_StatusNetOffline");
             Text.Font = GameFont.Tiny;
-            float netW = Text.CalcSize(net).x;
+            float netW = NetrunUI.Width(net);
             Rect netSeg = Segment(8f + 10f + 6f + netW + 10f, netColor);
             GUI.color = netColor;
             GUI.DrawTexture(new Rect(netSeg.x + 8f, netSeg.center.y - 5f, 10f, 10f), NetrunUI.Disc);
             GUI.color = Color.white;
             Widgets.Label(new Rect(netSeg.x + 24f, netSeg.y, netW + 4f, netSeg.height), Decode(net).Colorize(netColor));
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(netSeg, "NR_TipNet".Translate());
+            NetrunUI.Tip(netSeg, NetrunUI.T("NR_TipNet"));
         }
 
         // Netsick: how many colonists, the worst severity on hover.
-        List<Pawn> sick = NetrunUI.Cached("status.sick." + _map.uniqueID,
-            () => _map.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList(), 1f);
+        Map sickMap = _map;
+        List<Pawn> sick = NetrunUI.Cached(SickKey,
+            () => sickMap.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList(), 1f);
         Color sickColor = sick.Count > 0 ? NetrunUI.Warn : NetrunUI.Muted;
-        string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : "NR_StatusNetsickNone".Translate();
+        string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : NetrunUI.T("NR_StatusNetsickNone");
         Text.Font = GameFont.Tiny;
-        float sickW = Text.CalcSize(sickText).x;
+        float sickW = NetrunUI.Width(sickText);
         Texture2D sickIcon = NetrunTex.CyberIcon("Icon_Netsick");
         float sickPad = sickIcon != null ? 32f : 10f;
         Rect sickSeg = Segment(sickPad + sickW + 10f, sickColor);
@@ -713,7 +743,8 @@ public partial class Dialog_NetTerminal : Window
             string advice = "NR_HeatV2AdvicePrefix".Translate() + " " + HeatScreen.Advice(tracker);
             Widgets.Label(new Rect(adviceSeg.x + 8f, adviceSeg.y, adviceSeg.width - 12f, adviceSeg.height), advice.Truncate(adviceSeg.width - 12f).Colorize(NetrunUI.Ok));
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(adviceSeg, advice);
+            if (Mouse.IsOver(adviceSeg))
+                NetrunUI.Tip(adviceSeg, advice);
         }
         // In cyberspace: the news line runs instead of the latest trace event.
         else if (_view == View.Gateway && rect.xMax - 10f - x > 80f)
@@ -723,8 +754,11 @@ public partial class Dialog_NetTerminal : Window
             NetrunUI.Box(newsSeg, NetrunUI.BgWindow, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.3f));
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(new Rect(newsSeg.x + 8f, newsSeg.y, 60f, newsSeg.height), "NR_NewsTag".Translate().Colorize(NetrunUI.Accent));
-            float tagW = Text.CalcSize("NR_NewsTag".Translate()).x + 16f;
+            string newsTag = NetrunUI.T("NR_NewsTag");
+            GUI.color = NetrunUI.Accent;
+            Widgets.Label(new Rect(newsSeg.x + 8f, newsSeg.y, 60f, newsSeg.height), newsTag);
+            GUI.color = Color.white;
+            float tagW = NetrunUI.Width(newsTag) + 16f;
             List<(string text, Color color)> news = NetrunUI.Cached("gateway.news", GatewayView.News, 2f);
             // Pending choices: a chip at the right end of the line opens them.
             int pending = NewsChoices.Get()?.Pending.Count ?? 0;
@@ -744,7 +778,8 @@ public partial class Dialog_NetTerminal : Window
             }
             NetrunUI.Ticker(new Rect(newsSeg.x + tagW, newsSeg.y, newsSeg.width - tagW - 6f - chipW, newsSeg.height), news);
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(newsSeg, NetrunUI.Cached("gateway.effects", GatewayView.Effects, 1f));
+            if (Mouse.IsOver(newsSeg))
+                NetrunUI.Tip(newsSeg, NetrunUI.Cached("gateway.effects", GatewayView.Effects, 1f));
         }
         // The latest trace event fills the rest; a click opens the Archive.
         else if (tracker != null && tracker.Log.Count > 0 && rect.xMax - 10f - x > 80f)
@@ -773,7 +808,8 @@ public partial class Dialog_NetTerminal : Window
             Widgets.Label(new Rect(Mathf.Round(eventSeg.xMax - agoW - 40f), eventSeg.y, agoW + 32f, eventSeg.height), ago.Colorize(NetrunUI.Muted));
             Text.Anchor = TextAnchor.MiddleLeft;
             Text.Font = GameFont.Small;
-            NetrunUI.Tip(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
+            if (Mouse.IsOver(eventSeg))
+                NetrunUI.Tip(eventSeg, entry.Text + "\n\n" + "NR_StatusEventTip".Translate());
             if (Widgets.ButtonInvisible(eventSeg))
                 OpenNode(View.Archive);
         }
@@ -782,6 +818,9 @@ public partial class Dialog_NetTerminal : Window
         float since = Time.realtimeSinceStartup - _titleChangedAt;
         _ = since;
     }
+
+    // Cached keys of the bottom bar (static strings, not built per call: PERF_AUDIT_4, 11 and 12).
+    private const string TraceLabelKey = "status.traceLabel", ConsoleKey = "status.console", SickKey = "status.sick";
 
     /// <summary>From the Gateway's report button: the Archive on the dive reports tab.</summary>
     public void OpenArchive(ArchiveTab.Tab tab)

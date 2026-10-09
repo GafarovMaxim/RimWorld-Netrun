@@ -62,7 +62,7 @@ public class ThoughtWorker_AIAwakeInColony : ThoughtWorker
 public class ThoughtWorker_NoCyberlinkAscension : ThoughtWorker
 {
     protected override ThoughtState CurrentStateInternal(Pawn p)
-        => p.IsColonist && !p.IsHackerSafe() && NetIdeo.HasMeme(p, "NR_Meme_NetAscension");
+        => p.IsColonist && NetIdeo.HasMeme(p, "NR_Meme_NetAscension") && !p.IsHackerSafe();
 }
 
 internal static class HackerCheck

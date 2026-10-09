@@ -28,27 +28,43 @@ public static class NetrunTint
 
     // One copy per texture and colour. (A single-colour cache was cleared every frame while the guide asked for its own
     // colour, and every icon was rebuilt with a pixel read each frame: the 17 ms in guide mode.)
-    private static readonly Dictionary<(Texture2D, Color32), Texture2D> Cache = [];
+    // The key packs the colour into an int (Color32 has no IEquatable and boxes in a dictionary: PERF_AUDIT_4, 1).
+    private static readonly Dictionary<(Texture2D, int), Texture2D> Cache = [];
+    // Whether a texture is a template icon, by texture (Unity makes a new string for every Texture.name).
+    private static readonly Dictionary<Texture2D, bool> IsTintable = [];
+
+    private static bool CanTint(Texture2D src)
+    {
+        if (!IsTintable.TryGetValue(src, out bool yes))
+            IsTintable[src] = yes = Tintable.Contains(src.name);
+        return yes;
+    }
+
+    private static int Pack(Color c)
+    {
+        Color32 c32 = c;
+        return c32.r | c32.g << 8 | c32.b << 16 | c32.a << 24;
+    }
 
     /// <summary>The icon in the terminal's colours (itself when it is not a template icon).</summary>
     public static Texture2D Of(Texture2D src) => Of(src, NetrunUI.Accent);
 
     public static Texture2D Of(Texture2D src, Color accent)
-        => src == null || !Tintable.Contains(src.name) ? src : Tinted(src, accent);
+        => src == null || !CanTint(src) ? src : Tinted(src, accent);
 
     /// <summary>Any icon's white and grey parts in the given colour (the Cyberpedia paints its icons in the article's colour).</summary>
     public static Texture2D OfAny(Texture2D src, Color color) => src == null ? null : Tinted(src, color);
 
     private static Texture2D Tinted(Texture2D src, Color accent)
     {
-        var key = (src, (Color32)accent);
+        var key = (src, Pack(accent));
         if (Cache.TryGetValue(key, out Texture2D tinted))
             return tinted;
         if (Cache.Count > 400)
         {
-            foreach (Texture2D t in Cache.Values)
-                if (t != null && !Tintable.Contains(t.name))
-                    Object.Destroy(t);
+            foreach (KeyValuePair<(Texture2D, int), Texture2D> kv in Cache)
+                if (kv.Value != null && kv.Value != kv.Key.Item1)
+                    Object.Destroy(kv.Value);
             Cache.Clear();
         }
         if (Event.current == null || Event.current.type != EventType.Repaint)

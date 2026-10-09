@@ -355,7 +355,7 @@ public static class ContractsTab
             Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_ContractAbandonConfirm".Translate(contract.Title), () => contracts.Abandon(contract), destructive: true));
         if (contract.Type == ContractType.DataDelivery)
         {
-            int have = ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) + ColonyGoods.Count(map, NetrunDefOf.USH_AdvancedCyberdata) * Settings.advancedCyberdataWorth;
+            int have = ColonyGoods.CountCached(map, NetrunDefOf.USH_Cyberdata) + ColonyGoods.CountCached(map, NetrunDefOf.USH_AdvancedCyberdata) * Settings.advancedCyberdataWorth;
             string deliver = "NR_BoardDeliverShort".Translate(have);
             float dw = NetrunUI.ButtonWidth(deliver);
             bx -= dw + 8f;

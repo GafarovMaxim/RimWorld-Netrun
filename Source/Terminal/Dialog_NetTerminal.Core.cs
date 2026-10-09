@@ -72,6 +72,31 @@ public partial class Dialog_NetTerminal
         public string Tip;
     }
 
+    private struct CoreNodeInfo
+    {
+        public View View;
+        public Texture2D Icon;
+        public Color Color;
+        public string Sub;
+        public NodeBadge Badge;
+    }
+
+    private const string CoreNodesKey = "core.nodes";
+    // Where each node sits, in units of the map's half-width (x) and half-height (y) from the centre.
+    private static readonly Vector2[] CoreNodeOffsets = [new(0f, -1.05f), new(-1f, -0.55f), new(1f, -0.55f), new(-1f, 0.55f), new(1f, 0.55f), new(0f, 1f)];
+    private readonly List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, NodeBadge badge)> _coreNodes = [];
+    private readonly List<(Vector2, Color)> _corePulses = [];
+
+    private CoreNodeInfo[] CoreNodes(HeatTracker tracker) =>
+    [
+        new() { View = View.Board, Icon = NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), Color = BoardColor, Sub = BoardSub(), Badge = BoardBadge() },
+        new() { View = View.Club, Icon = NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), Color = NetrunUI.Warn, Sub = ClubSub(), Badge = ClubBadge() },
+        new() { View = View.Archive, Icon = NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), Color = NetrunUI.Muted, Sub = "NR_NodeSub_Archive".Translate(tracker.Log.Count), Badge = ArchiveBadge(tracker) },
+        new() { View = View.Server, Icon = NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), Color = NetrunUI.Purple, Sub = ServerSub(), Badge = ServerBadge() },
+        new() { View = View.Studio, Icon = NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), Color = StudioColor, Sub = "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), Badge = StudioBadge() },
+        new() { View = View.Gateway, Icon = NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), Color = GatewayColor, Sub = "NR_NodeSub_Gateway".Translate(), Badge = GatewayBadge() },
+    ];
+
     private void DrawMap(Rect rect, HeatTracker tracker)
     {
         if (Time.frameCount - _mapFrame > 2)
@@ -81,18 +106,15 @@ public partial class Dialog_NetTerminal
         float dx = rect.width * 0.38f;
         float dy = rect.height * 0.36f;
 
-        var nodes = new List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, NodeBadge badge)>
+        // Icons, subtitles and badges change slowly: built twice a second, not on every GUI event (PERF_AUDIT_4, 25).
+        CoreNodeInfo[] info = NetrunUI.Cached(CoreNodesKey, () => CoreNodes(tracker), 0.5f);
+        List<(View view, Vector2 pos, Texture2D icon, Color color, string sub, NodeBadge badge)> nodes = _coreNodes;
+        nodes.Clear();
+        for (int i = 0; i < info.Length; i++)
         {
-            (View.Board, new Vector2(center.x, center.y - dy * 1.05f), NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), BoardColor, BoardSub(), NetrunUI.Cached("core.badge.board", BoardBadge)),
-            (View.Club, new Vector2(center.x - dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), NetrunUI.Warn, ClubSub(), ClubBadge()),
-            (View.Archive, new Vector2(center.x + dx, center.y - dy * 0.55f), NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), NetrunUI.Muted,
-                "NR_NodeSub_Archive".Translate(tracker.Log.Count), ArchiveBadge(tracker)),
-            (View.Server, new Vector2(center.x - dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), NetrunUI.Purple, ServerSub(), NetrunUI.Cached("core.badge.server", ServerBadge)),
-            (View.Studio, new Vector2(center.x + dx, center.y + dy * 0.55f), NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), StudioColor,
-                "NR_NodeSub_Studio".Translate(NetrunUI.Cached("core.raws." + _map.uniqueID, () => BraindanceEditing.RawRecordings(_map).Count())), StudioBadge()),
-            (View.Gateway, new Vector2(center.x, center.y + dy * 1.0f), NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), GatewayColor,
-                "NR_NodeSub_Gateway".Translate(), NetrunUI.Cached("core.badge.gateway", GatewayBadge)),
-        };
+            Vector2 at = CoreNodeOffsets[i];
+            nodes.Add((info[i].View, new Vector2(center.x + at.x * dx, center.y + at.y * dy), info[i].Icon, info[i].Color, info[i].Sub, info[i].Badge));
+        }
 
         NetworkGate gate = NetworkGate.Get();
         bool Open(View v) => gate == null || gate.IsUnlocked(v.ToString());
@@ -106,7 +128,13 @@ public partial class Dialog_NetTerminal
                 new Color(NetrunUI.Line.r, NetrunUI.Line.g, NetrunUI.Line.b, (Open(nodes[i].view) ? 0.8f : 0.25f) * e), 2f);
         }
         if (Time.realtimeSinceStartup - _mapShownAt > 0.7f)
-            DrawLinkPulses(center, nodes.Where(n => Open(n.view)).Select(n => (n.pos, n.color)).ToList());
+        {
+            _corePulses.Clear();
+            foreach (var n in nodes)
+                if (Open(n.view))
+                    _corePulses.Add((n.pos, n.color));
+            DrawLinkPulses(center, _corePulses);
+        }
         for (int i = 0; i < nodes.Count; i++)
         {
             var node = nodes[i];

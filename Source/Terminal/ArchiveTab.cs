@@ -313,7 +313,7 @@ public static class ArchiveTab
         // The line draws itself left to right when the tab opens.
         float reveal = NetrunMod.Settings.Animations ? Mathf.Clamp01((Time.realtimeSinceStartup - _openedAt) / 0.5f) : 1f;
         IReadOnlyList<float> history = tracker.History;
-        int n = history.Count;
+        int n = Event.current.type == EventType.Repaint ? history.Count : 0; // the line only on Repaint (PERF_AUDIT_4, 24)
         Vector2? last = null;
         for (int i = 0; i < n; i++)
         {
@@ -343,7 +343,8 @@ public static class ArchiveTab
             GUI.color = e.Amount > 0f ? NetrunUI.Bad : NetrunUI.Ok;
             GUI.DrawTexture(new Rect(p.x - size / 2f, p.y - size / 2f, size, size), NetrunUI.Disc);
             GUI.color = Color.white;
-            NetrunUI.Tip(hit, e.Text + "\n" + $"{e.Amount:+0.#;-0.#}".Colorize(e.Amount > 0f ? NetrunUI.Bad : NetrunUI.Ok));
+            if (Mouse.IsOver(hit))
+                NetrunUI.Tip(hit, e.Text + "\n" + $"{e.Amount:+0.#;-0.#}".Colorize(e.Amount > 0f ? NetrunUI.Bad : NetrunUI.Ok));
             if (Widgets.ButtonInvisible(hit))
                 Select(e);
         }

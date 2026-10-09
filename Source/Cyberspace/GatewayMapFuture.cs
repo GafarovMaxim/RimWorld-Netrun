@@ -26,6 +26,8 @@ public static partial class GatewayView
     private static List<TimerEntry> _timeline = [];
     private static int _timelineHour = -1;
     private static int _timelineTick = -1;
+    private static readonly Dictionary<int, TimerEntry> _nearestTimer = [];
+    private static readonly Dictionary<int, (int bucket, string text, float width)> _timerTags = [];
 
     /// <summary>Rebuilt once per game hour (or when the game ticks back); the times shown count down from the build.</summary>
     private static List<TimerEntry> Timeline(NetMapManager net)
@@ -63,6 +65,11 @@ public static partial class GatewayView
             list.Add(new TimerEntry { Ticks = 0, Hub = p.NodeId, Text = "NR_MapTimerIntrusion".Translate(p.Attack?.label ?? "?"), Bad = true });
         list.Sort((a, b) => a.Ticks.CompareTo(b.Ticks));
         _timeline = list;
+        // The nearest running timer of every hub, for the tags (no pass over the whole list per hub: PERF_AUDIT_4, 18).
+        _nearestTimer.Clear();
+        for (int i = 0; i < list.Count; i++)
+            if (list[i].Ticks > 0 && !_nearestTimer.ContainsKey(list[i].Hub))
+                _nearestTimer[list[i].Hub] = list[i];
         return list;
     }
 
@@ -102,22 +109,29 @@ public static partial class GatewayView
     {
         if (_zoom < 0.8f)
             return;
-        int best = int.MaxValue;
-        foreach (TimerEntry e in Timeline(net))
-            if (e.Hub == n.Id && e.Ticks > 0 && Left(e) < best)
-                best = Mathf.Max(1, Left(e));
-        if (best == int.MaxValue)
+        Timeline(net);
+        if (!_nearestTimer.TryGetValue(n.Id, out TimerEntry entry))
             return;
-        string text = "◷ " + Short(best);
+        int best = Mathf.Max(1, Left(entry));
+        // The text and width change once a game hour (or a tenth of a day): cached per hub by that bucket.
+        int bucket = best < GenDate.TicksPerDay ? best / GenDate.TicksPerHour : 1000 + best / (GenDate.TicksPerDay / 10);
         Text.Font = GameFont.Tiny;
-        float w = Text.CalcSize(text).x + 8f;
+        if (!_timerTags.TryGetValue(n.Id, out var tagText) || tagText.bucket != bucket)
+        {
+            string s = "◷ " + Short(best);
+            _timerTags[n.Id] = tagText = (bucket, s, Text.CalcSize(s).x);
+        }
+        string text = tagText.text;
+        float w = tagText.width + 8f;
         var tag = new Rect(hubRect.xMax + 4f, hubRect.y - 16f, w, 14f);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.7f);
         Widgets.DrawBox(tag);
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.MiddleCenter;
-        Widgets.Label(tag, text.Colorize(NetrunUI.Warn));
+        GUI.color = NetrunUI.Warn;
+        Widgets.Label(tag, text);
+        GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
     }

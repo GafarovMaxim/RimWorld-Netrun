@@ -10,6 +10,24 @@ public static class ColonyGoods
 {
     public static int Count(Map map, ThingDef def) => Available(map, def).Sum(t => t.stackCount);
 
+    private static readonly Dictionary<(int, ThingDef), (float at, int count)> Counted = [];
+
+    /// <summary>For the UI only: the count, refreshed once a real second (buying and paying use the exact Count).</summary>
+    public static int CountCached(Map map, ThingDef def)
+    {
+        if (map == null || def == null)
+            return 0;
+        float now = UnityEngine.Time.realtimeSinceStartup;
+        var key = (map.uniqueID, def);
+        if (Counted.TryGetValue(key, out var hit) && now - hit.at < 1f)
+            return hit.count;
+        if (Counted.Count > 200)
+            Counted.Clear();
+        int count = Count(map, def);
+        Counted[key] = (now, count);
+        return count;
+    }
+
     public static bool TryTake(Map map, ThingDef def, int count)
     {
         if (count <= 0)
