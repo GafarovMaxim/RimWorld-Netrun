@@ -691,7 +691,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     /// Every corporate hub is protected; its guard gateway (the key) lies in a neighbouring hub one step closer to free
     /// ground: the hubs at the edge of a corporation open from a neutral neighbour, the inner ones from a hub of the same
     /// corporation, so the chain always starts outside and never loops. A neutral hub keeps keys of one corporation only
-    /// (two corporations side by side never share a key hub). A protected hub with no key to break opens for an hour.
+    /// (two corporations side by side never share a key hub). Keys never lie in orbit, at Home or in the Old Net: orbit
+    /// is out of reach without a ship in space. A protected hub with no key to break opens for an hour.
     /// </summary>
     private void EnsureGuards(int now)
     {
@@ -706,12 +707,17 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             }
         }
 
+        // Keys placed in orbit by older versions move to the ground.
+        foreach (ExternalNode b in Gateway.AllBranches)
+            if (b.GuardFor >= 0 && Map.Node(b.MapNodeId) is { } at && !CanHoldKeys(at))
+                b.GuardFor = -1;
+
         // Steps from free ground through protected hubs (free ground is 0).
         var depth = new Dictionary<int, int>();
         var queue = new Queue<MapNode>();
         foreach (MapNode n in Map.Nodes)
         {
-            if (!n.Guarded)
+            if (!n.Guarded && CanHoldKeys(n))
             {
                 depth[n.Id] = 0;
                 queue.Enqueue(n);
@@ -761,10 +767,13 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         }
     }
 
+    /// <summary>Hubs that may keep guard keys: not orbit, Home or the Old Net.</summary>
+    private static bool CanHoldKeys(MapNode n) => n.District is not (District.Orbit or District.Home or District.OldNet);
+
     /// <summary>A hub may hold keys of one corporation only: its own, or for a neutral hub the first one placed there.</summary>
     private static bool KeyHubFits(MapNode keyHub, int corpSlot, Dictionary<int, int> keysOf)
     {
-        if (keyHub == null)
+        if (keyHub == null || !CanHoldKeys(keyHub))
             return false;
         if (keyHub.District == District.Corp && keyHub.CorpSlot != corpSlot)
             return false;

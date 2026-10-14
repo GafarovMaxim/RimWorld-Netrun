@@ -4,6 +4,10 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-10-15
+### Fixed
+- Keys to protected corporate hubs no longer land in orbital hubs (out of reach without a ship in space), at Home or in the Old Net; keys already there move to a ground hub on load.
+
 ## [0.6.2] - 2026-10-15
 ### Fixed
 - Config errors for Hacking Expansion's cyberpod: now that it can be uninstalled, it has a storage category (misc buildings) and a mass of 60.
