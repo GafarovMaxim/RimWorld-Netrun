@@ -93,7 +93,10 @@ public class NetrunSettings : ModSettings
     /// <summary>The cyberspace map's layout for new maps: -1 picks one from the world seed, else a NetLayout.</summary>
     public int MapLayout = -1;
     /// <summary>The terminal window's size (its default size and minimum scale with it).</summary>
-    public float TerminalScale = 1f;
+    /// <summary>The terminal's scale; 110% by default (Maxim, 2026-10-14).</summary>
+    public float TerminalScale = 1.1f;
+    /// <summary>Settings layout version: 2 moved the old 100% default scale to 110% once.</summary>
+    private int _settingsVersion = 2;
     /// <summary>The terminal's content grows with its window past the base size.</summary>
     public bool TerminalAutoScale = true;
 
@@ -721,7 +724,7 @@ public class NetrunSettings : ModSettings
         MapAutopause = true;
         FirstHints = true;
         MapWasd = false;
-        TerminalScale = 1f;
+        TerminalScale = 1.1f;
         TerminalAutoScale = true;
         Glossary = true;
     }
@@ -782,7 +785,14 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref Glossary, "glossary", true);
         Scribe_Values.Look(ref MapWasd, "mapWasd");
         Scribe_Values.Look(ref MapHubScale, "mapHubScale", 1f);
-        Scribe_Values.Look(ref TerminalScale, "terminalScale", 1f);
+        Scribe_Values.Look(ref TerminalScale, "terminalScale", 1.1f);
+        Scribe_Values.Look(ref _settingsVersion, "settingsVersion");
+        if (Scribe.mode == LoadSaveMode.LoadingVars && _settingsVersion < 2)
+        {
+            if (UnityEngine.Mathf.Approximately(TerminalScale, 1f))
+                TerminalScale = 1.1f;
+            _settingsVersion = 2;
+        }
         Scribe_Values.Look(ref TerminalAutoScale, "terminalAutoScale", true);
         Scribe_Values.Look(ref MapLens, "mapLens");
         Scribe_Values.Look(ref FrameTheme, "frameTheme", "Field");

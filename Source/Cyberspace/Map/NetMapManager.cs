@@ -295,6 +295,9 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
             return "NR_IsolationDiveActive".Translate();
         if (target == runner.NodeId && !runner.Moving)
             return "NR_MapAlreadyHere".Translate();
+        // An offline hub (the orbit without a ship in space, an outage, a quarantine) cannot be a destination.
+        if (Map.Node(target)?.Offline == true)
+            return "NR_MapHubOffline".Translate();
         List<int> route = Map.Route(runner.Moving ? runner.NextNodeId : runner.NodeId, target, out _);
         // A walking runner may also turn back the way it came.
         bool back = runner.Moving && (target == runner.NodeId || Map.Route(runner.NodeId, target, out _).Count > 0);

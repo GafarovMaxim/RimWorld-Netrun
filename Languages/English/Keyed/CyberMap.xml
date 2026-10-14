@@ -217,4 +217,14 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
   <NR_MapNetsickChipTip>The worst net sickness among your colonists, runners in pods included. It grows with time in the net and fades offline; past "strong" a long dive is a risk.</NR_MapNetsickChipTip>
   <NR_MapHubOffline>This hub is offline: no way in until it comes back (an orbit uplink opens only while your colony is in orbit).</NR_MapHubOffline>
+  <NR_MapTagLocked>locked</NR_MapTagLocked>
+  <NR_MapTagOpen>open</NR_MapTagOpen>
+  <NR_MapCardGuardShut>Protected corporate hub, locked. Its key is the guard gateway (lock badge) in {0}: break it in a dive and this hub opens for 3 days with x1.8 loot (the dashed amber line points to it).</NR_MapCardGuardShut>
+  <NR_MapCardGuardOpen>Protected hub, open for {0}: x1.8 loot; a failed dive here adds 6 Heat.</NR_MapCardGuardOpen>
+  <NR_MapCardGuardKey>Holds the guard gateway of {0}: a clean dive into it opens that hub.</NR_MapCardGuardKey>
+  <NR_MapCardOrbitClosed>Orbital hub: reachable only while your gravship is in orbit.</NR_MapCardOrbitClosed>
+  <NR_MapNowQuiet>Quiet in the net: nothing in effect, nothing on the clock.</NR_MapNowQuiet>
+  <NR_MapNowClick>Click: show the hub on the map.</NR_MapNowClick>
+  <NR_MapNowAgo>{0} ago</NR_MapNowAgo>
+
 </LanguageData>

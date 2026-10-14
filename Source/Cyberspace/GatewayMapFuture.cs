@@ -108,12 +108,12 @@ public static partial class GatewayView
     private static float DrawTimeline(Rect inner, float y, NetMapManager net)
     {
         List<TimerEntry> list = Timeline(net);
-        if (list.Count == 0)
+        if (!list.Any(x => Left(x) > GenDate.TicksPerDay))
             return y;
         float top = y;
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapNext3Days".Translate());
         Text.Font = GameFont.Tiny;
-        foreach (TimerEntry e in list.Take(6))
+        foreach (TimerEntry e in list.Where(x => Left(x) > GenDate.TicksPerDay).Take(6))
         {
             var row = new Rect(inner.x, y, inner.width, 20f);
             if (Mouse.IsOver(row))
@@ -129,19 +129,40 @@ public static partial class GatewayView
         return y + 6f;
     }
 
+    private struct NowRow
+    {
+        public string Text, Right, Tip;
+        public Color Color;
+        public int Hub;
+    }
+
     /// <summary>
-    /// "Now in the net" at the top of the panel when nothing is picked (Maxim, 2026-10-14: the events were only in the
-    /// news line, easy to miss for a newcomer): what is in effect and the latest headlines. Built once a second.
+    /// "Now in the net" at the top of the panel when nothing is picked (Maxim, 2026-10-14: a block of small text was
+    /// hard to read). One row per thing: a coloured bar (red danger, amber timer, purple effect, the headline's own
+    /// colour), the text, the time left on the right; a row with a hub centres the map on it. Events of the next day
+    /// first, then the effects in force, then the last headlines. Rebuilt once a second.
     /// </summary>
     private static float DrawNow(Rect inner, float y)
     {
-        string text = NetrunUI.Cached("map.now", () =>
+        List<NowRow> rows = NetrunUI.Cached("map.nowRows", () =>
         {
-            var lines = new List<string>();
+            var list = new List<NowRow>();
+            NetMapManager net = NetMapManager.Get();
+            if (net is { Ready: true })
+                foreach (TimerEntry e in Timeline(net))
+                {
+                    int left = Left(e);
+                    if (left > GenDate.TicksPerDay || list.Count >= 4)
+                        continue;
+                    list.Add(new NowRow { Text = e.Text, Right = Short(left), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = e.Hub, Tip = e.Text });
+                }
             string effects = Effects();
             int cut = effects.IndexOf('\n');
             if (cut >= 0)
-                lines.Add(effects.Substring(cut + 1));
+                foreach (string line in effects.Substring(cut + 1).Split('\n'))
+                    // Only the effects themselves ("• ..."), not the "no active effects" line.
+                    if (line.StartsWith("• "))
+                        list.Add(new NowRow { Text = line.Substring(2).StripTags(), Color = NetrunUI.Purple, Hub = -1, Tip = line });
             GatewayManager g = GatewayManager.Get();
             if (g != null)
             {
@@ -150,19 +171,45 @@ public static partial class GatewayView
                 {
                     if (now - h.Tick > GenDate.TicksPerDay || shown++ >= 3)
                         break;
-                    lines.Add("◆ ".Colorize(h.Color) + h.Text);
+                    list.Add(new NowRow { Text = h.Text.StripTags(), Right = "NR_MapNowAgo".Translate(Short(now - h.Tick)), Color = h.Color, Hub = -1, Tip = h.Text });
                 }
             }
-            return string.Join("\n", lines);
+            return list;
         }, 1f);
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapNow".Translate());
         Text.Font = GameFont.Tiny;
-        float h = Text.CalcHeight(text, inner.width - 6f);
-        Widgets.Label(new Rect(inner.x + 4f, y, inner.width - 6f, h), text);
+        if (rows.Count == 0)
+        {
+            Widgets.Label(new Rect(inner.x + 4f, y, inner.width - 6f, 18f), NetrunUI.T("NR_MapNowQuiet").Colorize(NetrunUI.Muted));
+            Text.Font = GameFont.Small;
+            return y + 24f;
+        }
+        foreach (NowRow row in rows)
+        {
+            float rightW = row.Right.NullOrEmpty() ? 0f : NetrunUI.Width(row.Right) + 8f;
+            float textW = inner.width - 12f - rightW;
+            float h = Mathf.Min(Text.CalcHeight(row.Text, textW), 30f);
+            var r = new Rect(inner.x, y, inner.width, Mathf.Max(20f, h + 4f));
+            Widgets.DrawBoxSolid(r, new Color(row.Color.r, row.Color.g, row.Color.b, Mouse.IsOver(r) ? 0.14f : 0.06f));
+            Widgets.DrawBoxSolid(new Rect(r.x, r.y, 3f, r.height), row.Color);
+            GUI.color = NetrunUI.TextColor;
+            Widgets.Label(new Rect(r.x + 8f, r.y + 2f, textW, r.height - 2f), row.Text);
+            if (rightW > 0f)
+            {
+                GUI.color = row.Color;
+                Text.Anchor = TextAnchor.MiddleRight;
+                Widgets.Label(new Rect(r.xMax - rightW - 4f, r.y, rightW, r.height), row.Right);
+                Text.Anchor = TextAnchor.UpperLeft;
+            }
+            GUI.color = Color.white;
+            NetrunUI.Tip(r, row.Tip + (row.Hub >= 0 ? "\n\n" + NetrunUI.T("NR_MapNowClick") : ""));
+            if (row.Hub >= 0 && Widgets.ButtonInvisible(r))
+                FocusNode(row.Hub);
+            y += r.height + 3f;
+        }
         Text.Font = GameFont.Small;
-        return y + h + 8f;
+        return y + 6f;
     }
-
     /// <summary>
     /// A hub where something is going on (a timer: patrol, storm, transit, outage, intrusion) breathes with a soft
     /// amber ring, instead of arrows pointing at it (Maxim, 2026-10-14). Uses the hourly timeline, nothing extra.

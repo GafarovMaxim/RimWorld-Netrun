@@ -345,8 +345,8 @@ public static partial class GatewayView
                 DrawExitMark(r.ContractedBy(1f), 1f);
                 break;
             case LegendItem.Fortress:
-                GUI.color = NetrunUI.Bad;
-                GUI.DrawTexture(r, DashedRing);
+                GUI.color = new Color(NetrunUI.TextColor.r, NetrunUI.TextColor.g, NetrunUI.TextColor.b, 0.6f);
+                GUI.DrawTexture(r, NetrunUI.ThinRing);
                 GUI.color = NetrunUI.TextColor;
                 GUI.DrawTexture(r.ContractedBy(4f), ShapeTex(Shape.Diamond, true));
                 break;

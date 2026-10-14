@@ -217,4 +217,14 @@
   <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
   <NR_MapNetsickChipTip>Самая тяжёлая сетевая болезнь среди колонистов, включая раннеров в капсулах. Растёт от времени в сети и проходит офлайн; после стадии «сильная» долгий нырок опасен.</NR_MapNetsickChipTip>
   <NR_MapHubOffline>Узел отключён: войти нельзя, пока он не вернётся (орбитальный узел открыт, только пока колония на орбите).</NR_MapHubOffline>
+  <NR_MapTagLocked>закрыт</NR_MapTagLocked>
+  <NR_MapTagOpen>открыт</NR_MapTagOpen>
+  <NR_MapCardGuardShut>Защищённый узел корпорации, закрыт. Ключ к нему: шлюз охраны (значок замка) в {0}. Взломайте его в нырке, и этот узел откроется на 3 дня с добычей x1,8 (пунктирная янтарная линия ведёт к ключу).</NR_MapCardGuardShut>
+  <NR_MapCardGuardOpen>Защищённый узел открыт ещё {0}: добыча x1,8; провал нырка здесь даёт 6 Heat.</NR_MapCardGuardOpen>
+  <NR_MapCardGuardKey>Здесь шлюз охраны узла {0}: чистый нырок в него открывает тот узел.</NR_MapCardGuardKey>
+  <NR_MapCardOrbitClosed>Орбитальный узел: доступен, только пока гравикорабль на орбите.</NR_MapCardOrbitClosed>
+  <NR_MapNowQuiet>В сети тихо: ничего не действует и ничего не тикает.</NR_MapNowQuiet>
+  <NR_MapNowClick>Клик: показать узел на карте.</NR_MapNowClick>
+  <NR_MapNowAgo>{0} назад</NR_MapNowAgo>
+
 </LanguageData>

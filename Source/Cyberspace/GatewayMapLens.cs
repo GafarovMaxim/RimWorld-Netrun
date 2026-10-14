@@ -400,6 +400,17 @@ public static partial class GatewayView
             lines.Add("NR_MapExitPoint".Translate());
         if (n.Fortress)
             lines.Add("NR_MapFortress".Translate());
+        if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
+        {
+            string key = GuardKeyHub(n.Id) is { } k ? NetMapManager.NodeLabel(net.Map.Node(k)) : "?";
+            lines.Add((n.GuardLocked ? "NR_MapCardGuardShut".Translate(key) : "NR_MapCardGuardOpen".Translate((n.GuardOpenUntil - Find.TickManager.TicksGame).ToStringTicksToPeriod()))
+                .Colorize(NetrunUI.Warn));
+        }
+        // This hub holds a guard gateway: say which hub it opens.
+        if (known.Any(b => b.GuardFor >= 0))
+            lines.Add("NR_MapCardGuardKey".Translate(NetMapManager.NodeLabel(net.Map.Node(known.First(b => b.GuardFor >= 0).GuardFor))).Colorize(NetrunUI.Warn));
+        if (n.District == District.Orbit && !NetMapManager.OrbitOpen)
+            lines.Add("NR_MapCardOrbitClosed".Translate().Colorize(NetrunUI.Bad));
         lines.AddRange(NodeStates(n));
         if (known.Any(b => b.Contract))
             lines.Add(("★ " + "NR_MapCardContract".Translate()).Colorize(NetrunUI.Warn));
@@ -464,7 +475,7 @@ public static partial class GatewayView
         if (r == null)
             return NeighbourSet;
         foreach (MapLink l in net.Map.LinksOf(r.NodeId))
-            if (net.Map.Passable(l))
+            if (net.Map.Passable(l) && net.Map.Node(l.Other(r.NodeId))?.Offline != true)
                 NeighbourSet.Add(l.Other(r.NodeId));
         NeighbourSet.Add(r.NodeId);
         return NeighbourSet;

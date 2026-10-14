@@ -256,7 +256,7 @@ public class CyberMap : IExposable
     public List<int> Route(int from, int to, out float hours)
     {
         hours = 0f;
-        if (from == to)
+        if (from == to || Node(to)?.Offline == true)
             return [];
         var dist = new Dictionary<int, float> { [from] = 0f };
         var prev = new Dictionary<int, int>();

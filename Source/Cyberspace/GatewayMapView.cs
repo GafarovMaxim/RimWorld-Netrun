@@ -599,14 +599,15 @@ public static partial class GatewayView
         }
         if (n.Fortress)
         {
-            // A capital: a diamond core in the corporation's colour and a dashed red ring.
+            // A capital: a diamond core and an outer ring, both in the corporation's colour (the old red dashed ring
+            // read as a warning nobody could explain; Maxim, 2026-10-14). Its plate names the corporation.
             GUI.color = new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, a);
             GUI.DrawTexture(rect.ContractedBy(rect.width * 0.18f), NetrunUI.Disc);
             Color core = HubColor(n, net);
             GUI.color = new Color(core.r, core.g, core.b, a);
             GUI.DrawTexture(rect.ContractedBy(rect.width * 0.3f), ShapeTex(Shape.Diamond, true));
-            GUI.color = new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, LegendDims(n.Id) ? 0.25f : 0.9f);
-            GUI.DrawTexture(rect.ExpandedBy(6f), DashedRing);
+            GUI.color = new Color(core.r, core.g, core.b, LegendDims(n.Id) ? 0.2f : 0.6f);
+            GUI.DrawTexture(rect.ExpandedBy(5f), NetrunUI.ThinRing);
         }
         if (selected)
         {
@@ -618,12 +619,15 @@ public static partial class GatewayView
         }
         if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
         {
-            // D2: a protected hub: a lock while shut, an open amber ring while the guard is broken.
+            // D2: a protected hub. Shut: an amber dashed ring, a "LOCKED" tag above it and a dashed amber line to the
+            // hub that holds its guard gateway (the key). Open: a faint ring and an "OPEN" tag. The hover card explains
+            // it in words (Maxim, 2026-10-14: a bare lock told the player nothing).
             bool shut = n.GuardLocked;
             GUI.color = shut ? NetrunUI.Warn : new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.5f);
             GUI.DrawTexture(rect.ExpandedBy(7f), DashedRing);
-            if (shut && NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
-                GUI.DrawTexture(new Rect(rect.center.x - 7f, rect.y - 18f, 14f, 14f), lockTex);
+            if (shut && GuardKeyHub(n.Id) is { } keyHub && net.Map.Node(keyHub) is { } key)
+                DrawKeyLine(ToScreen(local, key.Pos), p, r);
+            DrawGuardTag(rect, shut);
         }
         if (n.Id == net?.MarkedNodeId)
         {
@@ -698,6 +702,59 @@ public static partial class GatewayView
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
     }
 
+    /// <summary>The hub holding the guard gateway of a protected hub (its key), by protected hub id; rebuilt every 2 s.</summary>
+    private static int? GuardKeyHub(int protectedHub)
+    {
+        Dictionary<int, int> keys = NetrunUI.Cached("map.guardKeys", () =>
+        {
+            var d = new Dictionary<int, int>();
+            foreach (ExternalNode b in GatewayManager.Get()?.AllBranches ?? [])
+                if (b.GuardFor >= 0 && b.MapNodeId >= 0)
+                    d[b.GuardFor] = b.MapNodeId;
+            return d;
+        }, 2f);
+        return keys.TryGetValue(protectedHub, out int hub) ? hub : null;
+    }
+
+    /// <summary>A dashed amber line from the key hub to the shut hub, stopping short of both rings.</summary>
+    private static void DrawKeyLine(Vector2 from, Vector2 to, float radius)
+    {
+        Vector2 d = to - from;
+        float len = d.magnitude;
+        if (len < radius * 3f)
+            return;
+        Vector2 u = d / len;
+        Color c = new(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.45f);
+        for (float t = radius + 4f; t < len - radius - 10f; t += 10f)
+            Widgets.DrawLine(from + u * t, from + u * Mathf.Min(t + 5f, len - radius - 10f), c, 1.5f);
+    }
+
+    /// <summary>"LOCKED" (amber, with the lock) or "OPEN" over a protected hub.</summary>
+    private static void DrawGuardTag(Rect hub, bool shut)
+    {
+        Text.Font = GameFont.Tiny;
+        string label = NetrunUI.Upper(NetrunUI.T(shut ? "NR_MapTagLocked" : "NR_MapTagOpen"));
+        Texture2D lockTex = shut ? NetrunTex.CyberIcon("Icon_Lock") : null;
+        float w = NetrunUI.Width(label) + 10f + (lockTex != null ? 13f : 0f);
+        var tag = new Rect(hub.center.x - w / 2f, hub.y - 24f, w, 15f);
+        Color c = shut ? NetrunUI.Warn : NetrunUI.Ok;
+        Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
+        GUI.color = new Color(c.r, c.g, c.b, 0.8f);
+        Widgets.DrawBox(tag);
+        float x = tag.x + 5f;
+        if (lockTex != null)
+        {
+            GUI.color = c;
+            GUI.DrawTexture(new Rect(x, tag.y + 2f, 11f, 11f), lockTex);
+            x += 13f;
+        }
+        GUI.color = c;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(x, tag.y, tag.xMax - x, tag.height), label);
+        Text.Anchor = TextAnchor.UpperLeft;
+        GUI.color = Color.white;
+    }
+
     // Where a hub's branch markers sit, by hub and marker count; dropped when the map changes (CyberMap.Dirty) via the 2 s cache.
     private static Dictionary<int, float[]> BranchAngleCache => NetrunUI.Cached("map.branchAngles", () => new Dictionary<int, float[]>(), 2f);
 
@@ -713,6 +770,8 @@ public static partial class GatewayView
         if (cache.TryGetValue(key, out float[] found))
             return found;
         var taken = new List<float> { Mathf.PI / 2f };
+        if (n.Guarded)
+            taken.Add(-Mathf.PI / 2f); // the LOCKED / OPEN tag sits above
         foreach (MapLink l in map.LinksOf(n.Id))
         {
             Vector2 d = map.Node(l.Other(n.Id)).Pos - n.Pos;
