@@ -95,35 +95,48 @@ public static class BraindanceEditing
     /// <summary>A batch edit takes longer with more distinct recordings, but far less than one by one (half a day at most).</summary>
     public static int BatchWorkTicks(int groups) => Mathf.Min(GenDate.TicksPerDay / 2, Mathf.CeilToInt(EditWorkTicks * Mathf.Sqrt(Mathf.Max(1, groups))));
 
-    /// <summary>From the Studio: "edit all" - pick a colonist who edits every raw recording at the network console.</summary>
-    public static void OpenBatchMenu(Map map)
+    /// <summary>A batch edit glitches now and then (Maxim, 2026-10-15: 5%), and then a share of the chips is lost or worse.</summary>
+    public const float BatchGlitchChance = 0.05f, BatchGlitchShare = 0.15f;
+
+    /// <summary>
+    /// From the Studio: "edit all" in one click, free and at once (Maxim, 2026-10-15), with the best editor's skill. The
+    /// first time a warning about the glitch comes first.
+    /// </summary>
+    public static void StartBatch(Map map)
     {
-        Building console = map == null ? null : AIAwakening.Console(map);
-        var options = new List<FloatMenuOption>();
-        if (console != null)
+        if (map == null)
+            return;
+        HelpProgress progress = HelpProgress.Get();
+        if (progress != null && !progress.HintSeen("BDBatchWarn"))
         {
-            foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
-            {
-                if (pawn.Downed || pawn.WorkTagIsDisabled(WorkTags.Intellectual))
-                    continue;
-                Pawn editor = pawn;
-                int skill = pawn.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
-                options.Add(new FloatMenuOption($"{pawn.LabelShort} ({SkillDefOf.Intellectual.LabelCap}: {skill})",
-                    () => editor.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_EditBraindanceBatch, console), JobTag.Misc)));
-            }
+            Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                "NR_BDBatchWarn".Translate((BatchGlitchChance * 100f).ToString("0"), (BatchGlitchShare * 100f).ToString("0")),
+                () =>
+                {
+                    progress.MarkHint("BDBatchWarn");
+                    FinishBatch(map, BestEditor(map));
+                }));
+            return;
         }
-        if (options.Count == 0)
-            options.Add(new FloatMenuOption(console == null ? "NR_AwakenNoConsole".Translate() : "NR_AwakenNoWorker".Translate(), null));
-        Find.WindowStack.Add(new FloatMenu(options));
+        FinishBatch(map, BestEditor(map));
     }
+
+    private static Pawn BestEditor(Map map)
+        => map.mapPawns.FreeColonistsSpawned.Where(p => !p.Downed && !p.WorkTagIsDisabled(WorkTags.Intellectual))
+            .MaxByWithFallback(p => p.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0);
+
+    /// <summary>An editing job from an older save finishing: the same batch, by that colonist.</summary>
+    public static void FinishBatch(Pawn editor) => FinishBatch(editor.Map, editor);
 
     /// <summary>
     /// Edits every raw recording on the map at once: one chip per author, event and mood, from the strongest take;
-    /// the duplicates are wiped (Maxim, 2026-10-14: editing thousands one by one was impossible).
+    /// the duplicates are wiped (Maxim, 2026-10-14: editing thousands one by one was impossible). A glitch loses
+    /// some chips and dulls others.
     /// </summary>
-    public static void FinishBatch(Pawn editor)
+    public static void FinishBatch(Map map, Pawn editor)
     {
-        Map map = editor.Map;
+        if (map == null)
+            return;
         List<Thing> raws = RawRecordings(map).ToList();
         var best = new Dictionary<(string, string, BraindanceMood), Thing>();
         foreach (Thing raw in raws)
@@ -134,13 +147,29 @@ public static class BraindanceEditing
             if (!best.TryGetValue(key, out Thing kept) || kept.TryGetComp<CompBraindanceRecord>().Strength < rec.Strength)
                 best[key] = raw;
         }
-        int skill = editor.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
+        if (best.Count == 0)
+            return;
+        int skill = editor?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
         int total = 0;
         foreach (Thing raw in raws)
             total += raw.stackCount;
-        IntVec3 cell = editor.Position;
+        IntVec3 cell = editor?.Spawned == true && editor.Map == map ? editor.Position
+            : AIAwakening.Console(map)?.InteractionCell ?? raws[0].PositionHeld;
+
+        // The glitch: a share of the chips (at least one) is hit, half of them lost, half dulled.
+        var hit = new HashSet<Thing>();
+        if (Rand.Chance(BatchGlitchChance))
+            foreach (Thing raw in best.Values.InRandomOrder().Take(Mathf.Max(1, Mathf.RoundToInt(best.Count * BatchGlitchShare))))
+                hit.Add(raw);
+        int lost = 0, dulled = 0, made = 0;
         foreach (Thing raw in best.Values)
         {
+            bool glitched = hit.Contains(raw);
+            if (glitched && Rand.Bool)
+            {
+                lost++;
+                continue;
+            }
             CompBraindanceRecord source = raw.TryGetComp<CompBraindanceRecord>();
             ThingDef chipDef = ChipsFor(source.Mood).First();
             Thing chip = ThingMaker.MakeThing(chipDef);
@@ -148,17 +177,28 @@ public static class BraindanceEditing
             {
                 target.CopyFrom(source);
                 target.Strength = Mathf.Clamp01(source.Strength + skill * 0.015f);
+                if (glitched)
+                {
+                    target.Strength *= 0.6f;
+                    dulled++;
+                }
                 ContractManager.Get()?.NotifyChipEdited(target.Mood);
                 AIQuests.NotifyEdited(target.Mood, target.QualityTier);
                 if (target.QualityTier >= 2)
                     NetrunSignals.Increment("MasterChip");
             }
             GenPlace.TryPlaceThing(chip, cell, map, ThingPlaceMode.Near);
+            made++;
         }
         foreach (Thing raw in raws)
             if (!raw.Destroyed)
                 raw.Destroy();
-        Messages.Message("NR_BDBatchDone".Translate(editor.LabelShort, total, best.Count), MessageTypeDefOf.PositiveEvent, historical: false);
+        string who = editor?.LabelShort ?? (string)"NR_BDBatchConsole".Translate();
+        if (hit.Count > 0)
+            Find.LetterStack.ReceiveLetter("NR_BDBatchGlitchLabel".Translate(), "NR_BDBatchGlitch".Translate(who, total, made, lost, dulled),
+                LetterDefOf.NegativeEvent, new LookTargets(cell, map));
+        else
+            Messages.Message("NR_BDBatchDone".Translate(who, total, made), new LookTargets(cell, map), MessageTypeDefOf.PositiveEvent, historical: false);
     }
 
     private static void Order(Pawn pawn, Thing raw, Building console, ThingDef chip)

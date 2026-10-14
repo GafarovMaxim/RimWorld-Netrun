@@ -48,5 +48,5 @@
   <NR_StudioInfoHookTitle>Braindance and the hook</NR_StudioInfoHookTitle>
   <NR_StudioInfoHook>Every chip builds a little tolerance; enough tolerance turns into addiction.\nBlack chips hook far faster; ordinary unique recordings do not hook at all.\nAn addict without braindance gets withdrawal; the hook fades with time without chips.\nKeep chips under a drug policy to decide who may watch and how often.</NR_StudioInfoHook>
   <NR_StudioEditAll>Edit all: {0} → {1} chips</NR_StudioEditAll>
-  <NR_StudioEditAllTip>Pick a colonist: at the network console they edit every raw recording at once (about {0} h). One chip per colonist, event and mood, from the strongest take; the duplicates are wiped.</NR_StudioEditAllTip>
+  <NR_StudioEditAllTip>One click, free and at once: every raw recording is edited with your best editor's skill. One chip per colonist, event and mood, from the strongest take; the duplicates are wiped. A {0}% chance of a glitch: then {1}% of the chips are lost or lose quality.</NR_StudioEditAllTip>
 </LanguageData>

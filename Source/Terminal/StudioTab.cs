@@ -71,8 +71,8 @@ public static class StudioTab
                         total += raw.stackCount;
                     var batch = new Rect(right.x, right.yMax - 40f, right.width, 36f);
                     if (NetrunUI.Button(batch, "NR_StudioEditAll".Translate(total, groups), NetrunUI.Accent, true,
-                            "NR_StudioEditAllTip".Translate(((float)BraindanceEditing.BatchWorkTicks(groups) / GenDate.TicksPerHour).ToString("0.#"))))
-                        BraindanceEditing.OpenBatchMenu(map);
+                            "NR_StudioEditAllTip".Translate((BraindanceEditing.BatchGlitchChance * 100f).ToString("0"), (BraindanceEditing.BatchGlitchShare * 100f).ToString("0"))))
+                        BraindanceEditing.StartBatch(map);
                     right.yMax -= 46f;
                 }
                 DrawInfo(right, "NR_StudioInfoRawTitle", "NR_StudioInfoRaw", StudioColor);
