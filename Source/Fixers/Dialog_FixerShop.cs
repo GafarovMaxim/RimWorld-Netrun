@@ -120,7 +120,9 @@ public class Dialog_FixerShop : Window
         Widgets.ThingIcon(icon.ContractedBy(6f), def);
         float tx = icon.xMax + 10f;
         float tw = card.xMax - tx - 10f;
-        Widgets.Label(new Rect(tx, card.y + 8f, tw - 24f, 24f), def.LabelCap.ToString().Truncate(tw - 24f));
+        int count = Fixer.ShopCount(def);
+        string name = count > 1 ? def.LabelCap + " x" + count : def.LabelCap.ToString();
+        Widgets.Label(new Rect(tx, card.y + 8f, tw - 24f, 24f), name.Truncate(tw - 24f));
         Widgets.InfoCardButton(card.xMax - 30f, card.y + 8f, def);
         if (black)
             NetrunUI.Chip(tx, card.y + 32f, "NR_ShopBlackTag".Translate(), NetrunUI.Purple, "NR_ShopBlackTip".Translate());

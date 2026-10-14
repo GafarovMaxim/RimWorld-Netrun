@@ -138,7 +138,10 @@ public class Fixer : IExposable
         => (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(HeatLevelUtility.LevelOf(heat))
            * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
 
-    public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * Settings.shopMarkup * PriceFactor
+    /// <summary>How many of the thing one purchase brings: a pack of cyberdata, one of anything else.</summary>
+    public static int ShopCount(ThingDef def) => def == NetrunDefOf.USH_Cyberdata && Settings.cyberdataBundle > 0 ? Settings.cyberdataBundle : 1;
+
+    public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * ShopCount(def) * Settings.shopMarkup * PriceFactor
                                                        * (Stock.Contains(def) ? 1f : Settings.blackMarketMarkup));
 
     public void GainReputation(float amount)

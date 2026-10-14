@@ -39,6 +39,8 @@ public class NetworkGate : GameComponent
     private static readonly string[] NetBuildings = ["USH_Cyberpod", "USH_DataServer", "NR_AIServer", "NR_AIServerRack", "NR_NetrunCoprocessor"];
 
     private bool _opened;
+    /// <summary>The starting encrypted crate's extra cyberdata was given (Patch_CompHackable_ProcessHacked).</summary>
+    public bool StarterCrateGiven;
     private bool _onboardingDone;
     private HashSet<string> _unlocked = [];
 
@@ -170,6 +172,7 @@ public class NetworkGate : GameComponent
         base.ExposeData();
         Scribe_Values.Look(ref _opened, "opened");
         Scribe_Values.Look(ref _onboardingDone, "onboardingDone");
+        Scribe_Values.Look(ref StarterCrateGiven, "starterCrateGiven");
         Scribe_Collections.Look(ref _unlocked, "unlocked", LookMode.Value);
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {

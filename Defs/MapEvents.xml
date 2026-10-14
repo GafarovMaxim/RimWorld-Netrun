@@ -26,6 +26,9 @@
     <mapHackHours>12</mapHackHours>
     <mapHackWinHeat>5</mapHackWinHeat>
     <mapHackLoseBreakdowns>2</mapHackLoseBreakdowns>
+    <!-- The first encrypted crate opened at home in the first days: +22 to Hacking Expansion's 3-6, so a newcomer starts with 25+. -->
+    <starterCrateCyberdata>22</starterCrateCyberdata>
+    <starterCrateDays>15</starterCrateDays>
   </Netrun.MapEventsSettingsDef>
 
   <IncidentDef>

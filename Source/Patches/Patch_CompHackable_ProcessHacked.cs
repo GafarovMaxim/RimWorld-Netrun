@@ -28,6 +28,7 @@ public static class Patch_CompHackable_ProcessHacked
             NetsickManager.Get()?.NotifyHack(hacker);
             TryGiveCyberpodBonusData(hacker);
             TryDropAIFinds(__instance, hacker);
+            TryStarterCrate(__instance, hacker);
         }
         catch (Exception ex)
         {
@@ -65,6 +66,26 @@ public static class Patch_CompHackable_ProcessHacked
             "NR_FindLabel".Translate(def.LabelCap),
             "NR_Find".Translate(hacker.LabelShort, target.LabelCap, def.label),
             LetterDefOf.PositiveEvent, new LookTargets(thing));
+    }
+
+    /// <summary>
+    /// The newcomer's starting stock (Maxim, 2026-10-14: at least 25 cyberdata to start with): Hacking Expansion's
+    /// encrypted crate by the ancient cyberdeck gives only 3-6, so the first such crate the colony opens on a home map
+    /// in its first days adds more. Once per game; the numbers are in Defs/MapEvents.xml.
+    /// </summary>
+    private static void TryStarterCrate(CompHackable comp, Pawn hacker)
+    {
+        Thing crate = comp.parent;
+        MapEventsSettingsDef settings = NetrunDefOf.NR_MapEvents;
+        NetworkGate gate = NetworkGate.Get();
+        if (gate == null || gate.StarterCrateGiven || crate.def.defName != "USH_EncryptedCrate" || !crate.Spawned || !crate.Map.IsPlayerHome
+            || Find.TickManager.TicksGame > settings.starterCrateDays * GenDate.TicksPerDay || settings.starterCrateCyberdata <= 0)
+            return;
+        gate.StarterCrateGiven = true;
+        Thing data = ThingMaker.MakeThing(NetrunDefOf.USH_Cyberdata);
+        data.stackCount = settings.starterCrateCyberdata;
+        GenPlace.TryPlaceThing(data, crate.Position, crate.Map, ThingPlaceMode.Near);
+        Messages.Message("NR_StarterCrate".Translate(hacker.LabelShort, settings.starterCrateCyberdata), new LookTargets(data), MessageTypeDefOf.PositiveEvent);
     }
 
     /// <summary>

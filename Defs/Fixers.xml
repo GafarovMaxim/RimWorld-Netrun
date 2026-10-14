@@ -101,6 +101,8 @@
       <li>USH_AdvancedCyberdata</li>
       <li>NR_AIFragment</li>
     </shopItems>
+    <!-- Cyberdata in packs of this many, always in stock (0 = off) -->
+    <cyberdataBundle>10</cyberdataBundle>
     <!-- Extra goods only from pinned fixers -->
     <pinnedShopItems>
       <li>NR_AICoreModule</li>

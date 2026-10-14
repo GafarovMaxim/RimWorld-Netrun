@@ -232,6 +232,8 @@ public class FixerManager : GameComponent, INetrunCleanable
         List<ThingDef> stock = Settings.shopItems.InRandomOrder().Take(System.Math.Max(1, size)).ToList();
         if (fixer.Pinned || fixer.Trait == FixerTrait.Collector)
             stock.AddRange(Settings.pinnedShopItems);
+        if (Settings.cyberdataBundle > 0)
+            stock.Insert(0, NetrunDefOf.USH_Cyberdata);
         return stock;
     }
 

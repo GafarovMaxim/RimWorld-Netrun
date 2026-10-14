@@ -27,4 +27,5 @@
   <NR_CourierDecline>Refuse</NR_CourierDecline>
   <NR_CourierDeclined>The courier has gone to another colony.</NR_CourierDeclined>
   <NR_CourierNoWay>The courier could not find a way to your colony.</NR_CourierNoWay>
+  <NR_StarterCrate>{0} found a hidden stash in the crate: {1} more cyberdata. A start for the net.</NR_StarterCrate>
 </LanguageData>

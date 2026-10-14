@@ -42,6 +42,10 @@ public class MapEventsSettingsDef : Def
     /// </summary>
     public float mapEventMtbDays = 5f;
 
+    /// <summary>Extra cyberdata from the first encrypted crate opened at home within this many days (the newcomer's start).</summary>
+    public int starterCrateCyberdata = 22;
+    public float starterCrateDays = 15f;
+
 }
 
 /// <summary>

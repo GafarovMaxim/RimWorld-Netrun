@@ -98,6 +98,11 @@ public class FixerSettingsDef : Def
     public int shopStockSize = 4;
     public List<ThingDef> shopItems = [];
     public List<ThingDef> pinnedShopItems = [];
+    /// <summary>
+    /// Cyberdata sold in packs of this many, always in a fence's shop and never sold out (Maxim, 2026-10-14: a
+    /// newcomer needs a way to buy it). 0 turns it off.
+    /// </summary>
+    public int cyberdataBundle = 10;
 
     // Contracts
     public IntRange offersPerFixer = new(1, 2);

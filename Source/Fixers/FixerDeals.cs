@@ -112,14 +112,17 @@ public static class FixerDeals
         }
 
         Thing thing = ThingMaker.MakeThing(def, GenStuff.DefaultStuffFor(def));
+        thing.stackCount = Fixer.ShopCount(def);
         IntVec3 dropSpot = DropCellFinder.TradeDropSpot(map);
         DropPodUtility.DropThingsNear(dropSpot, map, [thing], forbid: false);
 
-        if (!fixer.Stock.Remove(def))
+        // Cyberdata packs never sell out; anything else leaves the stock (or the black market's list).
+        bool always = def == NetrunDefOf.USH_Cyberdata && fixer.Stock.Contains(def);
+        if (!always && !fixer.Stock.Remove(def))
             MapEventsManager.Get()?.MarkBlackMarketSold(def);
         fixer.GainReputation(Settings.reputationPerPurchase);
         NetrunSound.Play("UI_Confirm");
-        Messages.Message("NR_FixerDelivery".Translate(fixer.Name, def.label),
+        Messages.Message("NR_FixerDelivery".Translate(fixer.Name, thing.stackCount > 1 ? def.label + " x" + thing.stackCount : def.label),
             new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent, historical: true);
         fixer.AfterDeal();
     }
