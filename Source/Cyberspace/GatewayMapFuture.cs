@@ -248,7 +248,7 @@ public static partial class GatewayView
     }
 
     /// <summary>A small timer tag next to a hub whose state ends soon (shown from zoom 0.8).</summary>
-    private static void DrawTimerTag(Rect hubRect, MapNode n, NetMapManager net)
+    private static void DrawTimerTag(Rect hubRect, MapNode n, NetMapManager net, Rect guardTag)
     {
         if (_zoom < 0.8f)
             return;
@@ -266,7 +266,8 @@ public static partial class GatewayView
         }
         string text = tagText.text;
         float w = tagText.width + 8f;
-        var tag = new Rect(hubRect.xMax + 4f, hubRect.y - 16f, w, 14f);
+        // Right of the hub, or right of its LOCKED / OPEN tag so the two never overlap.
+        var tag = guardTag.width > 0f ? new Rect(guardTag.xMax + 3f, guardTag.y + 0.5f, w, 14f) : new Rect(hubRect.xMax + 4f, hubRect.y - 16f, w, 14f);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.7f);
         Widgets.DrawBox(tag);

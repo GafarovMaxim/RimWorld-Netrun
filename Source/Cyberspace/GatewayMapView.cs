@@ -277,12 +277,15 @@ public static partial class GatewayView
     public static HashSet<int> WatchedHubs() => NetrunUI.Cached(WatchedKey,
         () => new HashSet<int>(ContractManager.Get()?.Active.Where(c => c.Accepted && c.WatchesHub).Select(c => c.TargetHub) ?? []), 0.5f);
 
-    private static void DrawWatchTag(Rect hubRect)
+    /// <summary>The "watch" tag left of the hub; beside the LOCKED / OPEN tag when the hub has one, so they never overlap.</summary>
+    private static void DrawWatchTag(Rect hubRect, Rect guardTag)
     {
         Text.Font = GameFont.Tiny;
         string text = NetrunUI.T("NR_MapWatchTag");
         float w = NetrunUI.Width(text) + 8f;
-        var tag = new Rect(hubRect.x - w - 4f, hubRect.y - 16f, w, 14f);
+        var tag = guardTag.width > 0f
+            ? new Rect(guardTag.x - w - 3f, guardTag.y + 0.5f, w, 14f)
+            : new Rect(hubRect.x - w - 4f, hubRect.y - 16f, w, 14f);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.8f);
         Widgets.DrawBox(tag);
@@ -630,6 +633,7 @@ public static partial class GatewayView
             GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.7f * (1f - pulse));
             GUI.DrawTexture(rect.ExpandedBy(4f + 14f * pulse), NetrunUI.ThinRing);
         }
+        Rect guardTag = default;
         if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
         {
             // D2: a protected hub. Shut: an amber dashed ring, a "LOCKED" tag above it and a dashed amber line to the
@@ -640,7 +644,7 @@ public static partial class GatewayView
             GUI.DrawTexture(rect.ExpandedBy(7f), DashedRing);
             if (shut && GuardKeyHub(n.Id) is { } keyHub && net.Map.Node(keyHub) is { } key)
                 DrawKeyLine(ToScreen(local, key.Pos), p, r);
-            DrawGuardTag(rect, shut);
+            guardTag = DrawGuardTag(rect, shut);
         }
         if (n.Id == net?.MarkedNodeId)
         {
@@ -696,6 +700,15 @@ public static partial class GatewayView
             Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + (markers ? 11f : 7f) * Mathf.Sqrt(_zoom));
             float br = (markers ? (b.IsBoss || b.Ancient ? 7.5f : 5.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
             var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
+            // Important nodes breathe with a soft ring in their colour (Maxim, 2026-10-15): a contract target or a key
+            // (amber), a black lab (purple), a corporate core or the Old Net (red).
+            if (markers && !b.Hidden && NetrunMod.Settings.Animations && ImportantColor(b) is { } glow)
+            {
+                float pulse = (Time.realtimeSinceStartup * 0.6f + b.Id % 9 * 0.11f) % 1f;
+                GUI.color = new Color(glow.r, glow.g, glow.b, 0.55f * (1f - pulse) * c.a);
+                GUI.DrawTexture(brect.ExpandedBy(2f + 7f * pulse * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
+                GUI.color = Color.white;
+            }
             // The node's type as a shape (square market, ring archive, hexagon corp, triangle abandoned, diamond exchange).
             DrawShape(brect, b, c.a);
             if (!b.Hidden && b.Contract)
@@ -710,13 +723,25 @@ public static partial class GatewayView
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
         if (WatchedHubs().Contains(n.Id))
-            DrawWatchTag(rect);
-        DrawTimerTag(rect, n, net);
+            DrawWatchTag(rect, guardTag);
+        DrawTimerTag(rect, n, net, guardTag);
         if (!QueueHubName(rect, n, net, branches))
             DrawLootDots(rect, n, default);
 
         if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
+    }
+
+    /// <summary>The pulse colour of an important node, or null for an ordinary one.</summary>
+    private static Color? ImportantColor(ExternalNode b)
+    {
+        if (b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+            return NetrunUI.Warn;
+        if (b.Lab)
+            return NetrunUI.Purple;
+        if (b.IsBoss || b.Ancient)
+            return NetrunUI.Bad;
+        return null;
     }
 
     /// <summary>The hub holding the guard gateway of a protected hub (its key), by protected hub id; rebuilt every 2 s.</summary>
@@ -746,8 +771,8 @@ public static partial class GatewayView
             Widgets.DrawLine(from + u * t, from + u * Mathf.Min(t + 5f, len - radius - 10f), c, 1.5f);
     }
 
-    /// <summary>"LOCKED" (amber, with the lock) or "OPEN" over a protected hub.</summary>
-    private static void DrawGuardTag(Rect hub, bool shut)
+    /// <summary>"LOCKED" (amber, with the lock) or "OPEN" over a protected hub; returns the tag's rect.</summary>
+    private static Rect DrawGuardTag(Rect hub, bool shut)
     {
         Text.Font = GameFont.Tiny;
         string label = NetrunUI.Upper(NetrunUI.T(shut ? "NR_MapTagLocked" : "NR_MapTagOpen"));
@@ -770,6 +795,7 @@ public static partial class GatewayView
         Widgets.Label(new Rect(x, tag.y, tag.xMax - x, tag.height), label);
         Text.Anchor = TextAnchor.UpperLeft;
         GUI.color = Color.white;
+        return tag;
     }
 
     // Where a hub's branch markers sit, by hub and marker count; dropped when the map changes (CyberMap.Dirty) via the 2 s cache.
