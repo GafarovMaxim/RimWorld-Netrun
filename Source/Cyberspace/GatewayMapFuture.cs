@@ -129,6 +129,68 @@ public static partial class GatewayView
         return y + 6f;
     }
 
+    /// <summary>
+    /// "Now in the net" at the top of the panel when nothing is picked (Maxim, 2026-10-14: the events were only in the
+    /// news line, easy to miss for a newcomer): what is in effect and the latest headlines. Built once a second.
+    /// </summary>
+    private static float DrawNow(Rect inner, float y)
+    {
+        string text = NetrunUI.Cached("map.now", () =>
+        {
+            var lines = new List<string>();
+            string effects = Effects();
+            int cut = effects.IndexOf('\n');
+            if (cut >= 0)
+                lines.Add(effects.Substring(cut + 1));
+            GatewayManager g = GatewayManager.Get();
+            if (g != null)
+            {
+                int now = Find.TickManager.TicksGame, shown = 0;
+                foreach (NetHeadline h in g.RecentHeadlines)
+                {
+                    if (now - h.Tick > GenDate.TicksPerDay || shown++ >= 3)
+                        break;
+                    lines.Add("◆ ".Colorize(h.Color) + h.Text);
+                }
+            }
+            return string.Join("\n", lines);
+        }, 1f);
+        y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapNow".Translate());
+        Text.Font = GameFont.Tiny;
+        float h = Text.CalcHeight(text, inner.width - 6f);
+        Widgets.Label(new Rect(inner.x + 4f, y, inner.width - 6f, h), text);
+        Text.Font = GameFont.Small;
+        return y + h + 8f;
+    }
+
+    /// <summary>
+    /// A hub where something is going on (a timer: patrol, storm, transit, outage, intrusion) breathes with a soft
+    /// amber ring, instead of arrows pointing at it (Maxim, 2026-10-14). Uses the hourly timeline, nothing extra.
+    /// </summary>
+    private static void DrawEventPulse(Rect hubRect, MapNode n, NetMapManager net)
+    {
+        Timeline(net);
+        if (!_nearestTimer.TryGetValue(n.Id, out TimerEntry e))
+            return;
+        Color c = e.Bad ? NetrunUI.Bad : NetrunUI.Warn;
+        if (!NetrunMod.Settings.Animations)
+        {
+            GUI.color = new Color(c.r, c.g, c.b, 0.35f);
+            GUI.DrawTexture(hubRect.ExpandedBy(6f), NetrunUI.ThinRing);
+            GUI.color = Color.white;
+            return;
+        }
+        // Two rings half a beat apart, each hub on its own phase so a busy district does not blink in step.
+        float t = Time.realtimeSinceStartup * 0.6f + n.Id * 0.137f;
+        for (int i = 0; i < 2; i++)
+        {
+            float k = Mathf.Repeat(t + i * 0.5f, 1f);
+            GUI.color = new Color(c.r, c.g, c.b, 0.55f * (1f - k));
+            GUI.DrawTexture(hubRect.ExpandedBy(4f + 18f * k * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
+        }
+        GUI.color = Color.white;
+    }
+
     /// <summary>A small timer tag next to a hub whose state ends soon (shown from zoom 0.8).</summary>
     private static void DrawTimerTag(Rect hubRect, MapNode n, NetMapManager net)
     {
@@ -303,31 +365,58 @@ public static partial class GatewayView
         return s;
     }
 
-    private static void DrawHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
+    // A name tag's text width per hub, measured once per text (not per frame).
+    private static readonly Dictionary<int, (string text, float width)> NameWidths = [];
+
+    private static float NameWidth(int id, string text)
+    {
+        if (NameWidths.TryGetValue(id, out var cached) && ReferenceEquals(cached.text, text))
+            return cached.width;
+        Text.Font = GameFont.Tiny;
+        float w = Text.CalcSize(text).x;
+        NameWidths[id] = (text, w);
+        return w;
+    }
+
+    /// <summary>
+    /// The hub's name in a small terminal tag under the hub (Maxim, 2026-10-14): a dark plate with a thin edge in the hub's
+    /// colour and a marker tick on the left; the loot bars hang under it. Returns the tag's rect, or an empty rect when the
+    /// name is not shown at this zoom.
+    /// </summary>
+    private static Rect DrawHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
     {
         if (n.District == District.Home || _zoom < 0.8f)
-            return;
-        bool interesting = n.Fortress || n.Exit || net.Watch.Contains(n.Id) || branches.Any(b => b.Contract && !b.Hidden) || n.Id == _selectedMapNode;
+            return default;
+        bool interesting = n.Fortress || n.Exit || net.Watch.Contains(n.Id) || n.Id == _selectedMapNode;
+        if (!interesting)
+            for (int i = 0; i < branches.Count; i++)
+                if (branches[i].Contract && !branches[i].Hidden)
+                {
+                    interesting = true;
+                    break;
+                }
         if (!interesting && _zoom < 1.3f)
-            return;
+            return default;
+        bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
+        string text = capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
+        float w = NameWidth(n.Id, text) + 14f;
+        var tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f);
+        bool dims = LegendDims(n.Id);
+        Color edge = HubColor(n, net);
+        float a = dims ? 0.3f : 1f;
+        Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.82f * a));
+        GUI.color = new Color(edge.r, edge.g, edge.b, (capital ? 0.8f : interesting ? 0.55f : 0.3f) * a);
+        Widgets.DrawBox(tag);
+        GUI.color = Color.white;
+        Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.UpperCenter;
-        if (n.Fortress && net.CorpOfSlot(n.CorpSlot) is { } corp)
-        {
-            // A capital: the corporation's name in capitals and its colour.
-            Color cc = HubColor(n, net);
-            GUI.color = LegendDims(n.Id) ? new Color(cc.r, cc.g, cc.b, 0.3f) : cc;
-            Widgets.Label(new Rect(hubRect.center.x - 90f, hubRect.yMax + 8f * Mathf.Sqrt(_zoom), 180f, 16f), NetrunUI.Upper(corp.Name));
-            GUI.color = Color.white;
-        }
-        else
-        {
-            GUI.color = LegendDims(n.Id) ? new Color(1f, 1f, 1f, 0.3f) : Color.white;
-            Widgets.Label(new Rect(hubRect.center.x - 60f, hubRect.yMax + 8f * Mathf.Sqrt(_zoom), 120f, 16f), HubName(n, net.Map, interesting));
-            GUI.color = Color.white;
-        }
+        Text.Anchor = TextAnchor.MiddleCenter;
+        GUI.color = capital ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
+        Widgets.Label(new Rect(tag.x + 3f, tag.y, tag.width - 3f, tag.height), text);
+        GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
+        return tag;
     }
 
     /// <summary>Visited hubs keep a faint rim (the last visit is in the hover card).</summary>

@@ -144,6 +144,7 @@
   <NR_MapTimerCoreOpens>откроется корп-ядро{0}</NR_MapTimerCoreOpens>
   <NR_MapTimerIntrusion>вторжение в пути: {0}</NR_MapTimerIntrusion>
   <NR_MapTimerNow>сейчас</NR_MapTimerNow>
+  <NR_MapNow>Сейчас в сети</NR_MapNow>
   <NR_MapNext3Days>Ближайшие 3 дня</NR_MapNext3Days>
   <NR_MapRunnerTag>{0} → {1} · {2}</NR_MapRunnerTag>
   <NR_MapPingMoving>Раннер в пути.</NR_MapPingMoving>

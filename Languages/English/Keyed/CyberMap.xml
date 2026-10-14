@@ -144,6 +144,7 @@
   <NR_MapTimerCoreOpens>a corporate core opens{0}</NR_MapTimerCoreOpens>
   <NR_MapTimerIntrusion>intrusion on the way: {0}</NR_MapTimerIntrusion>
   <NR_MapTimerNow>now</NR_MapTimerNow>
+  <NR_MapNow>Now in the net</NR_MapNow>
   <NR_MapNext3Days>Next 3 days</NR_MapNext3Days>
   <NR_MapRunnerTag>{0} → {1} · {2}</NR_MapRunnerTag>
   <NR_MapPingMoving>The runner is on the move.</NR_MapPingMoving>

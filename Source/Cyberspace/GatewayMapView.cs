@@ -98,7 +98,7 @@ public static partial class GatewayView
             // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
-            foreach ((Vector2 pos, string text, Color color, bool corp, float radius) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
+            foreach ((Vector2 pos, string text, Color color, bool corp, float radius, Vector2 top) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
             {
                 Vector2 c = ToScreen(local, pos);
                 // A corporation's ground: a soft glow in its own colour and a thin dashed edge (red stays for ICE,
@@ -112,19 +112,25 @@ public static partial class GatewayView
                     GUI.DrawTexture(new Rect(c.x - edge, c.y - edge, edge * 2f, edge * 2f), DashedRing);
                     GUI.color = Color.white;
                 }
-                // A watermark under the links, moved inside the map when it would run off an edge.
-                float lx = Mathf.Clamp(c.x - 90f, 4f, local.width - 184f);
-                Widgets.Label(new Rect(lx, c.y - 34f * _zoom - 10f, 180f, 18f), text);
+                // A watermark under the links, fixed in map space (Maxim, 2026-10-14: no sliding to the screen edge) and
+                // above the district's topmost hub, clear of the hubs and their branch markers; off screen it is not drawn.
+                Vector2 t = ToScreen(local, top);
+                var labelRect = new Rect(t.x - 90f, t.y - 30f * Mathf.Sqrt(_zoom) - 20f, 180f, 18f);
+                if (labelRect.Overlaps(local))
+                    Widgets.Label(labelRect, text);
             }
             Text.Anchor = TextAnchor.UpperLeft;
 
             // Links.
             HashSet<(int, int)> route = RouteSet(selRunner);
+            Dictionary<MapLink, Vector2> bends = LinkBends(map);
             foreach (MapLink l in map.Links)
             {
                 if (!l.Known)
                     continue;
-                DrawMapLink(ToScreen(local, map.Node(l.A).Pos), ToScreen(local, map.Node(l.B).Pos), l, map,
+                MapNode na = map.Node(l.A), nb = map.Node(l.B);
+                Vector2? bend = bends.TryGetValue(l, out Vector2 ctrl) ? ToScreen(local, ctrl) : null;
+                DrawMapLink(ToScreen(local, na.Pos), ToScreen(local, nb.Pos), bend, LinkTrim(na), LinkTrim(nb), l, map,
                     route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B))));
             }
 
@@ -193,36 +199,38 @@ public static partial class GatewayView
         return dots;
     }, 2f);
 
-    /// <summary>The exit mark: a small green square with an arrow pointing out; the word "EXIT" from zoom 130%.</summary>
+    /// <summary>
+    /// The exit mark: a green square with an arrow pointing out. An exit hub is drawn as this square alone (Maxim,
+    /// 2026-10-14: as plain as possible), the legend uses it small. The arrow scales with the square.
+    /// </summary>
     private static void DrawExitMark(Rect r, float alpha)
     {
         Color g = new(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, alpha);
         Widgets.DrawBoxSolid(r, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f * alpha));
         GUI.color = g;
-        Widgets.DrawBox(r);
+        Widgets.DrawBox(r, r.width >= 16f ? 2 : 1);
         GUI.color = Color.white;
-        float cy = r.center.y;
-        Widgets.DrawLine(new Vector2(r.x + 3f, cy), new Vector2(r.xMax - 3f, cy), g, 1.5f);
-        Widgets.DrawLine(new Vector2(r.xMax - 6f, cy - 3f), new Vector2(r.xMax - 3f, cy), g, 1.5f);
-        Widgets.DrawLine(new Vector2(r.xMax - 6f, cy + 3f), new Vector2(r.xMax - 3f, cy), g, 1.5f);
-        if (_zoom >= 1.3f)
-        {
-            Text.Font = GameFont.Tiny;
-            GUI.color = g;
-            Widgets.Label(new Rect(r.x - 2f, r.y - 15f, 40f, 14f), "EXIT");
-            GUI.color = Color.white;
-        }
+        float cy = r.center.y, pad = r.width * 0.22f, head = r.width * 0.22f, w = r.width >= 16f ? 2f : 1.5f;
+        Widgets.DrawLine(new Vector2(r.x + pad, cy), new Vector2(r.xMax - pad, cy), g, w);
+        Widgets.DrawLine(new Vector2(r.xMax - pad - head, cy - head), new Vector2(r.xMax - pad, cy), g, w);
+        Widgets.DrawLine(new Vector2(r.xMax - pad - head, cy + head), new Vector2(r.xMax - pad, cy), g, w);
     }
 
-    private static void DrawLootDots(Rect hubRect, MapNode n)
+    /// <summary>
+    /// The loot meter: five short gold bars hanging under the name tag (lit by the best known branch), or on their own
+    /// under the hub when the name is not shown at this zoom.
+    /// </summary>
+    private static void DrawLootDots(Rect hubRect, MapNode n, Rect nameTag)
     {
         if (Lens != MapLens.Overview || _zoom < 1.1f || !LootDots().TryGetValue(n.Id, out int count))
             return;
-        float y = hubRect.yMax + 10f * Mathf.Sqrt(_zoom) + 16f;
-        float x = hubRect.center.x - count * 2.5f + 0.5f;
+        float width = nameTag.width > 0f ? Mathf.Clamp(nameTag.width - 8f, 30f, 60f) : 30f;
+        float y = nameTag.width > 0f ? nameTag.yMax + 2f : hubRect.yMax + 8f * Mathf.Sqrt(_zoom);
+        float x = hubRect.center.x - width / 2f, slot = width / 5f;
         Color gold = NetrunUI.Hex(0xffd34a);
-        for (int i = 0; i < count; i++)
-            Widgets.DrawBoxSolid(new Rect(x + i * 5f, y, 3f, 3f), new Color(gold.r, gold.g, gold.b, LegendDims(n.Id) ? 0.2f : 0.75f));
+        float a = LegendDims(n.Id) ? 0.25f : 1f;
+        for (int i = 0; i < 5; i++)
+            Widgets.DrawBoxSolid(new Rect(x + i * slot + 1f, y, slot - 2f, 2f), new Color(gold.r, gold.g, gold.b, (i < count ? 0.85f : 0.15f) * a));
     }
 
     private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
@@ -260,9 +268,9 @@ public static partial class GatewayView
 
     private static float MapScale(Rect local) => Mathf.Min(local.width / 1.04f, local.height / 0.70f) * _zoom;
 
-    private static List<(Vector2, string, Color, bool, float)> DistrictLabels(NetMapManager net)
+    private static List<(Vector2, string, Color, bool, float, Vector2)> DistrictLabels(NetMapManager net)
     {
-        var list = new List<(Vector2, string, Color, bool, float)>();
+        var list = new List<(Vector2, string, Color, bool, float, Vector2)>();
         foreach (IGrouping<string, MapNode> g in net.Map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
                      .GroupBy(n => n.District + "|" + n.CorpSlot))
         {
@@ -271,7 +279,9 @@ public static partial class GatewayView
             Color dc = HubColor(first, net);
             Vector2 centre = g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count();
             float radius = g.Max(n => Vector2.Distance(n.Pos, centre));
-            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.5f : 0.3f)), dc, corp, radius));
+            // The label stands over the district's topmost hub, at the district's middle across.
+            var top = new Vector2(centre.x, g.Min(n => n.Pos.y));
+            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.5f : 0.3f)), dc, corp, radius, top));
         }
         return list;
     }
@@ -309,7 +319,117 @@ public static partial class GatewayView
         return Route;
     }
 
-    private static void DrawMapLink(Vector2 a, Vector2 b, MapLink l, CyberMap map, bool onRoute)
+    /// <summary>How far a link stops short of a hub's centre: the hub's drawn radius plus a small gap (links end at the ring).</summary>
+    private static float LinkTrim(MapNode n)
+    {
+        float r = (n.District == District.Home ? 15f : n.Fortress ? 11f : 8f) * Mathf.Sqrt(_zoom);
+        if (n.Fortress || n.District == District.Home)
+            r += 6f;
+        else if (n.District == District.Orbit)
+            r += 2f;
+        return r + 3f;
+    }
+
+    /// <summary>Links that would pass right over another hub, with the control point of a curve around it (map units).</summary>
+    // Rebuilt every 5 s, not per frame: hubs hardly move (only orbit hubs, when they are placed).
+    private static Dictionary<MapLink, Vector2> LinkBends(CyberMap map) => NetrunUI.Cached("map.linkBends", () =>
+    {
+        const float Clearance = 0.022f;
+        var bends = new Dictionary<MapLink, Vector2>();
+        foreach (MapLink l in map.Links)
+        {
+            Vector2 a = map.Node(l.A).Pos, b = map.Node(l.B).Pos;
+            Vector2 ab = b - a;
+            float len2 = ab.sqrMagnitude;
+            if (len2 < 0.0001f)
+                continue;
+            MapNode blocker = null;
+            float blockerDist = Clearance, blockerSide = 0f;
+            foreach (MapNode o in map.Nodes)
+            {
+                if (o.Id == l.A || o.Id == l.B)
+                    continue;
+                float t = Vector2.Dot(o.Pos - a, ab) / len2;
+                if (t <= 0.08f || t >= 0.92f)
+                    continue;
+                Vector2 off = o.Pos - (a + ab * t);
+                float d = off.magnitude;
+                if (d < blockerDist)
+                {
+                    blocker = o;
+                    blockerDist = d;
+                    blockerSide = ab.x * off.y - ab.y * off.x;
+                }
+            }
+            if (blocker == null)
+                continue;
+            // Bend to the side away from the blocking hub, far enough that the curve's middle clears it.
+            Vector2 normal = new Vector2(-ab.y, ab.x).normalized;
+            if (blockerSide > 0f)
+                normal = -normal;
+            bends[l] = (a + b) / 2f + normal * (2f * (Clearance + blockerDist) + 0.01f);
+        }
+        return bends;
+    }, 5f);
+
+    private const int CurveSteps = 12;
+    private static readonly Vector2[] LinkPoints = new Vector2[CurveSteps + 1];
+
+    /// <summary>The link's drawn polyline (a straight line or a curve around a hub), cut back at both hubs' rings.</summary>
+    private static int LinkPolyline(Vector2 a, Vector2 b, Vector2? bend, float trimA, float trimB)
+    {
+        int n;
+        if (bend is { } c)
+        {
+            n = CurveSteps + 1;
+            for (int i = 0; i < n; i++)
+            {
+                float t = i / (float)CurveSteps, u = 1f - t;
+                LinkPoints[i] = u * u * a + 2f * u * t * c + t * t * b;
+            }
+        }
+        else
+        {
+            n = 2;
+            LinkPoints[0] = a;
+            LinkPoints[1] = b;
+        }
+        LinkPoints[0] = Trim(LinkPoints[0], LinkPoints[1], trimA);
+        LinkPoints[n - 1] = Trim(LinkPoints[n - 1], LinkPoints[n - 2], trimB);
+        return n;
+    }
+
+    private static Vector2 Trim(Vector2 from, Vector2 toward, float by)
+    {
+        Vector2 d = toward - from;
+        float len = d.magnitude;
+        return len <= by + 1f ? from + d * 0.5f : from + d / len * by;
+    }
+
+    private static void DrawPolyline(int count, Color color, float width, bool dashed)
+    {
+        float carried = 0f;
+        for (int i = 0; i + 1 < count; i++)
+        {
+            Vector2 p = LinkPoints[i], q = LinkPoints[i + 1];
+            if (!dashed)
+            {
+                Widgets.DrawLine(p, q, color, width);
+                continue;
+            }
+            // 10 px dashes with 10 px gaps, carried across the curve's segments.
+            float len = Vector2.Distance(p, q);
+            for (float s = -carried; s < len; s += 20f)
+            {
+                float s0 = Mathf.Max(0f, s), s1 = Mathf.Min(len, s + 10f);
+                if (s1 > s0)
+                    Widgets.DrawLine(Vector2.Lerp(p, q, s0 / len), Vector2.Lerp(p, q, s1 / len), color, width);
+            }
+            carried = (carried + len) % 20f;
+        }
+    }
+
+    private static void DrawMapLink(Vector2 a, Vector2 b, Vector2? bend, float trimA, float trimB, MapLink l, CyberMap map, bool onRoute)
     {
         bool nearSelected = _selectedMapNode >= 0 && (l.A == _selectedMapNode || l.B == _selectedMapNode);
         bool dim = LegendDims(l.A) && LegendDims(l.B);
@@ -333,27 +453,18 @@ public static partial class GatewayView
         }
         if (dim)
             alpha *= 0.25f;
+        int count = LinkPolyline(a, b, bend, trimA, trimB);
         if (onRoute)
         {
-            Widgets.DrawLine(a, b, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f), 7f);
+            DrawPolyline(count, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f), 7f, false);
             c = NetrunUI.Accent;
             alpha = 1f;
         }
-        if (l.Kind is LinkKind.Dark or LinkKind.Backdoor or LinkKind.Wall)
-        {
-            // Dashed.
-            float len = Vector2.Distance(a, b);
-            int segments = Mathf.Max(2, Mathf.FloorToInt(len / 10f));
-            for (int i = 0; i < segments; i += 2)
-                Widgets.DrawLine(Vector2.Lerp(a, b, i / (float)segments), Vector2.Lerp(a, b, Mathf.Min(1f, (i + 1) / (float)segments)), new Color(c.r, c.g, c.b, alpha), width);
-        }
-        else
-        {
-            if (onRoute || nearSelected)
-                Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, 0.12f), width + 4f);
-            Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, alpha), width);
-        }
-        Vector2 mid = (a + b) / 2f;
+        bool dashed = l.Kind is LinkKind.Dark or LinkKind.Backdoor or LinkKind.Wall;
+        if (!dashed && (onRoute || nearSelected))
+            DrawPolyline(count, new Color(c.r, c.g, c.b, 0.12f), width + 4f, false);
+        DrawPolyline(count, new Color(c.r, c.g, c.b, alpha), width, dashed);
+        Vector2 mid = count == 2 ? (LinkPoints[0] + LinkPoints[1]) / 2f : LinkPoints[count / 2];
         Text.Font = GameFont.Tiny;
         if (l.Kind == LinkKind.Wall && !map.WallOpen)
         {
@@ -413,6 +524,7 @@ public static partial class GatewayView
             NetrunUI.Glow(rect, selected ? NetrunUI.Accent : c, selected ? 1f : 0.7f, selected ? 14f : 8f);
         DrawPulse(rect, n.Id);
         DrawPing(rect, n.Id);
+        DrawEventPulse(rect, n, net);
         DrawVisited(rect, n);
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(rect.ExpandedBy(2f), NetrunUI.Disc);
@@ -422,9 +534,11 @@ public static partial class GatewayView
         bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         bool orbit = n.District == District.Orbit;
         if (home)
+            DrawHomeHub(rect, c, a);
+        else if (n.Exit)
         {
-            GUI.color = new Color(c.r, c.g, c.b, a);
-            GUI.DrawTexture(rect, NetrunUI.Ring);
+            // An exit hub: only the square with the exit arrow.
+            DrawExitMark(rect.ExpandedBy(1f), a);
         }
         else if (n.Offline)
         {
@@ -474,12 +588,6 @@ public static partial class GatewayView
             GUI.color = NetrunUI.Accent;
             GUI.DrawTexture(rect.ExpandedBy(9f), NetrunUI.ThinRing);
         }
-        if (n.Exit && !home)
-        {
-            GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.8f * c.a);
-            GUI.DrawTexture(rect.ExpandedBy(4f), NetrunUI.ThinRing);
-            DrawExitMark(new Rect(rect.x - 15f, rect.y - 15f, 12f, 12f), c.a);
-        }
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
         if (n.Patrol)
@@ -496,9 +604,18 @@ public static partial class GatewayView
         }
         if (home)
         {
-            Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(new Rect(p.x - 40f, rect.yMax + 2f, 80f, 16f), ((string)"NR_District_Home".Translate()).ToUpper().Colorize(NetrunUI.Accent));
+            // HOME in the same tag as the hub names, in the accent colour.
+            string label = NetrunUI.Upper(NetrunUI.T("NR_District_Home"));
+            float w = NetrunUI.Width(label) + 14f;
+            var tag = new Rect(p.x - w / 2f, rect.yMax + 9f, w, 16f);
+            Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
+            GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.7f);
+            Widgets.DrawBox(tag);
+            GUI.color = NetrunUI.Accent;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(tag, label);
             Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
         }
 
         // Branches: small dots around the node, colored by type; unknown ones grey.
@@ -529,11 +646,50 @@ public static partial class GatewayView
         if (WatchedHubs().Contains(n.Id))
             DrawWatchTag(rect);
         DrawTimerTag(rect, n, net);
-        DrawHubName(rect, n, net, branches);
-        DrawLootDots(rect, n);
+        Rect nameTag = DrawHubName(rect, n, net, branches);
+        DrawLootDots(rect, n, nameTag);
 
         if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
+    }
+
+    /// <summary>
+    /// The colony's own hub as a small fortified core (Maxim, 2026-10-14: the plain ring was dull): a soft glow, a slowly
+    /// turning dashed outer ring, the main ring, a hexagon with a diamond heart and four crosshair ticks.
+    /// </summary>
+    private static void DrawHomeHub(Rect rect, Color c, float a)
+    {
+        NetrunUI.Glow(rect, c, 0.45f * a, 12f);
+        Rect outer = rect.ExpandedBy(7f);
+        if (NetrunMod.Settings.Animations)
+        {
+            Matrix4x4 old = GUI.matrix;
+            GUIUtility.RotateAroundPivot(Time.realtimeSinceStartup * 12f % 360f, outer.center);
+            GUI.color = new Color(c.r, c.g, c.b, 0.45f * a);
+            GUI.DrawTexture(outer, DashedRing);
+            GUI.matrix = old;
+        }
+        else
+        {
+            GUI.color = new Color(c.r, c.g, c.b, 0.45f * a);
+            GUI.DrawTexture(outer, DashedRing);
+        }
+        GUI.color = new Color(c.r, c.g, c.b, a);
+        GUI.DrawTexture(rect, NetrunUI.Ring);
+        Rect hex = rect.ContractedBy(rect.width * 0.24f);
+        GUI.color = new Color(c.r, c.g, c.b, 0.22f * a);
+        GUI.DrawTexture(hex, ShapeTex(Shape.Hexagon, true));
+        GUI.color = new Color(c.r, c.g, c.b, 0.9f * a);
+        GUI.DrawTexture(hex, ShapeTex(Shape.Hexagon, false));
+        GUI.DrawTexture(rect.ContractedBy(rect.width * 0.4f), ShapeTex(Shape.Diamond, true));
+        GUI.color = Color.white;
+        Color tick = new(c.r, c.g, c.b, 0.8f * a);
+        Vector2 m = rect.center;
+        float r0 = rect.width / 2f + 10f, r1 = r0 + 5f;
+        Widgets.DrawLine(new Vector2(m.x, m.y - r0), new Vector2(m.x, m.y - r1), tick, 1.5f);
+        Widgets.DrawLine(new Vector2(m.x, m.y + r0), new Vector2(m.x, m.y + r1), tick, 1.5f);
+        Widgets.DrawLine(new Vector2(m.x - r0, m.y), new Vector2(m.x - r1, m.y), tick, 1.5f);
+        Widgets.DrawLine(new Vector2(m.x + r0, m.y), new Vector2(m.x + r1, m.y), tick, 1.5f);
     }
 
     /// <summary>Right click (menu) and left click (select, deselect, travel) on a hub.</summary>
@@ -739,7 +895,8 @@ public static partial class GatewayView
         MapNode node = net.Map.Node(_selectedMapNode);
         if (node == null)
         {
-            y = DrawActiveContracts(inner, y + 4f);
+            y = DrawNow(inner, y + 4f);
+            y = DrawActiveContracts(inner, y);
             y = DrawWatchlist(inner, y, net);
             return DrawTimeline(inner, y, net);
         }
