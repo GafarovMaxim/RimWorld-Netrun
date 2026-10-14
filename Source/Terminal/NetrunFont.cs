@@ -44,7 +44,7 @@ public static class NetrunFont
         {
             Log.Warning("[Netrun] Could not load the Tektur font, the standard font is used: " + e.Message);
         }
-        if (Tektur == null)
+        if (Tektur == null && Prefs.DevMode)
             Log.Message("[Netrun] Tektur font bundle not found: the terminal uses the standard font.");
     }
 

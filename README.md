@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://rimworldgame.com/"><img src="https://img.shields.io/badge/RimWorld-1.6-2ea44f?style=for-the-badge&logo=csharp" alt="RimWorld 1.6"/></a>
+  <a href="https://rimworldgame.com/"><img src="https://img.shields.io/badge/RimWorld-1.6%20%7C%201.7-2ea44f?style=for-the-badge&logo=csharp" alt="RimWorld 1.6 and 1.7"/></a>
   <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880"><img src="https://img.shields.io/badge/Dependency-Ushanka's%20Hacking%20Expansion-00b4d8?style=for-the-badge" alt="Hacking Expansion Dependency"/></a>
   <a href="https://github.com/pardeike/HarmonyRimWorld"><img src="https://img.shields.io/badge/Requires-Harmony-f77f00?style=for-the-badge" alt="Harmony"/></a>
   <a href="https://github.com/AndroidQuazar/VanillaExpandedFramework"><img src="https://img.shields.io/badge/Requires-Vanilla%20Expanded%20Framework-7209b7?style=for-the-badge" alt="VEF"/></a>
@@ -20,7 +20,7 @@
 
 > *"The network remembers your trace. Data is currency, but the netrunner pays in body and sanity."*
 
-**Hacking Expansion: Netrun** is a deep cyberpunk expansion layer for RimWorld 1.6, designed as a modular companion to **[Ushanka's Hacking Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880)**.
+**Hacking Expansion: Netrun** is a deep cyberpunk expansion layer for RimWorld 1.6 and 1.7, designed as a modular companion to **[Ushanka's Hacking Expansion](https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880)**.
 
 Intrusions are no longer isolated events: every breach leaves a digital trace across remote nodes, attracts underworld fixers, awakens autonomous network AIs, and provokes severe corporate counter-intrusion protocols.
 
@@ -42,8 +42,8 @@ Intrusions are no longer isolated events: every breach leaves a digital trace ac
 
 ### 0. Network Terminal & Cyberspace Dives
 The comms console becomes a **network console**; a colonist opens the terminal there (a cyberpod has its own button).
-* **Node map:** Core (Heat ring with daily trend, alerts and resources), Club (fixers), Board (contracts), Archive (trace journal), Server room (AIs), Studio (braindance), Gateway (dives).
-* **Gateway:** external nodes float as circles (size = haul, color = type, dashed = hidden). Pick programs (Sword, Shield, Decoy, Stealth, Killer) and dive from a cyberpod.
+* **Navigation screen:** Core (Heat ring with daily trend, alerts and resources), Club (fixers, corporations, crews, top-100), Board (contracts), Archive (trace journal), Server room (AIs), Studio (braindance), Gateway (the cyberspace map). The in-game **Cyberpedia** and a Guide mode explain every screen.
+* **Gateway:** a zoomable cyberspace map with lenses (loot, danger, corporations, jobs, time), search, routes and a watchlist. Pick programs (Sword, Shield, Decoy, Stealth, Killer) and a daemon, then dive from a cyberpod. A free training dive shows a newcomer around.
 * **Turn-based dives:** move through code gates, scan hidden caches, hack Black ICE, download data and leave through the I/O port. Black ICE answers with Hacking Expansion outcomes: nausea, lockout, coma.
 
 ### 1. Digital Heat & Network Trace
@@ -89,26 +89,27 @@ Complete closed-loop synthesis of virtual neural recordings:
 * **Console Editing:** Raw recordings are edited at the network console into finished BD chips of varying quality (*Normal, Excellent, Masterwork*).
 * **Playback:** Requires BD goggles or an installed Cyberlink neural interface. Grants intense mood elevation but carries real addictive danger.
 
-### 5. Network Incidents & "The Black Book"
+### 5. Network Incidents & "The Black Ledger"
 * **Network Attacks:** Hacker neuro-noise, remote cyberdata theft, machine sabotage, power surges, and ransomware lockouts.
-* **The Black Book:** A covert mercenary syndicate without static map bases. Deploys elite hit-squads tracing hot telemetry signals or retaliating for botched contracts.
+* **The Black Ledger:** A covert mercenary syndicate without static map bases. Deploys elite hit-squads tracing hot telemetry signals or retaliating for botched contracts.
 
 ### 6. Cyberspace Sickness (Netsick)
 Excessive pod immersion leads to chronic cyberspace dependency. Severe withdrawal can trigger erratic binges where netrunners recklessly dive into the net: 65% chance of brain trauma or coma, but 12% chance of a legendary breakthrough with rare data and AI fragments.
 
 ### 7. The Living Net
 * **Cyberspace map:** one map per game with districts (corporate, markets, ruins, campus, darknet, the Old Net behind a wall), links walked in game time, sessions, exits and a daily life of outages, jams and new tenants. With Odyssey, orbital nodes open while your gravship is in space.
-* **Corporations and crews:** corporations with Alert and Strength that harden, patrol, send intrusions along the map, capture nodes and can collapse; six runner crews that race, help, hunt and get hired; a top-100 of the net.
+* **Corporations and crews:** corporations with Alert and Strength that harden, patrol, send intrusions along the map, capture nodes and can collapse; protected corporate hubs that open with a key from a neighbouring hub; rival runner crews that race, help, hunt and get hired; a top-100 of the net.
 * **Node defense:** wall-mounted firewalls, your own ICE tiers, a honeypot, netrunners on watch duty, network isolation, intercepting intrusions with a dive.
 * **AI quests and levels:** each personality has its own quest in the vanilla Quests tab; levels unlock stronger and second services.
 * **Pawns and DLC:** dive traits, backstories, a gene, a braindance learning desire, a royal permit, Ideology issues, memes, rituals and the Net archon role.
+* **The Transition:** a late-game ending that starts with a rumour and a stranger from a corporate black lab.
 * **Starts and achievements:** four scenarios (The last node, Corporate runaways, Pirate studio, Flying node for Odyssey); 26 achievements with Vanilla Achievements Expanded (optional).
 
 ---
 
 ## 📦 Requirements & Load Order
 
-1. **RimWorld 1.6**
+1. **RimWorld 1.6 or 1.7**
 2. **Harmony**
 3. **Vanilla Expanded Framework**
 4. **Ushanka's Hacking Expansion**

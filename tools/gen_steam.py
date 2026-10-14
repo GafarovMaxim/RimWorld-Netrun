@@ -1,12 +1,14 @@
 """Steam Workshop description (docs/steam/): a banner and section headers in the terminal style, plus the BBCode text
 in English and Russian. Two variants per language:
 - description_<lang>.txt: text headers ([h1]), paste-ready as is;
-- description_<lang>_images.txt: header images. Upload docs/steam/img/*.png (Imgur, Steam), put the links into
-  docs/steam/urls.json ({"en_banner": "https://...", ...}) and run the script again: the links are filled in.
+- description_<lang>_images.txt: header images. By default they link to the raw files on GitHub under the release
+  tag (v<modVersion> from About.xml), so push the tag before publishing. Other hosting: put the links into
+  docs/steam/urls.json ({"en_banner": "https://...", ...}) and run the script again.
 Steam allows 8000 characters; the script warns above that. Run: python tools/gen_steam.py
 """
 import json
 import os
+import re
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -29,6 +31,8 @@ HE = "https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880"
 HARMONY = "https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077"
 VEF = "https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013"
 GITHUB = "https://github.com/GafarovMaxim/RimWorld-Netrun"
+VERSION = re.search(r"<modVersion>([^<]+)</modVersion>", open(os.path.join(ROOT, "About", "About.xml"), encoding="utf-8").read()).group(1)
+RAW = f"https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v{VERSION}/docs/steam/img/"
 
 # id, icon, EN title, EN tagline, RU title, RU tagline
 SECTIONS = [
@@ -40,6 +44,7 @@ SECTIONS = [
     ("ais", "Tabs/Tab_AI", "NETWORK AIs", "thirteen minds in your servers", "СЕТЕВЫЕ ИИ", "тринадцать разумов в ваших серверах"),
     ("braindance", "Tabs/Tab_Braindance", "BRAINDANCE", "someone else's memory, as your own", "БРЕЙНДАНС", "чужая память как своя"),
     ("defense", "Cyberspace/Program_Shield", "HUB DEFENSE", "when the net comes knocking", "ЗАЩИТА УЗЛА", "когда сеть стучится в ответ"),
+    ("transition", "Gizmo_MindUpload", "THE TRANSITION", "an ending beyond the flesh", "ПЕРЕХОД", "финал за пределами плоти"),
     ("colonists", "Ideo/Role_NetArchon", "COLONISTS, DLC & STARTS", "the netrunner pays in body and mind", "КОЛОНИСТЫ, DLC И СТАРТЫ", "нетраннер платит телом и разумом"),
     ("requirements", "Icon_Guide", "REQUIREMENTS", "load order and compatibility", "ТРЕБОВАНИЯ", "порядок загрузки и совместимость"),
     ("credits", "Fixers/Handshake", "CREDITS", "thank you", "БЛАГОДАРНОСТИ", "спасибо"),
@@ -129,7 +134,8 @@ def banner(lang):
         img.alpha_composite(ic, (x + (size - ic.width) // 2, top + (size - ic.height) // 2))
     # corner badge
     d.polygon([(0, 0), (150, 0), (0, 150)], fill=(60, 52, 40, 255))
-    d.text((34, 40), "1.6", font=font(34), fill=(230, 220, 200, 255), anchor="mm")
+    d.text((40, 30), "1.6", font=font(28), fill=(230, 220, 200, 255), anchor="mm")
+    d.text((40, 62), "1.7", font=font(28), fill=(230, 220, 200, 255), anchor="mm")
     img.convert("RGB").save(os.path.join(IMG, f"{lang}_banner.png"), optimize=True)
 
 
@@ -150,19 +156,20 @@ EN = {
 [*][b]Studio[/b]: braindance
 [*][b]Gateway[/b]: the cyberspace map and dives
 [/list]
-And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.""",
-    "cyberspace": """One map per game: about 45 hubs in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
+A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jobs, time), search, routes and a watchlist. The [b]Cyberpedia[/b] explains everything with live examples, and a Guide mode outlines every part of the screen. Five sound packs, scaling and accent colours.""",
+    "cyberspace": """One map per game: about 45 hubs in districts that you chart as you go. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day. A free [b]training dive[/b] walks a newcomer through the dive screen.
 [list]
 [*][b]Turn-based dives[/b]: code gates, hidden caches, files, memory units, forks of easy and hard paths
 [*][b]Black ICE[/b] strikes back with Hacking Expansion's nausea, lockout and coma
 [*][b]Programs[/b] (Sword, Shield, Decoy, Stealth, Killer) and five [b]daemons[/b]; HE's ICE breakers and exec data fit right in
 [*][b]Node alerts and ICE patrols[/b]: fail too often and the node wakes up
+[*][b]Protected corporate hubs[/b]: find the key in a neighbouring hub first, then take the richer loot
 [*][b]Corporate cores[/b]: boss nodes with the best loot in the net
 [/list]""",
     "fixers": """A rotating roster of underworld [b]fixers[/b]: brokers, cleaners, fences and imperial clients (Royalty). Each hides a trait: reliable, greedy, paranoid, a collector... or a [b]rat[/b] who will sell you out. Build reputation, pin the ones you trust and take [b]8 kinds of contracts[/b]: data deliveries, system taps, quiet runs, surveillance, clean braindance labs and more.""",
     "corps": """[list]
 [*][b]3 to 4 corporations[/b] own the corporate districts. Each has [b]Alert[/b] and [b]Strength[/b]: they harden their nodes, send patrols, launch intrusions along the map, capture territory and can [b]collapse[/b].
-[*][b]Six runner crews[/b] race you, help you, hunt contract targets and can be hired.
+[*][b]Rival runner crews[/b] race you, help you, hunt contract targets and can be hired.
 [*][b]The top-100 of the net[/b]: fame for every dive. The best get paid more, and watched more closely.
 [/list]""",
     "ais": """Salvage AI fragments from the net and wake them up. [b]13 personalities[/b], from Ghost, Data Hunter and Muse to Predator, Oracle, Trickster, Seed and Echo, each with its own service, hunger, trust and traits.
@@ -172,10 +179,11 @@ And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.""",
 [*][b]Personal quests[/b] in the vanilla Quests tab; AI levels unlock stronger and second services
 [*]A colonist with a cyberlink who dies may leave an [b]Echo[/b]...
 [/list]""",
-    "braindance": """[b]Braindance goggles[/b] capture your colonists' strongest moments. Edit raw recordings into chips at the console, from normal to masterwork, or forbidden [b]black chips[/b]. Sell them, watch them, get hooked. Hunt down [b]8 unique recordings[/b] hidden across the net.""",
+    "braindance": """[b]Braindance goggles[/b] capture your colonists' strongest moments. Edit raw recordings into chips at the console, from normal to masterwork, or forbidden [b]black chips[/b]. Edit a whole pile in one click, if you dare the glitch. Sell them, watch them, get hooked. Hunt down [b]8 unique recordings[/b] hidden across the net.""",
     "defense": """Wall-mounted [b]firewalls[/b], your own [b]ICE tiers[/b] up to black ICE, a [b]honeypot[/b] that traces attackers back, netrunners on watch duty, full network isolation, and intercepting an incoming intrusion with a dive.""",
+    "transition": """A late-game ending for colonies that live in the net. It starts with a rumour in the news feed and a stranger in the Club who used to work in a corporate black lab. What they built there, nobody outside knows. Raid the labs, piece the prototypes together, and decide who is ready to leave the flesh behind.""",
     "colonists": """[list]
-[*][b]Netsick[/b]: pod addiction, cravings and reckless emotional dives (sometimes legendary)
+[*][b]Netsick[/b]: pod addiction, cravings and reckless emotional dives (sometimes legendary); the pod tells how long a stay is still safe
 [*]Dive traits, [b]9 backstories[/b], dive stories and tales
 [*][b]Royalty[/b]: imperial fixers, a trace-scrub permit
 [*][b]Ideology[/b]: net memes, rituals, the Net Archon role
@@ -190,6 +198,7 @@ And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.""",
 [*][url={HE}]Ushanka's Hacking Expansion[/url]
 [/list]
 Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing it mid-game is not recommended. DLC content loads only with its DLC.
+Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].""",
     "credits": f"""Author: [b]Raul Moreau[/b]
 Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank you!
@@ -214,19 +223,20 @@ RU = {
 [*][b]Студия[/b]: брейнданс
 [*][b]Шлюз[/b]: карта киберпространства и нырки
 [/list]
-А ещё [b]Киберпедия[/b] — справочник прямо в игре, с живыми примерами.""",
-    "cyberspace": """Одна карта на игру: около 45 узлов по районам. Корпоративные башни, рынки, руины, кампус, скрытый даркнет и [b]Старая сеть[/b] за стеной. Раннеры в капсулах идут по связям в игровом времени, до трёх одновременно. Отключения, заторы, штормы, новые жильцы: сеть живёт день за днём.
+Большая [b]карта киберпространства[/b] с линзами (добыча, опасность, корпорации, работа, время), поиском, маршрутами и списком наблюдения. [b]Киберпедия[/b] объясняет всё на живых примерах, а режим подсказок обводит каждую часть экрана. Пять звуковых пакетов, масштаб и цвет акцента.""",
+    "cyberspace": """Одна карта на игру: около 45 узлов по районам, которые вы открываете по мере походов. Корпоративные башни, рынки, руины, кампус, скрытый даркнет и [b]Старая сеть[/b] за стеной. Раннеры в капсулах идут по связям в игровом времени, до трёх одновременно. Отключения, заторы, штормы, новые жильцы: сеть живёт день за днём. Бесплатный [b]тренировочный нырок[/b] знакомит новичка с экраном нырка.
 [list]
 [*][b]Пошаговые нырки[/b]: кодовые врата, тайники, файлы, блоки памяти, развилки лёгкого и трудного пути
 [*][b]Чёрный лёд[/b] бьёт в ответ тошнотой, блокировкой и комой из Hacking Expansion
 [*][b]Программы[/b] (Меч, Щит, Приманка, Стелс, Убийца) и пять [b]демонов[/b]; ледорубы и exec-данные HE встают в слот
 [*][b]Тревога ноды и ледовые патрули[/b]: ошибёшься слишком часто — нода проснётся
+[*][b]Защищённые узлы корпораций[/b]: сначала найдите ключ в соседнем узле, потом берите добычу богаче
 [*][b]Корп-ядра[/b]: босс-ноды с лучшей добычей в сети
 [/list]""",
     "fixers": """Сменяющийся круг [b]фиксеров[/b] теневого мира: брокеры, чистильщики, скупщики и имперские клиенты (Royalty). У каждого скрытая черта: надёжный, жадный, параноик, коллекционер... или [b]крыса[/b], которая сдаст вас. Копите репутацию, закрепляйте тех, кому верите, и берите [b]8 видов контрактов[/b]: доставки данных, врезки в системы, тихие заходы, слежку, чистые лаборатории брейнданса и другое.""",
     "corps": """[list]
 [*][b]3–4 корпорации[/b] владеют корпоративными районами. У каждой [b]Тревога[/b] и [b]Сила[/b]: они укрепляют ноды, шлют патрули, ведут вторжения по карте, захватывают территорию и могут [b]рухнуть[/b].
-[*][b]Шесть команд раннеров[/b] соревнуются с вами, помогают, охотятся за целями контрактов и сдаются в наём.
+[*][b]Команды раннеров[/b] соревнуются с вами, помогают, охотятся за целями контрактов и сдаются в наём.
 [*][b]Топ-100 сети[/b]: слава за каждый нырок. Лучшим платят больше, и следят за ними пристальнее.
 [/list]""",
     "ais": """Добывайте фрагменты ИИ в сети и будите их. [b]13 личностей[/b], от Призрака, Охотника за данными и Музы до Хищника, Оракула, Трикстера, Зерна и Эха, у каждой своя услуга, голод, доверие и черты.
@@ -236,10 +246,11 @@ RU = {
 [*][b]Личные квесты[/b] во вкладке «Квесты»; уровни ИИ открывают усиленную и вторую услугу
 [*]Погибший колонист с кибер-линком может оставить [b]Эхо[/b]...
 [/list]""",
-    "braindance": """[b]Очки брейнданса[/b] записывают самые сильные моменты ваших колонистов. Монтируйте сырые записи в чипы на консоли, от обычных до мастерских, или в запретные [b]чёрные чипы[/b]. Продавайте, смотрите, подсаживайтесь. Ищите [b]8 уникальных записей[/b], спрятанных по всей сети.""",
+    "braindance": """[b]Очки брейнданса[/b] записывают самые сильные моменты ваших колонистов. Монтируйте сырые записи в чипы на консоли, от обычных до мастерских, или в запретные [b]чёрные чипы[/b]. Смонтируйте всю стопку одной кнопкой, если не боитесь сбоя. Продавайте, смотрите, подсаживайтесь. Ищите [b]8 уникальных записей[/b], спрятанных по всей сети.""",
     "defense": """[b]Брандмауэры[/b] на стене, свои [b]уровни льда[/b] вплоть до чёрного, [b]ловушка[/b], которая отслеживает атакующих, нетраннеры на дежурстве, полная изоляция сети и перехват вторжения нырком.""",
+    "transition": """Поздний финал для колоний, которые живут в сети. Всё начинается со слуха в ленте новостей и незнакомца в Клубе, который раньше работал в чёрной лаборатории корпорации. Что там создали, снаружи никто не знает. Взламывайте лаборатории, собирайте прототипы и решайте, кто готов оставить плоть позади.""",
     "colonists": """[list]
-[*][b]Netsick[/b]: зависимость от капсулы, ломка и безрассудные нырки на эмоциях (иногда легендарные)
+[*][b]Netsick[/b]: зависимость от капсулы, ломка и безрассудные нырки на эмоциях (иногда легендарные); капсула подскажет, сколько ещё безопасно лежать
 [*]Черты нырков, [b]9 предысторий[/b], рассказы о нырках и легенды
 [*][b]Royalty[/b]: имперские фиксеры, разрешение на зачистку следа
 [*][b]Ideology[/b]: сетевые мемы, ритуалы, роль Архонта сети
@@ -254,6 +265,7 @@ RU = {
 [*][url={HE}]Ushanka's Hacking Expansion[/url]
 [/list]
 Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру; убирать посреди игры не рекомендуется. Контент DLC грузится только с соответствующим DLC.
+Версии игры: [b]1.6[/b] и [b]1.7[/b].
 Языки: [b]English[/b], [b]Русский[/b].""",
     "credits": f"""Автор: [b]Raul Moreau[/b]
 Мод построен на [b]Hacking Expansion[/b] от BlueEagle421 и команды Ushanka. Спасибо!
@@ -267,14 +279,14 @@ RU = {
 def build(lang, text, urls, images):
     parts = []
     if images:
-        parts.append(f"[img]{urls.get(lang + '_banner', '{{' + lang + '_banner}}')}[/img]")
+        parts.append(f"[img]{urls.get(lang + '_banner', RAW + lang + '_banner.png')}[/img]")
     else:
         parts.append("[h1]HACKING EXPANSION: NETRUN[/h1]")
     parts.append(text["intro"])
     for sid, _ico, en_t, _en_s, ru_t, _ru_s in SECTIONS:
         title = en_t if lang == "en" else ru_t
         if images:
-            parts.append(f"[img]{urls.get(lang + '_' + sid, '{{' + lang + '_' + sid + '}}')}[/img]")
+            parts.append(f"[img]{urls.get(lang + '_' + sid, RAW + lang + '_' + sid + '.png')}[/img]")
         else:
             parts.append(f"[hr][/hr]\n[h1]▸ {title}[/h1]")
         parts.append(text[sid])

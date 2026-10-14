@@ -90,7 +90,7 @@
     <order>1</order>
     <color>Bad</color>
     <label>Levels and their effects</label>
-    <body>[[cards]]\n- !heat:Shadow Shadow (0–24): Nobody is looking. No attacks; fixers scrub at their best rate.\n- !heat:Noticed Noticed (25–49): Neural noise and data theft can come.\n- !heat:Tracked Tracked (50–74): Malware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod. Scrubbing gets less effective.\n- !heat:Target Target (75–94): Ransomware, Black Book mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n- !heat:RedZone Red Zone (95–100): Everything from Target, with the worst scrub rate. The exact list for your current level is on the Heat screen under "Level effects".</body>
+    <body>[[cards]]\n- !heat:Shadow Shadow (0–24): Nobody is looking. No attacks; fixers scrub at their best rate.\n- !heat:Noticed Noticed (25–49): Neural noise and data theft can come.\n- !heat:Tracked Tracked (50–74): Malware breakdowns and power surges join in; hackers may hijack your turrets while a netrunner is in a pod. Scrubbing gets less effective.\n- !heat:Target Target (75–94): Ransomware, Black Ledger mercenary raids, the corporate hunt for your AI server, ICE hunters in dives. Heat cools twice as slowly; "Quiet run" contracts fail.\n- !heat:RedZone Red Zone (95–100): Everything from Target, with the worst scrub rate. The exact list for your current level is on the Heat screen under "Level effects".</body>
     <icon>Dive_Lightning_Yellow</icon>
   </Netrun.HelpPageDef>
 
@@ -656,7 +656,7 @@
     <order>1</order>
     <color>Blue</color>
     <label>Network attacks</label>
-    <body>Come from the storyteller as Heat grows.\n[[cards]]\n- !Event_Cyberspace_NeuralNoise Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Book comes armed.</body>
+    <body>Come from the storyteller as Heat grows.\n[[cards]]\n- !Event_Cyberspace_NeuralNoise Neural noise (Noticed+): a hacker's mind is flooded with garbage signal. Lower Heat or wait it out.\n- !Event_Cyberspace_DataTheft Data theft (Noticed+): cyberdata disappears from your storage.\n- !Event_Cyberspace_MalwareBreakdown Malware breakdown (Tracked+): machines break down; keep components ready.\n- !Event_Cyberspace_PowerSurge Power surge (Tracked+): batteries drain, devices spark.\n- !Event_Cyberspace_Ransomware Ransomware (Target+): pay silver or lose more.\n- !Faction_Mercenaries Mercenary raids (Target+, or as revenge): the Black Ledger comes armed.</body>
     <icon>Help/Header_NetworkAttacks</icon>
   </Netrun.HelpPageDef>
 

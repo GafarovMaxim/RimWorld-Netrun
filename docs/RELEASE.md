@@ -1,78 +1,44 @@
-# Чек-лист релиза в Steam Workshop (dev)
+# Релиз в Steam Workshop: 0.6.0
 
-Состояние на 2026-10-08. Публикацию не делаем, только подготовка. Версия в `About.xml` и `Source/Netrun.csproj`: 0.5.0, в CHANGELOG раздел [Unreleased] (релиз 0.6.0 надо назвать и согласовать с Maxim).
+Обновлено 2026-10-15. Версия 0.6.0 в `About.xml`, `Source/Netrun.csproj`, `SourceVAE/NetrunVAE.csproj`; поддержка RimWorld 1.6 и 1.7. Прежний чек-лист (состояние на 2026-10-08) в git-истории этого файла.
 
-## 1. Уже готово (проверено по репозиторию)
-- `About/About.xml`: имя «Hacking Expansion: Netrun», автор Raul Moreau, packageId `GafarovMaxim.HackingExpansionNetrun`, supportedVersions 1.6, зависимости HE (`Ushanka.HackingExpansion`), Harmony, VEF (нужен самому HE), loadAfter на них и на Ludeon.RimWorld. Описание без BBCode.
-- `About/Preview.png` 640x360, 95 КБ (в норме, лимит Steam 1 МБ); `ModIcon.png` 128x128.
-- Лицензия MIT (`LICENSE`, автор Raul Moreau), `README.md`, `README_RU.md`, `SECURITY.md`, `CHANGELOG.md`.
-- Описания для Workshop: `docs/steam/description_en.txt` (5763 символа) и `_ru` (5728), лимит Steam 8000; варианты с картинками и баннеры в `docs/steam/img`.
-- Переводы: `tools/check_keys.py` без пропусков и лишних ключей в EN и RU; Keyed 19 файлов в каждом языке.
-- Отладка только в dev-режиме: `dev: draw` (Dialog_NetTerminal), вывод журнала уборки и ранга (`Prefs.DevMode`), dev-действия в `NetrunDebugActions`.
-- CI (`.github/workflows/build.yml`): ключи, сборка с `-warnaserror`, сборка VAE-части, zip только из About, Assemblies, Defs, Languages, Optional, Patches, Sounds, Textures, README.md. В zip не попадают docs, tools, Source, исходный арт и `.git`.
-- Достижения VAE подключаются только при активном VAE (`Optional/NetrunVAE.dll`).
-- В коде нет TODO/FIXME. В репозитории нет pdb, zip, psd и логов.
+## 1. Готово
+- `About/About.xml`: имя, автор Raul Moreau, packageId `GafarovMaxim.HackingExpansionNetrun`, версии 1.6 и 1.7, зависимости HE, Harmony, VEF; описание обновлено под 0.6.0.
+- `About/Preview.png`: превью v3 (640x360, 200 КБ). Для страницы Workshop большая версия `docs/steam/img/preview_v3_1280x720.png`. Источник `docs/steam/preview_v3_source.html`.
+- `CHANGELOG.md`: раздел [0.6.0] - 2026-10-15 (Added, Changed, Fixed).
+- `README.md`, `README_RU.md`: версии 1.6 и 1.7, экран навигации, карта с линзами, защищённые хабы, тренировочный нырок, «Переход», наёмники Black Ledger.
+- Описание Workshop: `docs/steam/description_{en,ru}.txt` (заголовки текстом) и `description_{en,ru}_images.txt` (заголовки картинками), все меньше 8000 знаков. Добавлен раздел «Переход», метка «1.6 / 1.7» на баннере.
+- Картинки описания: ссылки на GitHub по тегу `v0.6.0` (`https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/...`). Репозиторий публичный. Imgur не нужен.
+- Код: все Harmony-патчи в try/catch, коды ErrorOnce уникальны; информационные Log.Message только в dev-режиме.
+- CI: zip только из About, Assemblies, Defs, Languages, Optional, Patches, Sounds, Textures, README.md, LICENSE; собирает обе DLL сам (VAE-часть тоже). По тегу `v*` прикрепляет zip к GitHub Release.
+- Исходный арт вынесен из репозитория в `G:\Modding\RimWorld\Hacking Expansion Netrun\Reserve`.
 
-## 2. Сделано облаком сейчас
-- Убраны устаревшие подсказки про удалённую кнопку «Discover new node» (EN и RU: «скрытая нода», «Найти новую ноду», строка сводки экономики). Тексты теперь говорят, что скрытую ноду раскрывает обратный след ловушки.
+## 2. Порядок публикации (делает Maxim)
+1. Закрыть игру, собрать: `dotnet build Source/Netrun.csproj -c Release` (DLL в репозитории обновится; в zip CI её соберёт сам).
+2. Проверить в игре новую игру и старое сохранение: нет красных строк от мода в `Player.log`.
+3. Поставить тег на последний коммит `dev` и отправить его: `git tag v0.6.0`, `git push origin v0.6.0`. CI сделает Release с `HackingExpansionNetrun.zip`, а ссылки на картинки описания начнут работать.
+4. Скачать zip из Release и распаковать в отдельную папку в `Mods` (например `Mods\HackingExpansionNetrun`). Загружать в Workshop только её: в папке `_Dev` лежат `.git`, `Source`, `SourceVAE`, `tools`, `docs`, `.github`, `CLAUDE.md`, они не должны попасть в Steam. Пока обе папки в `Mods`, у них один packageId: на время загрузки вынести `_Dev` из `Mods` или выключить её в списке модов.
+5. RimWorld → Моды → выбрать чистую папку → «Загрузить в Steam Workshop». Видимость сначала «только по ссылке».
+6. На странице Workshop: вставить `docs/steam/description_en_images.txt` (основной язык), русский `description_ru_images.txt` добавить как язык описания; большую картинку превью 1280x720 и 4–8 скриншотов 1920x1080; теги Workshop.
+7. Проверить страницу по ссылке, потом открыть для всех.
 
-## 3. Сделать облаком (чистый текст и XML, без сборки)
-1. **E6**: проход по английским текстам hub/node (Cyberspace, Terminal, Contracts, NewsV2, Corporations, Defense, DefInjected Guide, HelpPages) и те же термины в README, описаниях Steam и в `docs/steam/*`.
-2. Сверить описания Steam и README с актуальными функциями: добавить карту v4 (после её выхода), защиту узла в терминале, меню/экран навигации, кастомизацию рамки и темы, сборку «Новичок» (после B7); убрать упоминания, которых больше нет (статьи «Старты Netrun», «Вера и сеть»).
-3. Переписать `CHANGELOG.md`: раздел [Unreleased] превратить в релизный (дата, версия), сгруппировать по Added/Changed/Fixed, убрать внутренние пункты.
-4. Перегенерировать картинки описания (`tools/gen_steam.py`) после правки терминов; проверить, что итог < 8000 символов в обоих языках.
-5. Подготовить 5–8 текстовых подписей к скриншотам и список тегов Workshop (Cyberpunk, Hacking, Quests, Events, Factions, 1.6).
-6. Список совместимости: описать в README, что мод делает с HE, ваниллой и DLC (Royalty, Ideology, Biotech, Odyssey грузятся только с DLC), что с VAE необязательно.
+## 3. Теги Workshop
+Mod, 1.6, 1.7, Cyberpunk, Hacking, Events, Factions, Quests, UI, Translation: Russian.
 
-## 4. Сделать Плотве (код, сборка, проверка в игре)
-1. Закончить очереди карты v4 (G1–G3) и тем рамки (раздел I), B7 «Новичок», Guide для старых экранов, H1 (дебаф при выдёргивании) и H2 (проверить гул).
-2. Релизная сборка: `dotnet build -c Release` с 0 ошибок и 0 предупреждений; `HackingExpansionNetrun.dll` и `Optional/NetrunVAE.dll` пересобраны на последнем коммите; версия в csproj и About совпадает.
-3. Журнал: после загрузки сохранения и 10 минут игры в `Player.log` нет ошибок и красных строк от мода; нет спама Log.Message/Warning в релизе (сейчас 20 вызовов, проверить, что они в `Prefs.DevMode` или редкие).
-4. Производительность по `docs/TECH_DETAILS.md`: числа `dev: draw` на экранах (цель ≤2 мс на карте), нет работы по тику, закрытые списки в сохранении, чистка ссылок на пешек.
-5. Сохранения: (а) добавление мода в существующее сохранение (нет красных ошибок, НетГейт не включается без сети); (б) загрузка сохранения с модом после удаления мода (предупреждение игры допустимо, но не падение и не потеря колонии, проверить хедиффы и вещи мода); (в) сохранение и загрузка во время нырка.
-6. Совместимость: проверить с DLC (Royalty, Ideology, Biotech, Anomaly, Odyssey) и без них, с популярными модами (HugsLib, Faster Game Loading, Better Vanilla Expanded-серией, Dubs Bad Hygiene, Rimpy-порядок загрузки); отдельно Prepare Carefully и Character Editor на пешках с хедиффами мода.
-7. Новая игра с нуля до первого нырка без ошибок (сценарии мода и ванильные).
+## 4. Подписи к скриншотам (EN / RU)
+1. The network terminal: the navigation screen with the Heat ring / Сетевой терминал: экран навигации и кольцо Heat
+2. The cyberspace map with the danger lens / Карта киберпространства с линзой опасности
+3. A dive: forks, code gates and Black ICE / Нырок: развилки, кодовые врата и чёрный лёд
+4. The Club: fixers, corporations, crews and the top-100 / Клуб: фиксеры, корпорации, команды и топ-100
+5. The server room: thirteen AI personalities / Серверная: тринадцать личностей ИИ
+6. The Studio: braindance recordings and chips / Студия: записи и чипы брейнданса
+7. Hub defense: firewalls and ICE tiers / Защита узла: брандмауэры и уровни льда
+8. The Cyberpedia / Киберпедия
 
-## 5. Сделать Maxim
-1. Скриншоты для Workshop (главный экран навигации, карта, нырок, рамки тем, Cyberpedia, защита узла). Нужны 4–8 штук 1920x1080 в тёмной теме.
-2. Создать запись Workshop (через RimWorld: Mods → Upload или SteamCMD), вставить описание EN из `docs/steam/description_en.txt`; RU в отдельный язык описания или в обсуждения; заполнить теги, видимость сначала «только по ссылке».
-3. Папка для загрузки: взять zip из CI (там только игровые файлы), а не папку репозитория целиком (иначе в Workshop уйдут docs, Source, исходный арт и `.git`, около 100 МБ).
-4. Поставить тег `vX.Y.Z` (версии About.xml и csproj совпадают), CI прикрепит zip к Release в GitHub.
-5. Решить: название релиза и номер (0.6.0?), нужна ли beta-ветка Workshop, сделать ли GitHub-репозиторий публичным (сейчас приватный, README ссылается на него), отвечает ли Maxim на комментарии.
-6. Подтвердить автора на странице (Raul Moreau) и ссылку на HE.
+## 5. Не должно попасть в Workshop
+`docs/`, `tools/`, `Source/`, `SourceVAE/`, `.git`, `.github`, `build.bat`, `CLAUDE.md`, `SECURITY.md`, `Test.txt`. В zip CI их нет; перед загрузкой посмотреть содержимое папки, размер около 8 МБ.
 
-## 6. Что не должно попасть в мод (проверка перед загрузкой)
-`docs/`, `tools/`, `Source/`, `SourceVAE/`, `Hacking Expansion Netrun Art/`, `Art/`, `.git`, `.github`, `build.bat`, `CLAUDE.md`, `SECURITY.md`. В zip CI их нет; проверить содержимое zip перед загрузкой (`unzip -l`), размер ожидается около 8 МБ.
-
-## 7. Открытые риски
-- Репозиторий приватный: решение Maxim (2026-10-08 20:14): **откроем на релизе**. До этого ссылка `url` в About.xml и raw-ссылки GitHub у игроков не работают; в день релиза: сделать репозиторий публичным (проверить историю на секреты: `git log -p` по ключам, файлы `Art/`, личные пути), затем публиковать Workshop.
-- Шрифт Tektur использован только в картинках описания (лицензия OFL, ок); в самой игре он не ставится.
-- В описании Steam заявлены функции, которые должны работать: проверить каждый пункт перед публикацией.
-
-## 8. Картинки описания (Workshop, стиль страниц Vanilla Expanded)
-
-Присланный Maxim архив `steam_images.zip` (24 PNG) байт в байт совпал с `docs/steam/img` (их делает `tools/gen_steam.py`): новых файлов нет. Проверено: все PNG 1270 px шириной (баннер 1270x540, заголовки разделов 1270x150), вес 14–105 КБ, тёмный стиль с зелёной неоновой сеткой, шрифт Tektur (лицензия OFL). Копия в `/mnt/project-files/black-ice/steam/`.
-
-Исправлено облаком: заголовок «NODE DEFENSE» стал «HUB DEFENSE» (RU «ЗАЩИТА УЗЛА» верно), тексты описаний обновлены по терминам hub/node и экрану навигации, картинки перегенерированы.
-
-| Картинка (en_/ru_) | Раздел описания | Что поправить |
-|---|---|---|
-| `banner` | шапка, первая строка | ничего; метка «1.6» в углу оставить |
-| `heat` [01] | Digital Heat | пороги Heat актуальны (25/50/75/95) |
-| `terminal` [02] | Network terminal | после карты v4 и тем рамки добавить строки в текст (экран навигации, темы рамки), картинку менять не нужно |
-| `cyberspace` [03] | Cyberspace | после G1–G3 дописать линзы, маршрут, поиск |
-| `fixers` [04] | Fixers & Contracts | актуально |
-| `corps` [05] | Corporations & Crews | актуально |
-| `ais` [06] | Network AIs | актуально (13 личностей) |
-| `braindance` [07] | Braindance | актуально |
-| `defense` [08] | Hub defense | теперь защита колонии в терминале (узел Дом): текст верен |
-| `colonists` [09] | Colonists, DLC & Starts | «Starts» = 4 сценария; верно |
-| `requirements` [10] | Requirements | HE, Harmony, VEF; VAE необязательно |
-| `credits` [11] | Credits | вписать имена, если нужны |
-
-**Хостинг.** Steam не хранит картинки описания сам. Варианты по порядку: (1) Imgur (прямые ссылки `https://i.imgur.com/....png`, загрузить анонимно все 12 нужных файлов одного языка); (2) раздел «Скриншоты» профиля Steam: загрузить картинки и взять прямые ссылки `steamuserimages`; (3) raw-ссылки GitHub, только если репозиторий публичный (сейчас приватный, не годится). Затем `docs/steam/urls.json` вида `{"en_banner": "<ссылка>", ...}` и снова `python tools/gen_steam.py`: ссылки встанут в `description_*_images.txt`.
-
-**Что делает Maxim:** загрузить картинки на выбранный хостинг и прислать ссылки (или файл urls.json); вставить текст из `description_en_images.txt` в Workshop (основной язык), RU добавить как отдельный язык описания.
-
-## 9. Превью мода (About/Preview.png)
-Выбран v3 (решение Maxim 2026-10-15): тёмная карта киберпространства фоном, цветные иконки в рамках, метка «1.6 · 1.7». Источник `docs/steam/preview_v3_source.html` (пути относительные, рендер headless Edge 1280x720), картинки `docs/steam/img/preview_v3_*.png`; 640x360 скопирован в `About/Preview.png` (200 КБ), 1280x720 для страницы Workshop.
+## 6. Риски
+- `docs/` в репозитории нужна для ссылок на картинки описания: они читаются из тега `v0.6.0`. Удалять `docs` только в копии для загрузки, не коммитить удаление.
+- Ветка `main` отстаёт от `dev`; релиз идёт по тегу, `main` не трогаем без решения Maxim.
+- Сборка идёт против ссылок 1.6, игра 1.7: перед публикацией проверить в 1.7 (лог чистый).

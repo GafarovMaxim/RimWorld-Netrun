@@ -22,17 +22,18 @@ The comms console becomes a [b]network console[/b]: a neon terminal with its own
 [*][b]Studio[/b]: braindance
 [*][b]Gateway[/b]: the cyberspace map and dives
 [/list]
-And the [b]Cyberpedia[/b], an in-game encyclopedia with live examples.
+A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jobs, time), search, routes and a watchlist. The [b]Cyberpedia[/b] explains everything with live examples, and a Guide mode outlines every part of the screen. Five sound packs, scaling and accent colours.
 
 [hr][/hr]
 [h1]▸ CYBERSPACE[/h1]
 
-One map per game: about 45 hubs in districts. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day.
+One map per game: about 45 hubs in districts that you chart as you go. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day. A free [b]training dive[/b] walks a newcomer through the dive screen.
 [list]
 [*][b]Turn-based dives[/b]: code gates, hidden caches, files, memory units, forks of easy and hard paths
 [*][b]Black ICE[/b] strikes back with Hacking Expansion's nausea, lockout and coma
 [*][b]Programs[/b] (Sword, Shield, Decoy, Stealth, Killer) and five [b]daemons[/b]; HE's ICE breakers and exec data fit right in
 [*][b]Node alerts and ICE patrols[/b]: fail too often and the node wakes up
+[*][b]Protected corporate hubs[/b]: find the key in a neighbouring hub first, then take the richer loot
 [*][b]Corporate cores[/b]: boss nodes with the best loot in the net
 [/list]
 
@@ -46,7 +47,7 @@ A rotating roster of underworld [b]fixers[/b]: brokers, cleaners, fences and imp
 
 [list]
 [*][b]3 to 4 corporations[/b] own the corporate districts. Each has [b]Alert[/b] and [b]Strength[/b]: they harden their nodes, send patrols, launch intrusions along the map, capture territory and can [b]collapse[/b].
-[*][b]Six runner crews[/b] race you, help you, hunt contract targets and can be hired.
+[*][b]Rival runner crews[/b] race you, help you, hunt contract targets and can be hired.
 [*][b]The top-100 of the net[/b]: fame for every dive. The best get paid more, and watched more closely.
 [/list]
 
@@ -64,7 +65,7 @@ Salvage AI fragments from the net and wake them up. [b]13 personalities[/b], fro
 [hr][/hr]
 [h1]▸ BRAINDANCE[/h1]
 
-[b]Braindance goggles[/b] capture your colonists' strongest moments. Edit raw recordings into chips at the console, from normal to masterwork, or forbidden [b]black chips[/b]. Sell them, watch them, get hooked. Hunt down [b]8 unique recordings[/b] hidden across the net.
+[b]Braindance goggles[/b] capture your colonists' strongest moments. Edit raw recordings into chips at the console, from normal to masterwork, or forbidden [b]black chips[/b]. Edit a whole pile in one click, if you dare the glitch. Sell them, watch them, get hooked. Hunt down [b]8 unique recordings[/b] hidden across the net.
 
 [hr][/hr]
 [h1]▸ HUB DEFENSE[/h1]
@@ -72,10 +73,15 @@ Salvage AI fragments from the net and wake them up. [b]13 personalities[/b], fro
 Wall-mounted [b]firewalls[/b], your own [b]ICE tiers[/b] up to black ICE, a [b]honeypot[/b] that traces attackers back, netrunners on watch duty, full network isolation, and intercepting an incoming intrusion with a dive.
 
 [hr][/hr]
+[h1]▸ THE TRANSITION[/h1]
+
+A late-game ending for colonies that live in the net. It starts with a rumour in the news feed and a stranger in the Club who used to work in a corporate black lab. What they built there, nobody outside knows. Raid the labs, piece the prototypes together, and decide who is ready to leave the flesh behind.
+
+[hr][/hr]
 [h1]▸ COLONISTS, DLC & STARTS[/h1]
 
 [list]
-[*][b]Netsick[/b]: pod addiction, cravings and reckless emotional dives (sometimes legendary)
+[*][b]Netsick[/b]: pod addiction, cravings and reckless emotional dives (sometimes legendary); the pod tells how long a stay is still safe
 [*]Dive traits, [b]9 backstories[/b], dive stories and tales
 [*][b]Royalty[/b]: imperial fixers, a trace-scrub permit
 [*][b]Ideology[/b]: net memes, rituals, the Net Archon role
@@ -94,6 +100,7 @@ Wall-mounted [b]firewalls[/b], your own [b]ICE tiers[/b] up to black ICE, a [b]h
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]
 [/list]
 Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing it mid-game is not recommended. DLC content loads only with its DLC.
+Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].
 
 [hr][/hr]

@@ -114,7 +114,8 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         ChartStart();
         UpdateVisibility();
         _nextEventTick = Find.TickManager.TicksGame + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
-        Log.Message($"[Netrun] cyberspace map: {Map.Size}, {Map.Layout}, {Map.Nodes.Count} nodes, {Map.Links.Count} links.");
+        if (Prefs.DevMode)
+            Log.Message($"[Netrun] cyberspace map: {Map.Size}, {Map.Layout}, {Map.Nodes.Count} nodes, {Map.Links.Count} links.");
     }
 
     // ---- Branches ----
