@@ -214,8 +214,13 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_Legend_HeadCorps>Corporations</NR_Legend_HeadCorps>
   <NR_Legend_Clear>clear ✕</NR_Legend_Clear>
   <NR_MapHubNodes>Nodes</NR_MapHubNodes>
-  <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
-  <NR_MapNetsickChipTip>The worst net sickness among your colonists, runners in pods included. It grows with time in the net and fades offline; past "strong" a long dive is a risk.</NR_MapNetsickChipTip>
+  <NR_MapNetsickChipTip>How long a runner can still stay in the net before Netsick turns strong: the shortest time among your runners in pods (or, with nobody in a pod, among the colonists with a cyberlink). Netsick grows with time in the net and fades offline; past "strong" a long dive is a risk.</NR_MapNetsickChipTip>
+  <NR_MapSafeChip>Safe in the net: {0}</NR_MapSafeChip>
+  <NR_MapSafeChipOver>Netsick: time to log off</NR_MapSafeChipOver>
+  <NR_MapSafeChipNobody>No runners</NR_MapSafeChipNobody>
+  <NR_MapSafeHours>{0} h</NR_MapSafeHours>
+  <NR_MapSafeNone>time to log off</NR_MapSafeNone>
+  <NR_NetsickNoStage>no netsick</NR_NetsickNoStage>
   <NR_MapHubOffline>This hub is offline: no way in until it comes back (an orbit uplink opens only while your colony is in orbit).</NR_MapHubOffline>
   <NR_MapTagLocked>locked</NR_MapTagLocked>
   <NR_MapTagOpen>open</NR_MapTagOpen>

@@ -214,8 +214,13 @@
   <NR_Legend_HeadCorps>Корпорации</NR_Legend_HeadCorps>
   <NR_Legend_Clear>сбросить ✕</NR_Legend_Clear>
   <NR_MapHubNodes>Ноды</NR_MapHubNodes>
-  <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
-  <NR_MapNetsickChipTip>Самая тяжёлая сетевая болезнь среди колонистов, включая раннеров в капсулах. Растёт от времени в сети и проходит офлайн; после стадии «сильная» долгий нырок опасен.</NR_MapNetsickChipTip>
+  <NR_MapSafeChip>Без вреда в сети: {0}</NR_MapSafeChip>
+  <NR_MapSafeChipOver>Netsick: пора выходить</NR_MapSafeChipOver>
+  <NR_MapSafeChipNobody>Нет раннеров</NR_MapSafeChipNobody>
+  <NR_MapSafeHours>{0} ч</NR_MapSafeHours>
+  <NR_MapSafeNone>пора выходить</NR_MapSafeNone>
+  <NR_NetsickNoStage>без Netsick</NR_NetsickNoStage>
+  <NR_MapNetsickChipTip>Сколько ещё раннер может пробыть в сети, пока Netsick не станет сильным: самое короткое время среди раннеров в капсулах (или, если в капсулах никого, среди колонистов с кибер-линком). Netsick растёт от времени в сети и спадает вне её; после «сильного» долгий нырок опасен.</NR_MapNetsickChipTip>
   <NR_MapHubOffline>Узел отключён: войти нельзя, пока он не вернётся (орбитальный узел открыт, только пока колония на орбите).</NR_MapHubOffline>
   <NR_MapTagLocked>закрыт</NR_MapTagLocked>
   <NR_MapTagOpen>открыт</NR_MapTagOpen>

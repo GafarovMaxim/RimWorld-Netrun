@@ -11,6 +11,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Map panel: the hub's facts (owner, exit, fortress, states with their timer, route) and the "Next 3 days" list are coloured rows with the time on the right; the hub's nodes are listed with their type icons.
 - Important nodes on the map (contract target, key, black lab, corporate core, Old Net) pulse with a soft ring in their colour.
 - The braindance batch button reads "Edit all: N".
+- The map header shows how many hours a runner can still stay in the net before Netsick turns strong, instead of the stage name.
 ### Fixed
 - The AI server is placed facing front by default.
 - Map tags (watch, timer) no longer overlap a hub's LOCKED / OPEN tag.

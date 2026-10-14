@@ -922,26 +922,39 @@ public static partial class GatewayView
             NetrunUI.HeaderChip(x, y, "NR_GatewayRunner".Translate(runner.LabelShort), "NR_TipRunner".Translate());
     }
 
-    /// <summary>"Netsick: strong" in the colour of the worst case among the colonists, with everyone's level on hover.</summary>
+    /// <summary>
+    /// How many hours a runner can still spend in the net before Netsick turns strong (Maxim, 2026-10-15: the stage name
+    /// said little). The runners in pods count; with nobody in a pod, the colonists with a cyberlink. The chip shows the
+    /// shortest time, in red under 8 h; the hover lists everyone with their stage and hours.
+    /// </summary>
     private static (string, string) NetsickChip(Map map)
     {
-        Hediff worst = null;
+        float best = float.PositiveInfinity;
         var lines = new List<string>();
+        bool anyPod = false;
+        foreach (Pawn p in map.mapPawns.FreeColonists)
+            if (p.TryGetHoldingCyberpod(out _))
+                anyPod = true;
         foreach (Pawn p in map.mapPawns.FreeColonists)
         {
-            Hediff h = p.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
-            if (h == null)
+            Building_Cyberpod pod = null;
+            if (anyPod ? !p.TryGetHoldingCyberpod(out pod) : !p.IsHacker())
                 continue;
-            lines.Add($"{p.LabelShort}: {h.CurStage?.label ?? h.Severity.ToStringPercent()}");
-            if (worst == null || h.Severity > worst.Severity)
-                worst = h;
+            float hours = NetsickManager.SafeHoursInPod(p, pod);
+            best = Mathf.Min(best, hours);
+            Hediff h = p.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
+            string stage = h?.CurStage?.label ?? NetrunUI.T("NR_NetsickNoStage");
+            lines.Add($"{p.LabelShort}: {stage}, {SafeHoursShort(hours)}");
         }
-        if (worst == null)
-            return (NetrunUI.T("NR_StatusNetsickNone").Colorize(NetrunUI.Muted), "NR_MapNetsickChipTip".Translate());
-        Color c = worst.Severity >= 0.6f ? NetrunUI.Bad : worst.Severity >= 0.3f ? NetrunUI.Warn : NetrunUI.TextColor;
-        string stage = worst.CurStage?.label ?? worst.Severity.ToStringPercent();
-        return ("NR_MapNetsickChip".Translate(stage).Colorize(c), "NR_MapNetsickChipTip".Translate() + "\n\n" + string.Join("\n", lines));
+        if (lines.Count == 0)
+            return (NetrunUI.T("NR_MapSafeChipNobody").Colorize(NetrunUI.Muted), "NR_MapNetsickChipTip".Translate());
+        Color c = best < 8f ? NetrunUI.Bad : best < 24f ? NetrunUI.Warn : NetrunUI.TextColor;
+        string text = best <= 0f ? NetrunUI.T("NR_MapSafeChipOver") : "NR_MapSafeChip".Translate(SafeHoursShort(best));
+        return (text.Colorize(c), "NR_MapNetsickChipTip".Translate() + "\n\n" + string.Join("\n", lines));
     }
+
+    private static string SafeHoursShort(float hours) => hours <= 0f ? NetrunUI.T("NR_MapSafeNone")
+        : float.IsInfinity(hours) ? "∞" : "NR_MapSafeHours".Translate(hours < 10f ? hours.ToString("0.#") : hours.ToString("0"));
 
     private static readonly (float angle, float length)[] HomeNotches = [(-60f, 7f), (75f, 5f), (190f, 9f)];
 
