@@ -184,7 +184,8 @@ public partial class Dialog_NetTerminal : Window
         NetrunUI.DragByCasing(outer, inRect);
         _guideScreen = inRect;
         GuideInput();
-        GuideRegistry.Begin(_guide);
+        GuideRegistry.Begin(_guide || DiveView.TourWantsAreas);
+        DiveView.TourWantsAreas = false;
         NetrunSound.HoverMuted = _guide;
         DrawWindow(inRect);
         GuideRegistry.End();

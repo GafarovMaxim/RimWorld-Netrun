@@ -29,6 +29,7 @@ DYNAMIC = {
     "NR_Hint_": ["Ice", "Netsick", "Fixer", "AIEvent"],
     "NR_IntroTitle_": ["0", "1", "2"],
     "NR_Intro_": ["0", "1", "2"],
+    "NR_Tour_": [str(i) for i in range(6)],
     # Glass Screen is commented out for now (2026-10-09); its setting keys stay for when it comes back.
     "NR_CustomGlass": ["", "Tip"],
     "NR_Legend_": ["Home", "Exit", "Fortress", "Guarded", "ContractNode", "GuardGate", "Visited", "Watched", "Patrol", "Offline", "Storm", "Transit",

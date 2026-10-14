@@ -27,6 +27,11 @@ public static class DiveView
 
     public static void Draw(Rect rect, DiveSession session)
     {
+        bool tour = session.Training && TourActive(session);
+        TourWantsAreas = tour;
+        // While the tour runs, clicks outside its card do nothing (the dive waits until the player has looked around).
+        if (tour && Event.current.isMouse && rect.ExpandedBy(0f, 40f).Contains(Event.current.mousePosition) && !_tourCard.Contains(Event.current.mousePosition))
+            Event.current.Use();
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
         // The training coach sits over the step map and takes its share of the height.
         if (session.Training)
@@ -37,6 +42,91 @@ public static class DiveView
         GuideRegistry.Area("dive.steps", mapRect);
         DrawElements(mapRect, session);
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), session);
+        if (tour)
+            DrawTour(new Rect(rect.x, rect.y - 40f, rect.width, rect.height + 40f), session);
+    }
+
+    // ---- Training: a tour of the dive screen before the first move (Maxim, 2026-10-15) ----
+
+    /// <summary>The parts of the dive screen, in the order the tour shows them (guide areas the screen registers).</summary>
+    private static readonly string[] TourAreas = ["dive.steps", "dive.gauges", "dive.actions", "dive.programs", "dive.haul", "dive.log"];
+    private static DiveSession _tourSession;
+    private static int _tourStep;
+    private static Rect _tourCard;
+
+    /// <summary>True while the training tour needs the screen's areas (the terminal collects them only then or in guide mode).</summary>
+    public static bool TourWantsAreas;
+
+    private static bool TourActive(DiveSession session)
+    {
+        if (!ReferenceEquals(_tourSession, session))
+        {
+            _tourSession = session;
+            // Only at the very start of a training dive; a dive already under way skips the tour.
+            _tourStep = session.Turn <= 1 && session.Visited.Count <= 1 ? 0 : TourAreas.Length;
+            _tourCard = default;
+        }
+        return _tourStep < TourAreas.Length;
+    }
+
+    /// <summary>
+    /// Dims the screen but one part, outlines it and puts a card beside it: what this part is and what it is for.
+    /// "Next" walks on; the last card hands over to the coach. A part the screen does not show right now is skipped.
+    /// </summary>
+    private static void DrawTour(Rect screen, DiveSession session)
+    {
+        IReadOnlyList<(string id, Rect rect)> areas = GuideRegistry.Current;
+        if (areas.Count == 0)
+            return;
+        Rect hole = default;
+        while (_tourStep < TourAreas.Length)
+        {
+            string id = TourAreas[_tourStep];
+            int i = -1;
+            for (int k = 0; k < areas.Count; k++)
+                if (areas[k].id == id)
+                    i = k;
+            if (i >= 0)
+            {
+                hole = areas[i].rect.ExpandedBy(4f);
+                break;
+            }
+            _tourStep++;
+        }
+        if (_tourStep >= TourAreas.Length)
+            return;
+
+        var shade = new Color(0f, 0f, 0f, 0.62f);
+        Widgets.DrawBoxSolid(new Rect(screen.x, screen.y, screen.width, Mathf.Max(0f, hole.y - screen.y)), shade);
+        Widgets.DrawBoxSolid(new Rect(screen.x, hole.yMax, screen.width, Mathf.Max(0f, screen.yMax - hole.yMax)), shade);
+        Widgets.DrawBoxSolid(new Rect(screen.x, hole.y, Mathf.Max(0f, hole.x - screen.x), hole.height), shade);
+        Widgets.DrawBoxSolid(new Rect(hole.xMax, hole.y, Mathf.Max(0f, screen.xMax - hole.xMax), hole.height), shade);
+        PulseOutline(hole);
+
+        string text = ("NR_Tour_" + _tourStep).Translate(TrainingCoach.Shields);
+        const float cardW = 340f;
+        Text.Font = GameFont.Small;
+        float textH = Text.CalcHeight(text, cardW - 28f);
+        float cardH = textH + 76f;
+        // Beside the part when there is room, else over or under it.
+        float x = hole.xMax + 14f + cardW <= screen.xMax ? hole.xMax + 14f : hole.x - 14f - cardW >= screen.x ? hole.x - 14f - cardW : hole.center.x - cardW / 2f;
+        float y = x >= hole.xMax || x + cardW <= hole.x ? hole.center.y - cardH / 2f : hole.yMax + 14f + cardH <= screen.yMax ? hole.yMax + 14f : hole.y - 14f - cardH;
+        _tourCard = new Rect(Mathf.Clamp(x, screen.x + 6f, screen.xMax - cardW - 6f), Mathf.Clamp(y, screen.y + 6f, screen.yMax - cardH - 6f), cardW, cardH);
+
+        NetrunUI.Glow(_tourCard, CoachColor, 0.2f, 8f);
+        NetrunUI.Box(_tourCard, new Color(0.07f, 0.06f, 0.03f, 0.98f), CoachColor, 2);
+        Widgets.DrawBoxSolid(new Rect(_tourCard.x, _tourCard.y, 4f, _tourCard.height), CoachColor);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(_tourCard.x + 14f, _tourCard.y + 6f, cardW - 28f, 16f),
+            ("// " + (string)"NR_TourTitle".Translate(_tourStep + 1, TourAreas.Length)).ToUpper().Colorize(CoachColor));
+        Text.Font = GameFont.Small;
+        Widgets.Label(new Rect(_tourCard.x + 14f, _tourCard.y + 26f, cardW - 28f, textH + 4f), text);
+        bool last = _tourStep == TourAreas.Length - 1;
+        var next = new Rect(_tourCard.xMax - 124f, _tourCard.yMax - 38f, 110f, 28f);
+        if (NetrunUI.Button(next, (last ? "NR_TourStart" : "NR_TourNext").Translate(), CoachColor, true))
+            _tourStep++;
+        if (!last && NetrunUI.Button(new Rect(_tourCard.x + 14f, _tourCard.yMax - 38f, 110f, 28f), "NR_TourSkip".Translate(), NetrunUI.Muted, true))
+            _tourStep = TourAreas.Length;
     }
 
     // ---- Training coach ----

@@ -73,6 +73,16 @@
   <NR_TrainingOffer>First time in cyberspace? Try a dive in the simulator: it plays like a real one (gates, a fork, a hidden passage, ICE), but costs nothing and hurts no one.\n\nIt is always available later from the cyberspace panel.</NR_TrainingOffer>
   <NR_TrainingStart>Start training</NR_TrainingStart>
   <NR_TrainingLater>Later</NR_TrainingLater>
+  <NR_TourTitle>Simulator: the screen, {0} of {1}</NR_TourTitle>
+  <NR_TourNext>Next</NR_TourNext>
+  <NR_TourStart>Start the dive</NR_TourStart>
+  <NR_TourSkip>Skip</NR_TourSkip>
+  <NR_Tour_0>This is the node: its steps from the lobby on the left to the exit on the right. You stand on the lit step; gates, ICE and files lie ahead. Where the path forks, the hard lane runs on top and the easy one below.</NR_Tour_0>
+  <NR_Tour_1>Turns, actions and trace. Each turn gives a few actions; when they run out, the node takes its turn. When the turns run out, the dive fails. Every action raises the trace, and a high trace means Heat back home.</NR_Tour_1>
+  <NR_Tour_2>Your actions: Move, Scan, Hack, Download, Back and Exit. Grey ones cannot be used right now; hover any of them to see why and what it costs.</NR_Tour_2>
+  <NR_Tour_3>Programs you loaded before the dive. The Shield absorbs one ICE hit per charge: here you have {0}. In real dives you pick programs in the cyberspace panel.</NR_Tour_3>
+  <NR_Tour_4>The haul: everything you have downloaded. Only what you carry out through the exit counts; a retreat loses part of it.</NR_Tour_4>
+  <NR_Tour_5>The log: every roll, hit and find, so you can see why things went the way they did. Now the coach takes over and shows each step.</NR_Tour_5>
   <NR_CoachTitle>Training: your next step</NR_CoachTitle>
   <NR_Coach_MoveFirst>Move: step to the next element of the node. Every action you take (Move, Scan, Hack, Download) uses one of your actions this turn and raises the trace a little.</NR_Coach_MoveFirst>
   <NR_Coach_Move>Keep going: Move to the next element.</NR_Coach_Move>
