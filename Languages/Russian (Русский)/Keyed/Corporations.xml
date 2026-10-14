@@ -96,4 +96,6 @@
   <NR_ClubTopColKind>Кто</NR_ClubTopColKind>
   <NR_ClubTopColFame>Слава</NR_ClubTopColFame>
   <NR_ClubTopColWeek>Неделя</NR_ClubTopColWeek>
+  <NR_ClubTopYou>Ваша колония: #{0}, {1}</NR_ClubTopYou>
+  <NR_ClubTopYouOut>Вашей колонии пока нет в топ-100</NR_ClubTopYouOut>
 </LanguageData>

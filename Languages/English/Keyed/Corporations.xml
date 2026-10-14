@@ -96,4 +96,6 @@
   <NR_ClubTopColKind>Who</NR_ClubTopColKind>
   <NR_ClubTopColFame>Fame</NR_ClubTopColFame>
   <NR_ClubTopColWeek>Week</NR_ClubTopColWeek>
+  <NR_ClubTopYou>Your colony: #{0}, {1}</NR_ClubTopYou>
+  <NR_ClubTopYouOut>Your colony is not in the top 100 yet</NR_ClubTopYouOut>
 </LanguageData>

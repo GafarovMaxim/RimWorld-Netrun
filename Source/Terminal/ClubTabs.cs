@@ -258,6 +258,94 @@ public static class ClubTabs
     private static readonly Color Gold = NetrunUI.Hex(0xffd34a), Silver = NetrunUI.Hex(0xc9d1d9), Bronze = NetrunUI.Hex(0xd08a4a);
     private const string TopRowsKey = "club.topRows";
 
+    private const float PodiumH = 96f;
+
+    /// <summary>Crew factions by load id, for the emblems (rebuilt every 2 s, not a search per row per frame).</summary>
+    private static Dictionary<int, Faction> CrewsById() => NetrunUI.Cached("club.crewsById", () =>
+    {
+        var map = new Dictionary<int, Faction>();
+        foreach (Faction f in Find.FactionManager.AllFactionsListForReading)
+            if (NetFactions.IsCrewDef(f.def))
+                map[f.loadID] = f;
+        return map;
+    }, 2f);
+
+    /// <summary>The first three: second on the left, first in the middle and taller, third on the right.</summary>
+    private static void DrawPodium(Rect rect, List<RankEntry> all)
+    {
+        float gap = 10f, w = (rect.width - 2f * gap) / 3f;
+        (int place, float x, float lift)[] slots = [(2, rect.x, 14f), (1, rect.x + w + gap, 0f), (3, rect.x + 2f * (w + gap), 22f)];
+        Dictionary<int, Faction> crews = CrewsById();
+        foreach ((int place, float x, float lift) in slots)
+        {
+            RankEntry e = all[place - 1];
+            Color medal = place == 1 ? Gold : place == 2 ? Silver : Bronze;
+            var card = new Rect(x, rect.y + lift, w, rect.height - lift);
+            Widgets.DrawBoxSolid(card, NetrunUI.BgCard);
+            Widgets.DrawBoxSolid(new Rect(card.x, card.y, card.width, 3f), medal);
+            GUI.color = new Color(medal.r, medal.g, medal.b, 0.45f);
+            Widgets.DrawBox(card);
+            GUI.color = Color.white;
+            if (place == 1)
+                NetrunUI.Glow(card, medal, 0.25f, 14f);
+            // The place, big, in the medal colour.
+            Text.Font = GameFont.Medium;
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = medal;
+            Widgets.Label(new Rect(card.x + 10f, card.y + 6f, 50f, 34f), "#" + place);
+            // The emblem of a crew, or the colony mark.
+            var icon = new Rect(card.xMax - 34f, card.y + 10f, 24f, 24f);
+            if (e.Kind == RankKind.Crew && crews.TryGetValue(e.RefId, out Faction crew))
+            {
+                GUI.color = Lifted(crew);
+                GUI.DrawTexture(icon, crew.def.FactionIcon);
+            }
+            else if (e.Kind == RankKind.Colony)
+            {
+                GUI.color = NetrunUI.Ok;
+                GUI.DrawTexture(icon.ContractedBy(4f), NetrunUI.Ring);
+            }
+            Text.Font = GameFont.Small;
+            GUI.color = e.Kind == RankKind.Colony ? NetrunUI.Ok : e.Kind == RankKind.Crew ? NetrunUI.Purple : NetrunUI.TextColor;
+            Widgets.Label(new Rect(card.x + 10f, card.y + 40f, card.width - 20f, 22f), e.Callsign.Truncate(card.width - 20f));
+            Text.Font = GameFont.Tiny;
+            GUI.color = NetrunUI.Muted;
+            Widgets.Label(new Rect(card.x + 10f, card.yMax - 22f, card.width - 20f, 18f), NetRanking.Title(place) + " · " + e.Fame.ToString("0"));
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
+            Text.Font = GameFont.Small;
+            if (Mouse.IsOver(card))
+                NetrunUI.Tip(card, NetRanking.Title(place));
+        }
+    }
+
+    /// <summary>The colony's best place, its title and a bar for the gap to the next place up.</summary>
+    private static float DrawYourPlace(Rect rect, NetRanking ranking, List<RankEntry> all)
+    {
+        int best = ranking.BestColonyPlace;
+        Widgets.DrawBoxSolid(rect, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.08f));
+        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, 3f, rect.height), NetrunUI.Ok);
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleLeft;
+        string label = best > NetRanking.Size ? (string)"NR_ClubTopYouOut".Translate() : (string)"NR_ClubTopYou".Translate(best, NetRanking.Title(best));
+        GUI.color = NetrunUI.Ok;
+        Widgets.Label(new Rect(rect.x + 10f, rect.y, rect.width * 0.5f, rect.height), label);
+        // Progress toward the next place (or into the list): the colony's fame against the one above.
+        if (best > 1 && all.Count > 0)
+        {
+            int above = Mathf.Min(best, all.Count) - 2;
+            float target = all[Mathf.Max(0, above)].Fame;
+            float mine = best <= all.Count ? all[best - 1].Fame : 0f;
+            var bar = new Rect(rect.x + rect.width * 0.55f, rect.center.y - 3f, rect.width * 0.42f, 6f);
+            Widgets.DrawBoxSolid(bar, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.15f));
+            Widgets.DrawBoxSolid(new Rect(bar.x, bar.y, bar.width * Mathf.Clamp01(target <= 0f ? 1f : mine / target), bar.height), NetrunUI.Ok);
+        }
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        return rect.yMax;
+    }
+
     private static void DrawTop(Rect rect)
     {
         NetRanking ranking = NetRanking.Get();
@@ -283,8 +371,19 @@ public static class ClubTabs
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
 
+        // The podium (Maxim, 2026-10-14: the top 100 should look worth climbing): under "All", the first three as
+        // medal cards, then the colony's own place with the gap to the next one.
+        bool podium = _topFilter == 0 && all.Count >= 3;
+        float top = rect.y + 34f;
+        if (podium)
+        {
+            DrawPodium(new Rect(rect.x, top, rect.width - 16f, PodiumH), all);
+            top += PodiumH + 8f;
+        }
+        top = DrawYourPlace(new Rect(rect.x, top, rect.width - 16f, 30f), ranking, all) + 6f;
+
         // Column heads.
-        var head = new Rect(rect.x, rect.y + 34f, rect.width - 16f, 20f);
+        var head = new Rect(rect.x, top, rect.width - 16f, 20f);
         float nameX = head.x + 64f, kindX = head.x + head.width * 0.5f, fameX = head.xMax - 250f, trendX = head.xMax - 70f;
         Text.Font = GameFont.Tiny;
         GUI.color = NetrunUI.Muted;
@@ -298,8 +397,10 @@ public static class ClubTabs
 
         var list = new Rect(rect.x, head.yMax + 3f, rect.width, rect.yMax - head.yMax - 3f - 60f);
         int filter = _topFilter;
-        List<(RankEntry e, int place)> rows = NetrunUI.Cached(TopRowsKey + filter, () => all.Select((e, i) => (e, i + 1))
-            .Where(r => filter == 0 || (filter == 1 ? r.e.Kind == RankKind.Crew : r.e.Kind == RankKind.Colony)).ToList(), 1f);
+        int skip = podium ? 3 : 0;
+        List<(RankEntry e, int place)> rows = NetrunUI.Cached(TopRowsKey + filter + "." + skip, () => all.Select((e, i) => (e, place: i + 1))
+            .Where(r => r.place > skip && (filter == 0 || (filter == 1 ? r.e.Kind == RankKind.Crew : r.e.Kind == RankKind.Colony))).ToList(), 1f);
+        Dictionary<int, Faction> crews = CrewsById();
         float maxFame = all.Count > 0 ? Mathf.Max(1f, all[0].Fame) : 1f;
         var view = new Rect(0f, 0f, list.width - 16f, rows.Count * 26f);
         NetrunUI.BeginScroll(list, ref _scroll, view);
@@ -317,6 +418,7 @@ public static class ClubTabs
             {
                 Widgets.DrawBoxSolid(row, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.12f));
                 Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), NetrunUI.Ok);
+                NetrunUI.Brackets(row, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.7f), 1f, 6f);
             }
             else if (place % 2 == 0)
                 Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.03f));
@@ -332,10 +434,11 @@ public static class ClubTabs
             Text.Anchor = TextAnchor.MiddleLeft;
             // A crew wears its faction's colour dot.
             float nx = nameX - head.x + shift;
-            if (e.Kind == RankKind.Crew && Find.FactionManager.AllFactionsListForReading.FirstOrDefault(fa => fa.loadID == e.RefId) is { } crew)
+            // A crew wears its emblem in its colour.
+            if (e.Kind == RankKind.Crew && crews.TryGetValue(e.RefId, out Faction crew))
             {
                 GUI.color = Lifted(crew);
-                GUI.DrawTexture(new Rect(nx - 14f, row.center.y - 4f, 8f, 8f), NetrunUI.Disc);
+                GUI.DrawTexture(new Rect(nx - 20f, row.center.y - 8f, 16f, 16f), crew.def.FactionIcon);
             }
             GUI.color = c;
             Widgets.Label(new Rect(nx, row.y, kindX - nameX - 8f, row.height), e.Callsign);
