@@ -420,7 +420,7 @@ public static partial class GatewayView
             lines.Add("NR_MapCardGuardKey".Translate(NetMapManager.NodeLabel(net.Map.Node(known.First(b => b.GuardFor >= 0).GuardFor))).Colorize(NetrunUI.Warn));
         if (n.District == District.Orbit && !NetMapManager.OrbitOpen)
             lines.Add("NR_MapCardOrbitClosed".Translate().Colorize(NetrunUI.Bad));
-        lines.AddRange(NodeStates(n));
+        lines.AddRange(NodeStates(n).Select(s => s.text));
         if (known.Any(b => b.Contract))
             lines.Add(("★ " + "NR_MapCardContract".Translate()).Colorize(NetrunUI.Warn));
         if (Preview(net, n.Id) is { } p)

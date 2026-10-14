@@ -113,17 +113,9 @@ public static partial class GatewayView
         float top = y;
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapNext3Days".Translate());
         Text.Font = GameFont.Tiny;
+        // Rows like "Now in the net": a coloured bar (red danger, amber timer), the text, the time left on the right.
         foreach (TimerEntry e in list.Where(x => Left(x) > GenDate.TicksPerDay).Take(6))
-        {
-            var row = new Rect(inner.x, y, inner.width, 20f);
-            if (Mouse.IsOver(row))
-                Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.05f));
-            string text = (e.Bad ? "⚠ " : "◷ ") + Short(Left(e)) + " · " + e.Text;
-            Widgets.Label(new Rect(row.x + 4f, row.y + 2f, row.width - 6f, row.height), text.Colorize(e.Bad ? NetrunUI.Bad : NetrunUI.TextColor));
-            if (e.Hub >= 0 && Widgets.ButtonInvisible(row))
-                FocusNode(e.Hub);
-            y += 21f;
-        }
+            y = DrawInfoRow(inner, y, new NowRow { Text = e.Text, Right = Short(Left(e)), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = e.Hub, Tip = e.Text });
         Text.Font = GameFont.Small;
         GuideRegistry.InScroll("gateway.timeline", _panelOuter, _panelScroll, new Rect(inner.x, top, inner.width, y - top));
         return y + 6f;
@@ -185,30 +177,47 @@ public static partial class GatewayView
             return y + 24f;
         }
         foreach (NowRow row in rows)
-        {
-            float rightW = row.Right.NullOrEmpty() ? 0f : NetrunUI.Width(row.Right) + 8f;
-            float textW = inner.width - 12f - rightW;
-            float h = Mathf.Min(Text.CalcHeight(row.Text, textW), 30f);
-            var r = new Rect(inner.x, y, inner.width, Mathf.Max(20f, h + 4f));
-            Widgets.DrawBoxSolid(r, new Color(row.Color.r, row.Color.g, row.Color.b, Mouse.IsOver(r) ? 0.14f : 0.06f));
-            Widgets.DrawBoxSolid(new Rect(r.x, r.y, 3f, r.height), row.Color);
-            GUI.color = NetrunUI.TextColor;
-            Widgets.Label(new Rect(r.x + 8f, r.y + 2f, textW, r.height - 2f), row.Text);
-            if (rightW > 0f)
-            {
-                GUI.color = row.Color;
-                Text.Anchor = TextAnchor.MiddleRight;
-                Widgets.Label(new Rect(r.xMax - rightW - 4f, r.y, rightW, r.height), row.Right);
-                Text.Anchor = TextAnchor.UpperLeft;
-            }
-            GUI.color = Color.white;
-            NetrunUI.Tip(r, row.Tip + (row.Hub >= 0 ? "\n\n" + NetrunUI.T("NR_MapNowClick") : ""));
-            if (row.Hub >= 0 && Widgets.ButtonInvisible(r))
-                FocusNode(row.Hub);
-            y += r.height + 3f;
-        }
+            y = DrawInfoRow(inner, y, row);
         Text.Font = GameFont.Small;
         return y + 6f;
+    }
+
+    /// <summary>
+    /// One panel row: a tinted strip with a coloured bar, the text and an optional value on the right (time left).
+    /// A row with a hub centres the map on it. Used by "Now in the net", "Next 3 days" and the hub's own facts.
+    /// </summary>
+    private static float DrawInfoRow(Rect inner, float y, NowRow row)
+    {
+        float rightW = row.Right.NullOrEmpty() ? 0f : NetrunUI.Width(row.Right) + 8f;
+        float textW = inner.width - 12f - rightW;
+        float h = Mathf.Min(Text.CalcHeight(row.Text, textW), 30f);
+        var r = new Rect(inner.x, y, inner.width, Mathf.Max(20f, h + 4f));
+        Widgets.DrawBoxSolid(r, new Color(row.Color.r, row.Color.g, row.Color.b, Mouse.IsOver(r) && row.Hub >= 0 ? 0.14f : 0.06f));
+        Widgets.DrawBoxSolid(new Rect(r.x, r.y, 3f, r.height), row.Color);
+        GUI.color = NetrunUI.TextColor;
+        Widgets.Label(new Rect(r.x + 8f, r.y + 2f, textW, r.height - 2f), row.Text);
+        if (rightW > 0f)
+        {
+            GUI.color = row.Color;
+            Text.Anchor = TextAnchor.MiddleRight;
+            Widgets.Label(new Rect(r.xMax - rightW - 4f, r.y, rightW, r.height), row.Right);
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+        GUI.color = Color.white;
+        if (!row.Tip.NullOrEmpty())
+            NetrunUI.Tip(r, row.Tip + (row.Hub >= 0 ? "\n\n" + NetrunUI.T("NR_MapNowClick") : ""));
+        if (row.Hub >= 0 && Widgets.ButtonInvisible(r))
+            FocusNode(row.Hub);
+        return y + r.height + 3f;
+    }
+
+    /// <summary>Time left on this hub's own timer (patrol, storm, outage...), or null.</summary>
+    private static string HubTimer(NetMapManager net, int hub)
+    {
+        foreach (TimerEntry e in Timeline(net))
+            if (e.Hub == hub && Left(e) > 0)
+                return Short(Left(e));
+        return null;
     }
     /// <summary>
     /// A hub where something is going on (a timer: patrol, storm, transit, outage, intrusion) breathes with a soft

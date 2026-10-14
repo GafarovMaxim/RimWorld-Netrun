@@ -914,20 +914,21 @@ public static partial class GatewayView
         _selectedId = first?.Id ?? -1;
     }
 
-    private static IEnumerable<string> NodeStates(MapNode n)
+    /// <summary>A hub's states with their colours: red danger, purple storm, green transit, grey offline.</summary>
+    private static IEnumerable<(string text, Color color)> NodeStates(MapNode n)
     {
         if (n.Offline)
-            yield return "NR_MapStateOffline".Translate();
+            yield return ("NR_MapStateOffline".Translate(), NetrunUI.Muted);
         if (n.Storm)
-            yield return "NR_MapStateStorm".Translate();
+            yield return ("NR_MapStateStorm".Translate(), NetrunUI.Purple);
         if (n.Patrol)
-            yield return "NR_MapStatePatrol".Translate();
+            yield return ("NR_MapStatePatrol".Translate(), NetrunUI.Bad);
         if (n.Transit)
-            yield return "NR_MapStateTransit".Translate();
+            yield return ("NR_MapStateTransit".Translate(), NetrunUI.Ok);
         if (n.RivalTrap)
-            yield return "NR_MapStateRivalTrap".Translate();
+            yield return ("NR_MapStateRivalTrap".Translate(), NetrunUI.Bad);
         if (n.Quarantine)
-            yield return "NR_MapStateQuarantine".Translate();
+            yield return ("NR_MapStateQuarantine".Translate(), NetrunUI.Warn);
     }
 
     private static void DrawRunner(Rect local, NetRunner r, NetMapManager net, bool selected)
@@ -1100,14 +1101,21 @@ public static partial class GatewayView
             return DefensePanel.Draw(inner, y, colonyMap);
         y = NetrunUI.Section(new Rect(inner.x, y + 4f, inner.width, 36f), NetMapManager.NodeLabel(node));
         Text.Font = GameFont.Tiny;
-        var info = new List<string>();
+        // The hub's facts as rows (Maxim, 2026-10-15: grey lines were easy to miss): owner, exit, fortress, the states
+        // with their timer on the right, then the route for the picked runner.
         if (node.District == District.Corp && net.CorpOfSlot(node.CorpSlot) is { } corp)
-            info.Add("NR_MapOwner".Translate(corp.Name));
+            y = DrawInfoRow(inner, y, new NowRow { Text = "NR_MapOwner".Translate(corp.Name), Color = NetrunUI.Accent, Hub = -1 });
         if (node.Exit)
-            info.Add("NR_MapExitPoint".Translate());
+            y = DrawInfoRow(inner, y, new NowRow { Text = "NR_MapExitPoint".Translate(), Color = NetrunUI.Ok, Hub = -1 });
         if (node.Fortress)
-            info.Add("NR_MapFortress".Translate());
-        info.AddRange(NodeStates(node));
+            y = DrawInfoRow(inner, y, new NowRow { Text = "NR_MapFortress".Translate(), Color = NetrunUI.Warn, Hub = -1 });
+        string timer = null;
+        foreach ((string text, Color color) in NodeStates(node))
+        {
+            timer ??= HubTimer(net, node.Id) ?? string.Empty;
+            y = DrawInfoRow(inner, y, new NowRow { Text = text, Right = timer, Color = color, Hub = -1 });
+            timer = string.Empty;
+        }
         if (selected != null && selected.NodeId != node.Id)
         {
             // The route search (Dijkstra with fresh collections) ran on every GUI event; now once a second or on a new pair.
@@ -1121,15 +1129,16 @@ public static partial class GatewayView
                 _panelRouteSteps = route.Count;
                 _panelRouteHours = routeHours;
             }
-            info.Add(_panelRouteSteps > 0 || selected.NextNodeId == node.Id
-                ? "NR_MapRouteInfo".Translate(_panelRouteSteps + (selected.Moving ? 1 : 0), (_panelRouteHours / NetMapManager.Speed(selected.Pawn)).ToString("0.#"))
-                : "NR_MapNoRoute".Translate());
+            bool reach = _panelRouteSteps > 0 || selected.NextNodeId == node.Id;
+            y = DrawInfoRow(inner, y, new NowRow
+            {
+                Text = reach ? "NR_MapRouteInfo".Translate(_panelRouteSteps + (selected.Moving ? 1 : 0), (_panelRouteHours / NetMapManager.Speed(selected.Pawn)).ToString("0.#")) : "NR_MapNoRoute".Translate(),
+                Color = reach ? NetrunUI.Accent : NetrunUI.Muted,
+                Hub = -1,
+            });
         }
-        string infoText = info.ToLineList();
-        float ih = Text.CalcHeight(infoText, inner.width);
-        Widgets.Label(new Rect(inner.x, y, inner.width, ih), infoText.Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
-        y += ih + 4f;
+        y += 4f;
 
         if (selected != null && (selected.NodeId != node.Id || selected.Moving))
         {
