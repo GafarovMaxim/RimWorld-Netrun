@@ -4,6 +4,16 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-10-15
+### Changed
+- Netsick grows about half as fast: a day in the net or a pod 0.10, a dive 0.02, an ICE hit 0.03. A runner can stay in cyberspace for about three days before the strong stage.
+- Map panel: the hub's facts (owner, exit, fortress, states with their timer, route) and the "Next 3 days" list are coloured rows with the time on the right; the hub's nodes are listed with their type icons.
+- Important nodes on the map (contract target, key, black lab, corporate core, Old Net) pulse with a soft ring in their colour.
+- The braindance batch button reads "Edit all: N".
+### Fixed
+- The AI server is placed facing front by default.
+- Map tags (watch, timer) no longer overlap a hub's LOCKED / OPEN tag.
+
 ## [0.6.3] - 2026-10-15
 ### Fixed
 - Keys to protected corporate hubs no longer land in orbital hubs (out of reach without a ship in space), at Home or in the Old Net; keys already there move to a ground hub on load.
