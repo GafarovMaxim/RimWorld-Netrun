@@ -44,7 +44,8 @@ public class ThoughtWorker_NearAIServer : ThoughtWorker
 {
     protected override ThoughtState CurrentStateInternal(Pawn p)
     {
-        if (!p.Spawned || NetrunDefOf.NR_AIServer == null)
+        // Only for believers of "AI: venerated" (the precept check first: it is cheap, the building scan is not).
+        if (!NetCulture.Holds(p, "NR_AI_Venerated") || !p.Spawned || NetrunDefOf.NR_AIServer == null)
             return false;
         foreach (Building b in p.Map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer))
             if (b.GetComp<CompPowerTrader>()?.PowerOn != false && b.Position.InHorDistOf(p.Position, 8f))
@@ -56,7 +57,7 @@ public class ThoughtWorker_NearAIServer : ThoughtWorker
 public class ThoughtWorker_AIAwakeInColony : ThoughtWorker
 {
     protected override ThoughtState CurrentStateInternal(Pawn p)
-        => p.IsColonist && AIManager.Get()?.AIs.Any(a => a.Housed) == true;
+        => p.IsColonist && NetCulture.Holds(p, "NR_AI_Abomination") && AIManager.Get()?.AIs.Any(a => a.Housed) == true;
 }
 
 public class ThoughtWorker_NoCyberlinkAscension : ThoughtWorker

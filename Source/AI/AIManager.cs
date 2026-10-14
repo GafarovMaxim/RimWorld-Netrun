@@ -447,7 +447,9 @@ public class AIManager : GameComponent, INetrunCleanable
     {
         Thing fragment = ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment);
         fragment.TryGetComp<CompAIFragment>().StoredAIId = ai.Id;
-        GenPlace.TryPlaceThing(fragment, position, map, ThingPlaceMode.Near);
+        // The AI lives in the fragment: if there is no room near the spot, it comes down in a pod by the trade spot.
+        if (!position.IsValid || !GenPlace.TryPlaceThing(fragment, position, map, ThingPlaceMode.Near))
+            DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [fragment], forbid: false);
         return fragment;
     }
 

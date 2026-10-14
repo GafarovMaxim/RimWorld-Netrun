@@ -11,6 +11,8 @@
     <scenPartClass>ScenPart_ConfigPage_ConfigureStartingPawns_KindDefs</scenPartClass>
     <pageClass>Page_ConfigureStartingPawns</pageClass>
     <canBeRandomlyAdded>false</canBeRandomlyAdded>
+    <!-- Set by our scenarios only: in the editor it would come with no start and nothing to edit. -->
+    <canBePlayerAddedRemoved>false</canBePlayerAddedRemoved>
     <maxUses>1</maxUses>
   </ScenPartDef>
 
@@ -514,6 +516,10 @@
         <def>GameStartDialog</def>
         <textKey>NR_ScenIntro_PirateStudio</textKey>
         <closeSound>GameStartSting</closeSound>
+      </li>
+      <li Class="ScenPart_StartingResearch">
+        <def>StartingResearch</def>
+        <project>USH_BasicCybertech</project>
       </li>
       <li Class="ScenPart_StartingResearch">
         <def>StartingResearch</def>

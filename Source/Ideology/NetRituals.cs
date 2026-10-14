@@ -74,7 +74,8 @@ public class RitualOutcomeEffectWorker_Litany : RitualOutcomeEffectWorker_Net
             if (positivity < 0)
                 ai.AddHunger(10f);
             else
-                ai.AddTrust(positivity >= 2 ? 15f : 10f);
+                // 5 / 10 / 15 by outcome, as the ritual description says (like the trace cleansing).
+                ai.AddTrust(positivity >= 2 ? 15f : positivity == 1 ? 10f : 5f);
         }
     }
 }
