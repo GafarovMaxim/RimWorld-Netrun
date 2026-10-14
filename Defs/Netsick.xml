@@ -7,7 +7,7 @@
 
     <!-- Growth: per day in a cyberpod, per hack from a pod, per remote hack through a cyberlink.
          A AI coprocessor multiplies pod growth by coprocessorNetsickFactor (Defs/Heat.xml). -->
-    <podGainPerDay>0.15</podGainPerDay>
+    <podGainPerDay>0.10</podGainPerDay>
     <podHackGain>0.02</podHackGain>
     <remoteHackGain>0.05</remoteHackGain>
 

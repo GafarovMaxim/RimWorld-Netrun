@@ -18,8 +18,8 @@
     <!-- Emergency disconnect: Netsick, HE nausea, a chance of lockout (Aegis or a Warden AI halve it) -->
     <emergencyNetsick>0.05</emergencyNetsick>
     <emergencyLockoutChance>0.1</emergencyLockoutChance>
-    <!-- Netsick per day connected (0.01 an hour; a dive adds netsickPerDive in Cyberspace.xml) -->
-    <sessionGainPerDay>0.24</sessionGainPerDay>
+    <!-- Netsick per day connected (a dive adds netsickPerDive in Cyberspace.xml). With a few dives a day a runner stays below the strong stage (0.6) for about three days (Maxim, 2026-10-15) -->
+    <sessionGainPerDay>0.10</sessionGainPerDay>
     <!-- Walking speed: HE remote access port -25% time, natural netrunner -15% -->
     <remotePortSpeed>1.33</remotePortSpeed>
     <naturalSpeed>1.18</naturalSpeed>
