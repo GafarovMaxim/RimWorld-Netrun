@@ -418,6 +418,8 @@ public class TransitionManager : GameComponent
             return "NR_UploadRunning".Translate();
         if (NetMapManager.InRun(p))
             return "NR_UploadInRun".Translate(p.LabelShort);
+        if (NetworkIsolation.Active)
+            return NetworkIsolation.Check();
         if (pod.GetComp<CompPowerTrader>()?.PowerOn == false)
             return "NR_UploadNoPower".Translate();
         return true;
@@ -440,7 +442,8 @@ public class TransitionManager : GameComponent
         for (int i = _uploads.Count - 1; i >= 0; i--)
         {
             TransitionUpload u = _uploads[i];
-            if (u.Pawn == null || u.Pawn.Dead || u.Pod == null || u.Pod.Destroyed || u.Pod.ContainedThing != u.Pawn)
+            // An isolated network cuts the line mid-upload: the same as opening the pod (Maxim, 2026-10-15).
+            if (u.Pawn == null || u.Pawn.Dead || u.Pod == null || u.Pod.Destroyed || u.Pod.ContainedThing != u.Pawn || NetworkIsolation.Active)
             {
                 _uploads.RemoveAt(i);
                 if (u.Pawn is { Dead: false })
