@@ -4,6 +4,10 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-10-15
+### Fixed
+- Config errors for Hacking Expansion's cyberpod: now that it can be uninstalled, it has a storage category (misc buildings) and a mass of 60.
+
 ## [0.6.1] - 2026-10-15
 ### Fixed
 - Config errors on load: the Transition research now names a faction tag that no faction has (the game wants one with techprints); the neurostabilizer no longer lists the Drugs category twice.

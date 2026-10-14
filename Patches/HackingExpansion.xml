@@ -19,6 +19,38 @@
       </value>
     </nomatch>
   </Operation>
+  <!-- A minified thing needs a storage category and an authored mass (config errors otherwise). -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/thingCategories</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="USH_Cyberpod"]</xpath>
+      <value>
+        <thingCategories>
+          <li>BuildingsMisc</li>
+        </thingCategories>
+      </value>
+    </nomatch>
+  </Operation>
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/statBases/Mass</xpath>
+    <nomatch Class="PatchOperationConditional">
+      <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/statBases</xpath>
+      <match Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/statBases</xpath>
+        <value>
+          <Mass>60</Mass>
+        </value>
+      </match>
+      <nomatch Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="USH_Cyberpod"]</xpath>
+        <value>
+          <statBases>
+            <Mass>60</Mass>
+          </statBases>
+        </value>
+      </nomatch>
+    </nomatch>
+  </Operation>
 
   <!-- The Netrun coprocessor links to the cyberpod like Hacking Expansion's own coprocessors. -->
   <Operation Class="PatchOperationAdd">
