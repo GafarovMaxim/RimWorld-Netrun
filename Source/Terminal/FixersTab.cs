@@ -15,33 +15,69 @@ public static class FixersTab
     private const float PortraitSize = 96f;
     private const float ButtonHeight = 34f;
     private const float SectionHeight = 36f;
-    private const float InsiderHeight = 112f;
+
+    /// <summary>What the insider's guest card shows; rebuilt twice a second (NetrunUI.Cached), not every frame.</summary>
+    private sealed class InsiderView
+    {
+        public string Name, Status, Buy, BuyTip, Prints;
+        public AcceptanceReport Can;
+    }
+
+    private static InsiderView BuildInsider(TransitionManager t, Map map)
+    {
+        ExternalNode lab = t.ActiveLab;
+        return new InsiderView
+        {
+            Name = t.ContactName ?? "?",
+            Prints = "NR_InsiderPrints".Translate(t.BlueprintsFound, TransitionManager.Blueprints),
+            Status = t.BlueprintsFound >= TransitionManager.Blueprints ? ((string)"NR_InsiderNoMore".Translate()).Colorize(NetrunUI.TextColor)
+                : lab != null ? ((string)"NR_InsiderLabLine".Translate(lab.Name, TransitionManager.LabHubLabel(lab))).Colorize(NetrunUI.Accent)
+                : t.TicksUntilNextLab > 0 ? ((string)"NR_InsiderCooldown".Translate(t.TicksUntilNextLab.ToStringTicksToPeriod())).Colorize(NetrunUI.Muted)
+                : ((string)"NR_InsiderReady".Translate()).Colorize(NetrunUI.TextColor),
+            Buy = "NR_InsiderBuy".Translate(TransitionManager.CoordCyberdata, TransitionManager.CoordSilver),
+            BuyTip = "NR_InsiderBuyTip".Translate(TransitionManager.LabLifetimeDays.ToString("0")),
+            Can = t.CanBuyCoordinates(map),
+        };
+    }
 
     /// <summary>
-    /// The ending's insider (docs/CONCEPT.md, section 19): a former corporate employee on a dead channel, above the pool.
-    /// Sells the coordinates of black labs, where the Transition's blueprints are kept.
+    /// The ending's insider (docs/CONCEPT.md, section 19) as a GUEST card at the top of the pool: a pool card's look (portrait,
+    /// name, chips), the corporate fixer portrait, a vague text, the lab on the map and the buy button.
     /// </summary>
-    private static void DrawInsider(Rect card, TransitionManager t, Map map)
+    private static void DrawInsider(Rect rect, TransitionManager t, Map map)
     {
-        Color c = NetrunUI.Purple;
-        NetrunUI.Card(card, c);
-        Rect inner = card.ContractedBy(12f);
-        Text.Font = GameFont.Medium;
-        GUI.color = c;
-        Widgets.Label(new Rect(inner.x, inner.y, inner.width, 28f), "NR_InsiderTitle".Translate(t.ContactName ?? "?"));
-        GUI.color = NetrunUI.Muted;
+        Color stripe = NetrunUI.Purple;
+        NetrunUI.Card(rect, stripe);
+        Rect inner = new Rect(rect.x + 4f, rect.y, rect.width - 4f, rect.height).ContractedBy(12f);
+        var portraitRect = new Rect(inner.x, inner.y + (inner.height - PortraitSize) / 2f, PortraitSize, PortraitSize);
+        NetrunUI.Box(portraitRect, NetrunUI.BgWindow, stripe, 2);
+        GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Portrait(FixerSpecialty.Cleaner)); // the corporate fixer portrait (Fixer_Corp)
+
+        InsiderView v = NetrunUI.Cached("club.insider", () => BuildInsider(t, map));
+        float x = portraitRect.xMax + 14f;
+        float width = inner.xMax - x;
+        float y = inner.y;
+        float nameWidth = NetrunUI.NamePlate(x, y - 3f, v.Name, stripe, GameFont.Medium, width * 0.5f);
+        float chipX = x + nameWidth + 10f;
+        chipX += NetrunUI.Chip(chipX, y + 4f, NetrunUI.T("NR_InsiderGuestTag"), stripe, NetrunUI.T("NR_InsiderGuestTip")) + 6f;
+        chipX += NetrunUI.Chip(chipX, y + 4f, NetrunUI.T("NR_InsiderRole"), NetrunUI.Warn, NetrunUI.T("NR_InsiderRoleTip")) + 6f;
+        NetrunUI.Chip(chipX, y + 4f, v.Prints, NetrunUI.Muted, NetrunUI.T("NR_InsiderPrintsTip"));
+        y += 28f;
+
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(inner.x, inner.y + 28f, inner.width - 230f, 40f), "NR_InsiderDesc".Translate());
-        GUI.color = NetrunUI.TextColor;
-        Widgets.Label(new Rect(inner.x, inner.yMax - 18f, inner.width - 230f, 18f),
-            "NR_InsiderPrints".Translate(t.BlueprintsFound, TransitionManager.Blueprints));
+        GUI.color = NetrunUI.Muted;
+        Widgets.Label(new Rect(x, y, width, 34f), NetrunUI.T("NR_InsiderDesc"));
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
-        var buy = new Rect(inner.xMax - 220f, inner.center.y - 17f, 220f, 34f);
-        AcceptanceReport can = NetrunUI.Cached("club.insider", () => t.CanBuyCoordinates(map));
-        if (NetrunUI.Button(buy, "NR_InsiderBuy".Translate(TransitionManager.CoordCyberdata, TransitionManager.CoordSilver), c, can,
-                "NR_InsiderBuyTip".Translate(TransitionManager.LabLifetimeDays.ToString("0"))))
+        y += 34f;
+        Widgets.Label(new Rect(x, y, width, 22f), v.Status);
+
+        float bw = NetrunUI.ButtonWidth(v.Buy);
+        if (NetrunUI.Button(new Rect(x, inner.yMax - ButtonHeight, bw, ButtonHeight), v.Buy, stripe, v.Can, v.BuyTip))
+        {
             t.BuyCoordinates(map);
+            NetrunUI.Cached("club.insider", () => BuildInsider(t, map), 0f);
+        }
     }
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
@@ -56,16 +92,11 @@ public static class FixersTab
         float width = rect.width - 16f;
         TransitionManager transition = TransitionManager.Get();
         bool insider = transition is { ContactMet: true };
-        float height = (insider ? InsiderHeight + CardGap : 0f) + (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
+        float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + (manager.Fixers.Count + (insider ? 1 : 0)) * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);
 
         NetrunUI.BeginScroll(rect, ref scroll, viewRect);
         float y = 0f;
-        if (insider)
-        {
-            DrawInsider(new Rect(0f, y, width, InsiderHeight), transition, map);
-            y += InsiderHeight + CardGap;
-        }
         float gPin = y;
         if (pinned.Count > 0)
         {
@@ -94,6 +125,12 @@ public static class FixersTab
                 manager.Rotate(notify: true);
         }
         GuideRegistry.InScroll("club.pool", rect, scroll, new Rect(0f, gPool, width, SectionHeight));
+        // The insider is a guest of the pool: the first card in it.
+        if (insider)
+        {
+            DrawInsider(new Rect(0f, y, width, CardHeight), transition, map);
+            y += CardHeight + CardGap;
+        }
         bool first = true;
         foreach (Fixer fixer in pool)
         {

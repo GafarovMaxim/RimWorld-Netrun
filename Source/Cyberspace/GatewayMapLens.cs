@@ -358,33 +358,42 @@ public static partial class GatewayView
     }
 
     /// <summary>Draws the previewed routes on the field: fast as a bright line, quiet dashed when it differs.</summary>
+    /// <summary>
+    /// The route being planned (hover): a light dashed line with dashes marching toward the target, and the quiet way in
+    /// purple. The route a runner already walks stays a solid line in the accent colour (DrawMapLink), so the two never
+    /// look alike (Maxim, 2026-10-14).
+    /// </summary>
     private static void DrawPreview(Rect local, NetMapManager net, int hub)
     {
         if (Preview(net, hub) is not { } p)
             return;
         bool differs = p.Quiet != null && !p.Quiet.SequenceEqual(p.Fast);
         if (differs)
-            DrawPath(local, net, p.Quiet, NetrunUI.Purple, dashed: true);
-        DrawPath(local, net, p.Fast, NetrunUI.Ok, dashed: false);
+            DrawPath(local, net, p.Quiet, NetrunUI.Purple, 2f);
+        DrawPath(local, net, p.Fast, NetrunUI.TextColor, 2.5f);
     }
 
-    private static void DrawPath(Rect local, NetMapManager net, List<int> path, Color c, bool dashed)
+    private static void DrawPath(Rect local, NetMapManager net, List<int> path, Color c, float width)
     {
+        // Dashes of 8 px with 6 px gaps, shifting along the path over time (still when animations are off).
+        float phase = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * 18f % 14f : 0f;
+        Color glow = new(c.r, c.g, c.b, 0.12f);
         for (int i = 1; i < path.Count; i++)
         {
             Vector2 a = ToScreen(local, net.Map.Node(path[i - 1]).Pos), b = ToScreen(local, net.Map.Node(path[i]).Pos);
-            if (!dashed)
-            {
-                Widgets.DrawLine(a, b, new Color(c.r, c.g, c.b, 0.25f), 9f);
-                Widgets.DrawLine(a, b, c, 3f);
+            float len = Vector2.Distance(a, b);
+            if (len < 1f)
                 continue;
+            Widgets.DrawLine(a, b, glow, 8f);
+            Vector2 u = (b - a) / len;
+            for (float d = phase - 14f; d < len; d += 14f)
+            {
+                float d0 = Mathf.Max(0f, d), d1 = Mathf.Min(len, d + 8f);
+                if (d1 > d0)
+                    Widgets.DrawLine(a + u * d0, a + u * d1, c, width);
             }
-            int segments = Mathf.Max(2, Mathf.FloorToInt(Vector2.Distance(a, b) / 8f));
-            for (int s = 0; s < segments; s += 2)
-                Widgets.DrawLine(Vector2.Lerp(a, b, s / (float)segments), Vector2.Lerp(a, b, Mathf.Min(1f, (s + 1) / (float)segments)), c, 2.5f);
         }
     }
-
     // ---- The hover card ----
 
     private static string HubCard(MapNode n, NetMapManager net, List<ExternalNode> branches)

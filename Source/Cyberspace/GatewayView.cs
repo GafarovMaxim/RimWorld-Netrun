@@ -400,6 +400,8 @@ public static partial class GatewayView
         if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
             return;
 
+        // The packets, motes and ripple stay in screen space: dragged with the map they jumped between grid lines
+        // (Maxim, 2026-10-14). Only the grid itself moves with the map.
         float now = Time.realtimeSinceStartup;
         // Packets: a few at a time, each on its own line; every time slot picks new lines.
         for (int k = 0; k < 3; k++)
@@ -415,13 +417,13 @@ public static partial class GatewayView
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a);
             if (horizontal)
             {
-                float y = oy + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.height / step)));
+                float y = step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.height / step)));
                 float x = Mathf.Lerp(-60f, rect.width, forward ? t : 1f - t);
                 GUI.DrawTexture(new Rect(x, y - 0.5f, 60f, 2f), BaseContent.WhiteTex);
             }
             else
             {
-                float x = ox + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / step)));
+                float x = step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / step)));
                 float y = Mathf.Lerp(-60f, rect.height, forward ? t : 1f - t);
                 GUI.DrawTexture(new Rect(x - 0.5f, y, 2f, 60f), BaseContent.WhiteTex);
             }
@@ -434,7 +436,7 @@ public static partial class GatewayView
             int slot = Mathf.FloorToInt(f);
             float t = f - slot;
             var rnd = new GridRng(slot * 131 + k * 7);
-            var p = new Vector2(Mathf.Repeat((float)rnd.NextDouble() * rect.width + offset.x, rect.width), Mathf.Repeat((float)rnd.NextDouble() * rect.height + offset.y, rect.height));
+            var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
             float a = 0.35f * Mathf.Sin(t * Mathf.PI);
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a * 0.5f);
             GUI.DrawTexture(new Rect(p.x - 5f, p.y - 5f, 10f, 10f), NetrunUI.GlowTex);
@@ -450,7 +452,7 @@ public static partial class GatewayView
             if (t < 0.45f)
             {
                 var rnd = new GridRng(slot * 7919);
-                var c = new Vector2(Mathf.Repeat((float)rnd.NextDouble() * rect.width + offset.x, rect.width), Mathf.Repeat((float)rnd.NextDouble() * rect.height + offset.y, rect.height));
+                var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
                 float r = Mathf.Lerp(10f, Mathf.Max(rect.width, rect.height) * 0.45f, t / 0.45f);
                 GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, 0.12f * (1f - t / 0.45f));
                 GUI.DrawTexture(new Rect(c.x - r, c.y - r, r * 2f, r * 2f), NetrunUI.ThinRing);
@@ -630,6 +632,9 @@ public static partial class GatewayView
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         NetrunUI.BeginScroll(outer, ref _panelScroll, inner);
         float y = inner.y;
+        // Until the first training dive is done its button is the first thing in the panel, whatever is selected.
+        if (!gateway.TrainingDone)
+            y = DrawTrainingButton(inner, y, map, gateway);
         bool mapPanel = NetMapManager.Get() is { Ready: true };
         if (mapPanel)
             y = DrawMapPanel(inner, y, map, NetMapManager.Get());
@@ -795,6 +800,16 @@ public static partial class GatewayView
         Widgets.EndScrollView();
     }
 
+    /// <summary>The training dive button (a free simulator run); returns the y below it.</summary>
+    private static float DrawTrainingButton(Rect inner, float y, Map map, GatewayManager gateway, Color? color = null)
+    {
+        var tr = new Rect(inner.x, y, inner.width, 30f);
+        AcceptanceReport can = NetrunUI.Cached("gateway.canTrain", () => gateway.CanTrain(map));
+        if (NetrunUI.Button(tr, "NR_TrainingButton".Translate(), color ?? NetrunUI.Accent, can, "NR_TrainingButtonTip".Translate()))
+            gateway.StartTraining(map);
+        return y + 36f;
+    }
+
     /// <summary>The panel's last row: dive reports (when shown) and the view switch (the map or a list), side by side.</summary>
     private static float DrawPanelFooter(Rect inner, float y, Rect outer, bool withReports)
     {
@@ -813,16 +828,9 @@ public static partial class GatewayView
         if (NetrunUI.Button(vr, (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
             _listMode = !_listMode;
         y += 36f;
-        if (withReports && GatewayManager.Get() is { } gateway)
-        {
-            Map map = Find.CurrentMap;
-            var tr = new Rect(inner.x, y, inner.width, 30f);
-            AcceptanceReport can = NetrunUI.Cached("gateway.canTrain", () => gateway.CanTrain(map));
-            if (NetrunUI.Button(tr, "NR_TrainingButton".Translate(), gateway.TrainingDone ? NetrunUI.Muted : NetrunUI.Accent, can,
-                    "NR_TrainingButtonTip".Translate()))
-                gateway.StartTraining(map);
-            y += 36f;
-        }
+        // After the first training dive the button sits quietly in the footer (before it, it stands on top of the panel).
+        if (withReports && GatewayManager.Get() is { TrainingDone: true } gateway)
+            y = DrawTrainingButton(inner, y, Find.CurrentMap, gateway, NetrunUI.Muted);
         GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
         return y;
     }

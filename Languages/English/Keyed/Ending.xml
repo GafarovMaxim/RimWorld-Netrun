@@ -2,38 +2,51 @@
 <LanguageData>
 
   <!-- The ending: the Transition (docs/CONCEPT.md, section 19) -->
-  <NR_TransitionRumour>Forum rumour: corporate black labs are copying people into the net. "A digital afterlife," says one deleted post.</NR_TransitionRumour>
-  <NR_TransitionRumourMsg>A strange rumour runs through the feed: corporate labs that move minds into the net.</NR_TransitionRumourMsg>
+  <NR_TransitionRumour>Forum rumour: the corporations are building something in their black labs. It has to do with consciousness, or with AI. Nobody outside knows which; the post that said so was deleted.</NR_TransitionRumour>
+  <NR_TransitionRumourMsg>A rumour runs through the feed: the corporations are building something in their black labs. Nobody outside knows what.</NR_TransitionRumourMsg>
   <NR_InsiderNames>Vesper,Halloran,Mira Cole,Sato,Dr. Lenk,Ilse Varga,Quinn,Okafor,Juno Reyes,Tarkovsky</NR_InsiderNames>
   <NR_TransitionContactLabel>A dead channel opens</NR_TransitionContactLabel>
-  <NR_TransitionContact>A message comes through a channel no fixer admits to owning. The sender calls themselves {0}: a former employee of a corporate black lab, now running.\n\n"You heard the rumour. It is true. They call it the digital afterlife: a mind moved into the net, whole. The method is split into five blueprints, kept in their labs. I sell coordinates. You do the rest."\n\nThe insider now waits in the Club: lab coordinates for {1} cyberdata and {2} silver.</NR_TransitionContact>
-  <NR_InsiderTitle>{0}, the insider</NR_InsiderTitle>
-  <NR_InsiderDesc>A former employee of a corporate black lab. Sells the coordinates of labs where the Transition's blueprints are kept. Labs have Black ICE and ask for an advanced cyberdata at the door.</NR_InsiderDesc>
-  <NR_InsiderPrints>Blueprints: {0} / {1}</NR_InsiderPrints>
+  <NR_TransitionContact>A message comes through a channel no fixer admits to owning. The sender calls themselves {0}: they used to work in a corporate black lab, and now they are running.\n\n"You have heard the rumours. I will not tell you what they are building; I am not sure I understand it myself. Something to do with minds, or with machines that think. The pieces are kept in the labs. I sell coordinates. What you take out of there is your business."\n\n{0} now waits in the Club as a guest: lab coordinates for {1} cyberdata and {2} silver.</NR_TransitionContact>
+  <NR_InsiderDesc>Used to work in a black lab and will not say on what. Sells the coordinates of labs where prototype schematics are kept. The labs have Black ICE, and the door asks for an advanced cyberdata.</NR_InsiderDesc>
+  <NR_InsiderPrints>Prototypes: {0} / {1}</NR_InsiderPrints>
   <NR_InsiderBuy>Buy lab coordinates ({0} cyberdata, {1} silver)</NR_InsiderBuy>
-  <NR_InsiderBuyTip>A lab appears on the corporate ground of the map for {0} days. A clean dive may bring a blueprint (certain after two clean dives without one). The dive adds 15 Heat.</NR_InsiderBuyTip>
-  <NR_InsiderNoMore>You have all the blueprints.</NR_InsiderNoMore>
-  <NR_InsiderLabActive>{0} is still waiting on the map.</NR_InsiderLabActive>
+  <NR_InsiderBuyTip>A lab (a violet node) appears on the cyberspace map for {0} days; the letter says which hub it hangs on, and the hub is marked on the map. A clean dive may bring a prototype schematic (certain after two clean dives without one). The dive adds 15 Heat.</NR_InsiderBuyTip>
+  <NR_InsiderReady>Ready to sell new coordinates.</NR_InsiderReady>
+  <NR_InsiderPrintsTip>Prototype schematics taken out of the labs so far.</NR_InsiderPrintsTip>
+  <NR_InsiderRoleTip>Used to work in a corporate black lab.</NR_InsiderRoleTip>
+  <NR_InsiderRole>EX-CORP</NR_InsiderRole>
+  <NR_InsiderGuestTip>Not one of the Club's fixers: a guest who came in over a dead channel. Sells one thing only.</NR_InsiderGuestTip>
+  <NR_InsiderGuestTag>GUEST</NR_InsiderGuestTag>
+  <NR_InsiderNoMore>You have all the prototypes.</NR_InsiderNoMore>
+  <NR_InsiderLabActive>{0} on {1} is still waiting on the map.</NR_InsiderLabActive>
   <NR_InsiderCooldown>New coordinates in {0}.</NR_InsiderCooldown>
+  <NR_InsiderLabLine>On the map: {0}, {1}</NR_InsiderLabLine>
   <NR_InsiderCantPay>Needs {0} cyberdata and {1} silver.</NR_InsiderCantPay>
   <NR_LabNodeName>Lab "{0}"</NR_LabNodeName>
+  <NR_LabHubFallback>the corporate ground</NR_LabHubFallback>
   <NR_LabCodeNames>Lazarus,Ark,Elysium,Straylight,Glass Orchid,Silent Choir,Chrome Lotus,Zero Meridian,Neon Cathedral,Ghost Orchard,Paper Moon,Sleeping Saint,Mirror Abbey,Hollow Crown,Black Lantern,Sable Echo,Iron Lullaby,Velvet Static,Saint Kilda,Cold Harbor</NR_LabCodeNames>
   <NR_LabFoundLabel>Lab coordinates</NR_LabFoundLabel>
-  <NR_LabFound>{0} sends the coordinates: {1}, on the corporate ground of the map. They stay valid for {2} days.\n\nBlack ICE, two forks; the door takes an advanced cyberdata. A clean exit may bring a blueprint.</NR_LabFound>
+  <NR_LabFound>{0} sends the coordinates: {1}, the violet node on {2}. They stay valid for {3} days; the hub is marked on the cyberspace map.\n\nBlack ICE, two forks; the door takes an advanced cyberdata. A clean exit may bring a prototype schematic.</NR_LabFound>
   <NR_LabHeat>Dive into {0}</NR_LabHeat>
-  <NR_LabNoPrint>{0}: no blueprint this time, but the logs point to the next lab.</NR_LabNoPrint>
+  <NR_LabNoPrint>{0}: nothing taken out this time, but the logs point to the next lab.</NR_LabNoPrint>
   <NR_DiveNeedsAdvanced>The door asks for an {0}.</NR_DiveNeedsAdvanced>
   <NR_DiveCostAdvanced>At the door: 1 {0}</NR_DiveCostAdvanced>
-  <NR_BlueprintLabel>Blueprint {0} of {1}</NR_BlueprintLabel>
-  <NR_BlueprintCount>Blueprints: {0} / {1}.</NR_BlueprintCount>
-  <NR_BlueprintNote_1>From the files of {0}, internal memo: "Subject 7 kept talking for 40 minutes after the body flatlined. In the buffer. She asked for her cat. We are calling it continuity, not survival, for the lawyers."</NR_BlueprintNote_1>
-  <NR_BlueprintNote_2>From the files of {0}, experiment log: "Copy drift under 0.3% after a week. The copy still dreams. Board wants a product name. Marketing proposes 'Digital Afterlife'. Nobody in the lab laughs."</NR_BlueprintNote_2>
-  <NR_BlueprintNote_3>From the files of {0}, a deleted message: "If anyone finds this: the body does not die. It just stays. We keep them in the pods. We tell the families nothing."</NR_BlueprintNote_3>
-  <NR_BlueprintNote_4>From the files of {0}, the director's note: "Project frozen. Too many volunteers. The net is filling with people who do not want to come back. The board calls it a liability. I call it the first honest door out."</NR_BlueprintNote_4>
-  <NR_BlueprintsAllLabel>All five blueprints</NR_BlueprintsAllLabel>
-  <NR_BlueprintsAll>The fifth blueprint fits the others. The method is whole: the research "the Transition" can now be started.\n\nWhen it is done, a colonist with a cyberlink can cross into the net from a powered cyberpod. The body stays behind as an empty shell.</NR_BlueprintsAll>
-  <NR_TransitionResearchPrints>Blueprints found: {0} / {1} (all are needed to start).</NR_TransitionResearchPrints>
+  <NR_BlueprintLabel>Prototype {0} of {1}</NR_BlueprintLabel>
+  <NR_BlueprintCount>Prototypes: {0} / {1}.</NR_BlueprintCount>
+  <NR_BlueprintNote_1>From the files of {0}: "...kept talking forty minutes after. In the buffer. Asked for her cat. For the lawyers: continuity. Not survival. Continuity."</NR_BlueprintNote_1>
+  <NR_BlueprintNote_2>From the files of {0}: "Drift under 0.3%. Still dreams. The board wants a name for it. Marketing has one. Nobody in the room laughed."</NR_BlueprintNote_2>
+  <NR_BlueprintNote_3>From the files of {0}, a deleted message: "...if anyone finds this. The bodies stay. We keep them in the pods. The families were told nothing. Do not ask me what we"</NR_BlueprintNote_3>
+  <NR_BlueprintNote_4>From the files of {0}: "Frozen. Too many volunteers. The line out is full of people who do not want to come back. A liability, says the board. I would call it a door."</NR_BlueprintNote_4>
+  <NR_BlueprintsAllLabel>All five prototypes</NR_BlueprintsAllLabel>
+  <NR_BlueprintsAll>The fifth prototype fits the others. Together they describe a method: a mind moved out of the brain into the net, whole and awake. This is what the labs were building. The research "the Transition" can now be started.\n\nWhen it is done, a colonist with a cyberlink can cross into the net from a powered cyberpod. The body stays behind as an empty shell.</NR_BlueprintsAll>
+  <NR_TechprintDelivered>A techprint came out of the lab with the runner: look for it near the pod (or in a drop pod at the colony). Apply it at a research bench.</NR_TechprintDelivered>
+  <NR_BlueprintsAllPrints>The fifth prototype fits the others. Together they describe a method: a mind moved out of the brain into the net, whole and awake. This is what the labs were building: "the Transition".\n\nApply the techprints at a research bench, and the research can be started. When it is done, a colonist with a cyberlink can cross into the net from a powered cyberpod. The body stays behind as an empty shell.</NR_BlueprintsAllPrints>
+  <NR_TransitionResearchPrints>Prototypes found: {0} / {1} (all are needed to start).</NR_TransitionResearchPrints>
   <NR_TransitionResearchHidden>Something the corporations keep in their black labs. Follow the rumours in the net.</NR_TransitionResearchHidden>
+  <NR_PrototypeDesc>A prototype schematic taken out of a corporate black lab. Fragmentary on its own; five of them seem to fit together.</NR_PrototypeDesc>
+  <NR_PrototypeLabel>prototype schematic</NR_PrototypeLabel>
+  <NR_TransitionResearchVague>Pieces of something the corporations develop in their black labs. It has to do with consciousness, or with AI; nobody outside knows. The pieces fit together only when all five are found.</NR_TransitionResearchVague>
+  <NR_TransitionResearchPrototype>Black lab prototype</NR_TransitionResearchPrototype>
 
   <!-- The upload -->
   <NR_UploadBegin>The Transition</NR_UploadBegin>

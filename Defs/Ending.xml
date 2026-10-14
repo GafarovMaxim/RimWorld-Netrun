@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- The ending, "The Transition" (docs/CONCEPT.md, section 19). The label and text are "???" until the insider
-       is met (TransitionManager.ApplyResearchText); it cannot start before all five blueprints are found. -->
+  <!-- The ending, "The Transition" (docs/CONCEPT.md, section 19). Vanilla techprints: five of them, found only in the corporate
+       labs (commonality 0: no trader sells them, no quest or map generation hands them out; no heldByFactionCategoryTags).
+       The label and text follow the story (TransitionManager.ApplyResearchText): "???" before the insider, vague until all
+       five are found. Without a techprint item in the game the research is gated by our own counter (Patch_Research_TransitionLock). -->
   <ResearchProjectDef ParentName="NR_ResearchBase">
     <defName>NR_Res_Transition</defName>
     <label>the Transition</label>
-    <description>A mind copied out of the brain into the net, whole and awake: what the corporate black labs call the digital afterlife. The body stays behind in the cyberpod, an empty shell. Needs all five blueprints from the labs.</description>
+    <description>A mind copied out of the brain into the net, whole and awake: what the corporate black labs call the digital afterlife. The body stays behind in the cyberpod, an empty shell. Needs the five prototype techprints from the labs.</description>
     <baseCost>6000</baseCost>
     <techLevel>Spacer</techLevel>
+    <techprintCount>5</techprintCount>
+    <techprintCommonality>0</techprintCommonality>
+    <techprintMarketValue>1500</techprintMarketValue>
     <prerequisites>
       <li>NR_Res_AIArchitecture</li>
     </prerequisites>

@@ -66,13 +66,30 @@
   <NR_TrainingDone>Training dive done. Real nodes wait on the map.</NR_TrainingDone>
   <NR_TrainingFailed>Training dive over. Try again from the cyberspace panel whenever you like.</NR_TrainingFailed>
   <NR_TrainingButton>Training dive</NR_TrainingButton>
-  <NR_TrainingButtonTip>A free dive into a simulator: a fork, a hidden passage, ICE and a shield program. No pod needed, no Heat, no harm, no haul.</NR_TrainingButtonTip>
+  <NR_TrainingButtonTip>A free dive into a simulator with a coach that explains every step: a fork, a hidden passage, ICE and two shield charges. Easier than a real node. No pod needed, no Heat, no harm, no haul.</NR_TrainingButtonTip>
   <NR_TrainingNoRunner>No colonist at home can sit at the simulator.</NR_TrainingNoRunner>
   <NR_TrainingBusy>A dive is already under way.</NR_TrainingBusy>
   <NR_TrainingOfferTitle>Training dive</NR_TrainingOfferTitle>
   <NR_TrainingOffer>First time in cyberspace? Try a dive in the simulator: it plays like a real one (gates, a fork, a hidden passage, ICE), but costs nothing and hurts no one.\n\nIt is always available later from the cyberspace panel.</NR_TrainingOffer>
   <NR_TrainingStart>Start training</NR_TrainingStart>
   <NR_TrainingLater>Later</NR_TrainingLater>
+  <NR_CoachTitle>Training: your next step</NR_CoachTitle>
+  <NR_Coach_MoveFirst>Move: step to the next element of the node. Every action you take (Move, Scan, Hack, Download) uses one of your actions this turn and raises the trace a little.</NR_Coach_MoveFirst>
+  <NR_Coach_Move>Keep going: Move to the next element.</NR_Coach_Move>
+  <NR_Coach_Gate>A gate blocks the way. Hack it: your chance is {0}. A fail costs the action and raises the node alert (in real nodes a high alert wakes an ICE patrol; the simulator has none).</NR_Coach_Gate>
+  <NR_Coach_ForkScan>A fork: the node splits into two paths. Scan the fork to see the numbers of both (haul, ICE, trace) before you choose.</NR_Coach_ForkScan>
+  <NR_Coach_ForkChoose>Choose a path in the panel. Hard pays more but has Black ICE; easy is quiet and hides a passage that raises the haul. The choice is final and costs no action.</NR_Coach_ForkChoose>
+  <NR_Coach_HiddenScan>Something hidden lies ahead and you cannot step into it. Scan reveals hidden steps.</NR_Coach_HiddenScan>
+  <NR_Coach_Ice>ICE ahead. Hack it: your chance is {0}. A failed hack makes it strike you, and while it watches you it may strike at the end of a turn too. Your Shield program absorbs one hit (charges left: {1}). Real hits mean Netsick and worse; here they are only shown.</NR_Coach_Ice>
+  <NR_Coach_Cache>A cache. Download takes it into your haul for one action. Only what you carry out counts.</NR_Coach_Cache>
+  <NR_Coach_Passage>A hidden passage, found by scanning. Download it: it raises the haul multiplier of the whole dive.</NR_Coach_Passage>
+  <NR_Coach_Files>The node's main files, the real prize. Download them.</NR_Coach_Files>
+  <NR_Coach_Exit>This is the exit. Press Exit to leave with everything you took. Leaving earlier (retreat) costs part of the haul.</NR_Coach_Exit>
+  <NR_Coach_Done>Training complete. You moved, scanned a fork and a hidden step, hacked a gate and ICE, chose a path, downloaded and left with the haul. Real nodes are on the map: they cost cyberdata, and there the hits are for real.</NR_Coach_Done>
+  <NR_Coach_Failed>The simulation ended before the exit. Watch the turn counter: when the turns run out the dive fails, and a real runner pays for it. Try again from the cyberspace panel or the Cyberpedia.</NR_Coach_Failed>
+  <NR_Coach_ActionsLow>Last action this turn: when your actions run out the node takes its turn (ICE may strike, the turn counter ticks).</NR_Coach_ActionsLow>
+  <NR_Coach_TimeLow>Turns left: {0}. Wrap up and head for the exit.</NR_Coach_TimeLow>
+  <NR_TrainingLocked>The Gateway is not open yet.</NR_TrainingLocked>
   <NR_DiveNoFurther>dead end</NR_DiveNoFurther>
   <NR_DiveHiddenAhead>something hidden ahead: scan it first</NR_DiveHiddenAhead>
   <NR_DiveBlocked>the way is blocked: hack it first</NR_DiveBlocked>

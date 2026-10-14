@@ -749,7 +749,8 @@ public partial class Dialog_NetTerminal : Window
         // Netsick: how many colonists, the worst severity on hover.
         Map sickMap = _map;
         List<Pawn> sick = NetrunUI.Cached(SickKey,
-            () => sickMap.mapPawns.FreeColonistsSpawned.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList(), 1f);
+            // FreeColonists, not ...Spawned: a runner lying in a cyberpod is the one who has it (the header chip counted them, this did not).
+            () => sickMap.mapPawns.FreeColonists.Where(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)).ToList(), 1f);
         Color sickColor = sick.Count > 0 ? NetrunUI.Warn : NetrunUI.Muted;
         string sickText = sick.Count > 0 ? "NR_StatusNetsick".Translate(sick.Count) : NetrunUI.T("NR_StatusNetsickNone");
         Text.Font = GameFont.Tiny;

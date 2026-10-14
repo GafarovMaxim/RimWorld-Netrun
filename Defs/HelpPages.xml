@@ -507,7 +507,7 @@
     <order>3</order>
     <color>Accent</color>
     <label>How a dive goes</label>
-    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move: to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack: a gate or ICE.\n- !Action_Download Download: files or memory.\n- !Action_Exit Exit: from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks). Missed the files? "Back" returns one step and costs the turn.\n## !Gizmo_NetrunDive Training dive\nNot sure yet? The "Training dive" button in the cyberspace panel starts a free dive in a simulator: a medium node with a fork, a hidden passage, ICE on the hard path and a shield program. Any colonist can sit at it, no pod needed. Every rule works, but ICE hits, Heat, Netsick and the haul are only shown in the log. It is offered on your first visit to cyberspace.\n## !Action_Hack Hack chance\nThe netrunner's Intellectual helps, the strength of the gate hurts; programs, daemons and the runner's state add or take a little. Try it:\n[[hackchance]]\n## !Dive_Heat Trace and Heat\nThe trace of a dive is multiplied by the node type: corp nodes leave the most. The "net went quiet" news and stealth help.\n[[trace]]\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.\n## !Action_Hack Node alert\nA failed gate hack raises the node alert (a failed ICE hack does not: ICE has its own danger). At 3 an ICE patrol wakes up and each node turn may strike (15%). A strike throws the runner out with half the haul and nausea, no coma; a shield or the Aegis daemon takes it instead, and the Wraith daemon lets one more failure slip by. Nodes of defense 1 have no alert.\nAll hack bonuses together (programs, daemons, traits, AI, recordings) add at most +30% to a hack's chance.\n## !Gizmo_NetrunDive Hacking Expansion gear\nA dive is paid from the pod's hack points first, then in cyberdata. With the "combat executables" research one HE item per dive can go in a program slot: an ICE breaker breaks one gate (double trace), an exec data gives +1 action in each of the first three turns. HE's optimization module adds one action in the first turn.</body>
+    <body>A dive is a path of steps from the lobby to the exit:\n[[dive]]\nEach turn you have a few actions:\n[[cards]]\n- !Action_Move Move: to the next step.\n- !Action_Scan Scan: reveal hidden steps (caches, honeypots).\n- !Action_Hack Hack: a gate or ICE.\n- !Action_Download Download: files or memory.\n- !Action_Exit Exit: from the I/O port with everything.\nEvery action raises the dive's trace; after your actions the node takes its turn and Black ICE may strike. You have {dive.turns} turns (more on nodes with forks). Missed the files? "Back" returns one step and costs the turn.\n## !Gizmo_NetrunDive Training dive\nNot sure yet? The "Training dive" button in the cyberspace panel starts a free dive in a simulator: a medium node with a fork, a hidden passage, ICE on the hard path and a shield program. Any colonist can sit at it, no pod needed. Every rule works, but ICE hits, Heat, Netsick and the haul are only shown in the log. It is offered on your first visit to cyberspace.\n> train:Start a training dive\n## !Action_Hack Hack chance\nThe netrunner's Intellectual helps, the strength of the gate hurts; programs, daemons and the runner's state add or take a little. Try it:\n[[hackchance]]\n## !Dive_Heat Trace and Heat\nThe trace of a dive is multiplied by the node type: corp nodes leave the most. The "net went quiet" news and stealth help.\n[[trace]]\n## !Dive_BLACKICE Forks\nMedium nodes split once, large ones and the corporate core twice. The hard path pays more (haul ×{dive.hardReward}) but Black ICE guards it and the trace is louder (+{dive.hardTrace}); the easy path is quiet (+{dive.easyTrace}), pays less (×{dive.easyReward}) and hides a passage that adds to the haul. Scan at the fork to see the numbers. The choice is final and costs no action; from the first fork you can still leave for free. Retreating early from the lobby is free; deeper it costs part of the haul. Leaving the pod takes {dive.wake} hours.\n## !Action_Hack Node alert\nA failed gate hack raises the node alert (a failed ICE hack does not: ICE has its own danger). At 3 an ICE patrol wakes up and each node turn may strike (15%). A strike throws the runner out with half the haul and nausea, no coma; a shield or the Aegis daemon takes it instead, and the Wraith daemon lets one more failure slip by. Nodes of defense 1 have no alert.\nAll hack bonuses together (programs, daemons, traits, AI, recordings) add at most +30% to a hack's chance.\n## !Gizmo_NetrunDive Hacking Expansion gear\nA dive is paid from the pod's hack points first, then in cyberdata. With the "combat executables" research one HE item per dive can go in a program slot: an ICE breaker breaks one gate (double trace), an exec data gives +1 action in each of the first three turns. HE's optimization module adds one action in the first turn.</body>
     <icon>Gizmo_NetrunDive</icon>
     <contexts>
       <li>Dive</li>
@@ -835,10 +835,10 @@
 <!-- The ending's chain (docs/CONCEPT.md, section 19): a page per stage, hidden until reached. -->
   <Netrun.HelpPageDef>
     <defName>NR_Help_Transition</defName>
-    <order>90</order>
+    <order>79</order>
     <color>Purple</color>
-    <label>Digital afterlife</label>
-    <body>Somewhere in the corporate black labs, minds are leaving their bodies. The pages of this chapter open as your colony follows the trail.</body>
+    <label>Black labs</label>
+    <body>Somewhere in the corporate black labs something is being built. Nobody outside knows what. The pages of this chapter open as your colony follows the trail.</body>
     <icon>Gizmo_NetrunDive</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Keep diving. The net talks about things the corporations hide.</lockHint>
@@ -851,7 +851,7 @@
     <order>1</order>
     <color>Purple</color>
     <label>The rumour</label>
-    <body>A deleted post, a few copies of it: corporate black labs copy people into the net, whole and awake. They call it the digital afterlife. Nobody you know believes it. Nobody you know has been inside a black lab.\n## What next\nSomeone who has worked there may get in touch through the fixers' pool.</body>
+    <body>A deleted post, a few copies of it: the corporations are working on something in their black labs. It has to do with consciousness, or with AI. Nobody outside knows which. Nobody you know has been inside a black lab.\n## What next\nSomeone who has worked there may get in touch through the fixers' pool.</body>
     <icon>Gizmo_NetrunDive</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>
@@ -864,7 +864,7 @@
     <order>2</order>
     <color>Purple</color>
     <label>The insider</label>
-    <body>A former employee of a black lab, on the run, sells coordinates from the Club. Each purchase puts one lab on the corporate ground of the map for a few days.\n## The labs\nBlack ICE, two forks, an advanced cyberdata at the door and extra Heat. A clean exit may bring one of the five blueprints of the Transition; after two clean dives without one, the next is certain.</body>
+    <body>A former employee of a black lab, on the run, turns up in the Club as a guest and sells coordinates. Each purchase puts one lab, a violet node, on the corporate ground of the map for a few days; the letter names the hub it hangs on, and the hub is marked on the map.\n## The labs\nBlack ICE, two forks, an advanced cyberdata at the door and extra Heat. A clean exit may bring one of five prototype schematics (a techprint); after two clean dives without one, the next is certain.</body>
     <icon>Gizmo_NetrunDive</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>
@@ -876,8 +876,8 @@
     <parent>NR_Help_Transition</parent>
     <order>3</order>
     <color>Purple</color>
-    <label>The first blueprint</label>
-    <body>The blueprints come with the lab's own papers: memos, experiment logs, messages someone tried to delete. They read like a confession. The research "the Transition" shows its name now, and waits for the rest of the set.</body>
+    <label>The first prototype</label>
+    <body>The prototypes come with scraps of the lab's own papers: memos, logs, messages someone tried to delete. They read like a confession, in pieces. Whatever the labs were building, one piece is not enough. A research waits for the rest of the set.</body>
     <icon>Gizmo_NetrunDive</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>
@@ -890,7 +890,7 @@
     <order>4</order>
     <color>Purple</color>
     <label>The method</label>
-    <body>All five blueprints fit together. Research "the Transition", then put a colonist with a cyberlink into a powered cyberpod and press "The Transition".\n## The upload\nIt takes a day. Heat rises every hour, and the corporations may send a purge team. Opening the pod before the end (or losing power for good) tears the mind back: a heavy Netsick, or death.\n## After\nThe body stays in the pod as an empty shell: alive, frozen like in a cryptosleep casket, no longer a runner. The colony remembers them with a light, sad thought.</body>
+    <body>All five prototypes fit together. Apply the techprints at a research bench, research "the Transition", then put a colonist with a cyberlink into a powered cyberpod and press "The Transition".\n## The upload\nIt takes a day. Heat rises every hour, and the corporations may send a purge team. Opening the pod before the end (or losing power for good) tears the mind back: a heavy Netsick, or death.\n## After\nThe body stays in the pod as an empty shell: alive, frozen like in a cryptosleep casket, no longer a runner. The colony remembers them with a light, sad thought.</body>
     <icon>Gizmo_NetrunDive</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>

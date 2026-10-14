@@ -49,10 +49,12 @@ public class TransitionDeparted : IExposable
 
 /// <summary>
 /// The ending, "The Transition" (docs/CONCEPT.md, section 19; "digital afterlife" in the flavour texts).
-/// Stages: 0 nothing, 1 a rumour in the feed, 2 the insider met, 3 the first blueprint, 4 all five (the research
-/// opens), 5 the first crossing. The insider sells coordinates of corporate black labs (Black ICE, an advanced
-/// cyberdata at the door, +Heat); a clean lab dive may yield a blueprint, with a pity rule. The research needs all
-/// five. A colonist with a cyberlink in a powered pod then uploads for a day; the body stays in the pod as an empty
+/// Stages: 0 nothing, 1 a rumour in the feed, 2 the insider met (a guest card in the Club pool), 3 the first
+/// prototype, 4 all five (the research opens), 5 the first crossing. The insider sells coordinates of corporate black
+/// labs (Black ICE, an advanced cyberdata at the door, +Heat); the letter names the lab and its hub, and the hub is
+/// marked on the map while the lab exists. A clean lab dive may yield a prototype (vanilla techprint of the research,
+/// dropped next to the runner's pod), with a pity rule. The research needs all five techprints; where the game has no
+/// techprint item for it, our own counter gates the research instead. A colonist with a cyberlink in a powered pod then uploads for a day; the body stays in the pod as an empty
 /// shell (frozen, no ticks). When no colonist is left but shells, the epilogue offers the credits or a new start.
 /// Balance: a RimWorld year is 60 days; the whole chain is meant to land around day 180-240 (vanilla endings: years 3-4).
 /// </summary>
@@ -84,6 +86,8 @@ public class TransitionManager : GameComponent
     public string ContactName;
     private int _cleanWithoutPrint;
     private int _nextLabTick = -1;
+    /// <summary>The hub we marked for the active lab (-1 none): only our own mark is ever cleared.</summary>
+    private int _labHub = -1;
     private List<string> _usedCodeNames = [];
     private List<TransitionUpload> _uploads = [];
     public List<TransitionDeparted> Departed = [];
@@ -118,8 +122,13 @@ public class TransitionManager : GameComponent
             CheckRumour();
         if (_uploads.Count > 0)
             TickUploads(now);
-        if (now % 2500 == 0 && Departed.Count > 0 && !_endingShown)
-            CheckEnding();
+        if (now % 2500 == 0)
+        {
+            if (_labHub >= 0)
+                CheckLabMark();
+            if (Departed.Count > 0 && !_endingShown)
+                CheckEnding();
+        }
     }
 
     // ---- Stages ----
@@ -170,7 +179,7 @@ public class TransitionManager : GameComponent
         if (BlueprintsFound >= Blueprints)
             return "NR_InsiderNoMore".Translate();
         if (ActiveLab != null)
-            return "NR_InsiderLabActive".Translate(ActiveLab.Name);
+            return "NR_InsiderLabActive".Translate(ActiveLab.Name, LabHubLabel(ActiveLab));
         if (TicksUntilNextLab > 0)
             return "NR_InsiderCooldown".Translate(TicksUntilNextLab.ToStringTicksToPeriod());
         if (map == null || ColonyGoods.CountCached(map, NetrunDefOf.USH_Cyberdata) < CoordCyberdata || ColonyGoods.CountCached(map, ThingDefOf.Silver) < CoordSilver)
@@ -201,9 +210,42 @@ public class TransitionManager : GameComponent
         ExternalNode lab = ExternalNode.GenerateLab(gateway.NextBranchId(), code, LabLifetimeDays);
         gateway.AddBranch(lab, District.Corp);
         _nextLabTick = Find.TickManager.TicksGame + (int)(LabCooldownDays * GenDate.TicksPerDay);
-        Find.LetterStack.ReceiveLetter("NR_LabFoundLabel".Translate(), "NR_LabFound".Translate(ContactName ?? "?", lab.Name, LabLifetimeDays.ToString("0")),
-            LetterDefOf.PositiveEvent);
+        MarkLabHub(lab);
+        Find.LetterStack.ReceiveLetter("NR_LabFoundLabel".Translate(),
+            "NR_LabFound".Translate(ContactName ?? "?", lab.Name, LabHubLabel(lab), LabLifetimeDays.ToString("0")), LetterDefOf.PositiveEvent);
         return lab;
+    }
+
+    /// <summary>"Obsidian 14": the hub the lab hangs on (a letter cannot point at a map hub, so the text names it).</summary>
+    public static string LabHubLabel(ExternalNode lab)
+    {
+        NetMapManager net = NetMapManager.Get();
+        return lab != null && lab.MapNodeId >= 0 && net?.Map != null ? NetMapManager.NodeLabel(net.NodeOf(lab)) : "NR_LabHubFallback".Translate();
+    }
+
+    /// <summary>The map highlights the marked hub; we mark the lab's and remember that the mark is ours.</summary>
+    private void MarkLabHub(ExternalNode lab)
+    {
+        NetMapManager net = NetMapManager.Get();
+        if (net == null || lab == null || lab.MapNodeId < 0)
+            return;
+        net.MarkedNodeId = lab.MapNodeId;
+        _labHub = lab.MapNodeId;
+    }
+
+    /// <summary>Every 2500 ticks: the lab is gone (expired, finished), so our mark goes too; a scenario's mark is left alone.</summary>
+    private void CheckLabMark()
+    {
+        if (ActiveLab == null)
+            ClearLabMark();
+    }
+
+    private void ClearLabMark()
+    {
+        NetMapManager net = NetMapManager.Get();
+        if (net != null && net.MarkedNodeId == _labHub)
+            net.MarkedNodeId = -1;
+        _labHub = -1;
     }
 
     /// <summary>From the end of a real dive into a lab: Heat, and on a clean exit maybe a blueprint (certain after PityAfter misses).</summary>
@@ -223,31 +265,106 @@ public class TransitionManager : GameComponent
         AddBlueprint(lab.Name);
     }
 
+    /// <summary>
+    /// A prototype found: counted, and (when the game has the techprint item of the research) the techprint is delivered next
+    /// to the runner's pod, or by drop pod to the colony.
+    /// </summary>
     public void AddBlueprint(string source)
     {
         if (BlueprintsFound >= Blueprints)
             return;
         BlueprintsFound++;
         SetStage(3);
+        Thing print = TechprintMode ? DeliverTechprint() : null;
+        // Safety net: an item that could not be delivered is applied outright, so the set is never short.
+        if (print == null && TechprintMode)
+            Find.ResearchManager.AddTechprints(TransitionDefOf.NR_Res_Transition, 1);
+        string where = print != null ? "\n\n" + "NR_TechprintDelivered".Translate() : "";
         if (BlueprintsFound >= Blueprints)
         {
             SetStage(4);
-            Find.LetterStack.ReceiveLetter("NR_BlueprintsAllLabel".Translate(), "NR_BlueprintsAll".Translate(), LetterDefOf.PositiveEvent);
+            Find.LetterStack.ReceiveLetter("NR_BlueprintsAllLabel".Translate(), (print != null ? "NR_BlueprintsAllPrints" : "NR_BlueprintsAll").Translate() + where,
+                LetterDefOf.PositiveEvent, print);
         }
         else
         {
             Find.LetterStack.ReceiveLetter("NR_BlueprintLabel".Translate(BlueprintsFound, Blueprints),
-                ("NR_BlueprintNote_" + BlueprintsFound).Translate(source) + "\n\n" + "NR_BlueprintCount".Translate(BlueprintsFound, Blueprints),
-                LetterDefOf.PositiveEvent);
+                ("NR_BlueprintNote_" + BlueprintsFound).Translate(source) + "\n\n" + "NR_BlueprintCount".Translate(BlueprintsFound, Blueprints) + where,
+                LetterDefOf.PositiveEvent, print);
         }
         ApplyResearchText();
     }
 
-    // ---- The research: hidden until the insider, and locked until all blueprints ----
+    /// <summary>Dev actions: applied techprints are topped up to the count of prototypes set.</summary>
+    private void SyncTechprints()
+    {
+        ResearchProjectDef def = TransitionDefOf.NR_Res_Transition;
+        if (!TechprintMode || def == null)
+            return;
+        int missing = BlueprintsFound - Find.ResearchManager.GetTechprints(def);
+        if (missing > 0)
+            Find.ResearchManager.AddTechprints(def, missing);
+    }
 
-    private static string _realLabel, _realDesc;
+    /// <summary>The vanilla techprint of the research, beside the runner (their pod), else by drop pod to the colony.</summary>
+    private static Thing DeliverTechprint()
+    {
+        try
+        {
+            ThingDef def = TransitionDefOf.NR_Res_Transition?.Techprint;
+            if (def == null)
+                return null;
+            Thing print = ThingMaker.MakeThing(def);
+            Pawn runner = GatewayManager.Get()?.Session?.Runner;
+            Map map = runner?.MapHeld;
+            if (map != null && runner.PositionHeld.IsValid && GenPlace.TryPlaceThing(print, runner.PositionHeld, map, ThingPlaceMode.Near))
+                return print;
+            map = Find.AnyPlayerHomeMap;
+            if (map == null)
+                return null;
+            DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [print], forbid: false);
+            return print;
+        }
+        catch (System.Exception e)
+        {
+            Log.Warning("[Netrun] Transition techprint delivery failed: " + e.Message);
+            return null;
+        }
+    }
 
-    /// <summary>The research's name and text follow the stage ("???" before the insider), with the blueprint count.</summary>
+    // ---- The research: hidden until the insider, vague until all prototypes are found ----
+
+    private static string _realLabel, _realDesc, _realPrintLabel, _realPrintDesc;
+    private static bool _modeKnown, _techprintMode;
+
+    /// <summary>
+    /// True when the game has the vanilla techprint item of the research (techprints need the game's techprint support; the
+    /// check is on the item itself, not on a DLC flag). Without it the research is gated by our own counter instead.
+    /// </summary>
+    public static bool TechprintMode
+    {
+        get
+        {
+            if (!_modeKnown)
+                InitMode();
+            return _techprintMode;
+        }
+    }
+
+    private static void InitMode()
+    {
+        _modeKnown = true;
+        ResearchProjectDef def = TransitionDefOf.NR_Res_Transition;
+        _techprintMode = def != null && def.techprintCount > 0 && def.Techprint != null;
+        // No techprint item to find: do not leave a requirement nobody can ever meet.
+        if (def != null && !_techprintMode)
+            def.techprintCount = 0;
+    }
+
+    /// <summary>
+    /// The research's name and text follow the story: "???" before the insider, a vague prototype until all five are found,
+    /// then its real name. The techprint item is renamed the same way (its generated label carries the research name).
+    /// </summary>
     public void ApplyResearchText()
     {
         ResearchProjectDef def = TransitionDefOf.NR_Res_Transition;
@@ -255,13 +372,36 @@ public class TransitionManager : GameComponent
             return;
         _realLabel ??= def.label;
         _realDesc ??= def.description;
-        def.label = Stage >= 2 ? _realLabel : "???";
-        def.description = Stage >= 2
-            ? _realDesc + "\n\n" + "NR_TransitionResearchPrints".Translate(BlueprintsFound, Blueprints)
-            : (string)"NR_TransitionResearchHidden".Translate();
+        string prints = "NR_TransitionResearchPrints".Translate(BlueprintsFound, Blueprints);
+        if (Stage >= 4)
+        {
+            def.label = _realLabel;
+            def.description = _realDesc + "\n\n" + prints;
+        }
+        else if (Stage >= 2)
+        {
+            def.label = "NR_TransitionResearchPrototype".Translate();
+            def.description = "NR_TransitionResearchVague".Translate() + "\n\n" + prints;
+        }
+        else
+        {
+            def.label = "???";
+            def.description = "NR_TransitionResearchHidden".Translate();
+        }
         Traverse.Create(def).Field("cachedLabelCap").SetValue(default(TaggedString));
+
+        ThingDef print = TechprintMode ? def.Techprint : null;
+        if (print != null)
+        {
+            _realPrintLabel ??= print.label;
+            _realPrintDesc ??= print.description;
+            print.label = Stage >= 4 ? _realPrintLabel : "NR_PrototypeLabel".Translate();
+            print.description = Stage >= 4 ? _realPrintDesc : "NR_PrototypeDesc".Translate();
+            Traverse.Create(print).Field("cachedLabelCap").SetValue(default(TaggedString));
+        }
     }
 
+    /// <summary>Without a techprint item: the research opens when all prototypes are counted.</summary>
     public bool ResearchOpen => BlueprintsFound >= Blueprints;
 
     // ---- The upload ----
@@ -410,6 +550,7 @@ public class TransitionManager : GameComponent
             SetStage(3);
         if (BlueprintsFound >= Blueprints)
             SetStage(4);
+        SyncTechprints();
         ApplyResearchText();
     }
 
@@ -428,6 +569,7 @@ public class TransitionManager : GameComponent
         ContactName = null;
         _cleanWithoutPrint = 0;
         _nextLabTick = -1;
+        ClearLabMark();
         _uploads.Clear();
         _endingShown = false;
         ApplyResearchText();
@@ -441,6 +583,7 @@ public class TransitionManager : GameComponent
         Scribe_Values.Look(ref ContactName, "contact");
         Scribe_Values.Look(ref _cleanWithoutPrint, "cleanWithoutPrint");
         Scribe_Values.Look(ref _nextLabTick, "nextLabTick", -1);
+        Scribe_Values.Look(ref _labHub, "labHub", -1);
         Scribe_Values.Look(ref _endingShown, "endingShown");
         Scribe_Collections.Look(ref _usedCodeNames, "usedCodeNames", LookMode.Value);
         Scribe_Collections.Look(ref _uploads, "uploads", LookMode.Deep);
@@ -453,13 +596,14 @@ public class TransitionManager : GameComponent
     }
 }
 
-/// <summary>The Transition cannot start before all five blueprints are found.</summary>
+/// <summary>Fallback without a techprint item: the Transition cannot start before all five prototypes are found.</summary>
 [HarmonyPatch(typeof(ResearchProjectDef), nameof(ResearchProjectDef.CanStartNow), MethodType.Getter)]
 public static class Patch_Research_TransitionLock
 {
     static void Postfix(ResearchProjectDef __instance, ref bool __result)
     {
-        if (__result && __instance == TransitionDefOf.NR_Res_Transition && TransitionManager.Get()?.ResearchOpen != true)
+        // With the techprint item the vanilla requirement does the gating; this is the fallback without it.
+        if (__result && __instance == TransitionDefOf.NR_Res_Transition && !TransitionManager.TechprintMode && TransitionManager.Get()?.ResearchOpen != true)
             __result = false;
     }
 }

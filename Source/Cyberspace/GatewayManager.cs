@@ -471,7 +471,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     }
 
     /// <summary>
-    /// A medium node in a simulator: one fork, a hidden passage to scan, ICE on the hard branch and a shield program.
+    /// A medium node in a simulator: one fork, a hidden passage to scan, soft ICE on the hard branch and two shield charges.
     /// Free, no pod; hits, Heat, Netsick and the haul are only shown in the log.
     /// </summary>
     public void StartTraining(Map map)
@@ -480,7 +480,11 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             return;
         ClearFinished();
         var node = new ExternalNode { Id = -1, Training = true, Type = ExternalNodeType.Archive, Defense = 3 };
-        Session = DiveSession.Start(node, TrainingRunner(map), [DiveProgram.Shield], 0, []);
+        TrainingOffered = true;
+        List<DiveProgram> shields = [];
+        for (int i = 0; i < TrainingCoach.Shields; i++)
+            shields.Add(DiveProgram.Shield);
+        Session = DiveSession.Start(node, TrainingRunner(map), shields, 0, []);
     }
 
     public void TrainingFinished() => TrainingDone = true;

@@ -136,7 +136,7 @@ public class DiveSession : IExposable
     private bool _cacheFound;
 
     /// <summary>Nodes this weak have no alert: training grounds of the Outskirts.</summary>
-    public bool AlertApplies => Node != null && Node.Defense > Settings.alertFreeDefense;
+    public bool AlertApplies => Node != null && !Node.Training && Node.Defense > Settings.alertFreeDefense;
 
     /// <summary>Wraith (stealth daemon) lets one more failure slip by.</summary>
     /// <summary>Alarms before the patrol wakes; the difficulty's ICE strength makes patrols quicker or slower.</summary>
@@ -217,7 +217,7 @@ public class DiveSession : IExposable
     public int Forks => Elements.Count(e => e.Links.Count > 1);
 
     /// <summary>Turns: the setting, plus a couple per fork (branched nodes are longer).</summary>
-    public int MaxTurns => Settings.maxTurns + Forks * Settings.branchExtraTurns;
+    public int MaxTurns => Settings.maxTurns + Forks * Settings.branchExtraTurns + (Training ? TrainingCoach.ExtraTurns : 0);
 
     /// <summary>The haul multiplier of the chosen path: the mean of the branches taken plus hidden passages.</summary>
     public float PathMultiplier
@@ -306,6 +306,9 @@ public class DiveSession : IExposable
             // The second fork's Black ICE is one weaker: two full-strength ICE on one path made the hard way a losing bet
             // (tools/dive_branch_check.py).
             int iceStrength = Mathf.Max(1, (Node.BlackIce ? Node.IceStrength : Node.Defense + 1) + (Storm ? 1 : 0) - (f > 0 ? 1 : 0));
+            // The training ICE is a soft one: it should teach the Shield, not end the lesson.
+            if (Node.Training)
+                iceStrength = Mathf.Max(1, Node.Defense - 1);
             int h3 = Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = iceStrength, Branch = 1, ForkAt = fork }, c0 + 2, -1f);
             // Easy: a weaker gate and a hidden passage.
             int e1 = Add(new DiveElement { Kind = DiveElementKind.Gate, Strength = GateStrength(-1), Branch = 2, ForkAt = fork }, c0, 1f);
@@ -492,6 +495,9 @@ public class DiveSession : IExposable
         bonus += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner);
         // Bonuses stack up to a cap, so gear never makes the hardest nodes trivial; penalties are not capped.
         chance += Mathf.Min(bonus, Settings.hackBonusCap);
+        // The training is forgiving: a flat bonus on top (still clamped).
+        if (Training)
+            chance += TrainingCoach.HackBonus;
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 

@@ -28,9 +28,64 @@ public static class DiveView
     public static void Draw(Rect rect, DiveSession session)
     {
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
+        // The training coach sits over the step map and takes its share of the height.
+        if (session.Training)
+        {
+            float coachHeight = DrawCoach(mapRect, session);
+            mapRect.yMin += coachHeight + 8f;
+        }
         GuideRegistry.Area("dive.steps", mapRect);
         DrawElements(mapRect, session);
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y - 40f, PanelWidth, rect.height + 40f), session);
+    }
+
+    // ---- Training coach ----
+
+    private static readonly Color CoachColor = new(1f, 0.85f, 0.25f);
+    private static string _coachText;
+    private static float _coachTextWidth;
+    private static float _coachTextHeight;
+
+    /// <summary>The coach box over the map (training dives only): what to do next and why. Returns its height.</summary>
+    private static float DrawCoach(Rect area, DiveSession session)
+    {
+        TrainingCoach.Result coach = TrainingCoach.Get(session);
+        if (coach.Text.NullOrEmpty())
+            return -8f;
+        float textWidth = area.width - 76f;
+        if (!ReferenceEquals(_coachText, coach.Text) || !Mathf.Approximately(_coachTextWidth, textWidth))
+        {
+            Text.Font = GameFont.Small;
+            _coachText = coach.Text;
+            _coachTextWidth = textWidth;
+            _coachTextHeight = Text.CalcHeight(coach.Text, textWidth);
+        }
+        float height = Mathf.Max(52f, _coachTextHeight + 34f);
+        var box = new Rect(area.x, area.y, area.width, height);
+        float pulse = NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 2.4f) : 0.7f;
+        NetrunUI.Glow(box, CoachColor, 0.12f + 0.12f * pulse, 8f);
+        NetrunUI.Box(box, new Color(CoachColor.r * 0.12f, CoachColor.g * 0.1f, 0.04f, 0.96f), new Color(CoachColor.r, CoachColor.g, CoachColor.b, 0.55f + 0.35f * pulse), 2);
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 4f, box.height), CoachColor);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(box.x + 14f, box.y + 4f, box.width - 28f, 16f), ("// " + (string)"NR_CoachTitle".Translate()).ToUpper().Colorize(CoachColor));
+        Text.Font = GameFont.Small;
+        GUI.color = CoachColor;
+        Widgets.Label(new Rect(box.x + 62f, box.y + 22f, textWidth, _coachTextHeight + 4f), coach.Text);
+        GUI.color = Color.white;
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(box.x + 16f, box.y + 20f, 40f, 34f), ">>".Colorize(CoachColor));
+        Text.Font = GameFont.Small;
+        return height;
+    }
+
+    /// <summary>A pulsing outline around the button the coach points at.</summary>
+    private static void PulseOutline(Rect r)
+    {
+        float pulse = NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 5f) : 1f;
+        NetrunUI.Glow(r, CoachColor, 0.25f + 0.35f * pulse, 6f);
+        GUI.color = new Color(CoachColor.r, CoachColor.g, CoachColor.b, 0.55f + 0.45f * pulse);
+        Widgets.DrawBox(r.ExpandedBy(2f), 2);
+        GUI.color = Color.white;
     }
 
     private static Color ElementColor(DiveElement e)
@@ -423,10 +478,11 @@ public static class DiveView
         }
         else
         {
+            string highlight = session.Training ? TrainingCoach.Get(session).Action : null;
             if (session.AtUndecidedFork)
             {
                 float gFork = y;
-                y = DrawFork(inner, y, session);
+                y = DrawFork(inner, y, session, highlight == "Choose");
                 GuideRegistry.InScroll("dive.fork", top, _panelScroll, new Rect(inner.x, gFork, inner.width, y - gFork));
             }
             // Actions: pips for the actions left, buttons in a two-column grid.
@@ -440,6 +496,8 @@ public static class DiveView
                 var r = new Rect(inner.x + index % 2 * (bw + 6f), gridY + index / 2 * 34f, bw, 30f);
                 if (NetrunUI.Button(r, ("NR_DiveAct_" + key).Translate(), color, report, tip ?? ("NR_DiveActTip_" + key).Translate(), NetrunTex.CyberIcon("Action_" + key)))
                     action();
+                if (highlight == key && report.Accepted)
+                    PulseOutline(r);
                 index++;
             }
             Act("Back", NetrunUI.Accent, session.CanBack(), session.Back);
@@ -521,7 +579,7 @@ public static class DiveView
     }
 
     /// <summary>At a fork: two cards, hard and easy. Numbers show after a scan; the choice is final.</summary>
-    private static float DrawFork(Rect inner, float y, DiveSession session)
+    private static float DrawFork(Rect inner, float y, DiveSession session, bool highlight = false)
     {
         bool scanned = session.ForkScanned.Contains(session.Position);
         y = HudHeader(inner, y, "NR_DiveForkTitle".Translate(), scanned ? null : "?".Colorize(NetrunUI.Warn));
@@ -554,8 +612,11 @@ public static class DiveView
             cy += nh + 6f;
             Text.Font = GameFont.Small;
             int b = branch;
-            if (NetrunUI.Button(new Rect(card.x + 10f, cy, tw, 28f), "NR_DiveBranchTake".Translate(), c, true, "NR_DiveBranchTakeTip".Translate()))
+            var take = new Rect(card.x + 10f, cy, tw, 28f);
+            if (NetrunUI.Button(take, "NR_DiveBranchTake".Translate(), c, true, "NR_DiveBranchTakeTip".Translate()))
                 session.Choose(b);
+            if (highlight)
+                PulseOutline(take);
             y = card.yMax + 6f;
         }
         return y + 4f;

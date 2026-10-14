@@ -220,6 +220,14 @@ public static partial class GatewayView
     /// </summary>
     private static void DrawExitMark(Rect r, float alpha)
     {
+        // Maxim's exit icon (2026-10-14) when it is there; the drawn square stays as the fallback.
+        if (NetrunTex.CyberIcon("Icon_ExitHub") is { } exitTex)
+        {
+            GUI.color = new Color(1f, 1f, 1f, alpha);
+            GUI.DrawTexture(r, exitTex);
+            GUI.color = Color.white;
+            return;
+        }
         Color g = new(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, alpha);
         Widgets.DrawBoxSolid(r, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f * alpha));
         GUI.color = g;
@@ -482,6 +490,11 @@ public static partial class GatewayView
         bool inside = l.Kind == LinkKind.Normal && na != null && nb != null && na.District == nb.District && na.CorpSlot == nb.CorpSlot;
         if (inside && NetMapManager.Get() is { } mgr)
             c = HubColor(na, mgr);
+        // A link up to the orbit while no gravship is in space reads like the shut Wall: red, dashed, a lock.
+        bool orbitShut = !NetMapManager.OrbitOpen && (na?.District == District.Orbit || nb?.District == District.Orbit);
+        bool shut = orbitShut || l.Kind == LinkKind.Wall && !map.WallOpen;
+        if (orbitShut)
+            c = NetrunUI.Bad;
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
         // A plain link is a thin, quiet line (map v4, D9): the hubs are the picture. Fast links keep their colour, thinner.
@@ -501,22 +514,22 @@ public static partial class GatewayView
             c = NetrunUI.Accent;
             alpha = 1f;
         }
-        bool dashed = l.Kind is LinkKind.Dark or LinkKind.Backdoor or LinkKind.Wall;
+        bool dashed = orbitShut || l.Kind is LinkKind.Dark or LinkKind.Backdoor or LinkKind.Wall;
         if (!dashed && (onRoute || nearSelected))
             DrawPolyline(count, new Color(c.r, c.g, c.b, 0.12f), width + 4f, false);
         DrawPolyline(count, new Color(c.r, c.g, c.b, alpha), width, dashed);
         Vector2 mid = count == 2 ? (LinkPoints[0] + LinkPoints[1]) / 2f : LinkPoints[count / 2];
         Text.Font = GameFont.Tiny;
-        if (l.Kind == LinkKind.Wall && !map.WallOpen)
+        if (shut)
         {
-            // A lock on the Wall's dashed line: the way into the Old Net is shut.
+            // A lock on the dashed line: the way into the Old Net (or up to the orbit) is shut.
             var lockRect = new Rect(mid.x - 8f, mid.y - 8f, 16f, 16f);
             Widgets.DrawBoxSolid(lockRect.ContractedBy(1f), NetrunUI.BgWindow);
             GUI.color = NetrunUI.Bad;
             if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
                 GUI.DrawTexture(lockRect, lockTex);
             GUI.color = Color.white;
-            NetrunUI.Tip(lockRect, "NR_MapWallLocked".Translate());
+            NetrunUI.Tip(lockRect, (orbitShut ? "NR_MapCardOrbitClosed" : "NR_MapWallLocked").Translate());
         }
         else if (l.Broken)
             Widgets.Label(new Rect(mid.x - 5f, mid.y - 9f, 14f, 18f), "✕".Colorize(NetrunUI.Bad));
@@ -688,7 +701,11 @@ public static partial class GatewayView
             if (!b.Hidden && b.Contract)
                 DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), true);
             else if (!b.Hidden && b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+            {
                 DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), false);
+                int locked = b.GuardFor;
+                TooltipHandler.TipRegion(brect.ExpandedBy(4f), () => "NR_MapKeyTip".Translate(NetMapManager.NodeLabel(NetMapManager.Get()?.Map?.Node(locked))), 0x4E52 + b.Id);
+            }
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
@@ -862,10 +879,11 @@ public static partial class GatewayView
             Widgets.Label(new Rect(r.x - 2f, r.y - 2f, r.width + 4f, r.height + 4f), "!");
             Text.Anchor = TextAnchor.UpperLeft;
         }
-        else if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+        else
         {
+            // The key of a protected hub: an amber diamond (the lock is kept for the shut hub itself, not its key).
             GUI.color = NetrunUI.Warn;
-            GUI.DrawTexture(r, lockTex);
+            GUI.DrawTexture(r, ShapeTex(Shape.Diamond, true));
         }
         GUI.color = Color.white;
     }
@@ -1198,18 +1216,20 @@ public static partial class GatewayView
                 int def = Mathf.Clamp(b.Defense, 0, 6);
                 for (int i = 0; i < 6; i++)
                     Widgets.DrawBoxSolid(new Rect(right + 4f + i * 7f, row.center.y - 3f, 5f, 6f), i < def ? pip : new Color(pip.r, pip.g, pip.b, 0.15f));
-                if (b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
-                {
-                    GUI.color = NetrunUI.Warn;
-                    GUI.DrawTexture(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), ShapeTex(Shape.Diamond, true));
-                }
+                // The same badges as on the map: a contract's amber "!" tag, a guard gateway's amber diamond (the key).
+                if (b.Contract)
+                    DrawNodeBadge(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), true);
+                else if (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+                    DrawNodeBadge(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), false);
             }
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
             if (!b.Hidden && Mouse.IsOver(row))
                 NetrunUI.Tip(row, () => b.Name + " · " + b.TypeLabel + "\n" + (string)(b.BlackIce ? "NR_GatewayBlackIce" : "NR_GatewayDefense").Translate(b.Defense)
-                    + (b.Contract ? "\n" + (string)"NR_GatewayContract".Translate() : string.Empty));
+                    + (b.Contract ? "\n" + (string)"NR_GatewayContract".Translate() : string.Empty)
+                    + (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs
+                        ? "\n\n" + ((string)"NR_MapKeyTip".Translate(NetMapManager.NodeLabel(NetMapManager.Get()?.Map?.Node(b.GuardFor)))).Colorize(NetrunUI.Warn) : string.Empty));
             if (Widgets.ButtonInvisible(row))
             {
                 NetrunSound.Click();

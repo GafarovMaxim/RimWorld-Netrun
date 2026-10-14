@@ -196,8 +196,8 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_Legend_LinkJammed>Jammed link</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Toll link</NR_Legend_LinkToll>
   <NR_Legend_ContractNode>Contract target (node)</NR_Legend_ContractNode>
-  <NR_Legend_GuardGate>Guard gateway (node)</NR_Legend_GuardGate>
-  <NR_Legend_Guarded>Protected hub</NR_Legend_Guarded>
+  <NR_Legend_GuardGate>Key to a protected hub (node)</NR_Legend_GuardGate>
+  <NR_Legend_Guarded>Protected hub, locked</NR_Legend_Guarded>
   <NR_GuardLocked>A protected corporate hub: break its guard gateway (⚿, in a hub next door) first.</NR_GuardLocked>
   <NR_GuardBroken>The guard gateway is down: {0} is open for {1}. Its loot is richer than usual.</NR_GuardBroken>
   <NR_GuardFailHeat>Failed dive in a protected hub</NR_GuardFailHeat>
@@ -226,5 +226,7 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapNowQuiet>Quiet in the net: nothing in effect, nothing on the clock.</NR_MapNowQuiet>
   <NR_MapNowClick>Click: show the hub on the map.</NR_MapNowClick>
   <NR_MapNowAgo>{0} ago</NR_MapNowAgo>
+  <NR_MapSearchClear>Clear the search (Esc)</NR_MapSearchClear>
+  <NR_MapKeyTip>Amber diamond: the key. This node is the guard gateway of {0}; a clean dive into it opens that protected hub for 3 days (x1.8 loot).</NR_MapKeyTip>
 
 </LanguageData>

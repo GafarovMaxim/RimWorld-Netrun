@@ -196,8 +196,8 @@
   <NR_Legend_LinkJammed>Заглушённая связь</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Платная связь</NR_Legend_LinkToll>
   <NR_Legend_ContractNode>Цель контракта (нода)</NR_Legend_ContractNode>
-  <NR_Legend_GuardGate>Шлюз охраны (нода)</NR_Legend_GuardGate>
-  <NR_Legend_Guarded>Защищённый узел</NR_Legend_Guarded>
+  <NR_Legend_GuardGate>Ключ к защищённому узлу (нода)</NR_Legend_GuardGate>
+  <NR_Legend_Guarded>Защищённый узел, закрыт</NR_Legend_Guarded>
   <NR_GuardLocked>Защищённый корпоративный узел: сначала сломайте шлюз охраны (⚿, в соседнем узле).</NR_GuardLocked>
   <NR_GuardBroken>Шлюз охраны сломан: узел {0} открыт на {1}. Добыча там богаче обычного.</NR_GuardBroken>
   <NR_GuardFailHeat>Провал нырка в защищённом узле</NR_GuardFailHeat>
@@ -226,5 +226,7 @@
   <NR_MapNowQuiet>В сети тихо: ничего не действует и ничего не тикает.</NR_MapNowQuiet>
   <NR_MapNowClick>Клик: показать узел на карте.</NR_MapNowClick>
   <NR_MapNowAgo>{0} назад</NR_MapNowAgo>
+  <NR_MapSearchClear>Сбросить поиск (Esc)</NR_MapSearchClear>
+  <NR_MapKeyTip>Янтарный ромб: ключ. Эта нода — шлюз охраны узла {0}; чистый нырок в неё открывает тот защищённый узел на 3 дня (добыча x1,8).</NR_MapKeyTip>
 
 </LanguageData>

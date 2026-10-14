@@ -243,7 +243,8 @@ public class ExternalNode : IExposable
     public string Name => Training ? "NR_TrainingNodeName".Translate() : Lab ? "NR_LabNodeName".Translate(LabName ?? "?") : CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
 
-    public Color Color => Type switch
+    /// <summary>A lab glows violet so it never passes for a plain corporate vault (Maxim, 2026-10-14).</summary>
+    public Color Color => Lab ? new Color(0.8f, 0.4f, 1f) : Type switch
     {
         ExternalNodeType.Market => NetrunUI.Accent,
         ExternalNodeType.Archive => NetrunUI.Ok,

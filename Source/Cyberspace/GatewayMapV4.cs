@@ -226,8 +226,26 @@ public static partial class GatewayView
             hover = { background = null, textColor = NetrunUI.TextColor },
             active = { background = null, textColor = NetrunUI.TextColor },
         };
+        // Esc in the field clears it (Maxim, 2026-10-14: the search could not be reset without reopening the terminal).
+        if (focused && Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+        {
+            ClearSearch();
+            Event.current.Use();
+        }
         GUI.SetNextControlName(SearchControl);
-        _search = GUI.TextField(new Rect(field.x + 22f, field.y + 1f, field.width - 26f, field.height - 2f), _search ?? string.Empty, SearchStyle);
+        _search = GUI.TextField(new Rect(field.x + 22f, field.y + 1f, field.width - 48f, field.height - 2f), _search ?? string.Empty, SearchStyle);
+        if (!_search.NullOrEmpty())
+        {
+            var clear = new Rect(field.xMax - 22f, field.y + 3f, 20f, 20f);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = Mouse.IsOver(clear) ? NetrunUI.Bad : NetrunUI.Muted;
+            Widgets.Label(clear, "✕");
+            GUI.color = Color.white;
+            Text.Anchor = TextAnchor.UpperLeft;
+            TooltipHandler.TipRegion(clear, NetrunUI.T("NR_MapSearchClear"));
+            if (Widgets.ButtonInvisible(clear))
+                ClearSearch();
+        }
         if (_search.NullOrEmpty() && !focused)
         {
             Text.Font = GameFont.Tiny;
@@ -241,7 +259,18 @@ public static partial class GatewayView
         if (_search != _searchFor)
             FindHits(net);
         if (_search.NullOrEmpty())
+        {
+            if (focused && Event.current.rawType == EventType.MouseDown && !field.Contains(Event.current.mousePosition))
+                GUI.FocusControl(null);
             return;
+        }
+        // A click anywhere outside the field and its results drops the search.
+        var area = new Rect(field.x, field.y, field.width, field.height + 4f + Mathf.Max(1, SearchHits.Count) * 23f);
+        if (Event.current.rawType == EventType.MouseDown && !area.Contains(Event.current.mousePosition))
+        {
+            ClearSearch();
+            return;
+        }
         float y = field.yMax + 2f;
         Text.Font = GameFont.Tiny;
         foreach ((string label, int hub, int branch) hit in SearchHits)
@@ -258,6 +287,12 @@ public static partial class GatewayView
         if (SearchHits.Count == 0)
             Widgets.Label(new Rect(field.x + 8f, y, field.width, 20f), ((string)"NR_MapSearchNone".Translate()).Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
+    }
+
+    private static void ClearSearch()
+    {
+        _search = string.Empty;
+        GUI.FocusControl(null);
     }
 
     /// <summary>Hubs, branches and corporations whose name holds the text (rebuilt when the text changes, not per frame).</summary>

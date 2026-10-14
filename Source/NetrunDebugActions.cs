@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LudeonTK;
 using RimWorld;
+using USH_HE;
 using Verse;
 
 namespace Netrun;
@@ -135,9 +136,20 @@ public static class NetrunDebugActions
         TransitionManager t = TransitionManager.Get();
         if (t == null)
             return;
+        // Nobody crossed over yet: a preview with the colonists in cyberpods (or everyone), not saved.
+        List<TransitionDeparted> preview = [];
         if (t.Departed.Count == 0)
-            t.Departed.Add(new TransitionDeparted { Name = "Test Runner", Words = "NR_TransitionWords_0".Translate(), Tick = Find.TickManager.TicksGame });
+        {
+            List<Pawn> who = PawnsFinder.AllMaps_FreeColonists.Where(p => p.TryGetHoldingCyberpod(out _)).ToList();
+            if (who.Count == 0)
+                who = PawnsFinder.AllMaps_FreeColonists.ToList();
+            foreach (Pawn p in who)
+                preview.Add(new TransitionDeparted { Name = p.Name?.ToStringFull ?? p.LabelShort, Words = ("NR_TransitionWords_" + Rand.RangeInclusive(0, 11)).Translate(), Tick = Find.TickManager.TicksGame });
+            t.Departed.AddRange(preview);
+        }
         t.ShowEnding();
+        foreach (TransitionDeparted d in preview)
+            t.Departed.Remove(d);
     }
 
     [DebugAction(Unlock, "Ending: reset", allowedGameStates = Playing, displayPriority = 51)]

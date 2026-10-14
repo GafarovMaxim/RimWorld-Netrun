@@ -396,6 +396,8 @@ public partial class HelpBrowser
                 OpenScreen(screen);
             return y + 36f;
         }
+        if (line.StartsWith("> train:"))
+            return TrainButton(line.Substring(8).Trim(), y, w);
         bool bullet = line.StartsWith("- ");
         string textLine = bullet ? line.Substring(2) : line;
         Texture2D lineIcon = HelpIcons.TakeLeading(ref textLine);
@@ -434,6 +436,23 @@ public partial class HelpBrowser
     private float FlowHeight(string line, float width) => HyperText.Flow(Segments(line), 0f, 0f, width, false, Go);
 
     private float FlowText(string line, float x, float y, float width) => HyperText.Flow(Segments(line), x, y, width, true, Go);
+
+    /// <summary>"> train:Text": starts the training dive and opens the Gateway on it; off, with the reason, when it cannot start.</summary>
+    private float TrainButton(string text, float y, float w)
+    {
+        GatewayManager gateway = GatewayManager.Get();
+        if (gateway == null || OpenScreen == null)
+            return y;
+        Map map = Find.CurrentMap;
+        AcceptanceReport can = NetrunUI.Cached("help.canTrain", () =>
+            NetworkGate.Get() is { } gate && !gate.IsUnlocked("Gateway") ? (AcceptanceReport)"NR_TrainingLocked".Translate() : gateway.CanTrain(map), 0.5f);
+        if (NetrunUI.Button(new Rect(0f, y, w, 30f), text + " ▶", NetrunUI.Accent, can, "NR_TrainingButtonTip".Translate()))
+        {
+            gateway.StartTraining(map);
+            OpenScreen("Gateway");
+        }
+        return y + 36f;
+    }
 
     private static (string target, string text) SplitLink(string s)
     {
