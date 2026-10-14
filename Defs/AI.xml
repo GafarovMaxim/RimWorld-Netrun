@@ -203,6 +203,7 @@
   <!-- AI server -->
   <ThingDef ParentName="BuildingBase">
     <defName>NR_AIServer</defName>
+    <defaultPlacingRot>South</defaultPlacingRot>
     <thingCategories>
       <li>BuildingsMisc</li>
     </thingCategories>

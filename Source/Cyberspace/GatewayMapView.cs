@@ -1199,7 +1199,16 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(row, picked ? new Color(bc.r, bc.g, bc.b, 0.16f) : Mouse.IsOver(row) ? new Color(1f, 1f, 1f, 0.05f) : new Color(0f, 0f, 0f, 0.18f));
             if (picked)
                 Widgets.DrawBoxSolid(new Rect(row.x, row.y, 3f, row.height), bc);
-            DrawShape(new Rect(row.x + 9f, row.y + 8f, 14f, 14f), b, 1f);
+            // The node's type icon, as in its card below; a hidden node keeps the map shape (its type is unknown).
+            Texture2D icon = b.Hidden ? null : b.Icon;
+            if (icon != null)
+            {
+                GUI.color = b.Offline ? new Color(1f, 1f, 1f, 0.45f) : Color.white;
+                GUI.DrawTexture(new Rect(row.x + 5f, row.y + 4f, 22f, 22f), icon, ScaleMode.ScaleToFit);
+                GUI.color = Color.white;
+            }
+            else
+                DrawShape(new Rect(row.x + 9f, row.y + 8f, 14f, 14f), b, 1f);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleLeft;
             float right = row.xMax - 74f;
