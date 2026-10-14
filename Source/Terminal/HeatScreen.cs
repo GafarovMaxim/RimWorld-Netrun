@@ -85,9 +85,12 @@ public static class HeatScreen
         Text.Font = GameFont.Small;
 
         float week = WeekChange(tracker);
-        string trend = (week > 0.05f ? "+" : week < -0.05f ? string.Empty : "• ") + "NR_HeatV2Trend".Translate(week.ToString("0.#"), tracker.DecayPerDay.ToString("0.#"));
+        string weekText = (week > 0.05f ? "+" : string.Empty) + week.ToString("0.#");
+        string trend = (week is <= 0.05f and >= -0.05f ? "• " : string.Empty) + "NR_HeatV2Trend".Translate(
+            weekText.Colorize(week > 0.05f ? NetrunUI.Bad : week < -0.05f ? NetrunUI.Ok : NetrunUI.Subtle),
+            tracker.DecayPerDay.ToString("0.#").Colorize(NetrunUI.Ok));
         Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(new Rect(r.x + r.width * 0.45f, r.y + 6f, r.width * 0.55f, 24f), trend.Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(r.x + r.width * 0.45f, r.y + 6f, r.width * 0.55f, 24f), trend.Colorize(NetrunUI.Subtle));
         Text.Anchor = TextAnchor.UpperLeft;
         // Which way the week went: Heat_Rise or Heat_Reduction before the line.
         if ((week > 0.05f ? NetrunTex.HeatRise : week < -0.05f ? NetrunTex.HeatIcon(HeatLevel.Shadow) : null) is { } weekIcon)
@@ -480,7 +483,8 @@ public static class HeatScreen
         float cooled = Mathf.Min(0f, tracker.Heat - start - gained - scrubbed);
         y += 6f;
         Widgets.Label(new Rect(0f, y, r.width, 34f),
-            "NR_HeatV2Totals".Translate(gained.ToString("0.#"), scrubbed.ToString("0.#"), cooled.ToString("0.#")).Colorize(NetrunUI.Muted));
+            "NR_HeatV2Totals".Translate(gained.ToString("0.#").Colorize(NetrunUI.Bad), scrubbed.ToString("0.#").Colorize(NetrunUI.Ok),
+                cooled.ToString("0.#").Colorize(NetrunUI.Line)).Colorize(NetrunUI.Subtle));
         Text.Font = GameFont.Small;
         GUI.EndGroup();
     }

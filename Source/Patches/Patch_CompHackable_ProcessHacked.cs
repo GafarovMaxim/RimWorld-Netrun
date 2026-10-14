@@ -22,7 +22,10 @@ public static class Patch_CompHackable_ProcessHacked
                 return;
 
             string reason = "NR_LogHack".Translate(hacker.LabelShort, __instance.parent.LabelCap);
-            HeatTracker.Get()?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason, HeatSource.Hack);
+            HeatTracker heat = HeatTracker.Get();
+            float before = heat?.Heat ?? 0f;
+            heat?.AddHeat(HackHeatUtility.HeatForHack(__instance, hacker), reason, HeatSource.Hack);
+            ShowHeatGain(__instance.parent, (heat?.Heat ?? 0f) - before);
             ContractManager.Get()?.NotifyHackCompleted();
             AIManager.Get()?.NotifyHack();
             NetsickManager.Get()?.NotifyHack(hacker);
@@ -91,6 +94,15 @@ public static class Patch_CompHackable_ProcessHacked
     /// <summary>
     /// Extra cyberdata: from a cyberpod (more with an AI in a Netrun coprocessor) and from a hosted Data Hunter.
     /// </summary>
+    /// <summary>A floating "+N Heat" over the hacked object, so the cost of a hack is seen where it happens.</summary>
+    private static void ShowHeatGain(Thing target, float gain)
+    {
+        if (gain < 0.05f || target?.Spawned != true)
+            return;
+        MoteMaker.ThrowText(target.DrawPos + new UnityEngine.Vector3(0f, 0f, 0.6f), target.Map,
+            "NR_HeatFloat".Translate(gain.ToString("0.#")), new UnityEngine.Color(1f, 0.55f, 0.25f), 3.5f);
+    }
+
     private static void TryGiveCyberpodBonusData(Pawn hacker)
     {
         float chance = 0f;

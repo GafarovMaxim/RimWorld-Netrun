@@ -14,6 +14,7 @@
   <NR_SettingsReset>Reset to defaults</NR_SettingsReset>
 
   <!-- Heat levels -->
+  <NR_HeatFloat>+{0} Heat</NR_HeatFloat>
   <NR_HeatLevel_Shadow>Shadow</NR_HeatLevel_Shadow>
   <NR_HeatLevel_Noticed>Noticed</NR_HeatLevel_Noticed>
   <NR_HeatLevel_Tracked>Tracked</NR_HeatLevel_Tracked>

@@ -95,7 +95,7 @@ public static class ClubTabs
         Text.Font = GameFont.Medium;
         GUI.color = c;
         Widgets.Label(new Rect(tx, card.y + 10f, tw, 30f), f.Name.Truncate(tw));
-        GUI.color = NetrunUI.Muted;
+        GUI.color = NetrunUI.Subtle;
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(tx, card.y + 38f, tw, 18f), subtitle.Truncate(tw));
         GUI.color = Color.white;
@@ -182,11 +182,8 @@ public static class ClubTabs
             }
             y += CardH + 10f;
         }
-        Text.Font = GameFont.Tiny;
-        GUI.color = NetrunUI.Muted;
-        Widgets.Label(new Rect(0f, y, view.width, 60f), "NR_ClubCorpsHelp".Translate());
-        GUI.color = Color.white;
-        Text.Font = GameFont.Small;
+        string corpsHelp = "NR_ClubCorpsHelp".Translate();
+        NetrunUI.Note(new Rect(0f, y, view.width, NetrunUI.NoteHeight(corpsHelp, view.width)), corpsHelp);
         Widgets.EndScrollView();
     }
 
@@ -309,7 +306,7 @@ public static class ClubTabs
             GUI.color = e.Kind == RankKind.Colony ? NetrunUI.Ok : e.Kind == RankKind.Crew ? NetrunUI.Purple : NetrunUI.TextColor;
             Widgets.Label(new Rect(card.x + 10f, card.y + 40f, card.width - 20f, 22f), e.Callsign.Truncate(card.width - 20f));
             Text.Font = GameFont.Tiny;
-            GUI.color = NetrunUI.Muted;
+            GUI.color = NetrunUI.Subtle;
             Widgets.Label(new Rect(card.x + 10f, card.yMax - 22f, card.width - 20f, 18f), NetRanking.Title(place) + " · " + e.Fame.ToString("0"));
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
@@ -462,10 +459,6 @@ public static class ClubTabs
         Text.Font = GameFont.Small;
         Widgets.EndScrollView();
 
-        Text.Font = GameFont.Tiny;
-        GUI.color = NetrunUI.Muted;
-        Widgets.Label(new Rect(rect.x, rect.yMax - 56f, rect.width, 56f), "NR_ClubTopHelp".Translate());
-        GUI.color = Color.white;
-        Text.Font = GameFont.Small;
+        NetrunUI.Note(new Rect(rect.x, rect.yMax - 52f, rect.width, 48f), "NR_ClubTopHelp".Translate(), NetrunUI.Warn);
     }
 }

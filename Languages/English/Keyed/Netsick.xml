@@ -13,4 +13,7 @@
   <NR_DiveNeutral>{0} surfaced from an emotional dive. Nothing gained, nothing lost.</NR_DiveNeutral>
 
   <NR_DiveNeutralLabel>Emotional dive over: {0}</NR_DiveNeutralLabel>
+  <NR_PodNeedFood>{0} is getting hungry in the cyberpod. Wake them to eat before hunger turns into malnutrition.</NR_PodNeedFood>
+  <NR_PodNeedRest>{0} is getting tired in the cyberpod. Wake them to sleep, or exhaustion will knock them out.</NR_PodNeedRest>
+
 </LanguageData>

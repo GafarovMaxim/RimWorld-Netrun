@@ -767,11 +767,9 @@ public static partial class GatewayView
         int daemonsFound = gateway.Daemons.Count;
         if (daemonsFound == 0)
         {
-            Text.Font = GameFont.Tiny;
             string hint = "NR_GatewayDaemonHint".Translate();
-            float hh = Text.CalcHeight(hint, inner.width);
-            Widgets.Label(new Rect(inner.x, y + 4f, inner.width, hh), hint.Colorize(NetrunUI.Muted));
-            Text.Font = GameFont.Small;
+            float hh = NetrunUI.NoteHeight(hint, inner.width);
+            NetrunUI.Note(new Rect(inner.x, y + 4f, inner.width, hh), hint, NetrunUI.Purple);
             y += hh + 8f;
         }
         else

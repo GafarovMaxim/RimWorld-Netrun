@@ -20,6 +20,9 @@
   </Netrun.UniqueBraindanceSettingsDef>
 
   <ThingDef Name="NR_UniqueBraindanceBase" ParentName="DrugBase" Abstract="True">
+    <thingCategories>
+      <li>NR_Braindance</li>
+    </thingCategories>
     <graphicData>
       <texPath>Things/Item/Drug/NR_UniqueBraindance</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -73,6 +76,9 @@
   </ThingDef>
 
   <ThingDef Name="NR_UniqueBlackBraindanceBase" ParentName="DrugBase" Abstract="True">
+    <thingCategories>
+      <li>NR_Braindance</li>
+    </thingCategories>
     <graphicData>
       <texPath>Things/Item/Drug/NR_UniqueBraindance</texPath>
       <graphicClass>Graphic_Single</graphicClass>

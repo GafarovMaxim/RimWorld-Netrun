@@ -5,6 +5,9 @@
 
   <ThingDef ParentName="DrugBase">
     <defName>NR_BraindanceChip</defName>
+    <thingCategories>
+      <li>NR_Braindance</li>
+    </thingCategories>
     <label>braindance chip</label>
     <description>A recorded sensory experience compressed onto a neural chip. Playing it hijacks the user's senses: for a while, someone else's memory feels like your own.\n\nIt is pleasant and dangerously easy to come back to. Playing it needs braindance goggles or a cyberlink.\n\nRegular use builds tolerance and can turn into an addiction.</description>
     <descriptionHyperlinks>
@@ -71,6 +74,9 @@
 
   <ThingDef ParentName="DrugBase">
     <defName>NR_BlackBraindanceChip</defName>
+    <thingCategories>
+      <li>NR_Braindance</li>
+    </thingCategories>
     <label>black braindance chip</label>
     <description>An illegal recording: real pain, real fear, real death, experienced first-hand. Needs braindance goggles or a cyberlink. The rush is far stronger than any ordinary braindance, and so is the pull to come back.\n\nShares the braindance addiction, but hooks users much faster.</description>
     <descriptionHyperlinks>

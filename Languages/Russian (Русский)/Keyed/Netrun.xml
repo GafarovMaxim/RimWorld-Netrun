@@ -14,6 +14,7 @@
   <NR_SettingsReset>Сбросить по умолчанию</NR_SettingsReset>
 
   <!-- Уровни следа -->
+  <NR_HeatFloat>+{0} Heat</NR_HeatFloat>
   <NR_HeatLevel_Shadow>Тень</NR_HeatLevel_Shadow>
   <NR_HeatLevel_Noticed>Замечен</NR_HeatLevel_Noticed>
   <NR_HeatLevel_Tracked>Отслеживается</NR_HeatLevel_Tracked>

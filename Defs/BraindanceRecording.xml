@@ -20,7 +20,7 @@
       <Flammability>0.5</Flammability>
     </statBases>
     <thingCategories>
-      <li>Manufactured</li>
+      <li>NR_Braindance</li>
     </thingCategories>
     <tradeability>Sellable</tradeability>
     <comps>

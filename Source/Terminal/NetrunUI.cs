@@ -21,6 +21,8 @@ public static partial class NetrunUI
     public static readonly Color Bad = Hex(0xe5533d);
     public static readonly Color Purple = Hex(0xa070e0);
     public static readonly Color Muted = Hex(0x8b9183);
+    // Secondary text that has to be read (subtitles, hints, totals): softer than TextColor, far clearer than Muted.
+    public static readonly Color Subtle = Hex(0xb8bfad);
     public static readonly Color TextColor = Hex(0xe6e8e0);
     public static readonly Color Line = new(0.25f, 0.55f, 0.58f);
 
@@ -693,6 +695,34 @@ public static partial class NetrunUI
         GUI.color = border;
         Widgets.DrawBox(rect, thickness);
         GUI.color = Color.white;
+    }
+
+    /// <summary>Height of a hint note (see <see cref="Note"/>) for the given width.</summary>
+    public static float NoteHeight(string text, float width)
+    {
+        Text.Font = GameFont.Tiny;
+        float h = Text.CalcHeight(text, width - 34f) + 10f;
+        Text.Font = GameFont.Small;
+        return Mathf.Max(26f, h);
+    }
+
+    /// <summary>
+    /// A hint worth reading: a dim card with an "i" mark and a thin bar in the colour, text in <see cref="Subtle"/>.
+    /// Replaces small grey labels that were hard to read on the dark terminal.
+    /// </summary>
+    public static void Note(Rect rect, string text, Color? color = null)
+    {
+        Color c = color ?? Accent;
+        Widgets.DrawBoxSolid(rect, new Color(c.r, c.g, c.b, 0.07f));
+        Widgets.DrawBoxSolid(new Rect(rect.x, rect.y, 2f, rect.height), new Color(c.r, c.g, c.b, 0.7f));
+        var mark = new Rect(rect.x + 8f, rect.y + 5f, 16f, 16f);
+        Box(mark, new Color(c.r, c.g, c.b, 0.15f), new Color(c.r, c.g, c.b, 0.8f));
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleCenter;
+        Widgets.Label(mark, "i".Colorize(c));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Widgets.Label(new Rect(rect.x + 30f, rect.y + 5f, rect.width - 34f, rect.height - 6f), text.Colorize(Subtle));
+        Text.Font = GameFont.Small;
     }
 
     /// <summary>A card: dark body, colored stripe on the left, thin border.</summary>

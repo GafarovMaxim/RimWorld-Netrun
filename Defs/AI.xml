@@ -203,6 +203,9 @@
   <!-- AI server -->
   <ThingDef ParentName="BuildingBase">
     <defName>NR_AIServer</defName>
+    <thingCategories>
+      <li>BuildingsMisc</li>
+    </thingCategories>
     <label>AI server</label>
     <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Only one can be built. Starts with one slot; server racks built next to it add more, up to three.</description>
     <thingClass>Building</thingClass>
@@ -220,6 +223,7 @@
     <fillPercent>0.9</fillPercent>
     <canOverlapZones>false</canOverlapZones>
     <statBases>
+      <Mass>40</Mass>
       <MaxHitPoints>300</MaxHitPoints>
       <WorkToBuild>6000</WorkToBuild>
       <Flammability>0.5</Flammability>

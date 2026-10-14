@@ -40,6 +40,7 @@ public class NetsickManager : GameComponent
                 Hediff_Netsick netsick = AddNetsick(diver, perDay * DayFraction * PodFactor(pod));
                 ContractManager.Get()?.NotifyPodTicks(TickInterval, diver);
                 netsick.LastConnectedTick = now;
+                WarnNeeds(diver, pod, now);
 
                 // Resolved and waking: nothing more to do, unless the pod never lets the pawn out (then eject).
                 if (netsick.WakeRequestedTick >= 0)
@@ -78,6 +79,35 @@ public class NetsickManager : GameComponent
             netsick.Severity -= Settings.decayPerDay * DayFraction * NetrunTraits.DecayFactor(pawn)
                                 * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
         }
+    }
+
+    // When each pawn was last told about hunger (even key) or tiredness (odd key) in a pod. Not saved: after a load a
+    // warning may simply repeat once.
+    private static readonly System.Collections.Generic.Dictionary<int, int> NeedWarned = [];
+
+    /// <summary>
+    /// A plain message (not a letter) when a netrunner in a pod gets hungry or tired: without a Vitality coprocessor the
+    /// body keeps its needs, and the player should know when to wake them.
+    /// </summary>
+    private static void WarnNeeds(Pawn pawn, Building_Cyberpod pod, int now)
+    {
+        if (pod.IsContentsSuspended || pawn.needs == null)
+            return;
+        if (pawn.needs.food?.CurCategory >= HungerCategory.Hungry)
+            Warn(pawn, pod, now, 0, "NR_PodNeedFood");
+        if (pawn.needs.rest?.CurCategory >= RestCategory.Tired)
+            Warn(pawn, pod, now, 1, "NR_PodNeedRest");
+        if (NeedWarned.Count > 64)
+            NeedWarned.Clear();
+    }
+
+    private static void Warn(Pawn pawn, Building_Cyberpod pod, int now, int kind, string key)
+    {
+        int id = pawn.thingIDNumber * 2 + kind;
+        if (NeedWarned.TryGetValue(id, out int last) && now - last < GenDate.TicksPerDay / 2)
+            return;
+        NeedWarned[id] = now;
+        Messages.Message(key.Translate(pawn.LabelShort), new LookTargets(pod), MessageTypeDefOf.CautionInput, historical: false);
     }
 
     /// <summary>Busy with live leisure: a talk, a walk, a game, the stars. Screens and drugs do not count.</summary>

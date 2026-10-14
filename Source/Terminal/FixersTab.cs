@@ -65,7 +65,7 @@ public static class FixersTab
         y += 28f;
 
         Text.Font = GameFont.Tiny;
-        GUI.color = NetrunUI.Muted;
+        GUI.color = NetrunUI.Subtle;
         Widgets.Label(new Rect(x, y, width, 34f), NetrunUI.T("NR_InsiderDesc"));
         GUI.color = Color.white;
         Text.Font = GameFont.Small;

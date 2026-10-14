@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Braindance chips and recordings get their own shelf filter. -->
+  <ThingCategoryDef>
+    <defName>NR_Braindance</defName>
+    <label>braindance</label>
+    <parent>Manufactured</parent>
+  </ThingCategoryDef>
+
+</Defs>
