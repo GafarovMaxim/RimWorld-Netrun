@@ -782,7 +782,12 @@ public static partial class GatewayView
         // Dive cost with its breakdown, then the button.
         int cost = gateway.DiveCost(map, node, out string breakdown);
         var costRect = new Rect(inner.x, y, inner.width, 22f);
-        Widgets.Label(costRect, "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn));
+        // Where it comes from, in a muted tail: the pod's hack points are spent first (Maxim, 2026-10-15).
+        GatewayManager.Runner(map, node, out Building_Cyberpod costPod);
+        int fromPod = Mathf.Min(cost, GatewayManager.PodFuelCyberdata(costPod));
+        string source = cost <= 0 || fromPod <= 0 ? string.Empty
+            : " · " + (fromPod >= cost ? NetrunUI.T("NR_DiveCostFromPod") : (string)"NR_DiveCostPartPod".Translate(fromPod));
+        Widgets.Label(costRect, "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn) + source.Colorize(NetrunUI.Muted));
         NetrunUI.Tip(costRect, breakdown);
         y += 26f;
 

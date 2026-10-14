@@ -494,6 +494,8 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HeProgramOnlyOne>Only one Hacking Expansion item per dive.</NR_HeProgramOnlyOne>
   <NR_HeProgramNoItem>No {0} in the colony.</NR_HeProgramNoItem>
   <NR_DiveLogBreaker>The ICE breaker tore through the {0}. Loud: double trace.</NR_DiveLogBreaker>
+  <NR_DiveCostFromPod>from the pod</NR_DiveCostFromPod>
+  <NR_DiveCostPartPod>{0} from the pod</NR_DiveCostPartPod>
   <NR_DiveCostPodFuel>Paid first from the pod's hack points: {0}</NR_DiveCostPodFuel>
   <NR_CrewGoodwillFind>Relations with {0}: {1}.</NR_CrewGoodwillFind>
   <NR_GatewayDaemonHint>Daemons: none yet. They are found in corporate cores and stay with you for every later dive.</NR_GatewayDaemonHint>
