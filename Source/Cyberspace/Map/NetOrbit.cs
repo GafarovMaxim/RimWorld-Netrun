@@ -19,10 +19,15 @@ public partial class NetMapManager
     private bool _orbitByCorp;
 
     /// <summary>A player home map is in space right now (checked at most every 250 ticks).</summary>
+    /// <summary>Dev: the orbit counts as reached without a gravship in space (not saved).</summary>
+    public static bool DevForceOrbit;
+
     public static bool OrbitOpen
     {
         get
         {
+            if (DevForceOrbit)
+                return true;
             if (!ModsConfig.OdysseyActive || Current.Game == null)
                 return false;
             int now = Find.TickManager.TicksGame;

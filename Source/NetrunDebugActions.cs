@@ -6,11 +6,123 @@ using Verse;
 
 namespace Netrun;
 
+/// <summary>
+/// Dev-mode actions, grouped by what they touch (Maxim, 2026-10-14: one long list was hard to use). Each group is its
+/// own category in the debug actions window; inside a group the order follows displayPriority (higher first).
+/// New content gets an "Unlock:" action here when it lands (the ending too: docs/TASKS.md, I2).
+/// </summary>
 public static class NetrunDebugActions
 {
-    private const string Category = "Netrun";
+    private const string Unlock = "Netrun: unlock and reset";
+    private const string HeatCat = "Netrun: Heat and Netsick";
+    private const string Net = "Netrun: cyberspace";
+    private const string DiveCat = "Netrun: dives";
+    private const string AICat = "Netrun: AIs";
+    private const string Fixers = "Netrun: fixers and contracts";
+    private const string Events = "Netrun: events";
+    private const string Spawn = "Netrun: spawn";
+    private const string Tools = "Netrun: tools and achievements";
 
-    [DebugAction(Category, "Netsick: +0.3", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    private const AllowedGameStates Playing = AllowedGameStates.Playing;
+    private const AllowedGameStates OnMap = AllowedGameStates.PlayingOnMap;
+
+    private static void Done(string what) => Messages.Message("[Netrun dev] " + what, MessageTypeDefOf.NeutralEvent, historical: false);
+
+    // ---- Unlock and reset ----
+
+    [DebugAction(Unlock, "Unlock: everything", allowedGameStates = Playing, displayPriority = 100)]
+    private static void UnlockEverything()
+    {
+        SkipOnboarding();
+        UnlockResearch();
+        ChartAll();
+        OpenWall();
+        GrantDaemons();
+        if (GatewayManager.Get() is { } gateway)
+            gateway.TrainingOffered = gateway.TrainingDone = true;
+        Done("everything unlocked: onboarding, research, districts, the Wall, daemons");
+    }
+
+    [DebugAction(Unlock, "Unlock: skip onboarding (all core nodes)", allowedGameStates = Playing, displayPriority = 90)]
+    private static void SkipOnboarding()
+    {
+        NetworkGate gate = NetworkGate.Get();
+        gate?.Open();
+        gate?.SkipOnboarding();
+    }
+
+    [DebugAction(Unlock, "Unlock: Netrun and HE research", allowedGameStates = Playing, displayPriority = 85)]
+    private static void UnlockResearch()
+    {
+        foreach (ResearchProjectDef p in DefDatabase<ResearchProjectDef>.AllDefs.Where(p => (p.defName.StartsWith("NR_") || p.defName.StartsWith("USH_")) && !p.IsFinished))
+            Find.ResearchManager.FinishProject(p, doCompletionDialog: false, researcher: null, doCompletionLetter: false);
+    }
+
+    [DebugAction(Unlock, "Unlock: chart all districts", allowedGameStates = Playing, displayPriority = 80)]
+    private static void ChartAll() => NetMapManager.Get()?.DevChartAll();
+
+    [DebugAction(Unlock, "Unlock: open the Wall (Old Net)", allowedGameStates = Playing, displayPriority = 75)]
+    private static void OpenWall() => NetMapManager.Get()?.OpenWall();
+
+    [DebugAction(Unlock, "Unlock: orbit on / off (no gravship needed)", allowedGameStates = Playing, displayPriority = 70)]
+    private static void ToggleOrbit()
+    {
+        NetMapManager.DevForceOrbit = !NetMapManager.DevForceOrbit;
+        Done("orbit forced: " + NetMapManager.DevForceOrbit + (ModsConfig.OdysseyActive ? "" : " (no Odyssey: the map has no orbital hubs)"));
+    }
+
+    [DebugAction(Unlock, "Unlock: all daemons", allowedGameStates = Playing, displayPriority = 65)]
+    private static void GrantDaemons()
+    {
+        foreach (DiveDaemon daemon in System.Enum.GetValues(typeof(DiveDaemon)))
+            GatewayManager.Get()?.AddDaemon(daemon);
+    }
+
+    [DebugAction(Unlock, "Unlock: network gate open (threats on)", allowedGameStates = Playing, displayPriority = 60)]
+    private static void GateOpen() => NetworkGate.Get()?.Open();
+
+    [DebugAction(Unlock, "Reset: newcomer start (gate, onboarding, guide, training offer, districts)", allowedGameStates = Playing, displayPriority = 40)]
+    private static void NewcomerReset()
+    {
+        NetworkGate.Get()?.Close();
+        // A full newcomer test: the guide screens, guide areas, first hints and the intro tour are new again.
+        HelpProgress.Get()?.DevResetGuide();
+        if (GatewayManager.Get() is { } gateway)
+            gateway.TrainingOffered = gateway.TrainingDone = false;
+        NetMapManager.Get()?.DevChartReset();
+    }
+
+    [DebugAction(Unlock, "Reset: districts back to the start", allowedGameStates = Playing, displayPriority = 35)]
+    private static void ChartReset() => NetMapManager.Get()?.DevChartReset();
+
+    [DebugAction(Unlock, "Reset: cooldowns (fixers, allies, AI)", allowedGameStates = Playing, displayPriority = 30)]
+    private static void ResetCooldowns()
+    {
+        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
+            fixer.SilentUntilTick = 0;
+        GatewayManager.Get()?.DevResetAllies();
+        AIEventManager.Get()?.DevResetGap();
+        ReadyAIs();
+    }
+
+    // ---- Heat and Netsick ----
+
+    [DebugAction(HeatCat, "Heat: set...", allowedGameStates = Playing, displayPriority = 100)]
+    private static void SetHeat()
+    {
+        HeatTracker heat = HeatTracker.Get();
+        var options = new List<FloatMenuOption>
+        {
+            new("+10", () => heat?.AddHeat(10f, "NR_LogDev".Translate())),
+            new("-10", () => heat?.ReduceHeat(10f, "NR_LogDev".Translate())),
+            new("Reset to 0", () => heat?.ReduceHeat(HeatTracker.MaxHeat, "NR_LogDev".Translate())),
+        };
+        foreach ((HeatLevel level, float value) in new[] { (HeatLevel.Shadow, 0f), (HeatLevel.Noticed, 30f), (HeatLevel.Tracked, 55f), (HeatLevel.Target, 80f), (HeatLevel.RedZone, 97f) })
+            options.Add(new FloatMenuOption($"{level.Label().CapitalizeFirst()} ({value:0})", () => heat?.DevSetHeat(value, "NR_LogDev".Translate())));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(HeatCat, "Netsick: +0.3", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = OnMap, displayPriority = 90)]
     private static void AddNetsick(Pawn pawn)
     {
         Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
@@ -18,16 +130,25 @@ public static class NetrunDebugActions
         hediff.Severity += 0.3f;
     }
 
-    /// <summary>Runs the data janitor now and shows what it cleaned (docs/TECH_DETAILS.md, section 2.5).</summary>
-    [DebugAction(Category, "Janitor: cleanup report", allowedGameStates = AllowedGameStates.Playing)]
-    private static void CleanupReport()
+    [DebugAction(HeatCat, "Netsick: -0.3", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = OnMap, displayPriority = 85)]
+    private static void RemoveNetsick(Pawn pawn)
     {
-        List<string> lines = NetrunJanitor.Get()?.Run(CleanupReason.Manual) ?? [];
-        Messages.Message("[Netrun] cleanup: " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"), MessageTypeDefOf.NeutralEvent, historical: false);
+        Hediff netsick = pawn?.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
+        if (netsick != null)
+            netsick.Severity -= 0.3f;
     }
 
-    /// <summary>Builds the cyberspace map again (for tests): the size from the mod settings, the layout from the world seed.</summary>
-    [DebugAction(Category, "Cyberspace: regenerate map", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(HeatCat, "Netsick: start craving", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = OnMap, displayPriority = 80)]
+    private static void StartNetCraving(Pawn pawn)
+        => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);
+
+    [DebugAction(HeatCat, "Netsick: craving state", allowedGameStates = Playing, displayPriority = 75)]
+    private static void CravingState() => Find.WindowStack.Add(new Dialog_MessageBox(NetsickManager.DebugState()));
+
+    // ---- Cyberspace map and the Gateway ----
+
+    /// <summary>Builds the cyberspace map again (for tests): a new random map of the chosen size, layout from the settings.</summary>
+    [DebugAction(Net, "Map: regenerate...", allowedGameStates = Playing, displayPriority = 100)]
     private static void RegenerateMap()
     {
         var options = new List<DebugMenuOption>();
@@ -36,51 +157,73 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new Dialog_DebugOptionListLister(options));
     }
 
-    [DebugAction(Category, "Cyberspace: map event now", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(Net, "Map: event now", allowedGameStates = Playing, displayPriority = 90)]
     private static void MapNetEvent() => NetMapManager.Get()?.RunEvent();
 
-    [DebugAction(Category, "Cyberspace: runners arrive now", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(Net, "Map: runners arrive now", allowedGameStates = Playing, displayPriority = 85)]
     private static void RunnersArrive() => NetMapManager.Get()?.DevArriveAll();
 
-    [DebugAction(Category, "Netsick: start craving", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void StartNetCraving(Pawn pawn)
-        => pawn.mindState?.mentalStateHandler?.TryStartMentalState(DefDatabase<MentalStateDef>.GetNamed("NR_NetCraving"), forced: true);
-
-    /// <summary>Why each map event can or cannot come right now on this map.</summary>
-    [DebugAction(Category, "Colony events: why not?", allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void MapEventsWhy()
+    [DebugAction(Net, "Gateway: spawn node...", allowedGameStates = Playing, displayPriority = 80)]
+    private static void SpawnNode()
     {
-        var lines = MapEventsManager.Candidates(Find.CurrentMap)
-            .Select(c => $"{c.def.defName}: {c.why ?? "can fire"} (weight {c.def.baseChance})").ToList();
-        lines.Insert(0, $"Schedule: one every {NetrunDefOf.NR_MapEvents.mapEventMtbDays} days / frequency {NetrunMod.Settings.MapEventFrequency}");
-        Log.Message("[Netrun] " + string.Join("\n", lines));
-        Messages.Message(string.Join("; ", lines), MessageTypeDefOf.NeutralEvent, historical: false);
+        GatewayManager gateway = GatewayManager.Get();
+        var options = System.Enum.GetValues(typeof(ExternalNodeType)).Cast<ExternalNodeType>()
+            .Select(t => new FloatMenuOption(t.ToString(), () => gateway?.DevAddNode(t))).ToList();
+        options.Add(new FloatMenuOption("Boss node (corporate core)", () => gateway?.SpawnBoss()));
+        options.Add(new FloatMenuOption("Event nodes (rival, honeypot, wild AI)", () => gateway?.SpawnEventNodes()));
+        options.Add(new FloatMenuOption("Counter-hack node (12 h)", () => gateway?.AddCounterHackNode(12f)));
+        Find.WindowStack.Add(new FloatMenu(options));
     }
 
-    [DebugAction(Category, "Colony events: fire a random one", allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void MapEventNow()
+    [DebugAction(Net, "Gateway: world effects...", allowedGameStates = Playing, displayPriority = 70)]
+    private static void WorldEffects()
     {
-        var options = MapEventsManager.Candidates(Find.CurrentMap).Where(c => c.why == null).ToList();
-        if (options.Count == 0)
+        GatewayManager gateway = GatewayManager.Get();
+        Find.WindowStack.Add(new FloatMenu(
+        [
+            new("Data storm", () => gateway?.StartStorm()),
+            new("Headline now", () => gateway?.RollHeadline()),
+            new("Corporate lockdown", () => gateway?.CorpLockdown()),
+            new("+1 group favor (allies call)", () => { if (gateway != null) gateway.GroupFavor++; }),
+        ]));
+    }
+
+    // ---- Dives ----
+
+    [DebugAction(DiveCat, "Dive: start training dive", allowedGameStates = OnMap, displayPriority = 100)]
+    private static void StartTraining()
+    {
+        GatewayManager gateway = GatewayManager.Get();
+        AcceptanceReport can = gateway?.CanTrain(Find.CurrentMap) ?? false;
+        if (!can.Accepted)
         {
-            Messages.Message("No map event can fire now: see \"Map events: why not?\"", MessageTypeDefOf.RejectInput, historical: false);
+            Messages.Message(can.Reason, MessageTypeDefOf.RejectInput, historical: false);
             return;
         }
-        var pick = options.RandomElementByWeight(o => o.def.baseChance);
-        pick.def.Worker.TryExecute(pick.parms);
+        gateway.StartTraining(Find.CurrentMap);
+        NetTerminalUtility.OpenTerminal(Find.CurrentMap);
     }
 
-    [DebugAction(Category, "Heat: +10", allowedGameStates = AllowedGameStates.Playing)]
-    private static void AddHeat() => HeatTracker.Get()?.AddHeat(10f, "NR_LogDev".Translate());
+    [DebugAction(DiveCat, "Dive: finish as clean exit", allowedGameStates = Playing, displayPriority = 90)]
+    private static void FinishDiveWin() => GatewayManager.Get()?.Session?.DevFinish(success: true);
 
-    [DebugAction(Category, "Heat: -10", allowedGameStates = AllowedGameStates.Playing)]
-    private static void RemoveHeat() => HeatTracker.Get()?.ReduceHeat(10f, "NR_LogDev".Translate());
+    [DebugAction(DiveCat, "Dive: finish as failure", allowedGameStates = Playing, displayPriority = 85)]
+    private static void FinishDiveFail() => GatewayManager.Get()?.Session?.DevFinish(success: false);
 
-    [DebugAction(Category, "Heat: reset", allowedGameStates = AllowedGameStates.Playing)]
-    private static void ResetHeat() => HeatTracker.Get()?.ReduceHeat(HeatTracker.MaxHeat, "NR_LogDev".Translate());
+    [DebugAction(DiveCat, "Dive: show last summary", allowedGameStates = Playing, displayPriority = 80)]
+    private static void ShowLastReport()
+    {
+        DiveReport report = GatewayManager.Get()?.LastReport;
+        if (report != null)
+            Find.WindowStack.Add(new Dialog_DiveReport(report));
+        else
+            Messages.Message("No dive yet", MessageTypeDefOf.RejectInput, historical: false);
+    }
+
+    // ---- AIs ----
 
     /// <summary>Fires any AI event now, ignoring its conditions and limits, on an AI that fits its personality.</summary>
-    [DebugAction(Category, "AIs: fire event...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
+    [DebugAction(AICat, "AIs: fire event...", allowedGameStates = OnMap, displayPriority = 100)]
     private static void FireAIEvent()
     {
         AIManager manager = AIManager.Get();
@@ -99,271 +242,7 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
-    /// <summary>Balance protocol (docs/BALANCE.md): what the last 10 days brought and cost.</summary>
-    [DebugAction(Category, "Economy: summary (10 days)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void EconomySummary()
-        => Find.WindowStack.Add(new Dialog_MessageBox(EconomyTracker.Get()?.Summary(10) ?? "-"));
-
-    [DebugAction(Category, "Gateway: spawn boss node", allowedGameStates = AllowedGameStates.Playing)]
-    private static void SpawnBossNode() => GatewayManager.Get()?.SpawnBoss();
-
-    [DebugAction(Category, "Gateway: spawn event nodes", allowedGameStates = AllowedGameStates.Playing)]
-    private static void SpawnEventNodes() => GatewayManager.Get()?.SpawnEventNodes();
-
-    [DebugAction(Category, "Gateway: start data storm", allowedGameStates = AllowedGameStates.Playing)]
-    private static void StartStorm() => GatewayManager.Get()?.StartStorm();
-
-    [DebugAction(Category, "Gateway: headline now", allowedGameStates = AllowedGameStates.Playing)]
-    private static void Headline() => GatewayManager.Get()?.RollHeadline();
-
-    [DebugAction(Category, "Gateway: corp lockdown", allowedGameStates = AllowedGameStates.Playing)]
-    private static void Lockdown() => GatewayManager.Get()?.CorpLockdown();
-
-    [DebugAction(Category, "Gateway: grant all daemons", allowedGameStates = AllowedGameStates.Playing)]
-    private static void GrantDaemons()
-    {
-        foreach (DiveDaemon daemon in System.Enum.GetValues(typeof(DiveDaemon)))
-            GatewayManager.Get()?.AddDaemon(daemon);
-    }
-
-    [DebugAction(Category, "Gateway: +1 group favor (allies call)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void AddFavor()
-    {
-        if (GatewayManager.Get() is { } gateway)
-            gateway.GroupFavor++;
-    }
-
-    [DebugAction(Category, "Terminal: open", allowedGameStates = AllowedGameStates.Playing)]
-    private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
-
-    /// <summary>Click on the map: an encrypted crate to hack, a cyberlink to install and some cyberdata.</summary>
-    [DebugAction(Category, "Spawn: hacking test kit", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void SpawnHackingTestKit()
-    {
-        Map map = Find.CurrentMap;
-        IntVec3 cell = UI.MouseCell();
-        if (!cell.InBounds(map))
-            return;
-
-        Spawn("USH_EncryptedCrate", 1);
-        Spawn("USH_Cyberlink", 1);
-        Spawn("USH_Cyberdata", 10);
-
-        void Spawn(string defName, int count)
-        {
-            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
-            if (def == null)
-                return;
-
-            Thing thing = ThingMaker.MakeThing(def, GenStuff.DefaultStuffFor(def));
-            thing.stackCount = count;
-
-            if (def.category == ThingCategory.Building)
-                GenSpawn.Spawn(thing, CellFinder.StandableCellNear(cell, map, 5f), map);
-            else
-                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
-        }
-    }
-
-    [DebugAction(Category, "Spawn: AI fragment", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void SpawnAIFragment() => SpawnAtMouse(NetrunDefOf.NR_AIFragment);
-
-    [DebugAction(Category, "Spawn: AI core module", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void SpawnCoreModule() => SpawnAtMouse(NetrunDefOf.NR_AICoreModule);
-
-    [DebugAction(Category, "Spawn: AI socket", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void SpawnAISocket() => SpawnAtMouse(DefDatabase<ThingDef>.GetNamed("NR_AISocket"));
-
-    [DebugAction(Category, "AIs: starve (escape test)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void StarveAIs()
-    {
-        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
-        {
-            ai.Trust = 15f;
-            ai.Hunger = 90f;
-        }
-    }
-
-    [DebugAction(Category, "AIs: trust 5 (betrayal test)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void BetrayAIs()
-    {
-        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
-            ai.Trust = 5f;
-    }
-
-    [DebugAction(Category, "AIs: ready services and requests", allowedGameStates = AllowedGameStates.Playing)]
-    private static void ReadyAIs()
-    {
-        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
-        {
-            ai.ServiceReadyTick = 0;
-            ai.NextRequestTick = Find.TickManager.TicksGame;
-        }
-    }
-
-    private static void SpawnAtMouse(ThingDef def)
-    {
-        IntVec3 cell = UI.MouseCell();
-        if (cell.InBounds(Find.CurrentMap))
-            GenPlace.TryPlaceThing(ThingMaker.MakeThing(def), cell, Find.CurrentMap, ThingPlaceMode.Near);
-    }
-
-    [DebugAction(Category, "Fixers: rotate", allowedGameStates = AllowedGameStates.Playing)]
-    private static void RotateFixers() => FixerManager.Get()?.Rotate(notify: true);
-
-    [DebugAction(Category, "Fixers: +20 reputation (all)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void AddReputation()
-    {
-        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
-            fixer.GainReputation(20f);
-    }
-
-    // ---- Added 2026-10-06: more test buttons ----
-
-    [DebugAction(Category, "Netsick: -0.3", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void RemoveNetsick(Pawn pawn)
-    {
-        Hediff netsick = pawn?.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
-        if (netsick != null)
-            netsick.Severity -= 0.3f;
-    }
-
-    [DebugAction(Category, "Heat: set level...", allowedGameStates = AllowedGameStates.Playing)]
-    private static void SetHeatLevel()
-    {
-        var levels = new List<(HeatLevel level, float value)>
-        {
-            (HeatLevel.Shadow, 0f), (HeatLevel.Noticed, 30f), (HeatLevel.Tracked, 55f), (HeatLevel.Target, 80f), (HeatLevel.RedZone, 97f),
-        };
-        Find.WindowStack.Add(new FloatMenu(levels.Select(l => new FloatMenuOption($"{l.level.Label().CapitalizeFirst()} ({l.value:0})",
-            () => HeatTracker.Get()?.DevSetHeat(l.value, "NR_LogDev".Translate()))).ToList()));
-    }
-
-    [DebugAction(Category, "Incidents: fire...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void FireIncident()
-    {
-        var options = DefDatabase<IncidentDef>.AllDefs.Where(d => d.defName.StartsWith("NR_")).OrderBy(d => d.defName)
-            .Select(d => new FloatMenuOption(d.defName, () =>
-            {
-                IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
-                parms.forced = true;
-                if (!d.Worker.TryExecute(parms))
-                    Messages.Message(d.defName + ": could not fire here", MessageTypeDefOf.RejectInput, historical: false);
-            })).ToList();
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Gateway: spawn node...", allowedGameStates = AllowedGameStates.Playing)]
-    private static void SpawnNode()
-    {
-        var options = System.Enum.GetValues(typeof(ExternalNodeType)).Cast<ExternalNodeType>()
-            .Select(t => new FloatMenuOption(t.ToString(), () => GatewayManager.Get()?.DevAddNode(t))).ToList();
-        options.Add(new FloatMenuOption("Event nodes (rival, honeypot, wild AI)", () => GatewayManager.Get()?.SpawnEventNodes()));
-        options.Add(new FloatMenuOption("Counter-hack node (12 h)", () => GatewayManager.Get()?.AddCounterHackNode(12f)));
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Dive: finish as clean exit", allowedGameStates = AllowedGameStates.Playing)]
-    private static void FinishDiveWin() => GatewayManager.Get()?.Session?.DevFinish(success: true);
-
-    [DebugAction(Category, "Dive: finish as failure", allowedGameStates = AllowedGameStates.Playing)]
-    private static void FinishDiveFail() => GatewayManager.Get()?.Session?.DevFinish(success: false);
-
-    [DebugAction(Category, "Dive: show last summary", allowedGameStates = AllowedGameStates.Playing)]
-    private static void ShowLastReport()
-    {
-        DiveReport report = GatewayManager.Get()?.LastReport;
-        if (report != null)
-            Find.WindowStack.Add(new Dialog_DiveReport(report));
-        else
-            Messages.Message("No dive yet", MessageTypeDefOf.RejectInput, historical: false);
-    }
-
-    [DebugAction(Category, "Spawn: resources...", actionType = DebugActionType.ToolMap, allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void GiveResources()
-    {
-        IntVec3 cell = UI.MouseCell();
-        Map map = Find.CurrentMap;
-        void Give(ThingDef def, int count)
-        {
-            while (count > 0)
-            {
-                Thing thing = ThingMaker.MakeThing(def);
-                thing.stackCount = System.Math.Min(count, def.stackLimit);
-                count -= thing.stackCount;
-                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
-            }
-        }
-        var options = new List<FloatMenuOption>
-        {
-            new("20 cyberdata", () => Give(NetrunDefOf.USH_Cyberdata, 20)),
-            new("5 advanced cyberdata", () => Give(NetrunDefOf.USH_AdvancedCyberdata, 5)),
-            new("AI fragment", () => Give(NetrunDefOf.NR_AIFragment, 1)),
-            new("AI core module", () => Give(NetrunDefOf.NR_AICoreModule, 1)),
-            new("3 braindance chips", () => Give(NetrunDefOf.NR_BraindanceChip, 3)),
-            new("3 black braindance chips", () => Give(NetrunDefOf.NR_BlackBraindanceChip, 3)),
-            new("3 raw recordings", () => Give(NetrunDefOf.NR_BraindanceRaw, 3)),
-            new("500 silver", () => Give(ThingDefOf.Silver, 500)),
-        };
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Cooldowns: reset (fixers, group, AI)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void ResetCooldowns()
-    {
-        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
-            fixer.SilentUntilTick = 0;
-        GatewayManager.Get()?.DevResetAllies();
-        AIEventManager.Get()?.DevResetGap();
-        ReadyAIs();
-    }
-
-    [DebugAction(Category, "Fixers: new pool", allowedGameStates = AllowedGameStates.Playing)]
-    private static void NewFixerPool() => FixerManager.Get()?.DevNewPool();
-
-    [DebugAction(Category, "AIs: trust and hunger...", allowedGameStates = AllowedGameStates.Playing)]
-    private static void TrustHunger()
-    {
-        var options = new List<FloatMenuOption>();
-        foreach (float d in new[] { 20f, -20f })
-        {
-            float delta = d;
-            options.Add(new FloatMenuOption($"Trust {delta:+0;-0} (all)", () => { foreach (NetAI ai in AIManager.Get()?.AIs ?? []) ai.AddTrust(delta); }));
-            options.Add(new FloatMenuOption($"Hunger {delta:+0;-0} (all)", () => { foreach (NetAI ai in AIManager.Get()?.AIs ?? []) ai.AddHunger(delta); }));
-        }
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Network gate: open", allowedGameStates = AllowedGameStates.Playing)]
-    private static void GateOpen() => NetworkGate.Get()?.Open();
-
-    [DebugAction(Category, "Network gate: close (newcomer test, guide and tour reset)", allowedGameStates = AllowedGameStates.Playing)]
-    private static void GateClose()
-    {
-        NetworkGate.Get()?.Close();
-        // A full newcomer test: the guide screens, guide areas, first hints and the intro tour are new again.
-        HelpProgress.Get()?.DevResetGuide();
-    }
-
-    [DebugAction(Category, "Netsick: craving state", allowedGameStates = AllowedGameStates.Playing)]
-    private static void CravingState() => Find.WindowStack.Add(new Dialog_MessageBox(NetsickManager.DebugState()));
-
-    [DebugAction(Category, "Colony events: fire...", allowedGameStates = AllowedGameStates.PlayingOnMap)]
-    private static void FireMapEvent()
-    {
-        string[] names = ["NR_DataCourier", "NR_CorpHunt", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
-        var options = names.Select(n => DefDatabase<IncidentDef>.GetNamedSilentFail(n)).Where(d => d != null)
-            .Select(d => new FloatMenuOption(d.LabelCap + " (" + d.defName + ")", () =>
-            {
-                IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
-                parms.forced = true;
-                if (!d.Worker.TryExecute(parms))
-                    Messages.Message(d.defName + ": could not fire here (conditions)", MessageTypeDefOf.RejectInput, historical: false);
-            })).ToList();
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "AIs: offer quest...", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(AICat, "AIs: offer quest...", allowedGameStates = Playing, displayPriority = 90)]
     private static void OfferAIQuest()
     {
         var options = (AIManager.Get()?.AIs ?? []).Select(ai => new FloatMenuOption(ai.Name + " (" + ai.Personality + ")", () =>
@@ -375,10 +254,213 @@ public static class NetrunDebugActions
             Find.WindowStack.Add(new FloatMenu(options));
     }
 
-    // ---- C18: achievements, time, contracts (docs/DEBUG_AND_ACHIEVEMENTS_C18.md) ----
+    [DebugAction(AICat, "AIs: trust and hunger...", allowedGameStates = Playing, displayPriority = 80)]
+    private static void TrustHunger()
+    {
+        var options = new List<FloatMenuOption>();
+        foreach (float d in new[] { 20f, -20f })
+        {
+            float delta = d;
+            options.Add(new FloatMenuOption($"Trust {delta:+0;-0} (all)", () => { foreach (NetAI ai in AIManager.Get()?.AIs ?? []) ai.AddTrust(delta); }));
+            options.Add(new FloatMenuOption($"Hunger {delta:+0;-0} (all)", () => { foreach (NetAI ai in AIManager.Get()?.AIs ?? []) ai.AddHunger(delta); }));
+        }
+        options.Add(new FloatMenuOption("Starve: trust 15, hunger 90 (escape test)", () =>
+        {
+            foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+            {
+                ai.Trust = 15f;
+                ai.Hunger = 90f;
+            }
+        }));
+        options.Add(new FloatMenuOption("Trust 5 (betrayal test)", () => { foreach (NetAI ai in AIManager.Get()?.AIs ?? []) ai.Trust = 5f; }));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(AICat, "AIs: ready services and requests", allowedGameStates = Playing, displayPriority = 70)]
+    private static void ReadyAIs()
+    {
+        foreach (NetAI ai in AIManager.Get()?.AIs ?? [])
+        {
+            ai.ServiceReadyTick = 0;
+            ai.NextRequestTick = Find.TickManager.TicksGame;
+        }
+    }
+
+    // ---- Fixers and contracts ----
+
+    [DebugAction(Fixers, "Fixers: rotate", allowedGameStates = Playing, displayPriority = 100)]
+    private static void RotateFixers() => FixerManager.Get()?.Rotate(notify: true);
+
+    [DebugAction(Fixers, "Fixers: new pool", allowedGameStates = Playing, displayPriority = 90)]
+    private static void NewFixerPool() => FixerManager.Get()?.DevNewPool();
+
+    [DebugAction(Fixers, "Fixers: +20 reputation (all)", allowedGameStates = Playing, displayPriority = 80)]
+    private static void AddReputation()
+    {
+        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
+            fixer.GainReputation(20f);
+    }
+
+    [DebugAction(Fixers, "Contracts: give accepted...", allowedGameStates = Playing, displayPriority = 70)]
+    private static void GiveContract()
+    {
+        var options = ((ContractType[])System.Enum.GetValues(typeof(ContractType)))
+            .Select(t => new FloatMenuOption(t.ToString(), () =>
+            {
+                if (ContractManager.Get()?.DevGive(t) != true)
+                    Messages.Message("No fixer to give it", MessageTypeDefOf.RejectInput, historical: false);
+            })).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Fixers, "Contracts: complete active", allowedGameStates = Playing, displayPriority = 60)]
+    private static void CompleteContracts() => ContractManager.Get()?.DevCompleteActive();
+
+    // ---- Events ----
+
+    [DebugAction(Events, "Colony events: fire...", allowedGameStates = OnMap, displayPriority = 100)]
+    private static void FireMapEvent()
+    {
+        string[] names = ["NR_DataCourier", "NR_CorpHunt", "NR_BlackMarket", "NR_DistressSignal", "NR_MapHack"];
+        var options = names.Select(n => DefDatabase<IncidentDef>.GetNamedSilentFail(n)).Where(d => d != null)
+            .Select(d => new FloatMenuOption(d.LabelCap + " (" + d.defName + ")", () => Fire(d))).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(Events, "Colony events: fire a random one", allowedGameStates = OnMap, displayPriority = 90)]
+    private static void MapEventNow()
+    {
+        var options = MapEventsManager.Candidates(Find.CurrentMap).Where(c => c.why == null).ToList();
+        if (options.Count == 0)
+        {
+            Messages.Message("No map event can fire now: see \"Colony events: why not?\"", MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        var pick = options.RandomElementByWeight(o => o.def.baseChance);
+        pick.def.Worker.TryExecute(pick.parms);
+    }
+
+    /// <summary>Why each map event can or cannot come right now on this map.</summary>
+    [DebugAction(Events, "Colony events: why not?", allowedGameStates = OnMap, displayPriority = 80)]
+    private static void MapEventsWhy()
+    {
+        var lines = MapEventsManager.Candidates(Find.CurrentMap)
+            .Select(c => $"{c.def.defName}: {c.why ?? "can fire"} (weight {c.def.baseChance})").ToList();
+        lines.Insert(0, $"Schedule: one every {NetrunDefOf.NR_MapEvents.mapEventMtbDays} days / frequency {NetrunMod.Settings.MapEventFrequency}");
+        Log.Message("[Netrun] " + string.Join("\n", lines));
+        Messages.Message(string.Join("; ", lines), MessageTypeDefOf.NeutralEvent, historical: false);
+    }
+
+    [DebugAction(Events, "Incidents: fire any Netrun incident...", allowedGameStates = OnMap, displayPriority = 70)]
+    private static void FireIncident()
+    {
+        var options = DefDatabase<IncidentDef>.AllDefs.Where(d => d.defName.StartsWith("NR_")).OrderBy(d => d.defName)
+            .Select(d => new FloatMenuOption(d.defName, () => Fire(d))).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    private static void Fire(IncidentDef d)
+    {
+        IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
+        parms.forced = true;
+        if (!d.Worker.TryExecute(parms))
+            Messages.Message(d.defName + ": could not fire here (conditions)", MessageTypeDefOf.RejectInput, historical: false);
+    }
+
+    // ---- Spawn ----
+
+    /// <summary>Click on the map: an encrypted crate to hack, a cyberlink to install and some cyberdata.</summary>
+    [DebugAction(Spawn, "Spawn: hacking test kit", actionType = DebugActionType.ToolMap, allowedGameStates = OnMap, displayPriority = 100)]
+    private static void SpawnHackingTestKit()
+    {
+        Map map = Find.CurrentMap;
+        IntVec3 cell = UI.MouseCell();
+        if (!cell.InBounds(map))
+            return;
+        Give("USH_EncryptedCrate", 1);
+        Give("USH_Cyberlink", 1);
+        Give("USH_Cyberdata", 10);
+
+        void Give(string defName, int count)
+        {
+            ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(defName);
+            if (def == null)
+                return;
+            Thing thing = ThingMaker.MakeThing(def, GenStuff.DefaultStuffFor(def));
+            thing.stackCount = count;
+            if (def.category == ThingCategory.Building)
+                GenSpawn.Spawn(thing, CellFinder.StandableCellNear(cell, map, 5f), map);
+            else
+                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
+        }
+    }
+
+    [DebugAction(Spawn, "Spawn: Netrun items...", actionType = DebugActionType.ToolMap, allowedGameStates = OnMap, displayPriority = 90)]
+    private static void GiveResources()
+    {
+        IntVec3 cell = UI.MouseCell();
+        Map map = Find.CurrentMap;
+        void Give(ThingDef def, int count)
+        {
+            if (def == null || !cell.InBounds(map))
+                return;
+            while (count > 0)
+            {
+                Thing thing = ThingMaker.MakeThing(def, def.MadeFromStuff ? GenStuff.DefaultStuffFor(def) : null);
+                thing.stackCount = System.Math.Min(count, def.stackLimit);
+                count -= thing.stackCount;
+                GenPlace.TryPlaceThing(thing, cell, map, ThingPlaceMode.Near);
+            }
+        }
+        var options = new List<FloatMenuOption>
+        {
+            new("20 cyberdata", () => Give(NetrunDefOf.USH_Cyberdata, 20)),
+            new("5 advanced cyberdata", () => Give(NetrunDefOf.USH_AdvancedCyberdata, 5)),
+            new("AI fragment", () => Give(NetrunDefOf.NR_AIFragment, 1)),
+            new("AI core module", () => Give(NetrunDefOf.NR_AICoreModule, 1)),
+            new("AI socket", () => Give(DefDatabase<ThingDef>.GetNamedSilentFail("NR_AISocket"), 1)),
+            new("3 braindance chips", () => Give(NetrunDefOf.NR_BraindanceChip, 3)),
+            new("3 black braindance chips", () => Give(NetrunDefOf.NR_BlackBraindanceChip, 3)),
+            new("3 raw recordings", () => Give(NetrunDefOf.NR_BraindanceRaw, 3)),
+            new("Unique braindance (random)", () => Give(UniqueBraindance.All.RandomElementWithFallback(), 1)),
+            new("500 silver", () => Give(ThingDefOf.Silver, 500)),
+        };
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    // ---- Tools and achievements ----
+
+    [DebugAction(Tools, "Terminal: open", allowedGameStates = Playing, displayPriority = 100)]
+    private static void OpenTerminal() => NetTerminalUtility.OpenTerminal(Find.CurrentMap);
+
+    /// <summary>Moves the clock ahead (timed achievements, hourly checks, contract deadlines); the hourly checks catch up on their next run.</summary>
+    [DebugAction(Tools, "Time: skip ahead...", allowedGameStates = Playing, displayPriority = 90)]
+    private static void SkipTime()
+    {
+        var options = new List<FloatMenuOption>();
+        foreach (int h in new[] { 1, 6, 24, 72 })
+        {
+            int hours = h;
+            options.Add(new FloatMenuOption(hours + " h", () => Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + hours * GenDate.TicksPerHour)));
+        }
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    /// <summary>Balance protocol: what the last 10 days brought and cost.</summary>
+    [DebugAction(Tools, "Economy: summary (10 days)", allowedGameStates = Playing, displayPriority = 80)]
+    private static void EconomySummary()
+        => Find.WindowStack.Add(new Dialog_MessageBox(EconomyTracker.Get()?.Summary(10) ?? "-"));
+
+    /// <summary>Runs the data janitor now and shows what it cleaned (docs/TECH_DETAILS.md, section 2.5).</summary>
+    [DebugAction(Tools, "Janitor: cleanup report", allowedGameStates = Playing, displayPriority = 70)]
+    private static void CleanupReport()
+    {
+        List<string> lines = NetrunJanitor.Get()?.Run(CleanupReason.Manual) ?? [];
+        Done("cleanup: " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"));
+    }
 
     /// <summary>Opens one achievement (or all) through its counter, the same signal the game sends, not around it.</summary>
-    [DebugAction(Category, "Achievements: unlock...", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(Tools, "Achievements: unlock...", allowedGameStates = Playing, displayPriority = 60)]
     private static void UnlockAchievement()
     {
         var options = new List<FloatMenuOption>
@@ -398,7 +480,7 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
-    [DebugAction(Category, "Achievements: set counter...", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(Tools, "Achievements: set counter...", allowedGameStates = Playing, displayPriority = 55)]
     private static void SetCounter()
     {
         var options = new List<FloatMenuOption>();
@@ -419,38 +501,14 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
+    [DebugAction(Tools, "Achievements: show counters", allowedGameStates = Playing, displayPriority = 50)]
+    private static void AchievementCounters() => Find.WindowStack.Add(new Dialog_MessageBox(NetrunCounters.Get()?.DebugState() ?? "-"));
+
     /// <summary>Counters back to zero (the mod's own list of achievements; an achievement VAE already gave stays given).</summary>
-    [DebugAction(Category, "Achievements: reset counters", allowedGameStates = AllowedGameStates.Playing)]
+    [DebugAction(Tools, "Achievements: reset counters", allowedGameStates = Playing, displayPriority = 45)]
     private static void ResetCounters() => NetrunCounters.Get()?.DevReset();
 
-    /// <summary>Moves the clock ahead (timed achievements, hourly checks, contract deadlines); the hourly checks catch up on their next run.</summary>
-    [DebugAction(Category, "Time: skip ahead...", allowedGameStates = AllowedGameStates.Playing)]
-    private static void SkipTime()
-    {
-        var options = new List<FloatMenuOption>();
-        foreach (int h in new[] { 1, 6, 24, 72 })
-        {
-            int hours = h;
-            options.Add(new FloatMenuOption(hours + " h", () => Find.TickManager.DebugSetTicksGame(Find.TickManager.TicksGame + hours * GenDate.TicksPerHour)));
-        }
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Contracts: give accepted...", allowedGameStates = AllowedGameStates.Playing)]
-    private static void GiveContract()
-    {
-        var options = ((ContractType[])System.Enum.GetValues(typeof(ContractType)))
-            .Select(t => new FloatMenuOption(t.ToString(), () =>
-            {
-                if (ContractManager.Get()?.DevGive(t) != true)
-                    Messages.Message("No fixer to give it", MessageTypeDefOf.RejectInput, historical: false);
-            })).ToList();
-        Find.WindowStack.Add(new FloatMenu(options));
-    }
-
-    [DebugAction(Category, "Contracts: complete active", allowedGameStates = AllowedGameStates.Playing)]
-    private static void CompleteContracts() => ContractManager.Get()?.DevCompleteActive();
-
-    [DebugAction(Category, "Achievements: counters", allowedGameStates = AllowedGameStates.Playing)]
-    private static void AchievementCounters() => Find.WindowStack.Add(new Dialog_MessageBox(NetrunCounters.Get()?.DebugState() ?? "-"));
+    /// <summary>Which terminal icons the tint finds and recolours (for the "icons stay white" reports on 1.7).</summary>
+    [DebugAction(Tools, "UI: icon tint report", allowedGameStates = Playing, displayPriority = 40)]
+    private static void TintReport() => Find.WindowStack.Add(new Dialog_MessageBox(NetrunTint.DebugReport()));
 }

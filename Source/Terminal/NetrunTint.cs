@@ -36,8 +36,21 @@ public static class NetrunTint
     private static bool CanTint(Texture2D src)
     {
         if (!IsTintable.TryGetValue(src, out bool yes))
-            IsTintable[src] = yes = Tintable.Contains(src.name);
+            IsTintable[src] = yes = Tintable.Contains(BaseName(src));
         return yes;
+    }
+
+    /// <summary>
+    /// The file name of a texture: RimWorld 1.6 names a loaded texture by its file, the 1.7 renderer may give the whole
+    /// content path (or an extension), which made every icon miss the template list and stay white.
+    /// </summary>
+    private static string BaseName(Texture2D src)
+    {
+        string name = src.name ?? string.Empty;
+        int slash = System.Math.Max(name.LastIndexOf('/'), name.LastIndexOf('\\'));
+        if (slash >= 0)
+            name = name.Substring(slash + 1);
+        return name.EndsWith(".png", System.StringComparison.OrdinalIgnoreCase) ? name.Substring(0, name.Length - 4) : name;
     }
 
     private static int Pack(Color c)
@@ -91,6 +104,20 @@ public static class NetrunTint
         return tinted;
     }
 
+    /// <summary>Dev: the home node icons as the tint sees them (name, template or not, file found, copies cached).</summary>
+    public static string DebugReport()
+    {
+        var lines = new List<string> { "Cached copies: " + Cache.Count };
+        foreach (string node in new[] { "Board", "Club", "Archive", "Server", "Studio", "Gateway" })
+        {
+            Texture2D tex = ContentFinder<Texture2D>.Get("UI/Netrun/Nodes/Home_" + node, reportFailure: false);
+            lines.Add(tex == null
+                ? "Home_" + node + ": not loaded"
+                : $"Home_{node}: name \"{tex.name}\" -> {BaseName(tex)}, template {CanTint(tex)}, file {FileOf(BaseName(tex)) != null}, {tex.width}x{tex.height}");
+        }
+        return string.Join("\n", lines);
+    }
+
     private const int MakesPerFrame = 4;
     private static int _budgetFrame = -1, _budgetLeft;
 
@@ -126,11 +153,12 @@ public static class NetrunTint
     /// </summary>
     private static Texture2D Pixels(Texture2D src)
     {
-        string path = FileOf(src.name);
+        string path = FileOf(BaseName(src));
         if (path != null)
         {
             var tex = new Texture2D(2, 2, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
-            if (tex.LoadImage(System.IO.File.ReadAllBytes(path)) && tex.width == src.width && tex.height == src.height)
+            // The file's own size is fine: the copy is drawn into the same rect (1.7 may report a different size for src).
+            if (tex.LoadImage(System.IO.File.ReadAllBytes(path)))
                 return tex;
             Object.Destroy(tex);
         }
@@ -159,7 +187,6 @@ public static class NetrunTint
 
     private static Texture2D Recolor(Texture2D tex, Texture2D src, Color accent)
     {
-
         Color32[] px = tex.GetPixels32();
         for (int i = 0; i < px.Length; i++)
         {

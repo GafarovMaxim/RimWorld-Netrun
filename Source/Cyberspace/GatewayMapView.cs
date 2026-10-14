@@ -232,6 +232,21 @@ public static partial class GatewayView
     }
 
     /// <summary>
+    /// An exit hub stays a round hub; its way out hangs beside it like a small node of its own (Maxim, 2026-10-14):
+    /// a short green link outward, away from the middle of the map, and the exit square at its end.
+    /// </summary>
+    private static void DrawExitBeside(Rect local, Vector2 hub, float radius, float alpha)
+    {
+        Vector2 dir = hub - ToScreen(local, FieldCenter);
+        dir = dir.sqrMagnitude < 1f ? Vector2.right : dir.normalized;
+        float s = 12f * Mathf.Sqrt(_zoom);
+        Vector2 at = hub + dir * (radius + 6f + s);
+        Color g = new(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.6f * alpha);
+        Widgets.DrawLine(hub + dir * (radius + 1f), at - dir * (s * 0.5f), g, 1.5f);
+        DrawExitMark(new Rect(at.x - s / 2f, at.y - s / 2f, s, s), alpha);
+    }
+
+    /// <summary>
     /// The loot meter: five short gold bars hanging under the name tag (lit by the best known branch), or on their own
     /// under the hub when the name is not shown at this zoom.
     /// </summary>
@@ -291,12 +306,17 @@ public static partial class GatewayView
         {
             MapNode first = g.First();
             bool corp = first.District == District.Corp && net.CorpOfSlot(first.CorpSlot) != null;
+            // No district plate over the orbit or a corporation's ground: the orbit stands apart on its own, and the
+            // capital's plate already names the corporation (Maxim, 2026-10-14).
+            if (corp || first.District == District.Orbit)
+                continue;
             Color dc = HubColor(first, net);
             Vector2 centre = g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count();
             float radius = g.Max(n => Vector2.Distance(n.Pos, centre));
             // The label stands over the district's topmost hub, at the district's middle across.
             var top = new Vector2(centre.x, g.Min(n => n.Pos.y));
-            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.85f : 0.6f)), dc, corp, radius, top));
+            string label = net.Charted(first) ? DistrictLabel(first, net) : "NR_DistrictUncharted".Translate().ToString();
+            list.Add((centre, label.ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.85f : 0.6f)), dc, corp, radius, top));
         }
         return list;
     }
@@ -456,10 +476,16 @@ public static partial class GatewayView
             LinkKind.Backdoor => NetrunUI.Warn,
             _ => new Color(0.55f, 0.62f, 0.55f),
         };
+        // A plain link inside one district takes the district's colour, fainter: the districts read as groups and the
+        // grey links between districts stand out as the ways across (Maxim, 2026-10-14: the map still read tangled).
+        MapNode na = map.Node(l.A), nb = map.Node(l.B);
+        bool inside = l.Kind == LinkKind.Normal && na != null && nb != null && na.District == nb.District && na.CorpSlot == nb.CorpSlot;
+        if (inside && NetMapManager.Get() is { } mgr)
+            c = HubColor(na, mgr);
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
         // A plain link is a thin, quiet line (map v4, D9): the hubs are the picture. Fast links keep their colour, thinner.
-        float alpha = l.Broken ? 0.25f : l.Kind == LinkKind.Normal ? 0.5f : 0.65f;
+        float alpha = l.Broken ? 0.25f : inside ? 0.38f : l.Kind == LinkKind.Normal ? 0.55f : 0.65f;
         float width = 1.5f;
         if (nearSelected)
         {
@@ -513,6 +539,10 @@ public static partial class GatewayView
         Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : HubColor(n, net);
         if (LensHubColor(n, net) is { } lensColor)
             c = lensColor;
+        // I1: an uncharted district is drawn faint, with a question mark and no name.
+        bool charted = net.Charted(n);
+        if (!charted)
+            c = new Color(c.r, c.g, c.b, c.a * 0.4f);
         bool selected = n.Id == _selectedMapNode;
         bool hover = Mouse.IsOver(rect.ExpandedBy(4f));
         // With a runner standing still, the hubs it can step to now are bright and the rest dimmed (Overview only).
@@ -548,13 +578,10 @@ public static partial class GatewayView
         float a = (n.Offline ? 0.5f : 1f) * c.a;
         bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         bool orbit = n.District == District.Orbit;
+        if (n.Exit && !home)
+            DrawExitBeside(local, p, r, a);
         if (home)
             DrawHomeHub(rect, c, a);
-        else if (n.Exit)
-        {
-            // An exit hub: only the square with the exit arrow.
-            DrawExitMark(rect.ExpandedBy(1f), a);
-        }
         else if (n.Offline)
         {
             // Offline: only a faint dashed outline, no fill and no cross.
@@ -605,6 +632,14 @@ public static partial class GatewayView
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
+        if (!charted)
+        {
+            GUI.color = new Color(NetrunUI.Muted.r, NetrunUI.Muted.g, NetrunUI.Muted.b, 0.9f);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(rect, "?");
+            Text.Anchor = TextAnchor.UpperLeft;
+            GUI.color = Color.white;
+        }
         if (n.Patrol)
         {
             // An ICE patrol: a small red triangle with a mark.
@@ -636,10 +671,11 @@ public static partial class GatewayView
         // Branches: small dots around the node, colored by type; unknown ones grey.
         List<ExternalNode> branches = BranchesOf(n.Id);
         bool markers = _zoom >= 0.8f;
+        float[] angles = BranchAngles(n, net.Map, branches.Count);
         for (int i = 0; i < branches.Count; i++)
         {
             ExternalNode b = branches[i];
-            float ang = -Mathf.PI / 2f + i * (Mathf.PI * 2f / Mathf.Max(3, branches.Count));
+            float ang = angles[i];
             Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + (markers ? 11f : 7f) * Mathf.Sqrt(_zoom));
             float br = (markers ? (b.IsBoss || b.Ancient ? 7.5f : 5.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
             var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
@@ -660,6 +696,56 @@ public static partial class GatewayView
 
         if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
+    }
+
+    // Where a hub's branch markers sit, by hub and marker count; dropped when the map changes (CyberMap.Dirty) via the 2 s cache.
+    private static Dictionary<int, float[]> BranchAngleCache => NetrunUI.Cached("map.branchAngles", () => new Dictionary<int, float[]>(), 2f);
+
+    /// <summary>
+    /// Angles for a hub's branch markers (Maxim, 2026-10-14: markers sat on the links and under the name plates).
+    /// Each marker takes the free direction farthest from the hub's links, from the markers already placed and from
+    /// straight down (the name plate); an exit's mark counts as a link. Computed once per hub and count, then cached.
+    /// </summary>
+    private static float[] BranchAngles(MapNode n, CyberMap map, int count)
+    {
+        int key = n.Id * 32 + Mathf.Min(count, 31);
+        Dictionary<int, float[]> cache = BranchAngleCache;
+        if (cache.TryGetValue(key, out float[] found))
+            return found;
+        var taken = new List<float> { Mathf.PI / 2f };
+        foreach (MapLink l in map.LinksOf(n.Id))
+        {
+            Vector2 d = map.Node(l.Other(n.Id)).Pos - n.Pos;
+            taken.Add(Mathf.Atan2(d.y, d.x));
+        }
+        if (n.Exit)
+        {
+            Vector2 d = n.Pos - FieldCenter;
+            taken.Add(Mathf.Atan2(d.y, d.x));
+        }
+        var result = new float[count];
+        for (int i = 0; i < count; i++)
+        {
+            float best = -Mathf.PI / 2f, bestGap = -1f;
+            for (int s = 0; s < 24; s++)
+            {
+                float a = -Mathf.PI + s * (Mathf.PI / 12f);
+                float gap = float.MaxValue;
+                foreach (float t in taken)
+                    gap = Mathf.Min(gap, Mathf.Abs(Mathf.DeltaAngle(a * Mathf.Rad2Deg, t * Mathf.Rad2Deg)));
+                // A slight pull upward keeps markers above the hub when the room is equal.
+                gap += Mathf.Sin(-a) * 4f;
+                if (gap > bestGap)
+                {
+                    bestGap = gap;
+                    best = a;
+                }
+            }
+            result[i] = best;
+            taken.Add(best);
+        }
+        cache[key] = result;
+        return result;
     }
 
     /// <summary>

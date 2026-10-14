@@ -219,7 +219,8 @@ public static class CyberMapGenerator
             string ki = keyOf[i], kj = keyOf[j];
             if (ki == kj)
             {
-                if (d < 0.22f)
+                // Only short neighbours inside a district: longer pairs made triangles and webs (Maxim, 2026-10-14: still tangled).
+                if (d < 0.17f)
                     Link(i, j, LinkKind.Normal);
                 continue;
             }
@@ -245,8 +246,9 @@ public static class CyberMapGenerator
         }
         for (int k = 0; k + 1 < hub.Count; k++)
             Link(hub[k], hub[k + 1], LinkKind.Fast, force: true);
+        // The ring closes only where the closing link crosses nothing (the chain already connects the transit).
         if (L.Express != "chain" && hub.Count > 2)
-            Link(hub[hub.Count - 1], hub[0], LinkKind.Fast, force: true);
+            Link(hub[hub.Count - 1], hub[0], LinkKind.Fast);
         foreach (string key in counts.Keys)
         {
             if (key is Hub or OldNet)
@@ -281,12 +283,13 @@ public static class CyberMapGenerator
             }
         }
 
-        // Degree cap 4 for normal links, as long as the main net stays connected.
+        // Degree cap 3 for normal links (transit hubs may keep more), as long as the main net stays connected.
         foreach (int i in main)
         {
+            int cap = keyOf[i] == Hub ? 5 : 3;
             foreach (MapLink l in map.LinksOf(i).Where(l => l.Kind == LinkKind.Normal).OrderByDescending(l => Dist(l.A, l.B)).ToList())
             {
-                if (map.LinksOf(i).Count <= 4)
+                if (map.LinksOf(i).Count <= cap)
                     break;
                 map.Links.Remove(l);
                 map.Dirty();

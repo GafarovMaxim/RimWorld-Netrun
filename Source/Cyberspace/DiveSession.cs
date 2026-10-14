@@ -1162,6 +1162,8 @@ public class DiveSession : IExposable
             GatewayManager.Get()?.RemoveNode(Node);
             if (Node.CounterHack)
                 MapEventsManager.Get()?.CounterHackWon();
+            // I1: a clean dive charts the next district on the map.
+            NetMapManager.Get()?.ChartNext();
             if (Node.IsBoss)
             {
                 GatewayManager.Get()?.CorpLockdown();

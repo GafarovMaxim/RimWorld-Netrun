@@ -53,6 +53,8 @@ public class NetrunSettings : ModSettings
     public bool IsolationCooldown = true;
     /// <summary>D2: two or three corporate hubs are shut until a guard gateway next door is broken.</summary>
     public bool ProtectedHubs = true;
+    /// <summary>I1: districts beyond the start are uncharted until a runner reaches them or a dive charts the next one.</summary>
+    public bool GradualDistricts = true;
     /// <summary>C9: Netrun's notification sounds: 0 all, 1 only important, 2 off (NetrunNotify.Mode).</summary>
     public int NotifySounds;
 
@@ -480,6 +482,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsSurveillanceNode", ref SurveillanceInNode, "NR_SettingsSurveillanceNodeTip");
         Toggle("NR_SettingsIsolationCooldown", ref IsolationCooldown, "NR_SettingsIsolationCooldownTip");
         Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
+        Toggle("NR_SettingsGradualDistricts", ref GradualDistricts, "NR_SettingsGradualDistrictsTip");
         _y += 6f;
     }
 
@@ -706,6 +709,7 @@ public class NetrunSettings : ModSettings
         SurveillanceInNode = true;
         IsolationCooldown = true;
         ProtectedHubs = true;
+        GradualDistricts = true;
     }
 
     private void ResetInterface()
@@ -762,6 +766,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref IsolationCooldown, "isolationCooldown", true);
         Scribe_Values.Look(ref ProtectedHubs, "protectedHubs", true);
+        Scribe_Values.Look(ref GradualDistricts, "gradualDistricts", true);
         Scribe_Values.Look(ref NotifySounds, "notifySounds");
         Scribe_Values.Look(ref PauseOnOpen, "pauseOnOpen", true);
         Scribe_Values.Look(ref Animations, "animations", true);

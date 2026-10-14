@@ -15,6 +15,10 @@ public static class NetrunTex
     public static Texture2D HomeNode(string name, Texture2D fallback)
         => NetrunTint.Of(CyberIconAt("UI/Netrun/Nodes/Home_" + name) ?? fallback);
 
+    /// <summary>The home node icon in its node's own colour (the core screen: Board blue, Club amber and so on).</summary>
+    public static Texture2D HomeNode(string name, Texture2D fallback, Color tint)
+        => NetrunTint.Of(CyberIconAt("UI/Netrun/Nodes/Home_" + name) ?? fallback, tint);
+
     private static Texture2D CyberIconAt(string path)
     {
         if (!CyberIcons.TryGetValue(path, out Texture2D tex))

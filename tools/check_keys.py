@@ -82,6 +82,7 @@ DYNAMIC = {
     "NR_DiveAct_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
     "NR_DiveActTip_": ["Move", "Back", "Scan", "Hack", "Download", "Exit"],
     "NR_District_": ["Home", "Outskirts", "Transit", "Corp", "Market", "Ruins", "Campus", "Entertainment", "Dump", "Dark", "OldNet", "Orbit"],
+    "NR_DistrictHint_": ["Home", "Outskirts", "Transit", "Corp", "Market", "Ruins", "Campus", "Entertainment", "Dump", "Dark", "OldNet", "Orbit"],
     "NR_NetSize_": ["Small", "Normal", "Large"],
     "NR_ScenIntro_": ["LastNode", "CorpRunaways", "PirateStudio", "FlyingNode"],  # textKey in Defs/Scenarios.xml
     "NR_ScenSummary_": ["LastNode", "CorpRunaways", "PirateStudio", "FlyingNode"],

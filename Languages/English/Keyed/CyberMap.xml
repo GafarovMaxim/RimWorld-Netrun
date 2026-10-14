@@ -21,6 +21,23 @@
   <NR_NetSizeTip_Large>About 41 hubs, four corporations, more nodes in every district. The farthest hub is still about 6 hours from Home. Recommended.</NR_NetSizeTip_Large>
   <NR_NetLayout_Random>Random</NR_NetLayout_Random>
   <NR_SettingsMapLayout>Cyberspace map layout</NR_SettingsMapLayout>
+  <!-- Gradual districts (I1) -->
+  <NR_SettingsGradualDistricts>Chart districts gradually</NR_SettingsGradualDistricts>
+  <NR_SettingsGradualDistrictsTip>At the start only Home and the districts next to it are charted; the rest are faint, with a "?", their branches hidden. A runner stepping in charts a district, and every clean dive charts the next one. Nothing is locked. Off: the whole map is charted from the start.</NR_SettingsGradualDistrictsTip>
+  <NR_DistrictUncharted>Uncharted</NR_DistrictUncharted>
+  <NR_DistrictCharted>District charted: {0}. {1}</NR_DistrictCharted>
+  <NR_DistrictHint_Home>Your own hub.</NR_DistrictHint_Home>
+  <NR_DistrictHint_Outskirts>Weak nodes and little Heat: the place to learn.</NR_DistrictHint_Outskirts>
+  <NR_DistrictHint_Transit>The backbone that links the districts; fast lanes, few nodes.</NR_DistrictHint_Transit>
+  <NR_DistrictHint_Market>Shops and exchanges: steady cyberdata, sometimes silver.</NR_DistrictHint_Market>
+  <NR_DistrictHint_Campus>Archives of the academies: research data turns up here.</NR_DistrictHint_Campus>
+  <NR_DistrictHint_Entertainment>Studios and clubs: celebrity braindance chips.</NR_DistrictHint_Entertainment>
+  <NR_DistrictHint_Corp>Corporate ground: rich vaults, hard ICE, loud trace.</NR_DistrictHint_Corp>
+  <NR_DistrictHint_Dump>Data dumps: junk, but AI fragments wash up here.</NR_DistrictHint_Dump>
+  <NR_DistrictHint_Ruins>Dead servers of the old companies: deserted nodes, forgotten caches.</NR_DistrictHint_Ruins>
+  <NR_DistrictHint_Dark>The dark net: backdoors and people who do not want to be found.</NR_DistrictHint_Dark>
+  <NR_DistrictHint_OldNet>The Old Net behind the Wall: ancient systems, Black ICE 10+.</NR_DistrictHint_OldNet>
+  <NR_DistrictHint_Orbit>Orbital backbone: reachable only while the gravship is in orbit.</NR_DistrictHint_Orbit>
   <NR_SettingsMapLayoutTip>How the districts are laid out on new maps. Ring: the transit hubs in a circle in the middle. Spine: a transit line across the map. Archipelago: districts apart, few links between them. Metro: a dense net with many links. Random: picked by the world seed. Changes apply to a new map (dev mode: "Cyberspace: regenerate map").</NR_SettingsMapLayoutTip>
   <NR_NetLayout_Ring>Ring</NR_NetLayout_Ring>
   <NR_NetLayout_Spine>Spine</NR_NetLayout_Spine>

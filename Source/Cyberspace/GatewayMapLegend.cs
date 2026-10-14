@@ -76,6 +76,57 @@ public static partial class GatewayView
     private static HashSet<int> _legendLit;
 
     private const float LegendRow = 18f, LegendColW = 168f;
+    private static readonly string[] LegendHeadKeys = ["NR_Legend_HeadHubs", "NR_Legend_HeadLinks", "NR_Legend_HeadCorps"];
+
+    // The flowed layout: kind 0 = heading (idx = head key), 1 = item (idx = LegendItem), 2 = corp (idx = index in LegendCorps).
+    private struct LegendCell
+    {
+        public int Kind, Idx, Col, Row;
+    }
+
+    private static readonly List<LegendCell> LegendCells = [];
+    private static (int cols, int corps) _legendCellsFor = (-1, -1);
+    private static int _legendRows;
+
+    private static int LegendCols(Rect mapRect) => Mathf.Clamp(Mathf.FloorToInt((mapRect.width * 0.85f - 20f) / LegendColW), 1, 4);
+
+    /// <summary>Hubs, links and corporations flowed into columns top to bottom; a heading is never left alone at a column's foot.</summary>
+    private static void LegendLayout(int cols, int corps)
+    {
+        if (_legendCellsFor == (cols, corps))
+            return;
+        _legendCellsFor = (cols, corps);
+        LegendCells.Clear();
+        int hubs = (int)LegendItem.LinkFast;
+        int total = 3 + LegendItems.Length + corps;
+        int perCol = Mathf.CeilToInt(total / (float)cols);
+        int col = 0, row = 0;
+        void Place(int kind, int idx)
+        {
+            if (row >= perCol && col < cols - 1 || kind == 0 && row == perCol - 1 && col < cols - 1)
+            {
+                col++;
+                row = 0;
+            }
+            LegendCells.Add(new LegendCell { Kind = kind, Idx = idx, Col = col, Row = row });
+            row++;
+        }
+        Place(0, 0);
+        for (int i = 0; i < hubs; i++)
+            Place(1, i);
+        Place(0, 1);
+        for (int i = hubs; i < LegendItems.Length; i++)
+            Place(1, i);
+        if (corps > 0)
+        {
+            Place(0, 2);
+            for (int k = 0; k < corps; k++)
+                Place(2, k);
+        }
+        _legendRows = 0;
+        foreach (LegendCell c in LegendCells)
+            _legendRows = Mathf.Max(_legendRows, c.Row + 1);
+    }
 
     /// <summary>The plate's rect over the map (folded: the small button only), above the lens scale.</summary>
     private static Rect LegendRect(Rect mapRect, NetMapManager net)
@@ -83,11 +134,10 @@ public static partial class GatewayView
         float bottom = mapRect.yMax - 6f - (Lens != MapLens.Overview ? LensBoxH + 6f : 0f);
         if (!_legendOpen)
             return new Rect(mapRect.x + 6f, bottom - 26f, 110f, 26f);
-        int hubs = (int)LegendItem.LinkFast;
-        int links = LegendItems.Length - hubs;
-        int right = links + 1 + LegendCorps(net).Count;
-        float h = 30f + 20f + Mathf.Max(hubs, right) * LegendRow + 8f;
-        return new Rect(mapRect.x + 6f, bottom - h, LegendColW * 2f + 20f, h);
+        int cols = LegendCols(mapRect);
+        LegendLayout(cols, LegendCorps(net).Count);
+        float h = 30f + 4f + _legendRows * LegendRow + 8f;
+        return new Rect(mapRect.x + 6f, bottom - h, LegendColW * cols + 16f, h);
     }
 
     private static List<(int slot, Faction corp)> LegendCorps(NetMapManager net) => NetrunUI.Cached("map.legendCorps",
@@ -143,31 +193,30 @@ public static partial class GatewayView
         if (_legendOpen)
         {
             Widgets.DrawBoxSolid(new Rect(box.x + 8f, head.yMax, box.width - 16f, 1f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f));
-            int hubs = (int)LegendItem.LinkFast;
-            float y0 = head.yMax + 4f;
-            float lx = box.x + 10f, rx = box.x + 10f + LegendColW + 4f;
-            LegendHeading(new Rect(lx, y0, LegendColW, 18f), "NR_Legend_HeadHubs");
-            LegendHeading(new Rect(rx, y0, LegendColW, 18f), "NR_Legend_HeadLinks");
-            y0 += 20f;
-            for (int i = 0; i < LegendItems.Length; i++)
-            {
-                bool left = i < hubs;
-                float ry = y0 + (left ? i : i - hubs) * LegendRow;
-                LegendLine(new Rect(left ? lx : rx, ry, LegendColW, LegendRow), i, NetrunUI.T(_legendKeys[i]), r => DrawLegendSwatch(r, LegendItems[i]), net);
-            }
             List<(int slot, Faction corp)> corps = LegendCorps(net);
-            float cy = y0 + (LegendItems.Length - hubs) * LegendRow + 4f;
-            LegendHeading(new Rect(rx, cy, LegendColW, 18f), "NR_Legend_HeadCorps");
-            cy += 20f;
-            for (int k = 0; k < corps.Count; k++)
+            LegendLayout(LegendCols(mapRect), corps.Count);
+            float y0 = head.yMax + 4f;
+            for (int n = 0; n < LegendCells.Count; n++)
             {
-                Faction corp = corps[k].corp;
-                LegendLine(new Rect(rx, cy + k * LegendRow, LegendColW, LegendRow), 100 + corps[k].slot, corp.Name, r =>
+                LegendCell c = LegendCells[n];
+                var cr = new Rect(box.x + 10f + c.Col * LegendColW, y0 + c.Row * LegendRow, LegendColW - 4f, LegendRow);
+                if (c.Kind == 0)
+                    LegendHeading(cr, LegendHeadKeys[c.Idx]);
+                else if (c.Kind == 1)
                 {
-                    GUI.color = CorpColor(corp);
-                    GUI.DrawTexture(r.ContractedBy(2f), ShapeTex(Shape.Hexagon, true));
-                    GUI.color = Color.white;
-                }, net);
+                    int i = c.Idx;
+                    LegendLine(cr, i, NetrunUI.T(_legendKeys[i]), r => DrawLegendSwatch(r, LegendItems[i]), net);
+                }
+                else
+                {
+                    Faction corp = corps[c.Idx].corp;
+                    LegendLine(cr, 100 + corps[c.Idx].slot, corp.Name, r =>
+                    {
+                        GUI.color = CorpColor(corp);
+                        GUI.DrawTexture(r.ContractedBy(2f), ShapeTex(Shape.Hexagon, true));
+                        GUI.color = Color.white;
+                    }, net);
+                }
             }
         }
         Text.Anchor = TextAnchor.UpperLeft;

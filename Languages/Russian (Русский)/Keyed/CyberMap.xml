@@ -21,6 +21,23 @@
   <NR_NetSizeTip_Large>Около 41 узла, четыре корпорации, больше ответвлений в каждом районе. До дальнего узла всё равно около 6 часов от Дома. Рекомендуется.</NR_NetSizeTip_Large>
   <NR_NetLayout_Random>Случайно</NR_NetLayout_Random>
   <NR_SettingsMapLayout>Схема карты киберпространства</NR_SettingsMapLayout>
+  <!-- Постепенное открытие районов (И1) -->
+  <NR_SettingsGradualDistricts>Открывать районы постепенно</NR_SettingsGradualDistricts>
+  <NR_SettingsGradualDistrictsTip>В начале на карте только Дом и соседние районы; остальные бледные, со знаком «?», их ноды скрыты. Раннер, зашедший в район, наносит его на карту, а каждый чистый нырок открывает следующий. Ничего не запрещено. Выключено: вся карта открыта сразу.</NR_SettingsGradualDistrictsTip>
+  <NR_DistrictUncharted>Неизвестно</NR_DistrictUncharted>
+  <NR_DistrictCharted>Район нанесён на карту: {0}. {1}</NR_DistrictCharted>
+  <NR_DistrictHint_Home>Ваш собственный узел.</NR_DistrictHint_Home>
+  <NR_DistrictHint_Outskirts>Слабые ноды и мало Heat: здесь учатся.</NR_DistrictHint_Outskirts>
+  <NR_DistrictHint_Transit>Магистраль между районами: быстрые пути, мало нод.</NR_DistrictHint_Transit>
+  <NR_DistrictHint_Market>Магазины и биржи: стабильные cyberdata, иногда серебро.</NR_DistrictHint_Market>
+  <NR_DistrictHint_Campus>Архивы академий: здесь попадаются данные исследований.</NR_DistrictHint_Campus>
+  <NR_DistrictHint_Entertainment>Студии и клубы: чипы брейнданса знаменитостей.</NR_DistrictHint_Entertainment>
+  <NR_DistrictHint_Corp>Земля корпораций: богатые хранилища, жёсткий ICE, громкий след.</NR_DistrictHint_Corp>
+  <NR_DistrictHint_Dump>Свалки данных: хлам, но сюда прибивает осколки ИИ.</NR_DistrictHint_Dump>
+  <NR_DistrictHint_Ruins>Мёртвые серверы старых компаний: брошенные ноды, забытые тайники.</NR_DistrictHint_Ruins>
+  <NR_DistrictHint_Dark>Тёмная сеть: бэкдоры и те, кто не хочет, чтобы их нашли.</NR_DistrictHint_Dark>
+  <NR_DistrictHint_OldNet>Старая сеть за Стеной: древние системы, Black ICE 10+.</NR_DistrictHint_OldNet>
+  <NR_DistrictHint_Orbit>Орбитальная магистраль: доступна, только пока гравикорабль на орбите.</NR_DistrictHint_Orbit>
   <NR_SettingsMapLayoutTip>Как районы расположены на новой карте. Кольцо: транзитные узлы кругом в центре. Хребет: транзитная линия через всю карту. Архипелаг: районы порознь, связей между ними мало. Метро: плотная сеть с множеством связей. Случайно: выбирает сид мира. Действует на новую карту (режим разработчика: «Cyberspace: regenerate map»).</NR_SettingsMapLayoutTip>
   <NR_NetLayout_Ring>Кольцо</NR_NetLayout_Ring>
   <NR_NetLayout_Spine>Хребет</NR_NetLayout_Spine>

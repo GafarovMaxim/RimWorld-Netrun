@@ -45,25 +45,66 @@ public static partial class GatewayView
         _lensScaleKeys = Lenses.Select(l => "NR_MapLensScale_" + l).ToArray();
     }
 
-    private static Rect LensBarRect(Rect mapRect) => new(mapRect.x + 274f, mapRect.y + 6f, Lenses.Length * 58f, 26f);
+    private static readonly string[] LensIcons = ["Node_NeutralZone", "Reward_Valuables", "Dive_Lightning_Red", "Node_CorpVault", "Fixer_Service_Reward", "Dive_Lightning_Yellow"];
+    private const float LensIconS = 14f, LensGap = 4f;
+    private static float[] _lensW;
+    private static string _lensWLang;
+    private static float _lensTotal;
+
+    // Button widths (icon + label + padding), measured once per language, not per frame.
+    private static void LensWidths()
+    {
+        LensKeys();
+        string lang = LanguageDatabase.activeLanguage?.folderName;
+        if (_lensW != null && _lensWLang == lang)
+            return;
+        _lensWLang = lang;
+        _lensW = new float[Lenses.Length];
+        _lensTotal = 0f;
+        GameFont old = Text.Font;
+        Text.Font = GameFont.Tiny;
+        for (int i = 0; i < Lenses.Length; i++)
+        {
+            _lensW[i] = Mathf.Ceil(NetrunUI.Width(NetrunUI.T(_lensKeys[i]))) + LensIconS + LensGap + 16f;
+            _lensTotal += _lensW[i] + 4f;
+        }
+        Text.Font = old;
+    }
+
+    private static Rect LensBarRect(Rect mapRect)
+    {
+        LensWidths();
+        return new Rect(mapRect.x + 274f, mapRect.y + 6f, _lensTotal - 4f, 26f);
+    }
 
     private static void DrawLensBar(Rect mapRect)
     {
         Rect bar = LensBarRect(mapRect);
-        LensKeys();
         Text.Font = GameFont.Tiny;
+        float x = bar.x;
         for (int i = 0; i < Lenses.Length; i++)
         {
-            var r = new Rect(bar.x + i * 58f, bar.y, 54f, bar.height);
+            var r = new Rect(x, bar.y, _lensW[i], bar.height);
+            x += _lensW[i] + 4f;
             bool on = Lens == Lenses[i];
             Widgets.DrawBoxSolid(r, on ? new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f)
                 : new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
             GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, on ? 1f : 0.35f);
             Widgets.DrawBox(r);
             GUI.color = Color.white;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            GUI.color = on ? NetrunUI.Accent : NetrunUI.TextColor;
-            Widgets.Label(r, NetrunUI.T(_lensKeys[i]));
+            Color tc = on ? NetrunUI.Accent : NetrunUI.TextColor;
+            Texture2D icon = NetrunTex.CyberIcon(LensIcons[i]);
+            Rect label = r;
+            if (icon != null && Event.current.type == EventType.Repaint)
+            {
+                GUI.DrawTexture(new Rect(r.x + 8f, r.center.y - LensIconS / 2f, LensIconS, LensIconS), NetrunTint.OfAny(icon, tc));
+                label = new Rect(r.x + 8f + LensIconS + LensGap, r.y, r.width - 8f - LensIconS - LensGap, r.height);
+            }
+            else if (icon != null)
+                label = new Rect(r.x + 8f + LensIconS + LensGap, r.y, r.width - 8f - LensIconS - LensGap, r.height);
+            Text.Anchor = icon != null ? TextAnchor.MiddleLeft : TextAnchor.MiddleCenter;
+            GUI.color = tc;
+            Widgets.Label(label, NetrunUI.T(_lensKeys[i]));
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
             NetrunUI.Tip(r, NetrunUI.T(_lensTipKeys[i]));

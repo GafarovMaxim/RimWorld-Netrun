@@ -111,6 +111,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         CorpManager.Get()?.Sync();
         Map.Home.LastVisitTick = Find.TickManager.TicksGame;
         EnsureOrbit();
+        ChartStart();
         UpdateVisibility();
         _nextEventTick = Find.TickManager.TicksGame + Settings.eventIntervalDays.RandomInRange * GenDate.TicksPerDay;
         Log.Message($"[Netrun] cyberspace map: {Map.Size}, {Map.Layout}, {Map.Nodes.Count} nodes, {Map.Links.Count} links.");
@@ -197,7 +198,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         {
             if (b.MapNodeId < 0 || b.IsBoss)
                 continue;
-            if (near.Contains(b.MapNodeId))
+            if (near.Contains(b.MapNodeId) && Charted(Map.Node(b.MapNodeId)))
                 b.Hidden = false;
         }
     }
@@ -607,6 +608,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         MapNode node = Map.Node(runner.NodeId);
         node.LastVisitTick = Find.TickManager.TicksGame;
+        Chart(node);
         float trace = HopTrace(node, link);
         if (trace > 0f)
             HeatTracker.Get()?.AddHeat(trace, "NR_MapHopTrace".Translate(NodeLabel(node)), HeatSource.Dive);
@@ -769,6 +771,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
         base.ExposeData();
         Scribe_Deep.Look(ref Map, "map");
         ExposeOrbit();
+        ExposeCharting();
         Scribe_Values.Look(ref MarkedNodeId, "markedNode", -1);
         Scribe_Collections.Look(ref Watch, "watch", LookMode.Value);
         Scribe_Collections.Look(ref Runners, "runners", LookMode.Deep);

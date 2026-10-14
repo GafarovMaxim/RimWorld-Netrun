@@ -401,7 +401,7 @@ public static partial class GatewayView
     /// </summary>
     private static bool QueueHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
     {
-        if (n.District == District.Home || _zoom < 0.8f)
+        if (n.District == District.Home || _zoom < 0.8f || !net.Charted(n))
             return false;
         bool interesting = n.Fortress || n.Exit || net.Watch.Contains(n.Id) || n.Id == _selectedMapNode;
         if (!interesting)

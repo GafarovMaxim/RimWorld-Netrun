@@ -89,12 +89,12 @@ public partial class Dialog_NetTerminal
 
     private CoreNodeInfo[] CoreNodes(HeatTracker tracker) =>
     [
-        new() { View = View.Board, Icon = NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2)), Color = BoardColor, Sub = BoardSub(), Badge = BoardBadge() },
-        new() { View = View.Club, Icon = NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1)), Color = NetrunUI.Warn, Sub = ClubSub(), Badge = ClubBadge() },
-        new() { View = View.Archive, Icon = NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5)), Color = NetrunUI.Muted, Sub = "NR_NodeSub_Archive".Translate(tracker.Log.Count), Badge = ArchiveBadge(tracker) },
-        new() { View = View.Server, Icon = NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3)), Color = NetrunUI.Purple, Sub = ServerSub(), Badge = ServerBadge() },
-        new() { View = View.Studio, Icon = NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4)), Color = StudioColor, Sub = "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), Badge = StudioBadge() },
-        new() { View = View.Gateway, Icon = NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace), Color = GatewayColor, Sub = "NR_NodeSub_Gateway".Translate(), Badge = GatewayBadge() },
+        new() { View = View.Board, Icon = NetrunTex.HomeNode("Board", NetrunTex.TabIcon(2), BoardColor), Color = BoardColor, Sub = BoardSub(), Badge = BoardBadge() },
+        new() { View = View.Club, Icon = NetrunTex.HomeNode("Club", NetrunTex.TabIcon(1), NetrunUI.Warn), Color = NetrunUI.Warn, Sub = ClubSub(), Badge = ClubBadge() },
+        new() { View = View.Archive, Icon = NetrunTex.HomeNode("Archive", NetrunTex.TabIcon(5), NetrunUI.Muted), Color = NetrunUI.Muted, Sub = "NR_NodeSub_Archive".Translate(tracker.Log.Count), Badge = ArchiveBadge(tracker) },
+        new() { View = View.Server, Icon = NetrunTex.HomeNode("Server", NetrunTex.TabIcon(3), NetrunUI.Purple), Color = NetrunUI.Purple, Sub = ServerSub(), Badge = ServerBadge() },
+        new() { View = View.Studio, Icon = NetrunTex.HomeNode("Studio", NetrunTex.TabIcon(4), StudioColor), Color = StudioColor, Sub = "NR_NodeSub_Studio".Translate(BraindanceEditing.RawRecordings(_map).Count()), Badge = StudioBadge() },
+        new() { View = View.Gateway, Icon = NetrunTex.HomeNode("Gateway", NetrunTex.Cyberspace, GatewayColor), Color = GatewayColor, Sub = "NR_NodeSub_Gateway".Translate(), Badge = GatewayBadge() },
     ];
 
     private void DrawMap(Rect rect, HeatTracker tracker)
