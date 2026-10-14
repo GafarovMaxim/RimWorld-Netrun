@@ -16,8 +16,16 @@ public static class Patch_Pawn_Kill
 {
     static void Prefix(Pawn __instance, out bool __state)
     {
-        // Read before death: hediffs and faction can change while dying.
-        __state = __instance.Faction == Faction.OfPlayer && __instance.RaceProps.Humanlike && __instance.IsHacker();
+        try
+        {
+            // Read before death: hediffs and faction can change while dying.
+            __state = __instance.Faction == Faction.OfPlayer && __instance.RaceProps.Humanlike && __instance.IsHacker();
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_Pawn_Kill: " + e.Message, 0x4E525409);
+            __state = false;
+        }
     }
 
     static void Postfix(Pawn __instance, bool __state, DamageInfo? dinfo)

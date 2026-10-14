@@ -209,11 +209,18 @@ public static class Patch_IncidentWorker_BaseChance
 {
     public static void Postfix(IncidentWorker __instance, ref float __result)
     {
-        // Map events run on their own schedule (MapEventsManager); the storyteller does not pick them.
-        if (__instance.def != null && EventGroups.IsScheduled(__instance.def))
-            __result = 0f;
-        else
-            __result *= EventGroups.Frequency(__instance.def);
+        try
+        {
+            // Map events run on their own schedule (MapEventsManager); the storyteller does not pick them.
+            if (__instance.def != null && EventGroups.IsScheduled(__instance.def))
+                __result = 0f;
+            else
+                __result *= EventGroups.Frequency(__instance.def);
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_IncidentWorker_BaseChance: " + e.Message, 0x4E525407);
+        }
     }
 }
 
@@ -223,7 +230,14 @@ public static class Patch_IncidentWorker_CanFireNow
 {
     public static void Postfix(IncidentWorker __instance, ref bool __result)
     {
-        if (__result && (!NetworkGate.Allows(__instance.def) || EventGroups.Frequency(__instance.def) <= 0f))
-            __result = false;
+        try
+        {
+            if (__result && (!NetworkGate.Allows(__instance.def) || EventGroups.Frequency(__instance.def) <= 0f))
+                __result = false;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_IncidentWorker_CanFireNow: " + e.Message, 0x4E525408);
+        }
     }
 }

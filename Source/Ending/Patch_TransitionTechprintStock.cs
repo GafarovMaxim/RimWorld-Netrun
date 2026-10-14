@@ -27,9 +27,16 @@ public static class Patch_TransitionTechprintStock
 
     public static void Postfix(ref IEnumerable<Thing> __result)
     {
-        ThingDef ours = Ours;
-        if (ours != null && __result != null)
-            __result = __result.Where(t => t?.def != ours).ToList();
+        try
+        {
+            ThingDef ours = Ours;
+            if (ours != null && __result != null)
+                __result = __result.Where(t => t?.def != ours).ToList();
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Techprint stock: " + e.Message, 0x4E52_5452);
+        }
     }
 
     [HarmonyPatch]
@@ -47,9 +54,16 @@ public static class Patch_TransitionTechprintStock
 
         public static void Postfix(List<Thing> outThings)
         {
-            ThingDef ours = Ours;
-            if (ours != null)
-                outThings?.RemoveAll(t => t?.def == ours);
+            try
+            {
+                ThingDef ours = Ours;
+                if (ours != null)
+                    outThings?.RemoveAll(t => t?.def == ours);
+            }
+            catch (System.Exception e)
+            {
+                Log.ErrorOnce("[Netrun] Techprint rewards: " + e.Message, 0x4E52_5453);
+            }
         }
     }
 }

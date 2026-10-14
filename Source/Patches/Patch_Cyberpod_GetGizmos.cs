@@ -16,14 +16,7 @@ public static class Patch_Cyberpod_GetGizmos
         string wake = "USH_HE_CommandStartWaking".Translate();
         foreach (Gizmo gizmo in gizmos)
         {
-            // Waking a pawn who is still out in the net: warn that the run should be ended first.
-            if (gizmo is Command_Action wakeUp && wakeUp.defaultLabel == wake && __instance.ContainedThing is Pawn runner && NetMapManager.InRun(runner))
-            {
-                System.Action original = wakeUp.action;
-                wakeUp.action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                    "NR_WakeMidRunConfirm".Translate(runner.LabelShort), original, destructive: true));
-                wakeUp.defaultDesc += "\n\n" + "NR_WakeMidRunTip".Translate().Colorize(ColorLibrary.RedReadable);
-            }
+            GuardWake(gizmo, wake, __instance);
             yield return gizmo;
         }
 
@@ -78,6 +71,25 @@ public static class Patch_Cyberpod_GetGizmos
         }
         if (transition != null)
             yield return transition;
+    }
+
+    /// <summary>Waking a pawn who is still out in the net: warn that the run should be ended first.</summary>
+    private static void GuardWake(Gizmo gizmo, string wake, Building_Cyberpod pod)
+    {
+        try
+        {
+            if (gizmo is Command_Action wakeUp && wakeUp.defaultLabel == wake && pod.ContainedThing is Pawn runner && NetMapManager.InRun(runner))
+            {
+                System.Action original = wakeUp.action;
+                wakeUp.action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                    "NR_WakeMidRunConfirm".Translate(runner.LabelShort), original, destructive: true));
+                wakeUp.defaultDesc += "\n\n" + "NR_WakeMidRunTip".Translate().Colorize(ColorLibrary.RedReadable);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.ErrorOnce("[Netrun] Failed to guard the cyberpod wake button: " + ex, 0x4E520073);
+        }
     }
 
     /// <summary>The ending: once the Transition is researched, a colonist with a cyberlink can cross over from this pod.</summary>

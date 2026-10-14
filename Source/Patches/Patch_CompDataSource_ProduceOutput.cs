@@ -22,7 +22,7 @@ public static class Patch_CompDataSource_ProduceOutput
         }
         catch (Exception ex)
         {
-            Log.ErrorOnce("[Netrun] Failed to register ripping heat: " + ex, 0x4E520003);
+            Log.ErrorOnce("[Netrun] Failed to register ripping heat: " + ex, 0x4E520074);
         }
     }
 }

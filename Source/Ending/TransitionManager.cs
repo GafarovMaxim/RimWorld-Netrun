@@ -602,9 +602,16 @@ public static class Patch_Research_TransitionLock
 {
     static void Postfix(ResearchProjectDef __instance, ref bool __result)
     {
-        // With the techprint item the vanilla requirement does the gating; this is the fallback without it.
-        if (__result && __instance == TransitionDefOf.NR_Res_Transition && !TransitionManager.TechprintMode && TransitionManager.Get()?.ResearchOpen != true)
-            __result = false;
+        try
+        {
+            // With the techprint item the vanilla requirement does the gating; this is the fallback without it.
+            if (__result && __instance == TransitionDefOf.NR_Res_Transition && !TransitionManager.TechprintMode && TransitionManager.Get()?.ResearchOpen != true)
+                __result = false;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_Research_TransitionLock: " + e.Message, 0x4E52540A);
+        }
     }
 }
 
@@ -614,7 +621,14 @@ public static class Patch_Cyberpod_ShellSuspended
 {
     static void Postfix(Building_Cyberpod __instance, ref bool __result)
     {
-        if (!__result && __instance.ContainedThing is Pawn p && TransitionManager.IsShell(p))
-            __result = true;
+        try
+        {
+            if (!__result && __instance.ContainedThing is Pawn p && TransitionManager.IsShell(p))
+                __result = true;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_Cyberpod_ShellSuspended: " + e.Message, 0x4E52540B);
+        }
     }
 }

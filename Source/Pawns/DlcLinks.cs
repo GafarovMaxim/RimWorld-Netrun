@@ -40,7 +40,7 @@ public static class Patch_MechanitorBandwidth
         }
         catch (System.Exception e)
         {
-            Log.ErrorOnce("[Netrun] Forge bandwidth: " + e.Message, 0x4E520031);
+            Log.ErrorOnce("[Netrun] Forge bandwidth: " + e.Message, 0x4E520076);
         }
     }
 }

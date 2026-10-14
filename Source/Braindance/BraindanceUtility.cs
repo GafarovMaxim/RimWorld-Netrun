@@ -53,8 +53,15 @@ public static class Patch_JoyGiver_Ingest_CanIngestForJoy
 {
     static void Postfix(Pawn pawn, Thing t, ref bool __result)
     {
-        if (__result && BraindanceUtility.Blocked(pawn, t))
-            __result = false;
+        try
+        {
+            if (__result && BraindanceUtility.Blocked(pawn, t))
+                __result = false;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_JoyGiver_Ingest_CanIngestForJoy: " + e.Message, 0x4E525401);
+        }
     }
 }
 
@@ -63,8 +70,15 @@ public static class Patch_JobGiver_SatisfyChemicalNeed_DrugValidator
 {
     static void Postfix(Pawn pawn, Thing drug, ref bool __result)
     {
-        if (__result && BraindanceUtility.Blocked(pawn, drug))
-            __result = false;
+        try
+        {
+            if (__result && BraindanceUtility.Blocked(pawn, drug))
+                __result = false;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_JobGiver_SatisfyChemicalNeed_DrugValidator: " + e.Message, 0x4E525402);
+        }
     }
 }
 
@@ -73,8 +87,15 @@ public static class Patch_JobGiver_BingeDrug_BestIngestTarget
 {
     static void Postfix(Pawn pawn, ref Thing __result)
     {
-        if (BraindanceUtility.Blocked(pawn, __result))
-            __result = null;
+        try
+        {
+            if (BraindanceUtility.Blocked(pawn, __result))
+                __result = null;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_JobGiver_BingeDrug_BestIngestTarget: " + e.Message, 0x4E525403);
+        }
     }
 }
 
@@ -84,10 +105,18 @@ public static class Patch_DrugAIUtility_IngestAndTakeToInventoryJob
 {
     static bool Prefix(Thing drug, Pawn pawn, ref Job __result)
     {
-        if (!BraindanceUtility.Blocked(pawn, drug))
+        try
+        {
+            if (!BraindanceUtility.Blocked(pawn, drug))
+                return true;
+            __result = null;
+            return false;
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_DrugAIUtility_IngestAndTakeToInventoryJob: " + e.Message, 0x4E525404);
             return true;
-        __result = null;
-        return false;
+        }
     }
 }
 
@@ -97,11 +126,18 @@ public static class Patch_FloatMenuOptionProvider_Ingest
 {
     static void Postfix(Thing clickedThing, FloatMenuContext context, ref FloatMenuOption __result)
     {
-        if (__result == null || clickedThing == null || !BraindanceUtility.IsChip(clickedThing.def))
-            return;
+        try
+        {
+            if (__result == null || clickedThing == null || !BraindanceUtility.IsChip(clickedThing.def))
+                return;
 
-        AcceptanceReport report = BraindanceUtility.CanWatch(context.FirstSelectedPawn);
-        if (!report.Accepted)
-            __result = new FloatMenuOption(__result.Label + ": " + report.Reason, null);
+            AcceptanceReport report = BraindanceUtility.CanWatch(context.FirstSelectedPawn);
+            if (!report.Accepted)
+                __result = new FloatMenuOption(__result.Label + ": " + report.Reason, null);
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_FloatMenuOptionProvider_Ingest: " + e.Message, 0x4E525405);
+        }
     }
 }

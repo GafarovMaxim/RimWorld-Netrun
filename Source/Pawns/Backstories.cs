@@ -52,7 +52,7 @@ public static class Patch_PawnGenerator_Backstories
         }
         catch (System.Exception e)
         {
-            Log.ErrorOnce("[Netrun] backstory extras: " + e.Message, 0x4E520032);
+            Log.ErrorOnce("[Netrun] backstory extras: " + e.Message, 0x4E520075);
         }
     }
 }
