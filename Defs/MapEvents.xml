@@ -91,13 +91,13 @@
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Misc/NR_DistressServer</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
+      <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <size>(3,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <useHitPoints>true</useHitPoints>
     <statBases>
       <MaxHitPoints>150</MaxHitPoints>

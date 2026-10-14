@@ -51,7 +51,7 @@ public static class FixersTab
         Rect inner = new Rect(rect.x + 4f, rect.y, rect.width - 4f, rect.height).ContractedBy(12f);
         var portraitRect = new Rect(inner.x, inner.y + (inner.height - PortraitSize) / 2f, PortraitSize, PortraitSize);
         NetrunUI.Box(portraitRect, NetrunUI.BgWindow, stripe, 2);
-        GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Portrait(FixerSpecialty.Cleaner)); // the corporate fixer portrait (Fixer_Corp)
+        GUI.DrawTexture(portraitRect.ContractedBy(4f), NetrunTex.Insider);
 
         InsiderView v = NetrunUI.Cached("club.insider", () => BuildInsider(t, map));
         float x = portraitRect.xMax + 14f;

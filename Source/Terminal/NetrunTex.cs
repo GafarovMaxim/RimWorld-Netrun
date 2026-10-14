@@ -73,7 +73,7 @@ public static class NetrunTex
     public static readonly Texture2D HeatReduction = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Reduction", reportFailure: false);
     public static readonly Texture2D HeatRise = ContentFinder<Texture2D>.Get("UI/Netrun/Heat/Heat_Rise", reportFailure: false);
 
-    public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_NeutralZone");
+    public static readonly Texture2D HiddenNode = ContentFinder<Texture2D>.Get("UI/Netrun/Cyberspace/Node_Hidden");
 
     private static readonly Dictionary<string, Texture2D> CyberIcons = [];
 
@@ -102,7 +102,7 @@ public static class NetrunTex
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_ShadowBroker"), // Broker
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Corp"),         // Cleaner
         ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Street"),       // Fence
-        ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Corp"),         // Imperial (until it has its own art)
+        ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Imperial"),     // Imperial
     ];
 
     private static readonly Texture2D[] TabIcons =
@@ -124,6 +124,8 @@ public static class NetrunTex
     public static readonly Texture2D MenuMain = ContentFinder<Texture2D>.Get("UI/Netrun/Menu/Menu_Main", reportFailure: false);
     public static Texture2D MenuIcon(string name) => CyberIconAt("UI/Netrun/Menu/Menu_" + name);
     public static readonly Texture2D NetworkLock = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_NetworkLock", reportFailure: false);
+    public static readonly Texture2D Insider = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Insider");
+    public static readonly Texture2D MindUpload = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_MindUpload");
     public static readonly Texture2D Watcher = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_Watcher", reportFailure: false);
 
     public static readonly Texture2D AIUse = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Use");

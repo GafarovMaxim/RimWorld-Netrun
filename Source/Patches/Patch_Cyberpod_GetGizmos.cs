@@ -92,7 +92,7 @@ public static class Patch_Cyberpod_GetGizmos
             {
                 defaultLabel = "NR_UploadProgress".Translate(manager.Progress(p).ToStringPercent()),
                 defaultDesc = "NR_UploadProgressDesc".Translate(p.LabelShort),
-                icon = NetrunTint.Of(NetrunTex.Dive),
+                icon = NetrunTex.MindUpload,
                 action = () => { },
             };
             progress.Disable("NR_UploadRunning".Translate());
@@ -104,7 +104,7 @@ public static class Patch_Cyberpod_GetGizmos
         {
             defaultLabel = "NR_UploadBegin".Translate(),
             defaultDesc = "NR_UploadBeginDesc".Translate(TransitionManager.UploadHours.ToString("0")),
-            icon = NetrunTint.Of(NetrunTex.Dive),
+            icon = NetrunTex.MindUpload,
             action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
                 "NR_UploadConfirm".Translate(p.LabelShort, TransitionManager.UploadHours.ToString("0")), () => manager.Begin(pod), destructive: true)),
         };

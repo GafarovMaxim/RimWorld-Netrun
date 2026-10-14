@@ -274,6 +274,7 @@ public class ExternalNode : IExposable
     };
 
     public Texture2D Icon => (Lab ? NetrunTex.CyberIcon("Node_CorpLab") : null)
+        ?? (Ancient ? NetrunTex.CyberIcon("Node_OldNet") : null)
         ?? (CounterHack ? NetrunTex.CyberIcon("Node_Counterhack") : null)
         ?? (Type == ExternalNodeType.CorpCore ? NetrunTex.CyberIcon("Node_CorpCore") : null)
         ?? NetrunTex.CyberIcon("Node_" + Type switch

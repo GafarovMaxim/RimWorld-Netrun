@@ -475,7 +475,7 @@ public class GenStep_DistressServer : GenStep
             if (c.InBounds(map))
                 foreach (Thing t in c.GetThingList(map).Where(t => t.def.destroyable && (t.def.category == ThingCategory.Building || t.def.category == ThingCategory.Plant)).ToList())
                     t.Destroy();
-        Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map);
+        Thing server = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_DistressServer), cell, map, Rot4.South);
         BuildCompound(map, server);
         // A couple of dead racks around it.
         ThingDef rackDef = DefDatabase<ThingDef>.GetNamedSilentFail("NR_DistressRack");

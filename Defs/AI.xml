@@ -210,11 +210,11 @@
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
       <drawOffset>(0,0,0.18)</drawOffset>
-      <graphicClass>Graphic_Single</graphicClass>
+      <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
     <size>(3,3)</size>
-    <rotatable>false</rotatable>
+    <rotatable>true</rotatable>
     <altitudeLayer>Building</altitudeLayer>
     <passability>PassThroughOnly</passability>
     <fillPercent>0.9</fillPercent>

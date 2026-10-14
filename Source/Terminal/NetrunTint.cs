@@ -73,7 +73,7 @@ public static class NetrunTint
         var key = (src, Pack(accent));
         if (Cache.TryGetValue(key, out Texture2D tinted))
             return tinted;
-        if (Cache.Count > 400)
+        if (Cache.Count > 800)
         {
             foreach (KeyValuePair<(Texture2D, int), Texture2D> kv in Cache)
                 if (kv.Value != null && kv.Value != kv.Key.Item1)
@@ -118,7 +118,7 @@ public static class NetrunTint
         return string.Join("\n", lines);
     }
 
-    private const int MakesPerFrame = 4;
+    private const int MakesPerFrame = 16;
     private static int _budgetFrame = -1, _budgetLeft;
 
     // Our PNG files by texture name, to read the pixels from disk (null until first used).
@@ -147,28 +147,44 @@ public static class NetrunTint
         return _files.TryGetValue(name, out string path) ? path : null;
     }
 
+    // Decoded pixels per texture name: every colour of an icon reuses one decode (no disk read or PNG decode per colour).
+    private static readonly Dictionary<string, (Color32[] px, int w, int h)> Decoded = [];
+
     /// <summary>
-    /// The icon's pixels: decoded from our PNG on the CPU (RimWorld 1.7 runs on a new renderer, where reading a texture
+    /// The icon's pixels: decoded from our PNG on the CPU once (RimWorld 1.7 runs on a new renderer, where reading a texture
     /// back from the GPU stalls and the icons came late or not at all), or read back from the GPU when there is no file.
     /// </summary>
-    private static Texture2D Pixels(Texture2D src)
+    private static (Color32[] px, int w, int h) Pixels(Texture2D src)
     {
-        string path = FileOf(BaseName(src));
+        string name = BaseName(src);
+        if (Decoded.TryGetValue(name, out var cached))
+            return cached;
+        Texture2D tex = null;
+        string path = FileOf(name);
         if (path != null)
         {
-            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
-            // The file's own size is fine: the copy is drawn into the same rect (1.7 may report a different size for src).
-            if (tex.LoadImage(System.IO.File.ReadAllBytes(path)))
-                return tex;
-            Object.Destroy(tex);
+            tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            if (!tex.LoadImage(System.IO.File.ReadAllBytes(path)))
+            {
+                Object.Destroy(tex);
+                tex = null;
+            }
         }
-        return ReadBack(src);
+        tex ??= ReadBack(src);
+        var result = (tex.GetPixels32(), tex.width, tex.height);
+        Object.Destroy(tex);
+        Decoded[name] = result;
+        return result;
     }
 
     private static Texture2D Make(Texture2D src, Color accent)
     {
-        Texture2D tex = Pixels(src);
-        return Recolor(tex, src, accent);
+        (Color32[] px, int w, int h) = Pixels(src);
+        var tex = new Texture2D(w, h, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
+        tex.SetPixels32(Recolor((Color32[])px.Clone(), accent));
+        tex.filterMode = src.filterMode;
+        tex.Apply(true, true);
+        return tex;
     }
 
     private static Texture2D ReadBack(Texture2D src)
@@ -178,16 +194,15 @@ public static class NetrunTint
         RenderTexture prev = RenderTexture.active;
         Graphics.Blit(src, rt);
         RenderTexture.active = rt;
-        var tex = new Texture2D(src.width, src.height, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
+        var tex = new Texture2D(src.width, src.height, TextureFormat.RGBA32, false);
         tex.ReadPixels(new Rect(0f, 0f, src.width, src.height), 0, 0);
         RenderTexture.active = prev;
         RenderTexture.ReleaseTemporary(rt);
         return tex;
     }
 
-    private static Texture2D Recolor(Texture2D tex, Texture2D src, Color accent)
+    private static Color32[] Recolor(Color32[] px, Color accent)
     {
-        Color32[] px = tex.GetPixels32();
         for (int i = 0; i < px.Length; i++)
         {
             Color32 p = px[i];
@@ -207,9 +222,6 @@ public static class NetrunTint
                 (byte)Mathf.RoundToInt(Mathf.Lerp(b, accent.b * l, k) * 255f),
                 p.a);
         }
-        tex.SetPixels32(px);
-        tex.filterMode = src.filterMode;
-        tex.Apply(true, true);
-        return tex;
+        return px;
     }
 }
