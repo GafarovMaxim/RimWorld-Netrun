@@ -36,6 +36,11 @@ public class BraindanceRecorder : GameComponent, INetrunCleanable
         int now = Find.TickManager.TicksGame;
         if (_lastRecord.TryGetValue(pawn, out int last) && now - last < CooldownTicks)
             return;
+        // The same feeling of the same colonist is already waiting to be edited: no copy (a daily fine meal filled
+        // stockpiles with thousands of identical recordings).
+        foreach (Thing other in pawn.Map.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceRaw))
+            if (other.TryGetComp<CompBraindanceRecord>() is { } existing && existing.Event == what && existing.Author == pawn.LabelShort)
+                return;
         _lastRecord[pawn] = now;
 
         Thing raw = ThingMaker.MakeThing(NetrunDefOf.NR_BraindanceRaw);

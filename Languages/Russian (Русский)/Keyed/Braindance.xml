@@ -69,4 +69,5 @@
   <NR_UB_Bad_Morton>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Morton>
   <NR_UB_Bad_Confession>+8 Heat; привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Oracle>
+  <NR_BDBatchDone>{0}: монтаж закончен, из {1} записей получилось {2} чипов.</NR_BDBatchDone>
 </LanguageData>

@@ -62,6 +62,19 @@ public static class StudioTab
                 GuideRegistry.Area("studio.records", left);
                 DrawList(left, ref scroll, "NR_StudioRecordings".Translate(raws.Count), raws.Count, "NR_StudioNoRecordings".Translate(),
                     (y, w) => { float yy = y; foreach (Thing raw in raws) yy = DrawRecording(new Rect(0f, yy, w, RowHeight), raw); return yy; });
+                if (raws.Count > 0)
+                {
+                    // Edit everything at once (Maxim, 2026-10-14): one chip per kind, the duplicates wiped.
+                    int groups = NetrunUI.Cached("studio.groups." + map.uniqueID, () => BraindanceEditing.BatchGroups(raws), 1f);
+                    int total = 0;
+                    foreach (Thing raw in raws)
+                        total += raw.stackCount;
+                    var batch = new Rect(right.x, right.yMax - 40f, right.width, 36f);
+                    if (NetrunUI.Button(batch, "NR_StudioEditAll".Translate(total, groups), NetrunUI.Accent, true,
+                            "NR_StudioEditAllTip".Translate(((float)BraindanceEditing.BatchWorkTicks(groups) / GenDate.TicksPerHour).ToString("0.#"))))
+                        BraindanceEditing.OpenBatchMenu(map);
+                    right.yMax -= 46f;
+                }
                 DrawInfo(right, "NR_StudioInfoRawTitle", "NR_StudioInfoRaw", StudioColor);
                 break;
             case Tab.Library:
@@ -270,6 +283,9 @@ public static class StudioTab
         float width = rect.width - 16f;
         var view = new Rect(0f, 0f, width, SectionHeight + Mathf.Max(1, count) * (RowHeight + 4f) + 10f);
         NetrunUI.BeginScroll(rect, ref scroll, view);
+        // Rows outside the scrolled view are skipped (a stockpile can hold thousands of recordings).
+        _visibleTop = scroll.y - RowHeight;
+        _visibleBottom = scroll.y + rect.height;
         float y = NetrunUI.Section(new Rect(0f, 0f, width, SectionHeight), title);
         if (count == 0)
             NetrunUI.EmptyState(new Rect(0f, y, width, RowHeight), NetrunUI.T("NR_StateEmpty"), empty, NetrunUI.Muted, center: false);
@@ -451,8 +467,14 @@ public static class StudioTab
         _ => NetrunUI.Bad,
     };
 
+    private static float _visibleTop, _visibleBottom = float.MaxValue;
+
+    private static bool OffView(Rect row) => row.yMax < _visibleTop || row.y > _visibleBottom;
+
     private static float DrawRecording(Rect row, Thing raw)
     {
+        if (OffView(row))
+            return row.yMax + 4f;
         CompBraindanceRecord rec = raw.TryGetComp<CompBraindanceRecord>();
         Color color = rec != null ? MoodColor(rec.Mood) : NetrunUI.Muted;
         NetrunUI.Card(row, color);
@@ -493,6 +515,8 @@ public static class StudioTab
 
     private static float DrawChip(Rect row, Thing chip)
     {
+        if (OffView(row))
+            return row.yMax + 4f;
         bool black = chip.def == NetrunDefOf.NR_BlackBraindanceChip;
         NetrunUI.Card(row, black ? NetrunUI.Bad : NetrunUI.Accent);
         GUI.DrawTexture(new Rect(row.x + 10f, row.y + 4f, 32f, 32f), chip.def.uiIcon);
@@ -505,6 +529,8 @@ public static class StudioTab
 
     private static float DrawHooked(Rect row, Pawn pawn)
     {
+        if (OffView(row))
+            return row.yMax + 4f;
         Hediff_Addiction addiction = pawn.health.hediffSet.hediffs.OfType<Hediff_Addiction>()
             .FirstOrDefault(a => a.Chemical == NetrunDefOf.NR_Braindance);
         Hediff tolerance = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_BraindanceTolerance);

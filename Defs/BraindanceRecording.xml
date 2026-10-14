@@ -57,4 +57,10 @@
     <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
   </JobDef>
 
+  <JobDef>
+    <defName>NR_EditBraindanceBatch</defName>
+    <driverClass>Netrun.JobDriver_EditBraindanceBatch</driverClass>
+    <reportString>editing all braindance recordings.</reportString>
+  </JobDef>
+
 </Defs>

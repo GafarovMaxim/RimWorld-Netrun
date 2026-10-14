@@ -43,6 +43,7 @@ public static class NetrunDefOf
     public static ThingDef NR_BlackBraindanceChip;
     public static ThoughtDef NR_BraindanceGoodRecording;
     public static JobDef NR_EditBraindance;
+    public static JobDef NR_EditBraindanceBatch;
     public static HediffDef NR_NeuralNoise;
     public static FactionDef NR_Mercenaries;
     public static IncidentDef NR_MercRaid;

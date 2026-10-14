@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_EditBraindance.reportString>монтирует брейнданс-запись.</NR_EditBraindance.reportString>
+  <NR_EditBraindanceBatch.reportString>монтирует все брейнданс-записи.</NR_EditBraindanceBatch.reportString>
 </LanguageData>

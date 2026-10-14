@@ -47,4 +47,6 @@
   <NR_StudioInfoRaw>Braindance goggles record their wearer's strong moments by themselves: big mood swings, joy, grief, a kill (one a day per colonist).\nEdit a raw recording at the network console: «Edit into» here, or right-click the console with a colonist.\nA bright memory becomes a braindance chip; a dark or combat one becomes a black chip, stronger and more addictive.\nQuality comes from the moment's strength; a skilled editor (Intellectual) adds a little.</NR_StudioInfoRaw>
   <NR_StudioInfoHookTitle>Braindance and the hook</NR_StudioInfoHookTitle>
   <NR_StudioInfoHook>Every chip builds a little tolerance; enough tolerance turns into addiction.\nBlack chips hook far faster; ordinary unique recordings do not hook at all.\nAn addict without braindance gets withdrawal; the hook fades with time without chips.\nKeep chips under a drug policy to decide who may watch and how often.</NR_StudioInfoHook>
+  <NR_StudioEditAll>Edit all: {0} → {1} chips</NR_StudioEditAll>
+  <NR_StudioEditAllTip>Pick a colonist: at the network console they edit every raw recording at once (about {0} h). One chip per colonist, event and mood, from the strongest take; the duplicates are wiped.</NR_StudioEditAllTip>
 </LanguageData>

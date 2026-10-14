@@ -69,4 +69,5 @@
   <NR_UB_Bad_Morton>hooks twice as fast as a black chip</NR_UB_Bad_Morton>
   <NR_UB_Bad_Confession>+8 Heat; hooks twice as fast as a black chip</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>hooks twice as fast as a black chip</NR_UB_Bad_Oracle>
+  <NR_BDBatchDone>{0} finished editing: {1} recordings became {2} chips.</NR_BDBatchDone>
 </LanguageData>
