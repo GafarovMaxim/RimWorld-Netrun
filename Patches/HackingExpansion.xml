@@ -9,6 +9,17 @@
     </value>
   </Operation>
 
+  <!-- The cyberpod can be uninstalled and moved like a cryptosleep casket; scenarios hand it over packed. -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/minifiedDef</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="USH_Cyberpod"]</xpath>
+      <value>
+        <minifiedDef>MinifiedThing</minifiedDef>
+      </value>
+    </nomatch>
+  </Operation>
+
   <!-- The Netrun coprocessor links to the cyberpod like Hacking Expansion's own coprocessors. -->
   <Operation Class="PatchOperationAdd">
     <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/comps/li[@Class="CompProperties_AffectedByFacilities"]/linkableFacilities</xpath>

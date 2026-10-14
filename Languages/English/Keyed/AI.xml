@@ -193,6 +193,8 @@
 Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_EchoBorn>
 
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
+  <NR_UninstallBusyPod>Someone is inside the cyberpod. Get them out first.</NR_UninstallBusyPod>
+  <NR_UninstallBusyServer>The server still hosts AIs. Move them out first.</NR_UninstallBusyServer>
   <NR_OnlyOneAIServer>The colony can have only one AI server. Build server racks next to it for more slots.</NR_OnlyOneAIServer>
   <NR_AILocationCoprocessor>Works for the cyberpod from: {0}.</NR_AILocationCoprocessor>
   <NR_AIHostNoFeed>The AI is in a host. It eats and takes requests only in a server or coprocessor: move it back first.</NR_AIHostNoFeed>

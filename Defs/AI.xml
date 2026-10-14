@@ -206,6 +206,7 @@
     <label>AI server</label>
     <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Only one can be built. Starts with one slot; server racks built next to it add more, up to three.</description>
     <thingClass>Building</thingClass>
+    <minifiedDef>MinifiedThing</minifiedDef>
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
       <drawOffset>(0,0,0.18)</drawOffset>

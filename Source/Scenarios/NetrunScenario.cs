@@ -116,8 +116,8 @@ public class NetrunScenario : GameComponent
         {
             case NetrunStart.LastNode:
             {
-                SpawnBuilding(DefDatabase<ThingDef>.GetNamedSilentFail("USH_Cyberpod"), map, center, Faction.OfPlayer);
-                SpawnBuilding(NetrunDefOf.NR_AIServer, map, center, Faction.OfPlayer);
+                DropPacked(DefDatabase<ThingDef>.GetNamedSilentFail("USH_Cyberpod"), map, center);
+                DropPacked(NetrunDefOf.NR_AIServer, map, center);
                 string partner = ((string)"NR_Scen_PartnerNames".Translate()).Split(',').Select(s => s.Trim()).Where(s => s.Length > 0)
                     .RandomElementWithFallback("Kestrel");
                 Thing fragment = AIManager.Get()?.CreateScenarioEcho(partner, map, center);
@@ -181,7 +181,7 @@ public class NetrunScenario : GameComponent
             }
             case NetrunStart.FlyingNode:
             {
-                Thing pod = SpawnBuilding(DefDatabase<ThingDef>.GetNamedSilentFail("USH_Cyberpod"), map, center, Faction.OfPlayer, onShip: true);
+                Thing pod = DropPacked(DefDatabase<ThingDef>.GetNamedSilentFail("USH_Cyberpod"), map, center);
                 Find.LetterStack.ReceiveLetter("NR_Scen_FlyingLabel".Translate(), "NR_Scen_Flying".Translate(), LetterDefOf.NeutralEvent,
                     pod != null ? new LookTargets(pod) : null);
                 break;
@@ -190,20 +190,30 @@ public class NetrunScenario : GameComponent
     }
 
     /// <summary>
-    /// Builds a finished building near the colonists on a clear spot (with its interaction cell free); on a gravship
-    /// start it prefers the ship's substructure. Null if no spot was found.
+    /// A player building handed over packed, next to the colonists: the player picks the spot and installs it.
+    /// Falls back to the built thing when the def cannot be minified. Null if the def is missing.
     /// </summary>
-    private static Thing SpawnBuilding(ThingDef def, Map map, IntVec3 center, Faction faction, float minRadius = 3f, bool onShip = false)
+    private static Thing DropPacked(ThingDef def, Map map, IntVec3 center)
+    {
+        if (def == null)
+            return null;
+        Thing building = ThingMaker.MakeThing(def, def.MadeFromStuff ? GenStuff.DefaultStuffFor(def) : null);
+        building.SetFaction(Faction.OfPlayer);
+        Thing item = def.Minifiable ? building.MakeMinified() : building;
+        if (GenPlace.TryPlaceThing(item, center, map, ThingPlaceMode.Near, out Thing placed))
+            return placed;
+        Log.Warning($"[Netrun] scenario: no room for {def.defName} near the start.");
+        return null;
+    }
+
+    /// <summary>A finished unowned building (the black box wreck) on a clear spot at least minRadius away. Null if no spot.</summary>
+    private static Thing SpawnBuilding(ThingDef def, Map map, IntVec3 center, Faction faction, float minRadius = 3f)
     {
         if (def == null)
             return null;
         Rot4 rot = def.rotatable ? Rot4.South : Rot4.North;
-        List<IntVec3> cells = GenRadial.RadialCellsAround(center, minRadius, 30f).Where(c => c.InBounds(map)).ToList();
-        IntVec3 spot = IntVec3.Invalid;
-        if (onShip)
-            spot = cells.Where(c => Clear(def, map, c, rot, shipOnly: true)).DefaultIfEmpty(IntVec3.Invalid).First();
-        if (!spot.IsValid)
-            spot = cells.Where(c => Clear(def, map, c, rot, shipOnly: false)).DefaultIfEmpty(IntVec3.Invalid).First();
+        IntVec3 spot = GenRadial.RadialCellsAround(center, minRadius, 30f)
+            .FirstOrFallback(c => c.InBounds(map) && Clear(def, map, c, rot), IntVec3.Invalid);
         if (!spot.IsValid)
         {
             Log.Warning($"[Netrun] scenario: no room for {def.defName} near the start.");
@@ -215,7 +225,7 @@ public class NetrunScenario : GameComponent
         return GenSpawn.Spawn(thing, spot, map, rot);
     }
 
-    private static bool Clear(ThingDef def, Map map, IntVec3 at, Rot4 rot, bool shipOnly)
+    private static bool Clear(ThingDef def, Map map, IntVec3 at, Rot4 rot)
     {
         CellRect rect = GenAdj.OccupiedRect(at, rot, def.Size);
         if (!rect.InBounds(map))
@@ -231,8 +241,6 @@ public class NetrunScenario : GameComponent
                 return false;
             TerrainDef terrain = c.GetTerrain(map);
             if (def.terrainAffordanceNeeded != null && !terrain.affordances.Contains(def.terrainAffordanceNeeded))
-                return false;
-            if (shipOnly && !terrain.defName.Contains("Substructure"))
                 return false;
         }
         if (def.hasInteractionCell)

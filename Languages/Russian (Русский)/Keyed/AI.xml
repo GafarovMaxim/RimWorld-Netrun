@@ -193,6 +193,8 @@
 Пробудите его у ИИ-сервера, и {0} снова будет с колонией, по-своему.</NR_EchoBorn>
 
   <!-- 0.4: server racks, coprocessor AI, carrying, events -->
+  <NR_UninstallBusyPod>В капсуле кто-то есть. Сначала выведите его.</NR_UninstallBusyPod>
+  <NR_UninstallBusyServer>На сервере ещё живут ИИ. Сначала перенесите их.</NR_UninstallBusyServer>
   <NR_OnlyOneAIServer>В колонии может быть только один ИИ-сервер. Для новых слотов стройте рядом серверные стойки.</NR_OnlyOneAIServer>
   <NR_AILocationCoprocessor>Работает на кибер-капсулу из: {0}.</NR_AILocationCoprocessor>
   <NR_AIHostNoFeed>ИИ в носителе. Есть и принимать просьбы он может только на сервере или в сопроцессоре: сначала верните его.</NR_AIHostNoFeed>
