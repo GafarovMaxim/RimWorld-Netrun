@@ -56,6 +56,23 @@
   <NR_Program_Killer>Убийца</NR_Program_Killer>
   <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки. Стоит {0} cyberdata.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} подключается к {1}.</NR_DiveLogStart>
+  <!-- Тренировочный нырок -->
+  <NR_TrainingNodeName>Тренировочный симулятор</NR_TrainingNodeName>
+  <NR_DiveLogTraining>Симуляция: правила настоящие, но удары, Heat, Netsick и добыча только показываются здесь.</NR_DiveLogTraining>
+  <NR_DiveLogSimHit>Удар ICE. В настоящем нырке: Netsick, тошнота, а то и блокировка или кома.</NR_DiveLogSimHit>
+  <NR_DiveLogSimPatrol>Удар патруля. В настоящем нырке он выкидывает с половиной добычи. Симулятор его успокаивает.</NR_DiveLogSimPatrol>
+  <NR_DiveLogSimDone>Симуляция окончена. Настоящий нырок принёс бы {0} cyberdata и {1} Heat; ударов ICE: {2}.</NR_DiveLogSimDone>
+  <NR_DiveLogSimFailed>Симуляция прервана. В настоящем нырке осталось бы {0} cyberdata и добавилось {1} Heat; ударов ICE: {2}.</NR_DiveLogSimFailed>
+  <NR_TrainingDone>Тренировочный нырок пройден. Настоящие ноды ждут на карте.</NR_TrainingDone>
+  <NR_TrainingFailed>Тренировка окончена. Повторить можно в любой момент из панели киберпространства.</NR_TrainingFailed>
+  <NR_TrainingButton>Тренировочный нырок</NR_TrainingButton>
+  <NR_TrainingButtonTip>Бесплатный нырок в симулятор: развилка, скрытый проход, ICE и программа-щит. Капсула не нужна, ни Heat, ни вреда, ни добычи.</NR_TrainingButtonTip>
+  <NR_TrainingNoRunner>Дома нет колониста, который может сесть за симулятор.</NR_TrainingNoRunner>
+  <NR_TrainingBusy>Нырок уже идёт.</NR_TrainingBusy>
+  <NR_TrainingOfferTitle>Тренировочный нырок</NR_TrainingOfferTitle>
+  <NR_TrainingOffer>Впервые в киберпространстве? Попробуй нырок в симуляторе: всё как в настоящем (шлюзы, развилка, скрытый проход, ICE), но бесплатно и без вреда.\n\nПотом он всегда доступен из панели киберпространства.</NR_TrainingOffer>
+  <NR_TrainingStart>Начать тренировку</NR_TrainingStart>
+  <NR_TrainingLater>Позже</NR_TrainingLater>
   <NR_DiveNoFurther>тупик</NR_DiveNoFurther>
   <NR_DiveHiddenAhead>впереди что-то скрыто: сначала сканируйте</NR_DiveHiddenAhead>
   <NR_DiveBlocked>путь закрыт: сначала взломайте</NR_DiveBlocked>

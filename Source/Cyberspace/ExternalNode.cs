@@ -231,7 +231,10 @@ public class ExternalNode : IExposable
     public bool InGuardedHub => MapNodeId >= 0 && NetrunMod.Settings.ProtectedHubs && NetMapManager.Get()?.Map?.Node(MapNodeId)?.Guarded == true;
     public bool Offline => Find.TickManager.TicksGame < OfflineUntil;
 
-    public string Name => CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
+    /// <summary>The training simulation (never on the map or in the node list): no pod, no Heat, no harm, no haul.</summary>
+    public bool Training;
+
+    public string Name => Training ? "NR_TrainingNodeName".Translate() : CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
 
     public Color Color => Type switch
@@ -442,6 +445,7 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref AuctionUntil, "auctionUntil", -1);
         Scribe_Values.Look(ref OpenDoorUntil, "openDoorUntil", -1);
         Scribe_Values.Look(ref ForgottenCache, "forgottenCache");
+        Scribe_Values.Look(ref Training, "training");
         Scribe_Values.Look(ref InterceptPacketId, "interceptPacket", -1);
         Scribe_Values.Look(ref GuardFor, "guardFor", -1);
     }

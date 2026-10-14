@@ -48,6 +48,9 @@ public static partial class GatewayView
         if (gateway == null)
             return;
 
+        if (!gateway.TrainingOffered)
+            OfferTraining(gateway, map);
+
         IReadOnlyList<ExternalNode> nodes = gateway.Nodes;
         ExternalNode selected = nodes.FirstOrDefault(n => n.Id == _selectedId);
 
@@ -65,6 +68,16 @@ public static partial class GatewayView
             DrawCircles(mapRect, nodes);
 
         DrawPanel(new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height), map, gateway, selected);
+    }
+
+    /// <summary>The first visit to cyberspace offers a training dive once; the panel button keeps it at hand.</summary>
+    private static void OfferTraining(GatewayManager gateway, Map map)
+    {
+        gateway.TrainingOffered = true;
+        if (!gateway.CanTrain(map).Accepted)
+            return;
+        Find.WindowStack.Add(new Dialog_MessageBox("NR_TrainingOffer".Translate(), "NR_TrainingStart".Translate(), () => gateway.StartTraining(map),
+            "NR_TrainingLater".Translate(), title: "NR_TrainingOfferTitle".Translate()));
     }
 
     /// <summary>
@@ -800,6 +813,16 @@ public static partial class GatewayView
         if (NetrunUI.Button(vr, (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
             _listMode = !_listMode;
         y += 36f;
+        if (withReports && GatewayManager.Get() is { } gateway)
+        {
+            Map map = Find.CurrentMap;
+            var tr = new Rect(inner.x, y, inner.width, 30f);
+            AcceptanceReport can = NetrunUI.Cached("gateway.canTrain", () => gateway.CanTrain(map));
+            if (NetrunUI.Button(tr, "NR_TrainingButton".Translate(), gateway.TrainingDone ? NetrunUI.Muted : NetrunUI.Accent, can,
+                    "NR_TrainingButtonTip".Translate()))
+                gateway.StartTraining(map);
+            y += 36f;
+        }
         GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
         return y;
     }

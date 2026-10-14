@@ -56,6 +56,23 @@
   <NR_Program_Killer>Killer</NR_Program_Killer>
   <NR_ProgramDesc_Killer>Breaks one gate or ICE without a roll. Costs {0} cyberdata.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} jacks into {1}.</NR_DiveLogStart>
+  <!-- Training dive -->
+  <NR_TrainingNodeName>Training simulator</NR_TrainingNodeName>
+  <NR_DiveLogTraining>Simulation: every rule is real, but hits, Heat, Netsick and the haul are only shown here.</NR_DiveLogTraining>
+  <NR_DiveLogSimHit>ICE hits. In a real dive: Netsick, nausea, maybe a lockout or a coma.</NR_DiveLogSimHit>
+  <NR_DiveLogSimPatrol>The patrol strikes. In a real dive it throws you out with half the haul. The simulator calms it down.</NR_DiveLogSimPatrol>
+  <NR_DiveLogSimDone>Simulation over. A real dive would bring {0} cyberdata and {1} Heat; ICE hits: {2}.</NR_DiveLogSimDone>
+  <NR_DiveLogSimFailed>Simulation over early. A real dive would keep {0} cyberdata and add {1} Heat; ICE hits: {2}.</NR_DiveLogSimFailed>
+  <NR_TrainingDone>Training dive done. Real nodes wait on the map.</NR_TrainingDone>
+  <NR_TrainingFailed>Training dive over. Try again from the cyberspace panel whenever you like.</NR_TrainingFailed>
+  <NR_TrainingButton>Training dive</NR_TrainingButton>
+  <NR_TrainingButtonTip>A free dive into a simulator: a fork, a hidden passage, ICE and a shield program. No pod needed, no Heat, no harm, no haul.</NR_TrainingButtonTip>
+  <NR_TrainingNoRunner>No colonist at home can sit at the simulator.</NR_TrainingNoRunner>
+  <NR_TrainingBusy>A dive is already under way.</NR_TrainingBusy>
+  <NR_TrainingOfferTitle>Training dive</NR_TrainingOfferTitle>
+  <NR_TrainingOffer>First time in cyberspace? Try a dive in the simulator: it plays like a real one (gates, a fork, a hidden passage, ICE), but costs nothing and hurts no one.\n\nIt is always available later from the cyberspace panel.</NR_TrainingOffer>
+  <NR_TrainingStart>Start training</NR_TrainingStart>
+  <NR_TrainingLater>Later</NR_TrainingLater>
   <NR_DiveNoFurther>dead end</NR_DiveNoFurther>
   <NR_DiveHiddenAhead>something hidden ahead: scan it first</NR_DiveHiddenAhead>
   <NR_DiveBlocked>the way is blocked: hack it first</NR_DiveBlocked>

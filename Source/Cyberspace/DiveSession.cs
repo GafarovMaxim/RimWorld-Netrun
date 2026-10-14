@@ -149,6 +149,9 @@ public class DiveSession : IExposable
     public bool PatrolAwake => AlertApplies && NodeAlert >= AlertThreshold;
     public DiveReport Report;
 
+    /// <summary>The training simulation: every rule works, but hits, Heat, Netsick and the haul are only shown.</summary>
+    public bool Training => Node?.Training == true;
+
     public int ActionsPerTurn
     {
         get
@@ -247,7 +250,7 @@ public class DiveSession : IExposable
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
         session.Build();
         // A watched corporate confession: this dive shows every hidden step, the forks' numbers and any trap.
-        if (UniqueBraindanceManager.Get() is { RevealNextDive: true } ub)
+        if (!node.Training && UniqueBraindanceManager.Get() is { RevealNextDive: true } ub)
         {
             ub.RevealNextDive = false;
             foreach (DiveElement e in session.Elements)
@@ -260,6 +263,8 @@ public class DiveSession : IExposable
         }
         session.ActionsLeft = UnityEngine.Mathf.Max(1, session.ActionsPerTurn + session.ExtraActions(1));
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
+        if (session.Training)
+            session.AddLog("NR_DiveLogTraining".Translate().Colorize(NetrunUI.Accent));
         return session;
     }
 
@@ -576,6 +581,14 @@ public class DiveSession : IExposable
         {
             ShieldCharges--;
             AddLog("NR_DiveLogPatrolShield".Translate());
+            return;
+        }
+        if (Training)
+        {
+            // The simulator only shows the strike and calms the patrol down, so the lesson goes on.
+            NetrunSound.Play("Dive_ICE");
+            NodeAlert = 0;
+            AddLog("NR_DiveLogSimPatrol".Translate().Colorize(NetrunUI.Warn));
             return;
         }
         NetrunSound.Play("Dive_ICE");
@@ -905,7 +918,8 @@ public class DiveSession : IExposable
         if (Turn > MaxTurns)
         {
             AddLog("NR_DiveLogTimeout".Translate().Colorize(NetrunUI.Bad));
-            Runner?.health.AddHediff(HediffDefOf.Anesthetic);
+            if (!Training)
+                Runner?.health.AddHediff(HediffDefOf.Anesthetic);
             End(success: false, keepShare: 1f - RetreatLoss);
         }
         else if (iceNear)
@@ -934,7 +948,7 @@ public class DiveSession : IExposable
             }
         }
 
-        if (!HunterSpawned && Turn >= Settings.hunterFromTurn && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Target
+        if (!HunterSpawned && !Training && Turn >= Settings.hunterFromTurn && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Target
             && Rand.Chance(Settings.hunterChance * NetrunMod.Settings.CyberEventFrequency))
             SpawnHunter();
     }
@@ -960,6 +974,13 @@ public class DiveSession : IExposable
         {
             DecoyCharges--;
             AddLog("NR_DiveLogDecoy".Translate());
+            return;
+        }
+        if (Training)
+        {
+            IceHits++;
+            NetrunSound.Play("Dive_ICE");
+            AddLog("NR_DiveLogSimHit".Translate().Colorize(NetrunUI.Warn));
             return;
         }
 
@@ -1031,13 +1052,13 @@ public class DiveSession : IExposable
         if (defName == "USH_CyberspaceNausea" && DiveTraits.NauseaImmune(Runner))
             return;
         HediffDef def = DefDatabase<HediffDef>.GetNamedSilentFail(defName);
-        if (def != null && Runner != null && !Runner.Dead)
+        if (def != null && Runner != null && !Runner.Dead && !Training)
             Runner.health.AddHediff(def, Runner.health.hediffSet.GetBrain());
     }
 
     private void AddNetsick(float amount)
     {
-        if (Runner == null || Runner.Dead)
+        if (Runner == null || Runner.Dead || Training)
             return;
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
         Hediff netsick = Runner.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
@@ -1067,7 +1088,8 @@ public class DiveSession : IExposable
     public void Exit()
     {
         AddLog("NR_DiveLogExit".Translate());
-        RollSpecial();
+        if (!Training)
+            RollSpecial();
         End(success: true, keepShare: 1f);
     }
 
@@ -1088,6 +1110,11 @@ public class DiveSession : IExposable
     {
         Finished = true;
         NetrunSound.Play(sound ?? (success ? "Dive_Success" : "Dive_Fail"));
+        if (Training)
+        {
+            EndTraining(success, keepShare);
+            return;
+        }
         Map map = Runner?.MapHeld;
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
 
@@ -1178,6 +1205,17 @@ public class DiveSession : IExposable
                 ? "NR_DiveDone".Translate(Runner?.LabelShort ?? "?", Node.Name, LootText(), heat.ToString("0"))
                 : "NR_DiveFailed".Translate(Runner?.LabelShort ?? "?", Node.Name, heat.ToString("0")),
             success ? MessageTypeDefOf.PositiveEvent : MessageTypeDefOf.NegativeEvent, historical: true);
+    }
+
+    /// <summary>The simulation ends: nothing is delivered or added, the log says what a real dive would have brought.</summary>
+    private void EndTraining(bool success, float keepShare)
+    {
+        float heat = Trace * Node.HeatPerTrace;
+        int haul = Mathf.RoundToInt(LootCyberdata * keepShare);
+        AddLog((success ? "NR_DiveLogSimDone" : "NR_DiveLogSimFailed").Translate(haul, heat.ToString("0"), IceHits)
+            .Colorize(success ? NetrunUI.Ok : NetrunUI.Warn));
+        GatewayManager.Get()?.TrainingFinished();
+        Messages.Message((success ? "NR_TrainingDone" : "NR_TrainingFailed").Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
     }
 
     private DiveReport BuildReport(bool success, float keepShare, bool hunterFollowed)

@@ -444,12 +444,46 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         Session = null;
     }
 
-    /// <summary>A dive whose netrunner left the pod (or died) cannot go on.</summary>
+    // ---- Training dive (docs/TASKS.md, I1) ----
+
+    /// <summary>The offer was shown on the first visit to cyberspace (once per game).</summary>
+    public bool TrainingOffered;
+    /// <summary>A training dive was finished at least once.</summary>
+    public bool TrainingDone;
+
+    /// <summary>Who runs the simulation: a colonist with a cyberlink if there is one, otherwise anyone awake at home.</summary>
+    private static Pawn TrainingRunner(Map map)
+        => map?.mapPawns.FreeColonistsSpawned.Where(p => !p.Downed).OrderByDescending(p => p.IsHacker())
+            .ThenByDescending(p => p.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0).FirstOrDefault();
+
+    public AcceptanceReport CanTrain(Map map)
+    {
+        if (Session is { Finished: false })
+            return "NR_TrainingBusy".Translate();
+        return TrainingRunner(map) == null ? "NR_TrainingNoRunner".Translate() : true;
+    }
+
+    /// <summary>
+    /// A medium node in a simulator: one fork, a hidden passage to scan, ICE on the hard branch and a shield program.
+    /// Free, no pod; hits, Heat, Netsick and the haul are only shown in the log.
+    /// </summary>
+    public void StartTraining(Map map)
+    {
+        if (!CanTrain(map).Accepted)
+            return;
+        ClearFinished();
+        var node = new ExternalNode { Id = -1, Training = true, Type = ExternalNodeType.Archive, Defense = 3 };
+        Session = DiveSession.Start(node, TrainingRunner(map), [DiveProgram.Shield], 0, []);
+    }
+
+    public void TrainingFinished() => TrainingDone = true;
+
+    /// <summary>A dive whose netrunner left the pod (or died) cannot go on; the training only needs a living runner.</summary>
     public void ValidateSession()
     {
         if (Session == null || Session.Finished)
             return;
-        if (Session.Runner == null || Session.Runner.Dead || !Session.Runner.TryGetHoldingCyberpod(out _))
+        if (Session.Runner == null || Session.Runner.Dead || (!Session.Training && !Session.Runner.TryGetHoldingCyberpod(out _)))
         {
             Messages.Message("NR_DiveAborted".Translate(), MessageTypeDefOf.NegativeEvent, historical: false);
             Session = null;
@@ -485,6 +519,11 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         Scribe_Values.Look(ref _alliesReadyTick, "alliesReadyTick");
         Scribe_Values.Look(ref _nextBossTick, "nextBossTick", -1);
         Scribe_Values.Look(ref _stormUntilTick, "stormUntilTick", -1);
+        Scribe_Values.Look(ref TrainingOffered, "trainingOffered");
+        Scribe_Values.Look(ref TrainingDone, "trainingDone");
+        // A save that already has real dives: no first-visit offer (the button in the panel stays).
+        if (Scribe.mode == LoadSaveMode.PostLoadInit && (LastReport != null || Reports?.Count > 0))
+            TrainingOffered = true;
         ExposeHeadlines();
         Daemons ??= [];
         _nodes ??= [];
