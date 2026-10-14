@@ -2,7 +2,8 @@
 <Defs>
 
   <!-- The ending, "The Transition" (docs/CONCEPT.md, section 19). Vanilla techprints: five of them, found only in the corporate
-       labs (commonality 0: no trader sells them, no quest or map generation hands them out; no heldByFactionCategoryTags).
+       labs (commonality 0: no trader sells them, no quest or map generation hands them out). The game requires heldByFactionCategoryTags with techprints, so it names a tag
+       no faction category has: no faction ever holds them.
        The label and text follow the story (TransitionManager.ApplyResearchText): "???" before the insider, vague until all
        five are found. Without a techprint item in the game the research is gated by our own counter (Patch_Research_TransitionLock). -->
   <ResearchProjectDef ParentName="NR_ResearchBase">
@@ -14,6 +15,9 @@
     <techprintCount>5</techprintCount>
     <techprintCommonality>0</techprintCommonality>
     <techprintMarketValue>1500</techprintMarketValue>
+    <heldByFactionCategoryTags>
+      <li>NR_NoFaction</li>
+    </heldByFactionCategoryTags>
     <prerequisites>
       <li>NR_Res_AIArchitecture</li>
     </prerequisites>

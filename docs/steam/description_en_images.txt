@@ -1,14 +1,14 @@
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_banner.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_banner.png[/img]
 
 [quote][i]"The net remembers your trace. Data is currency, but the netrunner pays in body and mind."[/i][/quote]
 
 [b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. Deep in a cyberpod your netrunner walks a living map of cyberspace, and the net always answers.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_heat.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_heat.png[/img]
 
 Every intrusion raises the colony's [b]Heat[/b]: five levels from [b]Shadow[/b] to the [b]Red Zone[/b]. The hotter the trace, the harsher the answer: neural noise, data theft, machine sabotage, power surges, ransomware and raids by the hidden [b]Black Ledger[/b] mercenaries. Lay low, scrub the trace through a fixer, or burn bright and pay for it.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_terminal.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_terminal.png[/img]
 
 The comms console becomes a [b]network console[/b]: a neon terminal with its own navigation screen of sections.
 [list]
@@ -22,7 +22,7 @@ The comms console becomes a [b]network console[/b]: a neon terminal with its own
 [/list]
 A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jobs, time), search, routes and a watchlist. The [b]Cyberpedia[/b] explains everything with live examples, and a Guide mode outlines every part of the screen. Five sound packs, scaling and accent colours.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_cyberspace.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_cyberspace.png[/img]
 
 One map per game: about 45 hubs in districts that you chart as you go. Corporate towers, markets, ruins, the campus, the hidden darknet and the [b]Old Net[/b] behind a wall. Runners in cyberpods walk its links in game time, up to three at once. Outages, jams, storms and new tenants: the net lives day by day. A free [b]training dive[/b] walks a newcomer through the dive screen.
 [list]
@@ -34,11 +34,11 @@ One map per game: about 45 hubs in districts that you chart as you go. Corporate
 [*][b]Corporate cores[/b]: boss nodes with the best loot in the net
 [/list]
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_fixers.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_fixers.png[/img]
 
 A rotating roster of underworld [b]fixers[/b]: brokers, cleaners, fences and imperial clients (Royalty). Each hides a trait: reliable, greedy, paranoid, a collector... or a [b]rat[/b] who will sell you out. Build reputation, pin the ones you trust and take [b]8 kinds of contracts[/b]: data deliveries, system taps, quiet runs, surveillance, clean braindance labs and more.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_corps.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_corps.png[/img]
 
 [list]
 [*][b]3 to 4 corporations[/b] own the corporate districts. Each has [b]Alert[/b] and [b]Strength[/b]: they harden their nodes, send patrols, launch intrusions along the map, capture territory and can [b]collapse[/b].
@@ -46,7 +46,7 @@ A rotating roster of underworld [b]fixers[/b]: brokers, cleaners, fences and imp
 [*][b]The top-100 of the net[/b]: fame for every dive. The best get paid more, and watched more closely.
 [/list]
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_ais.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_ais.png[/img]
 
 Salvage AI fragments from the net and wake them up. [b]13 personalities[/b], from Ghost, Data Hunter and Muse to Predator, Oracle, Trickster, Seed and Echo, each with its own service, hunger, trust and traits.
 [list]
@@ -56,19 +56,19 @@ Salvage AI fragments from the net and wake them up. [b]13 personalities[/b], fro
 [*]A colonist with a cyberlink who dies may leave an [b]Echo[/b]...
 [/list]
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_braindance.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_braindance.png[/img]
 
 [b]Braindance goggles[/b] capture your colonists' strongest moments. Edit raw recordings into chips at the console, from normal to masterwork, or forbidden [b]black chips[/b]. Edit a whole pile in one click, if you dare the glitch. Sell them, watch them, get hooked. Hunt down [b]8 unique recordings[/b] hidden across the net.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_defense.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_defense.png[/img]
 
 Wall-mounted [b]firewalls[/b], your own [b]ICE tiers[/b] up to black ICE, a [b]honeypot[/b] that traces attackers back, netrunners on watch duty, full network isolation, and intercepting an incoming intrusion with a dive.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_transition.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_transition.png[/img]
 
 A late-game ending for colonies that live in the net. It starts with a rumour in the news feed and a stranger in the Club who used to work in a corporate black lab. What they built there, nobody outside knows. Raid the labs, piece the prototypes together, and decide who is ready to leave the flesh behind.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_colonists.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_colonists.png[/img]
 
 [list]
 [*][b]Netsick[/b]: pod addiction, cravings and reckless emotional dives (sometimes legendary); the pod tells how long a stay is still safe
@@ -81,7 +81,7 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_requirements.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_requirements.png[/img]
 
 [list]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077]Harmony[/url]
@@ -92,7 +92,7 @@ Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing 
 Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.0/docs/steam/img/en_credits.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_credits.png[/img]
 
 Author: [b]Raul Moreau[/b]
 Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank you!

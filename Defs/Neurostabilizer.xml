@@ -5,9 +5,6 @@
 
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_Neurostabilizer</defName>
-    <thingCategories>
-      <li>Drugs</li>
-    </thingCategories>
     <label>neurostabilizer</label>
     <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, and for two days the user does not feel cut off and does not break for a pod.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
     <descriptionHyperlinks>

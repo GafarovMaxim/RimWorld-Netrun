@@ -4,6 +4,10 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-10-15
+### Fixed
+- Config errors on load: the Transition research now names a faction tag that no faction has (the game wants one with techprints); the neurostabilizer no longer lists the Drugs category twice.
+
 ## [0.6.0] - 2026-10-15
 ### Added
 - Cyberspace map: one living map per game with about 45 hubs in districts charted by visits, the Old Net behind a wall, links walked in game time, sessions and exits, map events, Odyssey orbital hubs.
