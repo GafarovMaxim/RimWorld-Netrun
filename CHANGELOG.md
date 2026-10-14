@@ -7,6 +7,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ## [0.6.4] - 2026-10-15
 ### Changed
 - Netsick grows about half as fast: a day in the net or a pod 0.10, a dive 0.02, an ICE hit 0.03. A runner can stay in cyberspace for about three days before the strong stage.
+- Netsick fades faster offline: 0.06 a day (was 0.04), twice that with live leisure, so withdrawal after a long run lasts about 2 to 4 days.
 - Map panel: the hub's facts (owner, exit, fortress, states with their timer, route) and the "Next 3 days" list are coloured rows with the time on the right; the hub's nodes are listed with their type icons.
 - Important nodes on the map (contract target, key, black lab, corporate core, Old Net) pulse with a soft ring in their colour.
 - The braindance batch button reads "Edit all: N".

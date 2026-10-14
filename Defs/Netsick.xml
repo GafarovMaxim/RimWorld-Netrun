@@ -12,7 +12,7 @@
     <remoteHackGain>0.05</remoteHackGain>
 
     <!-- Recovery per day while disconnected -->
-    <decayPerDay>0.04</decayPerDay>
+    <decayPerDay>0.06</decayPerDay>
 
     <!-- "A living day off": recovery is this many times faster while the pawn enjoys live leisure of these kinds
          (talking, walks and meditation, games, the telescope, art). Screens and drugs do not count. -->
