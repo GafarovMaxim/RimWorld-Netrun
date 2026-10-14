@@ -182,6 +182,43 @@ public class NetsickManager : GameComponent
         }
     }
 
+    /// <summary>The severity where Netsick starts to hurt: the first stage with capacity losses or breaks.</summary>
+    public static float StrongSeverity
+    {
+        get
+        {
+            if (_strong < 0f)
+            {
+                HediffStage stage = NetrunDefOf.NR_Netsick?.stages?.FirstOrDefault(s => !s.capMods.NullOrEmpty() || !s.mentalStateGivers.NullOrEmpty());
+                _strong = stage?.minSeverity ?? 0.6f;
+            }
+            return _strong;
+        }
+    }
+    private static float _strong = -1f;
+
+    /// <summary>
+    /// Hours a pawn in a pod can stay before Netsick turns strong at the current rate (0 when it already is).
+    /// </summary>
+    public static float SafeHoursInPod(Pawn pawn, Building_Cyberpod pod)
+    {
+        float severity = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)?.Severity ?? 0f;
+        float perDay = (NetMapManager.Get()?.InSession(pawn) == true ? NetrunDefOf.NR_CyberMap.sessionGainPerDay : Settings.podGainPerDay)
+                       * PodFactor(pod) * NetrunTraits.GainFactor(pawn);
+        if (severity >= StrongSeverity)
+            return 0f;
+        return perDay <= 0f ? float.PositiveInfinity : (StrongSeverity - severity) / perDay * 24f;
+    }
+
+    /// <summary>"Safe for ~N h" or "time to wake up" for a pawn in a pod.</summary>
+    public static string SafeTimeText(Pawn pawn, Building_Cyberpod pod)
+    {
+        float hours = SafeHoursInPod(pawn, pod);
+        if (hours <= 0f)
+            return "NR_PodSafeOver".Translate();
+        return float.IsInfinity(hours) ? "NR_PodSafeAlways".Translate() : "NR_PodSafeTime".Translate(hours < 10f ? hours.ToString("0.#") : hours.ToString("0"));
+    }
+
     private static float PodFactor(Building_Cyberpod pod)
         => CyberpodUtility.NetsickFactor(CyberpodUtility.CoprocessorAI(pod));
 

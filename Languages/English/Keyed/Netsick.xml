@@ -16,4 +16,8 @@
   <NR_PodNeedFood>{0} is getting hungry in the cyberpod. Wake them to eat before hunger turns into malnutrition.</NR_PodNeedFood>
   <NR_PodNeedRest>{0} is getting tired in the cyberpod. Wake them to sleep, or exhaustion will knock them out.</NR_PodNeedRest>
 
+  <NR_PodSafeTime>Safe in the pod: about {0} h more, then Netsick turns strong.</NR_PodSafeTime>
+  <NR_PodSafeOver>Netsick is strong: time to leave the pod.</NR_PodSafeOver>
+  <NR_PodSafeAlways>Netsick does not grow in this pod.</NR_PodSafeAlways>
+
 </LanguageData>

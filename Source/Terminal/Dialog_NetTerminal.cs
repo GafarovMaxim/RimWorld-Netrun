@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using UnityEngine;
+using USH_HE;
 using Verse;
 using Verse.Sound;
 
@@ -767,7 +768,8 @@ public partial class Dialog_NetTerminal : Window
         {
             string sickTip = "NR_HeatScreenNetsickTip".Translate();
             if (sick.Count > 0)
-                sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()));
+                sickTip += "\n\n" + string.Join("\n", sick.Select(p => p.LabelShort + ": " + p.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick).Severity.ToStringPercent()
+                    + (p.TryGetHoldingCyberpod(out Building_Cyberpod pod) ? " · " + NetsickManager.SafeTimeText(p, pod) : string.Empty)));
             NetrunUI.Tip(sickSeg, sickTip);
         }
 
