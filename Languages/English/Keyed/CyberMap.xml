@@ -199,4 +199,5 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_MapHubNodes>Nodes</NR_MapHubNodes>
   <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
   <NR_MapNetsickChipTip>The worst net sickness among your colonists, runners in pods included. It grows with time in the net and fades offline; past "strong" a long dive is a risk.</NR_MapNetsickChipTip>
+  <NR_MapHubOffline>This hub is offline: no way in until it comes back (an orbit uplink opens only while your colony is in orbit).</NR_MapHubOffline>
 </LanguageData>

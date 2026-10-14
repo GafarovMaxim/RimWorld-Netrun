@@ -199,4 +199,5 @@
   <NR_MapHubNodes>Ноды</NR_MapHubNodes>
   <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
   <NR_MapNetsickChipTip>Самая тяжёлая сетевая болезнь среди колонистов, включая раннеров в капсулах. Растёт от времени в сети и проходит офлайн; после стадии «сильная» долгий нырок опасен.</NR_MapNetsickChipTip>
+  <NR_MapHubOffline>Узел отключён: войти нельзя, пока он не вернётся (орбитальный узел открыт, только пока колония на орбите).</NR_MapHubOffline>
 </LanguageData>

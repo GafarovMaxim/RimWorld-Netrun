@@ -69,6 +69,15 @@ public static class NetrunTint
         }
         if (Event.current == null || Event.current.type != EventType.Repaint)
             return src;
+        // A few new copies per frame at most: a scheme change no longer stalls one frame for every icon at once.
+        if (Time.frameCount != _budgetFrame)
+        {
+            _budgetFrame = Time.frameCount;
+            _budgetLeft = MakesPerFrame;
+        }
+        if (_budgetLeft <= 0)
+            return src;
+        _budgetLeft--;
         try
         {
             tinted = Make(src, accent);
@@ -82,7 +91,59 @@ public static class NetrunTint
         return tinted;
     }
 
+    private const int MakesPerFrame = 4;
+    private static int _budgetFrame = -1, _budgetLeft;
+
+    // Our PNG files by texture name, to read the pixels from disk (null until first used).
+    private static Dictionary<string, string> _files;
+
+    private static string FileOf(string name)
+    {
+        if (_files == null)
+        {
+            _files = [];
+            try
+            {
+                string root = System.IO.Path.Combine(LoadedModManager.GetMod<NetrunMod>().Content.RootDir, "Textures");
+                foreach (string f in System.IO.Directory.GetFiles(root, "*.png", System.IO.SearchOption.AllDirectories))
+                {
+                    string key = System.IO.Path.GetFileNameWithoutExtension(f);
+                    if (!_files.ContainsKey(key))
+                        _files[key] = f;
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.WarningOnce("[Netrun] could not index the icon files: " + e.Message, 0x4E520077);
+            }
+        }
+        return _files.TryGetValue(name, out string path) ? path : null;
+    }
+
+    /// <summary>
+    /// The icon's pixels: decoded from our PNG on the CPU (RimWorld 1.7 runs on a new renderer, where reading a texture
+    /// back from the GPU stalls and the icons came late or not at all), or read back from the GPU when there is no file.
+    /// </summary>
+    private static Texture2D Pixels(Texture2D src)
+    {
+        string path = FileOf(src.name);
+        if (path != null)
+        {
+            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, true) { name = src.name + "#tint" };
+            if (tex.LoadImage(System.IO.File.ReadAllBytes(path)) && tex.width == src.width && tex.height == src.height)
+                return tex;
+            Object.Destroy(tex);
+        }
+        return ReadBack(src);
+    }
+
     private static Texture2D Make(Texture2D src, Color accent)
+    {
+        Texture2D tex = Pixels(src);
+        return Recolor(tex, src, accent);
+    }
+
+    private static Texture2D ReadBack(Texture2D src)
     {
         // Mod textures are not readable: copy through a render texture.
         RenderTexture rt = RenderTexture.GetTemporary(src.width, src.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
@@ -93,6 +154,11 @@ public static class NetrunTint
         tex.ReadPixels(new Rect(0f, 0f, src.width, src.height), 0, 0);
         RenderTexture.active = prev;
         RenderTexture.ReleaseTemporary(rt);
+        return tex;
+    }
+
+    private static Texture2D Recolor(Texture2D tex, Texture2D src, Color accent)
+    {
 
         Color32[] px = tex.GetPixels32();
         for (int i = 0; i < px.Length; i++)

@@ -990,7 +990,7 @@ public static partial class GatewayView
             if (pawn != null)
             {
                 if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapJump".Translate(pawn.LabelShort, NetMapManager.Settings.jumpCost), NetrunUI.Ok,
-                        net.CanConnect(pawn), "NR_MapJumpTip".Translate()))
+                        node.Offline ? (AcceptanceReport)"NR_MapHubOffline".Translate() : net.CanConnect(pawn), "NR_MapJumpTip".Translate()))
                 {
                     net.Connect(pawn, node.Id, colonyMap);
                     _selectedRunner = net.Runners.Count - 1;

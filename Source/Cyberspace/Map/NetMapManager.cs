@@ -261,6 +261,12 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     {
         if (!CanConnect(pawn).Accepted)
             return null;
+        // No jump into an offline hub (an orbit uplink while no colony is in orbit, Maxim 2026-10-14).
+        if (Map.Node(startNode)?.Offline == true)
+        {
+            Messages.Message("NR_MapHubOffline".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            return null;
+        }
         if (startNode != Map.HomeId)
         {
             if (!ColonyGoods.TryTake(colonyMap, NetrunDefOf.USH_Cyberdata, Settings.jumpCost))
