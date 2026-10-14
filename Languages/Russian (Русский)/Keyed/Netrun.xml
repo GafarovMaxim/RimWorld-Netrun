@@ -195,7 +195,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
   <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
   <NR_DiagnosticsButton>Скопировать диагностику</NR_DiagnosticsButton>
-  <NR_DiagnosticsTip>Версии, DLC, моды, изменённые настройки, состояние сети и последние ошибки Netrun копируются в буфер. Без личных данных. Вставьте это в сообщение о баге.</NR_DiagnosticsTip>
+  <NR_DiagnosticsTip>Ошибки и предупреждения Netrun и Hacking Expansion из лога игры, затем версии, DLC, состояние сети, изменённые настройки и список модов копируются в буфер. Без личных данных. Вставьте это в сообщение о баге.</NR_DiagnosticsTip>
   <NR_DiagnosticsCopied>Диагностика скопирована в буфер.</NR_DiagnosticsCopied>
   <NR_HelpFixerTraitLabel>Черта</NR_HelpFixerTraitLabel>
   <NR_HelpFixerPinLabel>Закрепление</NR_HelpFixerPinLabel>

@@ -24,7 +24,8 @@ public class Dialog_AIServer : Window
         absorbInputAroundWindow = false;
         closeOnClickedOutside = true;
         preventCameraMotion = false;
-        draggable = true;
+        // Moved only by the casing, like the terminal.
+        draggable = false;
         resizeable = true;
     }
 
@@ -57,6 +58,7 @@ public class Dialog_AIServer : Window
             NetrunSound.Ambient("Ambient_Cyberspace");
             Rect screen = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (HeatTracker.Get()?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen,
                 key => { if (key == NetrunUI.KeyClose) Close(); }, menu: false);
+            NetrunUI.DragByCasing(inRect, screen);
             Widgets.DrawBoxSolid(screen, NetrunUI.BgWindow);
             var title = new Rect(screen.x, screen.y, screen.width, 44f);
             Text.Font = GameFont.Medium;

@@ -21,4 +21,10 @@
   <NR_CounterHackWonLabel>Turrets back</NR_CounterHackWonLabel>
   <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
   <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
+  <NR_CourierOfferLabel>Courier needs shelter</NR_CourierOfferLabel>
+  <NR_CourierOfferText>A fixer asks you to shelter a data courier for a day. The courier carries hot data, and mercenaries will follow {1}-{2} hours after the courier arrives.\n\nKeep the courier alive and the fixer pays {0} silver and remembers it. Refuse and the courier goes to someone else; nothing is lost.</NR_CourierOfferText>
+  <NR_CourierAccept>Take the courier in</NR_CourierAccept>
+  <NR_CourierDecline>Refuse</NR_CourierDecline>
+  <NR_CourierDeclined>The courier has gone to another colony.</NR_CourierDeclined>
+  <NR_CourierNoWay>The courier could not find a way to your colony.</NR_CourierNoWay>
 </LanguageData>

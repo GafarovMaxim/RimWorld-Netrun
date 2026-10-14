@@ -19,6 +19,10 @@
     <RIMWORLD_DIR Condition="'$(RIMWORLD_DIR)' == ''">E:\SteamLibrary\steamapps\common\RimWorld</RIMWORLD_DIR>
     <WORKSHOP_DIR>$(RIMWORLD_DIR)\..\..\workshop\content\294100</WORKSHOP_DIR>
     <LocalGame Condition="Exists('$(RIMWORLD_DIR)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll')">true</LocalGame>
+    <!-- RimWorld 1.7 runs on .NET 10 with a Unity compatibility layer and has no RimWorldWin64_Data\Managed: we keep
+         compiling against the 1.6 reference packages (net48), which 1.7 loads, and take Hacking Expansion from Steam when it is there. -->
+    <HE_DLL>lib\HackingExpansion.dll</HE_DLL>
+    <HE_DLL Condition="Exists('$(WORKSHOP_DIR)\3573344880\1.6\Assemblies\HackingExpansion.dll')">$(WORKSHOP_DIR)\3573344880\1.6\Assemblies\HackingExpansion.dll</HE_DLL>
   </PropertyGroup>
 
   <!-- Local build: the installed game, Harmony and Hacking Expansion from Steam. -->
@@ -58,7 +62,7 @@
     <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4871" ExcludeAssets="runtime" PrivateAssets="all" />
     <PackageReference Include="Lib.Harmony" Version="2.4.2" ExcludeAssets="runtime" PrivateAssets="all" />
     <Reference Include="HackingExpansion">
-      <HintPath>lib\HackingExpansion.dll</HintPath>
+      <HintPath>$(HE_DLL)</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

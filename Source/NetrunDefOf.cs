@@ -17,6 +17,7 @@ public static class NetrunDefOf
     public static CyberMapSettingsDef NR_CyberMap;
     public static CorpSettingsDef NR_Corporations;
     public static LetterDef NR_ChoiceLetter;
+    public static LetterDef NR_CourierOffer;
     public static QuestScriptDef NR_AIQuest;
     public static RankingSettingsDef NR_Ranking;
     public static IncidentDef NR_CrewRaid;

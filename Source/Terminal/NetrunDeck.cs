@@ -152,6 +152,20 @@ public static partial class NetrunUI
         return screen;
     }
 
+    /// <summary>
+    /// Lets the window be moved only by the casing's top and side parts (Maxim, 2026-10-14): a drag on the screen
+    /// (the cyberspace map, lists) no longer drags the whole window. Call after <see cref="DeckBezel"/>, so its keys
+    /// take their clicks first, and keep the window's own <c>draggable</c> off.
+    /// </summary>
+    public static void DragByCasing(Rect outer, Rect screen)
+    {
+        if (Event.current.type != EventType.MouseDown && Event.current.type != EventType.MouseDrag && Event.current.type != EventType.MouseUp)
+            return;
+        GUI.DragWindow(new Rect(outer.x, outer.y, outer.width, screen.y - outer.y));
+        GUI.DragWindow(new Rect(outer.x, screen.y, screen.x - outer.x, screen.height));
+        GUI.DragWindow(new Rect(screen.xMax, screen.y, outer.xMax - screen.xMax, screen.height));
+    }
+
     private static readonly float[] SeamOffsets = [6f, -6f];
 
     private static void DrawCasing(Rect outer, Rect body, Rect screen)

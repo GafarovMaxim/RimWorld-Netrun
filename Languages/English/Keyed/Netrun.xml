@@ -195,7 +195,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpLoadoutFull>All slots are taken.</NR_HelpLoadoutFull>
   <NR_HelpLoadoutDaemon>Daemon: one per dive, free</NR_HelpLoadoutDaemon>
   <NR_DiagnosticsButton>Copy diagnostics</NR_DiagnosticsButton>
-  <NR_DiagnosticsTip>Versions, DLC, mods, changed settings, the state of the net and the last Netrun errors, copied to the clipboard. No personal data. Paste it into your bug report.</NR_DiagnosticsTip>
+  <NR_DiagnosticsTip>The errors and warnings of Netrun and Hacking Expansion from the game log, then versions, DLC, the state of the net, changed settings and the mod list, copied to the clipboard. No personal data. Paste it into your bug report.</NR_DiagnosticsTip>
   <NR_DiagnosticsCopied>Diagnostics copied to the clipboard.</NR_DiagnosticsCopied>
   <NR_HelpFixerTraitLabel>Trait</NR_HelpFixerTraitLabel>
   <NR_HelpFixerPinLabel>Pinning</NR_HelpFixerPinLabel>

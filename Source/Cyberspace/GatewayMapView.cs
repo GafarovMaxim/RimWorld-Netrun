@@ -787,7 +787,17 @@ public static partial class GatewayView
         // Connect straight at an exit point (a jump for a little cyberdata).
         if (node.Exit && node.District != District.Home)
         {
-            foreach ((Pawn pawn, Building_Cyberpod _) in podPawns.Where(p => net.RunnerOf(p.pawn) == null).Take(1).ToList())
+            // The first pod pawn not already in the net (a plain loop: this runs on every GUI event).
+            Pawn pawn = null;
+            foreach ((Pawn p, Building_Cyberpod _) in podPawns)
+            {
+                if (net.RunnerOf(p) == null)
+                {
+                    pawn = p;
+                    break;
+                }
+            }
+            if (pawn != null)
             {
                 if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapJump".Translate(pawn.LabelShort, NetMapManager.Settings.jumpCost), NetrunUI.Ok,
                         net.CanConnect(pawn), "NR_MapJumpTip".Translate()))

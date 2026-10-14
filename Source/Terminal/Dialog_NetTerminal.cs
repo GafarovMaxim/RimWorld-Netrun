@@ -71,7 +71,8 @@ public partial class Dialog_NetTerminal : Window
         _view = wanted == View.Map || NetworkGate.Get()?.IsUnlocked(wanted.ToString()) == true ? wanted : View.Map;
         doCloseX = false;
         doCloseButton = false;
-        draggable = true;
+        // Moved only by the casing (NetrunUI.DragByCasing), not by a drag on the map.
+        draggable = false;
         resizeable = true;
         // Paused once on opening (PreOpen); the player may unpause and change speed while it is open.
         forcePause = false;
@@ -143,6 +144,7 @@ public partial class Dialog_NetTerminal : Window
         // The rugged cyberdeck casing outside, the interface on its screen. Its hardware keys: back (out of the
         // menu, the Cyberpedia or a node), home, the Cyberpedia; on top close, the menu and the achievements.
         HeatTracker heat = HeatTracker.Get();
+        Rect outer = inRect;
         inRect = NetrunUI.DeckBezel(inRect, "NR_DeckPlate".Translate(), (heat?.Heat ?? 0f) / HeatTracker.MaxHeat, NetworkGate.IsOpen, key =>
         {
             switch (key)
@@ -178,6 +180,7 @@ public partial class Dialog_NetTerminal : Window
                     break;
             }
         });
+        NetrunUI.DragByCasing(outer, inRect);
         _guideScreen = inRect;
         GuideInput();
         GuideRegistry.Begin(_guide);

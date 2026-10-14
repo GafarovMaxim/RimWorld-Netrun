@@ -27,8 +27,14 @@ public class NetworkGate : GameComponent
 {
     private const int CheckInterval = 2000;
 
-    /// <summary>Incidents that do not depend on Heat or contacts and may come at any time.</summary>
-    private static readonly HashSet<string> AlwaysAllowed = ["NR_BlackMarket", "NR_DistressSignal"];
+    /// <summary>Incidents that may come at any time: the abandoned AI can be looted, kept or sold before the net is known.</summary>
+    private static readonly HashSet<string> AlwaysAllowed = ["NR_DistressSignal"];
+
+    /// <summary>
+    /// Map events sent as letters wait until the player has opened cyberspace (the Core's onboarding is done), so a
+    /// black market or a courier does not arrive before the colony has met the net (Maxim, 2026-10-14).
+    /// </summary>
+    private static readonly HashSet<string> AfterOnboarding = ["NR_BlackMarket", "NR_DataCourier", "NR_CorpHunt", "NR_MapHack"];
 
     private static readonly string[] NetBuildings = ["USH_Cyberpod", "USH_DataServer", "NR_AIServer", "NR_AIServerRack", "NR_NetrunCoprocessor"];
 
@@ -47,7 +53,14 @@ public class NetworkGate : GameComponent
     public static bool IsOpen => !NetrunMod.Settings.NewcomerProtection || Get()?._opened != false;
 
     public static bool Allows(IncidentDef def)
-        => def == null || !def.defName.StartsWith("NR_") || AlwaysAllowed.Contains(def.defName) || IsOpen;
+    {
+        if (def == null || !def.defName.StartsWith("NR_") || AlwaysAllowed.Contains(def.defName) || !NetrunMod.Settings.NewcomerProtection)
+            return true;
+        NetworkGate gate = Get();
+        if (gate == null)
+            return true;
+        return AfterOnboarding.Contains(def.defName) ? gate._onboardingDone : gate._opened;
+    }
 
     public void Open()
     {

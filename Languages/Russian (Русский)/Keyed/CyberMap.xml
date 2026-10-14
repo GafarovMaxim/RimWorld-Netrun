@@ -60,7 +60,7 @@
   <NR_MapEmergencyTip>Отключиться сразу, где угодно: Netsick +{0}, киберпространственная тошнота, шанс блокировки {1}. Эгида или ИИ Страж вдвое снижают.</NR_MapEmergencyTip>
   <NR_MapEmergencyConfirm>Выдернуть {0} из сети прямо сейчас? Это больно.</NR_MapEmergencyConfirm>
   <NR_MapEmergency>{0} вырвался из сети.</NR_MapEmergency>
-  <NR_MapJump>Подключить {0} здесь ({1} cyberdata)</NR_MapJump>
+  <NR_MapJump>Подключить {0} · {1} cyberdata</NR_MapJump>
   <NR_MapJumpTip>Подключиться сразу в этой точке выхода, а не в Доме.</NR_MapJumpTip>
   <NR_MapArrived>{0} на месте: {1}.</NR_MapArrived>
   <NR_MapRouteLost>{0} потерял путь: маршрут оборвался.</NR_MapRouteLost>

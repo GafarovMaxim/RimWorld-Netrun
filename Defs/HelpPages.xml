@@ -695,7 +695,7 @@
     <order>80</order>
     <color>#e08a4f</color>
     <label>Settings and bug reports</label>
-    <body>## Bug reports\nPress the button and paste what it copies into your bug report: versions, DLC, mods, changed settings and the last Netrun errors. No personal data.\n[[diagnostics]]\nOptions → Mod settings → Hacking Expansion: Netrun.\n- !Dive_Heat Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Tabs/Tab_Events_Blue Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nFound a bug? "Copy info for a bug report" puts versions and your mod list into the clipboard: paste it into the bug report on GitHub with your Player.log.</body>
+    <body>## Bug reports\nPress the button and paste what it copies into your bug report. First come the errors and warnings of Netrun and Hacking Expansion from this game session (this is what finds the bug), then versions, the state of the net and changed settings, and last the mod list, to spot conflicts. No personal data.\n[[diagnostics]]\nOptions → Mod settings → Hacking Expansion: Netrun.\n- !Dive_Heat Heat difficulty (Easy, Normal, Hard) and fine sliders.\n- !Tabs/Tab_Events_Blue Frequency of each event group, from off to x2.\n- !Icon_Lock Newcomer protection, the dive summary, pause on open, animations.\nIf the bug is heavy (the game crashes or hangs), attach the full Player.log to the GitHub report as well.</body>
     <icon>Tabs/Tab_Settings</icon>
     <keywords>
       <li>mod settings</li>

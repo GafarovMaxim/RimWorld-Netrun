@@ -60,7 +60,7 @@
   <NR_MapEmergencyTip>Disconnect right now, anywhere: Netsick +{0}, cyberspace nausea, {1} chance of a lockout. Aegis or a Warden AI halve it.</NR_MapEmergencyTip>
   <NR_MapEmergencyConfirm>Pull {0} out of the net right now? It hurts.</NR_MapEmergencyConfirm>
   <NR_MapEmergency>{0} tore out of the net.</NR_MapEmergency>
-  <NR_MapJump>Connect {0} here ({1} cyberdata)</NR_MapJump>
+  <NR_MapJump>Connect {0} · {1} cyberdata</NR_MapJump>
   <NR_MapJumpTip>Connect straight at this exit point instead of Home.</NR_MapJumpTip>
   <NR_MapArrived>{0} reached {1}.</NR_MapArrived>
   <NR_MapRouteLost>{0} lost the way: the route broke.</NR_MapRouteLost>

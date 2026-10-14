@@ -262,7 +262,7 @@ public static partial class GatewayView
         int count = gateway?.Reports.Count ?? 0;
         GuideRegistry.Area("gateway.reports", rect.ExpandedBy(4f));
         bool clicked = NetrunUI.Button(rect, label, NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(),
-            "NR_GatewayReportsTip".Translate(count), NetrunTex.DiveReport);
+            "NR_GatewayReportsTip".Translate(count));
         if (!clicked || gateway == null)
             return;
         Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenArchive(ArchiveTab.Tab.Reports);
@@ -788,7 +788,7 @@ public static partial class GatewayView
             int count = GatewayManager.Get()?.Reports.Count ?? 0;
             var rr = new Rect(inner.x, y, w, 30f);
             if (NetrunUI.Button(rr, "NR_GatewayReports".Translate(count), NetrunUI.Accent, count > 0 ? true : (AcceptanceReport)"NR_GatewayNoReports".Translate(),
-                    "NR_GatewayReportsTip".Translate(count), NetrunTex.DiveReport))
+                    "NR_GatewayReportsTip".Translate(count)))
                 Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenArchive(ArchiveTab.Tab.Reports);
             GuideRegistry.InScroll("gateway.reports", outer, _panelScroll, rr);
         }

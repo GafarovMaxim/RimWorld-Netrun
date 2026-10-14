@@ -21,4 +21,10 @@
   <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
   <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
   <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>
+  <NR_CourierOfferLabel>Курьеру нужно укрытие</NR_CourierOfferLabel>
+  <NR_CourierOfferText>Фиксер просит укрыть курьера с данными на сутки. Курьер везёт горячие данные, и через {1}–{2} ч после его прихода за ними явятся наёмники.\n\nСбережёте курьера, и фиксер заплатит {0} серебра и запомнит это. Откажетесь, и курьер пойдёт к другим; вы ничего не теряете.</NR_CourierOfferText>
+  <NR_CourierAccept>Принять курьера</NR_CourierAccept>
+  <NR_CourierDecline>Отказать</NR_CourierDecline>
+  <NR_CourierDeclined>Курьер ушёл в другую колонию.</NR_CourierDeclined>
+  <NR_CourierNoWay>Курьер не нашёл пути к вашей колонии.</NR_CourierNoWay>
 </LanguageData>

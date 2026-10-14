@@ -20,6 +20,8 @@ public class MapEventsSettingsDef : Def
     public float courierReputation = 10f;
     public float courierFailHeat = 10f;
     public float courierFailReputation = 5f;
+    /// <summary>How long the fixer's request waits in the letter before the courier goes elsewhere.</summary>
+    public float courierOfferHours = 12f;
 
     public float blackMarketDays = 2f;
     public float blackMarketReputation = 30f;
@@ -52,6 +54,8 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
     private Pawn _courier;
     private int _courierUntilTick = -1;
+    private int _huntersTick = -1;
+    private Map _huntersMap;
     private int _blackMarketUntilTick = -1;
     public bool BlackMarketCore;
     private List<Thing> _hijacked = [];
@@ -66,10 +70,29 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
     // ---- Courier ----
 
-    public void StartCourier(Pawn courier)
+    public void StartCourier(Pawn courier, int huntersInTicks)
     {
         _courier = courier;
         _courierUntilTick = Find.TickManager.TicksGame + (int)(Settings.courierDays * GenDate.TicksPerDay);
+        _huntersTick = Find.TickManager.TicksGame + huntersInTicks;
+        _huntersMap = courier.Map;
+    }
+
+    /// <summary>The mercenaries after the courier's data: fired directly when their time comes.</summary>
+    private void CheckHunters()
+    {
+        if (_huntersTick < 0 || Find.TickManager.TicksGame < _huntersTick)
+            return;
+        _huntersTick = -1;
+        Map map = _huntersMap != null && Find.Maps.Contains(_huntersMap) ? _huntersMap : _courier?.MapHeld ?? Find.AnyPlayerHomeMap;
+        _huntersMap = null;
+        if (map == null)
+            return;
+        IncidentParms raid = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
+        raid.forced = true;
+        raid.points *= Settings.courierHuntersPoints;
+        if (!NetrunDefOf.NR_MercRaid.Worker.TryExecute(raid))
+            Log.Warning("[Netrun] The courier's hunters could not arrive: " + (Mercenaries.Faction == null ? "no mercenary faction." : "the raid did not start."));
     }
 
     private void CheckCourier()
@@ -194,6 +217,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         if (Find.TickManager.TicksGame % GenTicks.TickRareInterval != 0)
             return;
         CheckCourier();
+        CheckHunters();
         CheckCounterHack();
         TryScheduledEvent();
     }
@@ -245,6 +269,8 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         base.ExposeData();
         Scribe_References.Look(ref _courier, "courier");
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
+        Scribe_Values.Look(ref _huntersTick, "huntersTick", -1);
+        Scribe_References.Look(ref _huntersMap, "huntersMap");
         Scribe_Values.Look(ref _blackMarketUntilTick, "blackMarketUntilTick", -1);
         Scribe_Defs.Look(ref BlackMarketUnique, "blackMarketUnique");
         Scribe_Collections.Look(ref _marketSold, "marketSold", LookMode.Def);
@@ -272,7 +298,10 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
 // ---- Incidents ----
 
-/// <summary>A fixer's data courier stays a day; mercenaries come for the data. Keep the courier standing.</summary>
+/// <summary>
+/// A fixer asks to shelter a data courier for a day; mercenaries come for the data. The player accepts or refuses in
+/// the letter (Maxim, 2026-10-14). Keep the courier standing.
+/// </summary>
 public class IncidentWorker_DataCourier : IncidentWorker
 {
     private static MapEventsSettingsDef Settings => NetrunDefOf.NR_MapEvents;
@@ -287,9 +316,26 @@ public class IncidentWorker_DataCourier : IncidentWorker
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
         var map = (Map)parms.target;
-        Faction faction = CourierFaction();
-        if (faction == null || !RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 entry, map, CellFinder.EdgeRoadChance_Friendly))
+        if (CourierFaction() == null)
             return false;
+        var letter = (ChoiceLetter_CourierOffer)LetterMaker.MakeLetter(NetrunDefOf.NR_CourierOffer);
+        letter.Label = "NR_CourierOfferLabel".Translate();
+        letter.Text = "NR_CourierOfferText".Translate(Settings.courierSilver, Settings.courierHuntersHours.min, Settings.courierHuntersHours.max);
+        letter.Map = map;
+        letter.StartTimeout((int)(Settings.courierOfferHours * GenDate.TicksPerHour));
+        Find.LetterStack.ReceiveLetter(letter);
+        return true;
+    }
+
+    /// <summary>The player took the job: the courier walks in and the hunters' clock starts.</summary>
+    public static void Arrive(Map map)
+    {
+        Faction faction = CourierFaction();
+        if (map == null || faction == null || !RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 entry, map, CellFinder.EdgeRoadChance_Friendly))
+        {
+            Messages.Message("NR_CourierNoWay".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
+            return;
+        }
 
         Pawn courier = PawnGenerator.GeneratePawn(new PawnGenerationRequest(PawnKindDefOf.Villager, faction));
         // The hot data rides in the courier's pack: it falls out if the courier falls.
@@ -299,18 +345,56 @@ public class IncidentWorker_DataCourier : IncidentWorker
         GenSpawn.Spawn(courier, entry, map);
         IntVec3 chill = DropCellFinder.TradeDropSpot(map);
         LordMaker.MakeNewLord(faction, new LordJob_VisitColony(faction, chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
-        MapEventsManager.Get().StartCourier(courier);
-
-        // The hunters follow.
-        IncidentParms raid = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
-        raid.forced = true;
-        raid.points *= Settings.courierHuntersPoints;
-        Find.Storyteller.incidentQueue.Add(new QueuedIncident(new FiringIncident(NetrunDefOf.NR_MercRaid, null, raid),
-            Find.TickManager.TicksGame + Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour));
+        // The hunters follow on our own clock, not the storyteller's queue (a queued raid that fails its checks is
+        // dropped silently, which is how the mercenaries went missing).
+        MapEventsManager.Get().StartCourier(courier, Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour);
 
         HeatTracker.Get()?.Note("NR_CourierLabel".Translate(), HeatSource.Event);
-        SendStandardLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver, data.stackCount), LetterDefOf.NeutralEvent, parms, courier);
-        return true;
+        Find.LetterStack.ReceiveLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver, data.stackCount), LetterDefOf.NeutralEvent, courier);
+    }
+}
+
+/// <summary>The fixer's request: shelter the courier (mercenaries follow) or refuse. Ignored, it lapses.</summary>
+public class ChoiceLetter_CourierOffer : ChoiceLetter
+{
+    public Map Map;
+
+    public override IEnumerable<DiaOption> Choices
+    {
+        get
+        {
+            if (ArchivedOnly)
+            {
+                yield return Option_Close;
+                yield break;
+            }
+            var accept = new DiaOption("NR_CourierAccept".Translate())
+            {
+                action = () =>
+                {
+                    IncidentWorker_DataCourier.Arrive(Map != null && Find.Maps.Contains(Map) ? Map : Find.AnyPlayerHomeMap);
+                    Find.LetterStack.RemoveLetter(this);
+                },
+                resolveTree = true,
+            };
+            yield return accept;
+            yield return new DiaOption("NR_CourierDecline".Translate())
+            {
+                action = () =>
+                {
+                    Messages.Message("NR_CourierDeclined".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
+                    Find.LetterStack.RemoveLetter(this);
+                },
+                resolveTree = true,
+            };
+            yield return Option_Postpone;
+        }
+    }
+
+    public override void ExposeData()
+    {
+        base.ExposeData();
+        Scribe_References.Look(ref Map, "map");
     }
 }
 

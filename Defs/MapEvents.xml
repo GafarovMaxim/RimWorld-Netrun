@@ -164,4 +164,14 @@
     <reportString>connecting to the abandoned server.</reportString>
   </JobDef>
 
+  <!-- The fixer asks to shelter a data courier: accept or refuse (Source/MapEvents/MapEvents.cs, ChoiceLetter_CourierOffer) -->
+  <LetterDef>
+    <defName>NR_CourierOffer</defName>
+    <letterClass>Netrun.ChoiceLetter_CourierOffer</letterClass>
+    <color>(0.94, 0.75, 0.25)</color>
+    <flashColor>(0.94, 0.75, 0.25)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
+
 </Defs>
