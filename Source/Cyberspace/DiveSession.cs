@@ -1184,6 +1184,8 @@ public class DiveSession : IExposable
                     TaleRecorder.RecordTale(tale, Runner);
             }
         }
+        if (Node.Lab)
+            TransitionManager.Get()?.OnLabDive(Node, success);
         PawnNetState.Get()?.NotifyDive(Runner, IceHits);
         CorpManager.Get()?.NotifyDive(Node, success);
         NetRanking.Get()?.NotifyDive(this, success);

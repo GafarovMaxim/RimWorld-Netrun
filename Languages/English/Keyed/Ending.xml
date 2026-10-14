@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!-- The ending: the Transition (docs/CONCEPT.md, section 19) -->
+  <NR_TransitionRumour>Forum rumour: corporate black labs are copying people into the net. "A digital afterlife," says one deleted post.</NR_TransitionRumour>
+  <NR_TransitionRumourMsg>A strange rumour runs through the feed: corporate labs that move minds into the net.</NR_TransitionRumourMsg>
+  <NR_InsiderNames>Vesper,Halloran,Mira Cole,Sato,Dr. Lenk,Ilse Varga,Quinn,Okafor,Juno Reyes,Tarkovsky</NR_InsiderNames>
+  <NR_TransitionContactLabel>A dead channel opens</NR_TransitionContactLabel>
+  <NR_TransitionContact>A message comes through a channel no fixer admits to owning. The sender calls themselves {0}: a former employee of a corporate black lab, now running.\n\n"You heard the rumour. It is true. They call it the digital afterlife: a mind moved into the net, whole. The method is split into five blueprints, kept in their labs. I sell coordinates. You do the rest."\n\nThe insider now waits in the Club: lab coordinates for {1} cyberdata and {2} silver.</NR_TransitionContact>
+  <NR_InsiderTitle>{0}, the insider</NR_InsiderTitle>
+  <NR_InsiderDesc>A former employee of a corporate black lab. Sells the coordinates of labs where the Transition's blueprints are kept. Labs have Black ICE and ask for an advanced cyberdata at the door.</NR_InsiderDesc>
+  <NR_InsiderPrints>Blueprints: {0} / {1}</NR_InsiderPrints>
+  <NR_InsiderBuy>Buy lab coordinates ({0} cyberdata, {1} silver)</NR_InsiderBuy>
+  <NR_InsiderBuyTip>A lab appears on the corporate ground of the map for {0} days. A clean dive may bring a blueprint (certain after two clean dives without one). The dive adds 15 Heat.</NR_InsiderBuyTip>
+  <NR_InsiderNoMore>You have all the blueprints.</NR_InsiderNoMore>
+  <NR_InsiderLabActive>{0} is still waiting on the map.</NR_InsiderLabActive>
+  <NR_InsiderCooldown>New coordinates in {0}.</NR_InsiderCooldown>
+  <NR_InsiderCantPay>Needs {0} cyberdata and {1} silver.</NR_InsiderCantPay>
+  <NR_LabNodeName>Lab "{0}"</NR_LabNodeName>
+  <NR_LabCodeNames>Lazarus,Ark,Elysium,Straylight,Glass Orchid,Silent Choir,Chrome Lotus,Zero Meridian,Neon Cathedral,Ghost Orchard,Paper Moon,Sleeping Saint,Mirror Abbey,Hollow Crown,Black Lantern,Sable Echo,Iron Lullaby,Velvet Static,Saint Kilda,Cold Harbor</NR_LabCodeNames>
+  <NR_LabFoundLabel>Lab coordinates</NR_LabFoundLabel>
+  <NR_LabFound>{0} sends the coordinates: {1}, on the corporate ground of the map. They stay valid for {2} days.\n\nBlack ICE, two forks; the door takes an advanced cyberdata. A clean exit may bring a blueprint.</NR_LabFound>
+  <NR_LabHeat>Dive into {0}</NR_LabHeat>
+  <NR_LabNoPrint>{0}: no blueprint this time, but the logs point to the next lab.</NR_LabNoPrint>
+  <NR_DiveNeedsAdvanced>The door asks for an {0}.</NR_DiveNeedsAdvanced>
+  <NR_DiveCostAdvanced>At the door: 1 {0}</NR_DiveCostAdvanced>
+  <NR_BlueprintLabel>Blueprint {0} of {1}</NR_BlueprintLabel>
+  <NR_BlueprintCount>Blueprints: {0} / {1}.</NR_BlueprintCount>
+  <NR_BlueprintNote_1>From the files of {0}, internal memo: "Subject 7 kept talking for 40 minutes after the body flatlined. In the buffer. She asked for her cat. We are calling it continuity, not survival, for the lawyers."</NR_BlueprintNote_1>
+  <NR_BlueprintNote_2>From the files of {0}, experiment log: "Copy drift under 0.3% after a week. The copy still dreams. Board wants a product name. Marketing proposes 'Digital Afterlife'. Nobody in the lab laughs."</NR_BlueprintNote_2>
+  <NR_BlueprintNote_3>From the files of {0}, a deleted message: "If anyone finds this: the body does not die. It just stays. We keep them in the pods. We tell the families nothing."</NR_BlueprintNote_3>
+  <NR_BlueprintNote_4>From the files of {0}, the director's note: "Project frozen. Too many volunteers. The net is filling with people who do not want to come back. The board calls it a liability. I call it the first honest door out."</NR_BlueprintNote_4>
+  <NR_BlueprintsAllLabel>All five blueprints</NR_BlueprintsAllLabel>
+  <NR_BlueprintsAll>The fifth blueprint fits the others. The method is whole: the research "the Transition" can now be started.\n\nWhen it is done, a colonist with a cyberlink can cross into the net from a powered cyberpod. The body stays behind as an empty shell.</NR_BlueprintsAll>
+  <NR_TransitionResearchPrints>Blueprints found: {0} / {1} (all are needed to start).</NR_TransitionResearchPrints>
+  <NR_TransitionResearchHidden>Something the corporations keep in their black labs. Follow the rumours in the net.</NR_TransitionResearchHidden>
+
+  <!-- The upload -->
+  <NR_UploadBegin>The Transition</NR_UploadBegin>
+  <NR_UploadBeginDesc>Moves this colonist's mind into the net. Takes {0} hours; the pod must stay closed and powered. Heat rises while it runs, and the corporations may send a purge team.\n\nThe body stays in the pod as an empty shell. This cannot be undone.</NR_UploadBeginDesc>
+  <NR_UploadConfirm>{0} will leave the body for good and cross into the net. The upload takes {1} hours; opening the pod before the end may kill them.\n\nBegin the Transition?</NR_UploadConfirm>
+  <NR_UploadProgress>Transition: {0}</NR_UploadProgress>
+  <NR_UploadProgressDesc>{0}'s mind is moving into the net. Do not open the pod.</NR_UploadProgressDesc>
+  <NR_UploadNoPawn>No one in the pod.</NR_UploadNoPawn>
+  <NR_UploadNoLink>{0} has no cyberlink.</NR_UploadNoLink>
+  <NR_UploadRunning>The upload is running.</NR_UploadRunning>
+  <NR_UploadInRun>{0} is out in the net: end the run first.</NR_UploadInRun>
+  <NR_UploadNoPower>The pod has no power.</NR_UploadNoPower>
+  <NR_UploadStarted>{0} begins the Transition: {1} hours in the pod.</NR_UploadStarted>
+  <NR_UploadHeat>The Transition of {0}</NR_UploadHeat>
+  <NR_UploadBrokenLabel>Transition broken: {0}</NR_UploadBrokenLabel>
+  <NR_UploadBroken>The upload of {0} was torn off halfway. The mind snapped back into a body it had half left: a heavy Netsick, but alive.</NR_UploadBroken>
+  <NR_UploadBrokenDeath>The upload of {0} was torn off halfway. Half a mind came back, and it was not enough. {0} is dead.</NR_UploadBrokenDeath>
+  <NR_UploadDoneLabel>{0} crossed over</NR_UploadDoneLabel>
+  <NR_UploadDone>The last packet goes through. {0} is in the net now: awake, whole, free of the body.\n\nTheir last words in the colony's channel: "{1}"\n\nThe body sleeps on in the pod, an empty shell.</NR_UploadDone>
+  <NR_TransitionWords_0>Leave the light on. I can see it from here.</NR_TransitionWords_0>
+  <NR_TransitionWords_1>It is so quiet. Nothing hurts.</NR_TransitionWords_1>
+  <NR_TransitionWords_2>Tell the others I made it.</NR_TransitionWords_2>
+  <NR_TransitionWords_3>I can hear every server on the planet breathing.</NR_TransitionWords_3>
+  <NR_TransitionWords_4>Do not wait for me. I am already everywhere.</NR_TransitionWords_4>
+  <NR_TransitionWords_5>Feed the animals. I will check the logs.</NR_TransitionWords_5>
+  <NR_TransitionWords_6>The body was only the first dive.</NR_TransitionWords_6>
+  <NR_TransitionWords_7>I see the stars from the satellites. They are close.</NR_TransitionWords_7>
+  <NR_TransitionWords_8>I am not gone. Just further away.</NR_TransitionWords_8>
+  <NR_TransitionWords_9>Ping me sometimes.</NR_TransitionWords_9>
+  <NR_TransitionWords_10>It feels like waking up, not falling asleep.</NR_TransitionWords_10>
+  <NR_TransitionWords_11>Keep my pod warm. Just in case.</NR_TransitionWords_11>
+
+  <!-- The epilogue -->
+  <NR_EpilogueLabel>Digital afterlife</NR_EpilogueLabel>
+  <NR_Epilogue>The colony is quiet. The pods hum, the shells sleep, and somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here, or play on: someone always wanders in to an empty base.</NR_Epilogue>
+  <NR_EpilogueLine>- {0}: "{1}"</NR_EpilogueLine>
+  <NR_EpilogueEnd>End the story</NR_EpilogueEnd>
+  <NR_EpilogueContinue>Play on</NR_EpilogueContinue>
+
+</LanguageData>

@@ -15,6 +15,34 @@ public static class FixersTab
     private const float PortraitSize = 96f;
     private const float ButtonHeight = 34f;
     private const float SectionHeight = 36f;
+    private const float InsiderHeight = 112f;
+
+    /// <summary>
+    /// The ending's insider (docs/CONCEPT.md, section 19): a former corporate employee on a dead channel, above the pool.
+    /// Sells the coordinates of black labs, where the Transition's blueprints are kept.
+    /// </summary>
+    private static void DrawInsider(Rect card, TransitionManager t, Map map)
+    {
+        Color c = NetrunUI.Purple;
+        NetrunUI.Card(card, c);
+        Rect inner = card.ContractedBy(12f);
+        Text.Font = GameFont.Medium;
+        GUI.color = c;
+        Widgets.Label(new Rect(inner.x, inner.y, inner.width, 28f), "NR_InsiderTitle".Translate(t.ContactName ?? "?"));
+        GUI.color = NetrunUI.Muted;
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(inner.x, inner.y + 28f, inner.width - 230f, 40f), "NR_InsiderDesc".Translate());
+        GUI.color = NetrunUI.TextColor;
+        Widgets.Label(new Rect(inner.x, inner.yMax - 18f, inner.width - 230f, 18f),
+            "NR_InsiderPrints".Translate(t.BlueprintsFound, TransitionManager.Blueprints));
+        GUI.color = Color.white;
+        Text.Font = GameFont.Small;
+        var buy = new Rect(inner.xMax - 220f, inner.center.y - 17f, 220f, 34f);
+        AcceptanceReport can = NetrunUI.Cached("club.insider", () => t.CanBuyCoordinates(map));
+        if (NetrunUI.Button(buy, "NR_InsiderBuy".Translate(TransitionManager.CoordCyberdata, TransitionManager.CoordSilver), c, can,
+                "NR_InsiderBuyTip".Translate(TransitionManager.LabLifetimeDays.ToString("0"))))
+            t.BuyCoordinates(map);
+    }
 
     public static void Draw(Rect rect, Map map, ref Vector2 scroll)
     {
@@ -26,11 +54,18 @@ public static class FixersTab
         List<Fixer> pool = manager.Fixers.Where(f => !f.Pinned).ToList();
 
         float width = rect.width - 16f;
-        float height = (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
+        TransitionManager transition = TransitionManager.Get();
+        bool insider = transition is { ContactMet: true };
+        float height = (insider ? InsiderHeight + CardGap : 0f) + (pinned.Count > 0 ? SectionHeight : 0f) + SectionHeight + manager.Fixers.Count * (CardHeight + CardGap);
         var viewRect = new Rect(0f, 0f, width, height);
 
         NetrunUI.BeginScroll(rect, ref scroll, viewRect);
         float y = 0f;
+        if (insider)
+        {
+            DrawInsider(new Rect(0f, y, width, InsiderHeight), transition, map);
+            y += InsiderHeight + CardGap;
+        }
         float gPin = y;
         if (pinned.Count > 0)
         {

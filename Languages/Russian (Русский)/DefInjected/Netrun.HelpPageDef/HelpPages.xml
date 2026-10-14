@@ -287,4 +287,23 @@
     <li>достижения</li>
   </NR_Help_Achievements.keywords>
 
+  <NR_Help_Transition.label>Цифровое посмертие</NR_Help_Transition.label>
+  <NR_Help_Transition.body>Где-то в чёрных лабораториях корпораций разум покидает тело. Страницы этой главы открываются по мере того, как колония идёт по следу.</NR_Help_Transition.body>
+  <NR_Help_Transition.lockHint>Продолжайте нырять. Сеть говорит о том, что прячут корпорации.</NR_Help_Transition.lockHint>
+  <NR_Help_Transition_Rumour.label>Слух</NR_Help_Transition_Rumour.label>
+  <NR_Help_Transition_Rumour.body>Удалённый пост, несколько его копий: чёрные лаборатории корпораций копируют людей в сеть, целиком и в сознании. Это называют цифровым посмертием. Никто из знакомых в это не верит. Никто из знакомых не бывал в чёрной лаборатории.\n## Что дальше\nКто-то, кто там работал, может выйти на связь через пул фиксеров.</NR_Help_Transition_Rumour.body>
+  <NR_Help_Transition_Rumour.lockHint>Ещё не время.</NR_Help_Transition_Rumour.lockHint>
+  <NR_Help_Transition_Insider.label>Инсайдер</NR_Help_Transition_Insider.label>
+  <NR_Help_Transition_Insider.body>Бывший сотрудник чёрной лаборатории, теперь в бегах, продаёт координаты в Клубе. Каждая покупка ставит одну лабораторию на землю корпораций на несколько дней.\n## Лаборатории\nBlack ICE, две развилки, продвинутый cyberdata на входе и лишний Heat. Чистый выход может принести один из пяти чертежей Перехода; после двух чистых нырков без чертежа следующий будет наверняка.</NR_Help_Transition_Insider.body>
+  <NR_Help_Transition_Insider.lockHint>Ещё не время.</NR_Help_Transition_Insider.lockHint>
+  <NR_Help_Transition_Blueprint.label>Первый чертёж</NR_Help_Transition_Blueprint.label>
+  <NR_Help_Transition_Blueprint.body>Чертежи приходят вместе с бумагами лаборатории: служебные записки, журналы экспериментов, сообщения, которые кто-то пытался удалить. Читается как исповедь. Исследование «Переход» теперь показывает своё название и ждёт остальной комплект.</NR_Help_Transition_Blueprint.body>
+  <NR_Help_Transition_Blueprint.lockHint>Ещё не время.</NR_Help_Transition_Blueprint.lockHint>
+  <NR_Help_Transition_Method.label>Метод</NR_Help_Transition_Method.label>
+  <NR_Help_Transition_Method.body>Все пять чертежей сошлись. Изучите «Переход», затем положите колониста с кибер-линком в кибер-капсулу под питанием и нажмите «Переход».\n## Загрузка\nДлится сутки. Каждый час растёт Heat, и корпорации могут прислать группу зачистки. Если открыть капсулу раньше конца (или надолго остаться без питания), разум вырвет обратно: тяжёлый Netsick или смерть.\n## После\nТело остаётся в капсуле пустой оболочкой: живое, замороженное, как в криокапсуле, и больше не раннер. Колония вспоминает ушедшего светлой грустной мыслью.</NR_Help_Transition_Method.body>
+  <NR_Help_Transition_Method.lockHint>Ещё не время.</NR_Help_Transition_Method.lockHint>
+  <NR_Help_Transition_Crossing.label>Первый переход</NR_Help_Transition_Crossing.label>
+  <NR_Help_Transition_Crossing.body>Кто-то из колонии теперь живёт в сети. Последние слова остаются в канале колонии.\n## Конец истории\nКогда в колонии не останется никого, кроме пустых оболочек, придёт эпилог: можно закончить историю титрами или играть дальше с теми, кто забредёт следующим.</NR_Help_Transition_Crossing.body>
+  <NR_Help_Transition_Crossing.lockHint>Ещё не время.</NR_Help_Transition_Crossing.lockHint>
+
 </LanguageData>

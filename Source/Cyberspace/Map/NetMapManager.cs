@@ -240,7 +240,7 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     public static IEnumerable<(Pawn pawn, Building_Cyberpod pod)> PodPawns(Map map)
     {
         foreach (Building_Cyberpod pod in CyberpodUtility.PlayerPods(map))
-            if (pod.ContainedThing is Pawn p && p.IsHacker() && pod.GetComp<CompPowerTrader>()?.PowerOn != false)
+            if (pod.ContainedThing is Pawn p && p.IsHacker() && !TransitionManager.IsShell(p) && pod.GetComp<CompPowerTrader>()?.PowerOn != false)
                 yield return (p, pod);
     }
 

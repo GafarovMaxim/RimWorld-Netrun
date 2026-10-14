@@ -832,4 +832,82 @@
     </keywords>
   </Netrun.HelpPageDef>
 
+<!-- The ending's chain (docs/CONCEPT.md, section 19): a page per stage, hidden until reached. -->
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition</defName>
+    <order>90</order>
+    <color>Purple</color>
+    <label>Digital afterlife</label>
+    <body>Somewhere in the corporate black labs, minds are leaving their bodies. The pages of this chapter open as your colony follows the trail.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Keep diving. The net talks about things the corporations hide.</lockHint>
+    <unlockFlag>transition:1</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition_Rumour</defName>
+    <parent>NR_Help_Transition</parent>
+    <order>1</order>
+    <color>Purple</color>
+    <label>The rumour</label>
+    <body>A deleted post, a few copies of it: corporate black labs copy people into the net, whole and awake. They call it the digital afterlife. Nobody you know believes it. Nobody you know has been inside a black lab.\n## What next\nSomeone who has worked there may get in touch through the fixers' pool.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Not yet.</lockHint>
+    <unlockFlag>transition:1</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition_Insider</defName>
+    <parent>NR_Help_Transition</parent>
+    <order>2</order>
+    <color>Purple</color>
+    <label>The insider</label>
+    <body>A former employee of a black lab, on the run, sells coordinates from the Club. Each purchase puts one lab on the corporate ground of the map for a few days.\n## The labs\nBlack ICE, two forks, an advanced cyberdata at the door and extra Heat. A clean exit may bring one of the five blueprints of the Transition; after two clean dives without one, the next is certain.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Not yet.</lockHint>
+    <unlockFlag>transition:2</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition_Blueprint</defName>
+    <parent>NR_Help_Transition</parent>
+    <order>3</order>
+    <color>Purple</color>
+    <label>The first blueprint</label>
+    <body>The blueprints come with the lab's own papers: memos, experiment logs, messages someone tried to delete. They read like a confession. The research "the Transition" shows its name now, and waits for the rest of the set.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Not yet.</lockHint>
+    <unlockFlag>transition:3</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition_Method</defName>
+    <parent>NR_Help_Transition</parent>
+    <order>4</order>
+    <color>Purple</color>
+    <label>The method</label>
+    <body>All five blueprints fit together. Research "the Transition", then put a colonist with a cyberlink into a powered cyberpod and press "The Transition".\n## The upload\nIt takes a day. Heat rises every hour, and the corporations may send a purge team. Opening the pod before the end (or losing power for good) tears the mind back: a heavy Netsick, or death.\n## After\nThe body stays in the pod as an empty shell: alive, frozen like in a cryptosleep casket, no longer a runner. The colony remembers them with a light, sad thought.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Not yet.</lockHint>
+    <unlockFlag>transition:4</unlockFlag>
+  </Netrun.HelpPageDef>
+
+  <Netrun.HelpPageDef>
+    <defName>NR_Help_Transition_Crossing</defName>
+    <parent>NR_Help_Transition</parent>
+    <order>5</order>
+    <color>Purple</color>
+    <label>The first crossing</label>
+    <body>Someone from your colony lives in the net now. Their last words stay in the colony's channel.\n## The end of the story\nWhen no colonist is left but empty shells, the epilogue comes: you can end the story with the credits, or play on with whoever wanders in next.</body>
+    <icon>Gizmo_NetrunDive</icon>
+    <lockedTitle>true</lockedTitle>
+    <lockHint>Not yet.</lockHint>
+    <unlockFlag>transition:5</unlockFlag>
+  </Netrun.HelpPageDef>
+
 </Defs>

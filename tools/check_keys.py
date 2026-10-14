@@ -21,6 +21,8 @@ AI_TRAITS = ['Curious', 'Loyal', 'Paranoid', 'Vain', 'Glitchy', 'Hoarder', 'Paci
 SOUND_PACKS = ["Clean", "Minimal", "Neon", "RetroDeck", "Deep"]
 CONTRACTS = ["DataDelivery", "SystemTap", "QuietRun", "Surveillance", "LayLow", "Rookie", "AIOrder", "CleanLab"]
 DYNAMIC = {
+    "NR_BlueprintNote_": ["1", "2", "3", "4"],
+    "NR_TransitionWords_": [str(i) for i in range(12)],
     "NR_GlossTerms_": ["BlackIce", "Ice", "Heat", "Netsick", "Cyberdata", "Trace"],
     "NR_Gloss_": ["BlackIce", "Ice", "Heat", "Netsick", "Cyberdata", "Trace"],
     "NR_HintTitle_": ["Ice", "Netsick", "Fixer", "AIEvent"],

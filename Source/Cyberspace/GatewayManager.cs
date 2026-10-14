@@ -312,7 +312,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         pod = null;
         foreach (Building_Cyberpod each in CyberpodUtility.PlayerPods(map))
         {
-            if (each.ContainedThing is Pawn pawn && pawn.IsHacker() && each.GetComp<CompPowerTrader>()?.PowerOn != false)
+            if (each.ContainedThing is Pawn pawn && pawn.IsHacker() && !TransitionManager.IsShell(pawn) && each.GetComp<CompPowerTrader>()?.PowerOn != false)
             {
                 pod = each;
                 return pawn;
@@ -359,6 +359,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         int cost = DiveCost(map, node, out _);
         if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) + PodFuelCyberdata(pod) < cost)
             return "NR_AINoFood".Translate(cost, NetrunDefOf.USH_Cyberdata.label);
+        if (node.NeedsAdvanced && ColonyGoods.Count(map, NetrunDefOf.USH_AdvancedCyberdata) < 1)
+            return "NR_DiveNeedsAdvanced".Translate(NetrunDefOf.USH_AdvancedCyberdata.label);
         foreach (DiveProgram program in SelectedPrograms.Where(HePrograms.IsHeItem))
             if (HePrograms.Available(map, program) <= 0)
                 return "NR_HeProgramNoItem".Translate(HePrograms.IconDef(program)?.label ?? "?");
@@ -394,6 +396,9 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
             return;
         int cost = DiveCost(map, node, out _);
         Pay(map, pod, cost);
+        // The top tier (core, Old Net, labs) takes one advanced cyberdata at the door.
+        if (node.NeedsAdvanced)
+            ColonyGoods.TryTake(map, NetrunDefOf.USH_AdvancedCyberdata, 1);
         // HE items are burnt at the start; one that went missing since the pick just drops out.
         SelectedPrograms.RemoveAll(p => HePrograms.IsHeItem(p) && !HePrograms.TryConsume(map, p));
         Session = DiveSession.Start(node, runner, SelectedPrograms, cost, DaemonsForDive);
@@ -421,6 +426,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         if (passenger > 0)
             lines.Add("NR_DiveCostPassenger".Translate(passenger));
         lines.Add("NR_DiveCostTotal".Translate(total));
+        if (node is { NeedsAdvanced: true })
+            lines.Add("NR_DiveCostAdvanced".Translate(NetrunDefOf.USH_AdvancedCyberdata.label));
         int podFuel = PodFuelCyberdata(pod);
         if (podFuel > 0 && total > 0)
             lines.Add("NR_DiveCostPodFuel".Translate(System.Math.Min(total, podFuel)));

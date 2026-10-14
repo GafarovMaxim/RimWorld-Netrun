@@ -71,6 +71,9 @@ public class FixerManager : GameComponent, INetrunCleanable
 
         if (notify && NetworkGate.IsOpen)
             Messages.Message("NR_FixersRotated".Translate(), MessageTypeDefOf.NeutralEvent, historical: true);
+        // The ending: the insider may reach the colony through the new pool.
+        if (notify)
+            TransitionManager.Get()?.OnFixersRotated();
     }
 
     /// <summary>A specialty the pool lacks while it has fewer than minSpecialties different ones.</summary>

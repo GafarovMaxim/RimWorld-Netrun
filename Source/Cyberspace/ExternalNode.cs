@@ -233,8 +233,14 @@ public class ExternalNode : IExposable
 
     /// <summary>The training simulation (never on the map or in the node list): no pod, no Heat, no harm, no haul.</summary>
     public bool Training;
+    /// <summary>The ending (docs/CONCEPT.md, section 19): a corporate black lab with a code name; may hold a Transition blueprint.</summary>
+    public bool Lab;
+    public string LabName;
 
-    public string Name => Training ? "NR_TrainingNodeName".Translate() : CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
+    /// <summary>The top tier asks for one advanced cyberdata at the door: the corporate core, the Old Net and the labs.</summary>
+    public bool NeedsAdvanced => IsBoss || Ancient || Lab;
+
+    public string Name => Training ? "NR_TrainingNodeName".Translate() : Lab ? "NR_LabNodeName".Translate(LabName ?? "?") : CounterHack ? "NR_ExtNodeName_CounterHack".Translate() : ("NR_ExtNodeName_" + Type).Translate(Number.ToString("00"));
     public string TypeLabel => ("NR_ExtNodeType_" + Type).Translate();
 
     public Color Color => Type switch
@@ -266,7 +272,8 @@ public class ExternalNode : IExposable
         _ => 1f,
     };
 
-    public Texture2D Icon => (CounterHack ? NetrunTex.CyberIcon("Node_Counterhack") : null)
+    public Texture2D Icon => (Lab ? NetrunTex.CyberIcon("Node_CorpLab") : null)
+        ?? (CounterHack ? NetrunTex.CyberIcon("Node_Counterhack") : null)
         ?? (Type == ExternalNodeType.CorpCore ? NetrunTex.CyberIcon("Node_CorpCore") : null)
         ?? NetrunTex.CyberIcon("Node_" + Type switch
     {
@@ -346,6 +353,21 @@ public class ExternalNode : IExposable
             lines.Add((NetrunDefOf.NR_AIFragment, AIBalance.FragmentChance(Type == ExternalNodeType.Abandoned ? NetrunDefOf.NR_Cyberspace.memoryFragmentAbandoned : NetrunDefOf.NR_Cyberspace.memoryFragmentOther).ToStringPercent()));
         return lines;
     }
+
+    /// <summary>A corporate black lab (the ending): Black ICE, two forks, gone when its coordinates go stale.</summary>
+    public static ExternalNode GenerateLab(int id, string codeName, float lifetimeDays) => new()
+    {
+        Id = id,
+        Number = Rand.RangeInclusive(1, 99),
+        Type = ExternalNodeType.Corp,
+        District = District.Corp,
+        Defense = 5,
+        BlackIce = true,
+        IceStrength = 7,
+        Lab = true,
+        LabName = codeName,
+        ExpireTick = Find.TickManager.TicksGame + (int)(lifetimeDays * GenDate.TicksPerDay),
+    };
 
     /// <summary>The corporate core: top defense, strong Black ICE, gone after a few days.</summary>
     public static ExternalNode GenerateBoss(int id) => new()
@@ -446,6 +468,8 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref OpenDoorUntil, "openDoorUntil", -1);
         Scribe_Values.Look(ref ForgottenCache, "forgottenCache");
         Scribe_Values.Look(ref Training, "training");
+        Scribe_Values.Look(ref Lab, "lab");
+        Scribe_Values.Look(ref LabName, "labName");
         Scribe_Values.Look(ref InterceptPacketId, "interceptPacket", -1);
         Scribe_Values.Look(ref GuardFor, "guardFor", -1);
     }

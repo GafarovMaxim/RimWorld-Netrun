@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The ending, "The Transition" (docs/CONCEPT.md, section 19). The label and text are "???" until the insider
+       is met (TransitionManager.ApplyResearchText); it cannot start before all five blueprints are found. -->
+  <ResearchProjectDef ParentName="NR_ResearchBase">
+    <defName>NR_Res_Transition</defName>
+    <label>the Transition</label>
+    <description>A mind copied out of the brain into the net, whole and awake: what the corporate black labs call the digital afterlife. The body stays behind in the cyberpod, an empty shell. Needs all five blueprints from the labs.</description>
+    <baseCost>6000</baseCost>
+    <techLevel>Spacer</techLevel>
+    <prerequisites>
+      <li>NR_Res_AIArchitecture</li>
+    </prerequisites>
+    <researchViewX>11.00</researchViewX>
+    <researchViewY>6.40</researchViewY>
+  </ResearchProjectDef>
+
+  <!-- What is left in the pod after the crossing: alive, empty, frozen (the pod suspends it like a cryptosleep casket). -->
+  <HediffDef>
+    <defName>NR_DigitalShell</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>empty shell</label>
+    <description>The mind of this person crossed into the net. The body breathes, but no one is home. In a cyberpod it sleeps like in a cryptosleep casket.</description>
+    <defaultLabelColor>(0.55, 0.75, 0.95)</defaultLabelColor>
+    <isBad>false</isBad>
+    <everCurableByItem>false</everCurableByItem>
+    <stages>
+      <li>
+        <capMods>
+          <li>
+            <capacity>Consciousness</capacity>
+            <setMax>0.1</setMax>
+          </li>
+        </capMods>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- The others' farewell: light, with a little grief. -->
+  <ThoughtDef>
+    <defName>NR_WentToNet</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>10</durationDays>
+    <stackLimit>3</stackLimit>
+    <stages>
+      <li>
+        <label>someone crossed into the net</label>
+        <description>They are not dead. They are somewhere in the wires, free of the body. I miss them anyway.</description>
+        <baseMoodEffect>4</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

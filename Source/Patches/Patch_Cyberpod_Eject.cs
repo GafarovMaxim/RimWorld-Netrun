@@ -16,6 +16,8 @@ public static class Patch_Cyberpod_Eject
     {
         try
         {
+            if (__instance.ContainedThing is Pawn uploading)
+                TransitionManager.Get()?.OnEject(uploading);
             if (__instance.ContainedThing is not Pawn pawn || pawn.Faction != Faction.OfPlayer || !NetMapManager.InRun(pawn))
                 return;
             NetMapManager.EmergencyJolt(pawn);

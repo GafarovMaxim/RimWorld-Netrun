@@ -194,6 +194,9 @@ public class HelpProgress : GameComponent
             _flags.Add("ai:" + ai.Personality);
         if (map != null && ColonyGoods.Count(map, NetrunDefOf.NR_BlackBraindanceChip) > 0)
             _flags.Add("blackchip");
+        // The ending's chain opens one page per stage (docs/CONCEPT.md, section 19).
+        for (int s = 1; s <= (TransitionManager.Get()?.Stage ?? 0); s++)
+            _flags.Add("transition:" + s);
     }
 
     public override void ExposeData()

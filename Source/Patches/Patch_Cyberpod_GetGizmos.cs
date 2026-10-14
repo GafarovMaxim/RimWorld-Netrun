@@ -66,5 +66,51 @@ public static class Patch_Cyberpod_GetGizmos
 
         if (duty != null)
             yield return duty;
+
+        Gizmo transition = null;
+        try
+        {
+            transition = TransitionGizmo(__instance);
+        }
+        catch (Exception ex)
+        {
+            Log.ErrorOnce("[Netrun] Failed to add the Transition button to the cyberpod: " + ex, 0x4E520072);
+        }
+        if (transition != null)
+            yield return transition;
+    }
+
+    /// <summary>The ending: once the Transition is researched, a colonist with a cyberlink can cross over from this pod.</summary>
+    private static Gizmo TransitionGizmo(Building_Cyberpod pod)
+    {
+        TransitionManager manager = TransitionManager.Get();
+        if (manager == null || pod.Faction != Faction.OfPlayer || TransitionDefOf.NR_Res_Transition?.IsFinished != true || pod.ContainedThing is not Pawn p)
+            return null;
+        if (manager.Uploading(p))
+        {
+            var progress = new Command_Action
+            {
+                defaultLabel = "NR_UploadProgress".Translate(manager.Progress(p).ToStringPercent()),
+                defaultDesc = "NR_UploadProgressDesc".Translate(p.LabelShort),
+                icon = NetrunTint.Of(NetrunTex.Dive),
+                action = () => { },
+            };
+            progress.Disable("NR_UploadRunning".Translate());
+            return progress;
+        }
+        if (TransitionManager.IsShell(p))
+            return null;
+        var begin = new Command_Action
+        {
+            defaultLabel = "NR_UploadBegin".Translate(),
+            defaultDesc = "NR_UploadBeginDesc".Translate(TransitionManager.UploadHours.ToString("0")),
+            icon = NetrunTint.Of(NetrunTex.Dive),
+            action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+                "NR_UploadConfirm".Translate(p.LabelShort, TransitionManager.UploadHours.ToString("0")), () => manager.Begin(pod), destructive: true)),
+        };
+        AcceptanceReport can = manager.CanBegin(pod);
+        if (!can.Accepted)
+            begin.Disable(can.Reason);
+        return begin;
     }
 }

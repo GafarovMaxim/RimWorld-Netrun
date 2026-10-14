@@ -81,6 +81,68 @@ public static class NetrunDebugActions
     [DebugAction(Unlock, "Unlock: network gate open (threats on)", allowedGameStates = Playing, displayPriority = 60)]
     private static void GateOpen() => NetworkGate.Get()?.Open();
 
+    // The ending (docs/CONCEPT.md, section 19): every step can be reached without playing the whole chain.
+
+    [DebugAction(Unlock, "Ending: set stage...", allowedGameStates = Playing, displayPriority = 58)]
+    private static void EndingStage()
+    {
+        TransitionManager t = TransitionManager.Get();
+        string[] names = ["0 nothing", "1 rumour", "2 insider met", "3 first blueprint", "4 all blueprints", "5 first crossing"];
+        Find.WindowStack.Add(new FloatMenu(names.Select((n, i) => new FloatMenuOption(n + (t?.Stage == i ? " (now)" : ""), () => t?.DevSetStage(i))).ToList()));
+    }
+
+    [DebugAction(Unlock, "Ending: blueprints...", allowedGameStates = Playing, displayPriority = 57)]
+    private static void EndingBlueprints()
+    {
+        TransitionManager t = TransitionManager.Get();
+        Find.WindowStack.Add(new FloatMenu(Enumerable.Range(0, TransitionManager.Blueprints + 1)
+            .Select(i => new FloatMenuOption(i + " / " + TransitionManager.Blueprints, () => t?.DevSetBlueprints(i))).ToList()));
+    }
+
+    [DebugAction(Unlock, "Ending: meet the insider now", allowedGameStates = Playing, displayPriority = 56)]
+    private static void EndingInsider() => TransitionManager.Get()?.MeetContact();
+
+    [DebugAction(Unlock, "Ending: spawn a lab now (free)", allowedGameStates = Playing, displayPriority = 55)]
+    private static void EndingLab()
+    {
+        TransitionManager t = TransitionManager.Get();
+        if (t == null)
+            return;
+        if (!t.ContactMet)
+            t.MeetContact();
+        t.SpawnLab();
+    }
+
+    [DebugAction(Unlock, "Ending: open the research (all blueprints, finished)", allowedGameStates = Playing, displayPriority = 54)]
+    private static void EndingResearch()
+    {
+        TransitionManager t = TransitionManager.Get();
+        if (t == null)
+            return;
+        if (!t.ContactMet)
+            t.MeetContact();
+        t.DevSetBlueprints(TransitionManager.Blueprints);
+        if (TransitionDefOf.NR_Res_Transition is { IsFinished: false } res)
+            Find.ResearchManager.FinishProject(res, doCompletionDialog: false, researcher: null, doCompletionLetter: false);
+    }
+
+    [DebugAction(Unlock, "Ending: finish running uploads now", allowedGameStates = Playing, displayPriority = 53)]
+    private static void EndingFinishUploads() => TransitionManager.Get()?.DevFinishUploads();
+
+    [DebugAction(Unlock, "Ending: show the epilogue", allowedGameStates = Playing, displayPriority = 52)]
+    private static void EndingEpilogue()
+    {
+        TransitionManager t = TransitionManager.Get();
+        if (t == null)
+            return;
+        if (t.Departed.Count == 0)
+            t.Departed.Add(new TransitionDeparted { Name = "Test Runner", Words = "NR_TransitionWords_0".Translate(), Tick = Find.TickManager.TicksGame });
+        t.ShowEnding();
+    }
+
+    [DebugAction(Unlock, "Ending: reset", allowedGameStates = Playing, displayPriority = 51)]
+    private static void EndingReset() => TransitionManager.Get()?.DevReset();
+
     [DebugAction(Unlock, "Reset: newcomer start (gate, onboarding, guide, training offer, districts)", allowedGameStates = Playing, displayPriority = 40)]
     private static void NewcomerReset()
     {
