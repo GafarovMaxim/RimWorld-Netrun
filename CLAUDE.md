@@ -10,13 +10,13 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 
 ## Start of every session
 1. `git pull` (the repo is the sync point between sessions and devices).
-2. Read `docs/STATUS.md` (current state, next steps, open questions) and `docs/CONCEPT.md` (design).
+2. Read `docs/STATUS.md` (short current state, next steps, open questions), `docs/TASKS.md` (the only task list) and `docs/CONCEPT.md` (full current design, with a table of contents).
 3. Before writing code for a new system, GameComponent, saved list or pawn reference, read `docs/TECH_DETAILS.md` (rules for ticks, save list caps, data cleanup, compatibility) and follow its checklist.
 
 ## End of every task
 1. Build: `dotnet build Source/Netrun.csproj -c Release` (0 errors, 0 warnings).
    Check translations: `python tools/check_keys.py` (every NR_ key used in code exists in English and Russian).
-2. Update `docs/STATUS.md`: what changed, what is next, open questions.
+2. Update `docs/STATUS.md` (short, current state only; history goes to `docs/ARCHIVE.md`) and tick items in `docs/TASKS.md`.
 3. Commit and `git push`. One logical step per commit.
 
 ## GitHub automation
@@ -30,7 +30,7 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 - `Source/`: C#, namespace `Netrun`, net48, references the game, Harmony and `HackingExpansion.dll` from the local Steam folders (`RIMWORLD_DIR` overrides the default path).
 - `Assemblies/HackingExpansionNetrun.dll`: built output, committed so the mod works straight from the repo.
 - `Hacking Expansion Netrun Art/`: full-size source art, not loaded by the game (`Art/` and unused files stay on the author's PC only, see .gitignore). Game copies go to `Textures/` (items 128 px, 2x2 buildings 256 px).
-- `docs/`: STATUS, CONCEPT, ART_REQUESTS.
+- `docs/`: STATUS (current state), TASKS (task list), CONCEPT (design), TECH_DETAILS (code and performance rules), ART (art style and art still needed), RELEASE (Steam release checklist), HELP (in-game help format), ARCHIVE (history and old file to new file map); folders `mockups/`, `ui-mockups/`, `steam/`, `news_flavor/`.
 
 ## Conventions
 - defName prefix `NR_`, translation keys `NR_`.
