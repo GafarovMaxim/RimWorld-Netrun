@@ -88,6 +88,8 @@ public class NetrunSettings : ModSettings
     public bool MapWasd;
     /// <summary>Hubs in new cyberspace maps, as a multiplier of the chosen size (more hubs, heavier on the game).</summary>
     public float MapHubScale = 1f;
+    /// <summary>The cyberspace map's layout for new maps: -1 picks one from the world seed, else a NetLayout.</summary>
+    public int MapLayout = -1;
     /// <summary>The terminal window's size (its default size and minimum scale with it).</summary>
     public float TerminalScale = 1f;
     /// <summary>The terminal's content grows with its window past the base size.</summary>
@@ -464,6 +466,13 @@ public class NetrunSettings : ModSettings
         if (sizePicked >= 0)
             MapSize = (NetSize)sizePicked;
 
+        // The layout template (Maxim, 2026-10-14: let the player choose); "random" keeps the world seed's pick.
+        Label("NR_SettingsMapLayout".Translate(), null, "NR_SettingsMapLayoutTip".Translate());
+        string[] layoutLabels = ["NR_NetLayout_Random".Translate(), "NR_NetLayout_Ring".Translate(), "NR_NetLayout_Spine".Translate(), "NR_NetLayout_Archipelago".Translate(), "NR_NetLayout_Metro".Translate()];
+        int layoutPicked = Chips(layoutLabels, MapLayout + 1);
+        if (layoutPicked >= 0)
+            MapLayout = layoutPicked - 1;
+
         MapHubScale = Slider("NR_SettingsHubScale".Translate(MapHubScale.ToStringPercent()), MapHubScale, 0.5f, 2f);
         if (MapHubScale > 1.25f)
             Label("NR_SettingsHubScaleWarn".Translate(), NetrunUI.Warn);
@@ -692,6 +701,7 @@ public class NetrunSettings : ModSettings
         AIEventFrequency = NetAttackFrequency = MapEventFrequency = CyberEventFrequency = 1f;
         AIAvailability = 1f;
         MapSize = NetSize.Large;
+        MapLayout = -1;
         NewcomerProtection = true;
         SurveillanceInNode = true;
         IsolationCooldown = true;
@@ -743,6 +753,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref AIEventFrequency, "aiEventFrequency", 1f);
         Scribe_Values.Look(ref AIAvailability, "aiAvailability", 1f);
         Scribe_Values.Look(ref MapSize, "mapSize", NetSize.Large);
+        Scribe_Values.Look(ref MapLayout, "mapLayout", -1);
         Scribe_Values.Look(ref NetAttackFrequency, "netAttackFrequency", 1f);
         Scribe_Values.Look(ref MapEventFrequency, "mapEventFrequency", 1f);
         Scribe_Values.Look(ref CyberEventFrequency, "cyberEventFrequency", 1f);

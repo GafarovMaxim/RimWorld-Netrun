@@ -70,6 +70,9 @@ public static class CyberMapGenerator
     /// <summary>The layout for this world: Ring 40%, the other three 20% each (CYBERSPACE_V2, section 10).</summary>
     public static NetLayout LayoutFor(int seed)
     {
+        int picked = NetrunMod.Settings.MapLayout;
+        if (picked >= 0 && picked <= (int)NetLayout.Metro)
+            return (NetLayout)picked;
         Rand.PushState(seed ^ 0x4E52);
         float r = Rand.Value;
         Rand.PopState();
@@ -147,7 +150,8 @@ public static class CyberMapGenerator
             Vector2 c = L.Centers[key];
             float r = 0.06f + 0.012f * n;
             int placed = 0, tries = 0;
-            float minDist = 0.055f;
+            // Room between hubs for their name plates and markers (Maxim, 2026-10-14: the map was cramped).
+            float minDist = 0.068f;
             while (placed < n && tries < 4000)
             {
                 tries++;
@@ -167,19 +171,34 @@ public static class CyberMapGenerator
         List<int> Ids(string key) => nodes.Where(n => keyOf[n.Id] == key).Select(n => n.Id).ToList();
         List<int> main = nodes.Where(n => n.District != District.OldNet).Select(n => n.Id).ToList();
         float Dist(int a, int b) => Vector2.Distance(map.Node(a).Pos, map.Node(b).Pos);
-        void Link(int a, int b, LinkKind kind)
+        // A link is only added where it crosses no other link and passes no other hub (unless forced: the few links the
+        // net cannot do without, when no clear pair is left).
+        bool Link(int a, int b, LinkKind kind, bool force = false)
         {
             if (a == b)
-                return;
+                return false;
             MapLink existing = map.Links.FirstOrDefault(l => l.Has(a) && l.Has(b));
             if (existing != null)
             {
                 if (kind == LinkKind.Fast)
                     existing.Kind = LinkKind.Fast;
-                return;
+                return true;
             }
+            if (!force && !map.LinkClear(a, b))
+                return false;
             map.Links.Add(new MapLink { A = a, B = b, Kind = kind, Known = kind != LinkKind.Dark });
             map.Dirty();
+            return true;
+        }
+        // The shortest clear pair of a list, or the shortest one when none is clear.
+        void LinkBest(List<(float d, int a, int b)> pairs, LinkKind kind)
+        {
+            if (pairs.Count == 0)
+                return;
+            foreach ((float _, int a, int b) in pairs)
+                if (Link(a, b, kind))
+                    return;
+            Link(pairs[0].a, pairs[0].b, kind, force: true);
         }
 
         // Gabriel graph inside the main net.
@@ -225,9 +244,9 @@ public static class CyberMapGenerator
             hub = hub.OrderBy(i => Mathf.Atan2(map.Node(i).Y - hc.y, map.Node(i).X - hc.x)).ToList();
         }
         for (int k = 0; k + 1 < hub.Count; k++)
-            Link(hub[k], hub[k + 1], LinkKind.Fast);
+            Link(hub[k], hub[k + 1], LinkKind.Fast, force: true);
         if (L.Express != "chain" && hub.Count > 2)
-            Link(hub[hub.Count - 1], hub[0], LinkKind.Fast);
+            Link(hub[hub.Count - 1], hub[0], LinkKind.Fast, force: true);
         foreach (string key in counts.Keys)
         {
             if (key is Hub or OldNet)
@@ -235,14 +254,12 @@ public static class CyberMapGenerator
             List<int> ids = Ids(key);
             if (ids.Count == 0 || hub.Count == 0)
                 continue;
-            var pairs = (from i in ids from h in hub select (d: Dist(i, h), i, h)).OrderBy(p => p.d).ToList();
-            Link(pairs[0].i, pairs[0].h, LinkKind.Fast);
+            var pairs = (from i in ids from h in hub select (d: Dist(i, h), a: i, b: h)).OrderBy(p => p.d).ToList();
+            LinkBest(pairs, LinkKind.Fast);
             if (L.Express == "ring" && ids.Count > 2)
-            {
-                var second = pairs.FirstOrDefault(p => map.LinkBetween(p.i, p.h) == null);
-                if (second.i != second.h)
-                    Link(second.i, second.h, LinkKind.Fast);
-            }
+                foreach ((float _, int a, int b) in pairs)
+                    if (map.LinkBetween(a, b) == null && Link(a, b, LinkKind.Fast))
+                        break;
         }
 
         // Each district stays connected inside (a minimum spanning tree as a safety net).
@@ -254,8 +271,12 @@ public static class CyberMapGenerator
             var inside = new HashSet<int> { ids[0] };
             while (inside.Count < ids.Count)
             {
-                var best = (from a in inside from b in ids where !inside.Contains(b) select (d: Dist(a, b), a, b)).OrderBy(p => p.d).First();
-                Link(best.a, best.b, LinkKind.Normal);
+                var options = (from a in inside from b in ids where !inside.Contains(b) select (d: Dist(a, b), a, b)).OrderBy(p => p.d).ToList();
+                // The shortest clear link that grows the district's tree; the shortest one if none is clear.
+                var best = options.FirstOrDefault(o => map.LinkClear(o.a, o.b));
+                if (best.a == best.b)
+                    best = options[0];
+                Link(best.a, best.b, LinkKind.Normal, force: true);
                 inside.Add(best.b);
             }
         }

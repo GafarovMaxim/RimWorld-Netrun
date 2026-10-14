@@ -365,28 +365,44 @@ public static partial class GatewayView
         return s;
     }
 
-    // A name tag's text width per hub, measured once per text (not per frame).
-    private static readonly Dictionary<int, (string text, float width)> NameWidths = [];
+    // A plate's text width, measured once per text (not per frame); the texts are cached strings, so this stays small.
+    private static readonly Dictionary<string, float> NameWidths = [];
 
-    private static float NameWidth(int id, string text)
+    private static float NameWidth(string text)
     {
-        if (NameWidths.TryGetValue(id, out var cached) && ReferenceEquals(cached.text, text))
-            return cached.width;
+        if (NameWidths.TryGetValue(text, out float w))
+            return w;
         Text.Font = GameFont.Tiny;
-        float w = Text.CalcSize(text).x;
-        NameWidths[id] = (text, w);
+        w = Text.CalcSize(text).x;
+        if (NameWidths.Count > 400)
+            NameWidths.Clear();
+        NameWidths[text] = w;
         return w;
     }
 
+    private struct NamePlate
+    {
+        public Rect Tag, Hub;
+        public MapNode Node;
+        public string Text;
+        public Color Edge;
+        public int Priority;
+        public bool Capital, Interesting;
+    }
+
+    // This frame's name plates and the places already taken (district plates first, then hub names by priority).
+    private static readonly List<NamePlate> NameQueue = [];
+    private static readonly List<Rect> PlacedPlates = [];
+
     /// <summary>
-    /// The hub's name in a small terminal tag under the hub (Maxim, 2026-10-14): a dark plate with a thin edge in the hub's
-    /// colour and a marker tick on the left; the loot bars hang under it. Returns the tag's rect, or an empty rect when the
-    /// name is not shown at this zoom.
+    /// Queues the hub's name plate (Maxim, 2026-10-14: a terminal tag under the hub, loot bars under it). The plates are
+    /// drawn after all hubs by <see cref="FlushHubNames"/>, most important first, and one that would overlap a plate
+    /// already drawn is left out (its name is still in the hover card). False when the name is not shown at this zoom.
     /// </summary>
-    private static Rect DrawHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
+    private static bool QueueHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
     {
         if (n.District == District.Home || _zoom < 0.8f)
-            return default;
+            return false;
         bool interesting = n.Fortress || n.Exit || net.Watch.Contains(n.Id) || n.Id == _selectedMapNode;
         if (!interesting)
             for (int i = 0; i < branches.Count; i++)
@@ -396,27 +412,66 @@ public static partial class GatewayView
                     break;
                 }
         if (!interesting && _zoom < 1.3f)
-            return default;
+            return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
         string text = capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
-        float w = NameWidth(n.Id, text) + 14f;
-        var tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f);
-        bool dims = LegendDims(n.Id);
-        Color edge = HubColor(n, net);
+        float w = NameWidth(text) + 14f;
+        NameQueue.Add(new NamePlate
+        {
+            Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f),
+            Hub = hubRect,
+            Node = n,
+            Text = text,
+            Edge = HubColor(n, net),
+            Priority = n.Id == _selectedMapNode ? 4 : capital ? 3 : interesting ? 2 : 1,
+            Capital = capital,
+            Interesting = interesting,
+        });
+        return true;
+    }
+
+    private static bool PlateFree(Rect r)
+    {
+        Rect padded = r.ExpandedBy(2f);
+        for (int i = 0; i < PlacedPlates.Count; i++)
+            if (PlacedPlates[i].Overlaps(padded))
+                return false;
+        return true;
+    }
+
+    /// <summary>Draws the queued hub names, most important first, skipping any that would cover a plate already drawn.</summary>
+    private static void FlushHubNames()
+    {
+        NameQueue.Sort((x, y) => y.Priority.CompareTo(x.Priority));
+        foreach (NamePlate plate in NameQueue)
+        {
+            // The loot bars hang under the plate: they need room too.
+            Rect footprint = new(plate.Tag.x, plate.Tag.y, plate.Tag.width, plate.Tag.height + 5f);
+            if (plate.Priority < 4 && !PlateFree(footprint))
+                continue;
+            PlacedPlates.Add(footprint);
+            DrawPlate(plate.Tag, plate.Text, plate.Edge, LegendDims(plate.Node.Id), plate.Capital ? 0.8f : plate.Interesting ? 0.55f : 0.3f, plate.Capital);
+            DrawLootDots(plate.Hub, plate.Node, plate.Tag);
+        }
+        NameQueue.Clear();
+    }
+
+    /// <summary>A terminal plate: a dark tag with a thin edge in the given colour and a marker tick on the left.</summary>
+    private static void DrawPlate(Rect tag, string text, Color edge, bool dims, float edgeAlpha, bool colouredText)
+    {
         float a = dims ? 0.3f : 1f;
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.82f * a));
-        GUI.color = new Color(edge.r, edge.g, edge.b, (capital ? 0.8f : interesting ? 0.55f : 0.3f) * a);
+        GUI.color = new Color(edge.r, edge.g, edge.b, edgeAlpha * a);
         Widgets.DrawBox(tag);
         GUI.color = Color.white;
         Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleCenter;
-        GUI.color = capital ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
+        GUI.color = colouredText ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
         Widgets.Label(new Rect(tag.x + 3f, tag.y, tag.width - 3f, tag.height), text);
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        return tag;
     }
 
     /// <summary>Visited hubs keep a faint rim (the last visit is in the hover card).</summary>

@@ -362,22 +362,26 @@ public static partial class GatewayView
     /// A green grid that pans and zooms with the field. Quietly alive: now and then a packet runs along a line,
     /// and a soft ripple spreads from a random point.
     /// </summary>
-    private static void DrawGrid(Rect rect)
+    /// <summary>
+    /// The backdrop grid with its packets and motes. On the cyberspace map it moves with the pan (Maxim, 2026-10-14:
+    /// the animations belong to the map, not to the camera); the pattern repeats as a tile, so it never runs out.
+    /// </summary>
+    private static void DrawGrid(Rect rect, Vector2 offset = default)
     {
-        // A fixed backdrop: the grid and its sparks do not move with the pan (Maxim 2026-10-09).
         float step = 40f;
-        float ox = 0f, oy = 0f;
-        int ix = 0, iy = 0;
+        float ox = Mathf.Repeat(offset.x, step), oy = Mathf.Repeat(offset.y, step);
+        // Which grid line is the first one drawn, so the major lines (every fifth) stay on the same lines while panning.
+        int ix = Mathf.FloorToInt(offset.x / step), iy = Mathf.FloorToInt(offset.y / step);
         int col = 0;
         for (float x = ox; x < rect.width; x += step, col++)
         {
-            bool major = (col - ix) % 5 == 0;
+            bool major = ((col - ix) % 5 + 5) % 5 == 0;
             Widgets.DrawBoxSolid(new Rect(x, 0f, 1f, rect.height), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.09f : 0.045f));
         }
         int row = 0;
         for (float y = oy; y < rect.height; y += step, row++)
         {
-            bool major = (row - iy) % 5 == 0;
+            bool major = ((row - iy) % 5 + 5) % 5 == 0;
             Widgets.DrawBoxSolid(new Rect(0f, y, rect.width, 1f), new Color(GridColor.r, GridColor.g, GridColor.b, major ? 0.09f : 0.045f));
         }
         if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
@@ -417,7 +421,7 @@ public static partial class GatewayView
             int slot = Mathf.FloorToInt(f);
             float t = f - slot;
             var rnd = new GridRng(slot * 131 + k * 7);
-            var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+            var p = new Vector2(Mathf.Repeat((float)rnd.NextDouble() * rect.width + offset.x, rect.width), Mathf.Repeat((float)rnd.NextDouble() * rect.height + offset.y, rect.height));
             float a = 0.35f * Mathf.Sin(t * Mathf.PI);
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a * 0.5f);
             GUI.DrawTexture(new Rect(p.x - 5f, p.y - 5f, 10f, 10f), NetrunUI.GlowTex);
@@ -433,7 +437,7 @@ public static partial class GatewayView
             if (t < 0.45f)
             {
                 var rnd = new GridRng(slot * 7919);
-                var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+                var c = new Vector2(Mathf.Repeat((float)rnd.NextDouble() * rect.width + offset.x, rect.width), Mathf.Repeat((float)rnd.NextDouble() * rect.height + offset.y, rect.height));
                 float r = Mathf.Lerp(10f, Mathf.Max(rect.width, rect.height) * 0.45f, t / 0.45f);
                 GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, 0.12f * (1f - t / 0.45f));
                 GUI.DrawTexture(new Rect(c.x - r, c.y - r, r * 2f, r * 2f), NetrunUI.ThinRing);
@@ -875,7 +879,10 @@ public static partial class GatewayView
     {
         if (NetMapManager.Get() is { Ready: true } net)
         {
-            NetrunUI.HeaderChip(xMax, y, "NR_MapRunnersChip".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners), "NR_MapRunnersChipTip".Translate());
+            float cx = NetrunUI.HeaderChip(xMax, y, "NR_MapRunnersChip".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners), "NR_MapRunnersChipTip".Translate()) - 8f;
+            // The colony's worst netsick, left of the runners (Maxim, 2026-10-14): runners in pods count too.
+            (string text, string tip) sick = NetrunUI.Cached("gateway.netsickChip", () => NetsickChip(map), 1f);
+            NetrunUI.HeaderChip(cx, y, sick.text, sick.tip);
             return;
         }
         Pawn runner = GatewayManager.Runner(map, out _);
@@ -884,6 +891,27 @@ public static partial class GatewayView
             : "NR_GatewayPodNone".Translate().Colorize(NetrunUI.Bad), "NR_TipPod".Translate()) - 8f;
         if (runner != null)
             NetrunUI.HeaderChip(x, y, "NR_GatewayRunner".Translate(runner.LabelShort), "NR_TipRunner".Translate());
+    }
+
+    /// <summary>"Netsick: strong" in the colour of the worst case among the colonists, with everyone's level on hover.</summary>
+    private static (string, string) NetsickChip(Map map)
+    {
+        Hediff worst = null;
+        var lines = new List<string>();
+        foreach (Pawn p in map.mapPawns.FreeColonists)
+        {
+            Hediff h = p.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick);
+            if (h == null)
+                continue;
+            lines.Add($"{p.LabelShort}: {h.CurStage?.label ?? h.Severity.ToStringPercent()}");
+            if (worst == null || h.Severity > worst.Severity)
+                worst = h;
+        }
+        if (worst == null)
+            return (NetrunUI.T("NR_StatusNetsickNone").Colorize(NetrunUI.Muted), "NR_MapNetsickChipTip".Translate());
+        Color c = worst.Severity >= 0.6f ? NetrunUI.Bad : worst.Severity >= 0.3f ? NetrunUI.Warn : NetrunUI.TextColor;
+        string stage = worst.CurStage?.label ?? worst.Severity.ToStringPercent();
+        return ("NR_MapNetsickChip".Translate(stage).Colorize(c), "NR_MapNetsickChipTip".Translate() + "\n\n" + string.Join("\n", lines));
     }
 
     private static readonly (float angle, float length)[] HomeNotches = [(-60f, 7f), (75f, 5f), (190f, 9f)];

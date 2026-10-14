@@ -92,8 +92,25 @@ public partial class NetMapManager
             n.X = p.x;
             n.Y = p.y;
             n.CorpSlot = ground[0].CorpSlot;
-            foreach (MapNode down in ground.OrderBy(h => Vector2.Distance(h.Pos, p)).Take(2))
+            // Two clear links down to the corporation's ground (none through its capital); the nearest hub if none is clear.
+            Map.Dirty();
+            int linked = 0;
+            System.Collections.Generic.List<MapNode> byDistance = ground.OrderBy(h => Vector2.Distance(h.Pos, p)).ToList();
+            foreach (MapNode down in byDistance)
+            {
+                if (linked >= 2)
+                    break;
+                if (!Map.LinkClear(n.Id, down.Id))
+                    continue;
                 Map.Links.Add(new MapLink { A = n.Id, B = down.Id, Kind = LinkKind.Normal });
+                Map.Dirty();
+                linked++;
+            }
+            if (linked == 0 && byDistance.Count > 0)
+            {
+                Map.Links.Add(new MapLink { A = n.Id, B = byDistance[0].Id, Kind = LinkKind.Normal });
+                Map.Dirty();
+            }
         }
     }
 

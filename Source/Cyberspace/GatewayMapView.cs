@@ -75,6 +75,7 @@ public static partial class GatewayView
         _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
                           || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse)
                           || LensBarRect(rect).Contains(mouse)
+                          || new Rect(ZoomRect(rect).x, ZoomRect(rect).y, 102f, 76f).Contains(mouse)
                           || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - LensBoxH - 6f, 360f, LensBoxH).Contains(mouse)
                           || NetrunMod.Settings.MapLegend && LegendRect(rect, net).Contains(mouse);
         int hovered = _hoverHub;
@@ -93,9 +94,11 @@ public static partial class GatewayView
         NetRunner selRunner = SelectedRunner(net);
         if (paint)
         {
-            DrawGrid(local);
+            DrawGrid(local, _pan);
 
-            // District names, faint, at the middle of each district (positions and texts rebuilt every 2 s, not per frame).
+            // District names as plates (positions and texts rebuilt every 2 s, not per frame); they take their place first,
+            // and hub names that would cover them are left out.
+            PlacedPlates.Clear();
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
             foreach ((Vector2 pos, string text, Color color, bool corp, float radius, Vector2 top) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
@@ -115,9 +118,13 @@ public static partial class GatewayView
                 // A watermark under the links, fixed in map space (Maxim, 2026-10-14: no sliding to the screen edge) and
                 // above the district's topmost hub, clear of the hubs and their branch markers; off screen it is not drawn.
                 Vector2 t = ToScreen(local, top);
-                var labelRect = new Rect(t.x - 90f, t.y - 30f * Mathf.Sqrt(_zoom) - 20f, 180f, 18f);
-                if (labelRect.Overlaps(local))
-                    Widgets.Label(labelRect, text);
+                float pw = NameWidth(text) + 16f;
+                var plate = new Rect(t.x - pw / 2f, t.y - 30f * Mathf.Sqrt(_zoom) - 20f, pw, 17f);
+                if (plate.Overlaps(local) && PlateFree(plate))
+                {
+                    PlacedPlates.Add(plate);
+                    DrawPlate(plate, text, color, false, corp ? 0.5f : 0.3f, false);
+                }
             }
             Text.Anchor = TextAnchor.UpperLeft;
 
@@ -145,6 +152,9 @@ public static partial class GatewayView
             DrawMapNode(local, n, net, paint);
         }
 
+        if (paint)
+            FlushHubNames();
+
         // Intrusion packets walking toward Home.
         if (paint)
             foreach (IntrusionPacket packet in IntrusionManager.Get()?.Packets ?? [])
@@ -155,7 +165,9 @@ public static partial class GatewayView
             DrawRunner(local, r, net, r == selRunner);
         Widgets.EndGroup();
 
-        DrawZoomButtons(new Rect(rect.xMax - 3 * 34f - 4f, rect.y + 6f, 3 * 34f, 30f));
+        // Zoom, % and H / R in the bottom right corner (Maxim, 2026-10-14: at the top they covered the lens buttons),
+        // above the minimap when it is shown.
+        DrawZoomButtons(ZoomRect(rect));
         DrawHeatEdge(rect);
         DrawRunnerArrows(rect, net);
         DrawMinimap(rect, net);
@@ -168,6 +180,9 @@ public static partial class GatewayView
         if (NetrunMod.Settings.MapMinimap)
             GuideRegistry.Area("gateway.minimap", new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f));
     }
+
+    /// <summary>The zoom buttons' row; the % label and the H / R buttons hang below it (76 px in all).</summary>
+    private static Rect ZoomRect(Rect map) => new(map.xMax - 3 * 34f - 6f, map.yMax - 82f - (NetrunMod.Settings.MapMinimap ? 124f : 0f), 3 * 34f, 30f);
 
     private static string DistrictLabel(MapNode n, NetMapManager net)
     {
@@ -281,7 +296,7 @@ public static partial class GatewayView
             float radius = g.Max(n => Vector2.Distance(n.Pos, centre));
             // The label stands over the district's topmost hub, at the district's middle across.
             var top = new Vector2(centre.x, g.Min(n => n.Pos.y));
-            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.5f : 0.3f)), dc, corp, radius, top));
+            list.Add((centre, DistrictLabel(first, net).ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.85f : 0.6f)), dc, corp, radius, top));
         }
         return list;
     }
@@ -630,24 +645,18 @@ public static partial class GatewayView
             var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
             // The node's type as a shape (square market, ring archive, hexagon corp, triangle abandoned, diamond exchange).
             DrawShape(brect, b, c.a);
-            if ((b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs) && !b.Hidden)
-            {
-                // A contract target or a guard gateway: a small amber diamond badge on the node.
-                var badge = new Rect(brect.xMax - 3f, brect.y - 5f, 8f, 8f);
-                GUI.color = NetrunUI.BgWindow;
-                GUI.DrawTexture(badge.ExpandedBy(1.5f), ShapeTex(Shape.Diamond, true));
-                GUI.color = NetrunUI.Warn;
-                GUI.DrawTexture(badge, ShapeTex(Shape.Diamond, true));
-                GUI.color = Color.white;
-            }
+            if (!b.Hidden && b.Contract)
+                DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), true);
+            else if (!b.Hidden && b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
+                DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), false);
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
         if (WatchedHubs().Contains(n.Id))
             DrawWatchTag(rect);
         DrawTimerTag(rect, n, net);
-        Rect nameTag = DrawHubName(rect, n, net, branches);
-        DrawLootDots(rect, n, nameTag);
+        if (!QueueHubName(rect, n, net, branches))
+            DrawLootDots(rect, n, default);
 
         if (hover && !_mouseOnOverlay)
             NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
@@ -690,6 +699,30 @@ public static partial class GatewayView
         Widgets.DrawLine(new Vector2(m.x, m.y + r0), new Vector2(m.x, m.y + r1), tick, 1.5f);
         Widgets.DrawLine(new Vector2(m.x - r0, m.y), new Vector2(m.x - r1, m.y), tick, 1.5f);
         Widgets.DrawLine(new Vector2(m.x + r0, m.y), new Vector2(m.x + r1, m.y), tick, 1.5f);
+    }
+
+    /// <summary>
+    /// A node's badge (Maxim, 2026-10-14: the old amber diamond was unclear and looked like a capital's core): a contract
+    /// target is a small amber job tag with "!", a guard gateway (the lock of a protected hub) a small lock. Both are in the legend.
+    /// </summary>
+    private static void DrawNodeBadge(Rect r, bool contract)
+    {
+        Widgets.DrawBoxSolid(r.ExpandedBy(1f), NetrunUI.BgWindow);
+        if (contract)
+        {
+            Widgets.DrawBoxSolid(r, NetrunUI.Warn);
+            Text.Font = GameFont.Tiny;
+            Text.Anchor = TextAnchor.MiddleCenter;
+            GUI.color = NetrunUI.BgWindow;
+            Widgets.Label(new Rect(r.x - 2f, r.y - 2f, r.width + 4f, r.height + 4f), "!");
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+        else if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+        {
+            GUI.color = NetrunUI.Warn;
+            GUI.DrawTexture(r, lockTex);
+        }
+        GUI.color = Color.white;
     }
 
     /// <summary>Right click (menu) and left click (select, deselect, travel) on a hub.</summary>

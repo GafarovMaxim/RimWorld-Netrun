@@ -32,7 +32,7 @@ public static class NetrunDebugActions
     {
         var options = new List<DebugMenuOption>();
         foreach (NetSize size in System.Enum.GetValues(typeof(NetSize)))
-            options.Add(new DebugMenuOption(size.ToString(), DebugMenuOptionMode.Action, () => NetMapManager.Get()?.Generate(size)));
+            options.Add(new DebugMenuOption(size.ToString(), DebugMenuOptionMode.Action, () => NetMapManager.Get()?.Generate(size, freshSeed: true)));
         Find.WindowStack.Add(new Dialog_DebugOptionListLister(options));
     }
 

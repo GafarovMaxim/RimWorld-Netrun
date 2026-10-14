@@ -74,9 +74,10 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
     // ---- Generation ----
 
     /// <summary>Builds the map for this world and hangs branches on it; existing branches move onto the map.</summary>
-    public void Generate(NetSize size)
+    /// <param name="freshSeed">A new random map instead of the world's own (dev "regenerate": the world seed gave the same map again).</param>
+    public void Generate(NetSize size, bool freshSeed = false)
     {
-        int seed = Find.World?.info?.Seed.GetHashCode() ?? Rand.Int;
+        int seed = freshSeed ? Rand.Int : Find.World?.info?.Seed.GetHashCode() ?? Rand.Int;
         Map = CyberMapGenerator.Generate(size, seed);
         _orbitByCorp = false;
         MarkedNodeId = -1;

@@ -19,6 +19,9 @@
   <NR_NetSizeTip_Small>Около 24 узлов, три корпорации. Тесная сеть: всё рядом, у корпораций доля больше.</NR_NetSizeTip_Small>
   <NR_NetSizeTip_Normal>Около 32 узлов, три корпорации, все районы, включая Кампус.</NR_NetSizeTip_Normal>
   <NR_NetSizeTip_Large>Около 41 узла, четыре корпорации, больше ответвлений в каждом районе. До дальнего узла всё равно около 6 часов от Дома. Рекомендуется.</NR_NetSizeTip_Large>
+  <NR_NetLayout_Random>Случайно</NR_NetLayout_Random>
+  <NR_SettingsMapLayout>Схема карты киберпространства</NR_SettingsMapLayout>
+  <NR_SettingsMapLayoutTip>Как районы расположены на новой карте. Кольцо: транзитные узлы кругом в центре. Хребет: транзитная линия через всю карту. Архипелаг: районы порознь, связей между ними мало. Метро: плотная сеть с множеством связей. Случайно: выбирает сид мира. Действует на новую карту (режим разработчика: «Cyberspace: regenerate map»).</NR_SettingsMapLayoutTip>
   <NR_NetLayout_Ring>Кольцо</NR_NetLayout_Ring>
   <NR_NetLayout_Spine>Хребет</NR_NetLayout_Spine>
   <NR_NetLayout_Archipelago>Архипелаг</NR_NetLayout_Archipelago>
@@ -175,6 +178,8 @@
   <NR_Legend_LinkWall>Стена</NR_Legend_LinkWall>
   <NR_Legend_LinkJammed>Заглушённая связь</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Платная связь</NR_Legend_LinkToll>
+  <NR_Legend_ContractNode>Цель контракта (нода)</NR_Legend_ContractNode>
+  <NR_Legend_GuardGate>Шлюз охраны (нода)</NR_Legend_GuardGate>
   <NR_Legend_Guarded>Защищённый узел</NR_Legend_Guarded>
   <NR_GuardLocked>Защищённый корпоративный узел: сначала сломайте шлюз охраны (⚿, в соседнем узле).</NR_GuardLocked>
   <NR_GuardBroken>Шлюз охраны сломан: узел {0} открыт на {1}. Добыча там богаче обычного.</NR_GuardBroken>
@@ -192,4 +197,6 @@
   <NR_Legend_HeadCorps>Корпорации</NR_Legend_HeadCorps>
   <NR_Legend_Clear>сбросить ✕</NR_Legend_Clear>
   <NR_MapHubNodes>Ноды</NR_MapHubNodes>
+  <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
+  <NR_MapNetsickChipTip>Самая тяжёлая сетевая болезнь среди колонистов, включая раннеров в капсулах. Растёт от времени в сети и проходит офлайн; после стадии «сильная» долгий нырок опасен.</NR_MapNetsickChipTip>
 </LanguageData>

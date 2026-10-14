@@ -196,6 +196,37 @@ public class CyberMap : IExposable
         return _adjacency.TryGetValue(id, out List<MapLink> list) ? list : [];
     }
 
+    /// <summary>
+    /// True when a straight link a-b would cross no other link and pass no other hub closely (map generation: a link
+    /// through a hub or over another link read as a wrong connection, Maxim 2026-10-14).
+    /// </summary>
+    public bool LinkClear(int a, int b, float clearance = 0.024f)
+    {
+        Vector2 pa = Node(a).Pos, pb = Node(b).Pos;
+        foreach (MapNode o in Nodes)
+            if (o.Id != a && o.Id != b && DistanceToSegment(o.Pos, pa, pb) < clearance)
+                return false;
+        foreach (MapLink l in Links)
+            if (!l.Has(a) && !l.Has(b) && SegmentsCross(pa, pb, Node(l.A).Pos, Node(l.B).Pos))
+                return false;
+        return true;
+    }
+
+    private static float DistanceToSegment(Vector2 p, Vector2 a, Vector2 b)
+    {
+        Vector2 ab = b - a;
+        float len2 = ab.sqrMagnitude;
+        float t = len2 < 1e-6f ? 0f : Mathf.Clamp01(Vector2.Dot(p - a, ab) / len2);
+        return Vector2.Distance(p, a + ab * t);
+    }
+
+    private static bool SegmentsCross(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
+    {
+        static float Cross(Vector2 o, Vector2 x, Vector2 y) => (x.x - o.x) * (y.y - o.y) - (x.y - o.y) * (y.x - o.x);
+        float d1 = Cross(p3, p4, p1), d2 = Cross(p3, p4, p2), d3 = Cross(p1, p2, p3), d4 = Cross(p1, p2, p4);
+        return d1 * d2 < 0f && d3 * d4 < 0f;
+    }
+
     public MapLink LinkBetween(int a, int b) => LinksOf(a).FirstOrDefault(l => l.Other(a) == b);
 
     /// <summary>Can a runner use this link now.</summary>

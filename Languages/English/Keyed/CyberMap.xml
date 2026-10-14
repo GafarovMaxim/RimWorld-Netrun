@@ -19,6 +19,9 @@
   <NR_NetSizeTip_Small>About 24 hubs, three corporations. A tight net: everything is close, the corporations take a bigger share.</NR_NetSizeTip_Small>
   <NR_NetSizeTip_Normal>About 32 hubs, three corporations, every district including the Campus.</NR_NetSizeTip_Normal>
   <NR_NetSizeTip_Large>About 41 hubs, four corporations, more nodes in every district. The farthest hub is still about 6 hours from Home. Recommended.</NR_NetSizeTip_Large>
+  <NR_NetLayout_Random>Random</NR_NetLayout_Random>
+  <NR_SettingsMapLayout>Cyberspace map layout</NR_SettingsMapLayout>
+  <NR_SettingsMapLayoutTip>How the districts are laid out on new maps. Ring: the transit hubs in a circle in the middle. Spine: a transit line across the map. Archipelago: districts apart, few links between them. Metro: a dense net with many links. Random: picked by the world seed. Changes apply to a new map (dev mode: "Cyberspace: regenerate map").</NR_SettingsMapLayoutTip>
   <NR_NetLayout_Ring>Ring</NR_NetLayout_Ring>
   <NR_NetLayout_Spine>Spine</NR_NetLayout_Spine>
   <NR_NetLayout_Archipelago>Archipelago</NR_NetLayout_Archipelago>
@@ -175,6 +178,8 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_Legend_LinkWall>The Wall</NR_Legend_LinkWall>
   <NR_Legend_LinkJammed>Jammed link</NR_Legend_LinkJammed>
   <NR_Legend_LinkToll>Toll link</NR_Legend_LinkToll>
+  <NR_Legend_ContractNode>Contract target (node)</NR_Legend_ContractNode>
+  <NR_Legend_GuardGate>Guard gateway (node)</NR_Legend_GuardGate>
   <NR_Legend_Guarded>Protected hub</NR_Legend_Guarded>
   <NR_GuardLocked>A protected corporate hub: break its guard gateway (⚿, in a hub next door) first.</NR_GuardLocked>
   <NR_GuardBroken>The guard gateway is down: {0} is open for {1}. Its loot is richer than usual.</NR_GuardBroken>
@@ -192,4 +197,6 @@ Autopause can be turned off in the settings.</NR_MapThreat>
   <NR_Legend_HeadCorps>Corporations</NR_Legend_HeadCorps>
   <NR_Legend_Clear>clear ✕</NR_Legend_Clear>
   <NR_MapHubNodes>Nodes</NR_MapHubNodes>
+  <NR_MapNetsickChip>Netsick: {0}</NR_MapNetsickChip>
+  <NR_MapNetsickChipTip>The worst net sickness among your colonists, runners in pods included. It grows with time in the net and fades offline; past "strong" a long dive is a risk.</NR_MapNetsickChipTip>
 </LanguageData>

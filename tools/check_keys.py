@@ -29,7 +29,7 @@ DYNAMIC = {
     "NR_Intro_": ["0", "1", "2"],
     # Glass Screen is commented out for now (2026-10-09); its setting keys stay for when it comes back.
     "NR_CustomGlass": ["", "Tip"],
-    "NR_Legend_": ["Home", "Exit", "Fortress", "Guarded", "Visited", "Watched", "Patrol", "Offline", "Storm", "Transit",
+    "NR_Legend_": ["Home", "Exit", "Fortress", "Guarded", "ContractNode", "GuardGate", "Visited", "Watched", "Patrol", "Offline", "Storm", "Transit",
                    "LinkFast", "LinkDark", "LinkWall", "LinkJammed", "LinkToll"],
     "NR_MapLensLow_": ["Loot", "Danger", "Time"],
     "NR_MapLens_": ["Overview", "Loot", "Danger", "Corps", "Contracts", "Time"],

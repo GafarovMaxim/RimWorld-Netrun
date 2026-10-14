@@ -53,6 +53,8 @@ public static partial class GatewayView
         Exit,
         Fortress,
         Guarded,
+        ContractNode,
+        GuardGate,
         Visited,
         Watched,
         Patrol,
@@ -245,6 +247,8 @@ public static partial class GatewayView
                 LegendItem.Exit => n.Exit,
                 LegendItem.Fortress => n.Fortress,
                 LegendItem.Guarded => n.Guarded && NetrunMod.Settings.ProtectedHubs || GatewayManager.Get()?.AllBranches.Any(b => b.GuardFor >= 0 && b.MapNodeId == n.Id) == true,
+                LegendItem.ContractNode => GatewayManager.Get()?.AllBranches.Any(b => b.Contract && !b.Hidden && b.MapNodeId == n.Id) == true,
+                LegendItem.GuardGate => GatewayManager.Get()?.AllBranches.Any(b => b.GuardFor >= 0 && !b.Hidden && b.MapNodeId == n.Id) == true,
                 LegendItem.Visited => n.LastVisitTick >= 0,
                 LegendItem.Watched => watched.Contains(n.Id) || net.Watch.Contains(n.Id),
                 LegendItem.Patrol => n.Patrol,
@@ -294,7 +298,7 @@ public static partial class GatewayView
             case LegendItem.Fortress:
                 GUI.color = NetrunUI.Bad;
                 GUI.DrawTexture(r, DashedRing);
-                GUI.color = NetrunUI.Warn;
+                GUI.color = NetrunUI.TextColor;
                 GUI.DrawTexture(r.ContractedBy(4f), ShapeTex(Shape.Diamond, true));
                 break;
             case LegendItem.Guarded:
@@ -302,6 +306,12 @@ public static partial class GatewayView
                 GUI.DrawTexture(r, DashedRing);
                 if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
                     GUI.DrawTexture(r.ContractedBy(3f), lockTex);
+                break;
+            case LegendItem.ContractNode:
+                DrawNodeBadge(r.ContractedBy(3f), true);
+                break;
+            case LegendItem.GuardGate:
+                DrawNodeBadge(r.ContractedBy(3f), false);
                 break;
             case LegendItem.Visited:
                 GUI.color = NetrunUI.TextColor;
