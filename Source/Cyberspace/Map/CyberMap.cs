@@ -212,6 +212,11 @@ public class CyberMap : IExposable
         return true;
     }
 
+    /// <summary>Whether two links cross (sharing an end does not count).</summary>
+    public bool Crosses(MapLink a, MapLink b)
+        => Node(a.A) != null && Node(a.B) != null && Node(b.A) != null && Node(b.B) != null
+           && SegmentsCross(Node(a.A).Pos, Node(a.B).Pos, Node(b.A).Pos, Node(b.B).Pos);
+
     private static float DistanceToSegment(Vector2 p, Vector2 a, Vector2 b)
     {
         Vector2 ab = b - a;

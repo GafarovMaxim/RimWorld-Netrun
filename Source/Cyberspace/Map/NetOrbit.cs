@@ -18,6 +18,7 @@ public partial class NetMapManager
     private bool _orbitWasOpen;
     private bool _orbitByCorp;
     private int _orbitVersion;
+    private int _layoutVersion;
 
     /// <summary>A player home map is in space right now (checked at most every 250 ticks).</summary>
     /// <summary>Dev: the orbit counts as reached without a gravship in space (not saved).</summary>
@@ -44,6 +45,13 @@ public partial class NetMapManager
     /// <summary>Adds the orbital nodes once (Odyssey only) and announces when the orbit opens or closes.</summary>
     private void EnsureOrbit()
     {
+        // Layout version 1 (2026-10-15): hubs step back from Home and crossing links go, once per older save.
+        if (Ready && _layoutVersion < 1)
+        {
+            CyberMapGenerator.ClearHome(Map);
+            CyberMapGenerator.Uncross(Map);
+            _layoutVersion = 1;
+        }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;
         // Version 2 (2026-10-14): placed on free ground with one clear link; older saves are laid out again once.
@@ -142,5 +150,6 @@ public partial class NetMapManager
         Scribe_Values.Look(ref _orbitWasOpen, "orbitWasOpen");
         Scribe_Values.Look(ref _orbitByCorp, "orbitByCorp");
         Scribe_Values.Look(ref _orbitVersion, "orbitVersion");
+        Scribe_Values.Look(ref _layoutVersion, "layoutVersion");
     }
 }

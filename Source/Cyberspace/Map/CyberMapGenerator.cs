@@ -152,6 +152,8 @@ public static class CyberMapGenerator
             int placed = 0, tries = 0;
             // Room between hubs for their name plates and markers (Maxim, 2026-10-14: the map was cramped).
             float minDist = 0.068f;
+            // Home goes on the left edge later: keep its spot clear, or a neighbour sat on top of it.
+            var homeSpot = new Vector2(0.02f, L.Centers[Outskirts].y);
             while (placed < n && tries < 4000)
             {
                 tries++;
@@ -162,6 +164,8 @@ public static class CyberMapGenerator
                 if (!(x > 0.03f && x < 0.985f && y > 0.03f && y < 0.64f))
                     continue;
                 if (nodes.Any(o => Vector2.Distance(new Vector2(x, y), o.Pos) < minDist))
+                    continue;
+                if (Vector2.Distance(new Vector2(x, y), homeSpot) < HomeClearance)
                     continue;
                 Add(key, x, y, Rand.RangeInclusive(lo, hi));
                 placed++;
@@ -331,12 +335,11 @@ public static class CyberMapGenerator
             if (ids.Count > 0)
                 Link(dark.Id, ids.MinBy(j => Dist(dark.Id, j)), LinkKind.Dark);
         }
+        // The shortcut only where it crosses nothing (a long dark line across the map read as a broken link).
         List<int> far = main.OrderByDescending(i => Dist(dark.Id, i)).Take(6).ToList();
-        if (far.Count >= 2)
-        {
-            List<int> pick = far.InRandomOrder().Take(2).ToList();
-            Link(pick[0], pick[1], LinkKind.Dark);
-        }
+        foreach ((int a, int b) in (from a in far from b in far where a < b select (a, b)).InRandomOrder())
+            if (Link(a, b, LinkKind.Dark))
+                break;
 
         // One fortress per corporation: its node farthest from Home.
         foreach (string key in CorpKeys)
@@ -358,8 +361,93 @@ public static class CyberMapGenerator
             if (n.District == District.Transit || nodes.Where(o => o.Exit).All(o => map.Hops(i, o.Id, 2) >= 2))
                 n.Exit = true;
         }
+        Uncross(map);
         map.Dirty();
         return map;
+    }
+
+    /// <summary>How far other hubs keep from Home (Maxim, 2026-10-15: a neighbour sat right on top of it).</summary>
+    public const float HomeClearance = 0.11f;
+
+    /// <summary>
+    /// Removes crossings: of two crossing links the longer normal or fast one goes (or the other one), as long as every
+    /// hub that was reachable stays reachable. Dark and wall links stay; a normal link crossing them goes instead.
+    /// </summary>
+    public static int Uncross(CyberMap map)
+    {
+        if (map.Node(map.HomeId) == null)
+            return 0;
+        List<int> reach = Reachable(map, map.HomeId);
+        static bool Removable(MapLink l) => l.Kind is LinkKind.Normal or LinkKind.Fast;
+        float Len(MapLink l) => Vector2.Distance(map.Node(l.A).Pos, map.Node(l.B).Pos);
+        int removed = 0;
+        for (int guard = 0; guard < 200; guard++)
+        {
+            bool changed = false;
+            List<MapLink> links = map.Links.ToList();
+            for (int i = 0; i < links.Count && !changed; i++)
+            {
+                for (int j = i + 1; j < links.Count && !changed; j++)
+                {
+                    MapLink a = links[i], b = links[j];
+                    if (a.Has(b.A) || a.Has(b.B) || !map.Crosses(a, b))
+                        continue;
+                    foreach (MapLink cut in new[] { a, b }.Where(Removable).OrderByDescending(Len))
+                    {
+                        map.Links.Remove(cut);
+                        map.Dirty();
+                        if (Connected(map, reach))
+                        {
+                            removed++;
+                            changed = true;
+                            break;
+                        }
+                        map.Links.Add(cut);
+                        map.Dirty();
+                    }
+                }
+            }
+            if (!changed)
+                break;
+        }
+        return removed;
+    }
+
+    private static List<int> Reachable(CyberMap map, int from)
+    {
+        var seen = new HashSet<int> { from };
+        var stack = new Stack<int>();
+        stack.Push(from);
+        while (stack.Count > 0)
+        {
+            int u = stack.Pop();
+            foreach (MapLink l in map.LinksOf(u))
+                if (l.Kind is LinkKind.Normal or LinkKind.Fast && seen.Add(l.Other(u)))
+                    stack.Push(l.Other(u));
+        }
+        return seen.ToList();
+    }
+
+    /// <summary>Older saves: hubs too close to Home step back to the clearance, where there is room.</summary>
+    public static void ClearHome(CyberMap map)
+    {
+        MapNode home = map.Node(map.HomeId);
+        if (home == null)
+            return;
+        foreach (MapNode n in map.Nodes)
+        {
+            if (n.Id == home.Id || n.District is District.OldNet or District.Orbit)
+                continue;
+            Vector2 d = n.Pos - home.Pos;
+            if (d.magnitude >= HomeClearance * 0.8f)
+                continue;
+            Vector2 to = home.Pos + (d.sqrMagnitude < 1e-6f ? Vector2.right : d.normalized) * HomeClearance;
+            if (to.x < 0.03f || to.y < 0.03f || to.y > 0.64f || map.Nodes.Any(o => o.Id != n.Id && Vector2.Distance(o.Pos, to) < 0.05f))
+                continue;
+            n.X = to.x;
+            n.Y = to.y;
+        }
+        map.Dirty();
     }
 
     private static bool Connected(CyberMap map, List<int> ids)

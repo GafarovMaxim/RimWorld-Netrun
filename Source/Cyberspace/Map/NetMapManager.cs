@@ -682,44 +682,92 @@ public partial class NetMapManager : GameComponent, INetrunCleanable
 
     // ---- D2: protected corporate hubs (docs/CONCEPTS_D_2026-10-09.md, variant A) ----
 
-    public const float GuardedRewardMult = 1.8f;
+    public const float GuardedRewardMult = 1.4f;
     private const int GuardOpenTicks = 3 * GenDate.TicksPerDay;
     private const float GuardFailHeat = 6f;
 
     /// <summary>
-    /// Keeps two (three on a large net) corporate hubs protected, each with a guard gateway in a neighbouring hub. A
-    /// protected hub without any guard to break is opened for an hour, so the lock is never a dead end.
+    /// Every corporate hub is protected; its guard gateway (the key) lies in a neighbouring hub one step closer to free
+    /// ground: the hubs at the edge of a corporation open from a neutral neighbour, the inner ones from a hub of the same
+    /// corporation, so the chain always starts outside and never loops. A neutral hub keeps keys of one corporation only
+    /// (two corporations side by side never share a key hub). A protected hub with no key to break opens for an hour.
     /// </summary>
     private void EnsureGuards(int now)
     {
         if (!NetrunMod.Settings.ProtectedHubs || !Ready || Gateway == null)
             return;
-        int want = Map.Nodes.Count >= 60 ? 3 : 2;
-        int have = Map.Nodes.Count(n => n.Guarded);
-        if (have < want)
+        foreach (MapNode n in Map.Nodes)
         {
-            foreach (MapNode n in Map.Nodes.Where(n => !n.Guarded && n.District == District.Corp && !n.Fortress && !n.Exit && CorpOfSlot(n.CorpSlot) != null
-                         && Gateway.AllBranches.Any(b => b.MapNodeId == n.Id)).InRandomOrder().Take(want - have))
+            if (!n.Guarded && n.District == District.Corp && !n.Exit && CorpOfSlot(n.CorpSlot) != null)
             {
                 n.Guarded = true;
                 n.GuardOpenUntil = -1;
             }
         }
-        foreach (MapNode hub in Map.Nodes.Where(n => n.Guarded))
+
+        // Steps from free ground through protected hubs (free ground is 0).
+        var depth = new Dictionary<int, int>();
+        var queue = new Queue<MapNode>();
+        foreach (MapNode n in Map.Nodes)
+        {
+            if (!n.Guarded)
+            {
+                depth[n.Id] = 0;
+                queue.Enqueue(n);
+            }
+        }
+        while (queue.Count > 0)
+        {
+            MapNode n = queue.Dequeue();
+            foreach (MapLink l in Map.LinksOf(n.Id))
+            {
+                int other = l.A == n.Id ? l.B : l.A;
+                if (!depth.ContainsKey(other) && Map.Node(other) is { Guarded: true } next)
+                {
+                    depth[other] = depth[n.Id] + 1;
+                    queue.Enqueue(next);
+                }
+            }
+        }
+
+        // Which corporation each hub already keeps keys for.
+        var keysOf = new Dictionary<int, int>();
+        foreach (ExternalNode b in Gateway.AllBranches)
+            if (b.GuardFor >= 0 && b.MapNodeId >= 0 && Map.Node(b.GuardFor) is { } opens)
+                keysOf[b.MapNodeId] = opens.CorpSlot;
+
+        foreach (MapNode hub in Map.Nodes.Where(n => n.Guarded).OrderBy(n => depth.TryGetValue(n.Id, out int d) ? d : int.MaxValue))
         {
             if (Gateway.AllBranches.Any(b => b.GuardFor == hub.Id))
                 continue;
-            List<int> next = Map.LinksOf(hub.Id).Select(l => l.A == hub.Id ? l.B : l.A).ToList();
-            ExternalNode guard = Gateway.AllBranches
-                .Where(b => b.MapNodeId >= 0 && next.Contains(b.MapNodeId) && b.GuardFor < 0 && !b.IsBoss && !b.Ancient && !b.CounterHack
-                            && b.InterceptPacketId < 0 && Map.Node(b.MapNodeId)?.Guarded == false)
+            int d = depth.TryGetValue(hub.Id, out int dh) ? dh : -1;
+            ExternalNode guard = d <= 0 ? null : Gateway.AllBranches
+                .Where(b => b.MapNodeId >= 0 && b.GuardFor < 0 && !b.IsBoss && !b.Ancient && !b.CounterHack && !b.Lab && b.InterceptPacketId < 0
+                            && Map.LinksOf(hub.Id).Any(l => (l.A == hub.Id ? l.B : l.A) == b.MapNodeId)
+                            && depth.TryGetValue(b.MapNodeId, out int db) && db == d - 1
+                            && KeyHubFits(Map.Node(b.MapNodeId), hub.CorpSlot, keysOf))
                 .OrderByDescending(b => Map.Node(b.MapNodeId)?.CorpSlot == hub.CorpSlot)
                 .FirstOrDefault();
             if (guard != null)
+            {
                 guard.GuardFor = hub.Id;
+                keysOf[guard.MapNodeId] = hub.CorpSlot;
+            }
             else if (hub.GuardLocked)
+            {
                 hub.GuardOpenUntil = now + GenDate.TicksPerHour;
+            }
         }
+    }
+
+    /// <summary>A hub may hold keys of one corporation only: its own, or for a neutral hub the first one placed there.</summary>
+    private static bool KeyHubFits(MapNode keyHub, int corpSlot, Dictionary<int, int> keysOf)
+    {
+        if (keyHub == null)
+            return false;
+        if (keyHub.District == District.Corp && keyHub.CorpSlot != corpSlot)
+            return false;
+        return !keysOf.TryGetValue(keyHub.Id, out int slot) || slot == corpSlot;
     }
 
     /// <summary>D2: a dive into a guard gateway ended; a clean one opens the protected hub for three days.</summary>

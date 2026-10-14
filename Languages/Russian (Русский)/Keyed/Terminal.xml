@@ -427,7 +427,7 @@
   <NR_SettingsLegend>Легенда на карте</NR_SettingsLegend>
   <NR_SettingsLegendTip>Сворачиваемая легенда в левом нижнем углу карты киберпространства; щелчок по строке подсвечивает узлы, к которым она относится.</NR_SettingsLegendTip>
   <NR_SettingsProtectedHubs>Защищённые узлы корпораций</NR_SettingsProtectedHubs>
-  <NR_SettingsProtectedHubsTip>Два-три корпоративных узла закрыты, пока раннер не сломает шлюз охраны (⚿) в соседнем узле; после этого они открыты 3 дня, добыча ×1,8. Провал нырка там даёт +6 Heat.</NR_SettingsProtectedHubsTip>
+  <NR_SettingsProtectedHubsTip>Все узлы корпораций закрыты, пока раннер не сломает их ключ, шлюз охраны (жёлтый ромб) в соседнем узле: внешние узлы открываются с нейтральной земли, внутренние из узла той же корпорации. Открытый узел открыт 3 дня, добыча ×1,4. Провал нырка там даёт +6 Heat.</NR_SettingsProtectedHubsTip>
   <NR_SettingsNotifySounds>Звуки уведомлений</NR_SettingsNotifySounds>
   <NR_SettingsNotifySoundsTip>Звуки сообщений и писем Netrun. Только важные: угрозы, потери, итоги контрактов и нырков, события с выбором; остальное приходит без звука. Выкл.: никаких звуков уведомлений Netrun. Клики и звуки нырка не меняются.</NR_SettingsNotifySoundsTip>
   <NR_SettingsNotifyAll>Все</NR_SettingsNotifyAll>
