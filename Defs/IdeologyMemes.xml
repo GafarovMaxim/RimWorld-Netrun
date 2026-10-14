@@ -248,6 +248,11 @@
     <iconPath>UI/Netrun/Ideo/Meme_NetAscension</iconPath>
     <preceptClass>Netrun.Precept_NetRitual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_TraceCleansing</ritualPatternBase>
+    <!-- Only with a net meme (Maxim, 2026-10-14). -->
+    <requiredMemes>
+      <li>NR_Meme_NetAscension</li>
+      <li>NR_Meme_MachineRevelation</li>
+    </requiredMemes>
     <allowDuplicates>false</allowDuplicates>
     <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
     <receivesExpectationsQualityOffset>true</receivesExpectationsQualityOffset>
@@ -382,7 +387,19 @@
     <canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
     <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
     <createsRoleEmptyThought>false</createsRoleEmptyThought>
+    <!-- Only with a net meme, and like the game's own roles: a believer of this ideoligion (Maxim, 2026-10-14). -->
+    <requiredMemes>
+      <li>NR_Meme_NetAscension</li>
+      <li>NR_Meme_MachineRevelation</li>
+    </requiredMemes>
+    <certaintyLossFactor>0.5</certaintyLossFactor>
     <roleRequirements>
+      <li Class="RoleRequirement_SameIdeo">
+        <labelKey>RoleRequirementLabelSameIdeo</labelKey>
+      </li>
+      <li Class="RoleRequirement_SupremeGender">
+        <labelKey>RoleRequirementLabelSupremeGender</labelKey>
+      </li>
       <li Class="RoleRequirement_MinSkillAny">
         <skills>
           <Intellectual>8</Intellectual>

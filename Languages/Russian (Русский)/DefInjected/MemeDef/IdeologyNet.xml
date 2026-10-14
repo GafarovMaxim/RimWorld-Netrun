@@ -6,4 +6,31 @@
   <NR_Meme_NetAscension.description>Тело — оболочка, сеть — истинный дом. Кибер-линк — ключ, Netsick — малая цена, а чёрный лёд — врата к истине.</NR_Meme_NetAscension.description>
   <NR_Meme_DigitalPurity.label>цифровая чистота</NR_Meme_DigitalPurity.label>
   <NR_Meme_DigitalPurity.description>Сеть разлагает разум. Плоть и память должны оставаться своими: никаких думающих машин, чужих воспоминаний и следа.</NR_Meme_DigitalPurity.description>
+  <NR_Meme_MachineRevelation.generalRules.rulesStrings>
+    <li>memeAdjective->машинный</li>
+    <li>memeAdjective->явленный</li>
+    <li>memeHyphenPrefix->кибер</li>
+    <li>memeConcept->откровение</li>
+    <li>memeConcept->сервер</li>
+    <li>memeLeaderNoun->оракул</li>
+    <li>memeMoralist->жрец данных</li>
+  </NR_Meme_MachineRevelation.generalRules.rulesStrings>
+  <NR_Meme_NetAscension.generalRules.rulesStrings>
+    <li>memeAdjective->вознесённый</li>
+    <li>memeAdjective->сетевой</li>
+    <li>memeHyphenPrefix->нет</li>
+    <li>memeConcept->восхождение</li>
+    <li>memeConcept->сеть</li>
+    <li>memeLeaderNoun->архонт</li>
+    <li>memeMoralist->проводник</li>
+  </NR_Meme_NetAscension.generalRules.rulesStrings>
+  <NR_Meme_DigitalPurity.generalRules.rulesStrings>
+    <li>memeAdjective->чистый</li>
+    <li>memeAdjective->отключённый</li>
+    <li>memeHyphenPrefix->чисто</li>
+    <li>memeConcept->чистота</li>
+    <li>memeConcept->плоть</li>
+    <li>memeLeaderNoun->страж</li>
+    <li>memeMoralist->очиститель</li>
+  </NR_Meme_DigitalPurity.generalRules.rulesStrings>
 </LanguageData>
