@@ -25,7 +25,7 @@
     <researchViewY>6.40</researchViewY>
   </ResearchProjectDef>
 
-  <!-- What is left in the pod after the crossing: alive, empty, frozen (the pod suspends it like a cryptosleep casket). -->
+  <!-- Saves from 0.6.3 and earlier only: the old empty shell. Since 0.6.4 the body dies on completion; a shell found on load is released. -->
   <HediffDef>
     <defName>NR_DigitalShell</defName>
     <hediffClass>HediffWithComps</hediffClass>

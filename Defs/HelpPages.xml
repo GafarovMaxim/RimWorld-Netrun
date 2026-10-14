@@ -890,7 +890,7 @@
     <order>4</order>
     <color>Purple</color>
     <label>The method</label>
-    <body>All five prototypes fit together. Apply the techprints at a research bench, research "the Transition", then put a colonist with a cyberlink into a powered cyberpod and press "The Transition".\n## The upload\nIt takes a day. Heat rises every hour, and the corporations may send a purge team. Opening the pod before the end (or losing power for good) tears the mind back: a heavy Netsick, or death.\n## After\nThe body stays in the pod as an empty shell: alive, frozen like in a cryptosleep casket, no longer a runner. The colony remembers them with a light, sad thought.</body>
+    <body>All five prototypes fit together. Apply the techprints at a research bench, research "the Transition", then put colonists with a cyberlink into powered cyberpods and press "The Transition" on any of them: tick who goes, and they all start together.\n## The upload\nIt takes a day. Heat rises every hour, and the corporations may send a purge team. Opening the pod before the end (or losing power for good) tears the mind back: a heavy Netsick, or death.\n## After\nThe mind is in the net; the body quietly dies and leaves the pod, a corpse to bury. No grief, no death letter: the colony remembers them with a light, sad thought.</body>
     <icon>tex:UI/Netrun/Gizmo_MindUpload</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>
@@ -903,7 +903,7 @@
     <order>5</order>
     <color>Purple</color>
     <label>The first crossing</label>
-    <body>Someone from your colony lives in the net now. Their last words stay in the colony's channel.\n## The end of the story\nWhen no colonist is left but empty shells, the epilogue comes: you can end the story with the credits, or play on with whoever wanders in next.</body>
+    <body>Someone from your colony lives in the net now. Their last words stay in the colony's channel.\n## The end of the story\nWhen the group is through, the epilogue comes, like the launch of the ship: end the story with the credits, or play on with those who stayed (an empty colony gets someone new wandering in).</body>
     <icon>tex:UI/Netrun/Gizmo_MindUpload</icon>
     <lockedTitle>true</lockedTitle>
     <lockHint>Not yet.</lockHint>

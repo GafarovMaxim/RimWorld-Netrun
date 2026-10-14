@@ -112,13 +112,13 @@ public static class Patch_Cyberpod_GetGizmos
         }
         if (TransitionManager.IsShell(p))
             return null;
+        // One dialog for the whole group: every occupied pod on the map, ticked ones start together.
         var begin = new Command_Action
         {
             defaultLabel = "NR_UploadBegin".Translate(),
             defaultDesc = "NR_UploadBeginDesc".Translate(TransitionManager.UploadHours.ToString("0")),
             icon = NetrunTex.MindUpload,
-            action = () => Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
-                "NR_UploadConfirm".Translate(p.LabelShort, TransitionManager.UploadHours.ToString("0")), () => manager.Begin(pod), destructive: true)),
+            action = () => Find.WindowStack.Add(new Dialog_Transition(pod)),
         };
         AcceptanceReport can = manager.CanBegin(pod);
         if (!can.Accepted)

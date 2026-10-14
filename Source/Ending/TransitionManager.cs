@@ -54,8 +54,10 @@ public class TransitionDeparted : IExposable
 /// labs (Black ICE, an advanced cyberdata at the door, +Heat); the letter names the lab and its hub, and the hub is
 /// marked on the map while the lab exists. A clean lab dive may yield a prototype (vanilla techprint of the research,
 /// dropped next to the runner's pod), with a pity rule. The research needs all five techprints; where the game has no
-/// techprint item for it, our own counter gates the research instead. A colonist with a cyberlink in a powered pod then uploads for a day; the body stays in the pod as an empty
-/// shell (frozen, no ticks). When no colonist is left but shells, the epilogue offers the credits or a new start.
+/// techprint item for it, our own counter gates the research instead. Colonists with a cyberlink in powered pods then upload
+/// together for a day (one dialog picks the group). The mind leaves, the body quietly dies: no death letter, no grief, only the
+/// light "went to the net" thought. When the group is through, the epilogue offers the credits or playing on, like the
+/// vanilla ship (Maxim, 2026-10-15: the old frozen shell was a 10% invalid someone had to feed).
 /// Balance: a RimWorld year is 60 days; the whole chain is meant to land around day 180-240 (vanilla endings: years 3-4).
 /// </summary>
 public class TransitionManager : GameComponent
@@ -91,7 +93,12 @@ public class TransitionManager : GameComponent
     private List<string> _usedCodeNames = [];
     private List<TransitionUpload> _uploads = [];
     public List<TransitionDeparted> Departed = [];
-    private bool _endingShown;
+    /// <summary>A crossing finished since the epilogue was last offered: offer it when the running group is through.</summary>
+    private bool _endingPending;
+    /// <summary>Set on load: shells from older versions are released once, on the first tick.</summary>
+    private bool _releaseOldShells;
+    /// <summary>The body being released right now: its death sends no letter and no grief.</summary>
+    private static Pawn _releasing;
 
     public TransitionManager(Game game) { }
 
@@ -105,6 +112,8 @@ public class TransitionManager : GameComponent
 
     public bool Uploading(Pawn p) => p != null && _uploads.Any(u => u.Pawn == p);
 
+    public static bool IsReleasing(Pawn p) => p != null && p == _releasing;
+
     public ExternalNode ActiveLab => GatewayManager.Get()?.AllBranches.FirstOrDefault(n => n.Lab);
 
     public override void FinalizeInit()
@@ -113,11 +122,19 @@ public class TransitionManager : GameComponent
         ApplyResearchText();
     }
 
+    public override void LoadedGame()
+    {
+        base.LoadedGame();
+        _releaseOldShells = true;
+    }
+
     public override void GameComponentTick()
     {
         int now = Find.TickManager.TicksGame;
         if (now % TickInterval != 0)
             return;
+        if (_releaseOldShells)
+            ReleaseOldShells();
         if (Stage == 0 && now % 2500 == 0)
             CheckRumour();
         if (_uploads.Count > 0)
@@ -126,7 +143,7 @@ public class TransitionManager : GameComponent
         {
             if (_labHub >= 0)
                 CheckLabMark();
-            if (Departed.Count > 0 && !_endingShown)
+            if (_endingPending)
                 CheckEnding();
         }
     }
@@ -425,14 +442,22 @@ public class TransitionManager : GameComponent
         return true;
     }
 
-    public void Begin(Building_Cyberpod pod)
+    /// <summary>The group starts at the same tick; one purge-team roll for the whole group.</summary>
+    public void BeginGroup(List<Building_Cyberpod> pods)
     {
-        if (!CanBegin(pod).Accepted || pod.ContainedThing is not Pawn p)
+        int started = 0;
+        foreach (Building_Cyberpod pod in pods)
+        {
+            if (!CanBegin(pod).Accepted || pod.ContainedThing is not Pawn p)
+                continue;
+            _uploads.Add(new TransitionUpload { Pawn = p, Pod = pod, StartTick = Find.TickManager.TicksGame });
+            Messages.Message("NR_UploadStarted".Translate(p.LabelShort, UploadHours.ToString("0")), pod, MessageTypeDefOf.NeutralEvent, historical: true);
+            started++;
+        }
+        if (started == 0)
             return;
-        _uploads.Add(new TransitionUpload { Pawn = p, Pod = pod, StartTick = Find.TickManager.TicksGame });
         NetrunSound.Play("Dive_Start");
-        Messages.Message("NR_UploadStarted".Translate(p.LabelShort, UploadHours.ToString("0")), pod, MessageTypeDefOf.NeutralEvent, historical: true);
-        // The corporations notice a mind leaving through their wires: maybe a purge team.
+        // The corporations notice minds leaving through their wires: maybe a purge team.
         if (Rand.Chance(PurgeChance))
             Mercenaries.QueueRaid(Rand.RangeInclusive(6, 18) * GenDate.TicksPerHour);
     }
@@ -489,7 +514,6 @@ public class TransitionManager : GameComponent
     private void Complete(TransitionUpload u)
     {
         Pawn p = u.Pawn;
-        p.health.AddHediff(TransitionDefOf.NR_DigitalShell, p.health.hediffSet.GetBrain());
         string words = ("NR_TransitionWords_" + Rand.RangeInclusive(0, 11)).Translate();
         Departed.Add(new TransitionDeparted { Name = p.Name?.ToStringFull ?? p.LabelShort, Words = words, Tick = Find.TickManager.TicksGame });
         foreach (Pawn other in PawnsFinder.AllMaps_FreeColonists)
@@ -499,35 +523,78 @@ public class TransitionManager : GameComponent
         NetrunSound.Play("Dive_Success");
         Find.LetterStack.ReceiveLetter("NR_UploadDoneLabel".Translate(p.LabelShort), "NR_UploadDone".Translate(p.LabelShort, words),
             LetterDefOf.PositiveEvent, u.Pod);
+        ReleaseBody(p, u.Pod);
+        _endingPending = true;
         CheckEnding();
+    }
+
+    /// <summary>
+    /// The mind is gone, so the body stops: out of the pod and dead, without the death letter, the grief thoughts or an Echo
+    /// (see the patches below). The corpse is an ordinary corpse to bury.
+    /// </summary>
+    private static void ReleaseBody(Pawn p, Building_Cyberpod pod)
+    {
+        if (p == null || p.Dead)
+            return;
+        try
+        {
+            if (pod != null && !pod.Destroyed && pod.ContainedThing == p)
+                pod.EjectContents();
+            _releasing = p;
+            p.Kill(null);
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Transition body release failed: " + e, 0x4E52540C);
+        }
+        finally
+        {
+            _releasing = null;
+        }
+    }
+
+    /// <summary>Saves from 0.6.3 and earlier: an empty shell (alive at 10% consciousness) is released the new way.</summary>
+    private void ReleaseOldShells()
+    {
+        _releaseOldShells = false;
+        if (TransitionDefOf.NR_DigitalShell == null)
+            return;
+        foreach (Pawn p in PawnsFinder.AllMapsWorldAndTemporary_Alive.Where(IsShell).ToList())
+        {
+            Building_Cyberpod pod = p.ParentHolder as Building_Cyberpod;
+            if (p.health.hediffSet.GetFirstHediffOfDef(TransitionDefOf.NR_DigitalShell) is { } shell)
+                p.health.RemoveHediff(shell);
+            ReleaseBody(p, pod);
+        }
     }
 
     // ---- The ending ----
 
-    /// <summary>No colonist left but shells (and someone crossed over): the epilogue.</summary>
+    /// <summary>A group finished crossing over (nobody still uploading): the epilogue, offered like the vanilla ship's.</summary>
     public void CheckEnding()
     {
-        if (_endingShown || Departed.Count == 0 || _uploads.Count > 0)
-            return;
-        if (PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_FreeColonists.Any(p => !IsShell(p)))
+        if (!_endingPending || Departed.Count == 0 || _uploads.Count > 0)
             return;
         ShowEnding();
     }
 
     public void ShowEnding()
     {
-        _endingShown = true;
+        _endingPending = false;
+        bool empty = !PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_FreeColonists.Any();
         string list = string.Join("\n", Departed.Select(d => "NR_EpilogueLine".Translate(d.Name, d.Words).ToString()));
-        string text = "NR_Epilogue".Translate(list);
+        string text = (empty ? "NR_Epilogue" : "NR_EpilogueSome").Translate(list);
         Find.LetterStack.ReceiveLetter("NR_EpilogueLabel".Translate(), text, LetterDefOf.PositiveEvent);
         Find.WindowStack.Add(new Dialog_MessageBox(text, "NR_EpilogueEnd".Translate(),
             () => GameVictoryUtility.ShowCredits(text, SongDefOf.EndCreditsSong),
             "NR_EpilogueContinue".Translate(), ContinueWithNewPeople, "NR_EpilogueLabel".Translate()));
     }
 
-    /// <summary>Playing on: someone new wanders in to the empty colony.</summary>
+    /// <summary>Playing on: the ones who stayed carry on; an empty colony gets someone new wandering in.</summary>
     private static void ContinueWithNewPeople()
     {
+        if (PawnsFinder.AllMapsCaravansAndTravellingTransporters_Alive_FreeColonists.Any())
+            return;
         Map map = Find.AnyPlayerHomeMap;
         if (map == null)
             return;
@@ -574,7 +641,7 @@ public class TransitionManager : GameComponent
         _nextLabTick = -1;
         ClearLabMark();
         _uploads.Clear();
-        _endingShown = false;
+        _endingPending = false;
         ApplyResearchText();
     }
 
@@ -587,7 +654,7 @@ public class TransitionManager : GameComponent
         Scribe_Values.Look(ref _cleanWithoutPrint, "cleanWithoutPrint");
         Scribe_Values.Look(ref _nextLabTick, "nextLabTick", -1);
         Scribe_Values.Look(ref _labHub, "labHub", -1);
-        Scribe_Values.Look(ref _endingShown, "endingShown");
+        Scribe_Values.Look(ref _endingPending, "endingPending");
         Scribe_Collections.Look(ref _usedCodeNames, "usedCodeNames", LookMode.Value);
         Scribe_Collections.Look(ref _uploads, "uploads", LookMode.Deep);
         Scribe_Collections.Look(ref Departed, "departed", LookMode.Deep);
@@ -618,7 +685,7 @@ public static class Patch_Research_TransitionLock
     }
 }
 
-/// <summary>An empty shell sleeps in its pod like in a cryptosleep casket: the contents are suspended (no ticks).</summary>
+/// <summary>A shell from an older save sleeps in its pod until it is released on the first tick (no ticks meanwhile).</summary>
 [HarmonyPatch(typeof(Building_Cyberpod), nameof(Building_Cyberpod.IsContentsSuspended), MethodType.Getter)]
 public static class Patch_Cyberpod_ShellSuspended
 {
@@ -632,6 +699,43 @@ public static class Patch_Cyberpod_ShellSuspended
         catch (System.Exception e)
         {
             Log.ErrorOnce("[Netrun] Patch_Cyberpod_ShellSuspended: " + e.Message, 0x4E52540B);
+        }
+    }
+}
+
+/// <summary>The released body of someone who crossed over: no "colonist died" grief or bond thoughts.</summary>
+[HarmonyPatch(typeof(PawnDiedOrDownedThoughtsUtility), nameof(PawnDiedOrDownedThoughtsUtility.TryGiveThoughts),
+    [typeof(Pawn), typeof(DamageInfo?), typeof(PawnDiedOrDownedThoughtsKind)])]
+public static class Patch_Transition_NoGrief
+{
+    static bool Prefix(Pawn victim)
+    {
+        try
+        {
+            return !TransitionManager.IsReleasing(victim);
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_Transition_NoGrief: " + e.Message, 0x4E52540D);
+            return true;
+        }
+    }
+}
+
+/// <summary>The released body: no death letter (the "crossed over" letter already told the story).</summary>
+[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.NotifyPlayerOfKilled))]
+public static class Patch_Transition_NoDeathLetter
+{
+    static bool Prefix(Pawn ___pawn)
+    {
+        try
+        {
+            return !TransitionManager.IsReleasing(___pawn);
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Patch_Transition_NoDeathLetter: " + e.Message, 0x4E52540E);
+            return true;
         }
     }
 }

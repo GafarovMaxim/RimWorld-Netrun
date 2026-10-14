@@ -50,7 +50,11 @@
 
   <!-- The upload -->
   <NR_UploadBegin>The Transition</NR_UploadBegin>
-  <NR_UploadBeginDesc>Moves this colonist's mind into the net. Takes {0} hours; the pod must stay closed and powered. Heat rises while it runs, and the corporations may send a purge team.\n\nThe body stays in the pod as an empty shell. This cannot be undone.</NR_UploadBeginDesc>
+  <NR_UploadBeginDesc>Moves this colonist's mind into the net. Takes {0} hours; the pod must stay closed and powered. Heat rises while it runs, and the corporations may send a purge team.\n\nOpens a list of every occupied pod on the map: tick who goes, and they all start together. When the mind is gone, the body quietly dies. This cannot be undone.</NR_UploadBeginDesc>
+  <NR_TransitionPick>Tick the colonists who cross over. They start together and finish together in {0} hours.</NR_TransitionPick>
+  <NR_TransitionStart>Begin ({0})</NR_TransitionStart>
+  <NR_TransitionNobody>Nobody is ticked.</NR_TransitionNobody>
+  <NR_TransitionReady>ready</NR_TransitionReady>
   <NR_UploadConfirm>{0} will leave the body for good and cross into the net. The upload takes {1} hours; opening the pod before the end may kill them.\n\nBegin the Transition?</NR_UploadConfirm>
   <NR_UploadProgress>Transition: {0}</NR_UploadProgress>
   <NR_UploadProgressDesc>{0}'s mind is moving into the net. Do not open the pod.</NR_UploadProgressDesc>
@@ -65,7 +69,7 @@
   <NR_UploadBroken>The upload of {0} was torn off halfway. The mind snapped back into a body it had half left: a heavy Netsick, but alive.</NR_UploadBroken>
   <NR_UploadBrokenDeath>The upload of {0} was torn off halfway. Half a mind came back, and it was not enough. {0} is dead.</NR_UploadBrokenDeath>
   <NR_UploadDoneLabel>{0} crossed over</NR_UploadDoneLabel>
-  <NR_UploadDone>The last packet goes through. {0} is in the net now: awake, whole, free of the body.\n\nTheir last words in the colony's channel: "{1}"\n\nThe body sleeps on in the pod, an empty shell.</NR_UploadDone>
+  <NR_UploadDone>The last packet goes through. {0} is in the net now: awake, whole, free of the body.\n\nTheir last words in the colony's channel: "{1}"\n\nThe pod opens. The body is empty now, and it stops, peacefully. Bury it: no one is inside.</NR_UploadDone>
   <NR_TransitionWords_0>Leave the light on. I can see it from here.</NR_TransitionWords_0>
   <NR_TransitionWords_1>It is so quiet. Nothing hurts.</NR_TransitionWords_1>
   <NR_TransitionWords_2>Tell the others I made it.</NR_TransitionWords_2>
@@ -81,7 +85,8 @@
 
   <!-- The epilogue -->
   <NR_EpilogueLabel>Digital afterlife</NR_EpilogueLabel>
-  <NR_Epilogue>The colony is quiet. The pods hum, the shells sleep, and somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here, or play on: someone always wanders in to an empty base.</NR_Epilogue>
+  <NR_Epilogue>The colony is quiet. The pods hum, empty, and somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here, or play on: someone always wanders in to an empty base.</NR_Epilogue>
+  <NR_EpilogueSome>The upload is through. Somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here with the credits, or play on with those who stayed.</NR_EpilogueSome>
   <NR_EpilogueLine>- {0}: "{1}"</NR_EpilogueLine>
   <NR_EpilogueEnd>End the story</NR_EpilogueEnd>
   <NR_EpilogueContinue>Play on</NR_EpilogueContinue>

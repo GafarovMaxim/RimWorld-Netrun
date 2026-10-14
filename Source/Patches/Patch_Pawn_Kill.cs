@@ -19,7 +19,8 @@ public static class Patch_Pawn_Kill
         try
         {
             // Read before death: hediffs and faction can change while dying.
-            __state = __instance.Faction == Faction.OfPlayer && __instance.RaceProps.Humanlike && __instance.IsHacker();
+            // A body released by the Transition leaves no Echo: the mind went into the net whole.
+            __state = !TransitionManager.IsReleasing(__instance) && __instance.Faction == Faction.OfPlayer && __instance.RaceProps.Humanlike && __instance.IsHacker();
         }
         catch (System.Exception e)
         {

@@ -13,9 +13,11 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - The braindance batch button reads "Edit all: N".
 - The dive cost line says when it is paid from the pod's fuel ("Cost: 2 cyberdata · from the pod").
 - The map header shows how many hours a runner can still stay in the net before Netsick turns strong, instead of the stage name.
+- The Transition starts for a group: the button opens a list of the occupied pods on the map, the ticked colonists upload together. When the mind is gone, the body quietly dies (no death letter, no grief, no Echo). The epilogue (credits or play on) comes as soon as the group is through, like the ship launch. Empty shells from older saves are released on load.
 ### Fixed
 - The AI server is placed facing front by default.
 - Map tags (watch, timer) no longer overlap a hub's LOCKED / OPEN tag.
+- Network isolation breaks a running Transition (like opening the pod) and blocks starting one.
 
 ## [0.6.3] - 2026-10-15
 ### Fixed
