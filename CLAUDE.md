@@ -29,7 +29,7 @@ RimWorld 1.6 mod, a cyberpunk layer on top of Ushankas Hacking Expansion (HE). O
 - `Defs/`, `Patches/` (XML patches), `Languages/English`, `Languages/Russian (Русский)`, `Textures/`: game content.
 - `Source/`: C#, namespace `Netrun`, net48, references the game, Harmony and `HackingExpansion.dll` from the local Steam folders (`RIMWORLD_DIR` overrides the default path).
 - `Assemblies/HackingExpansionNetrun.dll`: built output, committed so the mod works straight from the repo.
-- `Hacking Expansion Netrun Art/`: full-size source art, not loaded by the game (`Art/` and unused files stay on the author's PC only, see .gitignore). Game copies go to `Textures/` (items 128 px, 2x2 buildings 256 px).
+- Source art (full-size originals, old variants, templates) lives outside the repo in `G:\Modding\RimWorld\Hacking Expansion Netrun\Reserve`, paths kept as `Hacking Expansion Netrun Art/...` (2026-10-15). Only game copies are in the repo, in `Textures/` (items 128 px, 2x2 buildings 256 px). New art: put the original in Reserve, the game copy in Textures.
 - `docs/`: STATUS (current state), TASKS (task list), CONCEPT (design), TECH_DETAILS (code and performance rules), ART (art style and art still needed), RELEASE (Steam release checklist), HELP (in-game help format), ARCHIVE (history and old file to new file map); folders `mockups/`, `ui-mockups/`, `steam/`, `news_flavor/`.
 
 ## Conventions
