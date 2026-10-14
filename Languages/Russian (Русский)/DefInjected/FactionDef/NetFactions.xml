@@ -71,4 +71,56 @@
   <NR_Corp_Orbital.pawnSingular>корп-охранник</NR_Corp_Orbital.pawnSingular>
   <NR_Corp_Orbital.pawnsPlural>корп-охрана</NR_Corp_Orbital.pawnsPlural>
 
+  <NR_Crew_Anubis.label>команда раннеров</NR_Crew_Anubis.label>
+  <NR_Crew_Anubis.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Anubis.description>
+  <NR_Crew_Anubis.pawnSingular>раннер</NR_Crew_Anubis.pawnSingular>
+  <NR_Crew_Anubis.pawnsPlural>раннеры</NR_Crew_Anubis.pawnsPlural>
+  <NR_Crew_Bear.label>команда раннеров</NR_Crew_Bear.label>
+  <NR_Crew_Bear.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Bear.description>
+  <NR_Crew_Bear.pawnSingular>раннер</NR_Crew_Bear.pawnSingular>
+  <NR_Crew_Bear.pawnsPlural>раннеры</NR_Crew_Bear.pawnsPlural>
+  <NR_Crew_Bull.label>команда раннеров</NR_Crew_Bull.label>
+  <NR_Crew_Bull.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Bull.description>
+  <NR_Crew_Bull.pawnSingular>раннер</NR_Crew_Bull.pawnSingular>
+  <NR_Crew_Bull.pawnsPlural>раннеры</NR_Crew_Bull.pawnsPlural>
+  <NR_Crew_Buzzsaw.label>команда раннеров</NR_Crew_Buzzsaw.label>
+  <NR_Crew_Buzzsaw.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Buzzsaw.description>
+  <NR_Crew_Buzzsaw.pawnSingular>раннер</NR_Crew_Buzzsaw.pawnSingular>
+  <NR_Crew_Buzzsaw.pawnsPlural>раннеры</NR_Crew_Buzzsaw.pawnsPlural>
+  <NR_Crew_ChromeHand.label>команда раннеров</NR_Crew_ChromeHand.label>
+  <NR_Crew_ChromeHand.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_ChromeHand.description>
+  <NR_Crew_ChromeHand.pawnSingular>раннер</NR_Crew_ChromeHand.pawnSingular>
+  <NR_Crew_ChromeHand.pawnsPlural>раннеры</NR_Crew_ChromeHand.pawnsPlural>
+  <NR_Crew_CyberSkullJack.label>команда раннеров</NR_Crew_CyberSkullJack.label>
+  <NR_Crew_CyberSkullJack.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_CyberSkullJack.description>
+  <NR_Crew_CyberSkullJack.pawnSingular>раннер</NR_Crew_CyberSkullJack.pawnSingular>
+  <NR_Crew_CyberSkullJack.pawnsPlural>раннеры</NR_Crew_CyberSkullJack.pawnsPlural>
+  <NR_Crew_Hazard.label>команда раннеров</NR_Crew_Hazard.label>
+  <NR_Crew_Hazard.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Hazard.description>
+  <NR_Crew_Hazard.pawnSingular>раннер</NR_Crew_Hazard.pawnSingular>
+  <NR_Crew_Hazard.pawnsPlural>раннеры</NR_Crew_Hazard.pawnsPlural>
+  <NR_Crew_Kraken.label>команда раннеров</NR_Crew_Kraken.label>
+  <NR_Crew_Kraken.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Kraken.description>
+  <NR_Crew_Kraken.pawnSingular>раннер</NR_Crew_Kraken.pawnSingular>
+  <NR_Crew_Kraken.pawnsPlural>раннеры</NR_Crew_Kraken.pawnsPlural>
+  <NR_Crew_Mask.label>команда раннеров</NR_Crew_Mask.label>
+  <NR_Crew_Mask.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Mask.description>
+  <NR_Crew_Mask.pawnSingular>раннер</NR_Crew_Mask.pawnSingular>
+  <NR_Crew_Mask.pawnsPlural>раннеры</NR_Crew_Mask.pawnsPlural>
+  <NR_Crew_Reaper.label>команда раннеров</NR_Crew_Reaper.label>
+  <NR_Crew_Reaper.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Reaper.description>
+  <NR_Crew_Reaper.pawnSingular>раннер</NR_Crew_Reaper.pawnSingular>
+  <NR_Crew_Reaper.pawnsPlural>раннеры</NR_Crew_Reaper.pawnsPlural>
+  <NR_Crew_Ronin.label>команда раннеров</NR_Crew_Ronin.label>
+  <NR_Crew_Ronin.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Ronin.description>
+  <NR_Crew_Ronin.pawnSingular>раннер</NR_Crew_Ronin.pawnSingular>
+  <NR_Crew_Ronin.pawnsPlural>раннеры</NR_Crew_Ronin.pawnsPlural>
+  <NR_Crew_Skull.label>команда раннеров</NR_Crew_Skull.label>
+  <NR_Crew_Skull.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Skull.description>
+  <NR_Crew_Skull.pawnSingular>раннер</NR_Crew_Skull.pawnSingular>
+  <NR_Crew_Skull.pawnsPlural>раннеры</NR_Crew_Skull.pawnsPlural>
+  <NR_Crew_Tiger.label>команда раннеров</NR_Crew_Tiger.label>
+  <NR_Crew_Tiger.description>Команда нетраннеров, которая живёт в сети и никому не подчиняется. При хороших отношениях присылает помощь, при плохих мешает, в сети и у ваших дверей.</NR_Crew_Tiger.description>
+  <NR_Crew_Tiger.pawnSingular>раннер</NR_Crew_Tiger.pawnSingular>
+  <NR_Crew_Tiger.pawnsPlural>раннеры</NR_Crew_Tiger.pawnsPlural>
 </LanguageData>

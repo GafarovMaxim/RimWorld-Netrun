@@ -195,6 +195,14 @@
     <pawnsPlural>runners</pawnsPlural>
     <factionNameMaker>NR_NamerCrew_Kitsune</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Crew_Kitsune</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Crew_Fox</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.2,0.08,0.06)</li>
       <li>(0.95,0.45,0.2)</li>
@@ -343,9 +351,499 @@
     <pawnsPlural>runners</pawnsPlural>
     <factionNameMaker>NR_NamerCrew_Wolf</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Crew_Wolf</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Crew_Wolf_Alt</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.1,0.12,0.14)</li>
       <li>(0.4,0.75,0.95)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <!-- More runner crews (2026-10-14), one per new emblem -->
+  <RulePackDef>
+    <defName>NR_NamerCrew_Anubis</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Jackal Court</li>
+        <li>r_name->Black Anubis</li>
+        <li>r_name->Weighers of Hearts</li>
+        <li>r_name->Dog Kings</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Anubis</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Anubis</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Anubis</factionIconPath>
+    <colorSpectrum>
+      <li>(0.1,0.09,0.06)</li>
+      <li>(0.85,0.68,0.3)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Bear</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Iron Bears</li>
+        <li>r_name->Grizzly Static</li>
+        <li>r_name->Ursa Line</li>
+        <li>r_name->Den of Chrome</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Bear</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Bear</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Bear</factionIconPath>
+    <colorSpectrum>
+      <li>(0.14,0.1,0.08)</li>
+      <li>(0.6,0.42,0.28)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Bull</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Red Bulls</li>
+        <li>r_name->Minotaur Grid</li>
+        <li>r_name->Steel Horns</li>
+        <li>r_name->Bull Market</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Bull</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Bull</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Bull</factionIconPath>
+    <colorSpectrum>
+      <li>(0.15,0.06,0.06)</li>
+      <li>(0.9,0.3,0.25)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Buzzsaw</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Buzzsaws</li>
+        <li>r_name->Teeth of Steel</li>
+        <li>r_name->Ripcord</li>
+        <li>r_name->Grind Shift</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Buzzsaw</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Buzzsaw</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Buzzsaw</factionIconPath>
+    <colorSpectrum>
+      <li>(0.12,0.12,0.1)</li>
+      <li>(0.95,0.75,0.2)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_ChromeHand</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Chrome Hands</li>
+        <li>r_name->Silver Grip</li>
+        <li>r_name->Five Fingers</li>
+        <li>r_name->Open Palm</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_ChromeHand</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_ChromeHand</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_ChromeHand</factionIconPath>
+    <colorSpectrum>
+      <li>(0.12,0.13,0.15)</li>
+      <li>(0.8,0.85,0.9)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_CyberSkullJack</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Skulljackers</li>
+        <li>r_name->Jack-In Saints</li>
+        <li>r_name->Dead Ports</li>
+        <li>r_name->Cold Plugs</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_CyberSkullJack</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_CyberSkullJack</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_CyberSkullJack</factionIconPath>
+    <colorSpectrum>
+      <li>(0.06,0.1,0.12)</li>
+      <li>(0.3,0.9,0.95)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Hazard</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Hazard Crew</li>
+        <li>r_name->Biohazards</li>
+        <li>r_name->Yellow Tape</li>
+        <li>r_name->Warning Signs</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Hazard</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Hazard</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Hazard</factionIconPath>
+    <colorSpectrum>
+      <li>(0.1,0.1,0.04)</li>
+      <li>(0.95,0.85,0.15)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Kraken</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Kraken</li>
+        <li>r_name->Deep Tentacle</li>
+        <li>r_name->Abyss Line</li>
+        <li>r_name->Ink Runners</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Kraken</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Kraken</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Kraken</factionIconPath>
+    <colorSpectrum>
+      <li>(0.04,0.08,0.14)</li>
+      <li>(0.25,0.55,0.85)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Mask</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Masks</li>
+        <li>r_name->No Faces</li>
+        <li>r_name->Masquerade</li>
+        <li>r_name->Porcelain Smiles</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Mask</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Mask</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Mask</factionIconPath>
+    <colorSpectrum>
+      <li>(0.12,0.1,0.14)</li>
+      <li>(0.9,0.88,0.85)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Reaper</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Reapers</li>
+        <li>r_name->Grim Signal</li>
+        <li>r_name->Last Harvest</li>
+        <li>r_name->Scythe Net</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Reaper</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Reaper</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Reaper</factionIconPath>
+    <colorSpectrum>
+      <li>(0.06,0.06,0.07)</li>
+      <li>(0.55,0.25,0.75)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Ronin</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Ronin</li>
+        <li>r_name->Masterless</li>
+        <li>r_name->Forty-Seven</li>
+        <li>r_name->Wandering Blades</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Ronin</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Ronin</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Ronin</factionIconPath>
+    <colorSpectrum>
+      <li>(0.14,0.06,0.08)</li>
+      <li>(0.85,0.2,0.3)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Skull</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Bone Yard</li>
+        <li>r_name->Death's Heads</li>
+        <li>r_name->Skull and Static</li>
+        <li>r_name->Hollow Eyes</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Skull</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Skull</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Skull</factionIconPath>
+    <colorSpectrum>
+      <li>(0.08,0.08,0.08)</li>
+      <li>(0.85,0.85,0.8)</li>
+    </colorSpectrum>
+    <pawnGroupMakers>
+      <li>
+        <kindDef>Combat</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <NR_CrewRunner>10</NR_CrewRunner>
+          <NR_CrewMuscle>6</NR_CrewMuscle>
+          <Mercenary_Gunner>3</Mercenary_Gunner>
+        </options>
+      </li>
+    </pawnGroupMakers>
+  </FactionDef>
+
+  <RulePackDef>
+    <defName>NR_NamerCrew_Tiger</defName>
+    <rulePack>
+      <rulesStrings>
+        <li>r_name->Neon Tigers</li>
+        <li>r_name->Tiger Stripe</li>
+        <li>r_name->Paper Tigers</li>
+        <li>r_name->Striped Ghosts</li>
+      </rulesStrings>
+    </rulePack>
+  </RulePackDef>
+
+  <FactionDef ParentName="NR_NetFactionBase">
+    <defName>NR_Crew_Tiger</defName>
+    <label>runner crew</label>
+    <description>A crew of netrunners who live in the net and answer to no one. With good relations they send help; with bad ones they get in the way, in the net and at your door.</description>
+    <pawnSingular>runner</pawnSingular>
+    <pawnsPlural>runners</pawnsPlural>
+    <factionNameMaker>NR_NamerCrew_Tiger</factionNameMaker>
+    <factionIconPath>UI/Netrun/Factions/Crew_Tiger</factionIconPath>
+    <colorSpectrum>
+      <li>(0.14,0.08,0.03)</li>
+      <li>(1,0.55,0.15)</li>
     </colorSpectrum>
     <pawnGroupMakers>
       <li>
@@ -415,6 +913,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Security</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Security</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Security_Bastion</li>
+          <li>UI/Netrun/Factions/Corp_Security_Helmet</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.1,0.12,0.18)</li>
       <li>(0.35,0.6,0.95)</li>
@@ -473,6 +980,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Media</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Media</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Media_Holo</li>
+          <li>UI/Netrun/Factions/Corp_Media_Tower</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.18,0.06,0.14)</li>
       <li>(0.95,0.35,0.7)</li>
@@ -531,6 +1047,17 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Biotech</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Biotech</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Biotech_Alt</li>
+          <li>UI/Netrun/Factions/Corp_Biotech_Microscope</li>
+          <li>UI/Netrun/Factions/Corp_Biotech_TestTube</li>
+          <li>UI/Netrun/Factions/Corp_Biotech_Vat</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.06,0.16,0.1)</li>
       <li>(0.35,0.9,0.5)</li>
@@ -589,6 +1116,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Neurotech</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Neurotech</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Neurotech_Alt</li>
+          <li>UI/Netrun/Factions/Corp_Neurotech_Eye</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.08,0.1,0.18)</li>
       <li>(0.3,0.85,0.95)</li>
@@ -647,6 +1183,16 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Finance</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Finance</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Finance_Coins</li>
+          <li>UI/Netrun/Factions/Corp_Finance_Scales</li>
+          <li>UI/Netrun/Factions/Corp_Finance_Vault</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.14,0.12,0.06)</li>
       <li>(0.95,0.8,0.3)</li>
@@ -705,6 +1251,17 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Logistics</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Logistics</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Logistics_Cycle</li>
+          <li>UI/Netrun/Factions/Corp_Logistics_Forklift</li>
+          <li>UI/Netrun/Factions/Corp_Logistics_Rover</li>
+          <li>UI/Netrun/Factions/Corp_Logistics_Truck</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.16,0.1,0.04)</li>
       <li>(0.95,0.6,0.2)</li>
@@ -763,6 +1320,16 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Arms</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Arms</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Arms_Alt</li>
+          <li>UI/Netrun/Factions/Corp_Arms_Grenade</li>
+          <li>UI/Netrun/Factions/Corp_Arms_Missile</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.14,0.06,0.06)</li>
       <li>(0.9,0.3,0.25)</li>
@@ -821,6 +1388,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Energy</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Energy</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Energy_Atom</li>
+          <li>UI/Netrun/Factions/Corp_Energy_Battery</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.14,0.14,0.04)</li>
       <li>(0.95,0.9,0.3)</li>
@@ -879,6 +1455,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Pharma</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Pharma</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Pharma_Flask</li>
+          <li>UI/Netrun/Factions/Corp_Pharma_Injector</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.06,0.14,0.14)</li>
       <li>(0.4,0.95,0.85)</li>
@@ -937,6 +1522,15 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_DataBroker</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_DataBroker</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_DataBroker_Disk</li>
+          <li>UI/Netrun/Factions/Corp_DataBroker_Dossier</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.1,0.08,0.14)</li>
       <li>(0.7,0.55,0.95)</li>
@@ -995,6 +1589,16 @@
     <pawnsPlural>corporate guards</pawnsPlural>
     <factionNameMaker>NR_NamerCorp_Orbital</factionNameMaker>
     <factionIconPath>UI/Netrun/Factions/Corp_Orbital</factionIconPath>
+    <!-- More emblems of the same line, one picked per game (Source/Factions/NetFactions.cs, FactionIconPool) -->
+    <modExtensions>
+      <li Class="Netrun.FactionIconPool">
+        <icons>
+          <li>UI/Netrun/Factions/Corp_Orbital_Astronaut</li>
+          <li>UI/Netrun/Factions/Corp_Orbital_Station</li>
+          <li>UI/Netrun/Factions/Corp_Orbital_Telescope</li>
+        </icons>
+      </li>
+    </modExtensions>
     <colorSpectrum>
       <li>(0.06,0.08,0.12)</li>
       <li>(0.85,0.9,1.0)</li>

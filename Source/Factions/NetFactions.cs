@@ -6,6 +6,15 @@ using Verse;
 namespace Netrun;
 
 /// <summary>
+/// More emblems for a net faction's def (Maxim, 2026-10-14): each game picks one of these or the def's own icon,
+/// matched to the corporation's line of business. Paths without the extension, under Textures/.
+/// </summary>
+public class FactionIconPool : DefModExtension
+{
+    public List<string> icons = [];
+}
+
+/// <summary>
 /// The net's own factions (docs/CONCEPTS_10.md, sections 6 and 11): three runner crews and three corporations, all
 /// hidden factions without settlements. The game makes none of them at world generation; this component picks three
 /// crew emblems and three corporation themes per game and creates them (also for older saves, on load).
@@ -21,6 +30,49 @@ public class NetFactions : GameComponent
 
     public NetFactions(Game game)
     {
+    }
+
+    /// <summary>The emblem picked for each net faction def in this game (defName → texture path).</summary>
+    private Dictionary<string, string> _icons = [];
+    /// <summary>The defs' own icon paths, to put back when a game without a pick is loaded.</summary>
+    private static readonly Dictionary<FactionDef, string> OriginalIcons = [];
+    /// <summary>FactionDef caches its loaded icon in a private field; cleared when the path changes (null if renamed).</summary>
+    private static readonly System.Reflection.FieldInfo IconCache = HarmonyLib.AccessTools.Field(typeof(FactionDef), "factionIcon");
+
+    public override void ExposeData()
+    {
+        base.ExposeData();
+        Scribe_Collections.Look(ref _icons, "icons", LookMode.Value, LookMode.Value);
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            _icons ??= [];
+    }
+
+    /// <summary>Gives every net faction in play its emblem from the pool (picked once, kept in the save).</summary>
+    private void ApplyIcons()
+    {
+        var inPlay = new HashSet<FactionDef>();
+        foreach (Faction f in Find.FactionManager.AllFactions)
+            inPlay.Add(f.def);
+        foreach (FactionDef def in DefDatabase<FactionDef>.AllDefsListForReading)
+        {
+            if (def.GetModExtension<FactionIconPool>() is not { } pool || pool.icons.NullOrEmpty())
+                continue;
+            if (!OriginalIcons.TryGetValue(def, out string path))
+                OriginalIcons[def] = path = def.factionIconPath;
+            if (inPlay.Contains(def))
+            {
+                if (!_icons.TryGetValue(def.defName, out string picked))
+                {
+                    int i = Rand.Range(0, pool.icons.Count + 1);
+                    _icons[def.defName] = picked = i == pool.icons.Count ? path : pool.icons[i];
+                }
+                path = picked;
+            }
+            if (def.factionIconPath == path)
+                continue;
+            def.factionIconPath = path;
+            IconCache?.SetValue(def, null);
+        }
     }
 
     public static NetFactions Get() => GameComp<NetFactions>.Get();
@@ -75,6 +127,7 @@ public class NetFactions : GameComponent
             int corps = Corps.Count();
             foreach (FactionDef def in UnusedDefs(IsCorpDef).Take(System.Math.Max(0, WantedCorps - corps)))
                 Create(def, CorpStartGoodwill);
+            ApplyIcons();
         }
         catch (System.Exception e)
         {
@@ -92,8 +145,11 @@ public class NetFactions : GameComponent
     /// <summary>The vanilla way to add a faction in the middle of a game.</summary>
     public static Faction Create(FactionDef def, int goodwill)
     {
+        // A def used again (its faction was defeated): the new faction picks its emblem anew.
+        Get()?._icons.Remove(def.defName);
         Faction faction = FactionGenerator.NewGeneratedFaction(new FactionGeneratorParms(def, default, true));
         Find.FactionManager.Add(faction);
+        Get()?.ApplyIcons();
         if (goodwill != 0 && Faction.OfPlayer != null)
             faction.TryAffectGoodwillWith(Faction.OfPlayer, goodwill - faction.PlayerGoodwill, canSendMessage: false, canSendHostilityLetter: false);
         return faction;
