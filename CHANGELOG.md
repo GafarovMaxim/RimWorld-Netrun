@@ -5,6 +5,8 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ## [Unreleased]
 
 ## [0.6.4] - 2026-10-15
+### Added
+- Deck theme "Nomad" (opens after 50 dives): a worn field case with its own silhouette, solar panel, hinges, pouch and charm sticking out of the window, a D-pad, a strap of Heat gems and a NET LINK lever that slides along its slot. The terminal window grows a little to fit it.
 ### Changed
 - Netsick grows about half as fast: a day in the net or a pod 0.10, a dive 0.02, an ICE hit 0.03. A runner can stay in cyberspace for about three days before the strong stage.
 - Netsick fades faster offline: 0.06 a day (was 0.04), twice that with live leisure, so withdrawal after a long run lasts about 2 to 4 days.
