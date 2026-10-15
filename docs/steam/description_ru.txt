@@ -94,6 +94,8 @@
 [hr][/hr]
 [h1]▸ НАСТРОЙКА[/h1]
 
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
+
 [list]
 [*][b]7 рамок терминала[/b], у каждой свой корпус, клавиши и лампы, которые реагируют на ваш след: Кибердека NR-1, Iron Company, Стрит, Kurenai Systems, Кочевник, NR-80 Ретро и Реликт. Новые рамки открываются достижениями.
 [*][b]Цветовые схемы[/b]: выберите цвет акцента терминала

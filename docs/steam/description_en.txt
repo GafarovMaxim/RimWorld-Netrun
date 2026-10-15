@@ -94,6 +94,8 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [hr][/hr]
 [h1]▸ CUSTOMIZATION[/h1]
 
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
+
 [list]
 [*][b]7 deck frames[/b] for the terminal, each with its own casing, keys and lamps that react to your Heat: the NR-1 Cyberdeck, Iron Company, Street, Kurenai Systems, Nomad, NR-80 Retro and the Relic. New frames open with achievements.
 [*][b]Colour schemes[/b]: pick the terminal's accent colour

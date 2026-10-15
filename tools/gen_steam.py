@@ -46,6 +46,7 @@ SECTIONS = [
     ("defense", "Cyberspace/Program_Shield", "HUB DEFENSE", "when the net comes knocking", "ЗАЩИТА УЗЛА", "когда сеть стучится в ответ"),
     ("transition", "Gizmo_MindUpload", "THE TRANSITION", "an ending beyond the flesh", "ПЕРЕХОД", "финал за пределами плоти"),
     ("colonists", "Ideo/Role_NetArchon", "COLONISTS, DLC & STARTS", "the netrunner pays in body and mind", "КОЛОНИСТЫ, DLC И СТАРТЫ", "нетраннер платит телом и разумом"),
+    ("customization", "Gizmo_NetTerminal", "CUSTOMIZATION", "make the deck your own", "НАСТРОЙКА", "дека под себя"),
     ("requirements", "Icon_Guide", "REQUIREMENTS", "load order and compatibility", "ТРЕБОВАНИЯ", "порядок загрузки и совместимость"),
     ("credits", "Fixers/Handshake", "CREDITS", "thank you", "БЛАГОДАРНОСТИ", "спасибо"),
 ]
@@ -192,6 +193,15 @@ A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jo
 [*][b]4 scenarios[/b]: The Last Node, Corporate Runaways, Pirate Studio, Flying Node (Odyssey)
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]""",
+    "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
+
+[list]
+[*][b]7 deck frames[/b] for the terminal, each with its own casing, keys and lamps that react to your Heat: the NR-1 Cyberdeck, Iron Company, Street, Kurenai Systems, Nomad, NR-80 Retro and the Relic. New frames open with achievements.
+[*][b]Colour schemes[/b]: pick the terminal's accent colour
+[*][b]Sound packs[/b]: Clean, Minimal, Neon, Retro Deck and Deep, separate volume for clicks and for each ambient loop; the game music fades while the terminal is open
+[*][b]Graphics[/b]: animations, scanlines, glitches, the casing's lamps and LCD can each be turned off
+[*][b]Fine-tuning[/b]: dozens of settings for balance and difficulty: Heat gain and decay, the frequency of network attacks, AI and cyberspace events, cyberspace size and layout, and many small things besides
+[/list]""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
 [*][url={VEF}]Vanilla Expanded Framework[/url]
@@ -258,6 +268,15 @@ RU = {
 [*][b]Odyssey[/b]: орбитальные узлы, пока гравикорабль в космосе
 [*][b]4 сценария[/b]: «Последний узел», «Корпоративные беглецы», «Пиратская студия», «Летающий узел» (Odyssey)
 [*][b]26 достижений[/b] с Vanilla Achievements Expanded (необязательно)
+[/list]""",
+    "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
+
+[list]
+[*][b]7 рамок терминала[/b], у каждой свой корпус, клавиши и лампы, которые реагируют на ваш след: Кибердека NR-1, Iron Company, Стрит, Kurenai Systems, Кочевник, NR-80 Ретро и Реликт. Новые рамки открываются достижениями.
+[*][b]Цветовые схемы[/b]: выберите цвет акцента терминала
+[*][b]Звуковые наборы[/b]: Clean, Minimal, Neon, Retro Deck и Deep, отдельная громкость для щелчков и каждого эмбиента; музыка игры приглушается, пока открыт терминал
+[*][b]Графика[/b]: анимации, сканлайны, глитчи, лампы и экран корпуса отключаются по отдельности
+[*][b]Тонкая настройка[/b]: десятки параметров баланса и сложности: рост и спад следа, частота сетевых атак, событий ИИ и киберпространства, размер и схема киберпространства и ещё много мелочей
 [/list]""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
