@@ -178,6 +178,31 @@ def make_toggle(up, guard=None, guard_open=False):
     return img
 
 
+def make_guard_button(cover_open, lit=False):
+    """A red push button under a hinged red cover, 40 x 56 (Maxim, 2026-10-15: a lever under a cover made no sense).
+    Closed: the cover hides the button; open: the cover stands up and the button shows, lit while armed."""
+    W, H = 40, 56
+    img = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    base = A.mask((W, H), lambda d, s: d.rounded_rectangle([4 * s, 12 * s, 36 * s, 50 * s], 3 * s, fill=255))
+    rgb = A.hexc(0x2a2c28) + A.grain(W, H, 961, 3)[..., None] + (A.shade(base, 1.4) * 50)[..., None]
+    img.alpha_composite(A.to_img(np.zeros_like(rgb), np.roll(A.blur(base, 2), 2, 0) * 0.6))
+    img.alpha_composite(A.to_img(rgb, base))
+    b = S.Big(W, H)
+    b.ellipse((9, 20, 31, 42), (120, 120, 114, 255), outline=(30, 30, 28, 255), width=1)        # the collar
+    btn = (255, 70, 60) if lit else RED
+    b.ellipse((12, 23, 28, 39), btn + (255,), outline=(60, 10, 8, 255), width=1)                  # the button
+    b.ellipse((15, 26, 21, 31), (255, 220, 210, 150 if lit else 90))
+    if cover_open:
+        b.rect((7, 0, 33, 13), RED + (255,), r=2, outline=(30, 10, 8, 255), width=1)               # the cover, up
+        b.line([(9, 11), (31, 11)], (40, 10, 8, 255), 1)
+    else:
+        b.rect((6, 14, 34, 48), RED + (225,), r=4, outline=(40, 10, 8, 255), width=1.2)            # the cover, down
+        b.line([(9, 18), (31, 18)], (255, 170, 160, 120), 1)
+        b.line([(6, 15), (34, 15)], (30, 30, 28, 255), 1.5)                                      # the hinge
+    img.alpha_composite(b.done())
+    return img
+
+
 def make_rubber_key(w=46, h=34):
     m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], 7 * s, fill=255))
     rgb = RUBBER + 8 + A.grain(w, h, 871, 3)[..., None] + (A.shade(m, 3.0) * 55)[..., None]
@@ -361,8 +386,9 @@ def build():
     A.save(make_screw(), T, "Screw")
     for up in (0, 1):
         A.save(make_toggle(up), T, f"Toggle_{up}")
-        A.save(make_toggle(up, RED, False), T, f"Guard_Closed_{up}")
-        A.save(make_toggle(up, RED, True), T, f"Guard_Open_{up}")
+    A.save(make_guard_button(False), T, "Guard_Closed")
+    A.save(make_guard_button(True), T, "Guard_Open")
+    A.save(make_guard_button(True, True), T, "Guard_Lit")
     A.save(make_rubber_key(), T, "Key")
     A.save(make_knob(), T, "Knob")
     for name, col in (("Off", None), ("Green", (90, 230, 90)), ("Orange", (255, 150, 40)), ("Red", (240, 50, 40))):
@@ -453,7 +479,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     rx = bx1 - 240          # the MIL-RF window; its panel ends well clear of the top-right bumper
     x = rx - 112 - 16 - 280
     panel(x - 12, by0 + 14, x + 52 + 112 + 64 + 52, by0 + 94)
-    A.over(img, load("Guard_Closed_1"), (x, by0 + 22))
+    A.over(img, load("Guard_Closed"), (x, by0 + 22))
     stencil(d, (x + 20, by0 + 84), "CLOSE")
     x += 52
     for lab, g in (("MENU", "\u2261"), ("ACHIEV", "\u2605")):
@@ -461,7 +487,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
         d.text((x + 23, by0 + 48), g, font=S.jfont(16), fill=(216, 210, 180), anchor="mm")
         stencil(d, (x + 23, by0 + 84), lab)
         x += 56
-    A.over(img, load("Guard_Closed_0"), (x, by0 + 22))
+    A.over(img, load("Guard_Closed"), (x, by0 + 22))
     stencil(d, (x + 20, by0 + 84), "NET-LOCK")
     x += 60
     A.over(img, load("Knob"), (x, by0 + 30))

@@ -29,8 +29,8 @@ public static partial class NetrunUI
             Knob = Get("Knob"), LampOff = Get("Lamp_Off"), LampGreen = Get("Lamp_Green"), LampOrange = Get("Lamp_Orange"), Lcd = Get("Lcd"),
             Window = Get("Window"), Hazard = Get("Hazard"), Panel = Get("Panel"), Antenna = Get("Antenna"), ConnectorCap = Get("Connector_Cap"),
             ConnectorOpen = Get("Connector_Open"), Vent = Get("Vent"), DataPlate = Get("DataPlate"), Sticker = Get("Sticker"), Warning = Get("Warning"),
-            ToggleDown = Get("Toggle_0"), ToggleUp = Get("Toggle_1"), GuardClosedDown = Get("Guard_Closed_0"), GuardClosedUp = Get("Guard_Closed_1"),
-            GuardOpenDown = Get("Guard_Open_0"), GuardOpenUp = Get("Guard_Open_1");
+            ToggleDown = Get("Toggle_0"), ToggleUp = Get("Toggle_1"), GuardClosed = Get("Guard_Closed"), GuardOpen = Get("Guard_Open"),
+            GuardLit = Get("Guard_Lit");
 
         public static bool Ready => Body != null;
     }
@@ -54,13 +54,14 @@ public static partial class NetrunUI
         return CasingHit(key, active, tip);
     }
 
-    /// <summary>A guarded toggle: the cover is closed, flips up under the mouse, and stays up while <paramref name="armed"/>.</summary>
+    /// <summary>A red push button under a hinged cover: closed, flipped up under the mouse, up with the button lit while
+    /// <paramref name="armed"/>.</summary>
     private static bool IronGuard(Rect hit, bool armed, string tip, bool active)
     {
         if (Event.current.type == EventType.Repaint)
         {
             bool over = active && Mouse.IsOver(hit);
-            Texture2D tex = armed ? IronTex.GuardOpenUp : over ? IronTex.GuardOpenDown : IronTex.GuardClosedDown;
+            Texture2D tex = armed ? IronTex.GuardLit : over ? IronTex.GuardOpen : IronTex.GuardClosed;
             Sprite(tex, hit.position, active ? Color.white : new Color(0.65f, 0.65f, 0.65f));
         }
         return CasingHit(hit, active, tip);

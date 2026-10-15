@@ -155,7 +155,7 @@ public static partial class NetrunUI
         AcceptanceReport lockReport = defense?.CanToggleIsolation() ?? false;
         for (int i = 0; i < 4; i++)
         {
-            var key = new Rect(box.x + 34f + i * 54f, y, 44f, 32f);
+            var key = new Rect(box.x + 44f + i * 54f, y, 44f, 32f);
             bool red = i == 0 || i == 3 && isolated;
             bool active = i switch { 0 => onKey != null, 1 or 2 => onKey != null && menu, _ => defense != null && lockReport.Accepted };
             string tip = !Mouse.IsOver(key) ? null : i == 3
@@ -186,7 +186,7 @@ public static partial class NetrunUI
             return;
 
         // From the right: RF in a brass window, the three lamps; the tuner after the keys; the leather patch between.
-        var rf = new Rect(box.xMax - 34f - 64f, y, 64f, 32f);
+        var rf = new Rect(box.xMax - 44f - 64f, y, 64f, 32f);
         NineSlice(rf, NomadTex.Window, 10f, 10f, 10f, 10f);
         bool hot = level >= HeatLevel.Target;
         for (int i = 0; i < 6; i++)
@@ -232,7 +232,7 @@ public static partial class NetrunUI
             right = sx - 16f;
         }
 
-        float x = box.x + 34f + 4f * 54f + 12f;
+        float x = box.x + 44f + 4f * 54f + 12f;
         float tunerW = Mathf.Min(170f, right - x - 170f);
         if (tunerW >= 90f)
         {
@@ -255,7 +255,7 @@ public static partial class NetrunUI
         if (room >= 150f)
         {
             float pw = Mathf.Min(240f, room);
-            var patch = new Rect(Mathf.Round(x + (room - pw) / 2f), box.y + 6f, pw, 48f);
+            var patch = new Rect(Mathf.Round(x + (room - pw) / 2f), box.y + 1f, pw, 48f);
             NineSlice(patch, NomadTex.Patch, 16f, 16f, 16f, 16f);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;
