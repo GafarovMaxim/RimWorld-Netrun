@@ -234,6 +234,31 @@ def make_meter():
     return A.to_img(rgb, rim)
 
 
+def make_lamp_plate(W=180, H=44):
+    """The lamps' plate (Maxim: the lamps on bare yellow looked plain): a chamfered black plate with screws in the
+    corners and a neon hairline, 9-sliced with borders 14."""
+    m = A.mask((W, H), lambda d, s: d.polygon(chamfer_poly(0, 0, W - 1, H - 1, 7, s), fill=255))
+    rgb = A.hexc(0x16161a) + A.grain(W, H, 581, 3)[..., None] + (A.shade(m, 1.6) * 50)[..., None]
+    rgb += scratches(W, H, 10, 582)[..., None] * 18
+    img = A.to_img(np.zeros_like(rgb), np.roll(A.blur(m, 2), 2, 0) * 0.6)
+    img.alpha_composite(A.to_img(rgb, m))
+    d = ImageDraw.Draw(img)
+    d.line([12, H - 6, W - 13, H - 6], fill=(63, 224, 230, 150), width=1)
+    for i, (x, y) in enumerate(((7, 7), (W - 8, 7), (7, H - 8), (W - 8, H - 8))):
+        sc = screw(7, seed=583 + i)
+        img.alpha_composite(sc, (int(x - sc.width / 2), int(y - sc.height / 2)))
+    return img
+
+
+def make_led_ring(n=20):
+    """A chrome bezel for a 12 px LED (the LED is drawn inside it)."""
+    m = A.mask((n, n), lambda d, s: d.ellipse([0, 0, n * s - 1, n * s - 1], fill=255))
+    hole = A.mask((n, n), lambda d, s: d.ellipse([4 * s, 4 * s, (n - 4) * s - 1, (n - 4) * s - 1], fill=255))
+    yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
+    rgb = A.hexc(0x9a9ca2) + ((1 - yy / n) * 60)[..., None] + (A.shade(m, 1.2) * 60)[..., None]
+    return A.to_img(rgb, m * (1 - hole) + hole * 0.0)
+
+
 def make_switch_plate():
     """NET LINK: a gunmetal plate with hazard ends and a slot for the sliding knob, 128 x 40."""
     W, H = 128, 40
@@ -305,6 +330,10 @@ def build():
         A.save(make_led(col), T, "Led_" + name)
     A.save(make_lcd(), T, "Lcd")
     A.save(make_switch_plate(), T, "SwitchPlate")
+    A.save(make_lamp_plate(), T, "LampPlate")
+    A.save(make_led_ring(), T, "LedRing")
+    A.save(S.bolt(22, seed=585), T, "St_Bolt")
+    A.save(S.tape(46, 13, seed=586).rotate(24, resample=Image.BICUBIC, expand=True), T, "Tape")
     A.save(make_knob(), T, "Knob")
     A.save(make_kanji(), T, "Kanji")
     A.save(S.slashes(35, 56, seed=564), T, "Slashes")
@@ -382,14 +411,20 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     for i in range(4):
         h = 3 + i * 2.5
         d.rectangle([mx + 12 + i * 5, my + 13 - h, mx + 15 + i * 5, my + 13], fill=(90, 220, 230))
-    # LEDs
+    # LEDs on a black plate in chrome rings, a strip of tape over its corner, a bolt sticker after it
     lx = mx + METER_W + 20
+    plate = (lx + 4, my - 5, 180, 44)
+    A.over(img, A.nine_slice(load("LampPlate"), plate[2:], 14, 14, 14, 14), plate[:2])
     for i, (lab, led, c) in enumerate((("NET", "Led_Cyan", (63, 224, 230)), ("SICK", "Led_Off", None), ("POD", "Led_Green", (63, 208, 122)))):
-        cx = lx + 26 + i * 60
+        cx = plate[0] + 32 + i * 58
+        A.over(img, load("LedRing"), (cx - 10, plate[1] + 4))
         if c:
-            A.glow(img, (cx - 3, my + 4, cx + 3, my + 10), c, 0.6, 4)
-        A.over(img, load(led), (cx - 6, my + 1))
-        d.text((cx, my + 23), lab, font=A.font(11, bold=False), fill=(30, 26, 14), anchor="mm")
+            A.glow(img, (cx - 3, plate[1] + 11, cx + 3, plate[1] + 17), c, 0.6, 4)
+        A.over(img, load(led), (cx - 6, plate[1] + 8))
+        d = ImageDraw.Draw(img)
+        d.text((cx, plate[1] + 31), lab, font=A.font(10, bold=False), fill=(63, 224, 230) if i != 1 else (255, 79, 158), anchor="mm")
+    A.over(img, load("Tape"), (plate[0] - 12, plate[1] - 10))
+    A.over(img, load("St_Bolt"), (plate[0] + plate[2] + 8, plate[1] - 2))
     # the right column: the tilted kitsune over the edge, the kanji band, three slashes below the middle, a skull
     A.over(img, load("Kanji"), (bx1 - 62, by0 + 104))
     A.over(img, load("Slashes"), (bx1 - 60, by0 + round(bh * 0.6)))

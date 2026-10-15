@@ -31,7 +31,8 @@ public static partial class NetrunUI
             KeyCyan = Get("Key_Cyan"), KeyRed = Get("Key_Red"), Meter = Get("Meter"), LedOff = Get("Led_Off"), LedGreen = Get("Led_Green"),
             LedCyan = Get("Led_Cyan"), LedOrange = Get("Led_Orange"), Lcd = Get("Lcd"), SwitchPlate = Get("SwitchPlate"), Knob = Get("Knob"),
             Kanji = Get("Kanji"), Slashes = Get("Slashes"), Kitsune = Get("St_Kitsune"), Skull = Get("St_Skull"),
-            GraffitiTop = Get("Graffiti_Top"), GraffitiBottom = Get("Graffiti_Bottom");
+            GraffitiTop = Get("Graffiti_Top"), GraffitiBottom = Get("Graffiti_Bottom"), LampPlate = Get("LampPlate"), LedRing = Get("LedRing"),
+            Bolt = Get("St_Bolt"), Tape = Get("Tape");
 
         public static bool Ready => Panel != null;
     }
@@ -184,7 +185,7 @@ public static partial class NetrunUI
             mx = meter.xMax + 20f;
         }
 
-        if (set.FrameLights && right - mx >= 180f)
+        if (set.FrameLights && right - mx >= 190f)
         {
             bool sick = Current.Game != null && Cached("deck.sick", () => PawnsFinder.AllMaps_FreeColonists.Any(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)), 1f);
             bool pod = Current.Game != null && Cached("deck.pod", () => Find.Maps.Any(m => m.GetComponent<USH_HE.MapComponent_CyberpodManager>()?.Pods.Any(pp => pp.ContainedThing != null) == true), 1f);
@@ -194,10 +195,14 @@ public static partial class NetrunUI
                 (sick, DeckOrange, StreetTex.LedOrange, true, "NR_DeckLightSick".Translate(), "SICK"),
                 (pod, PodGreen, StreetTex.LedGreen, false, "NR_DeckLightPod".Translate(), "POD"),
             ];
+            // On a black plate in chrome rings, a strip of tape over its corner, a bolt sticker after it (Maxim: plain).
+            var plate = new Rect(mx + 4f, box.y + 31f, 180f, 44f);
+            NineSlice(plate, StreetTex.LampPlate, 14f, 14f, 14f, 14f);
             for (int i = 0; i < lights.Length; i++)
             {
-                float cx = mx + 26f + i * 60f;
-                var l = new Rect(cx - 6f, box.y + 37f, 12f, 12f);
+                float cx = plate.x + 32f + i * 58f;
+                Sprite(StreetTex.LedRing, new Vector2(cx - 10f, plate.y + 4f));
+                var l = new Rect(cx - 6f, plate.y + 8f, 12f, 12f);
                 float a = !lights[i].on ? 0f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
                 GUI.DrawTexture(l, StreetTex.LedOff);
                 if (a > 0f)
@@ -209,11 +214,14 @@ public static partial class NetrunUI
                 }
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.UpperCenter;
-                Widgets.Label(new Rect(cx - 25f, box.y + 51f, 50f, 18f), lights[i].label.Colorize(StreetInk));
+                Widgets.Label(new Rect(cx - 25f, plate.y + 23f, 50f, 18f), lights[i].label.Colorize(i == 1 ? StreetPink : StreetCyan));
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
-                Tip(new Rect(cx - 20f, box.y + 34f, 40f, 34f), lights[i].tip);
+                Tip(new Rect(cx - 22f, plate.y, 44f, plate.height), lights[i].tip);
             }
+            Sprite(StreetTex.Tape, new Vector2(plate.x - 12f, plate.y - 10f));
+            if (right - plate.xMax >= 40f)
+                Sprite(StreetTex.Bolt, new Vector2(plate.xMax + 8f, plate.y - 2f));
         }
     }
 
