@@ -27,7 +27,7 @@ public static partial class NetrunUI
     {
         private static Texture2D Get(string name) => ContentFinder<Texture2D>.Get("UI/Netrun/Frame/Relic/" + name, reportFailure: false);
 
-        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), RailText = Get("RailText"), RailParts = Get("RailParts"), Plate = Get("Plate"),
+        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), RailText = Get("RailText"), RailParts = Get("RailParts"), Floppy = Get("Floppy"), Plate = Get("Plate"),
             KeyRed = Get("Key_Red"), KeyGrey = Get("Key_Grey"), KeyOrange = Get("Key_Orange"), KeySquare = Get("Key_Square"),
             Gauge = Get("Gauge"), GaugeGlass = Get("GaugeGlass"), ColKnobs = Get("Col_Knobs"), ColScan = Get("Col_Scan"),
             TraceScale = Get("Col_TraceScale"), TraceKnob = Get("Col_TraceKnob"), ColButtons = Get("Col_Buttons"), ColLine = Get("Col_Line"),
@@ -46,7 +46,7 @@ public static partial class NetrunUI
         bool paint = Event.current.type == EventType.Repaint;
         if (paint)
         {
-            DrawRelicCasing(box, screen);
+            DrawRelicCasing(box, screen, online, anim, time);
             DrawRelicColumn(box, heat, level, anim, time);
         }
         DrawRelicTop(box, level, online, anim, time, onKey, menu, paint);
@@ -54,7 +54,7 @@ public static partial class NetrunUI
         return screen;
     }
 
-    private static void DrawRelicCasing(Rect box, Rect screen)
+    private static void DrawRelicCasing(Rect box, Rect screen, bool online, bool anim, float time)
     {
         NineSlice(box, RelicTex.Body, RelicSlice, RelicSlice, RelicSlice, RelicSlice);
         Sprite(RelicTex.Badge, new Vector2(box.x + 48f, box.y + 12f));
@@ -65,9 +65,19 @@ public static partial class NetrunUI
             Sprite(RelicTex.RailParts, new Vector2(box.x + 5f, y));
             y += RelicTex.RailParts.height + 24f;
         }
-        float h = Mathf.Min(RelicTex.RailText.height, screen.yMax - 20f - y);
+        // The floppy drive at the bottom of the rail; its LED flickers with disk activity while the net is up.
+        float bottom = screen.yMax - 16f;
+        if (bottom - RelicTex.Floppy.height >= y + 10f)
+        {
+            bottom -= RelicTex.Floppy.height;
+            Sprite(RelicTex.Floppy, new Vector2(box.x + 5f, bottom));
+            bool busy = online && anim && Noise(time, 6f) > 0.55f;
+            Widgets.DrawBoxSolid(new Rect(box.x + 18f, bottom + 9f, 5f, 5f), busy ? new Color(0.35f, 0.9f, 0.45f) : new Color(0.12f, 0.24f, 0.14f));
+            bottom -= 20f;
+        }
+        float h = Mathf.Min(RelicTex.RailText.height, bottom - y);
         if (h > 100f)
-            GUI.DrawTextureWithTexCoords(new Rect(box.x + 9f, screen.yMax - 20f - h, RelicTex.RailText.width, h), RelicTex.RailText,
+            GUI.DrawTextureWithTexCoords(new Rect(box.x + 9f, bottom - h, RelicTex.RailText.width, h), RelicTex.RailText,
                 new Rect(0f, 0f, 1f, h / RelicTex.RailText.height));
     }
 

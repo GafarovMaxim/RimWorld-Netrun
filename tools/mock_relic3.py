@@ -162,7 +162,10 @@ def relic(heat):
     # the left rail: jacks, the battery latch, a lug and a serial plate (gen_deck_relic.py), worn engraved text below
     import gen_deck_relic as G
     A.over(img, G.make_rail_parts(), (BX0 + 5, SY0 + 14))
-    lay = Image.new("RGBA", (SY1 - SY0 - 358, 16), (0, 0, 0, 0))
+    A.over(img, G.make_floppy(), (BX0 + 5, SY1 - 182))
+    d0 = ImageDraw.Draw(img)
+    d0.rectangle([BX0 + 18, SY1 - 173, BX0 + 22, SY1 - 169], fill=(80, 220, 110, 255))
+    lay = Image.new("RGBA", (SY1 - SY0 - 544, 16), (0, 0, 0, 0))
     ImageDraw.Draw(lay).text((0, 8), "NR-02 FIELD UNIT  ·  OLD NET CERT. 7741  ·  KEEP DRY  ·  DO NOT OPEN WHILE LIVE  ·  MADE IN NIGHT CITY",
                              font=A.font(8), fill=(70, 64, 54, 200), anchor="lm")
     A.over(img, A.spray(lay, 330, 0.7).rotate(90, expand=True), (BX0 + 9, SY0 + 338))

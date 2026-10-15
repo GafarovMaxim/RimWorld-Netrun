@@ -176,6 +176,29 @@ def make_rail_parts():
     return img
 
 
+def make_floppy():
+    """A vertical floppy drive slot for the bottom of the left rail, 30 x 166: a beige bezel, the slot with its dark
+    flap, an eject button and a dymo label; the activity LED (at 15, 14) comes from the C#."""
+    w, h = 30, 166
+    b = S.Big(w, h)
+    b.rect((4, 3, w - 2, 149), (14, 12, 10, 140), r=5)
+    b.rect((2, 0, w - 4, 146), (96, 90, 78, 255), r=5)
+    b.rect((3, 1, w - 5, 144), (186, 178, 156, 255), r=4)
+    b.rect((8, 6, w - 10, 22), (40, 38, 34, 255), r=2)          # LED window
+    b.rect((9, 28, w - 11, 118), (24, 22, 20, 255), r=2)       # the slot recess
+    b.rect((11, 30, w - 13, 116), (58, 56, 52, 255), r=1)      # the flap
+    b.line([(13, 32), (13, 114)], (88, 86, 80, 255), 1)
+    b.rect((10, 124, w - 12, 140), (60, 56, 50, 255), r=2)     # eject
+    b.rect((11, 125, w - 13, 137), (150, 144, 128, 255), r=2)
+    img = b.done()
+    put(img, dymo("FD", 7, -2, 351), w / 2 - 1, 158)
+    d = ImageDraw.Draw(img)
+    d.polygon([(12, 133), (w / 2 - 1, 128), (w - 14, 133)], fill=(60, 56, 50, 255))
+    noise = np.clip((A.fbm(w, h, 8, 3, 352) - 0.5) * 3, 0, 1) * (np.array(img)[..., 3] / 255.0) * 0.35
+    img.alpha_composite(A.to_img(np.broadcast_to(np.array((92, 74, 50), np.float32), (h, w, 3)).copy(), noise))
+    return img
+
+
 def make_plate(w, h, r=6):
     m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], r * s, fill=255))
     rgb = A.hexc(0x34322e) + A.streaks(w, h, "x", 6, w)[..., None] + A.grain(w, h, w + 1, 3)[..., None] - (A.shade(m, 1.5) * 40)[..., None]
@@ -483,6 +506,7 @@ def build():
     A.save(make_badge(), T, "Badge")
     A.save(make_rail_text(), T, "RailText")
     A.save(make_rail_parts(), T, "RailParts")
+    A.save(make_floppy(), T, "Floppy")
     A.save(make_plate(40, 40), T, "Plate")
     for name, cap in (("Red", RED), ("Grey", (126, 126, 120)), ("Orange", ORANGE)):
         A.save(make_key(cap), T, "Key_" + name)
