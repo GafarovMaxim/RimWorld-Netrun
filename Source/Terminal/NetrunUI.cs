@@ -902,7 +902,10 @@ public static partial class NetrunUI
             Glitch(rect, glitch / 0.18f, (int)Key(hit), 2);
         if (Event.current.type == EventType.Repaint)
         {
-            int key = (int)Key(hit);
+            // Fold the x bits in too: a plain cast dropped them, so buttons in one row of equal width (the header icons)
+            // shared a key, reset each other every frame and the hover tick looped (Maxim, 2026-10-15).
+            long full = Key(hit);
+            int key = (int)(full ^ (full >> 32));
             if (active && Mouse.IsOver(hit))
             {
                 if (_hoverKey != key)

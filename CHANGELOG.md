@@ -23,6 +23,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - The AI server is placed facing front by default.
 - Map tags (watch, timer) no longer overlap a hub's LOCKED / OPEN tag.
 - Network isolation breaks a running Transition (like opening the pod) and blocks starting one.
+- The hover tick no longer loops over the terminal's header icons (guide, menu, Cyberpedia).
 
 ## [0.6.3] - 2026-10-15
 ### Fixed
