@@ -201,6 +201,14 @@ public static class NetRitualSync
                     r.isAnytime = true;
                     added++;
                 }
+                // The behaviour is saved with the ritual too: a pattern that changed its behaviour (trace cleansing with
+                // three netrunners and no spectators) would keep the old one in an old save.
+                RitualBehaviorDef behavior = r.sourcePattern?.ritualBehavior;
+                if (behavior != null && r.behavior?.def != behavior)
+                {
+                    r.behavior = behavior.GetInstance();
+                    added++;
+                }
                 string icon = r.sourcePattern?.iconPathOverride ?? r.def.iconPath;
                 if (icon != null && r.iconPathOverride != icon)
                 {
