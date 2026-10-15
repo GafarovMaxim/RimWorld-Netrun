@@ -99,4 +99,7 @@ Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank yo
 Font: [b]Tektur[/b] (SIL Open Font License 1.1)
 [url=https://github.com/GafarovMaxim/RimWorld-Netrun]Source code on GitHub[/url] (MIT)
 
+[quote][b]AI DISCLOSURE:[/b] 
+This mod was developed by Claude and my love[/quote]
+
 [i]Found a bug? Leave a comment with your Player.log, it helps a lot.[/i]
