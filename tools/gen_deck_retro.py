@@ -155,9 +155,15 @@ def make_round_key(color, n=38):
     return img
 
 
-def make_pill(color, w=50, h=16):
-    m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], h / 2 * s, fill=255))
-    rgb = np.array(color, np.float32) + (A.shade(m, 1.5) * 50)[..., None] + A.grain(w, h, 1011, 2)[..., None]
+def make_pill(color, w=50, h=22):
+    """A straight rubber key with a domed cap (Maxim, 2026-10-15: the slanted pills looked unnatural)."""
+    m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], 6 * s, fill=255))
+    cap = A.mask((w, h), lambda d, s: d.rounded_rectangle([2 * s, 1.5 * s, (w - 2) * s - 1, (h - 4) * s - 1], 5 * s, fill=255))
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    rgb = np.array(color, np.float32) - 14 + (A.shade(m, 1.5) * 30)[..., None] + A.grain(w, h, 1011, 2)[..., None]
+    face = np.array(color, np.float32) + 10 + (A.shade(cap, 2.0) * 50)[..., None] + A.grain(w, h, 1012, 2)[..., None]
+    face += (np.clip(1 - np.hypot(xx - w * 0.4, yy - h * 0.3) / (w * 0.5), 0, 1) * 18)[..., None]
+    rgb = rgb * (1 - cap[..., None]) + face * cap[..., None]
     img = A.to_img(np.zeros_like(rgb), np.roll(A.blur(m, 1.5), 2, 0) * 0.6)
     img.alpha_composite(A.to_img(rgb, m))
     return img
@@ -227,7 +233,64 @@ def mono(size, bold=True):
         return A.font(size)
 
 
-def mock(v, out_path, screen=(930, 666), heat=58, online=True):
+SEG = {"0": "abcdef", "1": "bc", "2": "abged", "3": "abgcd", "4": "fgbc", "5": "afgcd", "6": "afgedc", "7": "abc", "8": "abcdefg", "9": "abcdfg"}
+
+
+def seg_digit(d, x, y, w, h, ch, on, off):
+    """A 7-segment digit, segments drawn as bars (the game draws them the same way)."""
+    t = max(2, w // 5)
+    bars = {"a": (x + t, y, x + w - t, y + t), "g": (x + t, y + h / 2 - t / 2, x + w - t, y + h / 2 + t / 2), "d": (x + t, y + h - t, x + w - t, y + h),
+            "f": (x, y + t, x + t, y + h / 2 - t / 2), "b": (x + w - t, y + t, x + w, y + h / 2 - t / 2),
+            "e": (x, y + h / 2 + t / 2, x + t, y + h - t), "c": (x + w - t, y + h / 2 + t / 2, x + w, y + h - t)}
+    for k, r in bars.items():
+        d.rectangle(r, fill=on if k in SEG[ch] else off)
+
+
+def draw_heat(img, style, x, y, heat, ink):
+    """Three takes on the Heat readout for the retro deck (Maxim, 2026-10-15: the VU needle felt like a car dashboard)."""
+    d = ImageDraw.Draw(img)
+    lab = A.font(9, False)
+    level = min(4, int(heat // 20))
+    if style == "pixel":
+        # On a second green LCD: five pixel flames, lit up to the Heat level, like the lives in a handheld game.
+        A.over(img, A.nine_slice(make_lcd(), (170, 60), 8, 8, 8, 8), (x, y))
+        flame = ["...#....", "..##....", "..###.#.", ".#####..", ".######.", "##.####.", "##..###.", ".######.", "..####.."]
+        for i in range(5):
+            on = i <= level
+            for r, row in enumerate(flame):
+                for c, chv in enumerate(row):
+                    if chv == "#":
+                        px, py = x + 12 + i * 31 + c * 3, y + 10 + r * 3
+                        d.rectangle([px, py, px + 2, py + 2], fill=LCD_INK if on else (128, 142, 100))
+        d.text((x + 85, y + 72), "HEAT", font=lab, fill=ink, anchor="mm")
+    elif style == "seg":
+        # A red LED counter, the Heat in three digits and the level as a word, like an old clock radio.
+        d.rounded_rectangle([x, y, x + 170, y + 60], 5, fill=(40, 38, 36))
+        d.rounded_rectangle([x + 5, y + 5, x + 165, y + 55], 3, fill=(36, 6, 8))
+        on, off = (255, 60, 40), (64, 14, 14)
+        for i, ch in enumerate(f"{int(heat):03d}"):
+            seg_digit(d, x + 14 + i * 30, y + 12, 22, 36, ch, on, off)
+        A.glow(img, (x + 14, y + 12, x + 96, y + 48), on, 0.25, 6)
+        d = ImageDraw.Draw(img)
+        for i, t in enumerate(("SHADOW", "NOTICED", "TRACKED", "TARGET", "RED")):
+            d.text((x + 108, y + 9 + i * 9.5), t, font=A.font(7, False), fill=on if i == level else (110, 40, 36))
+        d.text((x + 85, y + 72), "HEAT", font=lab, fill=ink, anchor="mm")
+    else:
+        # A tape counter: three white-on-black drums behind a little window, rolling with the Heat.
+        d.rounded_rectangle([x + 20, y + 6, x + 150, y + 54], 6, fill=(180, 176, 166), outline=(60, 56, 50))
+        d.rounded_rectangle([x + 30, y + 14, x + 112, y + 46], 3, fill=(20, 20, 20))
+        for i, ch in enumerate(f"{int(heat):03d}"):
+            cx = x + 32 + i * 27
+            d.rectangle([cx, y + 15, cx + 23, y + 45], fill=(30, 30, 30) if i < 2 else (34, 30, 30))
+            d.text((cx + 12, y + 30), ch, font=A.font(22), fill=(240, 236, 226), anchor="mm")
+            d.line([cx, y + 16, cx + 23, y + 16], fill=(70, 70, 70))
+            d.line([cx, y + 44, cx + 23, y + 44], fill=(10, 10, 10))
+        d.ellipse([x + 122, y + 22, x + 138, y + 38], fill=(60, 56, 50), outline=(30, 28, 26))
+        d.text((x + 130, y + 30), "R", font=A.font(9), fill=(220, 214, 200), anchor="mm")
+        d.text((x + 85, y + 72), "HEAT COUNTER", font=lab, fill=ink, anchor="mm")
+
+
+def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel"):
     import math
     T = V[v]["T"]
     p = V[v]
@@ -259,8 +322,8 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True):
     for i, name in enumerate(("CLOSE", "MENU", "ACHIEV", "NET-LOCK")):
         x = kx + i * 72
         pill = load("Pill")
-        A.over(img, pill.rotate(18, expand=True, resample=Image.BICUBIC), (x, top_y + 6))
-        d.text((x + 30, top_y + 42), name, font=lab, fill=ink, anchor="mm")
+        A.over(img, pill, (x, top_y + 8))
+        d.text((x + 25, top_y + 42), name, font=lab, fill=ink, anchor="mm")
     lx = bx1 - IN_R - 112
     for i, (c, name) in enumerate((((240, 60, 50), "NET"), ((250, 160, 40), "SICK"), ((60, 50, 50), "POD"))):
         cx, cy = lx + i * 36, top_y + 18
@@ -282,11 +345,7 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True):
         d.text((x + 19, y + 19), g, font=A.font(14), fill=(246, 236, 214) if v != "C" else (60, 40, 30), anchor="mm")
         d.text((x + 19, y + 48), name, font=lab, fill=ink, anchor="mm")
     vx = rx + 3 * 52 + 30
-    vu = load("VU")
-    A.over(img, vu, (vx, yb + 26))
-    cx, cy = vx + vu.width / 2, yb + 26 + vu.height + 26
-    a = math.radians(-50 + 100 * heat / 100)
-    d.line([cx + 50 * math.sin(a), cy - 50 * math.cos(a), cx + 80 * math.sin(a), cy - 80 * math.cos(a)], fill=(200, 30, 30), width=2)
+    draw_heat(img, heat_style, vx, yb + 26, heat, ink)
     sx = bx1 - IN_R - 230
     A.over(img, load("Slide"), (sx, yb + 44))
     A.over(img, load("Grip"), (sx + (58 if online else 6), yb + 47))
@@ -300,4 +359,5 @@ if __name__ == "__main__":
     v = sys.argv[sys.argv.index("--variant") + 1] if "--variant" in sys.argv else "A"
     build(v)
     if "--mock" in sys.argv:
-        mock(v, sys.argv[sys.argv.index("--mock") + 1])
+        style = sys.argv[sys.argv.index("--heat") + 1] if "--heat" in sys.argv else "pixel"
+        mock(v, sys.argv[sys.argv.index("--mock") + 1], heat_style=style)
