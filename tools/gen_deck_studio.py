@@ -196,6 +196,30 @@ def make_key(cap):
     return img
 
 
+def make_rocker(on):
+    """The power rocker, 30 x 34: a black bezel, a red rocker pressed in at the I end (on) or the O end (off),
+    the pressed half darker, a lit edge on the raised half."""
+    w, h = 30, 34
+    bez = rrect((w, h), (1, 1, w - 1, h - 1), 5)
+    img = A.to_img(np.zeros((h, w, 3), np.float32), np.roll(A.blur(bez, 1.5), 2, 0) * 0.7)
+    img.alpha_composite(A.to_img(np.array((18, 16, 20), np.float32) + (A.shade(bez, 1) * 22)[..., None], bez))
+    pit = rrect((w, h), (5, 5, w - 5, h - 5), 3)
+    img.alpha_composite(A.to_img(np.full((h, w, 3), 6, np.float32), pit))
+    yy = np.mgrid[0:h, 0:w][0].astype(np.float32)
+    m = rrect((w, h), (6, 6, w - 6, h - 6), 2)
+    mid = h / 2
+    up = yy < mid                                   # the top half is the I end
+    pressed = up if on else ~up
+    k = np.where(pressed, 0.62, 1.0) * (1 + np.where(~pressed, np.clip(1 - np.abs(yy - (8 if not on else h - 9)) / 6, 0, 1) * 0.35, 0))
+    rgb = np.array((176, 40, 44), np.float32)[None, None, :] * k[..., None] + A.grain(w, h, 91 + on, 3)[..., None]
+    img.alpha_composite(A.to_img(rgb, m))
+    d = ImageDraw.Draw(img)
+    d.line([(6, int(mid)), (w - 7, int(mid))], fill=(60, 10, 14, 255), width=1)
+    d.line([(w / 2, 9), (w / 2, 14)], fill=(250, 226, 220, 235), width=2)
+    d.ellipse((w / 2 - 3.5, h - 15, w / 2 + 3.5, h - 8), outline=(250, 226, 220, 235), width=1)
+    return img
+
+
 def make_lcd():
     n = 32
     b = S.Big(n, n)
@@ -608,6 +632,8 @@ def build():
     for name, cap in (("Grey", (122, 116, 104)), ("Red", (150, 60, 52)), ("Amber", (176, 136, 64))):
         A.save(make_key(cap), T, "Key_" + name)
     A.save(make_lcd(), T, "Lcd")
+    A.save(make_rocker(True), T, "Rocker_On")
+    A.save(make_rocker(False), T, "Rocker_Off")
     A.save(make_fader_slot(), T, "FaderSlot")
     A.save(make_fader_cap((150, 150, 146)), T, "FaderCap")
     A.save(make_fader_cap((176, 120, 162)), T, "FaderCapPink")
@@ -754,6 +780,8 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
             put(tex, kx - 19, ky - 16)
             d.text((kx, ky - 3), g, font=A.font(12), fill=(40, 30, 22, 255) if tex != "Key_Red" else (240, 220, 200, 255), anchor="mm")
             cap(nm, kx, ky + 15)
+    put("Rocker_On", k0 + 3 * 42 - 15, yd + 86 - 17)
+    cap("POWER", k0 + 3 * 42, yd + 86 + 15)
     x = k0 + 3 * 42 + 44
     lcd = (x + 10, yd + 22, x + 210, yd + 84)
     if lcd[2] + 10 <= right:

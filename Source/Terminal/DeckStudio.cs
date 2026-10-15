@@ -29,7 +29,7 @@ public static partial class NetrunUI
         private static Texture2D Get(string name) => ContentFinder<Texture2D>.Get("UI/Netrun/Frame/Studio/" + name, reportFailure: false);
 
         public static readonly Texture2D Body = Get("Body"), Meter = Get("Meter"), Bay = Get("Bay"), Wave = Get("Wave"),
-            KeyGrey = Get("Key_Grey"), KeyRed = Get("Key_Red"), KeyAmber = Get("Key_Amber"), Lcd = Get("Lcd"), Panel = Get("Panel"),
+            KeyGrey = Get("Key_Grey"), KeyRed = Get("Key_Red"), KeyAmber = Get("Key_Amber"), Lcd = Get("Lcd"), RockerOn = Get("Rocker_On"), RockerOff = Get("Rocker_Off"), Panel = Get("Panel"),
             FaderSlot = Get("FaderSlot"), FaderCap = Get("FaderCap"), FaderCapPink = Get("FaderCapPink"), Jog = Get("Jog"),
             LedBezel = Get("LedBezel"), Glass = Get("Glass"), Scope = Get("Scope"), ScopeGlass = Get("ScopeGlass"), Knob = Get("KnobSmall"), Note = Get("Note"),
             Vent = Get("Vent"), Badge = Get("Badge"), Sun = Get("Sticker_Sun"), Phones = Get("Sticker_Phones"), BdLogo = Get("Sticker_BdLogo"),
@@ -263,6 +263,23 @@ public static partial class NetrunUI
                 deskKey?.Invoke(ids[i]);
             if (paint)
                 StudioCaption(kx, ky + 15f, bottom[i]);
+        }
+
+        // POWER: a red rocker after HELP; flipping it off shuts the terminal (as CLOSE).
+        {
+            float kx = k0 + 3f * 42f, ky = yd + 86f;
+            var rocker = new Rect(kx - 15f, ky - 17f, 30f, 34f);
+            bool active = onKey != null, over = active && Mouse.IsOver(rocker);
+            if (paint && Event.current.type == EventType.Repaint)
+            {
+                if (over)
+                    Glow(rocker.ContractedBy(3f), DeckOrange, 0.3f, 5f);
+                GUI.DrawTexture(rocker, over && _pressed ? StudioTex.RockerOff : StudioTex.RockerOn);
+            }
+            if (paint)
+                StudioCaption(kx, ky + 15f, "POWER");
+            if (CasingHit(rocker.ContractedBy(2f), active, over ? (string)"NR_DeckStudioPower".Translate() : null))
+                onKey(KeyClose);
         }
         if (!paint)
             return;

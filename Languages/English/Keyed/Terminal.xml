@@ -316,6 +316,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckTheme_Studio>Braindance studio</NR_DeckTheme_Studio>
   <NR_DeckThemeDesc_Studio>A violet editing monitor over a mixing desk: a scrolling timeline, a chip bay, a LED level meter, faders, a jog wheel and a pile of VHS stickers.</NR_DeckThemeDesc_Studio>
   <NR_DeckStudioTimeline>The recording's timeline: visual, audio and emotion tracks run under the playhead while the net is up.</NR_DeckStudioTimeline>
+  <NR_DeckStudioPower>Power: switch the terminal off (closes it).</NR_DeckStudioPower>
   <NR_DeckStudioBay>The braindance chip bay. Its light blinks with reads while the net is up.</NR_DeckStudioBay>
   <NR_DeckThemeDesc_Relic>An old field deck: worn cream plastic with chipped paint and rust runs, an orange side panel, rubber keys, a dial gauge and an orange LCD.</NR_DeckThemeDesc_Relic>
   <NR_DeckThemeDesc_Field>Default: matte black plastic, carbon inserts, chiclet keys with glowing legends and a light line round the screen that turns red with the Heat.</NR_DeckThemeDesc_Field>
