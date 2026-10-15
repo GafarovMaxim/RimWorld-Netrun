@@ -150,57 +150,57 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_CircuitA</fleckDef>
-        <area>(20, 18)</area>
+        <area>(26, 24)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>40</spawnIntervalTicks>
+        <spawnIntervalTicks>110</spawnIntervalTicks>
         <delay>0</delay>
         <scale>0.9~1.3</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
-          <li>(50, 230, 115)</li>
-          <li>(40, 190, 95)</li>
+          <li>(50, 230, 115, 150)</li>
+          <li>(40, 190, 95, 120)</li>
         </overrideColors>
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_CircuitB</fleckDef>
-        <area>(20, 18)</area>
+        <area>(26, 24)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>40</spawnIntervalTicks>
-        <delay>13</delay>
+        <spawnIntervalTicks>110</spawnIntervalTicks>
+        <delay>37</delay>
         <scale>0.9~1.3</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
-          <li>(50, 230, 115)</li>
-          <li>(40, 190, 95)</li>
+          <li>(50, 230, 115, 150)</li>
+          <li>(40, 190, 95, 120)</li>
         </overrideColors>
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_CircuitC</fleckDef>
-        <area>(20, 18)</area>
+        <area>(26, 24)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>40</spawnIntervalTicks>
-        <delay>26</delay>
+        <spawnIntervalTicks>110</spawnIntervalTicks>
+        <delay>73</delay>
         <scale>0.9~1.3</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
-          <li>(50, 230, 115)</li>
-          <li>(40, 190, 95)</li>
+          <li>(50, 230, 115, 150)</li>
+          <li>(40, 190, 95, 120)</li>
         </overrideColors>
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Packet</fleckDef>
-        <area>(18, 16)</area>
+        <area>(24, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <spawnIntervalTicks>20</spawnIntervalTicks>
         <delay>0</delay>
         <velocityDir>(1, 0, 0)</velocityDir>
         <velocity>2.2~3.2</velocity>
         <rotation>0~0</rotation>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(70, 255, 140)</li>
           <li>(150, 255, 190)</li>
@@ -208,15 +208,15 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Packet</fleckDef>
-        <area>(18, 16)</area>
+        <area>(24, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <spawnIntervalTicks>20</spawnIntervalTicks>
         <delay>3</delay>
         <velocityDir>(-1, 0, 0)</velocityDir>
         <velocity>2.2~3.2</velocity>
         <rotation>180~180</rotation>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(70, 255, 140)</li>
           <li>(150, 255, 190)</li>
@@ -224,15 +224,15 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Packet</fleckDef>
-        <area>(18, 16)</area>
+        <area>(24, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <spawnIntervalTicks>20</spawnIntervalTicks>
         <delay>6</delay>
         <velocityDir>(0, 0, 1)</velocityDir>
         <velocity>2.2~3.2</velocity>
         <rotation>270~270</rotation>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(70, 255, 140)</li>
           <li>(150, 255, 190)</li>
@@ -240,15 +240,15 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Packet</fleckDef>
-        <area>(18, 16)</area>
+        <area>(24, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <spawnIntervalTicks>20</spawnIntervalTicks>
         <delay>9</delay>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>2.2~3.2</velocity>
         <rotation>90~90</rotation>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(70, 255, 140)</li>
           <li>(150, 255, 190)</li>
@@ -256,11 +256,11 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Digit0</fleckDef>
-        <area>(20, 18)</area>
-        <spawnIntervalTicks>9</spawnIntervalTicks>
+        <area>(26, 24)</area>
+        <spawnIntervalTicks>18</spawnIntervalTicks>
         <scale>0.7~1.2</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(60, 255, 130)</li>
           <li>(150, 255, 180)</li>
@@ -269,12 +269,12 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Digit1</fleckDef>
-        <area>(20, 18)</area>
-        <spawnIntervalTicks>9</spawnIntervalTicks>
+        <area>(26, 24)</area>
+        <spawnIntervalTicks>18</spawnIntervalTicks>
         <delay>4</delay>
         <scale>0.7~1.2</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(60, 255, 130)</li>
           <li>(150, 255, 180)</li>
@@ -283,11 +283,11 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_DigitHex</fleckDef>
-        <area>(20, 18)</area>
-        <spawnIntervalTicks>23</spawnIntervalTicks>
+        <area>(26, 24)</area>
+        <spawnIntervalTicks>40</spawnIntervalTicks>
         <scale>0.7~1.1</scale>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(60, 255, 130)</li>
           <li>(150, 255, 180)</li>
@@ -295,14 +295,14 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_ColumnA</fleckDef>
-        <area>(20, 16)</area>
+        <area>(26, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <spawnIntervalTicks>55</spawnIntervalTicks>
         <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(90, 255, 150)</li>
           <li>(50, 220, 110)</li>
@@ -310,15 +310,15 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_ColumnB</fleckDef>
-        <area>(20, 16)</area>
+        <area>(26, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <spawnIntervalTicks>55</spawnIntervalTicks>
         <delay>11</delay>
         <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(90, 255, 150)</li>
           <li>(50, 220, 110)</li>
@@ -326,15 +326,15 @@
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_ColumnC</fleckDef>
-        <area>(20, 16)</area>
+        <area>(26, 22)</area>
         <smoothEdges>false</smoothEdges>
-        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <spawnIntervalTicks>55</spawnIntervalTicks>
         <delay>21</delay>
         <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
-        <scalePositionWithRoom>true</scalePositionWithRoom>
-        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <scalePositionWithRoom>false</scalePositionWithRoom>
+        <onlySpawnInSameRoom>false</onlySpawnInSameRoom>
         <overrideColors>
           <li>(90, 255, 150)</li>
           <li>(50, 220, 110)</li>

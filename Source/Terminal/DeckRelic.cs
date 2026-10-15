@@ -307,10 +307,12 @@ public static partial class NetrunUI
         string[] glyphs = ["◁", "○", "?"];
         string[] names = ["BACK", "CORE", "HELP"];
         int[] ids = [KeyBack, KeyCore, KeyHelp];
-        float kx = box.x + 568f;
+        // A narrow window (the default 1100 is one) packs the keys and the gaps tighter so the HEAT box still fits.
+        bool tight = box.width < 1130f;
+        float kx = box.x + 568f, kstep = tight ? 44f : 50f;
         for (int i = 0; i < 3; i++)
         {
-            float cx = kx + i * 50f;
+            float cx = kx + i * kstep;
             var hit = new Rect(cx - 21f, cb - 17f, 42f, 34f);
             bool active = onKey != null;
             string tip = active && Mouse.IsOver(hit) ? (string)("NR_DeckKey_" + ids[i]).Translate() : null;
@@ -322,7 +324,7 @@ public static partial class NetrunUI
         }
         if (!paint)
             return;
-        float used = kx + 2f * 50f + 30f;
+        float used = kx + 2f * kstep + (tight ? 24f : 30f);
 
         // NET LINK: the slide switch just left of the column.
         float sx = box.xMax - 238f;
@@ -342,11 +344,11 @@ public static partial class NetrunUI
 
         // HEAT: five lamps in a dark box; the top lit one pulses from Target. The box shrinks to the room between the keys
         // and NET LINK (Maxim, 2026-10-16: at the default scale it used to vanish).
-        float avail = sx - used - 20f;
-        if (avail < 124f)
+        float avail = sx - used - (tight ? 10f : 20f);
+        if (avail < 96f)
             return;
-        float fw = Mathf.Min(164f, avail), step = (fw - 44f) / 4f, sw = Mathf.Min(20f, step - 6f);
-        var frame = new Rect(Mathf.Round(used + 10f + (avail - fw) / 2f), cb - 18f, fw, 36f);
+        float fw = Mathf.Min(164f, avail), step = (fw - 44f) / 4f, sw = Mathf.Min(20f, step - 5f);
+        var frame = new Rect(Mathf.Round(used + (tight ? 5f : 10f) + (avail - fw) / 2f), cb - 18f, fw, 36f);
         NineSlice(frame, RelicTex.Plate, 10f, 10f, 10f, 10f);
         for (int i = 0; i < 5; i++)
         {
