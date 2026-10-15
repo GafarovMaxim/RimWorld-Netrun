@@ -291,6 +291,7 @@
   <NR_DeckTuner>Тюнер: метка прыгает на каждом новом событии в сети.</NR_DeckTuner>
   <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
   <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
+  <NR_DeckBeacon>Тревожный маячок: пульсирует, когда Heat доходит до уровня «Цель», и мигает стробом в красной зоне.</NR_DeckBeacon>
   <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
   <NR_DeckKey_3>Закрыть терминал</NR_DeckKey_3>
   <NR_DeckKey_4>Меню: настройки, Киберпедия, достижения, сложность, кастомизация</NR_DeckKey_4>

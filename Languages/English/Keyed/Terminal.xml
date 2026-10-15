@@ -291,6 +291,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckTuner>The tuner: its mark jumps on every new event in the net.</NR_DeckTuner>
   <NR_DeckLightNet>Net: lit while the colony is online.</NR_DeckLightNet>
   <NR_DeckLightSick>Netsick: blinks while a colonist has it.</NR_DeckLightSick>
+  <NR_DeckBeacon>Alarm beacon: pulses once Heat reaches Target and strobes in the red zone.</NR_DeckBeacon>
   <NR_DeckLightPod>Pod: lit while a netrunner lies in a cyberpod.</NR_DeckLightPod>
   <NR_DeckKey_3>Close the terminal</NR_DeckKey_3>
   <NR_DeckKey_4>Menu: settings, Cyberpedia, achievements, difficulty, customization</NR_DeckKey_4>

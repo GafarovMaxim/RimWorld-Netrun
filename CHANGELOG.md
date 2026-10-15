@@ -3,6 +3,12 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- Iron Company: a red alarm beacon on the top-left bumper pulses once Heat reaches Target and strobes in the Red Zone.
+- Settings: hovering a cyberspace layout shows a small preview of its map.
+### Changed
+- Street: the NET/SICK/POD lamps sit in chrome rings on a black chamfered plate with tape and a bolt sticker.
+- Iron Company is wider by default; the terminal window grows with a thicker casing instead of squeezing the screen.
 
 ## [0.6.4] - 2026-10-15
 ### Added
