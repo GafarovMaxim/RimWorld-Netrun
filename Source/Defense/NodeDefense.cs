@@ -54,7 +54,6 @@ public class NodeDefense : GameComponent
     /// <summary>thingIDNumber of the firewall in honeypot mode, -1 for none (one per colony).</summary>
     public int HoneypotId = -1;
     /// <summary>thingIDNumbers of cyberpods in "node watch" mode.</summary>
-    public List<int> DutyPods = [];
     private int _nextUpkeepTick = -1;
 
     public NodeDefense(Game game)
@@ -236,30 +235,26 @@ public class NodeDefense : GameComponent
                 Add(ai.Name, Settings.wardenDefense + (ai.Trust >= Settings.wardenTrustThreshold ? Settings.wardenTrustBonus : 0) + (ai.Drilled ? 1 : 0));
         }
 
-        foreach (Pawn guard in Guards(map))
-        {
-            int skill = guard.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
-            Add("NR_DefenseGuard".Translate(guard.LabelShort), skill / Settings.dutyIntellectPerPoint);
-        }
+        if (Guard(map) is { } guard)
+            Add("NR_DefenseGuard".Translate(guard.LabelShort), IntellectOf(guard) / Settings.dutyIntellectPerPoint);
         return total;
     }
 
-    /// <summary>Netrunners in pods set to "node watch" (needs the active ICE research).</summary>
-    public IEnumerable<Pawn> Guards(Map map)
+    private static int IntellectOf(Pawn p) => p.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
+
+    /// <summary>
+    /// The node watch (needs the active ICE research): anyone in a powered pod keeps watch, no button needed (Maxim,
+    /// 2026-10-16). Only the sharpest one counts, so several pods never stack the bonus.
+    /// </summary>
+    public Pawn Guard(Map map)
     {
-        if (map == null || DutyPods.Count == 0 || NetrunDefOf.NR_Res_ActiveICE?.IsFinished != true)
-            yield break;
+        if (map == null || NetrunDefOf.NR_Res_ActiveICE?.IsFinished != true)
+            return null;
+        Pawn best = null;
         foreach (Building_Cyberpod pod in CyberpodUtility.PlayerPods(map))
-            if (DutyPods.Contains(pod.thingIDNumber) && pod.ContainedThing is Pawn p && pod.GetComp<CompPowerTrader>()?.PowerOn != false)
-                yield return p;
-    }
-
-    public bool OnDuty(Building_Cyberpod pod) => pod != null && DutyPods.Contains(pod.thingIDNumber);
-
-    public void ToggleDuty(Building_Cyberpod pod)
-    {
-        if (!DutyPods.Remove(pod.thingIDNumber))
-            DutyPods.Add(pod.thingIDNumber);
+            if (pod.ContainedThing is Pawn p && pod.GetComp<CompPowerTrader>()?.PowerOn != false && (best == null || IntellectOf(p) > IntellectOf(best)))
+                best = p;
+        return best;
     }
 
     public string DefenseTip(Map map)
@@ -318,12 +313,8 @@ public class NodeDefense : GameComponent
             }
         }
 
-        foreach (Pawn guard in Guards(map))
-        {
-            if (DefDatabase<TaleDef>.GetNamedSilentFail("NR_Tale_RepelledIntrusion") is { } tale)
-                TaleRecorder.RecordTale(tale, guard);
-            break;
-        }
+        if (Guard(map) is { } guard && DefDatabase<TaleDef>.GetNamedSilentFail("NR_Tale_RepelledIntrusion") is { } tale)
+            TaleRecorder.RecordTale(tale, guard);
     }
 
     public override void ExposeData()
@@ -335,8 +326,6 @@ public class NodeDefense : GameComponent
         Scribe_Values.Look(ref _nextUpkeepTick, "nextUpkeepTick", -1);
         Scribe_Values.Look(ref _isolatedAt, "isolatedAt", -1);
         Scribe_Values.Look(ref _liftedAt, "liftedAt", -1);
-        Scribe_Collections.Look(ref DutyPods, "dutyPods", LookMode.Value);
-        DutyPods ??= [];
     }
 }
 

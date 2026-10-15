@@ -126,7 +126,6 @@ public static class NetrunTex
     public static readonly Texture2D NetworkLock = ContentFinder<Texture2D>.Get("UI/Netrun/Icon_NetworkLock", reportFailure: false);
     public static readonly Texture2D Insider = ContentFinder<Texture2D>.Get("UI/Netrun/Fixers/Fixer_Insider");
     public static readonly Texture2D MindUpload = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_MindUpload");
-    public static readonly Texture2D Watcher = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_Watcher", reportFailure: false);
 
     public static readonly Texture2D AIUse = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Use");
     public static readonly Texture2D AIFeed = ContentFinder<Texture2D>.Get("UI/Netrun/Gizmo_AI_Feed");

@@ -28,8 +28,6 @@
   <NR_IsolationOff>Колония снова в сети.</NR_IsolationOff>
   <NR_IsolationDiveActive>Идёт нырок.</NR_IsolationDiveActive>
   <NR_IsolationBlocked>Сеть изолирована.</NR_IsolationBlocked>
-  <NR_DutyGizmo>Охрана узла</NR_DutyGizmo>
-  <NR_DutyGizmoDesc>Нетраннер в этой капсуле охраняет узел колонии: +1 к защите узла за каждые {0} Интеллекта.</NR_DutyGizmoDesc>
   <NR_AttackByDefense>защита узла {0}</NR_AttackByDefense>
 
   <NR_DefensePanelTitle>Защита колонии</NR_DefensePanelTitle>

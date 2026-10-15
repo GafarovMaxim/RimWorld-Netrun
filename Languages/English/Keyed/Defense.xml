@@ -28,8 +28,6 @@
   <NR_IsolationOff>The colony is back on the net.</NR_IsolationOff>
   <NR_IsolationDiveActive>A dive is in progress.</NR_IsolationDiveActive>
   <NR_IsolationBlocked>The network is isolated.</NR_IsolationBlocked>
-  <NR_DutyGizmo>Hub watch</NR_DutyGizmo>
-  <NR_DutyGizmoDesc>The netrunner in this pod guards the colony's hub: +1 hub defense for every {0} Intellectual.</NR_DutyGizmoDesc>
   <NR_AttackByDefense>hub defense {0}</NR_AttackByDefense>
 
   <NR_DefensePanelTitle>Colony defense</NR_DefensePanelTitle>
