@@ -103,6 +103,9 @@ Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing 
 Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].
 
+[quote][b]AI DISCLOSURE:[/b] 
+This mod was developed by Claude and my love[/quote]
+
 [hr][/hr]
 [h1]▸ CREDITS[/h1]
 
