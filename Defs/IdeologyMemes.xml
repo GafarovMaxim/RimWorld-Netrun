@@ -271,7 +271,7 @@
     <nameMaker>NR_NamerLitany</nameMaker>
     <shortDescOverride>litany of data</shortDescOverride>
     <descOverride>At the AI server a speaker reads the data aloud and the faithful listen. The awakened AIs listen too: a good litany earns their trust; a poor one leaves them unheard and hungry.</descOverride>
-    <iconPathOverride>UI/Netrun/Ideo/Meme_MachineRevelation</iconPathOverride>
+    <iconPathOverride>UI/Netrun/Ideo/Ritual_Litany</iconPathOverride>
     <canStartAnytime>true</canStartAnytime>
     <alwaysStartAnytime>true</alwaysStartAnytime>
     <ritualFreeStartIntervalDaysRange>10</ritualFreeStartIntervalDaysRange>
@@ -290,7 +290,7 @@
     <nameMaker>NR_NamerTraceCleansing</nameMaker>
     <shortDescOverride>trace cleansing</shortDescOverride>
     <descOverride>Gathered at the comms console, the colony scrubs its own trace from the net together, without a fixer. Once in 15 days.</descOverride>
-    <iconPathOverride>UI/Netrun/Ideo/Meme_NetAscension</iconPathOverride>
+    <iconPathOverride>UI/Netrun/Ideo/Ritual_TraceCleansing</iconPathOverride>
     <canStartAnytime>true</canStartAnytime>
     <alwaysStartAnytime>true</alwaysStartAnytime>
     <ritualFreeStartIntervalDaysRange>15</ritualFreeStartIntervalDaysRange>
@@ -310,7 +310,7 @@
     <description>A sermon at the AI server. The AIs' trust grows with a good one.</description>
     <issue>Ritual</issue>
     <impact>Medium</impact>
-    <iconPath>UI/Netrun/Ideo/Meme_MachineRevelation</iconPath>
+    <iconPath>UI/Netrun/Ideo/Ritual_Litany</iconPath>
     <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_Litany</ritualPatternBase>
     <requiredMemes>
@@ -327,7 +327,7 @@
     <description>The colony scrubs its trace together at the comms console. Heat goes down with a good one.</description>
     <issue>Ritual</issue>
     <impact>Medium</impact>
-    <iconPath>UI/Netrun/Ideo/Meme_NetAscension</iconPath>
+    <iconPath>UI/Netrun/Ideo/Ritual_TraceCleansing</iconPath>
     <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_TraceCleansing</ritualPatternBase>
     <!-- Only with a net meme (Maxim, 2026-10-14). -->
