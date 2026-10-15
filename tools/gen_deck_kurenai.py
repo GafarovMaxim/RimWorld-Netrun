@@ -28,7 +28,7 @@ OUT_L, OUT_T, OUT_R, OUT_B = 8, 8, 8, 8
 BAND_X0, BAND_X1 = 16, 60   # the red band down the left side
 LINE_Y = IN_T - 12          # the red hairline under the top bar
 
-PAPER = (217, 215, 209)
+PAPER = (201, 200, 196)
 INK = (26, 26, 28)
 RED = (212, 36, 44)
 GRID = (196, 195, 191)
@@ -310,7 +310,7 @@ def build():
     A.save(make_body(), T, "Body")
     A.save(make_kanji(), T, "Kanji")
     A.save(make_logo(), T, "Logo")
-    A.save(make_pad((206, 205, 200), INK), T, "Pad")
+    A.save(make_pad((190, 189, 186), INK), T, "Pad")
     A.save(make_pad(RED, INK), T, "Pad_Red")
     A.save(make_pad(INK, INK), T, "Pad_Black")
     A.save(make_ring(INK, INK), T, "Ring")
@@ -404,7 +404,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     d.text((tx, yb + 24), "THREAT INDEX", font=A.font(8), fill=INK, anchor="lm")
     lit = int(heat / 20 + 0.999)
     for i in range(5):
-        c = HEAT_SEG[i] if i < lit else (192, 191, 186)
+        c = HEAT_SEG[i] if i < lit else (176, 175, 171)
         d.rectangle([tx + i * 26, yb + 34, tx + i * 26 + 21, yb + 46], fill=c, outline=INK)
     d.text((tx, yb + 56), "58 / TRACKED", font=A.font(7, False), fill=DIM, anchor="lm")
     A.over(img, load("Checker"), (tx, yb + 66))

@@ -226,7 +226,7 @@ public static partial class NetrunUI
             {
                 var sq = new Rect(x + i * 26f, yb + 34f, 22f, 13f);
                 Widgets.DrawBoxSolid(sq, KurInk);
-                Widgets.DrawBoxSolid(sq.ContractedBy(1f), i < lit ? HeatSegments[i] : Hex(0xc0bfba));
+                Widgets.DrawBoxSolid(sq.ContractedBy(1f), i < lit ? HeatSegments[i] : Hex(0xb0afab));
             }
             KurSmall(new Rect(x, yb + 49f, 140f, 16f), heat.ToString("0") + " / " + level.Label().ToUpper(), KurDim);
             Sprite(KurTex.Checker, new Vector2(x, yb + 66f));
