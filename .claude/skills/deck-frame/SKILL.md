@@ -27,6 +27,7 @@ A frame = a Python generator that writes textures + a C# partial of `NetrunUI` t
 - 9-slice seams: always `NineSlice`, never raw stretched DrawTexture for sliced art.
 - Nothing past the casing or the window edge: antennas, handles, labels, warning text. Check at the smallest window.
 - Controls sit inside the casing, clear of its lip, hinges, bumpers and handle mounts; keys never cut the frame edge.
+- The screen opening is baked into the body texture: `IN_*` in the generator and `In*` in C# must match, change both and regenerate (Nomad bug: code moved, texture did not).
 - Labels under keys never touch the screen bezel; leave 6-8 px. Raise `In T`/`In B` instead of squeezing.
 - Panels never overlap each other or bumpers; vents/plates never sit on screws (skip occupied zones when placing screws).
 - Every interactive part has a tooltip and a hover state; hover-sound keys must be unique per rect (see the `Key(hit)` hash fix in NetrunUI).
