@@ -197,26 +197,34 @@ def make_key(cap):
 
 
 def make_rocker(on):
-    """The power rocker, 30 x 34: a black bezel, a red rocker pressed in at the I end (on) or the O end (off),
-    the pressed half darker, a lit edge on the raised half."""
+    """The power rocker, 30 x 34, black like a mains switch: a black bezel, a matte black rocker with a white I and O.
+    On, the I half is pressed flat and the O half stands out (lighter, a lit lip and a shadow under it); off, the
+    other way round."""
     w, h = 30, 34
-    bez = rrect((w, h), (1, 1, w - 1, h - 1), 5)
+    bez = rrect((w, h), (1, 1, w - 1, h - 1), 4)
     img = A.to_img(np.zeros((h, w, 3), np.float32), np.roll(A.blur(bez, 1.5), 2, 0) * 0.7)
-    img.alpha_composite(A.to_img(np.array((18, 16, 20), np.float32) + (A.shade(bez, 1) * 22)[..., None], bez))
-    pit = rrect((w, h), (5, 5, w - 5, h - 5), 3)
-    img.alpha_composite(A.to_img(np.full((h, w, 3), 6, np.float32), pit))
+    img.alpha_composite(A.to_img(np.array((22, 22, 24), np.float32) + (A.shade(bez, 1) * 26)[..., None], bez))
+    pit = rrect((w, h), (4, 4, w - 4, h - 4), 2)
+    img.alpha_composite(A.to_img(np.full((h, w, 3), 5, np.float32), pit))
     yy = np.mgrid[0:h, 0:w][0].astype(np.float32)
-    m = rrect((w, h), (6, 6, w - 6, h - 6), 2)
+    m = rrect((w, h), (5, 5, w - 5, h - 5), 2)
     mid = h / 2
-    up = yy < mid                                   # the top half is the I end
-    pressed = up if on else ~up
-    k = np.where(pressed, 0.62, 1.0) * (1 + np.where(~pressed, np.clip(1 - np.abs(yy - (8 if not on else h - 9)) / 6, 0, 1) * 0.35, 0))
-    rgb = np.array((176, 40, 44), np.float32)[None, None, :] * k[..., None] + A.grain(w, h, 91 + on, 3)[..., None]
+    raised = (yy >= mid) if on else (yy < mid)
+    base = np.where(raised, 44.0, 28.0)
+    # the raised half catches the light towards its outer end; the pressed half is flat and dull
+    ramp = np.where(raised, np.clip((yy - mid) / (h / 2 - 5) if on else (mid - yy) / (h / 2 - 5), 0, 1) * 16, 0)
+    rgb = (base + ramp)[..., None] + np.array((0, 0, 3), np.float32) + A.grain(w, h, 91 + on, 2)[..., None]
     img.alpha_composite(A.to_img(rgb, m))
     d = ImageDraw.Draw(img)
-    d.line([(6, int(mid)), (w - 7, int(mid))], fill=(60, 10, 14, 255), width=1)
-    d.line([(w / 2, 9), (w / 2, 14)], fill=(250, 226, 220, 235), width=2)
-    d.ellipse((w / 2 - 3.5, h - 15, w / 2 + 3.5, h - 8), outline=(250, 226, 220, 235), width=1)
+    if on:
+        d.line([(6, h - 6), (w - 7, h - 6)], fill=(96, 96, 100, 255))     # the lit lip of the O end
+        d.line([(6, int(mid)), (w - 7, int(mid))], fill=(10, 10, 12, 255))
+    else:
+        d.line([(6, 5), (w - 7, 5)], fill=(96, 96, 100, 255))
+        d.line([(6, int(mid) - 1), (w - 7, int(mid) - 1)], fill=(10, 10, 12, 255))
+    ink = (236, 234, 230, 240)
+    d.line([(w / 2, 8), (w / 2, 13)], fill=ink, width=2)
+    d.ellipse((w / 2 - 3.5, h - 15, w / 2 + 3.5, h - 8), outline=ink, width=1)
     return img
 
 
