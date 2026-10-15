@@ -340,15 +340,17 @@ public static partial class NetrunUI
         else
             sx = box.xMax - 150f;
 
-        // HEAT: five lamps in a dark box; the top lit one pulses from Target.
-        float hx = box.x + 718f;
-        var frame = new Rect(hx - 12f, cb - 18f, 164f, 36f);
-        if (frame.xMax > sx)
+        // HEAT: five lamps in a dark box; the top lit one pulses from Target. The box shrinks to the room between the keys
+        // and NET LINK (Maxim, 2026-10-16: at the default scale it used to vanish).
+        float avail = sx - used - 20f;
+        if (avail < 124f)
             return;
+        float fw = Mathf.Min(164f, avail), step = (fw - 44f) / 4f, sw = Mathf.Min(20f, step - 6f);
+        var frame = new Rect(Mathf.Round(used + 10f + (avail - fw) / 2f), cb - 18f, fw, 36f);
         NineSlice(frame, RelicTex.Plate, 10f, 10f, 10f, 10f);
         for (int i = 0; i < 5; i++)
         {
-            var sq = new Rect(hx - 2f + i * 30f, cb - 9f, 20f, 18f);
+            var sq = new Rect(Mathf.Round(frame.x + 10f + (step - sw) / 2f + i * step + 2f), cb - 9f, sw, 18f);
             bool lit = i <= (int)level;
             float k = !lit ? 0f : i == (int)level && level >= HeatLevel.Target && anim
                 ? 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(time * (level >= HeatLevel.RedZone ? 5f : 2.5f))) : 1f;

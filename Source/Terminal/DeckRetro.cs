@@ -258,7 +258,7 @@ public static partial class NetrunUI
                         if (f[r][col] == '#')
                             Widgets.DrawBoxSolid(new Rect(win.x + 12f + i * 37f + col * 4f, win.y + 12f + r * 4f, 4f, 4f), c);
             }
-            StencilBold(new Rect(win.x, win.yMax + 6f, win.width, 14f), "HEAT", TextAnchor.UpperCenter, RetroInk);
+            StencilBold(new Rect(win.x, win.yMax + 1f, win.width, 14f), "HEAT", TextAnchor.UpperCenter, RetroInk);
             if (Mouse.IsOver(win))
                 Tip(win, "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
         }

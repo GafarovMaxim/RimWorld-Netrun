@@ -306,7 +306,8 @@ public static partial class NetrunUI
         var pad = new Rect(x, by + 8f, 58f, 58f);
         var back = new Rect(pad.x + 2f, pad.y + 18f, 17f, 20f);
         var help = new Rect(pad.x + 37f, pad.y + 18f, 17f, 20f);
-        var core = new Rect(pad.x + 21f, pad.y + 21f, 16f, 16f);
+        // The cross's centre is at 28, the Core sprite 20 px with its button centred at 9.5 (it sat 2-3 px off).
+        var core = new Rect(pad.x + 20f, pad.y + 20f, 16f, 16f);
         bool active = onKey != null;
         if (paint)
         {
@@ -319,7 +320,7 @@ public static partial class NetrunUI
             GlyphText(help, ink, "?", GameFont.Small);
             bool coreDown = active && Mouse.IsOver(core) && _pressed;
             float k = !active ? 0.55f : coreDown ? 0.8f : Mouse.IsOver(core) ? 1.12f : 1f;
-            Sprite(NomadTex.Core, new Vector2(core.x, core.y + (coreDown ? 1f : 0f)), new Color(k, k, k));
+            Sprite(NomadTex.Core, new Vector2(pad.x + 18f, pad.y + 18f + (coreDown ? 1f : 0f)), new Color(k, k, k));
             string[] padLabels = ["◁ BACK", "● CORE", "? HELP"];
             for (int i = 0; i < 3; i++)
                 StencilBold(new Rect(pad.xMax + 8f, by + 14f + i * 15f, 60f, 14f), padLabels[i], TextAnchor.UpperLeft);
@@ -382,9 +383,16 @@ public static partial class NetrunUI
             StencilBold(new Rect(strap.x + 4f, strap.yMax + 1f, 120f, 14f), "HEAT LEVEL", TextAnchor.UpperLeft);
             if (Mouse.IsOver(strap.ExpandedBy(4f)))
                 Tip(strap.ExpandedBy(4f), "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
-            // Dives scratched into the paint, where there is room.
-            if (plate.x - 12f - (strap.xMax + 12f) >= NomadTex.Tally.width)
-                Sprite(NomadTex.Tally, new Vector2(strap.xMax + 12f + (plate.x - 24f - strap.xMax - NomadTex.Tally.width) / 2f, by + 24f));
+            // Dives scratched into the paint: as many groups of five (25 px each) as the room holds, so at the default
+            // scale at least one shows (Maxim, 2026-10-16).
+            float room = plate.x - 24f - strap.xMax;
+            int groups = Mathf.Min(3, Mathf.FloorToInt((room + 6f) / 25f));
+            if (groups > 0 && NomadTex.Tally != null)
+            {
+                float tw = groups * 25f - 4f;
+                var tally = new Rect(Mathf.Round(strap.xMax + 12f + (room - tw) / 2f), by + 24f, tw, NomadTex.Tally.height);
+                GUI.DrawTextureWithTexCoords(tally, NomadTex.Tally, new Rect(0f, 0f, tw / NomadTex.Tally.width, 1f));
+            }
         }
     }
 }

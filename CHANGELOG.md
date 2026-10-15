@@ -3,6 +3,9 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- Frames at small scales: the Relic and NR-1 Heat scales shrink instead of vanishing, the NR-1 top lamps slide into any room, the Nomad tally shows as many groups as fit; the Retro HEAT caption sits higher, the Nomad cross pad core is centred.
+
 ### Added
 - The net rituals (litany of data, trace cleansing) have their own green look: a glow, circuit traces on the floor, falling columns of code and floating digits; and their own ambience (a cyberspace drone with data chirps) instead of the ideoligion music.
 - New terminal frame "Braindance studio": a violet monitor over a mixing desk with a scrolling timeline, a chip bay, a LED level meter (Heat and signal), faders, a jog wheel, headphone and mic AUX jacks, a spectrum screen and VHS stickers. Opens with 3 unique braindance recordings.

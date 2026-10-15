@@ -200,8 +200,10 @@ public static partial class NetrunUI
             rx = box.xMax - 40f;
 
         // The lamps: ALERT (from Target), NET, SICK, POD, as light pipes, when they fit between TUNE and RF.
-        float lx = rx - 150f;
-        if (!NetrunMod.Settings.FrameLights || lx - 20f < used)
+        // The group spans lx - 16 .. lx + 130; it slides left into any room between TUNE and RF (it used to vanish while
+        // it still fitted).
+        float lx = Mathf.Min(rx - 150f, Mathf.Round((used + rx - 4f) / 2f - 57f));
+        if (!NetrunMod.Settings.FrameLights || lx - 16f < used || lx + 130f > rx - 4f)
             return;
         bool sick = Current.Game != null && Cached("deck.sick", () => PawnsFinder.AllMaps_FreeColonists.Any(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)), 1f);
         bool pod = Current.Game != null && Cached("deck.pod", () => Find.Maps.Any(m => m.GetComponent<USH_HE.MapComponent_CyberpodManager>()?.Pods.Any(pp => pp.ContainedThing != null) == true), 1f);
@@ -284,17 +286,20 @@ public static partial class NetrunUI
             sx = box.xMax - 40f;
 
         // HEAT LEVEL: five light pipes in a tray, lit up to the level; the top one pulses from Target.
-        float hx = box.x + 580f;
-        if (hx + 208f > sx - 20f)
+        // The tray narrows its pipes (40 down to 30 px apart) to stay at small scales (Maxim, 2026-10-16).
+        float avail = sx - 20f - used;
+        if (avail < 5f * 30f + 8f)
             return;
-        var tray = new Rect(hx - 8f, cb - 12f, 5f * 40f + 8f, 24f);
+        float step = Mathf.Min(40f, (avail - 8f) / 5f);
+        float hx = Mathf.Round(Mathf.Min(box.x + 580f, used + 8f + (avail - 5f * step - 8f) / 2f));
+        var tray = new Rect(hx - 8f, cb - 12f, 5f * step + 8f, 24f);
         NineSlice(tray, CyberTex.Tray, 6f, 6f, 6f, 6f);
         for (int i = 0; i < 5; i++)
         {
             bool lit = i <= (int)level;
             float k = !lit ? 0f : i == (int)level && level >= HeatLevel.Target && anim
                 ? 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(time * (level >= HeatLevel.RedZone ? 5f : 2.5f))) : 1f;
-            var seg = new Rect(hx + i * 40f, cb - 6f, 32f, 12f);
+            var seg = new Rect(hx + i * step, cb - 6f, step - 8f, 12f);
             Widgets.DrawBoxSolid(seg, Color.Lerp(new Color(HeatSegments[i].r * 0.22f + 0.03f, HeatSegments[i].g * 0.22f + 0.03f, HeatSegments[i].b * 0.22f + 0.04f), HeatSegments[i], k));
             if (k > 0f)
                 Glow(seg, HeatSegments[i], 0.45f * k, 5f);
