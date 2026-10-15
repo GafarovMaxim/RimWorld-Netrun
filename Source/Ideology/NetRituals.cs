@@ -5,16 +5,17 @@ using Verse;
 
 namespace Netrun;
 
-/// <summary>A net ritual precept: named after its def (no generated name).</summary>
+/// <summary>
+/// Kept only so older saves load: the net rituals now use the game's own Precept_Ritual, because the
+/// ideoligion screen lists rituals of exactly that class (a subclass was hidden there).
+/// </summary>
 public class Precept_NetRitual : Precept_Ritual
 {
-    public override string GenerateNameRaw() => def.LabelCap;
 }
 
-/// <summary>The Net Archon role: named after its def.</summary>
+/// <summary>The Net Archon role. Its name comes from NR_NamerNetArchon.</summary>
 public class Precept_NetArchon : Precept_RoleSingle
 {
-    public override string GenerateNameRaw() => def.LabelCap;
 
     public static bool Holds(Pawn pawn)
         => ModsConfig.IdeologyActive && pawn?.Ideo?.GetRole(pawn)?.def?.defName == "NR_IdeoRole_NetArchon";
@@ -95,5 +96,42 @@ public class RitualOutcomeEffectWorker_TraceCleansing : RitualOutcomeEffectWorke
     {
         float amount = positivity >= 2 ? 15f : positivity >= 1 ? 10f : 5f;
         HeatTracker.Get()?.ReduceHeat(amount, "NR_RitualCleansingLog".Translate(), HeatSource.Other);
+    }
+}
+
+/// <summary>
+/// The game adds a meme's required rituals only when an ideoligion is generated, so a net meme added to an
+/// existing ideoligion came without its ritual (no ritual button on the AI server, nothing in the ritual list).
+/// Run after loading and once a day by the janitor: adds the missing ones to the player's ideoligions.
+/// </summary>
+public static class NetRitualSync
+{
+    public static int EnsureMemeRituals()
+    {
+        if (!ModsConfig.IdeologyActive || Faction.OfPlayer?.ideos == null)
+            return 0;
+        int added = 0;
+        foreach (Ideo ideo in Faction.OfPlayer.ideos.AllIdeos)
+        {
+            if (ideo?.memes == null)
+                continue;
+            foreach (MemeDef meme in ideo.memes)
+            {
+                if (meme.requiredRituals == null || !meme.defName.StartsWith("NR_"))
+                    continue;
+                foreach (RequiredRitualAndBuilding req in meme.requiredRituals)
+                {
+                    if (req?.precept == null || req.pattern == null)
+                        continue;
+                    if (ideo.PreceptsListForReading.Any(p => p is Precept_Ritual r && r.sourcePattern == req.pattern))
+                        continue;
+                    var ritual = (Precept_Ritual)PreceptMaker.MakePrecept(req.precept);
+                    ideo.AddPrecept(ritual, init: true, null, req.pattern);
+                    ritual.RegenerateName();
+                    added++;
+                }
+            }
+        }
+        return added;
     }
 }

@@ -81,6 +81,16 @@ public class NetrunJanitor : GameComponent
                 Log.Warning($"[Netrun] cleanup of {component.GetType().Name} failed: {e.Message}");
             }
         }
+        try
+        {
+            int rituals = NetRitualSync.EnsureMemeRituals();
+            if (rituals > 0)
+                lines.Add($"meme rituals +{rituals}");
+        }
+        catch (System.Exception e)
+        {
+            Log.Warning($"[Netrun] meme ritual sync failed: {e.Message}");
+        }
         if (Prefs.DevMode && (lines.Count > 0 || reason == CleanupReason.Manual))
             Log.Message($"[Netrun] cleanup ({reason}): " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"));
         return lines;

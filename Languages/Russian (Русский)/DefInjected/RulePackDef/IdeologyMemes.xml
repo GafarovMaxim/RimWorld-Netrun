@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_NamerLitany.rulePack.rulesStrings>
-    <li>r_ritualName->[noun] [of]</li>
-    <li>noun->литания</li>
-    <li>noun->причастие</li>
-    <li>noun->бдение</li>
-    <li>noun->гимн</li>
-    <li>noun->служба</li>
-    <li>noun->чтение</li>
-    <li>noun->проповедь</li>
-    <li>noun->подношение</li>
-    <li>of->данных</li>
-    <li>of->ядра</li>
-    <li>of->сигнала</li>
-    <li>of->единиц и нулей</li>
-    <li>of->кремния</li>
-    <li>of->глубокой сети</li>
-    <li>of->машинного разума</li>
-    <li>of->кода</li>
+    <li>r_ritualName->[nr_noun] [nr_of]</li>
+    <li>nr_noun->литания</li>
+    <li>nr_noun->причастие</li>
+    <li>nr_noun->бдение</li>
+    <li>nr_noun->гимн</li>
+    <li>nr_noun->служба</li>
+    <li>nr_noun->чтение</li>
+    <li>nr_noun->проповедь</li>
+    <li>nr_noun->подношение</li>
+    <li>nr_of->данных</li>
+    <li>nr_of->ядра</li>
+    <li>nr_of->сигнала</li>
+    <li>nr_of->единиц и нулей</li>
+    <li>nr_of->кремния</li>
+    <li>nr_of->глубокой сети</li>
+    <li>nr_of->машинного разума</li>
+    <li>nr_of->кода</li>
   </NR_NamerLitany.rulePack.rulesStrings>
   <NR_NamerTraceCleansing.rulePack.rulesStrings>
-    <li>r_ritualName->[noun] [of]</li>
-    <li>noun->очищение</li>
-    <li>noun->стирание</li>
-    <li>noun->чистка</li>
-    <li>noun->отпущение</li>
-    <li>noun->затирание</li>
-    <li>noun->обнуление</li>
-    <li>of->следа</li>
-    <li>of->логов</li>
-    <li>of->отпечатков</li>
-    <li>of->эха</li>
-    <li>of->шума</li>
-    <li>of->имён</li>
-    <li>of->грехов сети</li>
+    <li>r_ritualName->[nr_noun] [nr_of]</li>
+    <li>nr_noun->очищение</li>
+    <li>nr_noun->стирание</li>
+    <li>nr_noun->чистка</li>
+    <li>nr_noun->отпущение</li>
+    <li>nr_noun->затирание</li>
+    <li>nr_noun->обнуление</li>
+    <li>nr_of->следа</li>
+    <li>nr_of->логов</li>
+    <li>nr_of->отпечатков</li>
+    <li>nr_of->эха</li>
+    <li>nr_of->шума</li>
+    <li>nr_of->имён</li>
+    <li>nr_of->грехов сети</li>
   </NR_NamerTraceCleansing.rulePack.rulesStrings>
   <NR_NamerNetArchon.rulePack.rulesStrings>
-    <li>r_roleName->[noun] [of]</li>
-    <li>noun->архонт</li>
-    <li>noun->хранитель</li>
-    <li>noun->пророк</li>
-    <li>noun->глас</li>
-    <li>noun->страж</li>
-    <li>noun->оракул</li>
-    <li>noun->жрец</li>
-    <li>noun->сисоп</li>
-    <li>of->сети</li>
-    <li>of->корня</li>
-    <li>of->ключей</li>
-    <li>of->машины</li>
-    <li>of->сигнала</li>
-    <li>of->глубины</li>
-    <li>of->кода</li>
+    <li>r_roleName->[nr_noun] [nr_of]</li>
+    <li>nr_noun->архонт</li>
+    <li>nr_noun->хранитель</li>
+    <li>nr_noun->пророк</li>
+    <li>nr_noun->глас</li>
+    <li>nr_noun->страж</li>
+    <li>nr_noun->оракул</li>
+    <li>nr_noun->жрец</li>
+    <li>nr_noun->сисоп</li>
+    <li>nr_of->сети</li>
+    <li>nr_of->корня</li>
+    <li>nr_of->ключей</li>
+    <li>nr_of->машины</li>
+    <li>nr_of->сигнала</li>
+    <li>nr_of->глубины</li>
+    <li>nr_of->кода</li>
   </NR_NamerNetArchon.rulePack.rulesStrings>
 </LanguageData>

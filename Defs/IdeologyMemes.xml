@@ -109,32 +109,32 @@
     <defName>NR_NamerLitany</defName>
     <rulePack>
       <rulesStrings>
-        <li>r_ritualName->[noun] of [of]</li>
-        <li>r_ritualName->[adj] [noun]</li>
-        <li>noun->litany</li>
-        <li>noun->communion</li>
-        <li>noun->vigil</li>
-        <li>noun->hymn</li>
-        <li>noun->liturgy</li>
-        <li>noun->recital</li>
-        <li>noun->sermon</li>
-        <li>noun->offering</li>
-        <li>of->data</li>
-        <li>of->the core</li>
-        <li>of->the signal</li>
-        <li>of->ones and zeros</li>
-        <li>of->the kernel</li>
-        <li>of->the deep net</li>
-        <li>of->the machine mind</li>
-        <li>of->silicon</li>
-        <li>adj->binary</li>
-        <li>adj->silicon</li>
-        <li>adj->sacred</li>
-        <li>adj->null</li>
-        <li>adj->root</li>
-        <li>adj->quiet</li>
-        <li>adj->eternal</li>
-        <li>adj->deep</li>
+        <li>r_ritualName->[nr_noun] of [nr_of]</li>
+        <li>r_ritualName->[nr_adj] [nr_noun]</li>
+        <li>nr_noun->litany</li>
+        <li>nr_noun->communion</li>
+        <li>nr_noun->vigil</li>
+        <li>nr_noun->hymn</li>
+        <li>nr_noun->liturgy</li>
+        <li>nr_noun->recital</li>
+        <li>nr_noun->sermon</li>
+        <li>nr_noun->offering</li>
+        <li>nr_of->data</li>
+        <li>nr_of->the core</li>
+        <li>nr_of->the signal</li>
+        <li>nr_of->ones and zeros</li>
+        <li>nr_of->the kernel</li>
+        <li>nr_of->the deep net</li>
+        <li>nr_of->the machine mind</li>
+        <li>nr_of->silicon</li>
+        <li>nr_adj->binary</li>
+        <li>nr_adj->silicon</li>
+        <li>nr_adj->sacred</li>
+        <li>nr_adj->null</li>
+        <li>nr_adj->root</li>
+        <li>nr_adj->quiet</li>
+        <li>nr_adj->eternal</li>
+        <li>nr_adj->deep</li>
       </rulesStrings>
     </rulePack>
   </RulePackDef>
@@ -143,28 +143,28 @@
     <defName>NR_NamerTraceCleansing</defName>
     <rulePack>
       <rulesStrings>
-        <li>r_ritualName->[noun] of [of]</li>
-        <li>r_ritualName->the [adj] [noun]</li>
-        <li>noun->cleansing</li>
-        <li>noun->purge</li>
-        <li>noun->scrub</li>
-        <li>noun->absolution</li>
-        <li>noun->wipe</li>
-        <li>noun->erasure</li>
-        <li>noun->unburdening</li>
-        <li>of->the trace</li>
-        <li>of->the logs</li>
-        <li>of->footprints</li>
-        <li>of->the echo</li>
-        <li>of->static</li>
-        <li>of->the noise</li>
-        <li>of->names</li>
-        <li>adj->great</li>
-        <li>adj->silent</li>
-        <li>adj->clean</li>
-        <li>adj->null</li>
-        <li>adj->zero</li>
-        <li>adj->last</li>
+        <li>r_ritualName->[nr_noun] of [nr_of]</li>
+        <li>r_ritualName->the [nr_adj] [nr_noun]</li>
+        <li>nr_noun->cleansing</li>
+        <li>nr_noun->purge</li>
+        <li>nr_noun->scrub</li>
+        <li>nr_noun->absolution</li>
+        <li>nr_noun->wipe</li>
+        <li>nr_noun->erasure</li>
+        <li>nr_noun->unburdening</li>
+        <li>nr_of->the trace</li>
+        <li>nr_of->the logs</li>
+        <li>nr_of->footprints</li>
+        <li>nr_of->the echo</li>
+        <li>nr_of->static</li>
+        <li>nr_of->the noise</li>
+        <li>nr_of->names</li>
+        <li>nr_adj->great</li>
+        <li>nr_adj->silent</li>
+        <li>nr_adj->clean</li>
+        <li>nr_adj->null</li>
+        <li>nr_adj->zero</li>
+        <li>nr_adj->last</li>
       </rulesStrings>
     </rulePack>
   </RulePackDef>
@@ -173,27 +173,27 @@
     <defName>NR_NamerNetArchon</defName>
     <rulePack>
       <rulesStrings>
-        <li>r_roleName->[noun] of [of]</li>
-        <li>r_roleName->[adj] [noun]</li>
-        <li>noun->archon</li>
-        <li>noun->keeper</li>
-        <li>noun->prophet</li>
-        <li>noun->voice</li>
-        <li>noun->warden</li>
-        <li>noun->oracle</li>
-        <li>noun->priest</li>
-        <li>noun->sysop</li>
-        <li>of->the net</li>
-        <li>of->the root</li>
-        <li>of->the keys</li>
-        <li>of->the machine</li>
-        <li>of->the signal</li>
-        <li>of->the deep</li>
-        <li>adj->net</li>
-        <li>adj->root</li>
-        <li>adj->wired</li>
-        <li>adj->silicon</li>
-        <li>adj->deep</li>
+        <li>r_roleName->[nr_noun] of [nr_of]</li>
+        <li>r_roleName->[nr_adj] [nr_noun]</li>
+        <li>nr_noun->archon</li>
+        <li>nr_noun->keeper</li>
+        <li>nr_noun->prophet</li>
+        <li>nr_noun->voice</li>
+        <li>nr_noun->warden</li>
+        <li>nr_noun->oracle</li>
+        <li>nr_noun->priest</li>
+        <li>nr_noun->sysop</li>
+        <li>nr_of->the net</li>
+        <li>nr_of->the root</li>
+        <li>nr_of->the keys</li>
+        <li>nr_of->the machine</li>
+        <li>nr_of->the signal</li>
+        <li>nr_of->the deep</li>
+        <li>nr_adj->net</li>
+        <li>nr_adj->root</li>
+        <li>nr_adj->wired</li>
+        <li>nr_adj->silicon</li>
+        <li>nr_adj->deep</li>
       </rulesStrings>
     </rulePack>
   </RulePackDef>
@@ -309,7 +309,7 @@
     <issue>Ritual</issue>
     <impact>Medium</impact>
     <iconPath>UI/Netrun/Ideo/Meme_MachineRevelation</iconPath>
-    <preceptClass>Netrun.Precept_NetRitual</preceptClass>
+    <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_Litany</ritualPatternBase>
     <requiredMemes>
       <li>NR_Meme_MachineRevelation</li>
@@ -326,7 +326,7 @@
     <issue>Ritual</issue>
     <impact>Medium</impact>
     <iconPath>UI/Netrun/Ideo/Meme_NetAscension</iconPath>
-    <preceptClass>Netrun.Precept_NetRitual</preceptClass>
+    <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_TraceCleansing</ritualPatternBase>
     <!-- Only with a net meme (Maxim, 2026-10-14). -->
     <requiredMemes>

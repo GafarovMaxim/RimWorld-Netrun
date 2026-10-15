@@ -11,6 +11,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - The game's music fades down while the terminal is open (to 30 %, a slider in Sound settings) and comes back when it closes.
 - Settings: hovering a cyberspace layout shows a small preview of its map.
 ### Changed
+- Ideology: the net rituals now show in the ideoligion's ritual list (they were hidden), and a net meme added to an existing ideoligion now brings its ritual (litany at the AI server, trace cleansing at the comms console); missing ones are added on load.
 - Ideology: rituals and the net role get random names (e.g. "silicon vigil", "purge of the logs", "oracle of the root"; in Russian «бдение кремния», «стирание логов», «оракул корня»). Existing ideoligions keep their names until regenerated.
 - The AI server and the abandoned server fill their 3x3 footprint in every facing; server racks (new art with a black stand) sit higher and no longer spill onto the cell below.
 - Street: the NET/SICK/POD lamps sit in chrome rings on a black chamfered plate with tape and a bolt sticker.
@@ -25,6 +26,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Deck theme "Nomad" (opens after 50 dives): a worn field case with its own silhouette, solar panel, hinges, pouch and charm sticking out of the window, a D-pad, a strap of Heat gems and a NET LINK lever that slides along its slot. The terminal window grows a little to fit it.
 - Dev actions: open all deck themes at once or lock them again (they work from the main menu too).
 ### Changed
+- Ideology: the net rituals now show in the ideoligion's ritual list (they were hidden), and a net meme added to an existing ideoligion now brings its ritual (litany at the AI server, trace cleansing at the comms console); missing ones are added on load.
 - Ideology: rituals and the net role get random names (e.g. "silicon vigil", "purge of the logs", "oracle of the root"; in Russian «бдение кремния», «стирание логов», «оракул корня»). Existing ideoligions keep their names until regenerated.
 - Netsick grows about half as fast: a day in the net or a pod 0.10, a dive 0.02, an ICE hit 0.03. A runner can stay in cyberspace for about three days before the strong stage.
 - Netsick fades faster offline: 0.06 a day (was 0.04), twice that with live leisure, so withdrawal after a long run lasts about 2 to 4 days.
@@ -69,6 +71,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - News feed with real effects and choices; neurostabilizer drug; five sound packs with volume settings; terminal scaling; Cyberpedia articles for every system.
 - Feedback: floating +Heat over hacked objects, a message when a netrunner in a pod gets hungry or tired, safe time left in a pod.
 ### Changed
+- Ideology: the net rituals now show in the ideoligion's ritual list (they were hidden), and a net meme added to an existing ideoligion now brings its ritual (litany at the AI server, trace cleansing at the comms console); missing ones are added on load.
 - Ideology: rituals and the net role get random names (e.g. "silicon vigil", "purge of the logs", "oracle of the root"; in Russian «бдение кремния», «стирание логов», «оракул корня»). Existing ideoligions keep their names until regenerated.
 - AI balance: network noise, awakening needs research and cyberdata and can fail, fragments decay away from a server.
 - Research projects moved into the Hacking Expansion tree.
@@ -90,6 +93,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Network attacks gated by Heat and the hidden "Black Ledger" mercenary faction with revenge raids.
 - Cyberspace architect tab, terminal accent color setting, EN/RU texts throughout.
 ### Changed
+- Ideology: the net rituals now show in the ideoligion's ritual list (they were hidden), and a net meme added to an existing ideoligion now brings its ritual (litany at the AI server, trace cleansing at the comms console); missing ones are added on load.
 - Ideology: rituals and the net role get random names (e.g. "silicon vigil", "purge of the logs", "oracle of the root"; in Russian «бдение кремния», «стирание логов», «оракул корня»). Existing ideoligions keep their names until regenerated.
 - Comms console renamed to network console; the terminal pauses the game once on opening.
 - One AI server per colony with server racks; AIs in a host get only the hediff (no services, no feeding).
