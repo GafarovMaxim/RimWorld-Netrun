@@ -313,6 +313,10 @@
   <NR_DeckTheme_Retro>NR-80 Ретро</NR_DeckTheme_Retro>
   <NR_DeckThemeDesc_Retro>Кремовая портативка из старых времён: полосы заката, зелёный LCD, пиксельные огоньки Heat и ползунок сети.</NR_DeckThemeDesc_Retro>
   <NR_DeckTheme_Relic>Реликт</NR_DeckTheme_Relic>
+  <NR_DeckTheme_Studio>Студия брейнданса</NR_DeckTheme_Studio>
+  <NR_DeckThemeDesc_Studio>Фиолетовый монтажный монитор над микшерным пультом: бегущий таймлайн, отсек для чипа, светодиодный индикатор уровня, фейдеры, колесо прокрутки и куча VHS-наклеек.</NR_DeckThemeDesc_Studio>
+  <NR_DeckStudioTimeline>Таймлайн записи: дорожки картинки, звука и эмоций бегут под головкой, пока сеть на связи.</NR_DeckStudioTimeline>
+  <NR_DeckStudioBay>Отсек для чипа брейнданса. Огонёк мигает при чтении, пока сеть на связи.</NR_DeckStudioBay>
   <NR_DeckThemeDesc_Relic>Старая полевая дека: потёртый кремовый пластик со сколами и ржавыми подтёками, оранжевая боковая панель, резиновые клавиши, стрелочный прибор и оранжевый экран.</NR_DeckThemeDesc_Relic>
   <NR_DeckThemeDesc_Field>По умолчанию: матовый чёрный пластик, вставки из карбона, плоские клавиши со светящимися значками и световая линия вокруг экрана, которая краснеет с ростом Heat.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>Защищённый полевой планшет: оливковая краска со сколами, резиновые бамперы, тумблеры под крышками, янтарные экраны и шкала угрозы.</NR_DeckThemeDesc_Milspec>

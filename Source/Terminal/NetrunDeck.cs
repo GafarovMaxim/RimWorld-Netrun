@@ -26,6 +26,7 @@ public static partial class NetrunUI
         DeckStyle.Retro when RetroTex.Ready => RetroExtra,
         DeckStyle.Cyber when CyberTex.Ready => CyberExtra,
         DeckStyle.Relic when RelicTex.Ready => RelicExtra,
+        DeckStyle.Studio when StudioTex.Ready => StudioExtra,
         _ => ClassicExtra,
     };
     /// <summary>What the chosen casing takes beyond the classic one: windows grow by it, so the screen keeps its size.</summary>
@@ -199,6 +200,8 @@ public static partial class NetrunUI
             return CyberBezel(outer, heat, level, online, anim, time, onKey, menu);
         if (_t.Style == DeckStyle.Relic && RelicTex.Ready)
             return RelicBezel(outer, heat, level, online, anim, time, onKey, menu);
+        if (_t.Style == DeckStyle.Studio && StudioTex.Ready)
+            return StudioBezel(outer, heat, level, online, anim, time, onKey, menu);
 
         var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
         var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);

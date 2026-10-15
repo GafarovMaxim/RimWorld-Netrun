@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro, Cyber, Relic }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro, Cyber, Relic, Studio }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -82,6 +82,13 @@ public static class DeckThemes
             Id = "Relic", Style = DeckStyle.Relic, Top = Hex(0xd2cab6), Bottom = Hex(0xa89e88), Edge = Hex(0x403e3a), Rubber = Hex(0x1e1e1e),
             Stencil = new Color(0.2f, 0.19f, 0.16f, 0.85f), KeyFace = Hex(0x7c7c76), Tube = Hex(0xec7828), TubeLight = Hex(0xffa060), TubeDark = Hex(0x7a3a14),
             UnlockKey = "OldNetEntered", UnlockCount = 1,
+        },
+        // Braindance // Studio: a violet monitor over a mixing desk with VHS stickers (tools/gen_deck_studio.py).
+        new DeckTheme
+        {
+            Id = "Studio", Style = DeckStyle.Studio, Top = Hex(0x362c44), Bottom = Hex(0x221b2c), Edge = Hex(0x564a68), Rubber = Hex(0x140f1a),
+            Stencil = new Color(0.77f, 0.75f, 0.69f, 0.85f), KeyFace = Hex(0x7a7468), Tube = Hex(0x3a3048), TubeLight = Hex(0xb47aa8), TubeDark = Hex(0x1e1828),
+            UnlockKey = "UniqueRecords", UnlockCount = 3,
         },
     ];
 
