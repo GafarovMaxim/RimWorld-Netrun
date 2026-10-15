@@ -26,7 +26,6 @@ public static class NetrunDebugActions
 
     private const AllowedGameStates Playing = AllowedGameStates.Playing;
     private const AllowedGameStates OnMap = AllowedGameStates.PlayingOnMap;
-    private const AllowedGameStates AnyState = AllowedGameStates.Entry | AllowedGameStates.Playing;
 
     private static void Done(string what) => Messages.Message("[Netrun dev] " + what, MessageTypeDefOf.NeutralEvent, historical: false);
 
@@ -46,7 +45,7 @@ public static class NetrunDebugActions
     }
 
     /// <summary>Opens a deck theme without its achievement and puts it on (to check a new casing in game).</summary>
-    [DebugAction(Unlock, "Unlock: deck theme...", allowedGameStates = AnyState, displayPriority = 96)]
+    [DebugAction(Unlock, "Unlock: deck theme...", allowedGameStates = Playing, displayPriority = 96)]
     private static void UnlockDeckTheme()
     {
         Find.WindowStack.Add(new FloatMenu(DeckThemes.All.Select(t => new FloatMenuOption(t.Label, () =>
@@ -57,8 +56,8 @@ public static class NetrunDebugActions
         })).ToList()));
     }
 
-    /// <summary>Opens every deck theme for good (kept in the mod settings, like an earned one). Works from the main menu too.</summary>
-    [DebugAction(Unlock, "Unlock: all deck themes", allowedGameStates = AnyState, displayPriority = 95)]
+    /// <summary>Opens every deck theme for good (kept in the mod settings, like an earned one). In a game only: allowedGameStates flags all have to hold, so Entry | Playing would hide it everywhere.</summary>
+    [DebugAction(Unlock, "Unlock: all deck themes", allowedGameStates = Playing, displayPriority = 95)]
     private static void UnlockAllDeckThemes()
     {
         foreach (DeckTheme t in DeckThemes.All)
@@ -209,7 +208,7 @@ public static class NetrunDebugActions
     }
 
     /// <summary>Locks every deck theme again and puts the classic deck back (to check the achievement unlock).</summary>
-    [DebugAction(Unlock, "Reset: lock deck themes", allowedGameStates = AnyState, displayPriority = 25)]
+    [DebugAction(Unlock, "Reset: lock deck themes", allowedGameStates = Playing, displayPriority = 25)]
     private static void LockDeckThemes()
     {
         NetrunMod.Settings.UnlockedThemes.Clear();

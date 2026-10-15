@@ -98,30 +98,31 @@ public static partial class NetrunUI
             float plateEnd = box.x + 33f;
             if (nx0 - 10f - (box.x + 33f) >= StreetTex.Plate.width)
             {
-                Sprite(StreetTex.Plate, new Vector2(box.x + 33f, box.y + 8f));
+                Sprite(StreetTex.Plate, new Vector2(box.x + 33f, box.y + 4f));
                 plateEnd = box.x + 33f + StreetTex.Plate.width;
             }
             float room = nx0 - 6f - (plateEnd + 10f);
             if (room >= StreetTex.GraffitiTop.width)
-                Sprite(StreetTex.GraffitiTop, new Vector2(Mathf.Round(plateEnd + 10f + (room - StreetTex.GraffitiTop.width) / 2f), box.y + 2f));
+                Sprite(StreetTex.GraffitiTop, new Vector2(Mathf.Round(plateEnd + 10f + (room - StreetTex.GraffitiTop.width) / 2f), box.y - 2f));
         }
 
-        // The right column: 夜の走者 on its band, three slashes below the middle, a skull at the bottom, the kitsune on top.
+        // The right column: 夜の走者 on its band, three slashes below the middle (from the screen bezel to the rail), a
+        // skull at the bottom, the kitsune on top.
         float kanjiY = box.y + 104f;
         bool kanji = kanjiY + StreetTex.Kanji.height <= box.yMax - StreetInB - 70f;
         if (kanji)
             Sprite(StreetTex.Kanji, new Vector2(box.xMax - 62f, kanjiY));
         float slashY = box.y + Mathf.Round(box.height * 0.6f);
         if ((!kanji || slashY >= kanjiY + StreetTex.Kanji.height + 12f) && slashY + StreetTex.Slashes.height <= box.yMax - 70f)
-            Sprite(StreetTex.Slashes, new Vector2(box.xMax - 58f, slashY));
+            Sprite(StreetTex.Slashes, new Vector2(box.xMax - 60f, slashY));
         Sprite(StreetTex.Skull, new Vector2(box.xMax - 58f, box.yMax - 62f));
-        Sprite(StreetTex.Kitsune, new Vector2(box.xMax - 78f, box.y - 4f));
+        Sprite(StreetTex.Kitsune, new Vector2(box.xMax - 84f, box.y - 2f));
     }
 
     private static void DrawStreetTop(Rect box, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu, bool paint)
     {
         NetrunSettings set = NetrunMod.Settings;
-        float y = box.y + 41f;
+        float y = box.y + 37f;
 
         // CLOSE (pink), MENU, ACHIEV (cyan), NET-LOCK (red while the colony is cut off).
         string[] names = ["CLOSE", "MENU", "ACHIEV", "NET-LOCK"];
@@ -159,7 +160,7 @@ public static partial class NetrunUI
         float mw = Mathf.Min(230f, right - mx - (set.FrameLights ? 200f : 0f));
         if (mw >= 140f)
         {
-            var meter = new Rect(mx, box.y + 40f, mw, 34f);
+            var meter = new Rect(mx, box.y + 36f, mw, 34f);
             NineSlice(meter, StreetTex.Meter, 10f, 10f, 10f, 10f);
             Text.Font = GameFont.Tiny;
             Widgets.Label(new Rect(meter.x + 9f, meter.y + 15f, 60f, 16f), "RF signal".Colorize(Hex(0x5adce6)));
@@ -196,7 +197,7 @@ public static partial class NetrunUI
             for (int i = 0; i < lights.Length; i++)
             {
                 float cx = mx + 26f + i * 60f;
-                var l = new Rect(cx - 6f, box.y + 41f, 12f, 12f);
+                var l = new Rect(cx - 6f, box.y + 37f, 12f, 12f);
                 float a = !lights[i].on ? 0f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
                 GUI.DrawTexture(l, StreetTex.LedOff);
                 if (a > 0f)
@@ -208,10 +209,10 @@ public static partial class NetrunUI
                 }
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.UpperCenter;
-                Widgets.Label(new Rect(cx - 25f, box.y + 55f, 50f, 18f), lights[i].label.Colorize(StreetInk));
+                Widgets.Label(new Rect(cx - 25f, box.y + 51f, 50f, 18f), lights[i].label.Colorize(StreetInk));
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
-                Tip(new Rect(cx - 20f, box.y + 38f, 40f, 34f), lights[i].tip);
+                Tip(new Rect(cx - 20f, box.y + 34f, 40f, 34f), lights[i].tip);
             }
         }
     }
@@ -257,13 +258,53 @@ public static partial class NetrunUI
             {
                 var lcd = new Rect(lcdX, by + 5f, lw, 54f);
                 NineSlice(lcd, StreetTex.Lcd, 12f, 12f, 12f, 12f);
-                DrawLcd(lcd.ContractedBy(6f), heat, level, online, recess: false);
+                Rect inner = lcd.ContractedBy(6f);
+                float textW = Mathf.Min(inner.width, 210f);
+                DrawLcd(new Rect(inner.x, inner.y, textW, inner.height), heat, level, online, recess: false);
+                if (inner.width - textW >= 90f)
+                    DrawStreetAscii(new Rect(inner.x + textW, inner.y, inner.width - textW, inner.height), online);
                 lcdEnd = lcd.xMax;
             }
         }
         float room = bx - 8f - (lcdEnd + 8f);
         Texture2D g = StreetTex.GraffitiBottom;
         if (room >= g.width)
-            Sprite(g, new Vector2(Mathf.Round(lcdEnd + 8f + (room - g.width) / 2f), Mathf.Round(by + (StreetInB - g.height) / 2f)));
+            Sprite(g, new Vector2(Mathf.Round(lcdEnd + 8f + (room - g.width) / 2f), box.yMax - g.height + 2f));
+    }
+
+    private static readonly string[] StreetSkull = [" .-. ", "(x.x)", " |=| "];
+    private static readonly System.Text.StringBuilder StreetHex = new();
+
+    /// <summary>The free part of the LCD: a hex stream scrolling past and a little skull at the end (Maxim, 2026-10-15:
+    /// the screen was too wide for its three lines). The stream changes four times a second.</summary>
+    private static void DrawStreetAscii(Rect r, bool online)
+    {
+        string[] rows = Cached("street.hex", () =>
+        {
+            int cols = Mathf.Max(1, Mathf.FloorToInt((r.width - 60f) / 21f));
+            int tick = NetrunMod.Settings.Animations ? Mathf.FloorToInt(Time.realtimeSinceStartup * 4f) : 0;
+            var lines = new string[3];
+            for (int row = 0; row < 3; row++)
+            {
+                StreetHex.Length = 0;
+                for (int c = 0; c < cols; c++)
+                {
+                    uint h = (uint)((c + tick) * 73856093 ^ row * 19349663);
+                    h ^= h >> 13;
+                    h *= 0x5bd1e995;
+                    StreetHex.Append(((h >> 8) & 0xff).ToString("X2")).Append(' ');
+                }
+                lines[row] = StreetHex.ToString();
+            }
+            return lines;
+        }, 0.25f);
+        Text.Font = GameFont.Tiny;
+        Color dim = new(LcdGreen.r, LcdGreen.g, LcdGreen.b, online ? 0.32f : 0.12f);
+        for (int i = 0; i < 3; i++)
+        {
+            Widgets.Label(new Rect(r.x + 4f, r.y + 1f + i * 14.5f, r.width - 64f, 16f), rows[i].Colorize(dim));
+            Widgets.Label(new Rect(r.xMax - 50f, r.y + 1f + i * 14.5f, 50f, 16f), StreetSkull[i].Colorize(online ? LcdGreen : dim));
+        }
+        Text.Font = GameFont.Small;
     }
 }

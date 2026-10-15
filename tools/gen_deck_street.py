@@ -307,20 +307,20 @@ def build():
     A.save(make_switch_plate(), T, "SwitchPlate")
     A.save(make_knob(), T, "Knob")
     A.save(make_kanji(), T, "Kanji")
-    A.save(S.slashes(40, 56, seed=564), T, "Slashes")
+    A.save(S.slashes(35, 56, seed=564), T, "Slashes")
     A.save(S.kitsune(58, holo=True, seed=571).rotate(-14, resample=Image.BICUBIC, expand=True), T, "St_Kitsune")
     A.save(S.pixel_skull(22, seed=572), T, "St_Skull")
-    A.save(S.graffiti("GH0ST", 26, (24, 20, 30), S.PINK, seed=575, drips=6), T, "Graffiti_Top")
-    A.save(S.graffiti("NR", 40, S.PINK, S.INK, seed=576, skew=0.12, angle=5, bubble=True, drips=4), T, "Graffiti_Bottom")
+    A.save(S.graffiti("GH0ST", 22, (24, 20, 30), S.PINK, seed=575, drips=6), T, "Graffiti_Top")
+    A.save(S.graffiti("NR", 30, S.PINK, S.INK, seed=576, skew=0.12, angle=5, bubble=True, drips=4), T, "Graffiti_Bottom")
     A.save(mock(None).resize((300, 240), Image.LANCZOS), T, "Preview")
 
 
 # ------------------------------------------------------------------ the layout (mirrored in DeckStreet.cs)
 
-PLATE_X, PLATE_Y = 33, 8
-KEY_Y, KEY_H, KEY_GAP = 41, 32, 10
+PLATE_X, PLATE_Y = 33, 4
+KEY_Y, KEY_H, KEY_GAP = 37, 32, 10
 KEY_W = (82, 82, 92, 104)
-METER_Y, METER_W, METER_H = 40, 230, 34
+METER_Y, METER_W, METER_H = 36, 230, 34
 NEON_Y, NEON_H, NEON_FROM = -14, 38, 0.52      # the housing starts at 52% of the width, ends IN_R + 14 from the right
 TUBE_INSET, TUBE_Y0, TUBE_Y1 = 46, 14, 22
 BTN_W, BTN_H, BTN_STEP, BTN_Y = 46, 34, 54, 20
@@ -360,7 +360,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     g = load("Graffiti_Top")
     gx0, gx1 = bx0 + PLATE_X + plate.width + 10, nx0 - 6
     if gx1 - gx0 >= g.width:
-        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, by0 + 2))
+        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, by0 - 2))
     # keys
     x = bx0 + 34
     f = A.font(12, bold=False)
@@ -392,8 +392,8 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
         d.text((cx, my + 23), lab, font=A.font(11, bold=False), fill=(30, 26, 14), anchor="mm")
     # the right column: the tilted kitsune over the edge, the kanji band, three slashes below the middle, a skull
     A.over(img, load("Kanji"), (bx1 - 62, by0 + 104))
-    A.over(img, load("Slashes"), (bx1 - 58, by0 + round(bh * 0.6)))
-    A.over(img, load("St_Kitsune"), (bx1 - 78, by0 - 4))
+    A.over(img, load("Slashes"), (bx1 - 60, by0 + round(bh * 0.6)))
+    A.over(img, load("St_Kitsune"), (bx1 - 84, by0 - 2))
     A.over(img, load("St_Skull"), (bx1 - 58, by1 - 62))
     # the bottom bar
     yb = by1 - IN_B
@@ -407,8 +407,15 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     lcd_w = min(LCD_MAX, btn_x - 24 - lcd_x)
     A.over(img, A.nine_slice(load("Lcd"), (lcd_w, LCD_H), 12, 12, 12, 12), (lcd_x, yb + LCD_Y))
     fm = ImageFont_mono(12)
-    for i, t in enumerate(("HEAT 58 \u25b2 TRACKED  |  CYBERDATA 07", "D2 14:20  |  NET ON  |  TRACE: SHADOW")):
-        d.text((lcd_x + 14, yb + LCD_Y + 9 + i * 15), t, font=fm, fill=(110, 230, 140))
+    for i, t in enumerate(("CYBERDATA 491", "HEAT 2 - SHADOW", "D8 08:27 NET ON")):
+        d.text((lcd_x + 12, yb + LCD_Y + 7 + i * 14), t, font=fm, fill=(110, 230, 140))
+    import random
+    rnd = random.Random(7)
+    cols = int((lcd_w - 12 - 210 - 60) / 21)
+    for i, sk in enumerate((" .-. ", "(x.x)", " |=| ")):
+        hexrow = " ".join("%02X" % rnd.randrange(256) for _ in range(max(0, cols)))
+        d.text((lcd_x + 6 + 210 + 4, yb + LCD_Y + 7 + i * 14), hexrow, font=fm, fill=(110, 230, 140, 90))
+        d.text((lcd_x + lcd_w - 6 - 50, yb + LCD_Y + 7 + i * 14), sk, font=fm, fill=(110, 230, 140))
     for i, gl in enumerate(("<", "O", "?")):
         A.over(img, A.nine_slice(load("Key"), (BTN_W, BTN_H), 10, 10, 10, 10), (btn_x + i * BTN_STEP, yb + BTN_Y))
         d.text((btn_x + i * BTN_STEP + 23, yb + BTN_Y + 16), gl, font=A.font(14), fill=(225, 225, 225), anchor="mm")
@@ -416,7 +423,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     g = load("Graffiti_Bottom")
     gx0, gx1 = lcd_x + lcd_w + 8, btn_x - 8
     if gx1 - gx0 >= g.width:
-        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, yb + (IN_B - g.height) / 2))
+        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, by1 - g.height + 2))
     if out_path:
         img.convert("RGB").save(out_path)
     return img

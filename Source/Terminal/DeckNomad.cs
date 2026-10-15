@@ -44,9 +44,10 @@ public static partial class NetrunUI
     {
         float w = tex.width, h = tex.height;
         float dl = Mathf.Min(l, r.width / 2f), dr = Mathf.Min(right, r.width / 2f), dt = Mathf.Min(t, r.height / 2f), db = Mathf.Min(b, r.height / 2f);
-        float[] xs = [r.x, r.x + dl, r.xMax - dr, r.xMax];
+        // Seams land on whole screen pixels: at a UI scale other than 1 a fractional edge leaves a hairline gap.
+        float[] xs = [Snap(r.x), Snap(r.x + dl), Snap(r.xMax - dr), Snap(r.xMax)];
         float[] us = [0f, l / w, 1f - right / w, 1f];
-        float[] ys = [r.y, r.y + dt, r.yMax - db, r.yMax];
+        float[] ys = [Snap(r.y), Snap(r.y + dt), Snap(r.yMax - db), Snap(r.yMax)];
         // GUI texture coordinates start at the bottom.
         float[] vs = [1f, 1f - t / h, b / h, 0f];
         for (int i = 0; i < 3; i++)
@@ -58,6 +59,8 @@ public static partial class NetrunUI
                 GUI.DrawTextureWithTexCoords(dst, tex, new Rect(us[i], vs[j + 1], us[i + 1] - us[i], vs[j] - vs[j + 1]));
             }
     }
+
+    private static float Snap(float v) => Mathf.Round(v * Prefs.UIScale) / Prefs.UIScale;
 
     /// <summary>A texture at its own size, its top-left at <paramref name="at"/>.</summary>
     private static Rect Sprite(Texture2D tex, Vector2 at, Color? tint = null)
