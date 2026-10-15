@@ -7,6 +7,9 @@ Every piece gets its own outline, so later pieces overlap earlier ones with a cl
     python tools/gen_ritual_icons.py
 """
 import os
+from collections import deque
+
+import numpy as np
 
 from PIL import Image, ImageDraw, ImageFilter
 
@@ -46,8 +49,58 @@ class Icon:
         """Black detail lines on top, no outline."""
         draw_fn(ImageDraw.Draw(self.img), K)
 
-    def save(self, name):
-        self.img.resize((N, N), Image.LANCZOS).save(os.path.join(OUT, name + ".png"))
+    def save(self, name, top=None):
+        img = self.img.resize((N, N), Image.LANCZOS)
+        if top is not None:
+            img.alpha_composite(top)
+        img.save(os.path.join(OUT, name + ".png"))
+
+
+REFS = os.path.join(os.path.dirname(__file__), "ritual_refs")
+
+
+def ref_figures(name):
+    """The figures from a vanilla ritual icon (Maxim's references in tools/ritual_refs): only the white pieces that are
+    bodies (reaching the bottom) or heads (about 125 px each) stay with their outlines, the gear and the flags go;
+    returns a 128 px RGBA layer."""
+    im = np.array(Image.open(os.path.join(REFS, name)).convert("RGBA")).astype(np.int32)
+    h, w = im.shape[:2]
+    white = (im[..., 3] > 100) & (im[..., :3].mean(-1) > 140)
+    label = np.zeros((h, w), np.int32)
+    keep = np.zeros((h, w), bool)
+    drop = np.zeros((h, w), bool)
+    n = 0
+    for y0 in range(h):
+        for x0 in range(w):
+            if not white[y0, x0] or label[y0, x0]:
+                continue
+            n += 1
+            q, pts = deque([(y0, x0)]), []
+            label[y0, x0] = n
+            while q:
+                y, x = q.popleft()
+                pts.append((y, x))
+                for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    yy, xx = y + dy, x + dx
+                    if 0 <= yy < h and 0 <= xx < w and white[yy, xx] and not label[yy, xx]:
+                        label[yy, xx] = n
+                        q.append((yy, xx))
+            if max(p[0] for p in pts) > 80 or 100 < len(pts) < 150:
+                for y, x in pts:
+                    keep[y, x] = True
+            else:
+                for y, x in pts:
+                    drop[y, x] = True
+    def grow(m, k):
+        return np.array(Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(k))) > 0
+    # the outline of a kept piece, minus the edge of a dropped one where they touch
+    near = grow(keep, 11) & ~(grow(drop, 5) & ~keep)
+    out = im.copy()
+    out[..., 3] = np.where(near, im[..., 3], 0)
+    layer = Image.fromarray(out.astype(np.uint8), "RGBA")
+    canvas = Image.new("RGBA", (N, N), (0, 0, 0, 0))
+    canvas.alpha_composite(layer, (4, 8))
+    return canvas
 
 
 def figure(ic, x, y, hands, fill=WHITE):
@@ -77,30 +130,25 @@ def chip(ic, cx, cy, r):
 
 
 def litany():
-    """Litany of data: two figures lift the AI core, a chip, over their heads."""
+    """Litany of data: the two figures of the vanilla gear ritual lift the AI core, a chip, over their heads."""
     ic = Icon()
-    cx, cy, r = 64, 34, 20
-    chip(ic, cx, cy, r)
-    figure(ic, 22, 77, [(cx - r - 2, cy + 12, 1), (8, 52, -1)])
-    figure(ic, 106, 77, [(cx + r + 2, cy + 12, -1), (120, 52, 1)])
-    ic.save("Ritual_Litany")
+    chip(ic, 64, 32, 20)
+    ic.save("Ritual_Litany", ref_figures("gear.png"))
 
 
 def trace_cleansing():
-    """Trace cleansing: two figures hold up a terminal whose screen shows a crossed-out eye: the trace is gone."""
+    """Trace cleansing: the figures of the vanilla flag ritual hold up a terminal whose screen shows a crossed-out eye."""
     ic = Icon()
-    x0, y0, x1, y1 = 32, 10, 96, 60
+    x0, y0, x1, y1 = 36, 8, 92, 56
     ic.piece(lambda d, s: d.rounded_rectangle([x0 * s, y0 * s, x1 * s, y1 * s], 6 * s, fill=255))
     ic.piece(lambda d, s: d.rounded_rectangle([(x0 + 7) * s, (y0 + 7) * s, (x1 - 7) * s, (y1 - 9) * s], 3 * s, fill=255), GREY, 3)
     ex, ey = (x0 + x1) / 2, (y0 + y1) / 2 - 1
     def eye(d, s):
-        d.ellipse([(ex - 14) * s, (ey - 8) * s, (ex + 14) * s, (ey + 8) * s], outline=BLACK, width=int(3 * s))
+        d.ellipse([(ex - 13) * s, (ey - 7) * s, (ex + 13) * s, (ey + 7) * s], outline=BLACK, width=int(3 * s))
         d.ellipse([(ex - 4) * s, (ey - 4) * s, (ex + 4) * s, (ey + 4) * s], fill=BLACK)
-        d.line([((ex - 13) * s, (ey + 11) * s), ((ex + 13) * s, (ey - 11) * s)], fill=BLACK, width=int(4 * s))
+        d.line([((ex - 12) * s, (ey + 10) * s), ((ex + 12) * s, (ey - 10) * s)], fill=BLACK, width=int(4 * s))
     ic.detail(eye)
-    figure(ic, 20, 77, [(x0 + 4, y1 - 4, 1), (7, 55, -1)])
-    figure(ic, 108, 77, [(x1 - 4, y1 - 4, -1), (121, 55, 1)])
-    ic.save("Ritual_TraceCleansing")
+    ic.save("Ritual_TraceCleansing", ref_figures("flags.png"))
 
 
 def net_archon():
