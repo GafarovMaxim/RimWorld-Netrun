@@ -92,6 +92,26 @@ public static class CyberMapGenerator
         _ => District.Corp,
     };
 
+    private static readonly Dictionary<NetLayout, CyberMap> Samples = [];
+
+    /// <summary>A normal-size map of this layout from a fixed seed, for the preview in the settings (cached).</summary>
+    public static CyberMap Sample(NetLayout layout)
+    {
+        if (Samples.TryGetValue(layout, out CyberMap map))
+            return map;
+        Rand.PushState(0x4E52 + (int)layout);
+        try
+        {
+            map = Build(NetSize.Normal, layout);
+        }
+        finally
+        {
+            Rand.PopState();
+        }
+        Samples[layout] = map;
+        return map;
+    }
+
     public static CyberMap Generate(NetSize size, int seed)
     {
         NetLayout layout = LayoutFor(seed);

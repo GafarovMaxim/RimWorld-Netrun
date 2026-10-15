@@ -69,7 +69,7 @@ public class Dialog_NetFound : Window
         Text.Font = GameFont.Small;
     }
 
-    private static void DrawPreview(Rect r, CyberMap map)
+    internal static void DrawPreview(Rect r, CyberMap map)
     {
         float scale = Mathf.Min(r.width / 1.0f, r.height / 0.66f);
         Vector2 P(MapNode n) => new(r.x + n.X * scale + (r.width - scale) / 2f, r.y + n.Y * scale);

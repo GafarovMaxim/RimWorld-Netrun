@@ -348,7 +348,7 @@ public class NetrunSettings : ModSettings
     }
 
     /// <summary>Options as a row of chips; returns the picked index.</summary>
-    private int Chips(string[] labels, int selected, string[] tips = null)
+    private int Chips(string[] labels, int selected, string[] tips = null, System.Action<int> hover = null)
     {
         float x = 12f;
         int picked = selected;
@@ -366,6 +366,8 @@ public class NetrunSettings : ModSettings
                 Widgets.DrawBoxSolid(r, new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, 0.18f));
             if (NetrunUI.Button(r, (on ? "● " : string.Empty) + labels[i], on ? NetrunUI.Ok : NetrunUI.Muted, true, tips?[i]))
                 picked = i;
+            if (hover != null && Mouse.IsOver(r))
+                hover(i);
             x += w + 6f;
         }
         _y += 36f;
@@ -474,7 +476,7 @@ public class NetrunSettings : ModSettings
         // The layout template (Maxim, 2026-10-14: let the player choose); "random" keeps the world seed's pick.
         Label("NR_SettingsMapLayout".Translate(), null, "NR_SettingsMapLayoutTip".Translate());
         string[] layoutLabels = ["NR_NetLayout_Random".Translate(), "NR_NetLayout_Ring".Translate(), "NR_NetLayout_Spine".Translate(), "NR_NetLayout_Archipelago".Translate(), "NR_NetLayout_Metro".Translate()];
-        int layoutPicked = Chips(layoutLabels, MapLayout + 1);
+        int layoutPicked = Chips(layoutLabels, MapLayout + 1, null, i => { if (i > 0) LayoutPreview((NetLayout)(i - 1)); });
         if (layoutPicked >= 0)
             MapLayout = layoutPicked - 1;
 
@@ -487,6 +489,25 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
         Toggle("NR_SettingsGradualDistricts", ref GradualDistricts, "NR_SettingsGradualDistrictsTip");
         _y += 6f;
+    }
+
+    /// <summary>A sample map of the layout under the mouse, floating beside it (Maxim, 2026-10-15).</summary>
+    private static void LayoutPreview(NetLayout layout)
+    {
+        if (Event.current.type != EventType.Repaint)
+            return;
+        Vector2 at = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+        var size = new Vector2(320f, 230f);
+        float x = at.x + 20f + size.x > UI.screenWidth ? at.x - 20f - size.x : at.x + 20f;
+        float y = Mathf.Clamp(at.y + 20f, 0f, UI.screenHeight - size.y);
+        CyberMap map = CyberMapGenerator.Sample(layout);
+        Find.WindowStack.ImmediateWindow(0x4E52A1, new Rect(x, y, size.x, size.y), WindowLayer.Super, () =>
+        {
+            var r = new Rect(0f, 0f, size.x, size.y).ContractedBy(10f);
+            Text.Font = GameFont.Small;
+            Widgets.Label(new Rect(r.x, r.y, r.width, 24f), ("NR_NetLayout_" + layout).Translate().Colorize(NetrunUI.Ok));
+            Dialog_NetFound.DrawPreview(new Rect(r.x, r.y + 26f, r.width, r.height - 26f), map);
+        });
     }
 
     /// <summary>Label and four chips: off, 0.5x, 1x, 2x.</summary>
