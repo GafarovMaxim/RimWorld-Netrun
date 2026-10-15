@@ -104,6 +104,9 @@ ACH = [
     ("NoAIYear2", 1, "secret", 15, "UI/Netrun/Cyberspace/Icon_Lock",
      "Luddite with a pod", "The pod hums all year, and the servers stay silent.",
      "Луддит с капсулой", "Капсула гудит весь год, а серверы молчат."),
+    ("OldNetEntered", 1, "common", 15, "UI/Netrun/Cyberspace/Node_OldNet",
+     "Ghosts of the Old Net", "Dive into a system of the Old Net, behind the Wall.",
+     "Призраки Старой сети", "Нырнуть в систему Старой сети, за Стеной."),
 ]
 
 

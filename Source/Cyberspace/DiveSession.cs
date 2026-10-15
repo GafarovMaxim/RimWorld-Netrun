@@ -557,6 +557,8 @@ public class DiveSession : IExposable
         if (counters.Value("Dives") == 0 && HeatAtStart >= 95f)
             NetrunSignals.Increment("RookieRedZone");
         NetrunSignals.Increment("Dives");
+        if (Node.Ancient)
+            NetrunSignals.Increment("OldNetEntered");
         int streak = success && !Retreated ? counters.Value("CleanStreakNow") + 1 : 0;
         counters.Set("CleanStreakNow", streak);
         NetrunSignals.Max("CleanStreak", streak);

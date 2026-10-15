@@ -398,4 +398,19 @@
     </tracker>
   </AchievementsExpanded.AchievementDef>
 
+  <AchievementsExpanded.AchievementDef MayRequire="vanillaexpanded.achievements">
+    <defName>NR_Ach_OldNetEntered</defName>
+    <label>Ghosts of the Old Net</label>
+    <description>Dive into a system of the Old Net, behind the Wall.</description>
+    <tab>NR_AchTab_Netrun</tab>
+    <order>26</order>
+    <points>15</points>
+    <texPath>UI/Netrun/Achievements/OldNetEntered</texPath>
+    <bgtexPath>UI/Netrun/Achievements/Frame_common</bgtexPath>
+    <tracker Class="NetrunVAE.NetrunCounterTracker">
+      <key>OldNetEntered</key>
+      <count>1</count>
+    </tracker>
+  </AchievementsExpanded.AchievementDef>
+
 </Defs>

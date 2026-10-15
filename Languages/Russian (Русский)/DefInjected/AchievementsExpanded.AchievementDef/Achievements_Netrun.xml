@@ -80,4 +80,7 @@
   <NR_Ach_NoAIYear2.label>Луддит с капсулой</NR_Ach_NoAIYear2.label>
   <NR_Ach_NoAIYear2.description>Капсула гудит весь год, а серверы молчат.</NR_Ach_NoAIYear2.description>
 
+  <NR_Ach_OldNetEntered.label>Призраки Старой сети</NR_Ach_OldNetEntered.label>
+  <NR_Ach_OldNetEntered.description>Нырнуть в систему Старой сети, за Стеной.</NR_Ach_OldNetEntered.description>
+
 </LanguageData>

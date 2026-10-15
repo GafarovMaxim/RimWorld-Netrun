@@ -288,4 +288,15 @@
     <order>25</order>
   </Netrun.NetrunAchievementDef>
 
+  <Netrun.NetrunAchievementDef>
+    <defName>NR_NAch_OldNetEntered</defName>
+    <label>Ghosts of the Old Net</label>
+    <description>Dive into a system of the Old Net, behind the Wall.</description>
+    <key>OldNetEntered</key>
+    <count>1</count>
+    <tier>common</tier>
+    <points>15</points>
+    <order>26</order>
+  </Netrun.NetrunAchievementDef>
+
 </Defs>

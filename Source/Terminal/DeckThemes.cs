@@ -81,7 +81,7 @@ public static class DeckThemes
         {
             Id = "Relic", Style = DeckStyle.Relic, Top = Hex(0xd2cab6), Bottom = Hex(0xa89e88), Edge = Hex(0x403e3a), Rubber = Hex(0x1e1e1e),
             Stencil = new Color(0.2f, 0.19f, 0.16f, 0.85f), KeyFace = Hex(0x7c7c76), Tube = Hex(0xec7828), TubeLight = Hex(0xffa060), TubeDark = Hex(0x7a3a14),
-            UnlockKey = "Dives", UnlockCount = 10,
+            UnlockKey = "OldNetEntered", UnlockCount = 1,
         },
     ];
 
