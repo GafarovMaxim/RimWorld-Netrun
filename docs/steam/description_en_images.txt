@@ -90,7 +90,7 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [*][b]Colour schemes[/b]: pick the terminal's accent colour
 [*][b]Sound packs[/b]: Clean, Minimal, Neon, Retro Deck and Deep, separate volume for clicks and for each ambient loop; the game music fades while the terminal is open
 [*][b]Graphics[/b]: animations, scanlines, glitches, the casing's lamps and LCD can each be turned off
-[*][b]Fine-tuning[/b]: dozens of settings for balance and difficulty: Heat gain and decay, raid and event frequency, contract rewards, Netsick, cyberspace size and layout, and many small things besides
+[*][b]Fine-tuning[/b]: dozens of settings for balance and difficulty: Heat gain and decay, the frequency of network attacks, AI and cyberspace events, cyberspace size and layout, and many small things besides
 [/list]
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/en_requirements.png[/img]
