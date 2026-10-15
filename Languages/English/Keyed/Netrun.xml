@@ -329,5 +329,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsWasdTip>Off by default: these keys may be bound to the game's camera.</NR_SettingsWasdTip>
   <NR_SettingsTerminalScale>Terminal window size: {0}</NR_SettingsTerminalScale>
   <NR_SettingsHubScale>Hubs in new cyberspace maps: {0}</NR_SettingsHubScale>
+  <NR_SettingsRegenMap>Regenerate the cyberspace map</NR_SettingsRegenMap>
+  <NR_SettingsRegenMapTip>Builds this game's cyberspace map again with the size and layout chosen above.</NR_SettingsRegenMapTip>
+  <NR_SettingsRegenMapConfirm>Regenerate the cyberspace map?\n\nThe map, its hubs and branches are built anew; marked nodes and runners on the map are lost. The current dive, boss nodes, counter-hacks and wild AIs move to the new map. This cannot be undone.</NR_SettingsRegenMapConfirm>
+  <NR_SettingsRegenMapDone>The cyberspace map has been regenerated.</NR_SettingsRegenMapDone>
   <NR_SettingsHubScaleWarn>More hubs make the map and the game heavier (lower TPS). Applies to maps created after the change.</NR_SettingsHubScaleWarn>
 </LanguageData>

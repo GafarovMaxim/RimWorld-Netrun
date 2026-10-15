@@ -329,5 +329,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsWasdTip>По умолчанию выключено: эти клавиши могут быть заняты камерой игры.</NR_SettingsWasdTip>
   <NR_SettingsTerminalScale>Размер окна терминала: {0}</NR_SettingsTerminalScale>
   <NR_SettingsHubScale>Узлов в новых картах киберпространства: {0}</NR_SettingsHubScale>
+  <NR_SettingsRegenMap>Перегенерировать карту киберпространства</NR_SettingsRegenMap>
+  <NR_SettingsRegenMapTip>Строит карту киберпространства этой игры заново, с размером и шаблоном, выбранными выше.</NR_SettingsRegenMapTip>
+  <NR_SettingsRegenMapConfirm>Перегенерировать карту киберпространства?\n\nКарта, её хабы и ветки строятся заново; отметки на узлах и раннеры на карте пропадут. Текущее погружение, босс-ноды, контрвзломы и дикие ИИ переедут на новую карту. Отменить это нельзя.</NR_SettingsRegenMapConfirm>
+  <NR_SettingsRegenMapDone>Карта киберпространства перегенерирована.</NR_SettingsRegenMapDone>
   <NR_SettingsHubScaleWarn>Больше узлов — тяжелее карта и игра (ниже TPS). Действует на карты, созданные после изменения.</NR_SettingsHubScaleWarn>
 </LanguageData>

@@ -490,6 +490,19 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsIsolationCooldown", ref IsolationCooldown, "NR_SettingsIsolationCooldownTip");
         Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
         Toggle("NR_SettingsGradualDistricts", ref GradualDistricts, "NR_SettingsGradualDistrictsTip");
+
+        // Build this game's map again with the size and layout above (Maxim, 2026-10-16); red, behind a confirmation.
+        if (Current.Game != null && NetMapManager.Get() is { Ready: true } netMap)
+        {
+            _y += 4f;
+            if (NetrunUI.Button(new Rect(12f, _y, 300f, 30f), "NR_SettingsRegenMap".Translate(), NetrunUI.Bad, true, "NR_SettingsRegenMapTip".Translate()))
+                Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_SettingsRegenMapConfirm".Translate(), () =>
+                {
+                    netMap.Generate(MapSize, freshSeed: true);
+                    Messages.Message("NR_SettingsRegenMapDone".Translate(), MessageTypeDefOf.NeutralEvent, historical: false);
+                }, destructive: true));
+            _y += 38f;
+        }
         _y += 6f;
     }
 
