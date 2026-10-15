@@ -50,8 +50,23 @@ public class RitualOutcomeComp_RolesSkill : RitualOutcomeComp_Quality
         return n == 0 ? 0f : sum / n;
     }
 
+    // Roles with a mergeId are merged into one in the assignments, so the ids of the others are not found there
+    // (GetRole returns null and AssignedPawns throws): match the roles by id or mergeId instead.
+    private IEnumerable<Pawn> Pawns(RitualRoleAssignments assignments)
+    {
+        if (assignments?.AllRolesForReading == null)
+            yield break;
+        foreach (RitualRole role in assignments.AllRolesForReading)
+        {
+            if (role == null || !roleIds.Contains(role.id) && (role.mergeId == null || !roleIds.Contains(role.mergeId)))
+                continue;
+            foreach (Pawn p in assignments.AssignedPawns(role))
+                yield return p;
+        }
+    }
+
     public override float Count(LordJob_Ritual ritual, RitualOutcomeComp_Data data)
-        => Average(roleIds.Select(ritual.PawnWithRole));
+        => Average(Pawns(ritual?.assignments));
 
     public override string GetDesc(LordJob_Ritual ritual = null, RitualOutcomeComp_Data data = null)
     {
@@ -64,7 +79,7 @@ public class RitualOutcomeComp_RolesSkill : RitualOutcomeComp_Quality
 
     public override QualityFactor GetQualityFactor(Precept_Ritual ritual, TargetInfo ritualTarget, RitualObligation obligation, RitualRoleAssignments assignments, RitualOutcomeComp_Data data)
     {
-        float x = Average(roleIds.SelectMany(assignments.AssignedPawns));
+        float x = Average(Pawns(assignments));
         float q = curve.Evaluate(x);
         return new QualityFactor
         {
