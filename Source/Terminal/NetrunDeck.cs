@@ -15,8 +15,11 @@ public static partial class NetrunUI
 {
     // The bottom band carries no stencils (the terminal's status bar names the same things), so it is lower.
     public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 64f, DeckBottom = 58f;
-    /// <summary>How much bigger a window gets around its screen with the deck casing.</summary>
-    public static Vector2 DeckExtra => new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
+    private static readonly Vector2 ClassicExtra = new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
+    /// <summary>How much bigger a window gets around its screen with the chosen deck casing.</summary>
+    public static Vector2 DeckExtra => DeckThemes.Current.Style == DeckStyle.Nomad && NomadTex.Ready ? NomadExtra : ClassicExtra;
+    /// <summary>What the chosen casing takes beyond the classic one: windows grow by it, so the screen keeps its size.</summary>
+    public static Vector2 DeckExtraOverClassic => DeckExtra - ClassicExtra;
 
     /// <summary>onKey ids: the bottom keys back, core, Cyberpedia, then the top keys close, menu, achievements.</summary>
     public const int KeyBack = 0, KeyCore = 1, KeyHelp = 2, KeyClose = 3, KeyMenu = 4, KeyAchievements = 5;
@@ -140,6 +143,10 @@ public static partial class NetrunUI
                 _heatSampleAt = time;
             }
         }
+
+        // Themes with their own silhouette draw their own casing around the same keys and readouts.
+        if (_t.Style == DeckStyle.Nomad && NomadTex.Ready)
+            return NomadBezel(outer, heat, level, online, anim, time, onKey, menu);
 
         var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
         var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);
@@ -557,10 +564,11 @@ public static partial class NetrunUI
         DrawBottomKeys(body, by0, left, scale, onKey, paint);
     }
 
-    private static void DrawLcd(Rect lcd, float heat, HeatLevel level, bool online)
+    private static void DrawLcd(Rect lcd, float heat, HeatLevel level, bool online, bool recess = true)
     {
         {
-            Recess(lcd, Hex(0x06120a));
+            if (recess)
+                Recess(lcd, Hex(0x06120a));
             string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
             Text.Font = GameFont.Tiny;
             for (int i = 0; i < lines.Length; i++)

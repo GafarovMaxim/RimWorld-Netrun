@@ -307,6 +307,8 @@
   <NR_DeckTheme_Milspec>Милспек</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
   <NR_DeckTheme_OpsPad>Ops pad</NR_DeckTheme_OpsPad>
+  <NR_DeckTheme_Nomad>Номад</NR_DeckTheme_Nomad>
+  <NR_DeckThemeDesc_Nomad>Пыльный дорожный кейс: солнечная панель, ручка из паракорда, батарея на ремнях.</NR_DeckThemeDesc_Nomad>
   <NR_DeckThemeDesc_Field>По умолчанию: тёмный оружейный металл, оранжевая клавиша Ядра.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>Оливковый армейский корпус, потёртые трафареты.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Ржавчина и уличная краска.</NR_DeckThemeDesc_Street>

@@ -4,6 +4,9 @@ using Verse;
 
 namespace Netrun;
 
+/// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
+public enum DeckStyle { Classic, Nomad }
+
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
 /// stencils. The field deck is always there; the others open with an achievement and stay open in every game.
@@ -11,6 +14,7 @@ namespace Netrun;
 public sealed class DeckTheme
 {
     public string Id;
+    public DeckStyle Style;
     public Color Top, Bottom, Edge, Rubber, Stencil, KeyFace, Tube, TubeLight, TubeDark;
     /// <summary>The achievement counter that opens the theme (null: always open) and how much of it.</summary>
     public string UnlockKey;
@@ -48,6 +52,13 @@ public static class DeckThemes
             Id = "OpsPad", Top = Hex(0xc4c8c4), Bottom = Hex(0x8e938f), Edge = Hex(0x6c726e), Rubber = Hex(0x2a2d2f),
             Stencil = new Color(0.08f, 0.09f, 0.1f, 0.75f), KeyFace = Hex(0x3a3f44), Tube = Hex(0x9aa09c), TubeLight = Hex(0xdfe3df), TubeDark = Hex(0x5e6460),
             UnlockKey = "ContractsDone", UnlockCount = 25,
+        },
+        // A dusty road case with a solar panel, a paracord handle, a battery on straps (tools/gen_deck_nomad.py).
+        new DeckTheme
+        {
+            Id = "Nomad", Style = DeckStyle.Nomad, Top = Hex(0x5a4f37), Bottom = Hex(0x3b3325), Edge = Hex(0x6a5e44), Rubber = Hex(0x15130f),
+            Stencil = new Color(0.86f, 0.79f, 0.62f, 0.62f), KeyFace = Hex(0x3d3629), Tube = Hex(0x3a3b35), TubeLight = Hex(0x6a685c), TubeDark = Hex(0x1a1914),
+            UnlockKey = "Dives", UnlockCount = 50,
         },
     ];
 

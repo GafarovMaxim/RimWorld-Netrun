@@ -574,10 +574,17 @@ public class NetrunSettings : ModSettings
             NetrunUI.Box(card, Mouse.IsOver(card) && open ? NetrunUI.BgCardAlt : NetrunUI.BgCard, new Color(edge.r, edge.g, edge.b, chosen ? 1f : 0.5f), chosen ? 2 : 1);
             // A small casing in the theme's colours around a dark screen.
             var preview = new Rect(card.x + 12f, card.y + 12f, card.width - 24f, 76f);
-            for (int b = 0; b < 8; b++)
-                Widgets.DrawBoxSolid(new Rect(preview.x, preview.y + preview.height * b / 8f, preview.width, preview.height / 8f + 1f), Color.Lerp(theme.Top, theme.Bottom, b / 7f));
-            Widgets.DrawBoxSolid(new Rect(preview.x + 10f, preview.y + 14f, preview.width - 20f, preview.height - 30f), NetrunUI.Hex(0x0b0d10));
-            Widgets.DrawBoxSolid(new Rect(preview.x + preview.width / 2f - 12f, preview.yMax - 12f, 24f, 7f), theme.KeyFace);
+            // Themes with their own silhouette show a small picture of the whole deck.
+            Texture2D picture = theme.Style == DeckStyle.Classic ? null : ContentFinder<Texture2D>.Get("UI/Netrun/Frame/" + theme.Id + "/Preview", reportFailure: false);
+            if (picture != null)
+                GUI.DrawTexture(preview, picture, ScaleMode.ScaleToFit);
+            else
+            {
+                for (int b = 0; b < 8; b++)
+                    Widgets.DrawBoxSolid(new Rect(preview.x, preview.y + preview.height * b / 8f, preview.width, preview.height / 8f + 1f), Color.Lerp(theme.Top, theme.Bottom, b / 7f));
+                Widgets.DrawBoxSolid(new Rect(preview.x + 10f, preview.y + 14f, preview.width - 20f, preview.height - 30f), NetrunUI.Hex(0x0b0d10));
+                Widgets.DrawBoxSolid(new Rect(preview.x + preview.width / 2f - 12f, preview.yMax - 12f, 24f, 7f), theme.KeyFace);
+            }
             if (!open)
             {
                 Widgets.DrawBoxSolid(preview, new Color(0f, 0f, 0f, 0.55f));

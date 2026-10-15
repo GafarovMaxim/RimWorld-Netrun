@@ -54,7 +54,8 @@ public partial class Dialog_NetTerminal : Window
     {
         get
         {
-            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f) * NetrunMod.Settings.TerminalScale;
+            // A casing with parts sticking out (Nomad...) makes the window bigger, not the screen smaller.
+            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f) * NetrunMod.Settings.TerminalScale + NetrunUI.DeckExtraOverClassic;
             return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
                 Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
         }
@@ -75,6 +76,9 @@ public partial class Dialog_NetTerminal : Window
         // Moved only by the casing (NetrunUI.DragByCasing), not by a drag on the map.
         draggable = false;
         resizeable = true;
+        // The casing is the window: no panel behind it, so the parts sticking out stand against the game.
+        doWindowBackground = false;
+        drawShadow = false;
         // Paused once on opening (PreOpen); the player may unpause and change speed while it is open.
         forcePause = false;
         absorbInputAroundWindow = false;
