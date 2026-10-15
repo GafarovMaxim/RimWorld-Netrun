@@ -1,8 +1,9 @@
-"""PROTO-X, the fixer's secret prototype deck: three looks to choose from (mockups only for now).
-A  Carbon & Gold: black carbon weave, a brass trim, three breadboards under glass on the right, a ribbon cable, gold pins.
-B  Open Board: the case is a bare prototype PCB, gold traces, chips, kapton tape, ENG SAMPLE marks, SMD LED Heat.
-C  Black Glass: a smoked glass slab, a window into the guts along the top, capacitive ring keys, glass bead Heat.
-Usage: python gen_deck_protox.py --variant A --mock OUT.png"""
+"""PROTO-X, the fixer's secret prototype deck: two looks to choose from (mockups only for now; Maxim turned down the
+carbon/board/glass set on 2026-10-15).
+BOX   A black box from a security service: matte composite, laser-engraved clearance marks and REDACTED bars, hidden keys
+      that light up under the mouse, red tamper strips; the Heat is a red line creeping round the screen.
+HIVE  A nano-swarm: the casing is built of hexagonal cells; as the Heat rises cells come loose, drift and glow red.
+Usage: python gen_deck_protox.py --variant BOX --mock OUT.png   (renders a low and a high Heat side by side)"""
 import math
 import os
 import sys
@@ -12,261 +13,218 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(__file__))
 import deck_art as A
-import deck_stickers as S
 
 OUT = 8
-GOLD = (196, 160, 92)
-GOLD_DIM = (120, 96, 56)
+SCREEN = (930, 666)
 INK_G = (90, 230, 130)
+RED = (230, 40, 46)
 
 
-def carbon(w, h, seed=0, base=(22, 22, 24)):
-    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    cell = 6
-    u, v = (xx // cell) % 2, (yy // cell) % 2
-    fx, fy = (xx % cell) / cell, (yy % cell) / cell
-    weave = np.where(u == v, np.sin(fx * math.pi), np.sin(fy * math.pi))
-    rgb = np.array(base, np.float32) + (weave * 9)[..., None] + A.grain(w, h, seed, 2)[..., None]
-    rgb += ((1 - yy / h) * 8)[..., None]
-    return rgb
-
-
-def pcb(w, h, seed=0):
-    rgb = np.broadcast_to(np.array((14, 40, 28), np.float32), (h, w, 3)).copy()
-    rgb += A.fbm(w, h, 60, 3, seed)[..., None] * np.array([6, 14, 8], np.float32)
-    rgb += A.grain(w, h, seed + 1, 2)[..., None]
-    return rgb
-
-
-def glass(w, h, seed=0):
-    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    rgb = np.broadcast_to(np.array((12, 13, 16), np.float32), (h, w, 3)).copy()
-    rgb += (np.clip(1 - np.abs((xx - yy * 1.6) - w * 0.25) / (w * 0.12), 0, 1) * 10)[..., None]   # a soft diagonal sheen
-    rgb += A.grain(w, h, seed, 1)[..., None]
-    return rgb
-
-
-def traces(d, x0, y0, x1, y1, rng, n, col, width=2):
-    """Gold PCB traces: horizontal runs with 45-degree jogs and a via at each end."""
-    for _ in range(n):
-        y = rng.uniform(y0, y1)
-        x = rng.uniform(x0, x1 - 120)
-        pts = [(x, y)]
-        for _ in range(rng.integers(2, 4)):
-            x += rng.uniform(30, 120)
-            pts.append((x, y))
-            dy = rng.choice([-1, 1]) * rng.uniform(8, 22)
-            if y0 < y + dy < y1:
-                x += abs(dy)
-                y += dy
-                pts.append((x, y))
-        if pts[-1][0] > x1:
-            continue
-        d.line(pts, fill=col, width=width)
-        for p in (pts[0], pts[-1]):
-            d.ellipse([p[0] - 3, p[1] - 3, p[0] + 3, p[1] + 3], outline=col, width=1, fill=(10, 10, 10))
-
-
-def chip(d, x, y, w, h, label, font, pins=True):
-    d.rectangle([x, y, x + w, y + h], fill=(18, 18, 20), outline=(60, 60, 64))
-    if pins:
-        for px in range(int(x) + 4, int(x + w) - 2, 6):
-            d.rectangle([px, y - 3, px + 2, y], fill=(190, 190, 196))
-            d.rectangle([px, y + h, px + 2, y + h + 3], fill=(190, 190, 196))
-    d.text((x + w / 2, y + h / 2), label, font=font, fill=(150, 150, 156), anchor="mm")
-    d.ellipse([x + 3, y + 3, x + 6, y + 6], fill=(70, 70, 74))
-
-
-def breadboard(img, x, y, w, h, rng, font):
-    d = ImageDraw.Draw(img)
-    d.rounded_rectangle([x, y, x + w, y + h], 6, fill=(30, 28, 24), outline=GOLD_DIM, width=2)
-    d.rounded_rectangle([x + 6, y + 6, x + w - 6, y + h - 6], 3, fill=(214, 208, 192))
-    for yy in range(int(y) + 14, int(y + h) - 10, 7):
-        for xx in range(int(x) + 12, int(x + w) - 10, 7):
-            d.rectangle([xx, yy, xx + 2, yy + 2], fill=(120, 116, 104))
-    for _ in range(2):
-        cx = rng.uniform(x + 20, x + w - 60)
-        chip(d, cx, rng.uniform(y + 20, y + h - 30), 40, 14, "ICE-K", font)
-    cols = [(220, 60, 60), (60, 140, 230), (240, 190, 40), (60, 190, 90)]
-    for i in range(3):
-        a = (rng.uniform(x + 14, x + w - 14), rng.uniform(y + 14, y + h - 14))
-        b = (rng.uniform(x + 14, x + w - 14), rng.uniform(y + 14, y + h - 14))
-        mid = ((a[0] + b[0]) / 2, min(a[1], b[1]) - rng.uniform(10, 26))
-        pts = S.bez(a, mid, mid, b, 14)
-        d.line(pts, fill=cols[i % 4], width=3)
-    # glass over it
-    sheen = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    sd = ImageDraw.Draw(sheen)
-    sd.polygon([(x + w * 0.15, y + 6), (x + w * 0.45, y + 6), (x + w * 0.2, y + h - 6), (x + 6, y + h - 6), (x + 6, y + h * 0.6)], fill=(255, 255, 255, 22))
-    img.alpha_composite(sheen)
-
-
-def mock(v, out_path, screen=(930, 666), heat=58, online=True):
-    rng = np.random.default_rng(7)
-    side = 170 if v == "A" else 0
-    IN_L, IN_T, IN_R, IN_B = (44, 92, 44 + side, 100) if v != "C" else (40, 112, 40, 96)
-    W, H = screen[0] + IN_L + IN_R + 2 * OUT, screen[1] + IN_T + IN_B + 2 * OUT
-    img = Image.new("RGBA", (W, H), (14, 14, 16, 255))
-    bx0, by0, bx1, by1 = OUT, OUT, W - OUT, H - OUT
-    bw, bh = bx1 - bx0, by1 - by0
-    m = A.mask((bw, bh), lambda d, s: d.rounded_rectangle([0, 0, bw * s - 1, bh * s - 1], 18 * s, fill=255))
-    if v == "A":
-        rgb = carbon(bw, bh, 11)
-    elif v == "B":
-        rgb = pcb(bw, bh, 21)
-    else:
-        rgb = glass(bw, bh, 31)
-    rgb += (A.shade(m, 2.5) * 40)[..., None]
-    rgb -= (A.inner_edge(m, 1.5) * 30)[..., None]
-    body = A.to_img(rgb, m)
-    img.alpha_composite(body, (bx0, by0))
-    d = ImageDraw.Draw(img)
-    f8, f9, f11, f13 = A.font(8, False), A.font(9, False), A.font(11), A.font(13)
-    mono = A.font(12, False)
-    sx0, sy0, sx1, sy1 = bx0 + IN_L, by0 + IN_T, bx1 - IN_R, by1 - IN_B
-
-    if v == "B":   # traces and parts all over the board, the screen on a black carrier
-        traces(d, bx0 + 10, by0 + 10, bx1 - 10, sy0 - 12, rng, 10, (176, 146, 70))
-        traces(d, bx0 + 10, sy1 + 12, bx1 - 10, by1 - 10, rng, 8, (176, 146, 70))
-        for x in (bx0 + 14, bx1 - 30):
-            for k in range(14):
-                y = sy0 + 20 + k * 44
-                if y > sy1 - 20:
-                    break
-                d.rectangle([x, y, x + 16, y + 8], fill=(160, 120, 60) if k % 2 else (40, 40, 44))
-        kap = S.tape(110, 22, color=(214, 140, 40), alpha=0.75, seed=3)
-        img.alpha_composite(kap, (bx0 + 300, by0 + 6))
-        d = ImageDraw.Draw(img)
-        d.text((bx0 + 355, by0 + 17), "ENG SAMPLE", font=f9, fill=(40, 20, 0), anchor="mm")
-        for i, t in enumerate(("PROTO-X REV C", "NOT FOR SALE", "U1  U2  U3")):
-            d.text((bx1 - 220, by1 - 70 + i * 14), t, font=f8, fill=(220, 220, 210))
-    if v == "C":   # a window into the guts along the top: boards, a fan, gold
-        wx0, wy0, wx1, wy1 = bx0 + 300, by0 + 14, bx1 - 300, by0 + 62
-        guts = pcb(wx1 - wx0, wy1 - wy0, 41)
-        gi = A.to_img(guts, np.ones((wy1 - wy0, wx1 - wx0), np.float32))
-        gd = ImageDraw.Draw(gi)
-        traces(gd, 0, 4, wx1 - wx0, wy1 - wy0 - 4, rng, 6, (176, 146, 70))
-        for k in range(4):
-            chip(gd, 30 + k * 90, 16, 50, 16, "X%d" % k, f8)
-        fx = (wx1 - wx0) - 40
-        gd.ellipse([fx - 18, 6, fx + 18, 42], fill=(20, 20, 22), outline=(80, 80, 84))
-        for k in range(7):
-            a = k * math.tau / 7
-            gd.line([fx, 24, fx + 15 * math.cos(a), 24 + 15 * math.sin(a)], fill=(70, 70, 76), width=3)
-        img.alpha_composite(gi, (wx0, wy0))
-        smoke = Image.new("RGBA", img.size, (0, 0, 0, 0))
-        ImageDraw.Draw(smoke).rounded_rectangle([wx0, wy0, wx1, wy1], 8, fill=(10, 10, 14, 120), outline=(90, 90, 100, 255), width=2)
-        img.alpha_composite(smoke)
-        d = ImageDraw.Draw(img)
-
-    # screen with a gold (A, B) or chrome (C) edge
-    trim = GOLD if v != "C" else (150, 150, 160)
-    d.rounded_rectangle([sx0 - 6, sy0 - 6, sx1 + 6, sy1 + 6], 10, fill=(8, 8, 10), outline=trim, width=2)
-    d.rounded_rectangle([sx0, sy0, sx1, sy1], 6, fill=(10, 16, 12))
+def screen_content(d, sx0, sy0, sx1, sy1, mono, heat):
+    d.rounded_rectangle([sx0, sy0, sx1, sy1], 6, fill=(10, 14, 12))
     for i, (t, c) in enumerate((("NETRUN // NETWORK CORE", INK_G), ("> HOME NODE ........ ONLINE", INK_G),
-                                ("> GATEWAY .......... 5 NODES", INK_G), ("> HEAT 58 .......... TRACKED", (230, 190, 70)))):
+                                ("> GATEWAY .......... 5 NODES", INK_G), ("> HEAT .............. %d" % heat, (230, 190, 70)))):
         d.text((sx0 + 30, sy0 + 28 + i * 22), t, font=mono, fill=c)
     for r in (60, 120):
         d.ellipse([sx1 - 230 - r, (sy0 + sy1) / 2 - r, sx1 - 230 + r, (sy0 + sy1) / 2 + r], outline=(40, 120, 70))
-    d.rounded_rectangle([bx0 + 4, by0 + 4, bx1 - 4, by1 - 4], 15, outline=trim + (180,), width=1)
 
-    if v == "A":   # the breadboard column and a ribbon cable out of the side, two gold pins on top
-        cx0 = sx1 + 22
-        ch = (sy1 - sy0 - 20) / 3
-        for k in range(3):
-            breadboard(img, cx0, sy0 + k * (ch + 10), bx1 - 16 - cx0, ch, rng, f8)
-        d = ImageDraw.Draw(img)
-        for k in range(7):
-            col = tuple(int(c) for c in np.ravel(S.hsv2rgb(np.float32(k / 7), np.float32(0.45), np.float32(0.8)))[:3])
-            d.line([(bx1 - 2, sy0 + 120 + k * 4), (W - 1, sy0 + 140 + k * 4)], fill=col, width=4)
 
-    # top: badge, keys, lamps
-    ty = by0 + 22
-    if v == "A":
-        d.rounded_rectangle([sx0 + 300, ty - 6, sx0 + 560, ty + 40], 4, fill=(10, 10, 10), outline=GOLD, width=1)
-        d.text((sx0 + 430, ty + 10), "PROTO-X  //  NOT FOR SALE", font=f13, fill=GOLD, anchor="mm")
-        d.text((sx0 + 430, ty + 28), "UNIT 001  ·  WARRANTY VOID", font=f8, fill=GOLD_DIM, anchor="mm")
-    elif v == "B":
-        d.text((bx0 + 40, ty + 14), "PROTO-X", font=A.font(26), fill=(230, 220, 190), anchor="lm")
-        d.text((bx0 + 40, ty + 38), "FIXER BUILD  ·  REV C", font=f8, fill=(176, 146, 70), anchor="lm")
-    else:
-        d.text((bx0 + 40, by0 + 38), "PROTO-X", font=A.font(24, False), fill=(220, 220, 228), anchor="lm")
-        holo = S.holo_rgb(90, 20, 5)
-        hi = A.to_img(holo, np.ones((20, 90), np.float32) * 0.55)
-        img.alpha_composite(hi, (bx0 + 150, by0 + 28))
-        d = ImageDraw.Draw(img)
-        d.text((bx0 + 195, by0 + 38), "SER 0001", font=f8, fill=(20, 20, 24), anchor="mm")
-    keys = ("CLOSE", "MENU", "ACHIEV", "LOCK")
-    kx0 = sx0 if v == "A" else (bx1 - 560 if v == "B" else bx1 - 520)
-    ky = ty if v != "C" else by0 + 70
-    for i, k in enumerate(keys):
-        x = kx0 + i * 58
-        if v == "A":
-            d.ellipse([x, ky - 4, x + 40, ky + 36], fill=(16, 16, 18), outline=GOLD, width=2)
-        elif v == "B":
-            d.rectangle([x, ky, x + 40, ky + 28], fill=(30, 30, 32), outline=(150, 150, 156))
-            d.ellipse([x + 15, ky + 9, x + 25, ky + 19], fill=(60, 60, 64))
-        else:
-            d.ellipse([x + 4, ky - 2, x + 36, ky + 30], outline=(120, 220, 230), width=2)
-        d.text((x + 20, ky + 46 if v != "C" else ky + 42), k, font=f8, fill=GOLD if v != "C" else (170, 170, 180), anchor="mm")
-    lx = kx0 + 4 * 58 + 20
-    for i, (c, name) in enumerate((((70, 220, 120), "NET"), ((240, 150, 50), "SICK"), ((60, 60, 60), "POD"))):
-        cx, cy = lx + i * 34, ky + 14
+def perimeter_point(x0, y0, x1, y1, t):
+    """A point at fraction t of the way clockwise round a rectangle from its top-left corner."""
+    w, h = x1 - x0, y1 - y0
+    p = t * 2 * (w + h)
+    if p <= w:
+        return x0 + p, y0
+    p -= w
+    if p <= h:
+        return x1, y0 + p
+    p -= h
+    if p <= w:
+        return x1 - p, y1
+    return x0, y1 - (p - w)
+
+
+def mock_box(heat, hover=1):
+    IN_L, IN_T, IN_R, IN_B = 40, 84, 40, 92
+    W, H = SCREEN[0] + IN_L + IN_R + 2 * OUT, SCREEN[1] + IN_T + IN_B + 2 * OUT
+    img = Image.new("RGBA", (W, H), (30, 32, 30, 255))
+    bx0, by0, bx1, by1 = OUT, OUT, W - OUT, H - OUT
+    bw, bh = bx1 - bx0, by1 - by0
+    m = A.mask((bw, bh), lambda d, s: d.rounded_rectangle([0, 0, bw * s - 1, bh * s - 1], 10 * s, fill=255))
+    yy, xx = np.mgrid[0:bh, 0:bw].astype(np.float32)
+    rgb = np.array((20, 20, 22), np.float32) + A.grain(bw, bh, 61, 2)[..., None] + A.fbm(bw, bh, 40, 2, 62)[..., None] * 6
+    rgb += (((xx + yy) % 6 < 1) * 2.5)[..., None]                      # a faint diagonal micro-texture
+    rgb += (A.shade(m, 2.0) * 30)[..., None]
+    img.alpha_composite(A.to_img(rgb, m), (bx0, by0))
+    d = ImageDraw.Draw(img)
+    eng = (58, 58, 62)            # laser engraving: barely lighter than the body
+    eng_hi = (84, 84, 90)
+    f7, f8 = A.font(7, False), A.font(8, False)
+    mono = A.font(12, False)
+    sx0, sy0, sx1, sy1 = bx0 + IN_L, by0 + IN_T, bx1 - IN_R, by1 - IN_B
+
+    # engraved markings: clearance, REDACTED bars, a data matrix, a serial
+    d.text((bx0 + 40, by0 + 22), "PROTO-X", font=A.font(18), fill=eng_hi)
+    d.text((bx0 + 40, by0 + 48), "CLEARANCE  LEVEL 5  //  EYES ONLY", font=f8, fill=eng)
+    d.rectangle([bx0 + 230, by0 + 26, bx0 + 330, by0 + 36], fill=(8, 8, 9))
+    d.rectangle([bx0 + 230, by0 + 42, bx0 + 300, by0 + 52], fill=(8, 8, 9))
+    d.text((bx0 + 340, by0 + 26), "REDACTED", font=f8, fill=eng)
+    rng = np.random.default_rng(5)
+    qx, qy = bx1 - 70, by0 + 18
+    for i in range(12):
+        for j in range(12):
+            if rng.random() < 0.5 or (i in (0, 11) and j % 2 == 0) or j == 0:
+                d.rectangle([qx + i * 4, qy + j * 4, qx + i * 4 + 3, qy + j * 4 + 3], fill=eng)
+    d.text((bx1 - 40, by1 - 22), "UNIT 0-01  ·  NO SERVICEABLE PARTS  ·  TAMPER = WIPE", font=f7, fill=eng, anchor="ra")
+
+    # the tamper strip round the screen: a dark red hairline, the Heat creeps along it in bright red
+    tx0, ty0, tx1, ty1 = sx0 - 14, sy0 - 14, sx1 + 14, sy1 + 14
+    d.rounded_rectangle([tx0, ty0, tx1, ty1], 8, outline=(60, 14, 16), width=2)
+    t = heat / 100
+    pts = [perimeter_point(tx0, ty0, tx1, ty1, k / 400 * t) for k in range(401)]
+    glow = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(glow).line(pts, fill=RED + (140,), width=7)
+    ga = A.blur(np.asarray(glow, np.float32)[..., 3] / 255, 4) * 0.8
+    img.alpha_composite(A.to_img(np.broadcast_to(np.array(RED, np.float32), ga.shape + (3,)).copy(), ga))
+    d = ImageDraw.Draw(img)
+    d.line(pts, fill=(255, 70, 70), width=2)
+    hx, hy = pts[-1]
+    d.ellipse([hx - 4, hy - 4, hx + 4, hy + 4], fill=(255, 200, 200))
+    d.text((tx1, ty1 + 4), "INTEGRITY  %d%%" % (100 - heat), font=f8, fill=(190, 50, 54) if heat > 50 else eng_hi, anchor="ra")
+
+    screen_content(d, sx0, sy0, sx1, sy1, mono, heat)
+
+    # hidden keys: engraved outlines only, the hovered one lit
+    kx = bx1 - 440
+    for i, n in enumerate(("CLOSE", "MENU", "ACHIEV", "LOCK")):
+        x = kx + i * 64
+        lit = i == hover
+        if lit:
+            A.glow(img, (x, by0 + 24, x + 46, by0 + 50), (220, 230, 240), 0.25, 8)
+            d = ImageDraw.Draw(img)
+        d.rounded_rectangle([x, by0 + 24, x + 46, by0 + 50], 3, outline=(200, 210, 220) if lit else eng, width=1)
+        d.text((x + 23, by0 + 37), n, font=f8, fill=(230, 236, 240) if lit else eng, anchor="mm")
+    for i, (c, n) in enumerate((((70, 220, 120), "NET"), ((240, 150, 50), "SICK"), ((50, 50, 52), "POD"))):
+        cx = kx + 4 * 64 + 10 + i * 26
         if i < 2:
-            A.glow(img, (cx - 3, cy - 3, cx + 3, cy + 3), c, 0.6, 5)
-        d = ImageDraw.Draw(img)
-        d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], fill=c)
-        d.text((cx, ky + 46 if v != "C" else ky + 42), name, font=f8, fill=GOLD if v != "C" else (170, 170, 180), anchor="mm")
-    if v != "C":
-        for k in range(2):
-            px = bx1 - 160 + k * 28
-            d.rectangle([px, 0, px + 7, by0 + 4], fill=GOLD)
-            d.rectangle([px + 1, 0, px + 3, by0 + 4], fill=(240, 214, 150))
+            A.glow(img, (cx - 1, by0 + 30, cx + 1, by0 + 32), c, 0.5, 3)
+            d = ImageDraw.Draw(img)
+        d.ellipse([cx - 2, by0 + 29, cx + 2, by0 + 33], fill=c)
+        d.text((cx, by0 + 44), n, font=f7, fill=eng_hi, anchor="mm")
 
-    # bottom: LCD, keys, Heat, NET LINK touch slider
+    # bottom: a white dot-matrix strip, hidden BACK CORE HELP, an engraved NET LINK slider
     yb = by1 - IN_B
-    lcd = (bx0 + 70, yb + 22, 230, 58)
-    d.rounded_rectangle([lcd[0], lcd[1], lcd[0] + lcd[2], lcd[1] + lcd[3]], 4, fill=(6, 14, 8), outline=trim, width=1)
-    for i, t in enumerate(("CYBERDATA 491", "HEAT 58 ^ TRACKED", "D8 08:27  NET ON")):
-        d.text((lcd[0] + 12, lcd[1] + 8 + i * 15), t, font=mono, fill=INK_G)
-    bx = lcd[0] + lcd[2] + 40
-    for i, (g, name) in enumerate((("<", "BACK"), ("O", "CORE"), ("?", "HELP"))):
-        x = bx + i * 58
-        if v == "C":
-            d.ellipse([x, yb + 26, x + 40, yb + 66], outline=(120, 220, 230), width=2)
-        else:
-            d.ellipse([x, yb + 26, x + 40, yb + 66], fill=(16, 16, 18), outline=GOLD, width=2)
-        d.text((x + 20, yb + 46), g, font=f13, fill=GOLD if v != "C" else (150, 230, 240), anchor="mm")
-        d.text((x + 20, yb + 80), name, font=f8, fill=GOLD if v != "C" else (170, 170, 180), anchor="mm")
-    hx = bx + 3 * 58 + 30
-    lit = round(heat / 10)
-    for i in range(10):
-        c = [(70, 220, 120), (70, 220, 120), (210, 200, 70), (210, 200, 70), (240, 150, 50), (240, 150, 50), (230, 70, 50), (230, 70, 50), (200, 30, 60), (200, 30, 60)][i]
-        on = i < lit
-        if v == "B":   # SMD LEDs on the board
-            d.rectangle([hx + i * 22, yb + 40, hx + i * 22 + 12, yb + 48], fill=c if on else (40, 44, 40))
-            if on:
-                A.glow(img, (hx + i * 22, yb + 40, hx + i * 22 + 12, yb + 48), c, 0.4, 4)
-                d = ImageDraw.Draw(img)
-        else:          # glass beads
-            cx, cy = hx + i * 22 + 8, yb + 44
-            if on:
-                A.glow(img, (cx - 4, cy - 4, cx + 4, cy + 4), c, 0.35, 5)
-                d = ImageDraw.Draw(img)
-            d.ellipse([cx - 8, cy - 8, cx + 8, cy + 8], fill=c if on else (34, 34, 38), outline=(10, 10, 10))
-            d.ellipse([cx - 5, cy - 6, cx - 1, cy - 2], fill=(255, 255, 255, 140))
-    d.text((hx + 110, yb + 80), "HEAT LEVEL", font=f8, fill=GOLD if v != "C" else (170, 170, 180), anchor="mm")
-    sx = bx1 - IN_R - 200 if v != "A" else sx1 - 200
-    d.rounded_rectangle([sx, yb + 30, sx + 150, yb + 62], 16, fill=(10, 10, 12), outline=trim, width=1)
-    if online:
-        d.rounded_rectangle([sx + 80, yb + 33, sx + 147, yb + 59], 13, fill=GOLD if v != "C" else (120, 220, 230))
-    d.text((sx + 75, yb + 80), "NET LINK · TOUCH", font=f8, fill=GOLD if v != "C" else (170, 170, 180), anchor="mm")
-    if v == "A":   # a gold circuit flourish in the bottom-left corner
-        d.line([(bx0 + 16, yb + 30), (bx0 + 40, yb + 30), (bx0 + 52, yb + 42), (lcd[0] - 10, yb + 42)], fill=GOLD_DIM, width=1)
-        d.line([(bx0 + 16, yb + 56), (bx0 + 30, yb + 56), (bx0 + 42, yb + 68), (lcd[0] - 10, yb + 68)], fill=GOLD_DIM, width=1)
-    img.convert("RGB").save(out_path)
+    d.rectangle([bx0 + 60, yb + 30, bx0 + 300, yb + 64], fill=(8, 8, 9), outline=eng)
+    for i, t2 in enumerate(("CYBERDATA 491", "D8 08:27  NET ON")):
+        d.text((bx0 + 70, yb + 34 + i * 14), t2, font=A.font(11, False), fill=(214, 220, 226))
+    for i, n in enumerate(("BACK", "CORE", "HELP")):
+        x = bx0 + 340 + i * 70
+        d.rounded_rectangle([x, yb + 30, x + 52, yb + 64], 3, outline=eng, width=1)
+        d.text((x + 26, yb + 47), n, font=f8, fill=eng_hi, anchor="mm")
+    sx = bx1 - 220
+    d.line([sx, yb + 47, sx + 150, yb + 47], fill=eng, width=1)
+    d.line([sx + 80, yb + 47, sx + 150, yb + 47], fill=(70, 220, 120), width=2)
+    d.rectangle([sx + 146, yb + 40, sx + 152, yb + 54], fill=(200, 210, 220))
+    d.text((sx + 75, yb + 64), "NET LINK", font=f8, fill=eng_hi, anchor="mm")
+    return img
+
+
+def hex_poly(cx, cy, r, rot=30):
+    return [(cx + r * math.cos(math.radians(60 * k + rot)), cy + r * math.sin(math.radians(60 * k + rot))) for k in range(6)]
+
+
+def mock_hive(heat):
+    IN_L, IN_T, IN_R, IN_B = 46, 92, 46, 96
+    W, H = SCREEN[0] + IN_L + IN_R + 2 * OUT, SCREEN[1] + IN_T + IN_B + 2 * OUT
+    img = Image.new("RGBA", (W, H), (30, 32, 30, 255))
+    bx0, by0, bx1, by1 = OUT + 4, OUT + 4, W - OUT - 4, H - OUT - 4
+    sx0, sy0, sx1, sy1 = OUT + IN_L, OUT + IN_T, W - OUT - IN_R, H - OUT - IN_B
+    rng = np.random.default_rng(9)
+    r = 13.0
+    dx, dy = r * math.sqrt(3), r * 1.5
+    t = heat / 100
+    big = Image.new("RGBA", (W * 2, H * 2), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(big)
+    loose = []
+    row = 0
+    y = by0 + r
+    while y < by1 - r * 0.5:
+        x = bx0 + r + (dx / 2 if row % 2 else 0)
+        while x < bx1 - r * 0.6:
+            if not (sx0 - 10 < x < sx1 + 10 and sy0 - 10 < y < sy1 + 10):
+                # the outer cells come loose first
+                edge = min(x - bx0, bx1 - x, y - by0, by1 - y)
+                chance = max(0.0, t - 0.25) * 1.3 * (1.0 if edge < 20 else 0.35)
+                if rng.random() < chance:
+                    loose.append((x, y))
+                else:
+                    shade = 30 + int(rng.integers(-4, 5))
+                    hot = rng.random() < t * 0.25
+                    fill = (shade, shade + 2, shade + 6) if not hot else (90 + int(80 * t), 30, 26)
+                    bd.polygon([(px * 2, py * 2) for px, py in hex_poly(x, y, r - 1.2)], fill=fill + (255,),
+                               outline=(40, 170, 190, 150) if not hot else (255, 90, 60, 220))
+            x += dx
+        y += dy
+        row += 1
+    img.alpha_composite(big.resize((W, H), Image.LANCZOS))
+    # loose cells drift outwards, tilted, glowing
+    for x, y in loose:
+        ox = (x - (bx0 + bx1) / 2) * 0.03 * t + rng.normal(0, 3)
+        oy = (y - (by0 + by1) / 2) * 0.03 * t + rng.normal(0, 3)
+        rr = r * rng.uniform(0.55, 0.9)
+        A.glow(img, (x + ox - 3, y + oy - 3, x + ox + 3, y + oy + 3), (255, 80, 50), 0.25 + 0.4 * t, 6)
+        ImageDraw.Draw(img).polygon(hex_poly(x + ox, y + oy, rr, rng.uniform(0, 60)), fill=(60, 20, 18), outline=(255, 110, 70))
+    d = ImageDraw.Draw(img)
+    mono = A.font(12, False)
+    d.rounded_rectangle([sx0 - 4, sy0 - 4, sx1 + 4, sy1 + 4], 6, fill=(6, 8, 10), outline=(40, 170, 190), width=1)
+    screen_content(d, sx0, sy0, sx1, sy1, mono, heat)
+    f8 = A.font(8, False)
+
+    def key(cx, cy, label, glyph, col=(60, 210, 230)):
+        A.glow(img, (cx - 8, cy - 8, cx + 8, cy + 8), col, 0.3, 8)
+        dd = ImageDraw.Draw(img)
+        dd.polygon(hex_poly(cx, cy, 17), fill=(12, 30, 36), outline=col)
+        dd.text((cx, cy), glyph, font=A.font(12), fill=col, anchor="mm")
+        dd.text((cx, cy + 26), label, font=f8, fill=(150, 210, 220), anchor="mm")
+    for i, (lab, g) in enumerate((("CLOSE", "X"), ("MENU", "="), ("ACHIEV", "*"), ("LOCK", "#"))):
+        key(sx0 + 30 + i * 52, by0 + 34, lab, g, (240, 80, 90) if i == 0 else (60, 210, 230))
+    d = ImageDraw.Draw(img)
+    d.text((sx0 + 260, by0 + 34), "PROTO-X  //  SWARM BUILD", font=A.font(14), fill=(180, 230, 240), anchor="lm")
+    for i, (c, n) in enumerate((((70, 220, 120), "NET"), ((240, 150, 50), "SICK"), ((50, 60, 60), "POD"))):
+        cx = sx1 - 120 + i * 40
+        if i < 2:
+            A.glow(img, (cx - 3, by0 + 31, cx + 3, by0 + 37), c, 0.5, 5)
+        d = ImageDraw.Draw(img)
+        d.polygon(hex_poly(cx, by0 + 34, 7), fill=c)
+        d.text((cx, by0 + 54), n, font=f8, fill=(150, 210, 220), anchor="mm")
+    yb = sy1 + 4
+    d.rectangle([sx0 + 20, yb + 22, sx0 + 250, yb + 72], fill=(6, 12, 14), outline=(40, 170, 190))
+    for i, t2 in enumerate(("CYBERDATA 491", "HEAT %d  ·  SWARM %d%%" % (heat, 100 - int(heat * 0.6)), "D8 08:27  NET ON")):
+        d.text((sx0 + 30, yb + 27 + i * 14), t2, font=A.font(11, False), fill=(120, 230, 240))
+    for i, (lab, g) in enumerate((("BACK", "<"), ("CORE", "O"), ("HELP", "?"))):
+        key(sx0 + 300 + i * 52, yb + 44, lab, g, (255, 150, 60) if i == 1 else (60, 210, 230))
+    d = ImageDraw.Draw(img)
+    for i in range(6):   # NET LINK: a row of cells, filled while online
+        cx = sx1 - 200 + i * 26
+        d.polygon(hex_poly(cx, yb + 44, 11), fill=(40, 170, 120) if i >= 2 else (20, 30, 30), outline=(60, 210, 230))
+    d.text((sx1 - 135, yb + 70), "NET LINK", font=f8, fill=(150, 210, 220), anchor="mm")
+    return img
+
+
+def pair(fn, out_path):
+    a, b = fn(15), fn(85)
+    s = 0.6
+    a = a.resize((int(a.width * s), int(a.height * s)), Image.LANCZOS)
+    b = b.resize((int(b.width * s), int(b.height * s)), Image.LANCZOS)
+    out = Image.new("RGB", (a.width * 2 + 30, a.height + 40), (24, 24, 26))
+    d = ImageDraw.Draw(out)
+    d.text((10, 10), "HEAT 15", font=A.font(16), fill=(240, 200, 70))
+    d.text((a.width + 20, 10), "HEAT 85", font=A.font(16), fill=(240, 200, 70))
+    out.paste(a.convert("RGB"), (10, 34))
+    out.paste(b.convert("RGB"), (a.width + 20, 34))
+    out.save(out_path)
 
 
 if __name__ == "__main__":
-    v = sys.argv[sys.argv.index("--variant") + 1] if "--variant" in sys.argv else "A"
-    mock(v, sys.argv[sys.argv.index("--mock") + 1])
+    v = sys.argv[sys.argv.index("--variant") + 1] if "--variant" in sys.argv else "BOX"
+    pair(mock_box if v == "BOX" else mock_hive, sys.argv[sys.argv.index("--mock") + 1])
