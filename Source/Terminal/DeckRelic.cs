@@ -27,7 +27,7 @@ public static partial class NetrunUI
     {
         private static Texture2D Get(string name) => ContentFinder<Texture2D>.Get("UI/Netrun/Frame/Relic/" + name, reportFailure: false);
 
-        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), RailText = Get("RailText"), Plate = Get("Plate"),
+        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), RailText = Get("RailText"), RailParts = Get("RailParts"), Plate = Get("Plate"),
             KeyRed = Get("Key_Red"), KeyGrey = Get("Key_Grey"), KeyOrange = Get("Key_Orange"), KeySquare = Get("Key_Square"),
             Gauge = Get("Gauge"), GaugeGlass = Get("GaugeGlass"), ColKnobs = Get("Col_Knobs"), ColScan = Get("Col_Scan"),
             TraceScale = Get("Col_TraceScale"), TraceKnob = Get("Col_TraceKnob"), ColButtons = Get("Col_Buttons"), ColLine = Get("Col_Line"),
@@ -58,8 +58,14 @@ public static partial class NetrunUI
     {
         NineSlice(box, RelicTex.Body, RelicSlice, RelicSlice, RelicSlice, RelicSlice);
         Sprite(RelicTex.Badge, new Vector2(box.x + 48f, box.y + 12f));
-        // Worn engraved text up the left rail, cut to the screen height.
-        float h = Mathf.Min(RelicTex.RailText.height, screen.height - 40f);
+        // The left rail: jacks, the battery latch, a strap lug and a serial plate at the top, worn engraved text below.
+        float y = screen.y + 14f;
+        if (screen.height >= RelicTex.RailParts.height + 40f)
+        {
+            Sprite(RelicTex.RailParts, new Vector2(box.x + 5f, y));
+            y += RelicTex.RailParts.height + 24f;
+        }
+        float h = Mathf.Min(RelicTex.RailText.height, screen.yMax - 20f - y);
         if (h > 100f)
             GUI.DrawTextureWithTexCoords(new Rect(box.x + 9f, screen.yMax - 20f - h, RelicTex.RailText.width, h), RelicTex.RailText,
                 new Rect(0f, 0f, 1f, h / RelicTex.RailText.height));

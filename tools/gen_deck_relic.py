@@ -103,7 +103,7 @@ def make_body():
     for x, y, n, ln in pts:
         screw_on(img, x, y, n)
     # the barcode under the column, bottom right
-    A.over(img, A.spray(S.barcode(70, 22, "NR-02", 321), 321, 0.93), (CX0 + 26, CY1 + 10))
+    A.over(img, A.spray(S.barcode(70, 22, "NR-02", 321), 321, 0.93).rotate(7, expand=True, resample=Image.BICUBIC), (CX0 + 22, CY1 + 4))
     return img
 
 
@@ -122,6 +122,58 @@ def make_rail_text():
     ImageDraw.Draw(lay).text((0, 8), "NR-02 FIELD UNIT  ·  OLD NET CERT. 7741  ·  KEEP DRY  ·  DO NOT OPEN WHILE LIVE  ·  MADE IN NIGHT CITY",
                              font=A.font(8), fill=(70, 64, 54, 200), anchor="lm")
     return A.spray(lay, 330, 0.7).rotate(90, expand=True)
+
+
+def make_rail_parts():
+    """Parts for the left rail, 30 x 300: PHONES and DATA jacks in a dark strip, a battery hatch latch, a strap lug,
+    a dymo label and a rusty serial plate; DeckRelic.cs puts them at the top of the rail."""
+    w, h = 30, 300
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    st = S.Big(w, 110)
+    st.rect((3, 3, w - 2, 108), (14, 12, 10, 140), r=6)
+    st.rect((2, 0, w - 4, 104), (40, 40, 38, 255), r=6)
+    st.rect((4, 2, w - 6, 102), (52, 52, 50, 255), r=5)
+    for y, col in ((20, (196, 194, 188)), (56, (226, 112, 44))):
+        st.ellipse((w / 2 - 9, y - 9, w / 2 + 7, y + 7), (130, 128, 122, 255))
+        st.ellipse((w / 2 - 7, y - 7, w / 2 + 5, y + 5), col + (255,))
+        st.ellipse((w / 2 - 4, y - 4, w / 2 + 2, y + 2), (10, 10, 10, 255))
+    st.rect((w / 2 - 7, 80, w / 2 + 5, 94), (12, 12, 12, 255), r=1)
+    st.rect((w / 2 - 5, 82, w / 2 + 3, 86), (150, 140, 90, 255))
+    A.over(img, st.done(), (0, 0))
+    d = ImageDraw.Draw(img)
+    for y, t in ((35, "PH"), (71, "IN"), (99, "DATA")):
+        d.text((w / 2 - 1, y), t, font=A.font(6), fill=(214, 208, 192, 255), anchor="mm")
+    for y in (7, 106):
+        screw_on(img, w / 2 - 1, y if y < 50 else 104, 5, 0x7a766e)
+    # the battery hatch latch: a slot with a ridged slider
+    lt = S.Big(w, 60)
+    lt.rect((5, 2, w - 7, 56), (60, 54, 46, 255), r=4)
+    lt.rect((7, 4, w - 9, 54), (172, 164, 146, 255), r=3)
+    lt.rect((9, 14, w - 11, 34), (110, 104, 92, 255), r=2)
+    for k in range(5):
+        lt.line([(10, 16 + k * 4), (w - 12, 16 + k * 4)], (70, 64, 56, 255), 1)
+    lt.text((w / 2 - 1, 45), "BAT", A.font, 6, INK + (255,))
+    lt.line([(w / 2 - 5, 8), (w / 2 - 1, 5), (w / 2 + 3, 8)], INK + (255,), 1)
+    A.over(img, A.spray(lt.done(), 341, 0.9), (0, 126))
+    # a strap lug with a worn ring
+    lg = S.Big(w, 40)
+    lg.rect((6, 4, w - 8, 36), (16, 14, 12, 130), r=4)
+    lg.rect((5, 2, w - 9, 33), (136, 132, 124, 255), r=4)
+    lg.rect((10, 8, w - 14, 27), (36, 34, 32, 255), r=3)
+    lg.ellipse((9, 12, w - 13, 24), (180, 176, 168, 255))
+    lg.ellipse((12, 15, w - 16, 21), (36, 34, 32, 255))
+    A.over(img, lg.done(), (0, 196))
+    # a rusty serial plate
+    sp = S.Big(w, 56)
+    sp.rect((4, 0, w - 6, 54), (126, 116, 96, 255), r=2)
+    sp.rect((6, 2, w - 8, 52), (164, 152, 126, 255), r=1)
+    for k, t in enumerate(("S/N", "7741", "C-02")):
+        sp.text((w / 2 - 1, 12 + k * 14), t, A.font, 6, (52, 44, 34, 255))
+    plate = A.spray(sp.done(), 342, 0.85)
+    m = np.clip((A.fbm(w, 56, 6, 3, 343) - 0.45) * 4, 0, 1) * (np.array(plate)[..., 3] / 255.0)
+    plate.alpha_composite(A.to_img(np.broadcast_to(np.array((132, 64, 28), np.float32), (56, w, 3)).copy(), m * 0.7))
+    A.over(img, plate, (0, 242))
+    return img
 
 
 def make_plate(w, h, r=6):
@@ -188,16 +240,6 @@ def make_slide(on):
     for k in range(4):
         b.line([(x0 + 10 + k * 4, 6), (x0 + 10 + k * 4, h - 7)], (170, 80, 30, 255), 1)
     return b.done()
-
-
-def rivet_run(n=10):
-    """A rivet with a rust run under it, 18 x 90: the rivet sits at (9, 9)."""
-    out = Image.new("RGBA", (18, 90), (0, 0, 0, 0))
-    m = A.mask((18, 90), lambda d, s: d.line([(9 * s, 9 * s), (10 * s, 60 * s)], fill=255, width=int(3 * s)))
-    yy = np.mgrid[0:90, 0:18][0].astype(np.float32)
-    out.alpha_composite(A.to_img(np.broadcast_to(np.array((104, 58, 30), np.float32), (90, 18, 3)).copy(), A.blur(m, 1.3) * np.clip(1 - (yy - 9) / 51, 0, 1) * 0.7))
-    out.alpha_composite(A.rivet(n, A.hexc(0x8a8478), 3), dest=(2, 2))
-    return out
 
 
 def dymo(text, size=8, angle=0.0, seed=0):
@@ -440,6 +482,7 @@ def build():
     A.save(make_body(), T, "Body")
     A.save(make_badge(), T, "Badge")
     A.save(make_rail_text(), T, "RailText")
+    A.save(make_rail_parts(), T, "RailParts")
     A.save(make_plate(40, 40), T, "Plate")
     for name, cap in (("Red", RED), ("Grey", (126, 126, 120)), ("Orange", ORANGE)):
         A.save(make_key(cap), T, "Key_" + name)

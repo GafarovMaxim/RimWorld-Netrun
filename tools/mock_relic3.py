@@ -151,7 +151,7 @@ def relic(heat):
     for x, y in ((SX0 - 11, SY0 - 11), (SX1 + 11, SY0 - 11), (SX0 - 11, SY1 + 11), (SX1 + 11, SY1 + 11)):
         run(x, y + 4, 40)
         screw(x, y, 13)
-    for x, y in ((BX0 + 22, BY0 + 22), (BX1 - 22, BY0 + 22), (BX0 + 22, BY1 - 22), (BX1 - 22, BY1 - 22), (BX0 + 18, (SY0 + SY1) / 2)):
+    for x, y in ((BX0 + 22, BY0 + 22), (BX1 - 22, BY0 + 22), (BX0 + 22, BY1 - 22), (BX1 - 22, BY1 - 22)):
         if y < BY1 - 40:
             run(x, y + 4)
         screw(x, y, 12)
@@ -159,11 +159,13 @@ def relic(heat):
         run(x, y + 4, 30)
         screw(x, y, 10)
 
-    # worn engraved text up the left rail
-    lay = Image.new("RGBA", (SY1 - SY0, 16), (0, 0, 0, 0))
+    # the left rail: jacks, the battery latch, a lug and a serial plate (gen_deck_relic.py), worn engraved text below
+    import gen_deck_relic as G
+    A.over(img, G.make_rail_parts(), (BX0 + 5, SY0 + 14))
+    lay = Image.new("RGBA", (SY1 - SY0 - 358, 16), (0, 0, 0, 0))
     ImageDraw.Draw(lay).text((0, 8), "NR-02 FIELD UNIT  ·  OLD NET CERT. 7741  ·  KEEP DRY  ·  DO NOT OPEN WHILE LIVE  ·  MADE IN NIGHT CITY",
                              font=A.font(8), fill=(70, 64, 54, 200), anchor="lm")
-    A.over(img, A.spray(lay, 330, 0.7).rotate(90, expand=True), (BX0 + 8, SY0 + 10))
+    A.over(img, A.spray(lay, 330, 0.7).rotate(90, expand=True), (BX0 + 9, SY0 + 338))
 
     # ---- top left: worn maker's name, model line, number
     A.over(img, A.spray(A.text_layer((W, H), "NETRUN", A.font(24), (58, 54, 48, 255), (BX0 + 48, BY0 + 16)), 312, 0.8), (0, 0))
@@ -314,7 +316,7 @@ def relic(heat):
         d.rounded_rectangle([MX - 46, y, MX + 46, y + 3], 1, fill=(28, 26, 24, 255))
         d.line([(MX - 45, y + 4), (MX + 45, y + 4)], fill=(236, 230, 214, 140), width=1)
     bc = S.barcode(70, 22, "NR-02", 321)
-    A.over(img, A.spray(bc, 321, 0.93), (CX0 + 26, CY1 + 10))
+    A.over(img, A.spray(bc, 321, 0.93).rotate(7, expand=True, resample=Image.BICUBIC), (CX0 + 22, CY1 + 4))
 
     # ---- bottom: the orange LCD in its raised frame, stickers, round keys, Heat lamps, NET LINK
     cb, lb = SY1 + 58, SY1 + 86
