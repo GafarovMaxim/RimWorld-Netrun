@@ -306,13 +306,13 @@
   <NR_DeckTheme_Field>Полевая дека</NR_DeckTheme_Field>
   <NR_DeckTheme_Milspec>Милспек</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
-  <NR_DeckTheme_OpsPad>Ops pad</NR_DeckTheme_OpsPad>
+  <NR_DeckTheme_OpsPad>Kurenai Systems</NR_DeckTheme_OpsPad>
   <NR_DeckTheme_Nomad>Номад</NR_DeckTheme_Nomad>
   <NR_DeckThemeDesc_Nomad>Пыльный дорожный кейс: солнечная панель, ручка из паракорда, батарея на ремнях.</NR_DeckThemeDesc_Nomad>
   <NR_DeckThemeDesc_Field>По умолчанию: тёмный оружейный металл, оранжевая клавиша Ядра.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>Оливковый армейский корпус, потёртые трафареты.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Жёлтая уличная панель: неоновая трубка горит вместе с Heat, голографическая кицунэ, граффити.</NR_DeckThemeDesc_Street>
-  <NR_DeckThemeDesc_OpsPad>Светлый корпус, тёмные клавиши.</NR_DeckThemeDesc_OpsPad>
+  <NR_DeckThemeDesc_OpsPad>Корпоративный терминал: светлый печатный корпус, красная полоса с 紅, штриховка и метки совмещения.</NR_DeckThemeDesc_OpsPad>
   <NR_MenuTitle>NETRUN // СИСТЕМА</NR_MenuTitle>
   <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
   <NR_MenuButtonTip>Меню (клавиша MENU на корпусе делает то же)</NR_MenuButtonTip>

@@ -575,7 +575,7 @@ public class NetrunSettings : ModSettings
             // A small casing in the theme's colours around a dark screen.
             var preview = new Rect(card.x + 12f, card.y + 12f, card.width - 24f, 76f);
             // Themes with their own silhouette show a small picture of the whole deck.
-            Texture2D picture = theme.Style == DeckStyle.Classic ? null : ContentFinder<Texture2D>.Get("UI/Netrun/Frame/" + theme.Id + "/Preview", reportFailure: false);
+            Texture2D picture = theme.Style == DeckStyle.Classic ? null : ContentFinder<Texture2D>.Get("UI/Netrun/Frame/" + (theme.Art ?? theme.Id) + "/Preview", reportFailure: false);
             if (picture != null)
                 GUI.DrawTexture(preview, picture, ScaleMode.ScaleToFit);
             else

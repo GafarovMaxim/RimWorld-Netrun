@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -15,6 +15,8 @@ public sealed class DeckTheme
 {
     public string Id;
     public DeckStyle Style;
+    /// <summary>The folder under Textures/UI/Netrun/Frame with the theme's art when it differs from the Id.</summary>
+    public string Art;
     public Color Top, Bottom, Edge, Rubber, Stencil, KeyFace, Tube, TubeLight, TubeDark;
     /// <summary>The achievement counter that opens the theme (null: always open) and how much of it.</summary>
     public string UnlockKey;
@@ -48,9 +50,11 @@ public static class DeckThemes
             Stencil = new Color(1f, 0.83f, 0.29f, 0.7f), KeyFace = Hex(0x2e2226), Tube = Hex(0x3b2c2c), TubeLight = Hex(0x7a5a4a), TubeDark = Hex(0x1a1213),
             UnlockKey = "BlackICEPassed", UnlockCount = 1,
         },
+        // Kurenai Systems: a corporate exec terminal on light printed stock (tools/gen_deck_kurenai.py). The Id stays
+        // OpsPad, so a theme opened in an older version stays open.
         new DeckTheme
         {
-            Id = "OpsPad", Top = Hex(0xc4c8c4), Bottom = Hex(0x8e938f), Edge = Hex(0x6c726e), Rubber = Hex(0x2a2d2f),
+            Id = "OpsPad", Style = DeckStyle.Kurenai, Art = "Kurenai", Top = Hex(0xc4c8c4), Bottom = Hex(0x8e938f), Edge = Hex(0x6c726e), Rubber = Hex(0x2a2d2f),
             Stencil = new Color(0.08f, 0.09f, 0.1f, 0.75f), KeyFace = Hex(0x3a3f44), Tube = Hex(0x9aa09c), TubeLight = Hex(0xdfe3df), TubeDark = Hex(0x5e6460),
             UnlockKey = "ContractsDone", UnlockCount = 25,
         },

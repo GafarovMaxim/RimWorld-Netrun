@@ -6,6 +6,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [0.6.4] - 2026-10-15
 ### Added
+- Deck theme "Kurenai Systems" (replaces Ops pad, opens after 25 contracts): a corporate exec terminal on light printed stock, a worn red band with 紅, hatching, registration marks and microtype, round sensor keys and a THREAT INDEX of the Heat levels.
 - Deck theme "Street" (opens after passing Black ICE): a worn yellow panel with cut corners, a neon tube on top that burns with the Heat (cyan, pink from Tracked, red in the Red Zone), keys with neon outlines, a holographic kitsune sticker, 夜の走者 on a sprayed band and graffiti.
 - Deck theme "Nomad" (opens after 50 dives): a worn field case with its own silhouette, solar panel, hinges, pouch and charm sticking out of the window, a D-pad, a strap of Heat gems and a NET LINK lever that slides along its slot. The terminal window grows a little to fit it.
 - Dev actions: open all deck themes at once or lock them again (they work from the main menu too).
