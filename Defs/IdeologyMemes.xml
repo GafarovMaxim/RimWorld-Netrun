@@ -571,9 +571,10 @@
     <description>The ideoligion's specialist of the net. Hacks faster and surer, and opens every dive in sync with the net: one more action in the first turn.</description>
     <iconPath>UI/Netrun/Ideo/Role_NetArchon</iconPath>
     <nameMaker>NR_NamerNetArchon</nameMaker>
-    <impact>Low</impact>
+    <!-- Medium like the game's roles: the ideoligion screen starts a new row whenever the impact changes, so a Low
+         role sat on its own row between the leader and the moral guide (Maxim, 2026-10-16). After the moral guide. -->
     <displayOrderInIssue>200</displayOrderInIssue>
-    <displayOrderInImpact>200</displayOrderInImpact>
+    <displayOrderInImpact>50</displayOrderInImpact>
     <canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
     <createsRoleEmptyThought>false</createsRoleEmptyThought>
     <restrictToSupremeGenderChance>0.5</restrictToSupremeGenderChance>

@@ -15,6 +15,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Settings: hovering a cyberspace layout shows a small preview of its map.
 ### Changed
 - Hub watch has no button any more: while anyone lies in a powered cyberpod, the sharpest of them keeps watch (+1 hub defense per 4 Intellectual). Several pods do not stack.
+- Ideoligion screen: the Net Archon sits in one row with the leader and the moral guide (it had a lower impact, which started a row of its own).
 - Cyberspace maps keep more room between hubs (wider districts, a larger gap, and a pass that pushes apart hubs left too close), so links cross less and name plates overlap less. Applies to newly generated nets.
 - Rotated terminal parts (Relic TRACE knob and TUNE needle, Iron and Nomad dials, gateway map markers) stay in place with any UI and terminal scale.
 - Terminal frames: bold captions on Retro (bottom), Nomad and Kurenai (all keys and lamps), crisp bold on Relic (HELP read as "HHELP" under the UI scale); Iron and Classic lamp captions sit higher.
