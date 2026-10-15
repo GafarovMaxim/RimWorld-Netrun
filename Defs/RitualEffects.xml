@@ -83,23 +83,45 @@
     </graphicData>
   </FleckDef>
 
-  <!-- Circuit traces on the floor, glowing green (the RitualOutline shader of the Techist lines left our art blank). -->
-  <ThingDef ParentName="MoteBase" Name="NR_MoteCircuitBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
-    <thingClass>MoteThrown</thingClass>
+  <!-- Circuit traces on the floor as long-lived flecks that light up and fade in turn (static motes from the vanilla
+       area comp never showed in game). -->
+  <FleckDef ParentName="FleckBase" Name="NR_FleckCircuitBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
     <altitudeLayer>FloorCoverings</altitudeLayer>
+    <solidTime>3.5</solidTime>
+    <fadeInTime>1.2</fadeInTime>
+    <fadeOutTime>1.8</fadeOutTime>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_CircuitA</defName>
     <graphicData>
-      <graphicClass>Graphic_Mote</graphicClass>
+      <graphicClass>Graphic_Fleck</graphicClass>
       <shaderType>MoteGlow</shaderType>
-      <color>(40, 190, 95, 150)</color>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_A</texPath>
       <drawSize>(3, 3)</drawSize>
     </graphicData>
-    <mote>
-      <fadeInTime>0.8</fadeInTime>
-      <solidTime>99999</solidTime>
-      <fadeOutTime>0.8</fadeOutTime>
-      <needsMaintenance>true</needsMaintenance>
-    </mote>
-  </ThingDef>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_CircuitB</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_B</texPath>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_CircuitC</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_C</texPath>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+  </FleckDef>
 
   <!-- Data packets running across the floor: the floor's animation. -->
   <FleckDef ParentName="FleckBase" MayRequire="Ludeon.RimWorld.Ideology">
@@ -117,27 +139,6 @@
     <fadeOutTime>0.5</fadeOutTime>
   </FleckDef>
 
-  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
-    <defName>NR_Mote_RitualCircuitA</defName>
-    <graphicData>
-      <texPath>Things/Mote/Netrun/Ritual/Circuit_A</texPath>
-    </graphicData>
-  </ThingDef>
-
-  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
-    <defName>NR_Mote_RitualCircuitB</defName>
-    <graphicData>
-      <texPath>Things/Mote/Netrun/Ritual/Circuit_B</texPath>
-    </graphicData>
-  </ThingDef>
-
-  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
-    <defName>NR_Mote_RitualCircuitC</defName>
-    <graphicData>
-      <texPath>Things/Mote/Netrun/Ritual/Circuit_C</texPath>
-    </graphicData>
-  </ThingDef>
-
   <RitualVisualEffectDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualVfx_Net</defName>
     <tintColor>(60, 255, 130)</tintColor>
@@ -147,17 +148,47 @@
         <moteDef>Mote_RitualGlowRays</moteDef>
         <scaleWithRoom>true</scaleWithRoom>
       </li>
-      <li Class="CompProperties_RitualEffectStaticAreaRandomMote">
-        <moteDefs>
-          <li>NR_Mote_RitualCircuitA</li>
-          <li>NR_Mote_RitualCircuitB</li>
-          <li>NR_Mote_RitualCircuitC</li>
-        </moteDefs>
-        <area>(22, 20)</area>
-        <spawnCount>12</spawnCount>
-        <minDist>2</minDist>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_CircuitA</fleckDef>
+        <area>(20, 18)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>40</spawnIntervalTicks>
+        <delay>0</delay>
+        <scale>0.9~1.3</scale>
         <scalePositionWithRoom>true</scalePositionWithRoom>
         <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(50, 230, 115)</li>
+          <li>(40, 190, 95)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_CircuitB</fleckDef>
+        <area>(20, 18)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>40</spawnIntervalTicks>
+        <delay>13</delay>
+        <scale>0.9~1.3</scale>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(50, 230, 115)</li>
+          <li>(40, 190, 95)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_CircuitC</fleckDef>
+        <area>(20, 18)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>40</spawnIntervalTicks>
+        <delay>26</delay>
+        <scale>0.9~1.3</scale>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(50, 230, 115)</li>
+          <li>(40, 190, 95)</li>
+        </overrideColors>
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Packet</fleckDef>

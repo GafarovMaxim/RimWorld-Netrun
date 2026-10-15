@@ -5,6 +5,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ## [Unreleased]
 ### Changed
 - Frames at small scales: the Relic and NR-1 Heat scales shrink instead of vanishing, the NR-1 top lamps slide into any room, the Nomad tally shows as many groups as fit; the Retro HEAT caption sits higher, the Nomad cross pad core is centred.
+- Braindance studio at the default window: the spectrum screen shrinks to a small one instead of hiding, the LCD panel narrows, fader captions are short (NET LINK, EMO, SOMA, AUD, VIS) and no longer overlap. Net rituals: the floor circuit traces now light up and fade in turn (brighter, thicker) instead of static motes that did not show.
 
 ### Added
 - The net rituals (litany of data, trace cleansing) have their own green look: a glow, circuit traces on the floor, falling columns of code and floating digits; and their own ambience (a cyberspace drone with data chirps) instead of the ideoligion music.

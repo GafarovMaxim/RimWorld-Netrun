@@ -762,7 +762,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     def panel(x0, y0, x1, y1):
         img.alpha_composite(A.nine_slice(load("Panel"), (int(x1 - x0), int(y1 - y0)), 12, 12, 12, 12), (int(x0), int(y0)))
 
-    STEP = 52                                    # fader pitch: the captions no longer touch
+    STEP = 46                                    # fader pitch: the captions no longer touch
     FL = 196                                     # NET LINK fader from the box's right edge
     right = xm - FL - 10 - 4 * STEP - 30
     mx, my = bx + 66, yd + 8
@@ -790,21 +790,23 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     put("Rocker_On", k0 + 3 * 42 - 16, yd + 86 - 17)
     cap("POWER", k0 + 3 * 42, yd + 86 + 32)
     x = k0 + 3 * 42 + 44
-    lcd = (x + 10, yd + 22, x + 210, yd + 84)
+    lcd_w = max(184, min(220, right - x - 104))
+    lcd = (x + 10, yd + 22, x + lcd_w - 10, yd + 84)
     if lcd[2] + 10 <= right:
-        panel(x, yd + 10, x + 220, yd + 130)
-        img.alpha_composite(A.nine_slice(load("Lcd"), (200, 62), 8, 8, 8, 8), lcd[:2])
+        panel(x, yd + 10, x + lcd_w, yd + 130)
+        img.alpha_composite(A.nine_slice(load("Lcd"), (lcd_w - 20, 62), 8, 8, 8, 8), lcd[:2])
         for i, ln in enumerate(["CYBERDATA 493", "HEAT 58 ^ TRACKED", "D21 06:15 NET ON"]):
             d.text((lcd[0] + 10, lcd[1] + 9 + i * 15), ln, font=A.font(10, False), fill=(93, 255, 138, 255))
         cap("SESSION", lcd[0] + 30, lcd[3] + 10)
         for k, nm in enumerate(("TONE", "PAN")):
-            put("KnobSmall", lcd[2] - 105 + k * 52 - 15, yd + 92)
-            cap(nm, lcd[2] - 105 + k * 52, yd + 118)
-        x += 220
+            kx = lcd[2] - 105 + k * 52 if lcd_w >= 220 else lcd[2] - 80 + k * 40
+            put("KnobSmall", kx - 15, yd + 92)
+            cap(nm, kx, yd + 118)
+        x += lcd_w
     put("Jog", jx - 56, jy - 56, 360 * tuner, (56, 56))
     cap("TUNER JOG", jx, yd + 122)
     panel(right + 8, yd + 6, xm - FL + 26, yd + 136)
-    names = ["NET LINK", "EMOTION", "SOMATIC", "AUDIO", "VISUAL"]
+    names = ["NET LINK", "EMO", "SOMA", "AUD", "VIS"]
     vals = [1.0 if online else 0.0, 0.3, 0.55, 0.7, 0.45]
     for i, nm in enumerate(names):
         fx = xm - FL - (0 if i == 0 else 10 + i * STEP)
@@ -814,7 +816,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     gap = right - x
     stickers = gap >= 150 + SCOPE_W + 34
     room = gap - 150 if stickers else gap
-    if room >= 80:
+    if room >= 104:
         sw = min(SCOPE_W, room - 34)
         sx = round(right - room + (room - sw) / 2)
         panel(sx - 10, yd + 10, sx + sw + 10, yd + 130)
@@ -834,7 +836,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
             yp = yd + 20 + SCOPE_H - 6 - (n + 2) * 6
             d.rectangle([sx + 4 + i * bw, yp, sx + 4 + i * bw + bw - 4, yp + 1], fill=(240, 230, 250, 255))
         img.alpha_composite(A.nine_slice(load("ScopeGlass"), (int(sw), SCOPE_H), 8, 8, 8, 8), (int(sx), yd + 20))
-        cap("SPECTRUM", sx + 34, yd + 112)
+        cap("SPECTRUM", sx + 34 if sw >= 140 else sx + sw / 2, yd + 112)
         if sw >= 140:
             cap("L  R", sx + sw - 24, yd + 112, PINK + (230,))
     if stickers:
@@ -852,6 +854,6 @@ if __name__ == "__main__":
         m.save(out)
         wide = mock(heat, (1300, 700))
         wide.save(out.replace(".png", "-wide.png"))
-        mock(heat, (1060, 640)).save(out.replace(".png", "-game.png"))
+        mock(heat, (1000, 640)).save(out.replace(".png", "-game.png"))
         A.save(m.resize((300, int(300 * m.height / m.width)), Image.LANCZOS), T, "Preview")
     print("Studio textures written")

@@ -3,7 +3,7 @@
 Writes Textures/Things/Mote/Netrun/Ritual/:
   Digit_0, Digit_1, Digit_Hex  - single glyphs that float up and fade (flecks, 64 x 64)
   Column_A/B/C                 - a falling column of code, bright head at the bottom, fading tail (fleck, 32 x 256)
-  Circuit_A/B/C                - circuit traces on the floor with pads and vias (motes, 256 x 256, RitualOutline shader)
+  Circuit_A/B/C                - circuit traces on the floor with pads and vias (flecks, 256 x 256, MoteGlow)
 `--mock OUT` renders a frame of the effect over a dark floor into OUT.
 """
 import os
@@ -61,7 +61,7 @@ def make_circuit(seed):
     ss = 3
     lay = Image.new("L", (n * ss, n * ss), 0)
     d = ImageDraw.Draw(lay)
-    for _ in range(9):
+    for _ in range(12):
         x, y = rnd.randrange(2, 14) * g, rnd.randrange(2, 14) * g
         pts = [(x, y)]
         dx, dy = rnd.choice([(1, 0), (-1, 0), (0, 1), (0, -1)])
@@ -76,18 +76,19 @@ def make_circuit(seed):
                 x, y = min(max(x + ddx * g, g), n - g), min(max(y + ddy * g, g), n - g)
                 pts.append((x, y))
             dx, dy = rnd.choice([(dy, dx), (-dy, -dx)])
-        d.line([(px * ss, py * ss) for px, py in pts], fill=255, width=3 * ss, joint="curve")
+        d.line([(px * ss, py * ss) for px, py in pts], fill=255, width=5 * ss, joint="curve")
         for px, py in (pts[0], pts[-1]):
-            d.ellipse(((px - 6) * ss, (py - 6) * ss, (px + 6) * ss, (py + 6) * ss), fill=255)
+            d.ellipse(((px - 8) * ss, (py - 8) * ss, (px + 8) * ss, (py + 8) * ss), fill=255)
             d.ellipse(((px - 3) * ss, (py - 3) * ss, (px + 3) * ss, (py + 3) * ss), fill=0)
         for px, py in pts[1:-1]:
             if rnd.random() < 0.4:
-                d.ellipse(((px - 4) * ss, (py - 4) * ss, (px + 4) * ss, (py + 4) * ss), fill=255)
+                d.ellipse(((px - 6) * ss, (py - 6) * ss, (px + 6) * ss, (py + 6) * ss), fill=255)
     lay = lay.resize((n, n), Image.LANCZOS)
-    a = np.array(lay, np.float32) / 255
+    halo = np.array(lay.filter(ImageFilter.GaussianBlur(6)), np.float32) / 255
+    a = np.maximum(np.array(lay, np.float32) / 255, np.clip(halo * 1.4, 0, 0.6))
     yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
     r = np.hypot(xx - n / 2, yy - n / 2) / (n / 2)
-    a *= np.clip((1 - r) * 2.2, 0, 1)
+    a *= np.clip((1 - r) * 3.0, 0, 1)
     img = Image.new("RGBA", (n, n), (255, 255, 255, 0))
     img.putalpha(Image.fromarray((a * 255).clip(0, 255).astype(np.uint8)))
     return img
@@ -140,7 +141,7 @@ def mock(path):
     img.alpha_composite(glow.filter(ImageFilter.GaussianBlur(70)))
     for i in range(10):
         c = load("Circuit_" + "ABC"[i % 3]).resize((cell * 3, cell * 3))
-        img.alpha_composite(tint(c, GREEN, 0.55), (rnd.randrange(0, img.width - cell * 3), rnd.randrange(0, img.height - cell * 3)))
+        img.alpha_composite(tint(c, GREEN, 0.8), (rnd.randrange(0, img.width - cell * 3), rnd.randrange(0, img.height - cell * 3)))
     for _ in range(7):
         col = load("Column_" + rnd.choice("ABC")).resize((cell // 2, cell * 4))
         img.alpha_composite(tint(col, (120, 255, 160), rnd.uniform(0.5, 0.9)), (rnd.randrange(0, img.width - cell), rnd.randrange(-cell, img.height - cell * 4)))

@@ -14,7 +14,7 @@ namespace Netrun;
 /// </summary>
 public static partial class NetrunUI
 {
-    private const float StudioStep = 52f;
+    private const float StudioStep = 46f;
     private const float StudioOut = 4f;
     private const float StudioInL = 52f, StudioInT = 58f, StudioInR = 52f, StudioInB = 166f;
     private const float StudioOver = 24f, StudioDesk = 150f, StudioFader = 196f;
@@ -323,7 +323,7 @@ public static partial class NetrunUI
                     : Mathf.Clamp01(StudioChannels[i - 1] + (anim && online ? (Noise(time, level >= HeatLevel.RedZone ? 6f : level >= HeatLevel.Target ? 3f : 1.5f, i) - 0.5f) * (level >= HeatLevel.RedZone ? 0.5f : level >= HeatLevel.Target ? 0.25f : 0.12f) : 0f));
                 Sprite(StudioTex.FaderSlot, new Vector2(fx - 15f, yd + 18f));
                 Sprite(i == 0 ? StudioTex.FaderCapPink : StudioTex.FaderCap, new Vector2(fx - 15f, Mathf.Round(yd + 18f + 86f - 80f * v - 4f)));
-                StudioCaption(fx, yd + 120f, i switch { 0 => "NET LINK", 1 => "EMOTION", 2 => "SOMATIC", 3 => "AUDIO", _ => "VISUAL" }, i == 0 ? StudioAccent : null);
+                StudioCaption(fx, yd + 120f, i switch { 0 => "NET LINK", 1 => "EMO", 2 => "SOMA", 3 => "AUD", _ => "VIS" }, i == 0 ? StudioAccent : null);
                 if (i == 0)
                     Tip(new Rect(fx - 16f, yd + 16f, 32f, 104f), (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
             }
@@ -332,10 +332,12 @@ public static partial class NetrunUI
         // The SESSION LCD with TONE / PAN, when it fits; stickers and the model plate in what is left.
         float x = keysEnd + 14f;
         float limit = faders ? right : link ? box.xMax - StudioFader - 30f : box.xMax - 20f;
-        if (NetrunMod.Settings.FrameLcd && x + 220f + 10f <= limit)
+        // The LCD panel gives up to 36 px so the smallest spectrum still fits beside it.
+        float lcdW = Mathf.Clamp(limit - x - 104f, 184f, 220f);
+        if (NetrunMod.Settings.FrameLcd && x + lcdW + 10f <= limit)
         {
-            Panel(x, yd + 10f, x + 220f, yd + 130f);
-            var lcd = new Rect(x + 10f, yd + 22f, 200f, 62f);
+            Panel(x, yd + 10f, x + lcdW, yd + 130f);
+            var lcd = new Rect(x + 10f, yd + 22f, lcdW - 20f, 62f);
             NineSlice(lcd, StudioTex.Lcd, 8f, 8f, 8f, 8f);
             Glow(lcd.ContractedBy(8f), LcdGreen, 0.08f, 6f);
             string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
@@ -348,13 +350,13 @@ public static partial class NetrunUI
             StudioCaption(lcd.x + 30f, lcd.yMax + 10f, "SESSION");
             for (int k = 0; k < 2; k++)
             {
-                float kx = lcd.xMax - 105f + k * 52f;
+                float kx = lcdW >= 220f ? lcd.xMax - 105f + k * 52f : lcd.xMax - 80f + k * 40f;
                 Sprite(StudioTex.Knob, new Vector2(kx - 15f, yd + 92f));
                 StudioCaption(kx, yd + 118f, k == 0 ? "TONE" : "PAN");
             }
             if (Mouse.IsOver(lcd))
                 Tip(lcd, "NR_DeckLcd".Translate());
-            x += 220f;
+            x += lcdW;
         }
         float gap = limit - x;
         // The spectrum screen takes what is left after the VHS stickers, or the whole gap when they do not fit beside it.
@@ -362,7 +364,7 @@ public static partial class NetrunUI
         // the screen is at full width and both fit beside it.
         bool stickers = gap >= 150f + 196f + 34f;
         float room = stickers ? gap - 150f : gap;
-        if (room >= 80f)
+        if (room >= 104f)
         {
             float w = Mathf.Min(196f, room - 34f);
             StudioSpectrum(new Vector2(Mathf.Round(limit - room + (room - w) / 2f), yd + 20f), w, level, online, anim, time);
@@ -400,7 +402,8 @@ public static partial class NetrunUI
                 Widgets.DrawBoxSolid(new Rect(bx, scr.yMax - 6f - (pk + 1) * 6f, bw - 3f, 2f), new Color(0.94f, 0.9f, 0.98f));
         }
         NineSlice(scr, StudioTex.ScopeGlass, 8f, 8f, 8f, 8f);
-        StudioCaption(scr.x + 34f, scr.yMax + 8f, "SPECTRUM");
+        // Short channel names and a centred caption on a narrow screen keep the words apart (Maxim, 2026-10-16).
+        StudioCaption(width >= 140f ? scr.x + 34f : scr.center.x, scr.yMax + 8f, "SPECTRUM");
         if (width >= 140f)
             StudioCaption(scr.xMax - 24f, scr.yMax + 8f, "L  R", StudioPink);
     }
