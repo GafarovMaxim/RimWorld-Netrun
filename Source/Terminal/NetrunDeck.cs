@@ -23,6 +23,7 @@ public static partial class NetrunUI
         DeckStyle.Street when StreetTex.Ready => StreetExtra,
         DeckStyle.Kurenai when KurTex.Ready => KurenaiExtra,
         DeckStyle.Iron when IronTex.Ready => IronExtra,
+        DeckStyle.Retro when RetroTex.Ready => RetroExtra,
         _ => ClassicExtra,
     };
     /// <summary>What the chosen casing takes beyond the classic one: windows grow by it, so the screen keeps its size.</summary>
@@ -160,6 +161,8 @@ public static partial class NetrunUI
             return KurenaiBezel(outer, heat, level, online, anim, time, onKey, menu);
         if (_t.Style == DeckStyle.Iron && IronTex.Ready)
             return IronBezel(outer, heat, level, online, anim, time, onKey, menu);
+        if (_t.Style == DeckStyle.Retro && RetroTex.Ready)
+            return RetroBezel(outer, heat, level, online, anim, time, onKey, menu);
 
         var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
         var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);

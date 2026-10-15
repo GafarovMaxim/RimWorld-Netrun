@@ -191,7 +191,7 @@ def make_guard_button(cover_open, lit=False):
     btn = (255, 70, 60) if lit else RED
     b.ellipse((9, 20, 31, 42), (14, 14, 13, 255))                                                  # the recess
     b.ellipse((10, 21, 30, 41), btn + (255,), outline=(60, 10, 8, 255), width=1)                  # the button, no grey collar (Maxim)
-    b.ellipse((14, 24, 19, 28), (255, 150, 140, 170 if lit else 120))                           # a small red glint, not grey
+    b.ellipse((12.5, 23.5, 27.5, 33), (min(255, btn[0] + 30), btn[1] + 22, btn[2] + 18, 255))   # the dome's lit top, all red (Maxim)
     if cover_open:
         b.rect((7, 0, 33, 13), RED + (255,), r=2, outline=(30, 10, 8, 255), width=1)               # the cover, up
         b.line([(9, 11), (31, 11)], (40, 10, 8, 255), 1)

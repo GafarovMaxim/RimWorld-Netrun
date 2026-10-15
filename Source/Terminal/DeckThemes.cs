@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -66,6 +66,14 @@ public static class DeckThemes
             Id = "Nomad", Style = DeckStyle.Nomad, Top = Hex(0x5a4f37), Bottom = Hex(0x3b3325), Edge = Hex(0x6a5e44), Rubber = Hex(0x15130f),
             Stencil = new Color(0.86f, 0.79f, 0.62f, 0.62f), KeyFace = Hex(0x3d3629), Tube = Hex(0x3a3b35), TubeLight = Hex(0x6a685c), TubeDark = Hex(0x1a1914),
             UnlockKey = "Dives", UnlockCount = 50,
+        },
+        // NR-80: a cream retro handheld with sunset bars and pixel Heat flames (tools/gen_deck_retro.py). Opens with a
+        // season spent in Shadow: an old-school runner keeps quiet.
+        new DeckTheme
+        {
+            Id = "Retro", Style = DeckStyle.Retro, Top = Hex(0xded6c0), Bottom = Hex(0xb8b09a), Edge = Hex(0x403e46), Rubber = Hex(0x2a2826),
+            Stencil = new Color(0.16f, 0.13f, 0.12f, 0.8f), KeyFace = Hex(0xc4beae), Tube = Hex(0x9aa776), TubeLight = Hex(0xc8d4a0), TubeDark = Hex(0x5a6444),
+            UnlockKey = "ShadowSeason", UnlockCount = 1,
         },
     ];
 

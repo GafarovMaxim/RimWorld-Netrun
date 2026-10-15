@@ -6,6 +6,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [0.6.4] - 2026-10-15
 ### Added
+- Deck theme "NR-80 Retro" (opens after a season in Shadow): a cream handheld with a sun badge, sunset bars, cream keys on a dark plate, control strips on the rails, a green LCD, round BACK/CORE/HELP keys, the Heat as pixel flames and a NET LINK slide switch.
 - Deck theme "Iron Company" (replaces Milspec, opens after a clean streak of 10): a rugged field tablet in chipped olive paint with rubber bumpers, handles, an antenna, connectors and vents, guarded toggles for CLOSE and NET-LOCK, a TUNE knob that follows the tuner, an amber MIL-RF window and LCD, a THREAT LEVEL bargraph and a NET LINK toggle.
 - Deck theme "Kurenai Systems" (replaces Ops pad, opens after 25 contracts): a corporate exec terminal on light printed stock, a worn red band with 紅, hatching, registration marks and microtype, round sensor keys and a THREAT INDEX of the Heat levels.
 - Deck theme "Street" (opens after passing Black ICE): a worn yellow panel with cut corners, a neon tube on top that burns with the Heat (cyan, pink from Tracked, red in the Red Zone), keys with neon outlines, a holographic kitsune sticker, 夜の走者 on a sprayed band and graffiti.

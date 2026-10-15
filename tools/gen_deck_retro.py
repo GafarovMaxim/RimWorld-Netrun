@@ -33,7 +33,7 @@ LCD_INK = (34, 48, 26)
 V = {
     "A": dict(T="Retro_A", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
     "B": dict(T="Retro_B", base=(232, 228, 216), dark=(54, 54, 56), stripes=[(246, 186, 40), (232, 96, 36)], accent=(214, 50, 40), key=(54, 54, 56)),
-    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=[(250, 212, 70)] + SUNSET + [(120, 36, 70)], accent=(150, 36, 70), key=(196, 190, 174)),
+    "D": dict(T="Retro", base=(222, 214, 192), dark=(64, 62, 70), stripes=[(250, 212, 70)] + SUNSET + [(120, 36, 70)], accent=(150, 36, 70), key=(196, 190, 174)),
     "C": dict(T="Retro_C", base=(92, 60, 42), dark=(40, 30, 24), stripes=[(88, 160, 200), (110, 180, 90), (246, 196, 64), (240, 120, 40), (214, 50, 40)],
               accent=(232, 214, 176), key=(70, 46, 32), cream=(232, 216, 180)),
 }
@@ -201,6 +201,87 @@ def make_jack(n=16):
     return b.done()
 
 
+LIGHT = (226, 222, 210)
+SIDE_W, SIDE_H = IN_L - BEZEL - 10, 232      # the sunk control strip on each rail
+
+
+def make_side(left):
+    """The control strip on a rail, baked with its icons: VOL scale, phones jack, POWER lamp bezel on the left;
+    CONT scale, EXT port, DATA lamp bezel on the right. The lamps are lit from code at (SIDE_W / 2, 201)."""
+    img = A.nine_slice(make_keyplate(), (SIDE_W, SIDE_H), 12, 12, 12, 12)
+    d = ImageDraw.Draw(img)
+    lab7 = A.font(7, False)
+    c = SIDE_W / 2
+    sc = c + 6 if left else c - 6                      # the scale sits clear of the wheel
+    d.text((sc, 8), "+", font=lab7, fill=LIGHT, anchor="mm")
+    d.text((sc, 76), "\u2013", font=lab7, fill=LIGHT, anchor="mm")
+    for k in range(7):
+        yy, ln = 18 + k * 8, 9 - k
+        d.line([sc - ln / 2, yy, sc + ln / 2, yy], fill=LIGHT + (170,), width=2)
+    d.text((sc, 90), "VOL" if left else "CONT", font=lab7, fill=LIGHT, anchor="mm")
+    hy = 112
+    if left:
+        d.arc([c - 7, hy - 6, c + 7, hy + 8], 180, 360, fill=LIGHT, width=2)
+        d.rectangle([c - 8, hy, c - 5, hy + 6], fill=LIGHT)
+        d.rectangle([c + 5, hy, c + 8, hy + 6], fill=LIGHT)
+        d.ellipse([c - 11, hy + 14, c + 11, hy + 36], fill=(150, 146, 140), outline=(40, 38, 36))
+        img.alpha_composite(make_jack(), (int(c - 8), hy + 17))
+        d = ImageDraw.Draw(img)
+        d.text((c, hy + 46), "PHONES", font=lab7, fill=LIGHT, anchor="mm")
+        d.arc([c - 6, 176, c + 6, 188], 300, 240, fill=LIGHT, width=2)
+        d.line([c, 174, c, 182], fill=LIGHT, width=2)
+    else:
+        d.line([c - 8, hy, c + 8, hy], fill=LIGHT, width=2)
+        d.polygon([(c + 9, hy), (c + 4, hy - 4), (c + 4, hy + 4)], fill=LIGHT)
+        d.line([c - 8, hy + 7, c + 8, hy + 7], fill=LIGHT, width=2)
+        d.polygon([(c - 9, hy + 7), (c - 4, hy + 3), (c - 4, hy + 11)], fill=LIGHT)
+        port = make_port().rotate(90, expand=True)
+        img.alpha_composite(port, (int(c - port.width / 2), hy + 18))
+        d = ImageDraw.Draw(img)
+        d.text((c, 184), "EXT", font=lab7, fill=LIGHT, anchor="mm")
+    d.ellipse([c - 7, 194, c + 7, 208], fill=(150, 146, 140), outline=(40, 38, 36))
+    d.ellipse([c - 4.5, 196.5, c + 4.5, 205.5], fill=(70, 30, 30) if left else (30, 60, 34))
+    d.text((c, 218), "POWER" if left else "DATA", font=lab7, fill=LIGHT, anchor="mm")
+    return img
+
+
+def make_ridges(w=IN_L - BEZEL - 12, n=14):
+    """Moulded grip ridges low on a rail."""
+    img = Image.new("RGBA", (w, n * 9), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    for k in range(n):
+        d.line([0, k * 9, w, k * 9], fill=(190, 182, 160, 255), width=2)
+        d.line([0, k * 9 + 2, w, k * 9 + 2], fill=(242, 236, 220, 255), width=1)
+    return img
+
+
+def make_caption():
+    cap = Image.new("RGBA", (220, 14), (0, 0, 0, 0))
+    ImageDraw.Draw(cap).text((110, 7), "NR-80  \u00b7  STEREO NET SOUND", font=A.font(7, False), fill=INK + (200,), anchor="mm")
+    return cap.rotate(-90, expand=True)
+
+
+def make_glass(n=10):
+    """A lamp glass in white with a glint, tinted from code."""
+    b = S.Big(n, n)
+    b.ellipse((0, 0, n - 1, n - 1), (255, 255, 255, 255))
+    b.ellipse((2, 1.5, 5, 4.5), (255, 255, 255, 255))
+    img = b.done()
+    a = np.asarray(img, np.float32)
+    yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
+    shade = np.clip(1 - np.hypot(xx - n * 0.35, yy - n * 0.3) / n, 0.55, 1)
+    a[..., :3] *= shade[..., None]
+    return Image.fromarray(a.astype(np.uint8), "RGBA")
+
+
+def make_bezel_lamp(n=16):
+    """A chrome bezel around a lamp on the top plate; the glass is drawn from code."""
+    b = S.Big(n, n)
+    b.ellipse((0, 0, n - 1, n - 1), (150, 146, 140, 255), outline=(30, 28, 26, 255), width=1)
+    b.ellipse((3, 3, n - 4, n - 4), (40, 30, 30, 255))
+    return b.done()
+
+
 def make_round_key(color, n=38):
     m = A.mask((n, n), lambda d, s: d.ellipse([1 * s, 1 * s, (n - 1) * s - 1, (n - 1) * s - 1], fill=255))
     yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
@@ -277,7 +358,8 @@ def build(v):
     A.save(make_round_key(V[v]["accent"]), T, "Round")
     A.save(make_pill(V[v]["key"]), T, "Pill")
     A.save(make_lcd(), T, "Lcd")
-    A.save(make_vu(), T, "VU")
+    if v != "D":
+        A.save(make_vu(), T, "VU")
     A.save(make_slide(), T, "Slide")
     A.save(make_grip(), T, "Grip")
     if v == "D":
@@ -287,6 +369,13 @@ def build(v):
         A.save(make_jack(), T, "Jack")
         A.save(make_keyplate(), T, "KeyPlate")
         A.save(make_screw(), T, "Screw")
+        A.save(make_side(True), T, "SideL")
+        A.save(make_side(False), T, "SideR")
+        A.save(make_ridges(), T, "Ridges")
+        A.save(make_caption(), T, "Caption")
+        A.save(make_bezel_lamp(), T, "LampBezel")
+        A.save(make_glass(), T, "Glass")
+        A.save(mock(v, None).resize((300, 240), Image.LANCZOS), T, "Preview")
 
 
 def mono(size, bold=True):
@@ -388,67 +477,24 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
         A.over(img, st, (kx - 40 - st.width, by0))
         rail = IN_L - BEZEL                     # the visible side rail, 42 px
         y0 = by0 + IN_T + 40
-        lab7 = A.font(7, False)
-        light = (226, 222, 210)
-        plate = load("KeyPlate")
-        # Each rail gets a sunk dark strip holding its controls, with printed icons and scales (Maxim: the ports looked bare).
-        pl = (bx0 + 6, y0 - 14, rail - 10, 232)
-        pr = (bx1 - rail + 4, y0 - 14, rail - 10, 232)
-        for r in (pl, pr):
-            A.over(img, A.nine_slice(plate, r[2:], 12, 12, 12, 12), r[:2])
-        lc, rc = pl[0] + pl[2] / 2, pr[0] + pr[2] / 2
+        side_y = y0 - 14
+        A.over(img, load("SideL"), (bx0 + 6, side_y))
+        A.over(img, load("SideR"), (bx1 - 6 - SIDE_W, side_y))
         wheel = load("Wheel")
         A.over(img, wheel, (bx0 - 5, y0))
         A.over(img, wheel, (bx1 - wheel.width + 5, y0))
-        for cx0, name in ((lc + 6, "VOL"), (rc - 6, "CONT")):
-            d.text((cx0, y0 - 6), "+", font=lab7, fill=light, anchor="mm")
-            d.text((cx0, y0 + 62), "\u2013", font=lab7, fill=light, anchor="mm")
-            for k in range(7):                      # a wedge scale beside the wheel
-                yy = y0 + 4 + k * 8
-                ln = 9 - k
-                d.line([cx0 - ln / 2, yy, cx0 + ln / 2, yy], fill=light + (170,), width=2)
-            d.text((cx0, y0 + 76), name, font=lab7, fill=light, anchor="mm")
-        # left: headphones icon over the jack, a power icon over the lamp
-        hy = y0 + 98
-        d.arc([lc - 7, hy - 6, lc + 7, hy + 8], 180, 360, fill=light, width=2)
-        d.rectangle([lc - 8, hy, lc - 5, hy + 6], fill=light)
-        d.rectangle([lc + 5, hy, lc + 8, hy + 6], fill=light)
-        d.ellipse([lc - 11, hy + 14, lc + 11, hy + 36], fill=(150, 146, 140), outline=(40, 38, 36))
-        jack = load("Jack")
-        A.over(img, jack, (int(lc - 8), hy + 17))
-        d.text((lc, hy + 46), "PHONES", font=lab7, fill=light, anchor="mm")
-        py = y0 + 168
-        d.arc([lc - 6, py - 6, lc + 6, py + 6], 300, 240, fill=light, width=2)
-        d.line([lc, py - 8, lc, py], fill=light, width=2)
-        d.ellipse([lc - 7, py + 12, lc + 7, py + 26], fill=(150, 146, 140), outline=(40, 38, 36))
-        A.glow(img, (lc - 3, py + 16, lc + 3, py + 22), (240, 60, 50), 0.7, 6)
-        d.ellipse([lc - 4.5, py + 14.5, lc + 4.5, py + 23.5], fill=(240, 60, 50))
-        d.text((lc, py + 36), "POWER", font=lab7, fill=light, anchor="mm")
-        # right: the link port under a two-way arrow, a data lamp, a serial number
-        ay = y0 + 98
-        d.line([rc - 8, ay, rc + 8, ay], fill=light, width=2)
-        d.polygon([(rc + 9, ay), (rc + 4, ay - 4), (rc + 4, ay + 4)], fill=light)
-        d.line([rc - 8, ay + 7, rc + 8, ay + 7], fill=light, width=2)
-        d.polygon([(rc - 9, ay + 7), (rc - 4, ay + 3), (rc - 4, ay + 11)], fill=light)
-        port_v = load("Port").rotate(90, expand=True)
-        A.over(img, port_v, (int(rc - port_v.width / 2), ay + 18))
-        d.text((rc, ay + 72), "EXT", font=lab7, fill=light, anchor="mm")
-        d.ellipse([rc - 7, py + 12, rc + 7, py + 26], fill=(150, 146, 140), outline=(40, 38, 36))
-        A.glow(img, (rc - 3, py + 16, rc + 3, py + 22), (110, 220, 120), 0.5, 6)
-        d.ellipse([rc - 4.5, py + 14.5, rc + 4.5, py + 23.5], fill=(110, 220, 120))
-        d.text((rc, py + 36), "DATA", font=lab7, fill=light, anchor="mm")
+        for cx0, col in ((bx0 + 6 + SIDE_W / 2, (240, 60, 50)), (bx1 - 6 - SIDE_W / 2, (110, 220, 120))):
+            A.glow(img, (cx0 - 3, side_y + 198, cx0 + 3, side_y + 204), col, 0.7, 6)
+            ImageDraw.Draw(img).ellipse([cx0 - 4.5, side_y + 196.5, cx0 + 4.5, side_y + 205.5], fill=col)
+        d = ImageDraw.Draw(img)
+        A.over(img, load("Caption"), (int(bx1 - 6 - SIDE_W / 2 - 7), side_y + 250))
         screw = load("Screw")
-        for sxx in (lc - 5, rc - 5):
+        for sxx in (bx0 + 6 + SIDE_W / 2 - 5, bx1 - 6 - SIDE_W / 2 - 5):
             for syy in (by0 + IN_T - 8, by1 - IN_B + 4):
                 A.over(img, screw, (int(sxx), int(syy)))
-        cap_img = Image.new("RGBA", (220, 14), (0, 0, 0, 0))
-        ImageDraw.Draw(cap_img).text((110, 7), "NR-80  \u00b7  STEREO NET SOUND", font=lab7, fill=INK + (200,), anchor="mm")
-        A.over(img, cap_img.rotate(-90, expand=True), (int(rc - 7), y0 + 236))
-        for k in range(14):                       # grip ridges low on both rails
-            yy = by1 - IN_B - 60 - k * 9
-            for xa in (bx0 + 10, bx1 - rail + 2):
-                d.line([xa, yy, xa + rail - 12, yy], fill=(190, 182, 160), width=2)
-                d.line([xa, yy + 2, xa + rail - 12, yy + 2], fill=(242, 236, 220), width=1)
+        ridges = load("Ridges")
+        A.over(img, ridges, (bx0 + 10, by1 - IN_B - 60 - ridges.height))
+        A.over(img, ridges, (bx1 - 10 - ridges.width, by1 - IN_B - 60 - ridges.height))
     top_ink = ink
     if v == "D":   # the keys and lamps sit on a sunk dark plate (Maxim: they looked bare)
         plate_r = (kx - 24, top_y - 6, bx1 - IN_R - 112 + 2 * 36 + 36 - (kx - 24), 56)
@@ -495,11 +541,13 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
     d.text((sx, yb + 34), "OFF", font=lab, fill=ink, anchor="lm")
     d.text((sx + 86, yb + 34), "ON", font=lab, fill=ink, anchor="rm")
     d.text((sx + 43, yb + 80), "NET LINK", font=lab, fill=ink, anchor="mm")
-    img.convert("RGB").save(out_path)
+    if out_path:
+        img.convert("RGB").save(out_path)
+    return img
 
 
 if __name__ == "__main__":
-    v = sys.argv[sys.argv.index("--variant") + 1] if "--variant" in sys.argv else "A"
+    v = sys.argv[sys.argv.index("--variant") + 1] if "--variant" in sys.argv else "D"
     build(v)
     if "--mock" in sys.argv:
         style = sys.argv[sys.argv.index("--heat") + 1] if "--heat" in sys.argv else "pixel"

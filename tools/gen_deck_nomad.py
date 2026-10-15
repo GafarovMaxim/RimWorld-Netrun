@@ -20,7 +20,7 @@ T = "Nomad"
 
 # ---- the case: a 9-slice, screen inset and slice borders (px) ----
 CASE_W, CASE_H = 1500, 1000
-IN_L, IN_T, IN_R, IN_B = 24, 60, 24, 72
+IN_L, IN_T, IN_R, IN_B = 24, 72, 24, 72   # IN_T matches NomadInT in DeckNomad.cs (keys below the hinges)
 SLICE = 170
 RADIUS = 20
 # ---- where the case sits in the window: room for the panel, charm, pouch and handle ----

@@ -14,7 +14,7 @@ public static partial class NetrunUI
 {
     // Where the case sits in the window (room for the protruding parts) and where the screen sits in the case.
     private const float NomadOutL = 42f, NomadOutT = 50f, NomadOutR = 80f, NomadOutB = 32f;
-    private const float NomadInL = 24f, NomadInT = 68f, NomadInR = 24f, NomadInB = 72f;
+    private const float NomadInL = 24f, NomadInT = 72f, NomadInR = 24f, NomadInB = 72f;
     private const float NomadSlice = 170f;
     public static readonly Vector2 NomadExtra = new(NomadOutL + NomadOutR + NomadInL + NomadInR, NomadOutT + NomadOutB + NomadInT + NomadInB);
 
