@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro, Cyber }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro, Cyber, Relic }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -75,6 +75,13 @@ public static class DeckThemes
             Id = "Retro", Style = DeckStyle.Retro, Top = Hex(0xded6c0), Bottom = Hex(0xb8b09a), Edge = Hex(0x403e46), Rubber = Hex(0x2a2826),
             Stencil = new Color(0.16f, 0.13f, 0.12f, 0.8f), KeyFace = Hex(0xc4beae), Tube = Hex(0x9aa776), TubeLight = Hex(0xc8d4a0), TubeDark = Hex(0x5a6444),
             UnlockKey = "ShadowSeason", UnlockCount = 1,
+        },
+        // The Relic: an old worn field deck (tools/gen_deck_relic.py). Opens after ten dives (provisional).
+        new DeckTheme
+        {
+            Id = "Relic", Style = DeckStyle.Relic, Top = Hex(0xd2cab6), Bottom = Hex(0xa89e88), Edge = Hex(0x403e3a), Rubber = Hex(0x1e1e1e),
+            Stencil = new Color(0.2f, 0.19f, 0.16f, 0.85f), KeyFace = Hex(0x7c7c76), Tube = Hex(0xec7828), TubeLight = Hex(0xffa060), TubeDark = Hex(0x7a3a14),
+            UnlockKey = "Dives", UnlockCount = 10,
         },
     ];
 

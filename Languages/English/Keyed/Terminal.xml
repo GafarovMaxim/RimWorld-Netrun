@@ -312,6 +312,8 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_DeckThemeDesc_Nomad>A dusty road case: solar panel, paracord handle, a battery on straps.</NR_DeckThemeDesc_Nomad>
   <NR_DeckTheme_Retro>NR-80 Retro</NR_DeckTheme_Retro>
   <NR_DeckThemeDesc_Retro>A cream handheld from the old days: sunset bars, a green LCD, pixel flames for the Heat and a slide switch for the net.</NR_DeckThemeDesc_Retro>
+  <NR_DeckTheme_Relic>Relic</NR_DeckTheme_Relic>
+  <NR_DeckThemeDesc_Relic>An old field deck: worn cream plastic with chipped paint and rust runs, an orange side panel, rubber keys, a dial gauge and an orange LCD.</NR_DeckThemeDesc_Relic>
   <NR_DeckThemeDesc_Field>Default: matte black plastic, carbon inserts, chiclet keys with glowing legends and a light line round the screen that turns red with the Heat.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>A rugged field tablet: chipped olive paint, rubber bumpers, guarded toggles, amber screens and a threat bargraph.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>A yellow street panel: a neon tube burning with the Heat, a holographic kitsune, graffiti.</NR_DeckThemeDesc_Street>
