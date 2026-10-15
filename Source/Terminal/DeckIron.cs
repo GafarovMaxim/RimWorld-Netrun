@@ -14,8 +14,8 @@ namespace Netrun;
 /// </summary>
 public static partial class NetrunUI
 {
-    private const float IronOutL = 34f, IronOutT = 36f, IronOutR = 34f, IronOutB = 8f;
-    private const float IronInL = 46f, IronInT = 106f, IronInR = 46f, IronInB = 92f;
+    private const float IronOutL = 34f, IronOutT = 8f, IronOutR = 34f, IronOutB = 8f;
+    private const float IronInL = 46f, IronInT = 106f, IronInR = 46f, IronInB = 88f;
     private const float IronSlice = 170f;
     public static readonly Vector2 IronExtra = new(IronOutL + IronOutR + IronInL + IronInR, IronOutT + IronOutB + IronInT + IronInB);
 
@@ -86,8 +86,8 @@ public static partial class NetrunUI
         Sprite(IronTex.Handle, new Vector2(box.x - 30f, hy));
         GUI.DrawTextureWithTexCoords(new Rect(box.xMax + 30f - IronTex.Handle.width, hy, IronTex.Handle.width, IronTex.Handle.height), IronTex.Handle, new Rect(1f, 0f, -1f, 1f));
         NineSlice(box, IronTex.Body, IronSlice, IronSlice, IronSlice, IronSlice);
-        // The antenna screwed into the top-right bumper.
-        Sprite(IronTex.Antenna, new Vector2(box.xMax - 40f, box.y + 26f - IronTex.Antenna.height));
+        // The antenna screwed into the top-right bumper, standing only a little above the case (the window stays low).
+        Sprite(IronTex.Antenna, new Vector2(box.xMax - 40f, box.y - IronOutT));
 
         // The rails: connectors on the left at the top, vents, a data plate on the right, screws wherever is free.
         var conn = new Rect(box.x + 2f, screen.y + 8f, 30f, 96f);

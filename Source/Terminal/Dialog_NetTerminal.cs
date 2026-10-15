@@ -45,7 +45,8 @@ public partial class Dialog_NetTerminal : Window
     /// <summary>Smallest size the player can drag the window down to.</summary>
     // The screen's minimum plus the field-deck casing around it.
     private static readonly Vector2 MinSize = new(960f, 760f);
-    /// <summary>The size the player left the window at (kept for the session).</summary>
+    /// <summary>The size the player left the window at, less what the casing then took beyond the field deck's (kept for
+    /// the session): another casing adds its own, so the screen keeps its size.</summary>
     private static Vector2 _savedSize;
     /// <summary>Window.resizer is private; set it to give the window a minimum size.</summary>
     private static readonly HarmonyLib.AccessTools.FieldRef<Window, WindowResizer> ResizerRef = HarmonyLib.AccessTools.FieldRefAccess<Window, WindowResizer>("resizer");
@@ -55,7 +56,7 @@ public partial class Dialog_NetTerminal : Window
         get
         {
             // A casing with parts sticking out (Nomad...) makes the window bigger, not the screen smaller.
-            Vector2 wanted = _savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f) * NetrunMod.Settings.TerminalScale + NetrunUI.DeckExtraOverClassic;
+            Vector2 wanted = (_savedSize != Vector2.zero ? _savedSize : new Vector2(1100f, 880f) * NetrunMod.Settings.TerminalScale) + NetrunUI.DeckExtraOverClassic;
             return new Vector2(Mathf.Clamp(wanted.x, Mathf.Min(MinSize.x, UI.screenWidth - 20f), UI.screenWidth - 20f),
                 Mathf.Clamp(wanted.y, Mathf.Min(MinSize.y, UI.screenHeight - 20f), UI.screenHeight - 20f));
         }
@@ -410,7 +411,7 @@ public partial class Dialog_NetTerminal : Window
         // What was changed in the menu's settings pages.
         NetrunMod.Settings.Write();
         _lastView = _view;
-        _savedSize = windowRect.size;
+        _savedSize = windowRect.size - NetrunUI.DeckExtraOverClassic;
         GatewayManager.Get()?.ClearFinished();
     }
 

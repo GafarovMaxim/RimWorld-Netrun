@@ -146,12 +146,12 @@ def make_badge(v):
     return b.done()
 
 
-def make_stripes(colors, w=30, gap=8, h=IN_T - BEZEL):
+def make_stripes(colors, w=30, gap=8, h=IN_T - BEZEL + 2):   # 2 px tucked under the surround's edge (Maxim: a gap showed)
     """Vertical sunset bars for the top bar, between the badge and the keys (Maxim, 2026-10-15)."""
     n = len(colors)
     b = S.Big(n * w + (n - 1) * gap, h)
     for i, c in enumerate(colors):
-        b.rect((i * (w + gap), 0, i * (w + gap) + w - 1, h - 1), c + (255,), r=1)
+        b.rect((i * (w + gap), 0, i * (w + gap) + w - 1, h - 1), c + (255,))
     return b.done()
 
 

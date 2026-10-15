@@ -21,9 +21,9 @@ import deck_stickers as S
 T = "Iron"
 
 BODY_W, BODY_H = 1400, 900
-IN_L, IN_T, IN_R, IN_B = 46, 106, 46, 92
+IN_L, IN_T, IN_R, IN_B = 46, 106, 46, 88   # a thinner bottom and no antenna overhang: the screen was much smaller than the field deck's (Maxim)
 SLICE = 170
-OUT_L, OUT_T, OUT_R, OUT_B = 34, 36, 34, 8
+OUT_L, OUT_T, OUT_R, OUT_B = 34, 8, 34, 8
 BEZEL = 14          # the raised frame around the screen
 
 OD = A.hexc(0x4e5038)
@@ -451,7 +451,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     A.over(img, hd.transpose(Image.FLIP_LEFT_RIGHT), (bx1 + 30 - hd.width, hy))
     A.over(img, A.nine_slice(load("Body"), (bx1 - bx0, by1 - by0), SLICE, SLICE, SLICE, SLICE), (bx0, by0))
     ant = load("Antenna")   # screwed into the top-right bumper
-    A.over(img, ant, (bx1 - 40, by0 + 26 - ant.height))
+    A.over(img, ant, (bx1 - 40, by0 - OUT_T))
     sx0, sy0, sx1, sy1 = bx0 + IN_L, by0 + IN_T, bx1 - IN_R, by1 - IN_B
     # two round connectors at the top of the left rail
     for i, (cap, lab) in enumerate(((True, "DATA"), (False, "AUX"))):

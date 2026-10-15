@@ -160,7 +160,7 @@ public static partial class NetrunUI
                     onKey?.Invoke(KeyClose + i);
             }
             if (paint)
-                Stencil(new Rect(key.x - 11f, topY + 29f, 72f, 14f), names[i], TextAnchor.UpperCenter, RetroLight);
+                Stencil(new Rect(key.x - 11f, topY + 25f, 72f, 14f), names[i], TextAnchor.UpperCenter, RetroLight);
         }
         if (!paint || !NetrunMod.Settings.FrameLights)
             return;
@@ -179,7 +179,7 @@ public static partial class NetrunUI
             Sprite(RetroTex.LampBezel, bezel.position);
             float a = !lights[i].on ? 0f : lights[i].blink && anim ? 0.45f + 0.55f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
             RetroLamp(bezel.ContractedBy(3f), lights[i].c, a);
-            Stencil(new Rect(bezel.center.x - 20f, topY + 29f, 40f, 14f), lights[i].label, TextAnchor.UpperCenter, RetroLight);
+            Stencil(new Rect(bezel.center.x - 20f, topY + 25f, 40f, 14f), lights[i].label, TextAnchor.UpperCenter, RetroLight);
             Tip(bezel.ExpandedBy(5f), lights[i].tip);
         }
     }
