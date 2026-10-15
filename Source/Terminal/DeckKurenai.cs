@@ -46,8 +46,7 @@ public static partial class NetrunUI
             Text.Font = font;
             Text.Anchor = TextAnchor.MiddleCenter;
             Color c = !active ? new Color(ink.r, ink.g, ink.b, 0.4f) : ink;
-            Widgets.Label(new Rect(at.x, at.y, hit.width, hit.height), label.Colorize(c));
-            Text.Anchor = TextAnchor.UpperLeft;
+            BoldLabel(new Rect(at.x, at.y, hit.width, hit.height), label, c, TextAnchor.MiddleCenter);
             Text.Font = GameFont.Small;
         }
         return CasingHit(hit, active, tip);
@@ -56,9 +55,7 @@ public static partial class NetrunUI
     private static void KurSmall(Rect r, string text, Color c, TextAnchor anchor = TextAnchor.UpperLeft)
     {
         Text.Font = GameFont.Tiny;
-        Text.Anchor = anchor;
-        Widgets.Label(r, text.Colorize(c));
-        Text.Anchor = TextAnchor.UpperLeft;
+        BoldLabel(r, text, c, anchor);
         Text.Font = GameFont.Small;
     }
 

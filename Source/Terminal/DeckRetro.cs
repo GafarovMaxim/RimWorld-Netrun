@@ -234,7 +234,7 @@ public static partial class NetrunUI
             if (RetroKey(key, RetroTex.Round, tip, active, (r, c) => GlyphText(r, c, g, GameFont.Small), RetroLight))
                 onKey?.Invoke(ids[i]);
             if (paint)
-                Stencil(new Rect(key.x - 11f, key.y + 42f, 60f, 14f), names[i], TextAnchor.UpperCenter, RetroInk);
+                StencilBold(new Rect(key.x - 11f, key.y + 42f, 60f, 14f), names[i], TextAnchor.UpperCenter, RetroInk);
         }
         if (!paint)
             return;
@@ -258,7 +258,7 @@ public static partial class NetrunUI
                         if (f[r][col] == '#')
                             Widgets.DrawBoxSolid(new Rect(win.x + 12f + i * 37f + col * 4f, win.y + 12f + r * 4f, 4f, 4f), c);
             }
-            Stencil(new Rect(win.x, win.yMax + 6f, win.width, 14f), "HEAT", TextAnchor.UpperCenter, RetroInk);
+            StencilBold(new Rect(win.x, win.yMax + 6f, win.width, 14f), "HEAT", TextAnchor.UpperCenter, RetroInk);
             if (Mouse.IsOver(win))
                 Tip(win, "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
         }
@@ -267,9 +267,9 @@ public static partial class NetrunUI
         var slide = new Rect(sw, yb + 44f, RetroTex.Slide.width, RetroTex.Slide.height);
         GUI.DrawTexture(slide, RetroTex.Slide);
         Sprite(RetroTex.Grip, new Vector2(sw + (online ? 58f : 6f), yb + 47f));
-        Stencil(new Rect(sw, yb + 28f, 40f, 14f), "OFF", TextAnchor.UpperLeft, RetroInk);
-        Stencil(new Rect(slide.xMax - 40f, yb + 28f, 40f, 14f), "ON", TextAnchor.UpperRight, RetroInk);
-        Stencil(new Rect(sw - 7f, yb + 74f, slide.width + 14f, 14f), "NET LINK", TextAnchor.UpperCenter, RetroInk);
+        StencilBold(new Rect(sw, yb + 28f, 40f, 14f), "OFF", TextAnchor.UpperLeft, RetroInk);
+        StencilBold(new Rect(slide.xMax - 40f, yb + 28f, 40f, 14f), "ON", TextAnchor.UpperRight, RetroInk);
+        StencilBold(new Rect(sw - 7f, yb + 74f, slide.width + 14f, 14f), "NET LINK", TextAnchor.UpperCenter, RetroInk);
         if (Mouse.IsOver(slide))
             Tip(slide, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
     }

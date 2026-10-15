@@ -222,7 +222,7 @@ public static partial class NetrunUI
             float c0 = lx + i * 38f;
             var pipe = new Rect(c0 - 7f, cy - 3f, 14f, 6f);
             CyberPipe(pipe, lights[i].c, lights[i].a);
-            CyberCaptionAt(c0, ly, lights[i].label);
+            CyberCaptionAt(c0, ly - 5f, lights[i].label);
             Tip(new Rect(c0 - 16f, cy - 12f, 32f, 24f), lights[i].tip);
         }
     }

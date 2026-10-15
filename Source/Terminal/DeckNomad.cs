@@ -188,7 +188,7 @@ public static partial class NetrunUI
                     onKey?.Invoke(KeyClose + i);
             }
             if (paint)
-                Stencil(new Rect(key.x - 10f, y + 32f, key.width + 20f, 14f), names[i]);
+                StencilBold(new Rect(key.x - 10f, y + 32f, key.width + 20f, 14f), names[i]);
         }
         if (!paint)
             return;
@@ -209,7 +209,7 @@ public static partial class NetrunUI
                 Glow(bar, c, 0.3f, 3f);
             Widgets.DrawBoxSolid(bar, lit ? new Color(c.r, c.g, c.b, 0.9f) : new Color(c.r, c.g, c.b, 0.12f));
         }
-        Stencil(new Rect(rf.x - 10f, y + 32f, rf.width + 20f, 14f), "RF SIGNAL");
+        StencilBold(new Rect(rf.x - 10f, y + 32f, rf.width + 20f, 14f), "RF SIGNAL");
         Tip(rf, (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
         float right = rf.x - 20f;
 
@@ -236,7 +236,7 @@ public static partial class NetrunUI
                     GUI.DrawTexture(l, lights[i].tex);
                     GUI.color = Color.white;
                 }
-                Stencil(new Rect(l.center.x - 17f, y + 32f, 34f, 14f), lights[i].label);
+                StencilBold(new Rect(l.center.x - 17f, y + 32f, 34f, 14f), lights[i].label);
                 Tip(l.ExpandedBy(6f), lights[i].tip);
             }
             right = sx - 16f;
@@ -267,7 +267,7 @@ public static partial class NetrunUI
                 }
             Glow(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange, 0.45f, 4f);
             Widgets.DrawBoxSolid(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange);
-            Stencil(new Rect(tuner.x, y + 32f, tuner.width, 14f), "TUNE  88.2 - 107.9");
+            StencilBold(new Rect(tuner.x, y + 32f, tuner.width, 14f), "TUNE  88.2 - 107.9");
             Tip(tuner, "NR_DeckTuner".Translate());
             x = tuner.xMax + 16f;
         }
@@ -322,7 +322,7 @@ public static partial class NetrunUI
             Sprite(NomadTex.Core, new Vector2(core.x, core.y + (coreDown ? 1f : 0f)), new Color(k, k, k));
             string[] padLabels = ["◁ BACK", "● CORE", "? HELP"];
             for (int i = 0; i < 3; i++)
-                Stencil(new Rect(pad.xMax + 8f, by + 14f + i * 15f, 60f, 14f), padLabels[i], TextAnchor.UpperLeft);
+                StencilBold(new Rect(pad.xMax + 8f, by + 14f + i * 15f, 60f, 14f), padLabels[i], TextAnchor.UpperLeft);
         }
         string Tip3(int i, Rect r) => active && Mouse.IsOver(r) ? (string)("NR_DeckKey_" + i).Translate() : null;
         if (CasingHit(back, active, Tip3(KeyBack, back)))
@@ -379,7 +379,7 @@ public static partial class NetrunUI
                 else
                     GUI.DrawTexture(rv, NomadTex.Rivet);
             }
-            Stencil(new Rect(strap.x + 4f, strap.yMax + 1f, 120f, 14f), "HEAT LEVEL", TextAnchor.UpperLeft);
+            StencilBold(new Rect(strap.x + 4f, strap.yMax + 1f, 120f, 14f), "HEAT LEVEL", TextAnchor.UpperLeft);
             if (Mouse.IsOver(strap.ExpandedBy(4f)))
                 Tip(strap.ExpandedBy(4f), "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
             // Dives scratched into the paint, where there is room.

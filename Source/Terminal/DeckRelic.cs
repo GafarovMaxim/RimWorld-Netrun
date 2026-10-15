@@ -39,12 +39,7 @@ public static partial class NetrunUI
 
     private static void RelicCaption(float cx, float y, string text, Color c) => Stencil(new Rect(cx - 40f, y, 80f, 14f), text, TextAnchor.UpperCenter, c);
 
-    /// <summary>A bold caption: the stencil twice, a pixel apart.</summary>
-    private static void RelicCaptionBold(float cx, float y, string text, Color c)
-    {
-        RelicCaption(cx, y, text, c);
-        RelicCaption(cx + 1f, y, text, c);
-    }
+    private static void RelicCaptionBold(float cx, float y, string text, Color c) => StencilBold(new Rect(cx - 40f, y, 80f, 14f), text, TextAnchor.UpperCenter, c);
 
     private static Rect RelicBezel(Rect outer, float heat, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu)
     {
@@ -335,10 +330,8 @@ public static partial class NetrunUI
         {
             var slide = new Rect(sx, cb - 11f, RelicTex.SlideOn.width, RelicTex.SlideOn.height);
             GUI.DrawTexture(slide, online ? RelicTex.SlideOn : RelicTex.SlideOff);
-            Stencil(new Rect(sx - 34f, cb - 7f, 30f, 14f), "OFF", TextAnchor.UpperRight, RelicInk);
-            Stencil(new Rect(sx - 33f, cb - 7f, 30f, 14f), "OFF", TextAnchor.UpperRight, RelicInk);
-            Stencil(new Rect(slide.xMax + 4f, cb - 7f, 30f, 14f), "ON", TextAnchor.UpperLeft, RelicInk);
-            Stencil(new Rect(slide.xMax + 5f, cb - 7f, 30f, 14f), "ON", TextAnchor.UpperLeft, RelicInk);
+            StencilBold(new Rect(sx - 34f, cb - 7f, 30f, 14f), "OFF", TextAnchor.UpperRight, RelicInk);
+            StencilBold(new Rect(slide.xMax + 4f, cb - 7f, 30f, 14f), "ON", TextAnchor.UpperLeft, RelicInk);
             RelicCaptionBold(slide.center.x, lb, "NET LINK", RelicInk);
             if (Mouse.IsOver(slide))
                 Tip(slide, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());

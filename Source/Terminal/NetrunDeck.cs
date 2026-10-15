@@ -107,6 +107,36 @@ public static partial class NetrunUI
         Text.Font = GameFont.Small;
     }
 
+    /// <summary>A bold stencilled label: <see cref="Stencil"/> in bold.</summary>
+    private static void StencilBold(Rect r, string text, TextAnchor anchor = TextAnchor.UpperCenter, Color? color = null)
+    {
+        Text.Font = GameFont.Tiny;
+        BoldLabel(r, text, color ?? _t.Stencil, anchor);
+        Text.Font = GameFont.Small;
+    }
+
+    /// <summary>
+    /// A label drawn twice, one screen pixel apart, from a spot snapped to the screen pixels (in the current font).
+    /// A fixed 1 px offset under the UI and terminal scale was fractional and split thin letters (Maxim, 2026-10-16: "HHELP").
+    /// </summary>
+    private static void BoldLabel(Rect r, string text, Color c, TextAnchor anchor)
+    {
+        Vector2 size = Text.CalcSize(text);
+        int h = (int)anchor % 3, v = (int)anchor / 3;
+        float x = h == 0 ? r.x : h == 1 ? r.center.x - size.x / 2f : r.xMax - size.x;
+        float y = v == 0 ? r.y : v == 1 ? r.center.y - size.y / 2f : r.yMax - size.y;
+        Matrix4x4 m = GUI.matrix;
+        float sx = Mathf.Max(0.25f, m.m00), sy = Mathf.Max(0.25f, m.m11);
+        x = (Mathf.Round(x * sx + m.m03) - m.m03) / sx;
+        y = (Mathf.Round(y * sy + m.m13) - m.m13) / sy;
+        Text.Anchor = TextAnchor.UpperLeft;
+        string s = text.Colorize(c);
+        var at = new Rect(x, y, size.x + 4f, size.y);
+        Widgets.Label(at, s);
+        at.x += 1f / sx;
+        Widgets.Label(at, s);
+    }
+
     /// <summary>A recessed tray for keys, lights or a screen.</summary>
     private static void Recess(Rect r, Color fill)
     {

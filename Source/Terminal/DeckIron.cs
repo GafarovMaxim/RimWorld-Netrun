@@ -222,7 +222,7 @@ public static partial class NetrunUI
                 GUI.DrawTexture(l, lights[i].tex);
                 GUI.color = Color.white;
             }
-            IronStencilLabel(new Rect(l.center.x - 17f, y + 77f, 34f, 14f), lights[i].label);
+            IronStencilLabel(new Rect(l.center.x - 17f, y + 72f, 34f, 14f), lights[i].label);
             Tip(l.ExpandedBy(5f), lights[i].tip);
         }
     }

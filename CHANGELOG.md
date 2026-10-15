@@ -16,6 +16,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ### Changed
 - Cyberspace maps keep more room between hubs (wider districts, a larger gap, and a pass that pushes apart hubs left too close), so links cross less and name plates overlap less. Applies to newly generated nets.
 - Rotated terminal parts (Relic TRACE knob and TUNE needle, Iron and Nomad dials, gateway map markers) stay in place with any UI and terminal scale.
+- Terminal frames: bold captions on Retro (bottom), Nomad and Kurenai (all keys and lamps), crisp bold on Relic (HELP read as "HHELP" under the UI scale); Iron and Classic lamp captions sit higher.
 - Ideology: net rituals always start "any time" (the game could roll them as date rituals with no date, so the button never showed); existing ones are repaired on load.
 - Ideology: the net rituals now show in the ideoligion's ritual list (they were hidden), and a net meme added to an existing ideoligion now brings its ritual (litany at the AI server, trace cleansing at the comms console); missing ones are added on load.
 - Ideology: rituals and the net role get random names (e.g. "silicon vigil", "purge of the logs", "oracle of the root"; in Russian «бдение кремния», «стирание логов», «оракул корня»). Existing ideoligions keep their names until regenerated.
