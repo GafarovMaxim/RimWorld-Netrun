@@ -861,7 +861,7 @@ public static partial class GatewayView
         if (NetrunMod.Settings.Animations)
         {
             Matrix4x4 old = GUI.matrix;
-            GUIUtility.RotateAroundPivot(Time.realtimeSinceStartup * 12f % 360f, outer.center);
+            UI.RotateAroundPivot(Time.realtimeSinceStartup * 12f % 360f, outer.center);
             GUI.color = new Color(c.r, c.g, c.b, 0.45f * a);
             GUI.DrawTexture(outer, DashedRing);
             GUI.matrix = old;

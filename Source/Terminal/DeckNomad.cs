@@ -143,7 +143,7 @@ public static partial class NetrunUI
         var charm = new Rect(box.x - 40f, box.y + 30f, NomadTex.Charm.width, NomadTex.Charm.height);
         Matrix4x4 m = GUI.matrix;
         if (swing > 0f)
-            GUIUtility.RotateAroundPivot(-swing * (0.5f + 0.5f * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 3.4f : 2.2f))), new Vector2(charm.center.x, charm.y));
+            UI.RotateAroundPivot(-swing * (0.5f + 0.5f * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 3.4f : 2.2f))), new Vector2(charm.center.x, charm.y));
         GUI.DrawTexture(charm, NomadTex.Charm);
         GUI.matrix = m;
         float pouchY = Mathf.Clamp(box.center.y - NomadTex.Pouch.height / 2f, box.y + NomadInT, Mathf.Max(box.y + NomadInT, box.yMax - NomadInB - NomadTex.Pouch.height));
