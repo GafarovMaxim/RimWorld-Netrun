@@ -176,6 +176,14 @@ public static partial class NetrunUI
     /// <summary>Seconds since the game started, for animations; frozen at 0 when animations are off.</summary>
     public static float AnimTime => NetrunMod.Settings.Animations ? Time.realtimeSinceStartup : 0f;
 
+    /// <summary>A stepped pseudo-random 0..1 that changes <paramref name="rate"/> times a second, for flicker and jitter.</summary>
+    public static float Noise(float time, float rate, int seed = 0)
+    {
+        uint h = (uint)((int)(time * rate) * 374761393 + seed * 668265263);
+        h = (h ^ (h >> 13)) * 1274126177u;
+        return ((h ^ (h >> 16)) & 0xffff) / 65535f;
+    }
+
     /// <summary>A soft glow around <paramref name="rect"/> in the color.</summary>
     public static void Glow(Rect rect, Color color, float strength = 1f, float spread = 16f)
     {

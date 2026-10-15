@@ -623,8 +623,12 @@ public static partial class NetrunUI
             var seg = new Rect(scale.x + i * (segW + segGap), scale.y, segW, segH);
             Color c = HeatSegments[i];
             bool lit = i <= (int)level;
+            // From Target the top lit segment pulses, quicker in the red zone.
+            float k = lit && i == (int)level && level >= HeatLevel.Target && NetrunMod.Settings.Animations
+                ? 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(AnimTime * (level >= HeatLevel.RedZone ? 5f : 2.5f))) : 1f;
             if (lit)
-                Glow(seg, c, 0.45f, 6f);
+                Glow(seg, c, 0.45f * (0.4f + k), 6f);
+            c = Color.Lerp(c * 0.55f, c, k);
             Widgets.DrawBoxSolid(seg, lit ? c : new Color(c.r, c.g, c.b, 0.25f));
             Bevel(seg, lit, 0.7f);
         }

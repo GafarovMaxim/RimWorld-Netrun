@@ -246,28 +246,6 @@ def make_lamp(color):
     return b.done()
 
 
-def make_beacon(lit):
-    """The alarm beacon on the top-left bumper, 40x32: a squat red glass dome in a wire guard on a steel foot."""
-    W, H = 40, 32
-    b = S.Big(W, H)
-    glass = (236, 52, 40) if lit else (96, 24, 22)
-    b.ellipse((4, 2, W - 5, 48), glass + (255,))                               # the dome, cut by the foot
-    if lit:
-        b.ellipse((10, 8, W - 11, 34), (255, 120, 90, 255))                    # the hot core
-        b.ellipse((15, 12, W - 16, 26), (255, 225, 200, 255))
-    else:
-        b.ellipse((8, 6, W - 9, 40), (120, 34, 30, 255))                       # a little depth in the dead glass
-    b.ellipse((9, 6, 17, 13), (255, 255, 255, 190 if lit else 60))            # the glint
-    cage = (26, 26, 24, 255)
-    b.line([(W / 2 - 0.5, 2), (W / 2 - 0.5, 23)], cage, 2.5)                   # the wire guard: a hoop and a spine
-    b.line([(6, 14), (W - 7, 14)], cage, 2.5)
-    b.rect((1, 23, W - 2, H - 1), (56, 58, 54, 255), r=2)                      # the steel foot with two bolts
-    b.rect((3, 24, W - 4, 25), (120, 122, 114, 255))
-    for x in (6, W - 7):
-        b.ellipse((x - 2, 26, x + 2, 30), (150, 150, 144, 255))
-    return b.done()
-
-
 def make_lcd():
     """The lime backlit radio LCD, 9-sliced (borders 10)."""
     W, H = 120, 60
@@ -424,8 +402,6 @@ def build():
     A.save(make_knob(), T, "Knob")
     for name, col in (("Off", None), ("Green", (90, 230, 90)), ("Orange", (255, 150, 40)), ("Red", (240, 50, 40))):
         A.save(make_lamp(col), T, "Lamp_" + name)
-    for lit in (0, 1):
-        A.save(make_beacon(lit), T, f"Beacon_{lit}")
     A.save(make_lcd(), T, "Lcd")
     A.save(make_window(), T, "Window")
     A.save(make_hazard(), T, "Hazard")
@@ -476,9 +452,11 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     A.over(img, A.nine_slice(load("Body"), (bx1 - bx0, by1 - by0), SLICE, SLICE, SLICE, SLICE), (bx0, by0))
     ant = load("Antenna")   # screwed into the top-right bumper
     A.over(img, ant, (bx1 - 40, by0 - OUT_T))
-    if heat >= 70:   # the alarm beacon on the top-left bumper
-        A.glow(img, (bx0 + 55, by0 + 5, bx0 + 79, by0 + 22), (240, 50, 40), 0.6, 7)
-    A.over(img, load("Beacon_%d" % (heat >= 70)), (bx0 + 47, by0 + 1))
+    # the ALARM lamp above the nameplate, lit from Target
+    if heat >= 70:
+        A.glow(img, (bx0 + 108, by0 + 18, bx0 + 118, by0 + 28), (240, 50, 40), 0.6, 6)
+    A.over(img, load("Lamp_Red" if heat >= 70 else "Lamp_Off"), (bx0 + 104, by0 + 14))
+    stencil(d, (bx0 + 128, by0 + 23), "ALARM", 9, "lm")
     sx0, sy0, sx1, sy1 = bx0 + IN_L, by0 + IN_T, bx1 - IN_R, by1 - IN_B
     # two round connectors at the top of the left rail
     for i, (cap, lab) in enumerate(((True, "DATA"), (False, "AUX"))):

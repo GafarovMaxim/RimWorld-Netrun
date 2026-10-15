@@ -88,6 +88,9 @@ public static partial class NetrunUI
             {
                 var lit = new Rect(tube.x, tube.y, Mathf.Max(4f, tube.width * frac), tube.height);
                 float pulse = level >= HeatLevel.Target && anim ? 0.7f + 0.3f * Mathf.Abs(Mathf.Sin(time * 3f)) : 1f;
+                // In the red zone the tube buzzes like a dying sign: now and then it drops out for a frame or two.
+                if (level >= HeatLevel.RedZone && anim && Noise(time, 14f) < 0.13f)
+                    pulse = 0.12f;
                 Glow(lit, c, 0.55f * pulse, 7f);
                 Widgets.DrawBoxSolid(lit, new Color(c.r, c.g, c.b, pulse));
                 Widgets.DrawBoxSolid(new Rect(lit.x + 3f, lit.y + 2f, Mathf.Max(0f, lit.width - 6f), 2f), new Color(1f, 1f, 1f, 0.65f * pulse));
@@ -104,7 +107,12 @@ public static partial class NetrunUI
             }
             float room = nx0 - 6f - (plateEnd + 10f);
             if (room >= StreetTex.GraffitiTop.width)
-                Sprite(StreetTex.GraffitiTop, new Vector2(Mathf.Round(plateEnd + 10f + (room - StreetTex.GraffitiTop.width) / 2f), box.y - 2f));
+            {
+                var g = new Rect(Mathf.Round(plateEnd + 10f + (room - StreetTex.GraffitiTop.width) / 2f), box.y - 2f, StreetTex.GraffitiTop.width, StreetTex.GraffitiTop.height);
+                if (level >= HeatLevel.Target)
+                    Glow(g.ContractedBy(8f), StreetPink, (anim ? 0.25f + 0.15f * Mathf.Sin(time * 2f) : 0.3f) * (level >= HeatLevel.RedZone ? 1.4f : 1f), 10f);
+                Sprite(StreetTex.GraffitiTop, g.position);
+            }
         }
 
         // The right column: 夜の走者 on its band, three slashes below the middle (from the screen bezel to the rail), a

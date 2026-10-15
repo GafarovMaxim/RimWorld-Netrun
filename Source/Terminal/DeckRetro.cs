@@ -23,6 +23,8 @@ public static partial class NetrunUI
 
     // Five pixel flames on the Heat LCD, lit up to the Heat level (like the lives in a handheld game).
     private static readonly string[] RetroFlame = ["...#....", "..##....", "..###.#.", ".#####..", ".######.", "##.####.", "##..###.", ".######.", "..####.."];
+    // The second frame, the tips leaning the other way: lit flames swap between the two from Target.
+    private static readonly string[] RetroFlame2 = ["....#...", "....##..", ".#.###..", "..#####.", ".######.", ".####.##", ".###..##", ".######.", "..####.."];
 
     private static class RetroTex
     {
@@ -68,7 +70,7 @@ public static partial class NetrunUI
         if (paint)
             DrawRetroCasing(box, screen, online);
         DrawRetroTop(box, online, anim, time, onKey, menu, paint);
-        DrawRetroBottom(box, heat, level, online, menu ? onKey : null, paint);
+        DrawRetroBottom(box, heat, level, online, anim, time, menu ? onKey : null, paint);
         return screen;
     }
 
@@ -184,7 +186,7 @@ public static partial class NetrunUI
         }
     }
 
-    private static void DrawRetroBottom(Rect box, float heat, HeatLevel level, bool online, System.Action<int> onKey, bool paint)
+    private static void DrawRetroBottom(Rect box, float heat, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool paint)
     {
         float yb = box.yMax - RetroInB;
         float x = box.x + 70f;
@@ -196,10 +198,23 @@ public static partial class NetrunUI
             {
                 NineSlice(lcd, RetroTex.Lcd, 8f, 8f, 8f, 8f);
                 string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
-                Text.Font = GameFont.Tiny;
-                for (int i = 0; i < lines.Length; i++)
-                    Widgets.Label(new Rect(lcd.x + 12f, lcd.y + 7f + i * 14.5f, lcd.width - 20f, 16f), lines[i].Colorize(RetroLcdInk));
-                Text.Font = GameFont.Small;
+                // In the red zone the LCD flashes inverted for a moment every couple of seconds, like a handheld's game over.
+                if (level >= HeatLevel.RedZone && anim && time * 0.45f % 1f < 0.18f)
+                {
+                    Widgets.DrawBoxSolid(lcd.ContractedBy(6f), RetroLcdInk);
+                    Text.Font = GameFont.Medium;
+                    Text.Anchor = TextAnchor.MiddleCenter;
+                    Widgets.Label(lcd, "!! ALERT !!".Colorize(RetroLcdOff));
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    Text.Font = GameFont.Small;
+                }
+                else
+                {
+                    Text.Font = GameFont.Tiny;
+                    for (int i = 0; i < lines.Length; i++)
+                        Widgets.Label(new Rect(lcd.x + 12f, lcd.y + 7f + i * 14.5f, lcd.width - 20f, 16f), lines[i].Colorize(RetroLcdInk));
+                    Text.Font = GameFont.Small;
+                }
                 if (Mouse.IsOver(lcd))
                     Tip(lcd, "NR_DeckLcd".Translate());
             }
@@ -232,12 +247,15 @@ public static partial class NetrunUI
             var win = new Rect(vx, yb + 26f, 200f, 60f);
             NineSlice(win, RetroTex.Lcd, 8f, 8f, 8f, 8f);
             int lit = (int)level + 1;
+            bool dance = level >= HeatLevel.Target && anim;
+            int beat = (int)(time * (level >= HeatLevel.RedZone ? 6f : 3f));
             for (int i = 0; i < 5; i++)
             {
                 Color c = i < lit ? RetroLcdInk : RetroLcdOff;
-                for (int r = 0; r < RetroFlame.Length; r++)
-                    for (int col = 0; col < RetroFlame[r].Length; col++)
-                        if (RetroFlame[r][col] == '#')
+                string[] f = dance && i < lit && (beat + i) % 2 == 1 ? RetroFlame2 : RetroFlame;
+                for (int r = 0; r < f.Length; r++)
+                    for (int col = 0; col < f[r].Length; col++)
+                        if (f[r][col] == '#')
                             Widgets.DrawBoxSolid(new Rect(win.x + 12f + i * 37f + col * 4f, win.y + 12f + r * 4f, 4f, 4f), c);
             }
             Stencil(new Rect(win.x, win.yMax + 6f, win.width, 14f), "HEAT", TextAnchor.UpperCenter, RetroInk);

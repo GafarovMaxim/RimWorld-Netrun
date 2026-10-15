@@ -68,15 +68,21 @@ public static partial class NetrunUI
         var screen = new Rect(box.x + KurInL, box.y + KurInT, box.width - KurInL - KurInR, box.height - KurInT - KurInB);
         bool paint = Event.current.type == EventType.Repaint;
         if (paint)
-            DrawKurenaiCasing(box);
+            DrawKurenaiCasing(box, level, anim, time);
         DrawKurenaiTop(box, level, online, anim, time, onKey, menu, paint);
-        DrawKurenaiBottom(box, heat, level, online, menu ? onKey : null, paint);
+        DrawKurenaiBottom(box, heat, level, online, anim, time, menu ? onKey : null, paint);
         return screen;
     }
 
-    private static void DrawKurenaiCasing(Rect box)
+    private static void DrawKurenaiCasing(Rect box, HeatLevel level, bool anim, float time)
     {
         NineSlice(box, KurTex.Body, KurSlice, KurSlice, KurSlice, KurSlice);
+        // From Target the red band breathes: a warm light swells over it, quicker in the red zone.
+        if (level >= HeatLevel.Target)
+        {
+            float a = anim ? 0.5f + 0.5f * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 4f : 1.8f)) : 0.5f;
+            Widgets.DrawBoxSolid(new Rect(box.x + 16f, box.y + 70f, 44f, box.height - 140f), new Color(1f, 0.45f, 0.4f, 0.16f * a));
+        }
         // 紅 and クレナイ on the red band (the band stops 70 px above the bottom).
         if (box.y + 110f + KurTex.Kanji.height <= box.yMax - 80f)
             Sprite(KurTex.Kanji, new Vector2(box.x + 16f, box.y + 110f));
@@ -178,7 +184,24 @@ public static partial class NetrunUI
         }
     }
 
-    private static void DrawKurenaiBottom(Rect box, float heat, HeatLevel level, bool online, System.Action<int> onKey, bool paint)
+    /// <summary>A red rubber stamp, a little crooked: ALERT.</summary>
+    private static void KurenaiStamp(Rect r)
+    {
+        Matrix4x4 m = GUI.matrix;
+        GUIUtility.RotateAroundPivot(-7f, r.center);
+        Color red = new(0.83f, 0.14f, 0.17f, 0.85f);
+        GUI.color = red;
+        Widgets.DrawBox(r, 2);
+        GUI.color = Color.white;
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.MiddleCenter;
+        Widgets.Label(r, "ALERT".Colorize(red));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        GUI.matrix = m;
+    }
+
+    private static void DrawKurenaiBottom(Rect box, float heat, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool paint)
     {
         float yb = box.yMax - KurInB;
         bool active = onKey != null;
@@ -226,8 +249,11 @@ public static partial class NetrunUI
             {
                 var sq = new Rect(x + i * 26f, yb + 34f, 22f, 13f);
                 Widgets.DrawBoxSolid(sq, KurInk);
-                Widgets.DrawBoxSolid(sq.ContractedBy(1f), i < lit ? HeatSegments[i] : Hex(0xb0afab));
+                bool off = i == lit - 1 && level >= HeatLevel.RedZone && anim && time * 2f % 1f < 0.35f;
+                Widgets.DrawBoxSolid(sq.ContractedBy(1f), i < lit && !off ? HeatSegments[i] : Hex(0xb0afab));
             }
+            if (level >= HeatLevel.RedZone)
+                KurenaiStamp(new Rect(x + 92f, yb + 8f, 58f, 20f));
             KurSmall(new Rect(x, yb + 49f, 140f, 16f), heat.ToString("0") + " / " + level.Label().ToUpper(), KurDim);
             Sprite(KurTex.Checker, new Vector2(x, yb + 66f));
             var zone = new Rect(x - 4f, yb + 14f, 140f, 50f);

@@ -30,7 +30,7 @@ public static partial class NetrunUI
             Window = Get("Window"), Hazard = Get("Hazard"), Panel = Get("Panel"), Antenna = Get("Antenna"), ConnectorCap = Get("Connector_Cap"),
             ConnectorOpen = Get("Connector_Open"), Vent = Get("Vent"), DataPlate = Get("DataPlate"), Sticker = Get("Sticker"), Warning = Get("Warning"),
             ToggleDown = Get("Toggle_0"), ToggleUp = Get("Toggle_1"), GuardClosed = Get("Guard_Closed"), GuardOpen = Get("Guard_Open"),
-            GuardLit = Get("Guard_Lit"), BeaconOff = Get("Beacon_0"), BeaconOn = Get("Beacon_1");
+            GuardLit = Get("Guard_Lit"), LampRed = Get("Lamp_Red");
 
         public static bool Ready => Body != null;
     }
@@ -127,7 +127,7 @@ public static partial class NetrunUI
         float x = rightPanel.x - 16f - 280f;
         var leftPanel = new Rect(x - 12f, y + 14f, 292f, 80f);
         if (paint)
-            IronBeacon(new Rect(box.x + 47f, y + 1f, 40f, 32f), level, anim, time);
+            IronAlarm(new Rect(box.x + 104f, y + 14f, 18f, 18f), level, anim, time);
         if (paint)
         {
             IronPanel(leftPanel);
@@ -227,8 +227,8 @@ public static partial class NetrunUI
         }
     }
 
-    // The alarm beacon on the top-left bumper: dark below Target, a slow pulse at Target, a double strobe in the red zone.
-    private static void IronBeacon(Rect r, HeatLevel level, bool anim, float time)
+    // The ALARM lamp above the nameplate: dark below Target, a slow pulse at Target, a double strobe in the red zone.
+    private static void IronAlarm(Rect r, HeatLevel level, bool anim, float time)
     {
         float a = 0f;
         if (level >= HeatLevel.Target && NetrunMod.Settings.FrameLights)
@@ -238,15 +238,16 @@ public static partial class NetrunUI
                 : level >= HeatLevel.RedZone ? (phase < 0.12f || phase is > 0.24f and < 0.36f ? 1f : 0.08f)
                 : 0.35f + 0.65f * Mathf.Abs(Mathf.Sin(time * 2.2f));
         }
-        GUI.DrawTexture(r, IronTex.BeaconOff);
+        GUI.DrawTexture(r, IronTex.LampOff);
         if (a > 0f)
         {
-            Glow(new Rect(r.x + 8f, r.y + 4f, r.width - 16f, 18f), Bad, a * 0.8f, 9f);
+            Glow(r.ContractedBy(4f), Bad, a * 0.8f, 7f);
             GUI.color = new Color(1f, 1f, 1f, a);
-            GUI.DrawTexture(r, IronTex.BeaconOn);
+            GUI.DrawTexture(r, IronTex.LampRed);
             GUI.color = Color.white;
         }
-        Tip(r, "NR_DeckBeacon".Translate());
+        IronStencilLabel(new Rect(r.xMax + 6f, r.y + 2f, 60f, 14f), "ALARM", TextAnchor.UpperLeft);
+        Tip(new Rect(r.x - 4f, r.y - 4f, 74f, r.height + 8f), "NR_DeckBeacon".Translate());
     }
 
     private static void DrawIronBottom(Rect box, float heat, HeatLevel level, bool online, System.Action<int> onKey, bool paint)

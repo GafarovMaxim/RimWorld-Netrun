@@ -122,13 +122,13 @@ public static partial class NetrunUI
         var screen = new Rect(box.x + NomadInL, box.y + NomadInT, box.width - NomadInL - NomadInR, box.height - NomadInT - NomadInB);
         bool paint = Event.current.type == EventType.Repaint;
         if (paint)
-            DrawNomadCasing(outer, box);
+            DrawNomadCasing(outer, box, level, anim, time);
         DrawNomadTop(box, level, online, anim, time, onKey, menu, paint);
-        DrawNomadBottom(box, level, heat, online, menu ? onKey : null, paint);
+        DrawNomadBottom(box, level, heat, online, anim, time, menu ? onKey : null, paint);
         return screen;
     }
 
-    private static void DrawNomadCasing(Rect outer, Rect box)
+    private static void DrawNomadCasing(Rect outer, Rect box, HeatLevel level, bool anim, float time)
     {
         // Behind the case: the solar panel standing up from the top edge and the handle under the bottom one.
         NineSlice(new Rect(box.x + 40f, outer.y, box.width - 80f, NomadTex.Solar.height), NomadTex.Solar, 90f, 0f, 90f, 0f);
@@ -137,7 +137,14 @@ public static partial class NetrunUI
         foreach (float hx in new[] { box.x + 110f, box.xMax - 156f })
             Sprite(NomadTex.Hinge, new Vector2(hx, box.y - 8f));
         // The charm hangs from an eyelet on the left edge; the pouch is strapped over the right edge.
-        Sprite(NomadTex.Charm, new Vector2(box.x - 40f, box.y + 30f));
+        // It swings from its eyelet, harder as the Heat climbs (still while it is quiet).
+        float swing = anim ? level switch { HeatLevel.Tracked => 3f, HeatLevel.Target => 6f, HeatLevel.RedZone => 11f, _ => 0f } : 0f;
+        var charm = new Rect(box.x - 40f, box.y + 30f, NomadTex.Charm.width, NomadTex.Charm.height);
+        Matrix4x4 m = GUI.matrix;
+        if (swing > 0f)
+            GUIUtility.RotateAroundPivot(swing * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 3.4f : 2.2f)), new Vector2(charm.center.x, charm.y));
+        GUI.DrawTexture(charm, NomadTex.Charm);
+        GUI.matrix = m;
         float pouchY = Mathf.Clamp(box.center.y - NomadTex.Pouch.height / 2f, box.y + NomadInT, Mathf.Max(box.y + NomadInT, box.yMax - NomadInB - NomadTex.Pouch.height));
         Sprite(NomadTex.Pouch, new Vector2(box.xMax - 26f, pouchY));
     }
@@ -193,7 +200,9 @@ public static partial class NetrunUI
         {
             float h = 5f + i * 2.6f;
             var bar = new Rect(rf.x + 9f + i * 8f, rf.yMax - 7f - h, 5f, h);
-            bool lit = online && (i < Mathf.RoundToInt(_rf) || i == 5 && hot);
+            // From Target the bars jitter as if the signal were being jammed.
+            int jitter = hot && anim ? Mathf.FloorToInt(Noise(time, 9f) * 3f) - 1 : 0;
+            bool lit = online && (i < Mathf.RoundToInt(_rf) + jitter || i == 5 && hot);
             Color c = i == 5 && hot ? Bad : Ok;
             if (lit && anim)
                 Glow(bar, c, 0.3f, 3f);
@@ -266,7 +275,7 @@ public static partial class NetrunUI
         }
     }
 
-    private static void DrawNomadBottom(Rect box, HeatLevel level, float heat, bool online, System.Action<int> onKey, bool paint)
+    private static void DrawNomadBottom(Rect box, HeatLevel level, float heat, bool online, bool anim, float time, System.Action<int> onKey, bool paint)
     {
         float by = box.yMax - NomadInB;
         float x = box.x + 34f;
@@ -349,8 +358,10 @@ public static partial class NetrunUI
                 if (i < lit)
                 {
                     Color c = HeatSegments[Mathf.Min(4, i / 2)];
-                    Glow(rv.ContractedBy(4f), c, 0.35f, 5f);
-                    GUI.color = new Color(c.r * 0.95f, c.g * 0.95f, c.b * 0.95f);
+                    // The hottest gem flickers like an overheated part from Target.
+                    float k = i == lit - 1 && level >= HeatLevel.Target && anim ? 0.55f + 0.45f * Noise(time, 11f, i) : 0.95f;
+                    Glow(rv.ContractedBy(4f), c, 0.35f * (k + 0.05f) * (i == lit - 1 && level >= HeatLevel.Target ? 1.8f : 1f), 5f);
+                    GUI.color = new Color(c.r * k, c.g * k, c.b * k);
                     GUI.DrawTexture(new Rect(rv.x + 1f, rv.y + 1f, 16f, 16f), NomadTex.Gem);
                     GUI.color = Color.white;
                 }
