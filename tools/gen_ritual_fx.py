@@ -93,7 +93,20 @@ def make_circuit(seed):
     return img
 
 
+def make_packet():
+    """A data packet running along the floor, 48 x 12: a bright head on the right, a fading tail to the left."""
+    w, h = 48, 12
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    tail = np.clip(xx / (w - 8), 0, 1) ** 2 * np.clip(1 - np.abs(yy - h / 2 + 0.5) / 2.2, 0, 1)
+    head = np.clip(1 - np.hypot(xx - (w - 7), yy - h / 2 + 0.5) / 5, 0, 1) ** 1.4
+    a = np.maximum(tail * 0.8, head)
+    img = Image.new("RGBA", (w, h), (255, 255, 255, 0))
+    img.putalpha(Image.fromarray((a * 255).clip(0, 255).astype(np.uint8)))
+    return img
+
+
 def build():
+    save(make_packet(), "Packet")
     save(glow_glyph("0"), "Digit_0")
     save(glow_glyph("1"), "Digit_1")
     save(glow_glyph("3F", size=30), "Digit_Hex")

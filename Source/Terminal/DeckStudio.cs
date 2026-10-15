@@ -14,6 +14,7 @@ namespace Netrun;
 /// </summary>
 public static partial class NetrunUI
 {
+    private const float StudioStep = 52f;
     private const float StudioOut = 4f;
     private const float StudioInL = 52f, StudioInT = 58f, StudioInR = 52f, StudioInB = 166f;
     private const float StudioOver = 24f, StudioDesk = 150f, StudioFader = 196f;
@@ -93,15 +94,18 @@ public static partial class NetrunUI
             Widgets.Label(new Rect(tl.x + 9f, ty - 8f, 80f, 16f), code.Colorize(LcdGreen));
             Text.Font = GameFont.Small;
             var wave = new Rect(tl.x + 88f, ty - 11f, tl.width - 96f, 22f);
-            float uw = wave.width / StudioTex.Wave.width, u = anim && online ? time * 0.06f % 1f : 0.27f;
+            // In the Red Zone the tape loses tracking: the lanes jump and the playhead goes red.
+            bool tracking = anim && online && level >= HeatLevel.RedZone && Noise(time, 7f, 3) > 0.6f;
+            float uw = wave.width / StudioTex.Wave.width, u = anim && online ? (time * 0.06f + (tracking ? Noise(time, 14f, 5) * 0.3f : 0f)) % 1f : 0.27f;
             float first = Mathf.Min(uw, 1f - u);
             GUI.DrawTextureWithTexCoords(new Rect(wave.x, wave.y, wave.width * first / uw, wave.height), StudioTex.Wave, new Rect(u, 0f, first, 1f));
             if (first < uw)
                 GUI.DrawTextureWithTexCoords(new Rect(wave.x + wave.width * first / uw, wave.y, wave.width * (uw - first) / uw, wave.height), StudioTex.Wave, new Rect(0f, 0f, uw - first, 1f));
             float ph = Mathf.Round(wave.center.x);
-            Widgets.DrawBoxSolid(new Rect(ph, ty - 13f, 1f, 26f), StudioPink);
-            Widgets.DrawBoxSolid(new Rect(ph - 3f, ty - 13f, 7f, 2f), StudioPink);
-            Widgets.DrawBoxSolid(new Rect(ph - 1f, ty - 11f, 3f, 2f), StudioPink);
+            Color head = anim && level >= HeatLevel.RedZone ? Bad : StudioPink;
+            Widgets.DrawBoxSolid(new Rect(ph, ty - 13f, 1f, 26f), head);
+            Widgets.DrawBoxSolid(new Rect(ph - 3f, ty - 13f, 7f, 2f), head);
+            Widgets.DrawBoxSolid(new Rect(ph - 1f, ty - 11f, 3f, 2f), head);
             Tip(tl, "NR_DeckStudioTimeline".Translate());
         }
         else
@@ -166,11 +170,24 @@ public static partial class NetrunUI
         }
         Tip(new Rect(bx - 2f, ty - 12f, 34f, 20f), (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
 
+        // High Heat: the screen's rim breathes pink from Target and strobes red in the Red Zone.
+        if (hot && anim)
+        {
+            bool red = level >= HeatLevel.RedZone;
+            float p = red ? (time * 3f % 1f < 0.5f ? 1f : 0.25f) : 0.35f + 0.65f * Mathf.Abs(Mathf.Sin(time * 2.2f));
+            var c = red ? new Color(Bad.r, Bad.g, Bad.b, 0.85f * p) : new Color(StudioPink.r, StudioPink.g, StudioPink.b, 0.7f * p);
+            Rect rim = screen.ExpandedBy(3f);
+            Widgets.DrawBoxSolid(new Rect(rim.x, rim.y, rim.width, 2f), c);
+            Widgets.DrawBoxSolid(new Rect(rim.x, rim.yMax - 2f, rim.width, 2f), c);
+            Widgets.DrawBoxSolid(new Rect(rim.x, rim.y, 2f, rim.height), c);
+            Widgets.DrawBoxSolid(new Rect(rim.xMax - 2f, rim.y, 2f, rim.height), c);
+        }
+
         // Stickers on the sides and the bezel under the screen.
         if (screen.height >= 180f)
         {
             Sprite(StudioTex.Jp, new Vector2(box.x + StudioOver + 4f, screen.y + 40f));
-            Sprite(StudioTex.Warn, new Vector2(box.xMax - StudioOver - 24f, screen.yMax - 110f));
+            Sprite(StudioTex.Warn, new Vector2(box.xMax - StudioOver - 18f, screen.yMax - 110f));
         }
         float under = box.yMax - StudioInB + 2f;
         Sprite(StudioTex.Badge, new Vector2(Mathf.Round(box.center.x - 32f), under));
@@ -286,7 +303,7 @@ public static partial class NetrunUI
 
         // Right to left: the jog, NET LINK and the channel faders on their panel.
         float keysEnd = k0 + 3f * 42f + 30f;
-        float right = box.xMax - StudioFader - 10f - 4f * 46f - 30f;
+        float right = box.xMax - StudioFader - 10f - 4f * StudioStep - 30f;
         float jx = box.xMax - 80f, jy = yd + 66f;
         bool faders = right + 8f >= keysEnd + 10f, link = box.xMax - StudioFader - 30f >= keysEnd + 10f;
         if (link)
@@ -301,9 +318,9 @@ public static partial class NetrunUI
             Panel(faders ? right + 8f : box.xMax - StudioFader - 26f, yd + 6f, box.xMax - StudioFader + 26f, yd + 136f);
             for (int i = 0; i < (faders ? 5 : 1); i++)
             {
-                float fx = box.xMax - StudioFader - (i == 0 ? 0f : 10f + i * 46f);
+                float fx = box.xMax - StudioFader - (i == 0 ? 0f : 10f + i * StudioStep);
                 float v = i == 0 ? (online ? 1f : 0f)
-                    : Mathf.Clamp01(StudioChannels[i - 1] + (anim && online ? (Noise(time, 1.5f, i) - 0.5f) * 0.12f : 0f));
+                    : Mathf.Clamp01(StudioChannels[i - 1] + (anim && online ? (Noise(time, level >= HeatLevel.RedZone ? 6f : level >= HeatLevel.Target ? 3f : 1.5f, i) - 0.5f) * (level >= HeatLevel.RedZone ? 0.5f : level >= HeatLevel.Target ? 0.25f : 0.12f) : 0f));
                 Sprite(StudioTex.FaderSlot, new Vector2(fx - 15f, yd + 18f));
                 Sprite(i == 0 ? StudioTex.FaderCapPink : StudioTex.FaderCap, new Vector2(fx - 15f, Mathf.Round(yd + 18f + 86f - 80f * v - 4f)));
                 StudioCaption(fx, yd + 120f, i switch { 0 => "NET LINK", 1 => "EMOTION", 2 => "SOMATIC", 3 => "AUDIO", _ => "VISUAL" }, i == 0 ? StudioAccent : null);
@@ -341,20 +358,20 @@ public static partial class NetrunUI
         }
         float gap = limit - x;
         // The spectrum screen takes what is left after the VHS stickers, or the whole gap when they do not fit beside it.
-        bool stickers = gap >= 150f + 110f || gap < 110f;
+        // The spectrum screen grows with the gap (Maxim, 2026-10-16: no jumping); the two VHS stickers join it only once
+        // the screen is at full width and both fit beside it.
+        bool stickers = gap >= 150f + 196f + 34f;
         float room = stickers ? gap - 150f : gap;
-        if (room >= 110f)
+        if (room >= 80f)
         {
             float w = Mathf.Min(196f, room - 34f);
             StudioSpectrum(new Vector2(Mathf.Round(limit - room + (room - w) / 2f), yd + 20f), w, level, online, anim, time);
         }
-        if (stickers && gap >= 150f)
+        if (stickers)
         {
             Sprite(StudioTex.Sun, new Vector2(x + 12f, yd + 18f));
             Sprite(StudioTex.BdLogo, new Vector2(x + 66f, yd + 66f));
         }
-        else if (stickers && gap >= 76f)
-            Sprite(StudioTex.Sun, new Vector2(Mathf.Round(x + (gap - 66f) / 2f), yd + 30f));
     }
 
     /// <summary>The decorative spectrum screen on the desk: 16 bars from cyan to pink bounce with the signal while the net is
@@ -384,7 +401,8 @@ public static partial class NetrunUI
         }
         NineSlice(scr, StudioTex.ScopeGlass, 8f, 8f, 8f, 8f);
         StudioCaption(scr.x + 34f, scr.yMax + 8f, "SPECTRUM");
-        StudioCaption(scr.xMax - 24f, scr.yMax + 8f, "L  R", StudioPink);
+        if (width >= 140f)
+            StudioCaption(scr.xMax - 24f, scr.yMax + 8f, "L  R", StudioPink);
     }
 
     /// <summary>A square key with a warm backlight: the edge glows under the mouse, the cap sinks while pressed.</summary>

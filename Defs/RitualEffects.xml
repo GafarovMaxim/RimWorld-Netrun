@@ -83,27 +83,39 @@
     </graphicData>
   </FleckDef>
 
-  <!-- Circuit traces on the floor: the vanilla Techist lines' scrolling glow over our traces. -->
+  <!-- Circuit traces on the floor, glowing green (the RitualOutline shader of the Techist lines left our art blank). -->
   <ThingDef ParentName="MoteBase" Name="NR_MoteCircuitBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
     <thingClass>MoteThrown</thingClass>
     <altitudeLayer>FloorCoverings</altitudeLayer>
     <graphicData>
-      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
-      <shaderType>RitualOutline</shaderType>
-      <shaderParameters>
-        <_GradientTex>/Things/Mote/RitualEffects/Gradient</_GradientTex>
-        <_ScrollSpeed>0.2</_ScrollSpeed>
-        <_GradientScale>0.5</_GradientScale>
-      </shaderParameters>
+      <graphicClass>Graphic_Mote</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <color>(40, 190, 95, 150)</color>
       <drawSize>(3, 3)</drawSize>
     </graphicData>
     <mote>
-      <fadeInTime>0.6</fadeInTime>
+      <fadeInTime>0.8</fadeInTime>
       <solidTime>99999</solidTime>
-      <fadeOutTime>0.6</fadeOutTime>
+      <fadeOutTime>0.8</fadeOutTime>
       <needsMaintenance>true</needsMaintenance>
     </mote>
   </ThingDef>
+
+  <!-- Data packets running across the floor: the floor's animation. -->
+  <FleckDef ParentName="FleckBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_Packet</defName>
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <altitudeLayer>FloorCoverings</altitudeLayer>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Packet</texPath>
+      <drawSize>(1.2, 0.3)</drawSize>
+    </graphicData>
+    <solidTime>0.9</solidTime>
+    <fadeInTime>0.2</fadeInTime>
+    <fadeOutTime>0.5</fadeOutTime>
+  </FleckDef>
 
   <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_Mote_RitualCircuitA</defName>
@@ -146,6 +158,70 @@
         <minDist>2</minDist>
         <scalePositionWithRoom>true</scalePositionWithRoom>
         <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Packet</fleckDef>
+        <area>(18, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <delay>0</delay>
+        <velocityDir>(1, 0, 0)</velocityDir>
+        <velocity>2.2~3.2</velocity>
+        <rotation>0~0</rotation>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(70, 255, 140)</li>
+          <li>(150, 255, 190)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Packet</fleckDef>
+        <area>(18, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <delay>3</delay>
+        <velocityDir>(-1, 0, 0)</velocityDir>
+        <velocity>2.2~3.2</velocity>
+        <rotation>180~180</rotation>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(70, 255, 140)</li>
+          <li>(150, 255, 190)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Packet</fleckDef>
+        <area>(18, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <delay>6</delay>
+        <velocityDir>(0, 0, 1)</velocityDir>
+        <velocity>2.2~3.2</velocity>
+        <rotation>270~270</rotation>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(70, 255, 140)</li>
+          <li>(150, 255, 190)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Packet</fleckDef>
+        <area>(18, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>10</spawnIntervalTicks>
+        <delay>9</delay>
+        <velocityDir>(0, 0, -1)</velocityDir>
+        <velocity>2.2~3.2</velocity>
+        <rotation>90~90</rotation>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(70, 255, 140)</li>
+          <li>(150, 255, 190)</li>
+        </overrideColors>
       </li>
       <li Class="CompProperties_RitualEffectIntervalSpawnArea">
         <fleckDef>NR_Fleck_Digit0</fleckDef>
@@ -191,6 +267,7 @@
         <area>(20, 16)</area>
         <smoothEdges>false</smoothEdges>
         <spawnIntervalTicks>31</spawnIntervalTicks>
+        <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
         <scalePositionWithRoom>true</scalePositionWithRoom>
@@ -206,6 +283,7 @@
         <smoothEdges>false</smoothEdges>
         <spawnIntervalTicks>31</spawnIntervalTicks>
         <delay>11</delay>
+        <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
         <scalePositionWithRoom>true</scalePositionWithRoom>
@@ -221,6 +299,7 @@
         <smoothEdges>false</smoothEdges>
         <spawnIntervalTicks>31</spawnIntervalTicks>
         <delay>21</delay>
+        <offset>(0, 0, 2.5)</offset>
         <velocityDir>(0, 0, -1)</velocityDir>
         <velocity>1.6~2.6</velocity>
         <scalePositionWithRoom>true</scalePositionWithRoom>

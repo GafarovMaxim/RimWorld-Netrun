@@ -269,8 +269,8 @@ def make_fader_cap(col):
 
 
 def make_jog():
-    """The TUNER JOG wheel, 112 x 112 (centre 56, 56; r 52): a ribbed rubber rim, a brushed metal face, a finger dimple
-    at the top. Drawn rotated in the C#."""
+    """The TUNER JOG wheel, 112 x 112 (centre 56, 56; r 52): a ribbed rubber rim, a brushed metal face and a hub
+    (no finger dimple, Maxim 2026-10-16). Drawn rotated in the C#."""
     n, c, r = 112, 56, JOG_R
     yy, xx = np.mgrid[0:n, 0:n].astype(np.float32)
     rr = np.hypot(xx - c, yy - c)
@@ -282,8 +282,6 @@ def make_jog():
     metal = np.array((128, 130, 132), np.float32) + (np.cos(ang * 2 + 0.8) * 26)[..., None] + (np.sin(rr * 1.7) * 3)[..., None] + A.grain(n, n, 420, 3)[..., None]
     metal -= (A.shade(face, 2, (1, 1)) * 34)[..., None]
     img.alpha_composite(A.to_img(metal, face))
-    dimple = A.mask((n, n), lambda d, s: d.ellipse([(c - 9) * s, (c - r + 15) * s, (c + 9) * s, (c - r + 33) * s], fill=255))
-    img.alpha_composite(A.to_img(np.array((60, 62, 64), np.float32) + (A.shade(dimple, 2, (1, 1)) * 60)[..., None], dimple))
     hub = A.mask((n, n), lambda d, s: d.ellipse([(c - 7) * s, (c - 7) * s, (c + 7) * s, (c + 7) * s], fill=255))
     img.alpha_composite(A.to_img(np.array((70, 72, 74), np.float32) + (A.shade(hub, 1.5) * 50)[..., None], hub))
     return img
@@ -732,7 +730,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     if play_x + 136 <= xm - 52 - 40 - 4 * 58 - 16:
         put("Sticker_Play", play_x, ty - 13)
     put("Sticker_Jp", bx + OVER + 4, by + IN_T + 40)
-    put("Sticker_Warn", xm - OVER - 24, ym - IN_B - 110)
+    put("Sticker_Warn", xm - OVER - 18, ym - IN_B - 110)
     put("Sticker_Side", bx + 120, ym - IN_B + 2)
     ph_x = tl[2] + 24 + 150 + 16
     if ph_x + 106 <= xm - 52 - 40 - 4 * 58 - 20:
@@ -764,8 +762,9 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     def panel(x0, y0, x1, y1):
         img.alpha_composite(A.nine_slice(load("Panel"), (int(x1 - x0), int(y1 - y0)), 12, 12, 12, 12), (int(x0), int(y0)))
 
+    STEP = 52                                    # fader pitch: the captions no longer touch
     FL = 196                                     # NET LINK fader from the box's right edge
-    right = xm - FL - 10 - 4 * 46 - 30
+    right = xm - FL - 10 - 4 * STEP - 30
     mx, my = bx + 66, yd + 8
     put("Meter", mx, my)
     put("Sticker_Rating", bx + 16, yd + 84)
@@ -808,14 +807,14 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     names = ["NET LINK", "EMOTION", "SOMATIC", "AUDIO", "VISUAL"]
     vals = [1.0 if online else 0.0, 0.3, 0.55, 0.7, 0.45]
     for i, nm in enumerate(names):
-        fx = xm - FL - (0 if i == 0 else 10 + i * 46)
+        fx = xm - FL - (0 if i == 0 else 10 + i * STEP)
         put("FaderSlot", fx - 15, yd + 18)
         put("FaderCapPink" if i == 0 else "FaderCap", fx - 15, yd + 18 + 86 - 80 * vals[i] - 4)
         cap(nm, fx, yd + 120, ACCENT + (240,) if i == 0 else INK + (230,))
     gap = right - x
-    stickers = gap >= 150 + 110 or gap < 110
+    stickers = gap >= 150 + SCOPE_W + 34
     room = gap - 150 if stickers else gap
-    if room >= 110:
+    if room >= 80:
         sw = min(SCOPE_W, room - 34)
         sx = round(right - room + (room - sw) / 2)
         panel(sx - 10, yd + 10, sx + sw + 10, yd + 130)
@@ -836,12 +835,11 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
             d.rectangle([sx + 4 + i * bw, yp, sx + 4 + i * bw + bw - 4, yp + 1], fill=(240, 230, 250, 255))
         img.alpha_composite(A.nine_slice(load("ScopeGlass"), (int(sw), SCOPE_H), 8, 8, 8, 8), (int(sx), yd + 20))
         cap("SPECTRUM", sx + 34, yd + 112)
-        cap("L  R", sx + sw - 24, yd + 112, PINK + (230,))
-    if stickers and gap >= 150:
+        if sw >= 140:
+            cap("L  R", sx + sw - 24, yd + 112, PINK + (230,))
+    if stickers:
         put("Sticker_Sun", x + 12, yd + 18)
         put("Sticker_BdLogo", x + 66, yd + 66)
-    elif stickers and gap >= 76:
-        put("Sticker_Sun", x + (gap - 66) / 2, yd + 30)
     return img
 
 
