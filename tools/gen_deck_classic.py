@@ -563,6 +563,176 @@ def scrap(heat):
     return img
 
 
+# ================================================================== E  Old deck (Maxim's references 2026-10-15: worn
+# cream plastic over metal, chipped paint, rust runs from the rivets, a coloured panel, stickers, a dial gauge)
+
+def old(heat, accent=(124, 142, 116)):
+    lvl = level_of(heat)
+    img = Image.new("RGBA", (W, H), (22, 23, 22, 255))
+    full = A.mask((W, H), lambda d, s: d.rounded_rectangle([BX0 * s, BY0 * s, BX1 * s - 1, BY1 * s - 1], 34 * s, fill=255))
+    hole = A.mask((W, H), lambda d, s: d.rounded_rectangle([SX0 * s, SY0 * s, SX1 * s - 1, SY1 * s - 1], 10 * s, fill=255))
+    rim = A.mask((W, H), lambda d, s: d.rounded_rectangle([(SX0 - 14) * s, (SY0 - 14) * s, (SX1 + 14) * s - 1, (SY1 + 14) * s - 1], 18 * s, fill=255))
+    side = A.mask((W, H), lambda d, s: d.rounded_rectangle([(BX1 - 46) * s, (SY0 - 40) * s, (BX1 - 4) * s, (SY1 + 40) * s], 10 * s, fill=255))
+    drop(img, full, 5, 0.75, 5)
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    cream = np.array((210, 202, 182), np.float32)
+    rgb = cream + A.fbm(W, H, 120, 4, 101)[..., None] * np.array([14, 13, 6], np.float32) + A.grain(W, H, 102, 3)[..., None]
+    acc = np.array(accent, np.float32) + A.fbm(W, H, 60, 3, 103)[..., None] * 10
+    rgb = rgb * (1 - side[..., None]) + acc * side[..., None]
+    rgb += (A.shade(full, 3) * 40)[..., None] + (A.shade(side, 1.5) * 40)[..., None]
+    # panel seams, grooved
+    seam = A.mask((W, H), lambda d, s: [d.line([(x0 * s, y0 * s), (x1 * s, y1 * s)], fill=255, width=2 * s) for x0, y0, x1, y1 in
+                                        ((BX0 + 4, SY0 - 30, BX1 - 50, SY0 - 30), (BX0 + 4, SY1 + 30, BX1 - 50, SY1 + 30),
+                                         (BX0 + 420, BY0 + 4, BX0 + 420, SY0 - 30), (BX0 + 548, SY1 + 30, BX0 + 548, BY1 - 4))])
+    rgb -= (seam * 70)[..., None] - (np.roll(seam, 1, 0) * 18)[..., None]
+    # the raised cream frame round the screen and a black rubber gasket inside it
+    rgb += (A.shade(rim, 2.5) * 50)[..., None]
+    gasket = rim * (1 - A.mask((W, H), lambda d, s: d.rounded_rectangle([(SX0 - 8) * s, (SY0 - 8) * s, (SX1 + 8) * s - 1, (SY1 + 8) * s - 1], 14 * s, fill=255))) * 0
+    inner = A.mask((W, H), lambda d, s: d.rounded_rectangle([(SX0 - 8) * s, (SY0 - 8) * s, (SX1 + 8) * s - 1, (SY1 + 8) * s - 1], 14 * s, fill=255))
+    rgb = rgb * (1 - inner[..., None]) + (np.array((30, 30, 30), np.float32) + A.grain(W, H, 104, 3)[..., None] - (A.shade(inner, 2) * 30)[..., None]) * inner[..., None]
+    # grime in the low places and at the edges, chipped paint showing dark metal, rust
+    edge = 1 - A.blur(full, 18)
+    dirt = np.clip(A.fbm(W, H, 30, 4, 105) * 1.4 + edge * 1.2 + A.blur(seam, 4) * 1.5 - 0.15, 0, 1)
+    rgb = rgb * (1 - dirt[..., None] * 0.35) + np.array((96, 78, 52), np.float32) * (dirt[..., None] * 0.35)
+    chips_n = A.fbm(W, H, 14, 4, 106) + edge * 0.7 + A.blur(seam, 3) * 0.6
+    chips = np.clip((chips_n - 0.41) * 9, 0, 1) * (1 - inner)
+    metal = np.array((70, 66, 60), np.float32) + A.fbm(W, H, 4, 2, 107)[..., None] * 30
+    rust = np.clip(A.fbm(W, H, 8, 3, 108) * 2 + 0.3, 0, 1)[..., None]
+    under = metal * (1 - rust * 0.7) + np.array((118, 62, 30), np.float32) * (rust * 0.7)
+    rgb = rgb * (1 - chips[..., None]) + under * chips[..., None]
+    rgb -= (A.blur(chips, 1.2) - chips).clip(0, 1)[..., None] * 60
+    img.alpha_composite(A.to_img(rgb, full * (1 - hole)))
+    screen_content(img, heat)
+    d = ImageDraw.Draw(img)
+
+    def rivet_run(x, y, n=10, run=True):
+        if run:   # a rust run down from the rivet
+            r = A.rng(int(x * 3 + y))
+            ln = r.uniform(20, 70)
+            m = A.mask((W, H), lambda dr, s: dr.line([(x * s, y * s), ((x + r.uniform(-3, 3)) * s, (y + ln) * s)], fill=255, width=int(3 * s)))
+            m = A.blur(m, 1.5) * np.clip(1 - (yy - y) / ln, 0, 1)
+            img.alpha_composite(A.to_img(np.broadcast_to(np.array((104, 58, 30), np.float32), (H, W, 3)).copy(), m * 0.7))
+        A.over(img, A.rivet(n, A.hexc(0x6a645a), int(x + y)), (x - n / 2 - 2, y - n / 2 - 2))
+
+    for x, y in ((BX0 + 26, BY0 + 26), (BX0 + 400, BY0 + 20), (BX0 + 440, BY0 + 20), (BX1 - 26, BY0 + 26), (BX0 + 26, BY1 - 26), (BX1 - 26, BY1 - 26),
+                 (BX0 + 20, SY0 + 120), (BX0 + 20, SY1 - 80), (BX1 - 25, SY0 + 40), (BX1 - 25, SY1 - 40), (BX0 + 532, BY1 - 20), (BX0 + 564, BY1 - 20)):
+        rivet_run(x, y, run=y < BY1 - 40)
+    ink = (52, 48, 42, 255)
+    cy, ly = BY0 + 40, BY0 + 70
+
+    # ---- top left: maker's name, a big worn number, a hazard triangle, scraps of yellow tape
+    lay = A.text_layer((W, H), "NETRUN", A.font(22), (60, 56, 50, 255), (BX0 + 52, BY0 + 20))
+    A.over(img, A.spray(lay, 110, 0.9), (0, 0))
+    d = ImageDraw.Draw(img)
+    d.text((BX0 + 54, BY0 + 52), "FIELD DECK  MOD. 2 // SER 4471", font=A.font(8), fill=ink, anchor="lm")
+    num = A.text_layer((W, H), "02", A.font(40), (196, 104, 58, 255), (BX0 + 258, BY0 + 12))
+    A.over(img, A.spray(num, 111, 0.88), (0, 0))
+    tri = S.Big(30, 27)
+    tri.poly([(15, 1), (29, 26), (1, 26)], (236, 196, 52, 255), (40, 36, 30, 255), 1.5)
+    tri.text((15, 18), "!", A.font, 14, (40, 36, 30, 255))
+    A.over(img, tri.done(), (BX0 + 346, BY0 + 24))
+    for x0, w0, ang in ((BX0 + 60, 70, -1),):
+        t = S.tape(w0, 8, color=(222, 186, 60), alpha=0.85, seed=x0)
+        A.over(img, A.spray(t, x0, 0.85).rotate(ang, expand=True), (x0, BY0 + 62))
+    d = ImageDraw.Draw(img)
+
+    # ---- top: grey rubber keys, a dial gauge for TUNE, jewel lamps, a small LCD for RF
+    def rubber(x, y, cap, w=34, h=26):
+        k = S.Big(w + 4, h + 6)
+        k.rect((2, 4, w + 1, h + 4), (40, 38, 34, 255), r=6)
+        k.rect((2, 1, w + 1, h + 1), cap + (255,), r=6)
+        k.rect((5, 3, w - 2, 9), tuple(min(255, int(v * 1.18)) for v in cap) + (255,), r=4)
+        A.over(img, k.done(), (x - w / 2 - 2, y - h / 2 - 1))
+
+    for i, (nm, cap) in enumerate((("CLOSE", (176, 60, 48)), ("MENU", (124, 124, 118)), ("ACHIEV", (124, 124, 118)), ("NET LOCK", (214, 110, 50)))):
+        x = BX0 + 470 + i * 52
+        rubber(x, cy, cap)
+        ImageDraw.Draw(img).text((x, ly), nm, font=A.font(8), fill=ink, anchor="mm")
+    gx = BX0 + 690
+    g = S.Big(52, 52)
+    g.ellipse((0, 0, 51, 51), (60, 58, 54, 255))
+    g.ellipse((4, 4, 47, 47), (226, 220, 200, 255))
+    for k in range(11):
+        a = np.radians(150 + k * 24)
+        g.line([(26 + np.cos(a) * 15, 26 + np.sin(a) * 15), (26 + np.cos(a) * 20, 26 + np.sin(a) * 20)], (40, 40, 40, 255), 1.2 if k % 5 else 2)
+    a = np.radians(150 + 240 * 0.62)
+    g.line([(26, 26), (26 + np.cos(a) * 18, 26 + np.sin(a) * 18)], (190, 40, 30, 255), 1.6)
+    g.ellipse((23, 23, 29, 29), (40, 40, 40, 255))
+    A.over(img, g.done(), (gx - 26, cy - 26))
+    ImageDraw.Draw(img).text((gx, ly), "TUNE", font=A.font(8), fill=ink, anchor="mm")
+    lx = BX1 - 300
+    for i, (nm, col, on) in enumerate((("ALARM", (230, 50, 36), lvl >= 3), ("NET", (90, 210, 90), True), ("SICK", (240, 150, 40), True), ("POD", (90, 160, 230), False))):
+        x = lx + i * 34
+        A.over(img, A.rivet(18, A.hexc(0x5a5650), x), (x - 11, cy - 11))
+        if on:
+            A.glow(img, (x - 5, cy - 5, x + 5, cy + 5), col, 0.7, 6)
+        A.over(img, A.rivet(12, np.array(col if on else tuple(int(v * 0.3) for v in col), np.float32), x + 1), (x - 8, cy - 8))
+        ImageDraw.Draw(img).text((x, ly), nm, font=A.font(8), fill=ink, anchor="mm")
+    ox = BX1 - 180
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle([ox - 5, cy - 24, ox + 115, cy + 22], 5, fill=(46, 44, 40, 255))
+    d.rectangle([ox, cy - 19, ox + 110, cy + 17], fill=(150, 156, 112, 255))
+    d.text((ox + 5, cy - 16), "RF", font=A.font(9), fill=(40, 46, 30, 255), anchor="lt")
+    for i in range(9):
+        h = 3 + i * 2
+        on = i < 6 or (lvl >= 3 and i == 8)
+        d.rectangle([ox + 22 + i * 9, cy + 12 - h, ox + 27 + i * 9, cy + 12], fill=(40, 46, 30, 255) if on else (136, 142, 102, 255))
+    d.text((ox + 55, ly), "LINK", font=A.font(8), fill=ink, anchor="mm")
+
+    # ---- the side panel: a DANGER sticker, warning stripes, a printed label
+    dg = S.Big(36, 64)
+    dg.rect((0, 0, 35, 63), (236, 232, 222, 255), r=2)
+    dg.rect((2, 2, 33, 61), (196, 40, 36, 255), r=1)
+    dg.rect((5, 5, 30, 58), (236, 232, 222, 255), r=1)
+    img_dg = dg.done().rotate(90, expand=True)
+    ImageDraw.Draw(img_dg).text((32, 18), "DANGER", font=A.font(11), fill=(196, 40, 36, 255), anchor="mm")
+    A.over(img, A.spray(img_dg.rotate(-90, expand=True), 120, 0.95), (BX1 - 43, SY0 + 160))
+    bc = S.barcode(34, 18, "NR-02", 121)
+    A.over(img, bc, (BX1 - 44, SY1 - 160))
+
+    # ---- bottom: an orange LCD, round dark keys, Heat lamps in a printed frame, a slide switch
+    cb, lb = SY1 + 52, SY1 + 82
+    d = ImageDraw.Draw(img)
+    vx = BX0 + 56
+    d.rounded_rectangle([vx - 6, cb - 26, vx + 266, cb + 26], 6, fill=(46, 44, 40, 255))
+    d.rectangle([vx, cb - 20, vx + 260, cb + 20], fill=(236, 120, 40, 255))
+    A.glow(img, (vx, cb - 20, vx + 260, cb + 20), (255, 140, 40), 0.15, 6)
+    for i, t in enumerate(("DATA 07   HEAT %d" % heat, "D2 14:20  NET ON")):
+        ImageDraw.Draw(img).text((vx + 10, cb - 9 + i * 17), t, font=A.font(13, False), fill=(60, 24, 6, 255), anchor="lm")
+    kx = BX0 + 380
+    for i, nm in enumerate(("BACK", "CORE", "HELP")):
+        x = kx + i * 56
+        A.over(img, A.rivet(36, A.hexc(0xb8b09a), x), (x - 20, cb - 20))
+        A.over(img, A.rivet(28, A.hexc(0x2e2c2a), x + 1), (x - 16, cb - 16))
+        ImageDraw.Draw(img).text((x, lb), nm, font=A.font(8), fill=ink, anchor="mm")
+    hx = BX0 + 580
+    d = ImageDraw.Draw(img)
+    d.rectangle([hx - 10, cb - 16, hx + 5 * 34, cb + 16], outline=ink, width=1)
+    for i in range(5):
+        x = hx + 10 + i * 34
+        cc = HEAT_SEG[i]
+        on = i <= lvl
+        d = ImageDraw.Draw(img)
+        d.rectangle([x - 11, cb - 9, x + 11, cb + 9], fill=(40, 38, 34, 255))
+        if on:
+            A.glow(img, (x - 9, cb - 7, x + 9, cb + 7), cc, 0.5, 4)
+        ImageDraw.Draw(img).rectangle([x - 9, cb - 7, x + 9, cb + 7], fill=cc + (255,) if on else dim(cc, 0.3, (40, 38, 34)))
+    ImageDraw.Draw(img).text((hx + 75, lb), "HEAT", font=A.font(8), fill=ink, anchor="mm")
+    sx = BX1 - 150
+    d = ImageDraw.Draw(img)
+    d.rounded_rectangle([sx, cb - 10, sx + 80, cb + 10], 5, fill=(40, 38, 34, 255))
+    d.rounded_rectangle([sx + 46, cb - 8, sx + 76, cb + 8], 3, fill=(214, 110, 50, 255))
+    d.text((sx - 4, cb), "OFF", font=A.font(8), fill=ink, anchor="rm")
+    d.text((sx + 84, cb), "ON", font=A.font(8), fill=ink, anchor="lm")
+    d.text((sx + 40, lb), "NET LINK", font=A.font(8), fill=ink, anchor="mm")
+    lab = S.Big(110, 26)
+    lab.rect((0, 0, 109, 25), (236, 232, 222, 255), r=2)
+    lab.text((55, 9), "CAUTION: DO NOT", A.font, 8, (40, 36, 30, 255))
+    lab.text((55, 18), "OPEN WHILE LIVE", A.font, 8, (40, 36, 30, 255))
+    A.over(img, A.spray(lab.done(), 122, 0.9).rotate(-1.5, expand=True), (BX0 + 150, BY0 + 58))
+    return img
+
+
 # ================================================================== B textures for the game (Frame/Cyber, DeckCyber.cs)
 
 T = "Cyber"
@@ -699,5 +869,9 @@ if __name__ == "__main__":
     if "--mock" not in sys.argv:
         build()
     cyber(heat).save(os.path.join(out, "46b-classic-cyberdeck.png"))
-    scrap(heat).save(os.path.join(out, "46d-classic-scrap.png"))
+    if "--old" in sys.argv:
+        old(heat).save(os.path.join(out, "47a-old-sage.png"))
+        old(heat, (204, 104, 52)).save(os.path.join(out, "47b-old-orange.png"))
+    else:
+        scrap(heat).save(os.path.join(out, "46d-classic-scrap.png"))
     print("written")
