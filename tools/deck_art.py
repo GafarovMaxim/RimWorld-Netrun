@@ -125,10 +125,30 @@ def _over_clip(dst, src, xy):
     dst.alpha_composite(crop, dest=(max(0, x), max(0, y)))
 
 
+def clean_alpha(img, pad=3):
+    """Clears the colour hidden under fully transparent pixels (it is invisible but noisy, so PNG cannot pack it), after
+    padding the edge colour out by `pad` px so filtering at the edges does not pull in black. Lossless on screen;
+    about a third of the size for the bodies with a screen opening."""
+    a = np.array(img.convert("RGBA"), np.float32)
+    seen = a[..., 3] > 0
+    rgb = a[..., :3] * seen[..., None]
+    for _ in range(pad):
+        acc = np.zeros_like(rgb)
+        cnt = np.zeros(seen.shape, np.float32)
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            acc += np.roll(rgb, (dy, dx), (0, 1)) * np.roll(seen, (dy, dx), (0, 1))[..., None]
+            cnt += np.roll(seen, (dy, dx), (0, 1))
+        grow = ~seen & (cnt > 0)
+        rgb[grow] = acc[grow] / cnt[grow][:, None]
+        seen = seen | grow
+    a[..., :3] = rgb * seen[..., None]
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), "RGBA")
+
+
 def save(img, theme, name):
     folder = os.path.join(FRAME, theme)
     os.makedirs(folder, exist_ok=True)
-    img.save(os.path.join(folder, name + ".png"), optimize=True)
+    clean_alpha(img).save(os.path.join(folder, name + ".png"), optimize=True)
 
 
 def rivet(d, base, seed=0, dome=True):
