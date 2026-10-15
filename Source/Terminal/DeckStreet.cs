@@ -262,7 +262,7 @@ public static partial class NetrunUI
                 float textW = Mathf.Min(inner.width, 210f);
                 DrawLcd(new Rect(inner.x, inner.y, textW, inner.height), heat, level, online, recess: false);
                 if (inner.width - textW >= 90f)
-                    DrawStreetAscii(new Rect(inner.x + textW, inner.y, inner.width - textW, inner.height), online);
+                    DrawStreetAscii(new Rect(inner.x + textW, inner.y, inner.width - textW, inner.height), level, online);
                 lcdEnd = lcd.xMax;
             }
         }
@@ -272,42 +272,73 @@ public static partial class NetrunUI
             Sprite(g, new Vector2(Mathf.Round(lcdEnd + 8f + (room - g.width) / 2f), box.yMax - 58f)); // below the screen, into the bottom rim
     }
 
-    private static readonly string[] StreetSkull = [".-.", "(x.x)", "|=|"];
-    private static readonly System.Text.StringBuilder StreetHex = new();
+    // Terminal chatter for the LCD log: device output, not prose, so it stays in English like the stencils.
+    private static readonly string[] StreetLog =
+    [
+        "> ping gateway.n4 ... ok", "> ICE scan hub 12 .. clean", "> handshake RSA-4k .. ok", "> route via n7 > n2 > n9",
+        "> trace probe .... dodged", "> cache sync 3/3 ..... ok", "> daemon idle ....... [z]", "> proxy hop 4 ...... live",
+        "> packet loss ....... 0.2%", "> firewall echo ..... ok", "> black ledger ..... quiet", "> uplink jitter ..... 12ms",
+    ];
+    private static int _streetLogLine;
+    private static float _streetLogStart = -1f;
 
-    /// <summary>The free part of the LCD: a hex stream scrolling past and a little skull at the end (Maxim, 2026-10-15:
-    /// the screen was too wide for its three lines). The stream changes four times a second.</summary>
-    private static void DrawStreetAscii(Rect r, bool online)
+    /// <summary>The free part of the LCD (Maxim, 2026-10-15): a log typing itself out on the left, lines rolling up,
+    /// and an RF oscilloscope on the right that grows ragged and turns pink, then red, as the Heat climbs.</summary>
+    private static void DrawStreetAscii(Rect r, HeatLevel level, bool online)
     {
-        string[] rows = Cached("street.hex", () =>
+        bool anim = NetrunMod.Settings.Animations;
+        float now = Time.realtimeSinceStartup;
+        Color dim = new(LcdGreen.r, LcdGreen.g, LcdGreen.b, online ? 0.38f : 0.14f);
+        float scopeW = r.width >= 200f ? 96f : 0f;
+        var log = new Rect(r.x + 4f, r.y, r.width - scopeW - 12f, r.height);
+
+        // The log: one line types out at 25 characters a second, holds, then the next one comes in below it.
+        string current = StreetLog[_streetLogLine];
+        if (_streetLogStart < 0f)
+            _streetLogStart = now;
+        float typing = current.Length / 25f;
+        if (anim && online && now - _streetLogStart > typing + 1.4f)
         {
-            int cols = Mathf.Max(1, Mathf.FloorToInt((r.width - 60f) / 21f));
-            int tick = NetrunMod.Settings.Animations ? Mathf.FloorToInt(Time.realtimeSinceStartup * 4f) : 0;
-            var lines = new string[3];
-            for (int row = 0; row < 3; row++)
-            {
-                StreetHex.Length = 0;
-                for (int c = 0; c < cols; c++)
-                {
-                    uint h = (uint)((c + tick) * 73856093 ^ row * 19349663);
-                    h ^= h >> 13;
-                    h *= 0x5bd1e995;
-                    StreetHex.Append(((h >> 8) & 0xff).ToString("X2")).Append(' ');
-                }
-                lines[row] = StreetHex.ToString();
-            }
-            return lines;
-        }, 0.25f);
+            _streetLogLine = (_streetLogLine + 1) % StreetLog.Length;
+            _streetLogStart = now;
+            current = StreetLog[_streetLogLine];
+        }
+        int shown = !anim || !online ? current.Length : Mathf.Clamp(Mathf.FloorToInt((now - _streetLogStart) * 25f), 0, current.Length);
         Text.Font = GameFont.Tiny;
-        Color dim = new(LcdGreen.r, LcdGreen.g, LcdGreen.b, online ? 0.32f : 0.12f);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
-            Widgets.Label(new Rect(r.x + 4f, r.y + 1f + i * 14.5f, r.width - 64f, 16f), rows[i].Colorize(dim));
-            // The game font is not monospaced: each row is centred on the same axis, so the skull stays straight.
-            Text.Anchor = TextAnchor.UpperCenter;
-            Widgets.Label(new Rect(r.xMax - 50f, r.y + 1f + i * 14.5f, 50f, 16f), StreetSkull[i].Colorize(online ? LcdGreen : dim));
-            Text.Anchor = TextAnchor.UpperLeft;
+            string prev = StreetLog[(_streetLogLine - 2 + i + StreetLog.Length * 2) % StreetLog.Length];
+            Widgets.Label(new Rect(log.x, r.y + 1f + i * 14.5f, log.width, 16f), prev.Colorize(dim));
+        }
+        string typed = current.Substring(0, shown);
+        var row = new Rect(log.x, r.y + 1f + 2f * 14.5f, log.width, 16f);
+        Widgets.Label(row, typed.Colorize(online ? LcdGreen : dim));
+        if (online && (!anim || (now * 2f) % 2f < 1.2f))
+        {
+            float cx = log.x + Mathf.Min(Text.CalcSize(typed).x + 1f, log.width - 6f);
+            Widgets.DrawBoxSolid(new Rect(cx, row.y + 3f, 5f, 10f), LcdGreen);
         }
         Text.Font = GameFont.Small;
+        if (scopeW <= 0f)
+            return;
+
+        // The oscilloscope: a dim grid and a wave drawn in 2 px dots; calm in the shadows, ragged at Target and above.
+        var scope = new Rect(r.xMax - scopeW, r.y + 3f, scopeW - 4f, r.height - 6f);
+        Color grid = new(LcdGreen.r, LcdGreen.g, LcdGreen.b, 0.12f);
+        for (float gx = scope.x; gx <= scope.xMax; gx += scope.width / 4f)
+            Widgets.DrawBoxSolid(new Rect(gx, scope.y, 1f, scope.height), grid);
+        Widgets.DrawBoxSolid(new Rect(scope.x, scope.center.y, scope.width, 1f), grid);
+        Color wave = !online ? dim : level >= HeatLevel.RedZone ? StreetRed : level >= HeatLevel.Target ? StreetPink : LcdGreen;
+        float amp = !online ? 0f : (0.28f + 0.14f * (int)level) * scope.height / 2f;
+        float rag = level >= HeatLevel.Target ? 0.45f : 0.12f;
+        float t = anim ? now * 3f : 0f;
+        for (float x = 0f; x < scope.width - 1f; x += 2f)
+        {
+            float u = x / 9f + t;
+            float y = Mathf.Sin(u) * (0.65f + 0.35f * Mathf.Sin(u * 0.23f)) + rag * Mathf.Sin(u * 3.7f + t * 1.3f);
+            Widgets.DrawBoxSolid(new Rect(scope.x + x, Mathf.Round(scope.center.y - y * amp), 2f, 2f), wave);
+        }
+        if (Mouse.IsOver(scope))
+            Tip(scope, (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
     }
 }
