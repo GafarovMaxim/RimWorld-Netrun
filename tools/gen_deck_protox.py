@@ -190,7 +190,7 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True):
         d.text((bx0 + 40, ty + 14), "PROTO-X", font=A.font(26), fill=(230, 220, 190), anchor="lm")
         d.text((bx0 + 40, ty + 38), "FIXER BUILD  ·  REV C", font=f8, fill=(176, 146, 70), anchor="lm")
     else:
-        d.text((bx0 + 40, by0 + 38), "PROTO‑X", font=A.font(24, False), fill=(220, 220, 228), anchor="lm")
+        d.text((bx0 + 40, by0 + 38), "PROTO-X", font=A.font(24, False), fill=(220, 220, 228), anchor="lm")
         holo = S.holo_rgb(90, 20, 5)
         hi = A.to_img(holo, np.ones((20, 90), np.float32) * 0.55)
         img.alpha_composite(hi, (bx0 + 150, by0 + 28))
@@ -227,10 +227,10 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True):
     yb = by1 - IN_B
     lcd = (bx0 + 70, yb + 22, 230, 58)
     d.rounded_rectangle([lcd[0], lcd[1], lcd[0] + lcd[2], lcd[1] + lcd[3]], 4, fill=(6, 14, 8), outline=trim, width=1)
-    for i, t in enumerate(("CYBERDATA 491", "HEAT 58 ▲ TRACKED", "D8 08:27  NET ON")):
+    for i, t in enumerate(("CYBERDATA 491", "HEAT 58 ^ TRACKED", "D8 08:27  NET ON")):
         d.text((lcd[0] + 12, lcd[1] + 8 + i * 15), t, font=mono, fill=INK_G)
     bx = lcd[0] + lcd[2] + 40
-    for i, (g, name) in enumerate((("◁", "BACK"), ("○", "CORE"), ("?", "HELP"))):
+    for i, (g, name) in enumerate((("<", "BACK"), ("O", "CORE"), ("?", "HELP"))):
         x = bx + i * 58
         if v == "C":
             d.ellipse([x, yb + 26, x + 40, yb + 66], outline=(120, 220, 230), width=2)
