@@ -8,7 +8,7 @@ description: Use when making or fixing a terminal deck frame theme (casing aroun
 A frame = a Python generator that writes textures + a C# partial of `NetrunUI` that draws the casing and its controls around the screen rect. Existing ones to copy from: Nomad (`DeckNomad.cs`, `gen_deck_nomad.py`), Street, Kurenai, Iron. Retro is in progress (`gen_deck_retro.py`, variants in `V`).
 
 ## Pipeline
-1. References from Maxim (`G:/Modding/RimWorld/Hacking Expansion Netrun/<Theme>`). Describe 2-3 variants in words first if the brief is vague.
+1. References: Maxim says where they are or attaches them in chat; do not assume a folder. Describe 2-3 variants in words first if the brief is vague.
 2. Generator `tools/gen_deck_<theme>.py`: `build()` writes textures to `Textures/UI/Netrun/Frame/<Art>/`, `--mock OUT` renders a full mockup into `docs/mockups/NN-<theme>.png`. Note: in iron/kurenai `--mock` does NOT rebuild textures; run without args first.
 3. Show mockups (SendUserFile), wait for Maxim's pick. Variants: keep a `V`/`VARIANTS` dict and `--variant X`; delete unchosen variant folders only after he agrees.
 4. C#: `Source/Terminal/Deck<Theme>.cs` with constants `Out L/T/R/B` (casing outside the box), `In L/T/R/B` (box to screen), `Slice`, `Extra`; a `<Theme>Tex` static class (`[StaticConstructorOnStartup]`, ContentFinder paths); `<Theme>Bezel(outer, heat, level, online, anim, time, onKey, menu)` returning the screen rect; casing / top / bottom functions.

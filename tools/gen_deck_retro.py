@@ -20,7 +20,7 @@ import deck_art as A
 import deck_stickers as S
 
 BODY_W, BODY_H = 1400, 900
-IN_L, IN_T, IN_R, IN_B = 52, 96, 52, 104
+IN_L, IN_T, IN_R, IN_B = 64, 96, 64, 104
 SLICE = 170
 OUT = 8
 BEZEL = 22
@@ -33,6 +33,7 @@ LCD_INK = (34, 48, 26)
 V = {
     "A": dict(T="Retro_A", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
     "B": dict(T="Retro_B", base=(232, 228, 216), dark=(54, 54, 56), stripes=[(246, 186, 40), (232, 96, 36)], accent=(214, 50, 40), key=(54, 54, 56)),
+    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
     "C": dict(T="Retro_C", base=(92, 60, 42), dark=(40, 30, 24), stripes=[(88, 160, 200), (110, 180, 90), (246, 196, 64), (240, 120, 40), (214, 50, 40)],
               accent=(232, 214, 176), key=(70, 46, 32), cream=(232, 216, 180)),
 }
@@ -89,9 +90,9 @@ def make_body(v):
             x = 10 + i * 6
             d.line([(x * s, (IN_T - 20) * s), (x * s, (H - 40) * s)], fill=c + (255,), width=4 * s)
     # the screen surround's lettering, like a handheld's: a power lamp and a small caption
-    cap = {"A": "DOT MATRIX  WITH  NET LINK", "B": "STUDIO MONITOR  \u00b7  NR-80", "C": "DATAWAVE  \u00b7  COLOUR TERMINAL"}[v]
+    cap = {"D": "DOT MATRIX  WITH  NET LINK", "A": "DOT MATRIX  WITH  NET LINK", "B": "STUDIO MONITOR  \u00b7  NR-80", "C": "DATAWAVE  \u00b7  COLOUR TERMINAL"}[v]
     d.text(((IN_L + 12) * s, (IN_T - 11) * s), cap, font=A.font(8 * s, False), fill=(200, 200, 205, 200), anchor="lm")
-    if v == "A":
+    if v in ("A", "D"):
         d.line([((IN_L) * s, (IN_T - 11) * s), ((IN_L + 8) * s, (IN_T - 11) * s)], fill=(150, 36, 70, 255), width=2 * s)
     printed = big.resize((W, H), Image.LANCZOS)
     img.alpha_composite(A.to_img(np.zeros((H, W, 3), np.float32), np.asarray(printed, np.float32)[..., 3] / 255 * 0) )
@@ -117,11 +118,11 @@ def make_badge(v):
             b.line([(112, 10 + i * 6), (180, 10 + i * 6)], c + (255,), 4)
         b.text((14, 37), "\u30cd\u30c3\u30c8\u30e9\u30f3 \u00b7 PORTABLE NET DECK", lambda sz: S.jfont(sz), 8, INK + (220,), anchor="lm")
         return b.done()
-    if v == "B":
+    if v in ("B", "D"):
         W, H = 168, 52
         b = S.Big(W, H)
         b.ellipse((2, 2, 48, 48), (246, 236, 214, 255), outline=INK + (255,), width=2)
-        b.ellipse((14, 8, 36, 30), p["accent"] + (255,))
+        b.ellipse((14, 8, 36, 30), (214, 50, 40, 255))
         b.poly([(8, 42), (25, 22), (42, 42)], INK + (255,))
         for i in range(3):
             b.line([(14 + i * 2, 36 + i * 3), (36 - i * 2, 36 + i * 3)], (246, 236, 214, 255), 1.2)
@@ -142,6 +143,42 @@ def make_badge(v):
     b.poly([(25, 37), (32, 30), (39, 37), (35, 35), (32, 38), (29, 35)], (246, 240, 226, 255))
     b.rect((4, 50, W - 5, H - 5), (60, 40, 30, 255), r=0)
     b.text((32, 54), "DATAWAVE", A.font, 8, p["cream"] + (255,))
+    return b.done()
+
+
+def make_stripes(colors, w=16, gap=4, h=60):
+    """Vertical sunset bars for the top bar, between the badge and the keys (Maxim, 2026-10-15)."""
+    n = len(colors)
+    b = S.Big(n * w + (n - 1) * gap, h)
+    for i, c in enumerate(colors):
+        b.rect((i * (w + gap), 0, i * (w + gap) + w - 1, h - 1), c + (255,), r=1)
+    return b.done()
+
+
+def make_wheel(w=14, h=56):
+    """A ribbed thumb wheel peeking out of the case edge (volume on the left, contrast on the right)."""
+    b = S.Big(w, h)
+    b.rect((0, 0, w - 1, h - 1), (58, 56, 62, 255), r=5)
+    for y in range(4, h - 3, 4):
+        b.line([(2, y), (w - 3, y)], (30, 28, 32, 255), 1.5)
+        b.line([(2, y + 1.5), (w - 3, y + 1.5)], (110, 108, 116, 255), 0.8)
+    return b.done()
+
+
+def make_port(w=44, h=16):
+    """A link port: a dark slot in a moulded surround with gold pins."""
+    b = S.Big(w, h)
+    b.rect((0, 0, w - 1, h - 1), (60, 58, 64, 255), r=4)
+    b.rect((4, 4, w - 5, h - 5), (16, 16, 18, 255), r=2)
+    for x in range(8, w - 7, 4):
+        b.rect((x, 6, x + 1.6, h - 7), (200, 160, 70, 255))
+    return b.done()
+
+
+def make_jack(n=16):
+    b = S.Big(n, n)
+    b.ellipse((0, 0, n - 1, n - 1), (180, 176, 168, 255), outline=(60, 56, 50, 255), width=1)
+    b.ellipse((4, 4, n - 5, n - 5), (12, 12, 12, 255))
     return b.done()
 
 
@@ -224,6 +261,11 @@ def build(v):
     A.save(make_vu(), T, "VU")
     A.save(make_slide(), T, "Slide")
     A.save(make_grip(), T, "Grip")
+    if v == "D":
+        A.save(make_stripes(V[v]["stripes"]), T, "Stripes")
+        A.save(make_wheel(), T, "Wheel")
+        A.save(make_port(), T, "Port")
+        A.save(make_jack(), T, "Jack")
 
 
 def mono(size, bold=True):
@@ -253,16 +295,16 @@ def draw_heat(img, style, x, y, heat, ink):
     level = min(4, int(heat // 20))
     if style == "pixel":
         # On a second green LCD: five pixel flames, lit up to the Heat level, like the lives in a handheld game.
-        A.over(img, A.nine_slice(make_lcd(), (170, 60), 8, 8, 8, 8), (x, y))
+        A.over(img, A.nine_slice(make_lcd(), (200, 60), 8, 8, 8, 8), (x, y))
         flame = ["...#....", "..##....", "..###.#.", ".#####..", ".######.", "##.####.", "##..###.", ".######.", "..####.."]
         for i in range(5):
             on = i <= level
             for r, row in enumerate(flame):
                 for c, chv in enumerate(row):
                     if chv == "#":
-                        px, py = x + 12 + i * 31 + c * 3, y + 10 + r * 3
-                        d.rectangle([px, py, px + 2, py + 2], fill=LCD_INK if on else (128, 142, 100))
-        d.text((x + 85, y + 72), "HEAT", font=lab, fill=ink, anchor="mm")
+                        px, py = x + 12 + i * 37 + c * 4, y + 12 + r * 4
+                        d.rectangle([px, py, px + 3, py + 3], fill=LCD_INK if on else (128, 142, 100))
+        d.text((x + 100, y + 72), "HEAT", font=lab, fill=ink, anchor="mm")
     elif style == "seg":
         # A red LED counter, the Heat in three digits and the level as a word, like an old clock radio.
         d.rounded_rectangle([x, y, x + 170, y + 60], 5, fill=(40, 38, 36))
@@ -318,7 +360,30 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
     badge = load("Badge")
     top_y = by0 + 26 if v == "A" else by0 + 18
     A.over(img, badge, (bx0 + 60, by0 + (30 if v == "A" else 14) if v != "C" else by0 + 8))
+    top_y = by0 + 18 if v == "D" else top_y
     kx = bx1 - IN_R - 420
+    if v == "D":
+        st = load("Stripes")
+        A.over(img, st, (bx0 + 60 + 168 + 30, by0 + 8))
+        rail = IN_L - BEZEL                     # the visible side rail, 42 px
+        wheel = load("Wheel")
+        y0 = by0 + IN_T + 40
+        A.over(img, wheel, (bx0 - 5, y0))
+        A.over(img, wheel, (bx1 - wheel.width + 5, y0))
+        lab7 = A.font(7, False)
+        d.text((bx0 + rail / 2 + 4, y0 + 66), "VOL", font=lab7, fill=INK, anchor="mm")
+        d.text((bx1 - rail / 2 - 4, y0 + 66), "CONT", font=lab7, fill=INK, anchor="mm")
+        jack = load("Jack")
+        A.over(img, jack, (int(bx0 + rail / 2 - 4), y0 + 100))
+        d.text((bx0 + rail / 2 + 4, y0 + 126), "PHONES", font=lab7, fill=INK, anchor="mm")
+        port_v = load("Port").rotate(90, expand=True)
+        A.over(img, port_v, (int(bx1 - rail / 2 - 12), y0 + 92))
+        d.text((bx1 - rail / 2 - 4, y0 + 146), "EXT", font=lab7, fill=INK, anchor="mm")
+        for k in range(14):                       # grip ridges low on both rails
+            yy = by1 - IN_B - 60 - k * 9
+            for xa in (bx0 + 10, bx1 - rail + 2):
+                d.line([xa, yy, xa + rail - 12, yy], fill=(190, 182, 160), width=2)
+                d.line([xa, yy + 2, xa + rail - 12, yy + 2], fill=(242, 236, 220), width=1)
     for i, name in enumerate(("CLOSE", "MENU", "ACHIEV", "NET-LOCK")):
         x = kx + i * 72
         pill = load("Pill")
