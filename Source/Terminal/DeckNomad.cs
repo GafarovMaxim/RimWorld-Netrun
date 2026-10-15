@@ -145,7 +145,8 @@ public static partial class NetrunUI
     private static void DrawNomadTop(Rect box, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu, bool paint)
     {
         NetrunSettings set = NetrunMod.Settings;
-        float y = box.y + 10f;
+        // Keys high enough that their stencils clear the screen's bezel (Maxim, 2026-10-15).
+        float y = box.y + 5f;
 
         // CLOSE, MENU, ACHIEV, NET LOCK: worn rubber keys (red for close and for the lock while the colony is cut off).
         string[] names = ["CLOSE", "MENU", "ACHIEV", "NET LOCK"];
@@ -179,7 +180,7 @@ public static partial class NetrunUI
                     onKey?.Invoke(KeyClose + i);
             }
             if (paint)
-                Stencil(new Rect(key.x - 10f, y + 33f, key.width + 20f, 14f), names[i]);
+                Stencil(new Rect(key.x - 10f, y + 32f, key.width + 20f, 14f), names[i]);
         }
         if (!paint)
             return;
@@ -198,7 +199,7 @@ public static partial class NetrunUI
                 Glow(bar, c, 0.3f, 3f);
             Widgets.DrawBoxSolid(bar, lit ? new Color(c.r, c.g, c.b, 0.9f) : new Color(c.r, c.g, c.b, 0.12f));
         }
-        Stencil(new Rect(rf.x - 10f, y + 33f, rf.width + 20f, 14f), "RF SIGNAL");
+        Stencil(new Rect(rf.x - 10f, y + 32f, rf.width + 20f, 14f), "RF SIGNAL");
         Tip(rf, (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
         float right = rf.x - 20f;
 
@@ -225,7 +226,7 @@ public static partial class NetrunUI
                     GUI.DrawTexture(l, lights[i].tex);
                     GUI.color = Color.white;
                 }
-                Stencil(new Rect(l.center.x - 17f, y + 33f, 34f, 14f), lights[i].label);
+                Stencil(new Rect(l.center.x - 17f, y + 32f, 34f, 14f), lights[i].label);
                 Tip(l.ExpandedBy(6f), lights[i].tip);
             }
             right = sx - 16f;
@@ -246,7 +247,7 @@ public static partial class NetrunUI
             float mark = tuner.x + 8f + (tuner.width - 16f) * _tuner;
             Glow(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange, 0.45f, 4f);
             Widgets.DrawBoxSolid(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange);
-            Stencil(new Rect(tuner.x, y + 33f, tuner.width, 14f), "TUNE  88.2 - 107.9");
+            Stencil(new Rect(tuner.x, y + 32f, tuner.width, 14f), "TUNE  88.2 - 107.9");
             Tip(tuner, "NR_DeckTuner".Translate());
             x = tuner.xMax + 16f;
         }
@@ -282,10 +283,10 @@ public static partial class NetrunUI
         }
 
         // The cross pad (compact, inside the bar): back on the left arm, core in the middle, the Cyberpedia on the right.
-        var pad = new Rect(x, by + 12f, 72f, 48f);
-        var back = new Rect(pad.x, pad.y + 15f, 26f, 18f);
-        var help = new Rect(pad.xMax - 26f, pad.y + 15f, 26f, 18f);
-        var core = new Rect(pad.x + 26f, pad.y + 14f, 20f, 20f);
+        var pad = new Rect(x, by + 8f, 58f, 58f);
+        var back = new Rect(pad.x + 2f, pad.y + 18f, 17f, 20f);
+        var help = new Rect(pad.x + 37f, pad.y + 18f, 17f, 20f);
+        var core = new Rect(pad.x + 21f, pad.y + 21f, 16f, 16f);
         bool active = onKey != null;
         if (paint)
         {
@@ -301,7 +302,7 @@ public static partial class NetrunUI
             Sprite(NomadTex.Core, new Vector2(core.x, core.y + (coreDown ? 1f : 0f)), new Color(k, k, k));
             string[] padLabels = ["◁ BACK", "● CORE", "? HELP"];
             for (int i = 0; i < 3; i++)
-                Stencil(new Rect(pad.xMax + 8f, by + 13f + i * 15f, 60f, 14f), padLabels[i], TextAnchor.UpperLeft);
+                Stencil(new Rect(pad.xMax + 8f, by + 14f + i * 15f, 60f, 14f), padLabels[i], TextAnchor.UpperLeft);
         }
         string Tip3(int i, Rect r) => active && Mouse.IsOver(r) ? (string)("NR_DeckKey_" + i).Translate() : null;
         if (CasingHit(back, active, Tip3(KeyBack, back)))
@@ -323,8 +324,14 @@ public static partial class NetrunUI
         Texture2D lever = NomadTex.Lever[Mathf.Clamp(Mathf.RoundToInt(_nomadLever * 6f), 0, 6)];
         if (lever != null)
             Sprite(lever, new Vector2(pivot.x - 30f, pivot.y - 48f));
+        // The link lamp in its socket at the right end, clear of the engraved labels.
+        var lamp = new Rect(plate.xMax - 26f, plate.y + 37f, 14f, 14f);
+        GUI.DrawTexture(lamp, NomadTex.LedOff);
         if (online)
-            Glow(new Rect(plate.xMax - 22f, plate.y + 40f, 10f, 6f), PodGreen, 0.35f, 5f);
+        {
+            Glow(lamp.ContractedBy(3f), PodGreen, 0.8f, 6f);
+            GUI.DrawTexture(lamp, NomadTex.LedGreen);
+        }
         if (Mouse.IsOver(plate))
             Tip(plate, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
 

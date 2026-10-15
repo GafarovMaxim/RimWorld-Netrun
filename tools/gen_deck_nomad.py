@@ -414,12 +414,12 @@ def make_patch():
 
 
 def make_dpad():
-    """A compact rubber cross pad, 72 x 48 (fits the bottom bar): left arm BACK, right arm HELP, a hole in the middle
-    for the brass CORE button."""
-    W, H = 72, 48
-    m = A.mask((W, H), lambda d, s: (d.rounded_rectangle([0, 15 * s, W * s - 1, 33 * s - 1], 5 * s, fill=255),
-                                     d.rounded_rectangle([27 * s, 0, 45 * s - 1, H * s - 1], 5 * s, fill=255)))
-    hole = A.mask((W, H), lambda d, s: d.ellipse([26 * s, 14 * s, 46 * s - 1, 34 * s - 1], fill=255))
+    """A rubber cross pad with equal arms, 58 x 58 with room for its shadow (Maxim, 2026-10-15: the old one was a long
+    bar and looked cut): left arm BACK, right arm HELP, a hole in the middle for the brass CORE button."""
+    W, H = 58, 58
+    m = A.mask((W, H), lambda d, s: (d.rounded_rectangle([2 * s, 18 * s, 54 * s, 38 * s], 5 * s, fill=255),
+                                     d.rounded_rectangle([18 * s, 2 * s, 38 * s, 54 * s], 5 * s, fill=255)))
+    hole = A.mask((W, H), lambda d, s: d.ellipse([19 * s, 19 * s, 37 * s, 37 * s], fill=255))
     rgb = A.hexc(0x2c271d) + A.fbm(W, H, 10, 2, 141)[..., None] * 10 + A.grain(W, H, 142, 4)[..., None]
     rgb += (A.shade(m, 1.6) * 55)[..., None]
     rgb = rgb * (1 - hole[..., None]) + (A.hexc(0x0d0c09) + (A.shade(1 - hole, 1.4, light=(1, 1)) * 30)[..., None]) * hole[..., None]
@@ -428,8 +428,8 @@ def make_dpad():
     img.alpha_composite(A.to_img(rgb, m))
     d = ImageDraw.Draw(img)
     # embossed marks on the top and bottom arms (decoration)
-    d.polygon([(36, 4), (32, 9), (40, 9)], fill=(20, 18, 13, 200))
-    d.polygon([(36, 44), (32, 39), (40, 39)], fill=(20, 18, 13, 200))
+    d.polygon([(28, 6), (24, 11), (32, 11)], fill=(20, 18, 13, 200))
+    d.polygon([(28, 50), (24, 45), (32, 45)], fill=(20, 18, 13, 200))
     return img
 
 
@@ -478,7 +478,8 @@ def make_lever_plate():
     for x, y in ((7, 7), (W - 7, 7), (7, H - 7), (W - 7, H - 7)):
         A.over(img, A.rivet(6, A.hexc(0x5a5a50), seed=x * 3 + y), (x - 5, y - 5))
     f = A.font(8)
-    for text, xy in (("NET LINK", (80, 45)), ("OFF", (26, 45)), ("ON", (134, 45))):
+    # the labels stay left of the lamp socket at the right end (code lights the lamp)
+    for text, xy in (("NET LINK", (74, 45)), ("OFF", (26, 45)), ("ON", (120, 45))):
         A.over(img, A.text_layer((W, H), text, f, (240, 225, 190, 40), (xy[0], xy[1] + 1), "mm"), (0, 0))
         A.over(img, A.text_layer((W, H), text, f, (12, 11, 8, 190), xy, "mm"), (0, 0))
     return img
@@ -590,8 +591,8 @@ def mock(out_path=None, W=1100, H=880):
     # bottom bar
     by = cy1 - IN_B
     A.over(img, A.nine_slice(load("Lcd"), (212, 56), 12, 12, 12, 12), (cx0 + 34, by + 8))
-    A.over(img, load("Dpad"), (cx0 + 270, by + 12))
-    A.over(img, load("Core"), (cx0 + 270 + 26, by + 12 + 14))
+    A.over(img, load("Dpad"), (cx0 + 270, by + 8))
+    A.over(img, load("Core"), (cx0 + 270 + 21, by + 8 + 21))
     strap = A.nine_slice(load("Strap"), (300, 38), 20, 0, 20, 0)
     A.over(img, strap, (cx0 + 430, by + 12))
     for i in range(10):
