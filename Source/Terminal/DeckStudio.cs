@@ -33,7 +33,8 @@ public static partial class NetrunUI
             FaderSlot = Get("FaderSlot"), FaderCap = Get("FaderCap"), FaderCapPink = Get("FaderCapPink"), Jog = Get("Jog"),
             LedBezel = Get("LedBezel"), Glass = Get("Glass"), Plate = Get("Plate"), Knob = Get("KnobSmall"), Note = Get("Note"),
             Vent = Get("Vent"), Badge = Get("Badge"), Sun = Get("Sticker_Sun"), Phones = Get("Sticker_Phones"), BdLogo = Get("Sticker_BdLogo"),
-            Play = Get("Sticker_Play"), Jp = Get("Sticker_Jp"), Rating = Get("Sticker_Rating"), Side = Get("Sticker_Side"), Warn = Get("Sticker_Warn");
+            Play = Get("Sticker_Play"), Jp = Get("Sticker_Jp"), Rating = Get("Sticker_Rating"), Side = Get("Sticker_Side"), Warn = Get("Sticker_Warn"),
+            Mic = Get("Sticker_Mic"), JackGreen = Get("Jack_Green"), JackPink = Get("Jack_Pink"), Reel = Get("Sticker_Reel"), Heart = Get("Sticker_Heart");
 
         public static bool Ready => Body != null;
     }
@@ -111,10 +112,16 @@ public static partial class NetrunUI
             bool busy = online && anim && Noise(time, 6f) > 0.55f;
             Widgets.DrawBoxSolid(new Rect(bay.x + 129f, bay.y + 8f, 5f, 5f), busy ? Ok : online ? new Color(0.16f, 0.4f, 0.22f) : new Color(0.1f, 0.16f, 0.12f));
             Tip(bay, "NR_DeckStudioBay".Translate());
+            // The AUX pair: headphones (green collar) and mic (pink), each marked with a sticker.
             float x = bay.xMax + 16f;
-            if (x + 50f <= lx - 12f)
-                Sprite(StudioTex.Phones, new Vector2(x, ty - 22f));
-            x += 64f;
+            if (x + 106f <= lx - 12f)
+            {
+                Sprite(StudioTex.Phones, new Vector2(x, ty - 15f));
+                Sprite(StudioTex.JackGreen, new Vector2(x + 32f, ty - 11f));
+                Sprite(StudioTex.Mic, new Vector2(x + 64f, ty - 14f));
+                Sprite(StudioTex.JackPink, new Vector2(x + 84f, ty - 11f));
+            }
+            x += 122f;
             if (x + 84f <= lx - 24f)
                 Sprite(StudioTex.Vent, new Vector2(x, ty - 9f));
             x += 104f;
@@ -180,6 +187,8 @@ public static partial class NetrunUI
         {
             Sprite(StudioTex.Meter, new Vector2(mx, my));
             Sprite(StudioTex.Rating, new Vector2(box.x + 16f, yd + 84f));
+            Sprite(StudioTex.Heart, new Vector2(box.x + 27f, yd + 10f));
+            Sprite(StudioTex.Reel, new Vector2(box.x + 9f, yd + 47f));
             float[] cols = [14f, 25f, 47f, 58f];
             int heatRows = Mathf.Clamp(Mathf.RoundToInt(heat / 100f * 12f), 0, 12);
             for (int c = 0; c < 4; c++)
@@ -303,7 +312,7 @@ public static partial class NetrunUI
             StudioCaption(lcd.x + 30f, lcd.yMax + 10f, "SESSION");
             for (int k = 0; k < 2; k++)
             {
-                float kx = lcd.xMax - 70f + k * 40f;
+                float kx = lcd.xMax - 105f + k * 52f;
                 Sprite(StudioTex.Knob, new Vector2(kx - 15f, yd + 92f));
                 StudioCaption(kx, yd + 118f, k == 0 ? "TONE" : "PAN");
             }
@@ -317,7 +326,7 @@ public static partial class NetrunUI
         if (gap >= 150f)
         {
             Sprite(StudioTex.Sun, new Vector2(x + 12f, yd + 18f));
-            Sprite(StudioTex.BdLogo, new Vector2(x + 70f, yd + 22f));
+            Sprite(StudioTex.BdLogo, new Vector2(x + 66f, yd + 66f));
         }
         else if (gap >= 76f)
             Sprite(StudioTex.Sun, new Vector2(Mathf.Round(x + (gap - 66f) / 2f), yd + 30f));

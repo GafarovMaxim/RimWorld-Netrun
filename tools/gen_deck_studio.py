@@ -404,7 +404,7 @@ def make_sun():
 
 
 def make_phones():
-    """Pixel-art headphones sticker, 44 x 40 (drawn at 22 x 20 and doubled, like the reference)."""
+    """Pixel-art headphones sticker for the headphone jack, about 30 x 28 (22 x 20 pixel art, a die-cut edge)."""
     w, h = 22, 20
     px = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     d = ImageDraw.Draw(px)
@@ -417,14 +417,95 @@ def make_phones():
         d.rounded_rectangle((x0 + 1, 10, x0 + 6, 17), 2, fill=M)
         d.rectangle((x0 + 2, 11, x0 + 3, 13), fill=L)
         d.rectangle((x0 + 4, 15, x0 + 5, 16), fill=D)
-    big = px.resize((w * 2, h * 2), Image.NEAREST)
-    out = Image.new("RGBA", (w * 2 + 6, h * 2 + 6), (0, 0, 0, 0))
+    big = px
+    out = Image.new("RGBA", (w + 6, h + 6), (0, 0, 0, 0))
     a = np.array(big.getchannel("A"), np.float32) / 255
     a = np.pad(a, 3)
     edge = A.blur((A.blur(a, 1.5) > 0.05).astype(np.float32), 0.4)
     out.alpha_composite(A.to_img(np.full(a.shape + (3,), 226, np.float32), edge))
     out.alpha_composite(big, (3, 3))
-    return out.rotate(8, expand=True, resample=Image.BICUBIC)
+    return out.rotate(6, expand=True, resample=Image.BICUBIC)
+
+
+def make_mic():
+    """Pixel-art microphone sticker for the mic jack, about 18 x 26: a pink capsule in a U holder on a stand."""
+    w, h = 12, 20
+    px = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(px)
+    L, M, D, O = (250, 196, 230, 255), (236, 120, 200, 255), (170, 60, 140, 255), (40, 16, 40, 255)
+    d.rounded_rectangle((3, 0, 8, 10), 2, fill=O)
+    d.rounded_rectangle((4, 1, 7, 9), 1, fill=M)
+    d.point([(4, 2), (4, 3), (4, 4)], fill=L)
+    d.line([(5, 6), (6, 6)], fill=D)
+    d.line([(5, 8), (6, 8)], fill=D)
+    d.arc((0, 3, 11, 14), 0, 180, fill=O, width=2)
+    d.rectangle((5, 14, 6, 17), fill=O)
+    d.rectangle((2, 17, 9, 19), fill=O)
+    d.rectangle((3, 18, 8, 18), fill=D)
+    out = Image.new("RGBA", (w + 6, h + 6), (0, 0, 0, 0))
+    a = np.pad(np.array(px.getchannel("A"), np.float32) / 255, 3)
+    edge = A.blur((A.blur(a, 1.5) > 0.05).astype(np.float32), 0.4)
+    out.alpha_composite(A.to_img(np.full(a.shape + (3,), 226, np.float32), edge))
+    out.alpha_composite(px, (3, 3))
+    return out.rotate(-5, expand=True, resample=Image.BICUBIC)
+
+
+def make_jack(ring):
+    """A 3.5 mm AUX socket, 22 x 22: a hex nut, a coloured collar (green for headphones, pink for the mic, the old PC
+    colours) and a dark hole."""
+    n, c = 22, 11
+    b = S.Big(n, n)
+    b.ellipse((c - 10, c - 9, c + 10, c + 11), (8, 6, 12, 140))
+    hexa = [(c + 9.5 * np.cos(np.radians(30 + 60 * i)), c + 9.5 * np.sin(np.radians(30 + 60 * i))) for i in range(6)]
+    b.poly(hexa, (128, 122, 136, 255))
+    b.poly([(x * 0.86 + c * 0.14, y * 0.86 + c * 0.14 + 0.6) for x, y in hexa], (92, 86, 102, 255))
+    b.ellipse((c - 6.5, c - 6.5, c + 6.5, c + 6.5), ring + (255,))
+    b.ellipse((c - 5, c - 5.5, c + 5, c + 4.5), tuple(min(255, v + 50) for v in ring) + (255,))
+    b.ellipse((c - 4.2, c - 4.2, c + 4.2, c + 4.2), (40, 36, 46, 255))
+    b.ellipse((c - 2.6, c - 2.6, c + 2.6, c + 2.6), (6, 4, 8, 255))
+    b.ellipse((c - 3.6, c - 4, c - 1.4, c - 2.4), (170, 166, 178, 200))
+    return b.done()
+
+
+def make_reel():
+    """A round cassette-reel sticker, 32 x 32: a white hub with six teeth on violet, a pink ring."""
+    n = 30
+    b = S.Big(n + 4, n + 4)
+    c = (n - 1) / 2
+    b.ellipse((2, 3, n + 1, n + 2), (0, 0, 0, 90))
+    b.ellipse((0, 0, n - 1, n - 1), (226, 220, 236, 255))
+    b.ellipse((2, 2, n - 3, n - 3), PINK + (255,))
+    b.ellipse((4, 4, n - 5, n - 5), (40, 22, 62, 255))
+    b.ellipse((c - 8, c - 8, c + 8, c + 8), (226, 220, 236, 255))
+    b.ellipse((c - 4.5, c - 4.5, c + 4.5, c + 4.5), (40, 22, 62, 255))
+    for i in range(6):
+        a = np.radians(60 * i)
+        b.line([(c + np.cos(a) * 3, c + np.sin(a) * 3), (c + np.cos(a) * 5.5, c + np.sin(a) * 5.5)], (226, 220, 236, 255), 2)
+    for i in range(3):
+        a = np.radians(120 * i + 30)
+        b.ellipse((c + np.cos(a) * 10.5 - 1.5, c + np.sin(a) * 10.5 - 1.5, c + np.cos(a) * 10.5 + 1.5, c + np.sin(a) * 10.5 + 1.5), CYAN + (255,))
+    return scanlines(b.done(), 0.15).rotate(10, expand=True, resample=Image.BICUBIC)
+
+
+def make_heart():
+    """A round sticker, 30 x 30: a pink pixel heart on cyan, a pale die-cut edge."""
+    n = 28
+    img = Image.new("RGBA", (n + 4, n + 4), (0, 0, 0, 0))
+    b = S.Big(n + 4, n + 4)
+    b.ellipse((2, 3, n + 1, n + 2), (0, 0, 0, 90))
+    b.ellipse((0, 0, n - 1, n - 1), (226, 220, 236, 255))
+    b.ellipse((2, 2, n - 3, n - 3), (60, 170, 176, 255))
+    img.alpha_composite(b.done())
+    heart = ["0110110", "1111111", "1111111", "0111110", "0011100", "0001000"]
+    px = Image.new("RGBA", (7, 6), (0, 0, 0, 0))
+    for y, row in enumerate(heart):
+        for x, v in enumerate(row):
+            if v == "1":
+                px.putpixel((x, y), PINK + (255,))
+    px.putpixel((1, 1), (250, 220, 240, 255))
+    big = px.resize((14, 12), Image.NEAREST)
+    img.alpha_composite(big, (int((n - 14) / 2), int((n - 12) / 2) + 1))
+    return img.rotate(-8, expand=True, resample=Image.BICUBIC)
 
 
 def make_bdlogo():
@@ -528,6 +609,11 @@ def build():
     A.save(make_badge(), T, "Badge")
     A.save(make_sun(), T, "Sticker_Sun")
     A.save(make_phones(), T, "Sticker_Phones")
+    A.save(make_mic(), T, "Sticker_Mic")
+    A.save(make_jack((70, 170, 80)), T, "Jack_Green")
+    A.save(make_jack((200, 90, 160)), T, "Jack_Pink")
+    A.save(make_reel(), T, "Sticker_Reel")
+    A.save(make_heart(), T, "Sticker_Heart")
     A.save(make_bdlogo(), T, "Sticker_BdLogo")
     A.save(make_play(), T, "Sticker_Play")
     A.save(make_jp(), T, "Sticker_Jp")
@@ -587,7 +673,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     put("Bay", tl[2] + 24, ty - 17)
     d.rectangle([tl[2] + 24 + 129, ty - 17 + 8, tl[2] + 24 + 133, ty - 17 + 12], fill=(93, 255, 138, 255))
     put("Note", bx + 200, by + 6)
-    vent_x = tl[2] + 24 + 150 + 16 + 64
+    vent_x = tl[2] + 24 + 150 + 16 + 106 + 16
     if vent_x + 84 <= xm - 52 - 40 - 4 * 58 - 24:
         put("Vent", vent_x, ty - 9)
     put("Badge", (bx + xm) / 2 - 32, ym - IN_B + 2)
@@ -598,8 +684,11 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     put("Sticker_Warn", xm - OVER - 24, ym - IN_B - 110)
     put("Sticker_Side", bx + 120, ym - IN_B + 2)
     ph_x = tl[2] + 24 + 150 + 16
-    if ph_x + 50 <= xm - 52 - 40 - 4 * 58 - 12:
-        put("Sticker_Phones", ph_x, ty - 22)
+    if ph_x + 106 <= xm - 52 - 40 - 4 * 58 - 12:
+        put("Sticker_Phones", ph_x, ty - 15)
+        put("Jack_Green", ph_x + 32, ty - 11)
+        put("Sticker_Mic", ph_x + 64, ty - 14)
+        put("Jack_Pink", ph_x + 84, ty - 11)
     lamps = [("REC", (220, 60, 50), level >= 3), ("NET", (49, 196, 106), online), ("SICK", (255, 154, 74), True), ("POD", (49, 196, 106), False)]
     lx = xm - 52 - 40 - 4 * 58
     for i, (nm, c, on) in enumerate(lamps):
@@ -629,6 +718,8 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     mx, my = bx + 66, yd + 8
     put("Meter", mx, my)
     put("Sticker_Rating", bx + 16, yd + 84)
+    put("Sticker_Heart", bx + 27, yd + 10)
+    put("Sticker_Reel", bx + 9, yd + 47)
     hl = round(heat / 100 * 12)
     for ci, cx0 in enumerate((14, 25, 47, 58)):
         n = hl if ci < 2 else round(rf * 12) - (ci - 2)
@@ -655,8 +746,8 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
             d.text((lcd[0] + 10, lcd[1] + 9 + i * 15), ln, font=A.font(10, False), fill=(93, 255, 138, 255))
         cap("SESSION", lcd[0] + 30, lcd[3] + 10)
         for k, nm in enumerate(("TONE", "PAN")):
-            put("KnobSmall", lcd[2] - 70 + k * 40 - 15, yd + 92)
-            cap(nm, lcd[2] - 70 + k * 40, yd + 118)
+            put("KnobSmall", lcd[2] - 105 + k * 52 - 15, yd + 92)
+            cap(nm, lcd[2] - 105 + k * 52, yd + 118)
         x += 220
     put("Jog", jx - 56, jy - 56, 360 * tuner, (56, 56))
     cap("TUNER JOG", jx, yd + 122)
@@ -673,7 +764,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
         put("Plate", x + 150 + (gap - 150) / 2 - 120, yd + 44)
     if gap >= 150:
         put("Sticker_Sun", x + 12, yd + 18)
-        put("Sticker_BdLogo", x + 70, yd + 22)
+        put("Sticker_BdLogo", x + 66, yd + 66)
     elif gap >= 76:
         put("Sticker_Sun", x + (gap - 66) / 2, yd + 30)
     return img
