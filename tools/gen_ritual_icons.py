@@ -152,7 +152,7 @@ def trace_cleansing():
 
 
 def net_archon():
-    """The Net Archon: a bust with a visor, a neural cable from the jack at the temple, and a halo of data nodes."""
+    """The Net Archon: a bust with a visor and a halo of data nodes."""
     ic = Icon()
     hx, hy = 62, 60
     # the halo: an arc of nodes over the head, joined by a thin grey line
@@ -162,9 +162,6 @@ def net_archon():
     for i, (x, y) in enumerate(pts):
         r = 6 if i % 2 == 0 else 4.5
         ic.piece(lambda d, s, x=x, y=y, r=r: d.rectangle([(x - r) * s, (y - r) * s, (x + r) * s, (y + r) * s], fill=255), WHITE if i % 2 == 0 else GREY, 3.5)
-    # the cable: from the temple jack down past the shoulder to the right edge
-    ic.piece(lambda d, s: d.line([((hx + 18) * s, (hy + 4) * s), ((hx + 32) * s, (hy + 10) * s), ((hx + 40) * s, (hy + 30) * s),
-                                  ((hx + 46) * s, (hy + 66) * s)], fill=255, width=int(5 * s), joint="curve"), GREY)
     def bust(d, s):
         d.rounded_rectangle([(hx - 38) * s, (hy + 30) * s, (hx + 38) * s, (hy + 100) * s], 24 * s, fill=255)
         d.rectangle([(hx - 7) * s, (hy + 14) * s, (hx + 7) * s, (hy + 34) * s], fill=255)
@@ -173,8 +170,7 @@ def net_archon():
                                      ((hx + 38) * s, (hy + 56) * s), ((hx + 38) * s, 130 * s), ((hx - 38) * s, 130 * s)], fill=255), GREY)
     ic.detail(lambda d, s: d.line([(hx * s, (hy + 32) * s), (hx * s, 128 * s)], fill=BLACK, width=int(3 * s)))
     ic.piece(lambda d, s: d.ellipse([(hx - 18) * s, (hy - 20) * s, (hx + 18) * s, (hy + 20) * s], fill=255))
-    ic.piece(lambda d, s: d.rounded_rectangle([(hx - 20) * s, (hy - 6) * s, (hx + 12) * s, (hy + 4) * s], 3 * s, fill=255), GREY, 3)
-    ic.piece(lambda d, s: d.ellipse([(hx + 12) * s, (hy) * s, (hx + 21) * s, (hy + 9) * s], fill=255), GREY, 3)
+    ic.piece(lambda d, s: d.rounded_rectangle([(hx - 20) * s, (hy - 6) * s, (hx + 20) * s, (hy + 4) * s], 3 * s, fill=255), GREY, 3)
     ic.save("Role_NetArchon")
 
 
