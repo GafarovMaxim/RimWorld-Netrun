@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <!-- The look of the net rituals (litany of data, trace cleansing), green for both (Maxim, 2026-10-16): a green glow,
+       circuit traces on the floor, columns of code falling and digits floating up. Art: tools/gen_ritual_fx.py. -->
+
+  <!-- Floating digits: rise and fade like the vanilla bokeh. -->
+  <FleckDef ParentName="FleckBase" Name="NR_FleckDigitBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>0.9</solidTime>
+    <fadeInTime>0.35</fadeInTime>
+    <fadeOutTime>0.9</fadeOutTime>
+    <acceleration>(0, 0, 0.35)</acceleration>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckDigitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_Digit0</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Digit_0</texPath>
+      <drawSize>(0.7, 0.7)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckDigitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_Digit1</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Digit_1</texPath>
+      <drawSize>(0.7, 0.7)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckDigitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_DigitHex</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Digit_Hex</texPath>
+      <drawSize>(0.8, 0.8)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <!-- Falling columns of code: the comp gives them a downward speed. -->
+  <FleckDef ParentName="FleckBase" Name="NR_FleckColumnBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
+    <fleckSystemClass>FleckSystemThrown</fleckSystemClass>
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <solidTime>1.1</solidTime>
+    <fadeInTime>0.25</fadeInTime>
+    <fadeOutTime>0.8</fadeOutTime>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckColumnBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_ColumnA</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Column_A</texPath>
+      <drawSize>(0.5, 4)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckColumnBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_ColumnB</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Column_B</texPath>
+      <drawSize>(0.5, 4)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <FleckDef ParentName="NR_FleckColumnBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Fleck_ColumnC</defName>
+    <graphicData>
+      <graphicClass>Graphic_Fleck</graphicClass>
+      <shaderType>MoteGlow</shaderType>
+      <texPath>Things/Mote/Netrun/Ritual/Column_C</texPath>
+      <drawSize>(0.5, 4)</drawSize>
+    </graphicData>
+  </FleckDef>
+
+  <!-- Circuit traces on the floor: the vanilla Techist lines' scrolling glow over our traces. -->
+  <ThingDef ParentName="MoteBase" Name="NR_MoteCircuitBase" Abstract="True" MayRequire="Ludeon.RimWorld.Ideology">
+    <thingClass>MoteThrown</thingClass>
+    <altitudeLayer>FloorCoverings</altitudeLayer>
+    <graphicData>
+      <graphicClass>Graphic_MoteWithAgeSecs</graphicClass>
+      <shaderType>RitualOutline</shaderType>
+      <shaderParameters>
+        <_GradientTex>/Things/Mote/RitualEffects/Gradient</_GradientTex>
+        <_ScrollSpeed>0.2</_ScrollSpeed>
+        <_GradientScale>0.5</_GradientScale>
+      </shaderParameters>
+      <drawSize>(3, 3)</drawSize>
+    </graphicData>
+    <mote>
+      <fadeInTime>0.6</fadeInTime>
+      <solidTime>99999</solidTime>
+      <fadeOutTime>0.6</fadeOutTime>
+      <needsMaintenance>true</needsMaintenance>
+    </mote>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Mote_RitualCircuitA</defName>
+    <graphicData>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_A</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Mote_RitualCircuitB</defName>
+    <graphicData>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_B</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <ThingDef ParentName="NR_MoteCircuitBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Mote_RitualCircuitC</defName>
+    <graphicData>
+      <texPath>Things/Mote/Netrun/Ritual/Circuit_C</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <RitualVisualEffectDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualVfx_Net</defName>
+    <tintColor>(60, 255, 130)</tintColor>
+    <comps>
+      <li>
+        <compClass>CompRitualEffect_ConstantCenter</compClass>
+        <moteDef>Mote_RitualGlowRays</moteDef>
+        <scaleWithRoom>true</scaleWithRoom>
+      </li>
+      <li Class="CompProperties_RitualEffectStaticAreaRandomMote">
+        <moteDefs>
+          <li>NR_Mote_RitualCircuitA</li>
+          <li>NR_Mote_RitualCircuitB</li>
+          <li>NR_Mote_RitualCircuitC</li>
+        </moteDefs>
+        <area>(22, 20)</area>
+        <spawnCount>12</spawnCount>
+        <minDist>2</minDist>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Digit0</fleckDef>
+        <area>(20, 18)</area>
+        <spawnIntervalTicks>9</spawnIntervalTicks>
+        <scale>0.7~1.2</scale>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(60, 255, 130)</li>
+          <li>(150, 255, 180)</li>
+          <li>(40, 200, 90)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_Digit1</fleckDef>
+        <area>(20, 18)</area>
+        <spawnIntervalTicks>9</spawnIntervalTicks>
+        <delay>4</delay>
+        <scale>0.7~1.2</scale>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(60, 255, 130)</li>
+          <li>(150, 255, 180)</li>
+          <li>(40, 200, 90)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_DigitHex</fleckDef>
+        <area>(20, 18)</area>
+        <spawnIntervalTicks>23</spawnIntervalTicks>
+        <scale>0.7~1.1</scale>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(60, 255, 130)</li>
+          <li>(150, 255, 180)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_ColumnA</fleckDef>
+        <area>(20, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <velocityDir>(0, 0, -1)</velocityDir>
+        <velocity>1.6~2.6</velocity>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(90, 255, 150)</li>
+          <li>(50, 220, 110)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_ColumnB</fleckDef>
+        <area>(20, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <delay>11</delay>
+        <velocityDir>(0, 0, -1)</velocityDir>
+        <velocity>1.6~2.6</velocity>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(90, 255, 150)</li>
+          <li>(50, 220, 110)</li>
+        </overrideColors>
+      </li>
+      <li Class="CompProperties_RitualEffectIntervalSpawnArea">
+        <fleckDef>NR_Fleck_ColumnC</fleckDef>
+        <area>(20, 16)</area>
+        <smoothEdges>false</smoothEdges>
+        <spawnIntervalTicks>31</spawnIntervalTicks>
+        <delay>21</delay>
+        <velocityDir>(0, 0, -1)</velocityDir>
+        <velocity>1.6~2.6</velocity>
+        <scalePositionWithRoom>true</scalePositionWithRoom>
+        <onlySpawnInSameRoom>true</onlySpawnInSameRoom>
+        <overrideColors>
+          <li>(90, 255, 150)</li>
+          <li>(50, 220, 110)</li>
+        </overrideColors>
+      </li>
+    </comps>
+  </RitualVisualEffectDef>
+
+  <!-- The ritual's ambience at the target: the cyberspace drone with data chirps now and then; it fades with distance. -->
+  <SoundDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_Ritual_NetAmbience</defName>
+    <context>MapOnly</context>
+    <sustain>true</sustain>
+    <sustainFadeoutTime>2</sustainFadeoutTime>
+    <maxSimultaneous>1</maxSimultaneous>
+    <priorityMode>PrioritizeNearest</priorityMode>
+    <subSounds>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Deep/Ambient/Cyberspace</clipPath></li></grains>
+        <volumeRange>38~38</volumeRange>
+        <sustainAttack>2</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
+        <pitchRange>1~1</pitchRange>
+        <distRange>8~34</distRange>
+      </li>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Ambient/Server</clipPath></li></grains>
+        <volumeRange>16~16</volumeRange>
+        <sustainAttack>2</sustainAttack>
+        <sustainSkipFirstAttack>false</sustainSkipFirstAttack>
+        <pitchRange>0.9~0.9</pitchRange>
+        <distRange>6~28</distRange>
+      </li>
+      <li>
+        <grains><li Class="AudioGrain_Clip"><clipPath>Netrun/Clean/Dive/Move</clipPath></li></grains>
+        <volumeRange>14~20</volumeRange>
+        <pitchRange>0.85~1.2</pitchRange>
+        <sustainLoop>false</sustainLoop>
+        <sustainIntervalRange>2.5~6</sustainIntervalRange>
+        <distRange>6~26</distRange>
+      </li>
+    </subSounds>
+  </SoundDef>
+
+</Defs>

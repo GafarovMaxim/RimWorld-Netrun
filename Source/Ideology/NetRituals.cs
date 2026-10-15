@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using Verse;
+using Verse.Sound;
 
 namespace Netrun;
 
@@ -244,5 +245,59 @@ public static class NetRitualSync
             }
         }
         return added;
+    }
+}
+
+/// <summary>
+/// The net rituals' behavior: the ideo's own ritual music is swapped for the net ambience (a drone with data chirps at
+/// the target, one sustainer per running ritual, not saved: it starts again after loading).
+/// </summary>
+public class RitualBehaviorWorker_Net : RitualBehaviorWorker
+{
+    private static SoundDef _ambience;
+    private Sustainer _sustainer;
+
+    public RitualBehaviorWorker_Net()
+    {
+    }
+
+    public RitualBehaviorWorker_Net(RitualBehaviorDef def) : base(def)
+    {
+    }
+
+    public override Sustainer SoundPlaying => _sustainer;
+
+    public override void TryExecuteOn(TargetInfo target, Pawn organizer, Precept_Ritual ritual, RitualObligation obligation, RitualRoleAssignments assignments, bool playerForced = false)
+    {
+        // Rituals made before the pattern said so still carry the ideo music flag.
+        if (ritual != null)
+            ritual.playsIdeoMusic = false;
+        base.TryExecuteOn(target, organizer, ritual, obligation, assignments, playerForced);
+    }
+
+    public override void Tick(LordJob_Ritual ritual)
+    {
+        base.Tick(ritual);
+        try
+        {
+            _ambience ??= DefDatabase<SoundDef>.GetNamedSilentFail("NR_Ritual_NetAmbience");
+            if (_ambience == null || ritual?.selectedTarget.IsValid != true)
+                return;
+            if (_sustainer == null || _sustainer.Ended)
+                _sustainer = _ambience.TrySpawnSustainer(SoundInfo.InMap(ritual.selectedTarget, MaintenanceType.PerTick));
+            _sustainer?.Maintain();
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Ritual ambience: " + e, 0x4E52A7);
+            _sustainer = null;
+        }
+    }
+
+    public override void Cleanup(LordJob_Ritual ritual)
+    {
+        base.Cleanup(ritual);
+        _sustainer?.End();
+        _sustainer = null;
     }
 }

@@ -221,6 +221,7 @@
 
   <RitualBehaviorDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualBehavior_NetSermon</defName>
+    <workerClass>Netrun.RitualBehaviorWorker_Net</workerClass>
     <durationTicks>5000</durationTicks>
     <spectatorsLabel>Participants</spectatorsLabel>
     <spectatorGerund>participate</spectatorGerund>
@@ -239,6 +240,7 @@
     <stages>
       <li>
         <defaultDuty>Spectate</defaultDuty>
+        <visualEffectDef>NR_RitualVfx_Net</visualEffectDef>
         <endTriggers>
           <li Class="StageEndTrigger_DurationPercentage">
             <percentage>0.85</percentage>
@@ -257,6 +259,7 @@
       </li>
       <li>
         <defaultDuty>Spectate</defaultDuty>
+        <visualEffectDef>NR_RitualVfx_Net</visualEffectDef>
         <endTriggers>
           <li Class="StageEndTrigger_DurationPercentage">
             <percentage>0.15</percentage>
@@ -270,6 +273,7 @@
        (Maxim, 2026-10-16). -->
   <RitualBehaviorDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualBehavior_TraceCleansing</defName>
+    <workerClass>Netrun.RitualBehaviorWorker_Net</workerClass>
     <durationTicks>5000</durationTicks>
     <spectatorsLabel>Participants</spectatorsLabel>
     <spectatorGerund>participate</spectatorGerund>
@@ -316,6 +320,7 @@
     <stages>
       <li>
         <defaultDuty>Spectate</defaultDuty>
+        <visualEffectDef>NR_RitualVfx_Net</visualEffectDef>
         <endTriggers>
           <li Class="StageEndTrigger_DurationPercentage">
             <percentage>1</percentage>
@@ -357,6 +362,7 @@
 
   <RitualPatternDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualPattern_Litany</defName>
+    <playsIdeoMusic>false</playsIdeoMusic>
     <nameMaker>NR_NamerLitany</nameMaker>
     <shortDescOverride>litany of data</shortDescOverride>
     <descOverride>At the AI server a speaker reads the data aloud and the faithful listen. The awakened AIs listen too: a good litany earns their trust; a poor one leaves them unheard and hungry.</descOverride>
@@ -376,6 +382,7 @@
 
   <RitualPatternDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualPattern_TraceCleansing</defName>
+    <playsIdeoMusic>false</playsIdeoMusic>
     <nameMaker>NR_NamerTraceCleansing</nameMaker>
     <shortDescOverride>trace cleansing</shortDescOverride>
     <descOverride>Up to three netrunners at the comms console scrub the colony's trace from the net, without a fixer. The sharper their minds, the cleaner the job. Once in 15 days.</descOverride>
@@ -402,6 +409,7 @@
     <iconPath>UI/Netrun/Ideo/Ritual_Litany</iconPath>
     <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_Litany</ritualPatternBase>
+    <usesIdeoVisualEffects>false</usesIdeoVisualEffects>
     <requiredMemes>
       <li>NR_Meme_MachineRevelation</li>
     </requiredMemes>
@@ -419,6 +427,7 @@
     <iconPath>UI/Netrun/Ideo/Ritual_TraceCleansing</iconPath>
     <preceptClass>Precept_Ritual</preceptClass>
     <ritualPatternBase>NR_RitualPattern_TraceCleansing</ritualPatternBase>
+    <usesIdeoVisualEffects>false</usesIdeoVisualEffects>
     <!-- Only with a net meme (Maxim, 2026-10-14). -->
     <requiredMemes>
       <li>NR_Meme_NetAscension</li>
