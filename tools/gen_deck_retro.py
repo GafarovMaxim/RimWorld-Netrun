@@ -33,7 +33,7 @@ LCD_INK = (34, 48, 26)
 V = {
     "A": dict(T="Retro_A", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
     "B": dict(T="Retro_B", base=(232, 228, 216), dark=(54, 54, 56), stripes=[(246, 186, 40), (232, 96, 36)], accent=(214, 50, 40), key=(54, 54, 56)),
-    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
+    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=[(250, 212, 70)] + SUNSET + [(120, 36, 70)], accent=(150, 36, 70), key=(70, 68, 76)),
     "C": dict(T="Retro_C", base=(92, 60, 42), dark=(40, 30, 24), stripes=[(88, 160, 200), (110, 180, 90), (246, 196, 64), (240, 120, 40), (214, 50, 40)],
               accent=(232, 214, 176), key=(70, 46, 32), cream=(232, 216, 180)),
 }
@@ -146,7 +146,7 @@ def make_badge(v):
     return b.done()
 
 
-def make_stripes(colors, w=16, gap=4, h=60):
+def make_stripes(colors, w=30, gap=8, h=IN_T - BEZEL):
     """Vertical sunset bars for the top bar, between the badge and the keys (Maxim, 2026-10-15)."""
     n = len(colors)
     b = S.Big(n * w + (n - 1) * gap, h)
@@ -363,8 +363,8 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
     top_y = by0 + 18 if v == "D" else top_y
     kx = bx1 - IN_R - 420
     if v == "D":
-        st = load("Stripes")
-        A.over(img, st, (bx0 + 60 + 168 + 30, by0 + 8))
+        st = load("Stripes")                    # thick bars from the case's top edge down to the screen surround
+        A.over(img, st, (kx - 40 - st.width, by0))
         rail = IN_L - BEZEL                     # the visible side rail, 42 px
         wheel = load("Wheel")
         y0 = by0 + IN_T + 40
@@ -405,7 +405,7 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
         d.text((lcd[0] + 12, lcd[1] + 9 + i * 14), t, font=mono(11), fill=LCD_INK)
     rx = lcd[0] + lcd[2] + 40
     for i, (g, name) in enumerate((("<", "BACK"), ("O", "CORE"), ("?", "HELP"))):
-        x, y = rx + i * 52, yb + 34 - (i % 2) * 10   # staggered like a handheld's A/B
+        x, y = rx + i * 52, yb + 40 - (i % 2) * 10   # staggered like a handheld's A/B
         A.over(img, load("Round"), (x, y))
         d.text((x + 19, y + 19), g, font=A.font(14), fill=(246, 236, 214) if v != "C" else (60, 40, 30), anchor="mm")
         d.text((x + 19, y + 48), name, font=lab, fill=ink, anchor="mm")
