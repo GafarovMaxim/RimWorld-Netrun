@@ -14,7 +14,7 @@
 
 ## Следующие шаги
 1. Тест нового «Перехода» (2026-10-15): окно группы, все стартуют вместе, тело тихо умирает (нет письма о смерти и скорби), эпилог сразу после группы; старая оболочка в сейве отпускается при загрузке; изоляция сети прерывает загрузку.
-2. Темы рамки v2 (макет `docs/mockups/37*`), по шагам: шаг 1 Номад сделан (текстуры `tools/gen_deck_nomad.py` → `Textures/UI/Netrun/Frame/Nomad/`, код `Source/Terminal/DeckNomad.cs`, открывается за 50 нырков); ждёт проверки в игре. Дальше: Iron Company и Kurenai, Стрит и PROTO-X, Студия и новая Полевая (нынешняя остаётся «Классикой»).
+2. Темы рамки v2 (макет `docs/mockups/37*`), по шагам. Сделаны: Номад (`tools/gen_deck_nomad.py`, `Source/Terminal/DeckNomad.cs`, 50 нырков) и Стрит, жёлтая панель по референсу Maxim (`docs/mockups/38b-street-yellow.png`, `tools/gen_deck_street.py` + наклейки и граффити `tools/deck_stickers.py`, `Source/Terminal/DeckStreet.cs`, открывается за Black ICE; вариант с ЭЛТ-монитором в Reserve `_archive/DeckStreet_CRT`). Оба ждут проверки в игре (dev: «Unlock: all deck themes»). Дальше: Iron Company и Kurenai, PROTO-X, Студия и новая Полевая (нынешняя остаётся «Классикой»).
 3. Релиз 0.6.4 собран локально (`dist/`), не запушен: ждёт слова Maxim (push dev, тег `v0.6.4`).
 
 ## Открытые вопросы

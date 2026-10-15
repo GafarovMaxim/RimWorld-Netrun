@@ -165,6 +165,18 @@ def spray(img, seed, keep=0.82):
     return Image.fromarray(np.clip(a, 0, 255).astype("uint8"), "RGBA")
 
 
+def glow(img, box, color, alpha=0.5, radius=6):
+    """A soft coloured halo around a box, as the game's Glow draws it (for previews)."""
+    x0, y0, x1, y1 = [int(v) for v in box]
+    pad = int(radius * 3)
+    w, h = x1 - x0 + pad * 2, y1 - y0 + pad * 2
+    m = np.zeros((h, w), np.float32)
+    m[pad:pad + (y1 - y0), pad:pad + (x1 - x0)] = 1
+    m = blur(m, radius) * alpha
+    layer = to_img(np.broadcast_to(np.array(color, np.float32), (h, w, 3)).copy(), np.clip(m * 1.6, 0, 1))
+    over(img, layer, (x0 - pad, y0 - pad))
+
+
 def preview_box(w, h, color=(9, 10, 12)):
     return Image.new("RGBA", (w, h), color + (255,))
 

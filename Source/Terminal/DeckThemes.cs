@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad }
+public enum DeckStyle { Classic, Nomad, Street }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -41,9 +41,10 @@ public static class DeckThemes
             Stencil = new Color(0.93f, 0.9f, 0.72f, 0.62f), KeyFace = Hex(0x2a2f1e), Tube = Hex(0x3a3f2c), TubeLight = Hex(0x646b4c), TubeDark = Hex(0x1a1d12),
             UnlockKey = "CleanStreak", UnlockCount = 10,
         },
+        // A yellow panel with a neon Heat tube, a holographic kitsune and graffiti (tools/gen_deck_street.py).
         new DeckTheme
         {
-            Id = "Street", Top = Hex(0x33262a), Bottom = Hex(0x150f12), Edge = Hex(0x6a4a42), Rubber = Hex(0x0c0809),
+            Id = "Street", Style = DeckStyle.Street, Top = Hex(0x33262a), Bottom = Hex(0x150f12), Edge = Hex(0x6a4a42), Rubber = Hex(0x0c0809),
             Stencil = new Color(1f, 0.83f, 0.29f, 0.7f), KeyFace = Hex(0x2e2226), Tube = Hex(0x3b2c2c), TubeLight = Hex(0x7a5a4a), TubeDark = Hex(0x1a1213),
             UnlockKey = "BlackICEPassed", UnlockCount = 1,
         },

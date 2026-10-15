@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- Deck theme "Street" (opens after passing Black ICE): a worn yellow panel with cut corners, a neon tube on top that burns with the Heat (cyan, pink from Tracked, red in the Red Zone), keys with neon outlines, a holographic kitsune sticker, 夜の走者 on a sprayed band and graffiti.
 
 ## [0.6.4] - 2026-10-15
 ### Added

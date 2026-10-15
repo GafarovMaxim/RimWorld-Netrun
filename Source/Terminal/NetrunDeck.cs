@@ -17,7 +17,12 @@ public static partial class NetrunUI
     public const float DeckRail = 22f, DeckSide = 28f, DeckTop = 64f, DeckBottom = 58f;
     private static readonly Vector2 ClassicExtra = new(2f * (DeckRail + DeckSide), DeckTop + DeckBottom);
     /// <summary>How much bigger a window gets around its screen with the chosen deck casing.</summary>
-    public static Vector2 DeckExtra => DeckThemes.Current.Style == DeckStyle.Nomad && NomadTex.Ready ? NomadExtra : ClassicExtra;
+    public static Vector2 DeckExtra => DeckThemes.Current.Style switch
+    {
+        DeckStyle.Nomad when NomadTex.Ready => NomadExtra,
+        DeckStyle.Street when StreetTex.Ready => StreetExtra,
+        _ => ClassicExtra,
+    };
     /// <summary>What the chosen casing takes beyond the classic one: windows grow by it, so the screen keeps its size.</summary>
     public static Vector2 DeckExtraOverClassic => DeckExtra - ClassicExtra;
 
@@ -147,6 +152,8 @@ public static partial class NetrunUI
         // Themes with their own silhouette draw their own casing around the same keys and readouts.
         if (_t.Style == DeckStyle.Nomad && NomadTex.Ready)
             return NomadBezel(outer, heat, level, online, anim, time, onKey, menu);
+        if (_t.Style == DeckStyle.Street && StreetTex.Ready)
+            return StreetBezel(outer, heat, level, online, anim, time, onKey, menu);
 
         var body = new Rect(outer.x + DeckRail, outer.y, outer.width - 2f * DeckRail, outer.height);
         var screen = new Rect(body.x + DeckSide, body.y + DeckTop, body.width - 2f * DeckSide, body.height - DeckTop - DeckBottom);
