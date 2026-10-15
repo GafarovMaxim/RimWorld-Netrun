@@ -13,12 +13,69 @@ public class Precept_NetRitual : Precept_Ritual
 {
 }
 
-/// <summary>The Net Archon role. Its name comes from NR_NamerNetArchon.</summary>
+/// <summary>
+/// Kept only so older saves load: the Net Archon is now a plain vanilla Precept_RoleSingle (apparel, abilities and the
+/// role editor work as for the game's roles). Holds() checks the def, so it works for both.
+/// </summary>
 public class Precept_NetArchon : Precept_RoleSingle
 {
 
     public static bool Holds(Pawn pawn)
         => ModsConfig.IdeologyActive && pawn?.Ideo?.GetRole(pawn)?.def?.defName == "NR_IdeoRole_NetArchon";
+}
+
+/// <summary>Trace cleansing has no spectators: only the netrunner roles take part.</summary>
+public class RitualSpectatorFilter_None : RitualSpectatorFilter
+{
+    public override bool Allowed(Pawn p) => false;
+}
+
+/// <summary>Ritual quality from the average skill of the pawns in several roles (the trace cleansing netrunners).</summary>
+public class RitualOutcomeComp_RolesSkill : RitualOutcomeComp_Quality
+{
+    public SkillDef skillDef;
+    public List<string> roleIds = [];
+
+    private float Average(IEnumerable<Pawn> pawns)
+    {
+        int n = 0;
+        float sum = 0f;
+        foreach (Pawn p in pawns)
+        {
+            if (p?.skills == null)
+                continue;
+            sum += p.skills.GetSkill(skillDef).Level;
+            n++;
+        }
+        return n == 0 ? 0f : sum / n;
+    }
+
+    public override float Count(LordJob_Ritual ritual, RitualOutcomeComp_Data data)
+        => Average(roleIds.Select(ritual.PawnWithRole));
+
+    public override string GetDesc(LordJob_Ritual ritual = null, RitualOutcomeComp_Data data = null)
+    {
+        if (ritual == null)
+            return labelAbstract;
+        float x = Count(ritual, data);
+        float q = curve.Evaluate(x);
+        return label.CapitalizeFirst() + " " + x.ToString("0.#") + ": " + "OutcomeBonusDesc_QualitySingleOffset".Translate(q.ToStringWithSign("0.#%")) + ".";
+    }
+
+    public override QualityFactor GetQualityFactor(Precept_Ritual ritual, TargetInfo ritualTarget, RitualObligation obligation, RitualRoleAssignments assignments, RitualOutcomeComp_Data data)
+    {
+        float x = Average(roleIds.SelectMany(assignments.AssignedPawns));
+        float q = curve.Evaluate(x);
+        return new QualityFactor
+        {
+            label = label.CapitalizeFirst(),
+            count = x.ToString("0.#"),
+            qualityChange = "OutcomeBonusDesc_QualitySingleOffset".Translate(q.ToStringWithSign("0.#%")).Resolve(),
+            positive = q > 0f,
+            quality = q,
+            priority = 0f,
+        };
+    }
 }
 
 /// <summary>Shared by the net rituals: remembers the outcome the vanilla worker picked.</summary>
@@ -134,6 +191,15 @@ public static class NetRitualSync
                 {
                     r.iconPathOverride = icon;
                     RitualIcon(r) = null;
+                    added++;
+                }
+            }
+            // A Net Archon made before the role became vanilla has no apparel requirements: give it the usual ones.
+            foreach (Precept_Role role in ideo.RolesListForReading)
+            {
+                if (role.def.defName == "NR_IdeoRole_NetArchon" && role.apparelRequirements == null && !ideo.classicMode && !ideo.classicExtraMode)
+                {
+                    role.ApparelRequirements = role.GenerateNewApparelRequirements();
                     added++;
                 }
             }

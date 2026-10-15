@@ -14,4 +14,7 @@
   <NR_RitualOutcome_TraceCleansing.outcomeChances.1.description>{0} прошло чисто: журналы стихли.</NR_RitualOutcome_TraceCleansing.outcomeChances.1.description>
   <NR_RitualOutcome_TraceCleansing.outcomeChances.2.label>Призраки</NR_RitualOutcome_TraceCleansing.outcomeChances.2.label>
   <NR_RitualOutcome_TraceCleansing.outcomeChances.2.description>{0} сделало колонию призраком в сети.</NR_RitualOutcome_TraceCleansing.outcomeChances.2.description>
+  <NR_RitualOutcome_TraceCleansing.comps.0.label>число участников</NR_RitualOutcome_TraceCleansing.comps.0.label>
+  <NR_RitualOutcome_TraceCleansing.comps.1.label>интеллект нетраннеров</NR_RitualOutcome_TraceCleansing.comps.1.label>
+  <NR_RitualOutcome_TraceCleansing.comps.1.labelAbstract>интеллект нетраннеров (в среднем)</NR_RitualOutcome_TraceCleansing.comps.1.labelAbstract>
 </LanguageData>

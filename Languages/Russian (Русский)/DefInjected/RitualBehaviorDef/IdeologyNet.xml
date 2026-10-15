@@ -3,4 +3,13 @@
   <NR_RitualBehavior_NetSermon.spectatorsLabel>Участники</NR_RitualBehavior_NetSermon.spectatorsLabel>
   <NR_RitualBehavior_NetSermon.spectatorGerund>участвовать</NR_RitualBehavior_NetSermon.spectatorGerund>
   <NR_RitualBehavior_NetSermon.roles.0.label>оратор</NR_RitualBehavior_NetSermon.roles.0.label>
+  <NR_RitualBehavior_TraceCleansing.spectatorsLabel>Участники</NR_RitualBehavior_TraceCleansing.spectatorsLabel>
+  <NR_RitualBehavior_TraceCleansing.spectatorGerund>участвовать</NR_RitualBehavior_TraceCleansing.spectatorGerund>
+  <NR_RitualBehavior_TraceCleansing.spectatorFilter.description>Участвуют только три нетраннера у консоли.</NR_RitualBehavior_TraceCleansing.spectatorFilter.description>
+  <NR_RitualBehavior_TraceCleansing.roles.0.label>нетраннер</NR_RitualBehavior_TraceCleansing.roles.0.label>
+  <NR_RitualBehavior_TraceCleansing.roles.0.categoryLabel>нетраннеры</NR_RitualBehavior_TraceCleansing.roles.0.categoryLabel>
+  <NR_RitualBehavior_TraceCleansing.roles.1.label>нетраннер</NR_RitualBehavior_TraceCleansing.roles.1.label>
+  <NR_RitualBehavior_TraceCleansing.roles.1.categoryLabel>нетраннеры</NR_RitualBehavior_TraceCleansing.roles.1.categoryLabel>
+  <NR_RitualBehavior_TraceCleansing.roles.2.label>нетраннер</NR_RitualBehavior_TraceCleansing.roles.2.label>
+  <NR_RitualBehavior_TraceCleansing.roles.2.categoryLabel>нетраннеры</NR_RitualBehavior_TraceCleansing.roles.2.categoryLabel>
 </LanguageData>

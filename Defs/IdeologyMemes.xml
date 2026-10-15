@@ -266,6 +266,95 @@
     </stages>
   </RitualBehaviorDef>
 
+  <!-- Trace cleansing: up to three netrunners at the console, no spectators; their Intellectual sets the quality
+       (Maxim, 2026-10-16). -->
+  <RitualBehaviorDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>NR_RitualBehavior_TraceCleansing</defName>
+    <durationTicks>5000</durationTicks>
+    <spectatorsLabel>Participants</spectatorsLabel>
+    <spectatorGerund>participate</spectatorGerund>
+    <spectatorFilter Class="Netrun.RitualSpectatorFilter_None">
+      <description>Only the three netrunners at the console take part.</description>
+    </spectatorFilter>
+    <roles>
+      <li Class="RitualRoleColonist">
+        <label>netrunner</label>
+        <categoryLabel>netrunners</categoryLabel>
+        <id>netrunner1</id>
+        <mergeId>netrunner</mergeId>
+        <required>True</required>
+        <maxCount>1</maxCount>
+        <usedSkill>Intellectual</usedSkill>
+        <defaultForSelectedColonist>true</defaultForSelectedColonist>
+        <allowChild>false</allowChild>
+        <mustBeAbleToReachTarget>True</mustBeAbleToReachTarget>
+        <blocksSocialInteraction>true</blocksSocialInteraction>
+      </li>
+      <li Class="RitualRoleColonist">
+        <label>netrunner</label>
+        <categoryLabel>netrunners</categoryLabel>
+        <id>netrunner2</id>
+        <mergeId>netrunner</mergeId>
+        <maxCount>1</maxCount>
+        <usedSkill>Intellectual</usedSkill>
+        <allowChild>false</allowChild>
+        <mustBeAbleToReachTarget>True</mustBeAbleToReachTarget>
+        <blocksSocialInteraction>true</blocksSocialInteraction>
+      </li>
+      <li Class="RitualRoleColonist">
+        <label>netrunner</label>
+        <categoryLabel>netrunners</categoryLabel>
+        <id>netrunner3</id>
+        <mergeId>netrunner</mergeId>
+        <maxCount>1</maxCount>
+        <usedSkill>Intellectual</usedSkill>
+        <allowChild>false</allowChild>
+        <mustBeAbleToReachTarget>True</mustBeAbleToReachTarget>
+        <blocksSocialInteraction>true</blocksSocialInteraction>
+      </li>
+    </roles>
+    <stages>
+      <li>
+        <defaultDuty>Spectate</defaultDuty>
+        <endTriggers>
+          <li Class="StageEndTrigger_DurationPercentage">
+            <percentage>1</percentage>
+          </li>
+        </endTriggers>
+        <roleBehaviors>
+          <li>
+            <roleId>netrunner1</roleId>
+            <dutyDef>ArriveToCell</dutyDef>
+            <customPositions>
+              <li Class="RitualPosition_OnInteractionCell" />
+              <li Class="RitualPosition_InCircle">
+                <distRange>1~2</distRange>
+              </li>
+            </customPositions>
+          </li>
+          <li>
+            <roleId>netrunner2</roleId>
+            <dutyDef>ArriveToCell</dutyDef>
+            <customPositions>
+              <li Class="RitualPosition_InCircle">
+                <distRange>1~2</distRange>
+              </li>
+            </customPositions>
+          </li>
+          <li>
+            <roleId>netrunner3</roleId>
+            <dutyDef>ArriveToCell</dutyDef>
+            <customPositions>
+              <li Class="RitualPosition_InCircle">
+                <distRange>1~2</distRange>
+              </li>
+            </customPositions>
+          </li>
+        </roleBehaviors>
+      </li>
+    </stages>
+  </RitualBehaviorDef>
+
   <RitualPatternDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualPattern_Litany</defName>
     <nameMaker>NR_NamerLitany</nameMaker>
@@ -289,14 +378,14 @@
     <defName>NR_RitualPattern_TraceCleansing</defName>
     <nameMaker>NR_NamerTraceCleansing</nameMaker>
     <shortDescOverride>trace cleansing</shortDescOverride>
-    <descOverride>Gathered at the comms console, the colony scrubs its own trace from the net together, without a fixer. Once in 15 days.</descOverride>
+    <descOverride>Up to three netrunners at the comms console scrub the colony's trace from the net, without a fixer. The sharper their minds, the cleaner the job. Once in 15 days.</descOverride>
     <iconPathOverride>UI/Netrun/Ideo/Ritual_TraceCleansing</iconPathOverride>
     <canStartAnytime>true</canStartAnytime>
     <alwaysStartAnytime>true</alwaysStartAnytime>
     <ritualFreeStartIntervalDaysRange>15</ritualFreeStartIntervalDaysRange>
     <ritualObligationTargetFilter>NR_RitualTarget_Console</ritualObligationTargetFilter>
     <ritualTargetFilter>NR_RitualTargetSelected</ritualTargetFilter>
-    <ritualBehavior>NR_RitualBehavior_NetSermon</ritualBehavior>
+    <ritualBehavior>NR_RitualBehavior_TraceCleansing</ritualBehavior>
     <ritualOutcomeEffect>NR_RitualOutcome_TraceCleansing</ritualOutcomeEffect>
     <tags>
       <li>NR_TraceCleansing</li>
@@ -393,8 +482,26 @@
         <curve>
           <points>
             <li>(1, 0.0)</li>
-            <li>(5, 0.2)</li>
+            <li>(3, 0.15)</li>
+          </points>
+        </curve>
+      </li>
+      <li Class="Netrun.RitualOutcomeComp_RolesSkill">
+        <label>netrunners' intellectual</label>
+        <labelAbstract>netrunners' intellectual (average)</labelAbstract>
+        <skillDef>Intellectual</skillDef>
+        <roleIds>
+          <li>netrunner1</li>
+          <li>netrunner2</li>
+          <li>netrunner3</li>
+        </roleIds>
+        <curve>
+          <points>
+            <li>(0, 0.0)</li>
+            <li>(5, 0.1)</li>
             <li>(10, 0.3)</li>
+            <li>(15, 0.45)</li>
+            <li>(20, 0.6)</li>
           </points>
         </curve>
       </li>
@@ -455,40 +562,33 @@
   </ThoughtDef>
 
   <!-- ===== Role: Net Archon ===== -->
-  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology">
+  <!-- A plain vanilla single role (Maxim, 2026-10-16): the game's own class and base, so apparel, abilities and the
+       rest of the role editor work as for the moral guide. Precept_NetArchon stays in the code only for old saves. -->
+  <PreceptDef MayRequire="Ludeon.RimWorld.Ideology" ParentName="PreceptRoleSingleBase">
     <defName>NR_IdeoRole_NetArchon</defName>
     <label>net archon</label>
     <description>The ideoligion's specialist of the net. Hacks faster and surer, and opens every dive in sync with the net: one more action in the first turn.</description>
-    <issue>IdeoRole</issue>
-    <impact>Low</impact>
     <iconPath>UI/Netrun/Ideo/Role_NetArchon</iconPath>
-    <preceptClass>Netrun.Precept_NetArchon</preceptClass>
     <nameMaker>NR_NamerNetArchon</nameMaker>
+    <impact>Low</impact>
     <displayOrderInIssue>200</displayOrderInIssue>
     <displayOrderInImpact>200</displayOrderInImpact>
     <canGenerateAsSpecialPrecept>false</canGenerateAsSpecialPrecept>
-    <countsTowardsPreceptLimit>false</countsTowardsPreceptLimit>
     <createsRoleEmptyThought>false</createsRoleEmptyThought>
-    <!-- Only with a net meme, and like the game's own roles: a believer of this ideoligion (Maxim, 2026-10-14). -->
+    <restrictToSupremeGenderChance>0.5</restrictToSupremeGenderChance>
+    <!-- Only with a net meme (Maxim, 2026-10-14). -->
     <requiredMemes>
       <li>NR_Meme_NetAscension</li>
       <li>NR_Meme_MachineRevelation</li>
     </requiredMemes>
-    <certaintyLossFactor>0.5</certaintyLossFactor>
     <roleRequirements>
-      <li Class="RoleRequirement_SameIdeo">
-        <labelKey>RoleRequirementLabelSameIdeo</labelKey>
-      </li>
-      <li Class="RoleRequirement_SupremeGender">
-        <labelKey>RoleRequirementLabelSupremeGender</labelKey>
-      </li>
       <li Class="RoleRequirement_MinSkillAny">
         <skills>
           <Intellectual>8</Intellectual>
         </skills>
       </li>
     </roleRequirements>
-    <roleRequiredWorkTags>Intellectual</roleRequiredWorkTags>
+    <roleRequiredWorkTags><li>Intellectual</li></roleRequiredWorkTags>
     <roleEffects>
       <li Class="RoleEffect_PawnStatFactor">
         <statDef>HackingSpeed</statDef>
@@ -498,6 +598,48 @@
     <roleTags>
       <li>NR_NetArchon</li>
     </roleTags>
+    <roleApparelRequirements>
+      <li>
+        <requirement>
+          <bodyPartGroupsMatchAny>
+            <li>Torso</li>
+            <li>Neck</li>
+            <li>Shoulders</li>
+            <li>Arms</li>
+            <li>Legs</li>
+          </bodyPartGroupsMatchAny>
+          <requiredDefs>
+            <li>Apparel_Robe</li>
+          </requiredDefs>
+        </requirement>
+      </li>
+      <li>
+        <requirement>
+          <bodyPartGroupsMatchAny>
+            <li>UpperHead</li>
+          </bodyPartGroupsMatchAny>
+          <requiredDefs>
+            <li>Apparel_HatHood</li>
+          </requiredDefs>
+        </requirement>
+      </li>
+      <li MayRequire="Ludeon.RimWorld.Royalty">
+        <requirement>
+          <bodyPartGroupsMatchAny>
+            <li>Torso</li>
+          </bodyPartGroupsMatchAny>
+          <requiredTags>
+            <li>Cape</li>
+          </requiredTags>
+        </requirement>
+      </li>
+    </roleApparelRequirements>
+    <roleApparelRequirementCountCurve>
+      <points>
+        <li>(0, 1)</li>
+        <li>(1, 2)</li>
+      </points>
+    </roleApparelRequirementCountCurve>
   </PreceptDef>
 
 </Defs>

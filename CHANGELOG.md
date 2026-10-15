@@ -4,6 +4,8 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 ### Added
+- Trace cleansing is now done by up to three netrunners at the comms console, without spectators; their average Intellectual sets the quality.
+- The Net Archon is a regular vanilla role: apparel requirements and the usual role editor options work for it.
 - New icons for the net rituals (litany of data, trace cleansing) and the Net Archon role, in the style of the vanilla Ideology icons.
 - Deck theme "Relic" (opens with the first dive into the Old Net; new achievement "Ghosts of the Old Net"): a battered field unit in cream plastic worn through to rusty metal, the screen in a dark bezel with screws, rubber keys and jewel lamps on a dark top plate, and an instrument column on the right: VOL/SQL knobs, a faded TUNE gauge under cracked glass whose needle shudders with the Heat, SCAN with an ICE lamp, a TRACE knob that turns with the Heat level, JACK and PURGE buttons. At the bottom an orange LCD, stickers, grey square keys, Heat lamps and a slide switch.
 - The default deck frame is now the NR-1 Cyberdeck: matte black plastic with chamfered corners, carbon inserts and grip ridges, chiclet keys with glowing legends, a TUNE thumb wheel, light-pipe lamps with ALERT, RF on an OLED, an amber LCD, a light-pipe Heat tray and a NET LINK rocker. The light line round the screen is cyan and turns red, pulsing, from Target.
