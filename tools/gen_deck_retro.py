@@ -33,7 +33,7 @@ LCD_INK = (34, 48, 26)
 V = {
     "A": dict(T="Retro_A", base=(222, 214, 192), dark=(64, 62, 70), stripes=SUNSET, accent=(150, 36, 70), key=(70, 68, 76)),
     "B": dict(T="Retro_B", base=(232, 228, 216), dark=(54, 54, 56), stripes=[(246, 186, 40), (232, 96, 36)], accent=(214, 50, 40), key=(54, 54, 56)),
-    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=[(250, 212, 70)] + SUNSET + [(120, 36, 70)], accent=(150, 36, 70), key=(70, 68, 76)),
+    "D": dict(T="Retro_D", base=(222, 214, 192), dark=(64, 62, 70), stripes=[(250, 212, 70)] + SUNSET + [(120, 36, 70)], accent=(150, 36, 70), key=(196, 190, 174)),
     "C": dict(T="Retro_C", base=(92, 60, 42), dark=(40, 30, 24), stripes=[(88, 160, 200), (110, 180, 90), (246, 196, 64), (240, 120, 40), (214, 50, 40)],
               accent=(232, 214, 176), key=(70, 46, 32), cream=(232, 216, 180)),
 }
@@ -175,6 +175,25 @@ def make_port(w=44, h=16):
     return b.done()
 
 
+def make_keyplate(w=120, h=56, base=(58, 56, 64)):
+    """A recessed dark plate under the top keys and lamps, 9-sliced (borders 12), with a thin sunset line at the foot."""
+    m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], 8 * s, fill=255))
+    rgb = plastic(w, h, 1031, base) - (A.shade(m, 2.0) * 40)[..., None]      # sunk in: lit from below-right
+    rgb -= (A.inner_edge(m, 3) * 25)[..., None]
+    img = A.to_img(rgb, m)
+    d = ImageDraw.Draw(img)
+    for i, c in enumerate(SUNSET):
+        d.line([10, h - 9 + i * 1.5, w - 11, h - 9 + i * 1.5], fill=c + (230,), width=1)
+    return img
+
+
+def make_screw(n=10):
+    b = S.Big(n, n)
+    b.ellipse((0, 0, n - 1, n - 1), (170, 164, 150, 255), outline=(90, 84, 74, 255), width=1)
+    b.line([(2.5, n / 2), (n - 3.5, n / 2)], (80, 74, 66, 255), 1.4)
+    return b.done()
+
+
 def make_jack(n=16):
     b = S.Big(n, n)
     b.ellipse((0, 0, n - 1, n - 1), (180, 176, 168, 255), outline=(60, 56, 50, 255), width=1)
@@ -266,6 +285,8 @@ def build(v):
         A.save(make_wheel(), T, "Wheel")
         A.save(make_port(), T, "Port")
         A.save(make_jack(), T, "Jack")
+        A.save(make_keyplate(), T, "KeyPlate")
+        A.save(make_screw(), T, "Screw")
 
 
 def mono(size, bold=True):
@@ -379,23 +400,38 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
         port_v = load("Port").rotate(90, expand=True)
         A.over(img, port_v, (int(bx1 - rail / 2 - 12), y0 + 92))
         d.text((bx1 - rail / 2 - 4, y0 + 146), "EXT", font=lab7, fill=INK, anchor="mm")
+        screw = load("Screw")
+        for sxx in (bx0 + rail / 2 + 4 - 5, bx1 - rail / 2 - 4 - 5):
+            for syy in (by0 + IN_T - 8, by1 - IN_B + 4):
+                A.over(img, screw, (int(sxx), int(syy)))
+        A.glow(img, (bx0 + rail / 2 + 1, y0 + 170, bx0 + rail / 2 + 7, y0 + 176), (240, 60, 50), 0.6, 5)
+        d.ellipse([bx0 + rail / 2, y0 + 169, bx0 + rail / 2 + 8, y0 + 177], fill=(240, 60, 50), outline=(60, 20, 20))
+        d.text((bx0 + rail / 2 + 4, y0 + 188), "POWER", font=lab7, fill=INK, anchor="mm")
+        cap_img = Image.new("RGBA", (220, 14), (0, 0, 0, 0))
+        ImageDraw.Draw(cap_img).text((110, 7), "NR-80  \u00b7  STEREO NET SOUND", font=lab7, fill=INK + (200,), anchor="mm")
+        A.over(img, cap_img.rotate(-90, expand=True), (int(bx1 - rail / 2 - 11), y0 + 190))
         for k in range(14):                       # grip ridges low on both rails
             yy = by1 - IN_B - 60 - k * 9
             for xa in (bx0 + 10, bx1 - rail + 2):
                 d.line([xa, yy, xa + rail - 12, yy], fill=(190, 182, 160), width=2)
                 d.line([xa, yy + 2, xa + rail - 12, yy + 2], fill=(242, 236, 220), width=1)
+    top_ink = ink
+    if v == "D":   # the keys and lamps sit on a sunk dark plate (Maxim: they looked bare)
+        plate_r = (kx - 18, top_y - 6, bx1 - IN_R - 112 + 2 * 36 + 22 - (kx - 18), 56)
+        A.over(img, A.nine_slice(load("KeyPlate"), plate_r[2:], 12, 12, 12, 12), plate_r[:2])
+        top_ink = (226, 222, 210)
     for i, name in enumerate(("CLOSE", "MENU", "ACHIEV", "NET-LOCK")):
         x = kx + i * 72
         pill = load("Pill")
-        A.over(img, pill, (x, top_y + 8))
-        d.text((x + 25, top_y + 42), name, font=lab, fill=ink, anchor="mm")
+        A.over(img, pill, (x, top_y + 4))
+        d.text((x + 25, top_y + 36), name, font=lab, fill=top_ink, anchor="mm")
     lx = bx1 - IN_R - 112
     for i, (c, name) in enumerate((((240, 60, 50), "NET"), ((250, 160, 40), "SICK"), ((60, 50, 50), "POD"))):
-        cx, cy = lx + i * 36, top_y + 18
+        cx, cy = lx + i * 36, top_y + 15
         if i < 2:
             A.glow(img, (cx - 3, cy - 3, cx + 3, cy + 3), c, 0.6, 5)
         d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], fill=c, outline=(30, 26, 24))
-        d.text((cx, top_y + 42), name, font=lab, fill=ink, anchor="mm")
+        d.text((cx, top_y + 36), name, font=lab, fill=top_ink, anchor="mm")
 
     # bottom: LCD, round keys BACK CORE HELP (A/B style), the VU meter, the NET LINK slide switch
     yb = by1 - IN_B
