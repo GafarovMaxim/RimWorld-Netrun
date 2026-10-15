@@ -109,94 +109,92 @@ def cyber(heat):
     for i in range(6):
         y = SY0 + 140 + i * 10
         d.rounded_rectangle([BX1 - 44, y, BX1 - 26, y + 4], 2, fill=(8, 8, 10))
-    f7, f8, f9, f11 = A.font(7), A.font(8), A.font(9), A.font(11)
+    f7, f8, f12 = A.font(7), A.font(8), A.font(12)
 
     def label(x, y, t, col=(150, 156, 166), f=f8):
         d.text((x, y), t, font=f, fill=col + (255,), anchor="mm")
 
-    def chiclet(x, y, w, h, legend, col):
+    def chiclet(cx, cy, w, h, legend, col):
+        """A low chiclet key centred on (cx, cy) with a glowing legend."""
+        x, y = round(cx - w / 2), round(cy - h / 2)
         k = S.Big(w + 4, h + 6)
         k.rect((2, 4, w + 1, h + 4), (6, 6, 8, 255), r=5)
         k.rect((2, 1, w + 1, h + 1), (40, 42, 48, 255), r=5)
-        k.rect((4, 3, w - 1, h - 3), (30, 32, 37, 255), r=4)
+        k.rect((4, 3, w - 1, h - 1), (30, 32, 37, 255), r=4)
         k.rect((6, 3, w - 3, 5), (70, 72, 80, 160), r=1)
-        A.over(img, k.done(), (x - 2, y - 1))
-        A.glow(img, (x + w / 2 - 6, y + h / 2 - 3, x + w / 2 + 6, y + h / 2 + 3), col, 0.3, 3)
-        d.text((x + w / 2, y + h / 2 + 1), legend, font=f9, fill=col + (255,), anchor="mm")
+        A.over(img, k.done(), (x - 2, y - 2))
+        A.glow(img, (cx - 6, cy - 3, cx + 6, cy + 3), col, 0.3, 3)
+        d.text((cx, cy), legend, font=f12, fill=col + (255,), anchor="mm")
 
-    # ---- top
-    ty = BY0 + 30
-    d.text((BX0 + 52, BY0 + 34), "NR-1", font=A.font(22), fill=(200, 204, 210, 255), anchor="lm")
-    d.text((BX0 + 112, BY0 + 28), "CYBERDECK", font=f9, fill=(150, 156, 166, 255), anchor="lm")
-    d.text((BX0 + 112, BY0 + 41), "NETRUN SYSTEMS", font=f7, fill=(100, 106, 116, 255), anchor="lm")
-    d.line([(BX0 + 52, BY0 + 56), (BX0 + 196, BY0 + 56)], fill=(54, 160, 170, 255), width=1)
-    d.line([(BX0 + 196, BY0 + 56), (BX0 + 206, BY0 + 66), (BX0 + 260, BY0 + 66)], fill=(54, 160, 170, 255), width=1)
-    x = BX0 + 300
-    d.rounded_rectangle([x - 10, ty - 8, x + 4 * 50 - 4, ty + 38], 6, fill=(12, 13, 16, 255))
+    # ---- top: everything centred on one line (cy), every caption on another (ly)
+    cy, ly = BY0 + 36, BY0 + 66
+    d.text((BX0 + 52, cy), "NR-1", font=A.font(24), fill=(200, 204, 210, 255), anchor="lm")
+    d.text((BX0 + 116, cy - 6), "CYBERDECK", font=A.font(10), fill=(150, 156, 166, 255), anchor="lm")
+    d.text((BX0 + 116, cy + 7), "NETRUN SYSTEMS", font=f7, fill=(100, 106, 116, 255), anchor="lm")
+    d.line([(BX0 + 52, ly), (BX0 + 200, ly), (BX0 + 208, ly - 8), (BX0 + 250, ly - 8)], fill=(54, 160, 170, 255), width=1)
+    x = BX0 + 320          # key centres
+    d.rounded_rectangle([x - 27, cy - 20, x + 3 * 52 + 27, cy + 20], 6, fill=(12, 13, 16, 255))
     for i, (lg, nm, col) in enumerate((("X", "CLOSE", RED), ("=", "MENU", CYAN), ("*", "ACHIEV", CYAN), ("#", "NET LOCK", AMBER))):
-        chiclet(x + i * 50, ty - 2, 38, 28, lg, col)
-        label(x + i * 50 + 19, ty + 48, nm)
+        chiclet(x + i * 52, cy, 40, 28, lg, col)
+        label(x + i * 52, ly, nm)
     # tuner: a knurled thumb wheel in a slot
-    tx = x + 4 * 50 + 30
-    d.rounded_rectangle([tx, ty - 6, tx + 22, ty + 34], 4, fill=(8, 8, 10, 255))
-    for k in range(12):
-        yk = ty - 2 + k * 3
-        d.line([(tx + 3, yk), (tx + 19, yk)], fill=(70, 72, 80, 255) if k % 2 else (40, 42, 46, 255), width=1)
-    label(tx + 11, ty + 48, "TUNE")
-    # lamps: light pipes in a strip
-    lx = BX1 - 330
-    for i, (nm, col, on) in enumerate((("NET", (90, 230, 120), True), ("SICK", AMBER, True), ("POD", CYAN, False))):
-        cx = lx + i * 34
-        d.rounded_rectangle([cx - 8, ty + 6, cx + 8, ty + 14], 2, fill=(10, 10, 12, 255))
+    tx = x + 3 * 52 + 62
+    d.rounded_rectangle([tx - 11, cy - 18, tx + 11, cy + 18], 4, fill=(8, 8, 10, 255))
+    for k in range(11):
+        yk = cy - 15 + k * 3
+        d.line([(tx - 8, yk), (tx + 8, yk)], fill=(70, 72, 80, 255) if k % 2 else (40, 42, 46, 255), width=1)
+    label(tx, ly, "TUNE")
+    # lamps: light pipes in a strip, ALERT first (lit from Target)
+    lx = BX1 - 360
+    for i, (nm, col, on) in enumerate((("ALERT", RED, lvl >= 3), ("NET", (90, 230, 120), True), ("SICK", AMBER, True), ("POD", CYAN, False))):
+        c0 = lx + i * 38
+        d.rounded_rectangle([c0 - 9, cy - 5, c0 + 9, cy + 5], 2, fill=(10, 10, 12, 255))
         if on:
-            A.glow(img, (cx - 6, ty + 8, cx + 6, ty + 12), col, 0.6, 4)
-        d.rounded_rectangle([cx - 6, ty + 8, cx + 6, ty + 12], 1, fill=(col if on else (40, 44, 50)) + (255,))
-        label(cx, ty + 48, nm)
-    # alarm light pipe that lights from Target
-    if lvl >= 3:
-        A.glow(img, (lx - 42, ty + 8, lx - 30, ty + 12), RED, 0.8, 5)
-    d.rounded_rectangle([lx - 44, ty + 6, lx - 28, ty + 14], 2, fill=(10, 10, 12, 255))
-    d.rounded_rectangle([lx - 42, ty + 8, lx - 30, ty + 12], 1, fill=(RED if lvl >= 3 else (50, 30, 30)) + (255,))
-    label(lx - 36, ty + 48, "ALERT")
+            A.glow(img, (c0 - 7, cy - 3, c0 + 7, cy + 3), col, 0.7 if nm == "ALERT" else 0.6, 4)
+        d.rounded_rectangle([c0 - 7, cy - 3, c0 + 7, cy + 3], 1, fill=col + (255,) if on else dim(col))
+        label(c0, ly, nm)
     # RF on an OLED
     rx = BX1 - 210
-    d.rounded_rectangle([rx, ty - 8, rx + 150, ty + 36], 4, fill=(6, 7, 8, 255), outline=(50, 52, 58, 255))
-    d.text((rx + 10, ty + 2), "RF 2.4G", font=f8, fill=CYAN + (255,), anchor="lm")
+    d.rounded_rectangle([rx, cy - 20, rx + 150, cy + 20], 4, fill=(6, 7, 8, 255), outline=(50, 52, 58, 255))
+    d.text((rx + 10, cy - 10), "RF 2.4G", font=f8, fill=CYAN + (255,), anchor="lm")
     for i in range(12):
-        h = 4 + i * 1.6
+        h = 4 + i * 1.4
         on = i < 8 or (lvl >= 3 and i == 11)
         cc = RED if i == 11 and lvl >= 3 else CYAN
-        d.rectangle([rx + 10 + i * 11, ty + 30 - h, rx + 16 + i * 11, ty + 30], fill=cc + (255,) if on else dim(cc))
-    label(rx + 75, ty + 48, "LINK")
+        d.rectangle([rx + 10 + i * 11, cy + 13 - h, rx + 16 + i * 11, cy + 13], fill=cc + (255,) if on else dim(cc))
+    label(rx + 75, ly, "LINK")
 
-    # ---- bottom
-    yb = SY1 + 30
-    d.rounded_rectangle([BX0 + 52, yb - 6, BX0 + 312, yb + 52], 5, fill=(6, 6, 7, 255), outline=(50, 52, 58, 255))
-    for i, t in enumerate(("CYBERDATA 07", f"HEAT {heat}", "D2 14:20  NET ON")):
-        d.text((BX0 + 64, yb + 4 + i * 15), t, font=A.font(11), fill=AMBER + (255,), anchor="lt")
-    kx = BX0 + 350
+    # ---- bottom: the same, centres on cb and captions on lb
+    cb, lb = SY1 + 46, SY1 + 76
+    lcd = (BX0 + 52, SY1 + 26, BX0 + 312, SY1 + 80)
+    d.rounded_rectangle(lcd, 5, fill=(6, 6, 7, 255), outline=(50, 52, 58, 255))
+    lines = ("CYBERDATA 07", f"HEAT {heat}", "D2 14:20  NET ON")
+    mid = (lcd[1] + lcd[3]) / 2
+    for i, t in enumerate(lines):
+        d.text((lcd[0] + 14, mid + (i - 1) * 15), t, font=A.font(11), fill=AMBER + (255,), anchor="lm")
+    kx = BX0 + 380
     for i, (lg, nm) in enumerate((("<", "BACK"), ("O", "CORE"), ("?", "HELP"))):
-        chiclet(kx + i * 54, yb + 4, 40, 30, lg, CYAN)
-        label(kx + i * 54 + 20, yb + 50, nm)
+        chiclet(kx + i * 56, cb, 40, 28, lg, CYAN)
+        label(kx + i * 56, lb, nm)
     # Heat: five light-pipe segments
-    hx = BX0 + 560
-    d.rounded_rectangle([hx - 8, yb + 6, hx + 5 * 40, yb + 32], 4, fill=(10, 10, 12, 255))
+    hx = BX0 + 580
+    d.rounded_rectangle([hx - 8, cb - 12, hx + 5 * 40, cb + 12], 4, fill=(10, 10, 12, 255))
     for i in range(5):
         cc = HEAT_SEG[i]
         on = i <= lvl
-        r = (hx + i * 40, yb + 12, hx + i * 40 + 32, yb + 26)
+        r = (hx + i * 40, cb - 6, hx + i * 40 + 32, cb + 6)
         if on:
             A.glow(img, r, cc, 0.45, 4)
         d.rounded_rectangle(r, 2, fill=cc + (255,) if on else dim(cc))
-    label(hx + 96, yb + 50, "HEAT LEVEL")
+    label(hx + 96, lb, "HEAT LEVEL")
     # NET LINK: a rocker
     sx = BX1 - 150
-    d.rounded_rectangle([sx, yb + 2, sx + 74, yb + 36], 5, fill=(8, 8, 10, 255))
-    d.rounded_rectangle([sx + 38, yb + 5, sx + 71, yb + 33], 4, fill=(40, 42, 48, 255))
-    A.glow(img, (sx + 48, yb + 16, sx + 62, yb + 22), (90, 230, 120), 0.5, 3)
-    d.rounded_rectangle([sx + 48, yb + 17, sx + 62, yb + 21], 1, fill=(90, 230, 120, 255))
-    d.text((sx + 18, yb + 19), "OFF", font=f8, fill=(90, 94, 104, 255), anchor="mm")
-    label(sx + 37, yb + 50, "NET LINK")
+    d.rounded_rectangle([sx, cb - 16, sx + 74, cb + 16], 5, fill=(8, 8, 10, 255))
+    d.rounded_rectangle([sx + 38, cb - 13, sx + 71, cb + 13], 4, fill=(40, 42, 48, 255))
+    A.glow(img, (sx + 48, cb - 2, sx + 62, cb + 2), (90, 230, 120), 0.5, 3)
+    d.rounded_rectangle([sx + 48, cb - 2, sx + 62, cb + 2], 1, fill=(90, 230, 120, 255))
+    d.text((sx + 19, cb), "OFF", font=f8, fill=(90, 94, 104, 255), anchor="mm")
+    label(sx + 37, lb, "NET LINK")
     return img
 
 
