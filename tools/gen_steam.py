@@ -145,7 +145,7 @@ def banner(lang):
 EN = {
     "intro": f"""[quote][i]"The net remembers your trace. Data is currency, but the netrunner pays in body and mind."[/i][/quote]
 
-[b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url={HE}]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. Deep in a cyberpod your netrunner walks a living map of cyberspace, and the net always answers.""",
+[b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url={HE}]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. From a cyberpod your netrunner walks a living map of cyberspace.""",
     "heat": """Every intrusion raises the colony's [b]Heat[/b]: five levels from [b]Shadow[/b] to the [b]Red Zone[/b]. The hotter the trace, the harsher the answer: neural noise, data theft, machine sabotage, power surges, ransomware and raids by the hidden [b]Black Ledger[/b] mercenaries. Lay low, scrub the trace through a fixer, or burn bright and pay for it.""",
     "terminal": """The comms console becomes a [b]network console[/b]: a neon terminal with its own navigation screen of sections.
 [list]
@@ -194,20 +194,13 @@ A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jo
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]""",
     "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
-
-[list]
-[*][b]7 deck frames[/b] for the terminal, each with its own casing, keys and lamps that react to your Heat: the NR-1 Cyberdeck, Iron Company, Street, Kurenai Systems, Nomad, NR-80 Retro and the Relic. New frames open with achievements.
-[*][b]Colour schemes[/b]: pick the terminal's accent colour
-[*][b]Sound packs[/b]: Clean, Minimal, Neon, Retro Deck and Deep, separate volume for clicks and for each ambient loop; the game music fades while the terminal is open
-[*][b]Graphics[/b]: animations, scanlines, glitches, the casing's lamps and LCD can each be turned off
-[*][b]Fine-tuning[/b]: dozens of settings for balance and difficulty: Heat gain and decay, the frequency of network attacks, AI and cyberspace events, cyberspace size and layout, and many small things besides
-[/list]""",
+[b]7 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
 [*][url={VEF}]Vanilla Expanded Framework[/url]
 [*][url={HE}]Ushanka's Hacking Expansion[/url]
 [/list]
-Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing it mid-game is not recommended. DLC content loads only with its DLC.
+Load [b]after[/b] Hacking Expansion. Safe to add to a running save; do not remove mid-game. DLC content loads only with its DLC.
 Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].""",
     "credits": f"""Author: [b]Raul Moreau[/b]
@@ -215,7 +208,7 @@ Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank yo
 Font: [b]Tektur[/b] (SIL Open Font License 1.1)
 [url={GITHUB}]Source code on GitHub[/url] (MIT)
 
-[i]Found a bug? Leave a comment with your Player.log, it helps a lot.[/i]""",
+[i]Found a bug? Comment with your Player.log.[/i]""",
 }
 
 RU = {
@@ -270,20 +263,13 @@ RU = {
 [*][b]26 достижений[/b] с Vanilla Achievements Expanded (необязательно)
 [/list]""",
     "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
-
-[list]
-[*][b]7 рамок терминала[/b], у каждой свой корпус, клавиши и лампы, которые реагируют на ваш след: Кибердека NR-1, Iron Company, Стрит, Kurenai Systems, Кочевник, NR-80 Ретро и Реликт. Новые рамки открываются достижениями.
-[*][b]Цветовые схемы[/b]: выберите цвет акцента терминала
-[*][b]Звуковые наборы[/b]: Clean, Minimal, Neon, Retro Deck и Deep, отдельная громкость для щелчков и каждого эмбиента; музыка игры приглушается, пока открыт терминал
-[*][b]Графика[/b]: анимации, сканлайны, глитчи, лампы и экран корпуса отключаются по отдельности
-[*][b]Тонкая настройка[/b]: десятки параметров баланса и сложности: рост и спад следа, частота сетевых атак, событий ИИ и киберпространства, размер и схема киберпространства и ещё много мелочей
-[/list]""",
+[b]7 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
 [*][url={VEF}]Vanilla Expanded Framework[/url]
 [*][url={HE}]Ushanka's Hacking Expansion[/url]
 [/list]
-Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру; убирать посреди игры не рекомендуется. Контент DLC грузится только с соответствующим DLC.
+Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру, но не удалять из неё. Контент DLC грузится только с соответствующим DLC.
 Версии игры: [b]1.6[/b] и [b]1.7[/b].
 Языки: [b]English[/b], [b]Русский[/b].""",
     "credits": f"""Автор: [b]Raul Moreau[/b]
@@ -291,7 +277,7 @@ RU = {
 Шрифт: [b]Tektur[/b] (SIL Open Font License 1.1)
 [url={GITHUB}]Исходный код на GitHub[/url] (MIT)
 
-[i]Нашли ошибку? Оставьте комментарий с файлом Player.log, это очень помогает.[/i]""",
+[i]Нашли ошибку? Пишите в комментарии с Player.log.[/i]""",
 }
 
 

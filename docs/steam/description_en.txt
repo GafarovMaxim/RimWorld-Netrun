@@ -2,7 +2,7 @@
 
 [quote][i]"The net remembers your trace. Data is currency, but the netrunner pays in body and mind."[/i][/quote]
 
-[b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. Deep in a cyberpod your netrunner walks a living map of cyberspace, and the net always answers.
+[b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. From a cyberpod your netrunner walks a living map of cyberspace.
 
 [hr][/hr]
 [h1]▸ DIGITAL HEAT[/h1]
@@ -95,14 +95,7 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [h1]▸ CUSTOMIZATION[/h1]
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
-
-[list]
-[*][b]7 deck frames[/b] for the terminal, each with its own casing, keys and lamps that react to your Heat: the NR-1 Cyberdeck, Iron Company, Street, Kurenai Systems, Nomad, NR-80 Retro and the Relic. New frames open with achievements.
-[*][b]Colour schemes[/b]: pick the terminal's accent colour
-[*][b]Sound packs[/b]: Clean, Minimal, Neon, Retro Deck and Deep, separate volume for clicks and for each ambient loop; the game music fades while the terminal is open
-[*][b]Graphics[/b]: animations, scanlines, glitches, the casing's lamps and LCD can each be turned off
-[*][b]Fine-tuning[/b]: dozens of settings for balance and difficulty: Heat gain and decay, the frequency of network attacks, AI and cyberspace events, cyberspace size and layout, and many small things besides
-[/list]
+[b]7 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.
 
 [hr][/hr]
 [h1]▸ REQUIREMENTS[/h1]
@@ -112,7 +105,7 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013]Vanilla Expanded Framework[/url]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]
 [/list]
-Load [b]after[/b] Hacking Expansion. Can be added to an existing save; removing it mid-game is not recommended. DLC content loads only with its DLC.
+Load [b]after[/b] Hacking Expansion. Safe to add to a running save; do not remove mid-game. DLC content loads only with its DLC.
 Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].
 
@@ -124,4 +117,4 @@ Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank yo
 Font: [b]Tektur[/b] (SIL Open Font License 1.1)
 [url=https://github.com/GafarovMaxim/RimWorld-Netrun]Source code on GitHub[/url] (MIT)
 
-[i]Found a bug? Leave a comment with your Player.log, it helps a lot.[/i]
+[i]Found a bug? Comment with your Player.log.[/i]

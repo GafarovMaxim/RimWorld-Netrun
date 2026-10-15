@@ -84,14 +84,7 @@
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/ru_customization.png[/img]
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
-
-[list]
-[*][b]7 рамок терминала[/b], у каждой свой корпус, клавиши и лампы, которые реагируют на ваш след: Кибердека NR-1, Iron Company, Стрит, Kurenai Systems, Кочевник, NR-80 Ретро и Реликт. Новые рамки открываются достижениями.
-[*][b]Цветовые схемы[/b]: выберите цвет акцента терминала
-[*][b]Звуковые наборы[/b]: Clean, Minimal, Neon, Retro Deck и Deep, отдельная громкость для щелчков и каждого эмбиента; музыка игры приглушается, пока открыт терминал
-[*][b]Графика[/b]: анимации, сканлайны, глитчи, лампы и экран корпуса отключаются по отдельности
-[*][b]Тонкая настройка[/b]: десятки параметров баланса и сложности: рост и спад следа, частота сетевых атак, событий ИИ и киберпространства, размер и схема киберпространства и ещё много мелочей
-[/list]
+[b]7 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/ru_requirements.png[/img]
 
@@ -100,7 +93,7 @@
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013]Vanilla Expanded Framework[/url]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]
 [/list]
-Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру; убирать посреди игры не рекомендуется. Контент DLC грузится только с соответствующим DLC.
+Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру, но не удалять из неё. Контент DLC грузится только с соответствующим DLC.
 Версии игры: [b]1.6[/b] и [b]1.7[/b].
 Языки: [b]English[/b], [b]Русский[/b].
 
@@ -111,4 +104,4 @@
 Шрифт: [b]Tektur[/b] (SIL Open Font License 1.1)
 [url=https://github.com/GafarovMaxim/RimWorld-Netrun]Исходный код на GitHub[/url] (MIT)
 
-[i]Нашли ошибку? Оставьте комментарий с файлом Player.log, это очень помогает.[/i]
+[i]Нашли ошибку? Пишите в комментарии с Player.log.[/i]
