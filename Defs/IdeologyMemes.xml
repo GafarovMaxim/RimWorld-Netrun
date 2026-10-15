@@ -273,6 +273,7 @@
     <descOverride>At the AI server a speaker reads the data aloud and the faithful listen. The awakened AIs listen too: a good litany earns their trust; a poor one leaves them unheard and hungry.</descOverride>
     <iconPathOverride>UI/Netrun/Ideo/Meme_MachineRevelation</iconPathOverride>
     <canStartAnytime>true</canStartAnytime>
+    <alwaysStartAnytime>true</alwaysStartAnytime>
     <ritualFreeStartIntervalDaysRange>10</ritualFreeStartIntervalDaysRange>
     <ritualObligationTargetFilter>NR_RitualTarget_AIServer</ritualObligationTargetFilter>
     <ritualTargetFilter>NR_RitualTargetSelected</ritualTargetFilter>
@@ -291,6 +292,7 @@
     <descOverride>Gathered at the comms console, the colony scrubs its own trace from the net together, without a fixer. Once in 15 days.</descOverride>
     <iconPathOverride>UI/Netrun/Ideo/Meme_NetAscension</iconPathOverride>
     <canStartAnytime>true</canStartAnytime>
+    <alwaysStartAnytime>true</alwaysStartAnytime>
     <ritualFreeStartIntervalDaysRange>15</ritualFreeStartIntervalDaysRange>
     <ritualObligationTargetFilter>NR_RitualTarget_Console</ritualObligationTargetFilter>
     <ritualTargetFilter>NR_RitualTargetSelected</ritualTargetFilter>

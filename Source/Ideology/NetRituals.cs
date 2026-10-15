@@ -115,6 +115,15 @@ public static class NetRitualSync
         {
             if (ideo?.memes == null)
                 continue;
+            // Our rituals have no date: one saved as "by date" never shows its button, so make it "any time".
+            foreach (Precept precept in ideo.PreceptsListForReading)
+            {
+                if (precept is Precept_Ritual r && !r.isAnytime && r.def.defName.StartsWith("NR_"))
+                {
+                    r.isAnytime = true;
+                    added++;
+                }
+            }
             foreach (MemeDef meme in ideo.memes)
             {
                 if (meme.requiredRituals == null || !meme.defName.StartsWith("NR_"))
