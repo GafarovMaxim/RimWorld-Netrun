@@ -20,7 +20,7 @@ public static partial class NetrunUI
     public static readonly Vector2 StudioExtra = new(2f * StudioOut + StudioInL + StudioInR, 2f * StudioOut + StudioInT + StudioInB);
 
     private static readonly Color StudioInk = new(0.77f, 0.75f, 0.69f, 0.92f), StudioAccent = new(0.71f, 0.48f, 0.66f),
-        StudioPink = new(0.93f, 0.47f, 0.78f), StudioCyan = new(0.43f, 0.89f, 0.86f), StudioKeyInk = new(0.16f, 0.12f, 0.09f, 0.95f), StudioKeyLight = new(0.94f, 0.86f, 0.78f, 0.95f);
+        StudioPink = new(0.93f, 0.47f, 0.78f), StudioCyan = new(0.43f, 0.89f, 0.86f), StudioGrid = new(0.2f, 0.13f, 0.32f, 0.5f), StudioKeyInk = new(0.16f, 0.12f, 0.09f, 0.95f), StudioKeyLight = new(0.94f, 0.86f, 0.78f, 0.95f);
 
     private static readonly float[] StudioChannels = [0.3f, 0.55f, 0.7f, 0.45f];
 
@@ -79,8 +79,10 @@ public static partial class NetrunUI
         Sprite(StudioTex.Note, new Vector2(box.x + 200f, box.y + 6f));
         float lx = box.xMax - 52f - 40f - 4f * 58f;
 
-        // The timeline: a timecode and the recording's three lanes scrolling under a fixed playhead.
-        var tl = new Rect(box.x + 262f, ty - 15f, 240f, 30f);
+        // The timeline: a timecode and the recording's three lanes scrolling under a fixed playhead. It gives up width
+        // (down to 150) so the chip bay and the AUX pair still fit before the lamps.
+        float tlW = Mathf.Clamp(lx - 20f - 122f - 174f - box.x - 262f, 150f, 240f);
+        var tl = new Rect(box.x + 262f, ty - 15f, tlW, 30f);
         float bayX = tl.xMax + 24f;
         if (tl.xMax <= lx - 10f)
         {
@@ -114,7 +116,7 @@ public static partial class NetrunUI
             Tip(bay, "NR_DeckStudioBay".Translate());
             // The AUX pair: headphones (green collar) and mic (pink), each marked with a sticker.
             float x = bay.xMax + 16f;
-            if (x + 106f <= lx - 12f)
+            if (x + 106f <= lx - 20f)
             {
                 Sprite(StudioTex.Phones, new Vector2(x, ty - 15f));
                 Sprite(StudioTex.JackGreen, new Vector2(x + 32f, ty - 11f));
@@ -321,25 +323,35 @@ public static partial class NetrunUI
             x += 220f;
         }
         float gap = limit - x;
-        if (gap >= 150f + 196f + 36f)
-            StudioSpectrum(new Vector2(Mathf.Round(x + 150f + (gap - 150f - 196f - 20f) / 2f), yd + 20f), level, online, anim, time);
-        if (gap >= 150f)
+        // The spectrum screen takes what is left after the VHS stickers, or the whole gap when they do not fit beside it.
+        bool stickers = gap >= 150f + 110f || gap < 110f;
+        float room = stickers ? gap - 150f : gap;
+        if (room >= 110f)
+        {
+            float w = Mathf.Min(196f, room - 34f);
+            StudioSpectrum(new Vector2(Mathf.Round(limit - room + (room - w) / 2f), yd + 20f), w, level, online, anim, time);
+        }
+        if (stickers && gap >= 150f)
         {
             Sprite(StudioTex.Sun, new Vector2(x + 12f, yd + 18f));
             Sprite(StudioTex.BdLogo, new Vector2(x + 66f, yd + 66f));
         }
-        else if (gap >= 76f)
+        else if (stickers && gap >= 76f)
             Sprite(StudioTex.Sun, new Vector2(Mathf.Round(x + (gap - 66f) / 2f), yd + 30f));
     }
 
     /// <summary>The decorative spectrum screen on the desk: 16 bars from cyan to pink bounce with the signal while the net is
     /// up, a white peak tick over each; from Target the bars run hotter, in the Red Zone they hit the top.</summary>
-    private static void StudioSpectrum(Vector2 at, HeatLevel level, bool online, bool anim, float time)
+    private static void StudioSpectrum(Vector2 at, float width, HeatLevel level, bool online, bool anim, float time)
     {
-        NineSlice(new Rect(at.x - 10f, at.y - 10f, 216f, 120f), StudioTex.Panel, 12f, 12f, 12f, 12f);
-        Rect scr = Sprite(StudioTex.Scope, at);
-        const int bars = 16, rows = 12;
-        float bw = scr.width / bars, boost = level >= HeatLevel.RedZone ? 0.3f : level >= HeatLevel.Target ? 0.12f : 0f;
+        NineSlice(new Rect(at.x - 10f, at.y - 10f, width + 20f, 120f), StudioTex.Panel, 12f, 12f, 12f, 12f);
+        var scr = new Rect(at.x, at.y, width, StudioTex.Scope.height);
+        NineSlice(scr, StudioTex.Scope, 8f, 8f, 8f, 8f);
+        for (float gx = scr.x + 14f; gx < scr.xMax - 4f; gx += 14f)
+            Widgets.DrawBoxSolid(new Rect(gx, scr.y + 3f, 1f, scr.height - 6f), StudioGrid);
+        const int rows = 12;
+        int bars = Mathf.FloorToInt((width - 8f) / 12f);
+        float bw = (width - 8f) / bars, boost = level >= HeatLevel.RedZone ? 0.3f : level >= HeatLevel.Target ? 0.12f : 0f;
         for (int i = 0; i < bars; i++)
         {
             float shape = 1f - i / (float)bars * 0.5f;
@@ -353,7 +365,7 @@ public static partial class NetrunUI
             if (online && pk > n)
                 Widgets.DrawBoxSolid(new Rect(bx, scr.yMax - 6f - (pk + 1) * 6f, bw - 3f, 2f), new Color(0.94f, 0.9f, 0.98f));
         }
-        GUI.DrawTexture(scr, StudioTex.ScopeGlass);
+        NineSlice(scr, StudioTex.ScopeGlass, 8f, 8f, 8f, 8f);
         StudioCaption(scr.x + 34f, scr.yMax + 8f, "SPECTRUM");
         StudioCaption(scr.xMax - 24f, scr.yMax + 8f, "L  R", StudioPink);
     }

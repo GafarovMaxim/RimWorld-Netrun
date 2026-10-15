@@ -4,7 +4,7 @@ Textures of the "Studio" deck (Braindance // Studio, docs/mockups/37f-theme-stud
 2026-10-16): a graphite monitor standing behind a wide sloped desk. The monitor's top strip carries the title, a
 timeline (timecode and a scrolling track under the playhead), the braindance chip bay, the REC / NET / SICK / POD lamps
 and signal bars; the desk is one row: the LEVEL LED meter (HEAT and SIG), square keys
-with a warm backlight, the SESSION LCD, a model plate, channel faders VISUAL / AUDIO / SOMATIC / EMOTION, the NET LINK
+with a warm backlight, the SESSION LCD, a spectrum screen, channel faders VISUAL / AUDIO / SOMATIC / EMOTION, the NET LINK
 fader and the big TUNER JOG wheel.
 DeckStudio.cs lays them out (keep the numbers here and there in step).
 
@@ -267,20 +267,6 @@ def make_disc(n, col, ring=None):
     return b.done()
 
 
-def make_plate():
-    """The model plate with a speaker grille, 240 x 46."""
-    w, h = 240, 46
-    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    b = S.Big(w, h)
-    txt = "B D   S T U D I O   D E C K   ·   M O D E L   4"
-    b.text((w / 2, 7), txt, A.font, 7, INK + (200,))
-    for i in range(46):
-        x = 8 + i * 5
-        b.rect((x, 18, x + 2, h - 4), (14, 15, 15, 255), r=1)
-    img.alpha_composite(b.done())
-    return img
-
-
 def make_panel():
     """An instrument panel inset into the desk, 9-slice 40 x 40 (slice 12): a darker plate with a lit edge and a small
     screw in every corner."""
@@ -521,7 +507,6 @@ def make_scope():
     rgb = np.array((10, 6, 20), np.float32) + v[..., None] * np.array((22, 12, 36), np.float32)
     grid = np.zeros((h, w), np.float32)
     grid[::12, :] = 1
-    grid[:, ::14] = 1
     rgb += grid[..., None] * np.array((34, 22, 58), np.float32) * (0.4 + 0.6 * v[..., None])
     rgb += A.grain(w, h, 470, 2)[..., None]
     screen = A.to_img(rgb, m)
@@ -629,7 +614,6 @@ def build():
     A.save(make_jog(), T, "Jog")
     A.save(make_disc(14, (52, 52, 54), (14, 14, 15)), T, "LedBezel")
     A.save(make_disc(10, (255, 255, 255)), T, "Glass")
-    A.save(make_plate(), T, "Plate")
     A.save(make_panel(), T, "Panel")
     A.save(make_small_knob(), T, "KnobSmall")
     A.save(make_note(), T, "Note")
@@ -687,7 +671,9 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     # top strip: title, scrub bar, lamps, signal bars
     ty = by + 26
     cap("BRAINDANCE // STUDIO", bx + 52, ty - 6, ACCENT + (255,), 10, "lt")
-    tl = (bx + 262, ty - 15, bx + 502, ty + 15)
+    lx0 = xm - 52 - 40 - 4 * 58
+    tl_w = max(150, min(240, lx0 - 20 - 122 - 174 - bx - 262))
+    tl = (bx + 262, ty - 15, bx + 262 + tl_w, ty + 15)
     img.alpha_composite(A.nine_slice(load("Lcd"), (tl[2] - tl[0], tl[3] - tl[1]), 8, 8, 8, 8), tl[:2])
     d.text((tl[0] + 10, ty), "00:12:47:09", font=A.font(10, False), fill=(93, 255, 138, 255), anchor="lm")
     wv = load("Wave")
@@ -715,7 +701,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     put("Sticker_Warn", xm - OVER - 24, ym - IN_B - 110)
     put("Sticker_Side", bx + 120, ym - IN_B + 2)
     ph_x = tl[2] + 24 + 150 + 16
-    if ph_x + 106 <= xm - 52 - 40 - 4 * 58 - 12:
+    if ph_x + 106 <= xm - 52 - 40 - 4 * 58 - 20:
         put("Sticker_Phones", ph_x, ty - 15)
         put("Jack_Green", ph_x + 32, ty - 11)
         put("Sticker_Mic", ph_x + 64, ty - 14)
@@ -738,7 +724,7 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
     # the desk row
     yd = ym - DESK
     # Left to right: the LEVEL meter, the key panel, the SESSION LCD panel, GAIN / MIX; right to left: the jog, the
-    # fader panel with tape (NET LINK and four channels); the model plate in the gap when it is wide enough.
+    # fader panel (NET LINK and four channels); the spectrum screen in the gap.
     jx, jy = xm - JOG_DX, yd + JOG_DY
 
     def panel(x0, y0, x1, y1):
@@ -791,27 +777,34 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
         put("FaderCapPink" if i == 0 else "FaderCap", fx - 15, yd + 18 + 86 - 80 * vals[i] - 4)
         cap(nm, fx, yd + 120, ACCENT + (240,) if i == 0 else INK + (230,))
     gap = right - x
-    if gap >= 150 + SCOPE_W + 36:
-        sx = x + 150 + (gap - 150 - SCOPE_W - 20) / 2
-        panel(sx - 10, yd + 10, sx + SCOPE_W + 10, yd + 130)
-        put("Scope", sx, yd + 20)
-        bw = SCOPE_W / SCOPE_BARS
-        for i in range(SCOPE_BARS):
-            lvl = 0.25 + 0.7 * abs(np.sin(i * 1.7 + 0.6)) * (1 - i / SCOPE_BARS * 0.5)
+    stickers = gap >= 150 + 110 or gap < 110
+    room = gap - 150 if stickers else gap
+    if room >= 110:
+        sw = min(SCOPE_W, room - 34)
+        sx = round(right - room + (room - sw) / 2)
+        panel(sx - 10, yd + 10, sx + sw + 10, yd + 130)
+        img.alpha_composite(A.nine_slice(load("Scope"), (int(sw), SCOPE_H), 8, 8, 8, 8), (int(sx), yd + 20))
+        for gx in range(int(sx) + 14, int(sx + sw) - 4, 14):
+            d.line([(gx, yd + 23), (gx, yd + 20 + SCOPE_H - 4)], fill=(51, 33, 82, 128))
+        bars = int((sw - 8) // 12)
+        bw = (sw - 8) / bars
+        for i in range(bars):
+            lvl = 0.25 + 0.7 * abs(np.sin(i * 1.7 + 0.6)) * (1 - i / bars * 0.5)
             n = int(lvl * 12)
             for r in range(n):
                 t = r / 11
                 c = tuple(int(CYAN[k] * (1 - t) + PINK[k] * t) for k in range(3))
                 y = yd + 20 + SCOPE_H - 6 - (r + 1) * 6
                 d.rectangle([sx + 4 + i * bw, y, sx + 4 + i * bw + bw - 4, y + 3], fill=c + (255,))
-            d.rectangle([sx + 4 + i * bw, yd + 20 + SCOPE_H - 6 - (n + 2) * 6, sx + 4 + i * bw + bw - 4, yd + 20 + SCOPE_H - 6 - (n + 2) * 6 + 1], fill=(240, 230, 250, 255))
-        put("ScopeGlass", sx, yd + 20)
+            yp = yd + 20 + SCOPE_H - 6 - (n + 2) * 6
+            d.rectangle([sx + 4 + i * bw, yp, sx + 4 + i * bw + bw - 4, yp + 1], fill=(240, 230, 250, 255))
+        img.alpha_composite(A.nine_slice(load("ScopeGlass"), (int(sw), SCOPE_H), 8, 8, 8, 8), (int(sx), yd + 20))
         cap("SPECTRUM", sx + 34, yd + 112)
-        cap("L  R", sx + SCOPE_W - 24, yd + 112, PINK + (230,))
-    if gap >= 150:
+        cap("L  R", sx + sw - 24, yd + 112, PINK + (230,))
+    if stickers and gap >= 150:
         put("Sticker_Sun", x + 12, yd + 18)
         put("Sticker_BdLogo", x + 66, yd + 66)
-    elif gap >= 76:
+    elif stickers and gap >= 76:
         put("Sticker_Sun", x + (gap - 66) / 2, yd + 30)
     return img
 
@@ -825,5 +818,6 @@ if __name__ == "__main__":
         m.save(out)
         wide = mock(heat, (1300, 700))
         wide.save(out.replace(".png", "-wide.png"))
+        mock(heat, (1060, 640)).save(out.replace(".png", "-game.png"))
         A.save(m.resize((300, int(300 * m.height / m.width)), Image.LANCZOS), T, "Preview")
     print("Studio textures written")
