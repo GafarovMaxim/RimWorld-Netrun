@@ -44,6 +44,18 @@ public static class NetrunDebugActions
         Done("everything unlocked: onboarding, research, districts, the Wall, daemons");
     }
 
+    /// <summary>Opens a deck theme without its achievement and puts it on (to check a new casing in game).</summary>
+    [DebugAction(Unlock, "Unlock: deck theme...", allowedGameStates = Playing, displayPriority = 95)]
+    private static void UnlockDeckTheme()
+    {
+        Find.WindowStack.Add(new FloatMenu(DeckThemes.All.Select(t => new FloatMenuOption(t.Label, () =>
+        {
+            if (!NetrunMod.Settings.UnlockedThemes.Contains(t.Id))
+                NetrunMod.Settings.UnlockedThemes.Add(t.Id);
+            DeckThemes.Select(t);
+        })).ToList()));
+    }
+
     [DebugAction(Unlock, "Unlock: skip onboarding (all core nodes)", allowedGameStates = Playing, displayPriority = 90)]
     private static void SkipOnboarding()
     {
