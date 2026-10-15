@@ -269,10 +269,10 @@ public static partial class NetrunUI
         float room = bx - 8f - (lcdEnd + 8f);
         Texture2D g = StreetTex.GraffitiBottom;
         if (room >= g.width)
-            Sprite(g, new Vector2(Mathf.Round(lcdEnd + 8f + (room - g.width) / 2f), box.yMax - g.height + 2f));
+            Sprite(g, new Vector2(Mathf.Round(lcdEnd + 8f + (room - g.width) / 2f), box.yMax - 58f)); // below the screen, into the bottom rim
     }
 
-    private static readonly string[] StreetSkull = [" .-. ", "(x.x)", " |=| "];
+    private static readonly string[] StreetSkull = [".-.", "(x.x)", "|=|"];
     private static readonly System.Text.StringBuilder StreetHex = new();
 
     /// <summary>The free part of the LCD: a hex stream scrolling past and a little skull at the end (Maxim, 2026-10-15:
@@ -303,7 +303,10 @@ public static partial class NetrunUI
         for (int i = 0; i < 3; i++)
         {
             Widgets.Label(new Rect(r.x + 4f, r.y + 1f + i * 14.5f, r.width - 64f, 16f), rows[i].Colorize(dim));
+            // The game font is not monospaced: each row is centred on the same axis, so the skull stays straight.
+            Text.Anchor = TextAnchor.UpperCenter;
             Widgets.Label(new Rect(r.xMax - 50f, r.y + 1f + i * 14.5f, 50f, 16f), StreetSkull[i].Colorize(online ? LcdGreen : dim));
+            Text.Anchor = TextAnchor.UpperLeft;
         }
         Text.Font = GameFont.Small;
     }

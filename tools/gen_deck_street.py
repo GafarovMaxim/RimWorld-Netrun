@@ -311,7 +311,7 @@ def build():
     A.save(S.kitsune(58, holo=True, seed=571).rotate(-14, resample=Image.BICUBIC, expand=True), T, "St_Kitsune")
     A.save(S.pixel_skull(22, seed=572), T, "St_Skull")
     A.save(S.graffiti("GH0ST", 22, (24, 20, 30), S.PINK, seed=575, drips=6), T, "Graffiti_Top")
-    A.save(S.graffiti("NR", 30, S.PINK, S.INK, seed=576, skew=0.12, angle=5, bubble=True, drips=4), T, "Graffiti_Bottom")
+    A.save(S.graffiti("NR", 34, S.PINK, S.INK, seed=576, skew=0.12, angle=5, bubble=True, drips=4), T, "Graffiti_Bottom")
     A.save(mock(None).resize((300, 240), Image.LANCZOS), T, "Preview")
 
 
@@ -423,7 +423,7 @@ def mock(out_path=None, screen=(930, 666), heat=58, online=True):
     g = load("Graffiti_Bottom")
     gx0, gx1 = lcd_x + lcd_w + 8, btn_x - 8
     if gx1 - gx0 >= g.width:
-        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, by1 - g.height + 2))
+        A.over(img, g, (gx0 + (gx1 - gx0 - g.width) / 2, by1 - 58))
     if out_path:
         img.convert("RGB").save(out_path)
     return img
