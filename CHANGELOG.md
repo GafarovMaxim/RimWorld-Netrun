@@ -5,7 +5,8 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ## [Unreleased]
 ### Added
 - Iron Company: a red ALARM lamp over the nameplate pulses once Heat reaches Target and strobes in the Red Zone.
-- Deck frames react to high Heat: Nomad's charm swings harder, its RF bars jitter and the hottest gem flickers; Kurenai's red band breathes, the top THREAT INDEX square blinks and an ALERT stamp appears in the Red Zone; Retro's pixel flames dance and its LCD flashes "!! ALERT !!"; Street's neon buzzes and drops out in the Red Zone and its graffiti glows pink; the classic Heat scale's top segment pulses.
+- Deck frames react to high Heat: Nomad's charm swings harder, its RF bars jitter, the TUNE needle drifts with static and the hottest gem flickers; Kurenai's red band breathes, the logo square lights up and the current THREAT INDEX square pulses, flashing in the Red Zone; Retro's pixel flames dance and its LCD flashes "!! ALERT !!"; Street's neon buzzes and drops out in the Red Zone, its graffiti glows pink and its LCD log starts throwing red errors; the classic Heat scale's top segment pulses.
+- The game's music fades down while the terminal is open (to 30 %, a slider in Sound settings) and comes back when it closes.
 - Settings: hovering a cyberspace layout shows a small preview of its map.
 ### Changed
 - Street: the NET/SICK/POD lamps sit in chrome rings on a black chamfered plate with tape and a bolt sticker.

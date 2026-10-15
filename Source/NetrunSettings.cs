@@ -131,6 +131,8 @@ public class NetrunSettings : ModSettings
     public float AmbientCyberspace = 1f;
     public float AmbientDive = 1f;
     public float AmbientServer = 1f;
+    /// <summary>The game's music while the terminal is open, as a share of its normal volume.</summary>
+    public float TerminalMusic = 0.3f;
 
     /// <summary>The volume of one ambient loop ("Ambient_Terminal" and so on).</summary>
     public float AmbientVolumeOf(string id) => AmbientVolume * id switch
@@ -673,6 +675,7 @@ public class NetrunSettings : ModSettings
             if (!Mathf.Approximately(ui, UiVolume))
                 NetrunSound.Hover();
         }
+        TerminalMusic = Slider("NR_SettingsTerminalMusic".Translate(TerminalMusic.ToStringPercent()), TerminalMusic, 0f, 1f);
         _y += 6f;
     }
 
@@ -774,6 +777,7 @@ public class NetrunSettings : ModSettings
         SoundPack = "Clean";
         UiVolume = AmbientVolume = 0.6f;
         AmbientTerminal = AmbientCyberspace = AmbientDive = AmbientServer = 1f;
+        TerminalMusic = 0.3f;
         NetrunSound.SettingsChanged();
     }
 
@@ -835,6 +839,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref SoundPack, "soundPack", "Clean");
         Scribe_Values.Look(ref UiVolume, "uiVolume", 0.6f);
         Scribe_Values.Look(ref AmbientVolume, "ambientVolume", 0.6f);
+        Scribe_Values.Look(ref TerminalMusic, "terminalMusic", 0.3f);
         Scribe_Values.Look(ref AmbientTerminal, "ambientTerminal", 1f);
         Scribe_Values.Look(ref AmbientCyberspace, "ambientCyberspace", 1f);
         Scribe_Values.Look(ref AmbientDive, "ambientDive", 1f);

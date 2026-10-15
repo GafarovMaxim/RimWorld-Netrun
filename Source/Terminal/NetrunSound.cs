@@ -120,6 +120,9 @@ public static class NetrunSound
         _ambient?.Maintain();
     }
 
+    /// <summary>True while the terminal is drawing (it asks for its ambient every frame), for the music fade.</summary>
+    public static bool TerminalShown => _ambientFrame > 0 && Time.frameCount - _ambientFrame <= 3;
+
     public static void EndAmbient()
     {
         if (_ambient != null && !_ambient.Ended)

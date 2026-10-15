@@ -123,6 +123,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SoundPackDesc_Off>Без звуков мода: только обычный щелчок игры.</NR_SoundPackDesc_Off>
   <NR_SettingsUiVolume>Звуки интерфейса: {0}</NR_SettingsUiVolume>
   <NR_SettingsAmbientVolume>Эмбиент: {0}</NR_SettingsAmbientVolume>
+  <NR_SettingsTerminalMusic>Музыка игры при открытом терминале: {0}</NR_SettingsTerminalMusic>
   <NR_HackHeatPreview>След при взломе: около +{0} Heat (меньше со скрытностью взлома или из кибер-капсулы)</NR_HackHeatPreview>
   <NR_SettingsAmbientEach>Каждый эмбиент отдельно (доля от общей громкости эмбиента):</NR_SettingsAmbientEach>
   <NR_SettingsAmbientCyberspace>Эмбиент терминала: {0}</NR_SettingsAmbientCyberspace>

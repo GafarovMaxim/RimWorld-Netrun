@@ -137,12 +137,13 @@ public static partial class NetrunUI
         foreach (float hx in new[] { box.x + 110f, box.xMax - 156f })
             Sprite(NomadTex.Hinge, new Vector2(hx, box.y - 8f));
         // The charm hangs from an eyelet on the left edge; the pouch is strapped over the right edge.
-        // It swings from its eyelet, harder as the Heat climbs (still while it is quiet).
+        // It swings from its eyelet towards the case, harder as the Heat climbs (still while it is quiet); never outward,
+        // where the window edge would clip it.
         float swing = anim ? level switch { HeatLevel.Tracked => 3f, HeatLevel.Target => 6f, HeatLevel.RedZone => 11f, _ => 0f } : 0f;
         var charm = new Rect(box.x - 40f, box.y + 30f, NomadTex.Charm.width, NomadTex.Charm.height);
         Matrix4x4 m = GUI.matrix;
         if (swing > 0f)
-            GUIUtility.RotateAroundPivot(swing * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 3.4f : 2.2f)), new Vector2(charm.center.x, charm.y));
+            GUIUtility.RotateAroundPivot(-swing * (0.5f + 0.5f * Mathf.Sin(time * (level >= HeatLevel.RedZone ? 3.4f : 2.2f))), new Vector2(charm.center.x, charm.y));
         GUI.DrawTexture(charm, NomadTex.Charm);
         GUI.matrix = m;
         float pouchY = Mathf.Clamp(box.center.y - NomadTex.Pouch.height / 2f, box.y + NomadInT, Mathf.Max(box.y + NomadInT, box.yMax - NomadInB - NomadTex.Pouch.height));
@@ -253,7 +254,17 @@ public static partial class NetrunUI
                 float th = i % 5 == 0 ? 10f : 5f;
                 Widgets.DrawBoxSolid(new Rect(tx, tuner.yMax - 6f - th, 1f, th), new Color(NomadInk.r, NomadInk.g, NomadInk.b, i % 5 == 0 ? 0.45f : 0.22f));
             }
-            float mark = tuner.x + 8f + (tuner.width - 16f) * _tuner;
+            // From Target the station drifts: the needle wanders and static flecks cross the dial, worse in the red zone.
+            bool noisy = level >= HeatLevel.Target && anim;
+            float drift = noisy ? (Noise(time, 7f) - 0.5f) * (level >= HeatLevel.RedZone ? 0.16f : 0.07f) : 0f;
+            float mark = tuner.x + 8f + (tuner.width - 16f) * Mathf.Clamp01(_tuner + drift);
+            if (noisy)
+                for (int i = 0; i < (level >= HeatLevel.RedZone ? 7 : 3); i++)
+                {
+                    float nx = tuner.x + 8f + (tuner.width - 18f) * Noise(time, 16f, i * 2 + 1);
+                    float ny = tuner.y + 6f + (tuner.height - 14f) * Noise(time, 16f, i * 2 + 2);
+                    Widgets.DrawBoxSolid(new Rect(nx, ny, 2f + 4f * Noise(time, 16f, i + 40), 1f), new Color(DeckOrange.r, DeckOrange.g, DeckOrange.b, 0.55f));
+                }
             Glow(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange, 0.45f, 4f);
             Widgets.DrawBoxSolid(new Rect(mark - 1f, tuner.y + 5f, 2f, tuner.height - 10f), DeckOrange);
             Stencil(new Rect(tuner.x, y + 32f, tuner.width, 14f), "TUNE  88.2 - 107.9");

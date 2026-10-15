@@ -295,8 +295,16 @@ public static partial class NetrunUI
         "> trace probe .... dodged", "> cache sync 3/3 ..... ok", "> daemon idle ....... [z]", "> proxy hop 4 ...... live",
         "> packet loss ....... 0.2%", "> firewall echo ..... ok", "> black ledger ..... quiet", "> uplink jitter ..... 12ms",
     ];
+    // From Target some lines come out as errors, more often in the red zone (Maxim, 2026-10-15).
+    private static readonly string[] StreetErr =
+    [
+        "!! ERR 0x3F ..... trace lock", "!! checksum ...... FAIL", "!! ICE ping ...... BLOCKED", "!! proxy hop 2 ..... DEAD",
+        "!! spoofed signal .. FOUND", "!! seg fault ...... 0x00F7", "!! handshake ...... REFUSED", "!! black ledger .... OPEN",
+    ];
     private static int _streetLogLine;
     private static float _streetLogStart = -1f;
+    // The three lines on screen, oldest first; the last one is the one typing.
+    private static readonly string[] _streetShown = [StreetLog[^2], StreetLog[^1], StreetLog[0]];
 
     /// <summary>The free part of the LCD (Maxim, 2026-10-15): a log typing itself out on the left, lines rolling up,
     /// and an RF oscilloscope on the right that grows ragged and turns pink, then red, as the Heat climbs.</summary>
@@ -309,7 +317,7 @@ public static partial class NetrunUI
         var log = new Rect(r.x + 4f, r.y, r.width - scopeW - 12f, r.height);
 
         // The log: one line types out at 25 characters a second, holds, then the next one comes in below it.
-        string current = StreetLog[_streetLogLine];
+        string current = _streetShown[2];
         if (_streetLogStart < 0f)
             _streetLogStart = now;
         float typing = current.Length / 25f;
@@ -317,18 +325,23 @@ public static partial class NetrunUI
         {
             _streetLogLine = (_streetLogLine + 1) % StreetLog.Length;
             _streetLogStart = now;
-            current = StreetLog[_streetLogLine];
+            float errChance = level >= HeatLevel.RedZone ? 0.5f : level >= HeatLevel.Target ? 0.25f : 0f;
+            current = UnityEngine.Random.value < errChance ? StreetErr[UnityEngine.Random.Range(0, StreetErr.Length)] : StreetLog[_streetLogLine];
+            _streetShown[0] = _streetShown[1];
+            _streetShown[1] = _streetShown[2];
+            _streetShown[2] = current;
         }
+        Color errInk = new(StreetRed.r, StreetRed.g, StreetRed.b, online ? 0.9f : 0.3f);
         int shown = !anim || !online ? current.Length : Mathf.Clamp(Mathf.FloorToInt((now - _streetLogStart) * 25f), 0, current.Length);
         Text.Font = GameFont.Tiny;
         for (int i = 0; i < 2; i++)
         {
-            string prev = StreetLog[(_streetLogLine - 2 + i + StreetLog.Length * 2) % StreetLog.Length];
-            Widgets.Label(new Rect(log.x, r.y + 1f + i * 14.5f, log.width, 16f), prev.Colorize(dim));
+            string prev = _streetShown[i];
+            Widgets.Label(new Rect(log.x, r.y + 1f + i * 14.5f, log.width, 16f), prev.Colorize(prev.StartsWith("!!") ? errInk : dim));
         }
         string typed = current.Substring(0, shown);
         var row = new Rect(log.x, r.y + 1f + 2f * 14.5f, log.width, 16f);
-        Widgets.Label(row, typed.Colorize(online ? LcdGreen : dim));
+        Widgets.Label(row, typed.Colorize(current.StartsWith("!!") ? errInk : online ? LcdGreen : dim));
         if (online && (!anim || (now * 2f) % 2f < 1.2f))
         {
             float cx = log.x + Mathf.Min(Text.CalcSize(typed).x + 1f, log.width - 6f);
