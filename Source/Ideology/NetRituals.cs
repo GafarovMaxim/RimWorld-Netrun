@@ -106,6 +106,9 @@ public class RitualOutcomeEffectWorker_TraceCleansing : RitualOutcomeEffectWorke
 /// </summary>
 public static class NetRitualSync
 {
+    private static readonly HarmonyLib.AccessTools.FieldRef<Precept_Ritual, UnityEngine.Texture2D> RitualIcon =
+        HarmonyLib.AccessTools.FieldRefAccess<Precept_Ritual, UnityEngine.Texture2D>("icon");
+
     public static int EnsureMemeRituals()
     {
         if (!ModsConfig.IdeologyActive || Faction.OfPlayer?.ideos == null)
@@ -116,11 +119,21 @@ public static class NetRitualSync
             if (ideo?.memes == null)
                 continue;
             // Our rituals have no date: one saved as "by date" never shows its button, so make it "any time".
+            // The icon path is copied into the save when a ritual is made, so a new icon needs it refreshed here.
             foreach (Precept precept in ideo.PreceptsListForReading)
             {
-                if (precept is Precept_Ritual r && !r.isAnytime && r.def.defName.StartsWith("NR_"))
+                if (precept is not Precept_Ritual r || !r.def.defName.StartsWith("NR_"))
+                    continue;
+                if (!r.isAnytime)
                 {
                     r.isAnytime = true;
+                    added++;
+                }
+                string icon = r.sourcePattern?.iconPathOverride ?? r.def.iconPath;
+                if (icon != null && r.iconPathOverride != icon)
+                {
+                    r.iconPathOverride = icon;
+                    RitualIcon(r) = null;
                     added++;
                 }
             }
