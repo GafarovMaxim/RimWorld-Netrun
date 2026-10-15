@@ -11,6 +11,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - The game's music fades down while the terminal is open (to 30 %, a slider in Sound settings) and comes back when it closes.
 - Settings: hovering a cyberspace layout shows a small preview of its map.
 ### Changed
+- The AI server and the abandoned server fill their 3x3 footprint in every facing; server racks (new art with a black stand) sit higher and no longer spill onto the cell below.
 - Street: the NET/SICK/POD lamps sit in chrome rings on a black chamfered plate with tape and a bolt sticker.
 - Iron Company is wider by default; the terminal window grows with a thicker casing instead of squeezing the screen.
 

@@ -138,6 +138,7 @@
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Misc/NR_DistressRack</texPath>
+      <drawOffset>(0,0,0.2)</drawOffset>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.45, 1.45)</drawSize>
     </graphicData>

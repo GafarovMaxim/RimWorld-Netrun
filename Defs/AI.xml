@@ -213,7 +213,7 @@
     <minifiedDef>MinifiedThing</minifiedDef>
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServer</texPath>
-      <drawOffset>(0,0,0.18)</drawOffset>
+      <drawOffset>(0,0,0.1)</drawOffset>
       <graphicClass>Graphic_Multi</graphicClass>
       <drawSize>(3,3)</drawSize>
     </graphicData>
@@ -271,6 +271,7 @@
     <thingClass>Building</thingClass>
     <graphicData>
       <texPath>Things/Building/Misc/NR_AIServerRack</texPath>
+      <drawOffset>(0,0,0.2)</drawOffset>
       <graphicClass>Graphic_Single</graphicClass>
       <drawSize>(1.45, 1.45)</drawSize>
     </graphicData>
