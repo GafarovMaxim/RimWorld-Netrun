@@ -18,7 +18,6 @@ for lang, idx in (("en", 1), ("ru", 2)):
         y = gap + row * (ch + 40 + gap)
         p = Image.open(os.path.join(ROOT, "Textures/UI/Netrun/Frame", f[0], "Preview.png")).convert("RGBA").resize((cw, ch), Image.LANCZOS)
         img.alpha_composite(p, (x, y))
-        d.rectangle([x - 1, y - 1, x + cw, y + ch], outline=(60, 200, 210, 255))
-        d.text((x + cw / 2, y + ch + 20), f[idx], font=A.font(16), fill=(90, 230, 240, 255), anchor="mm")
+        d.text((x + cw / 2, y + ch + 20), f[idx], font=A.font(16), fill=(90, 230, 130, 255), anchor="mm")
     img.convert("RGB").save(os.path.join(ROOT, "docs/steam/img", lang + "_frames.png"))
 print("ok")
