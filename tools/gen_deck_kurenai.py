@@ -28,7 +28,7 @@ OUT_L, OUT_T, OUT_R, OUT_B = 8, 8, 8, 8
 BAND_X0, BAND_X1 = 16, 60   # the red band down the left side
 LINE_Y = IN_T - 12          # the red hairline under the top bar
 
-PAPER = (201, 200, 196)
+PAPER = (174, 173, 169)  # darkened again (Maxim, 2026-10-15: still too white in game)
 INK = (26, 26, 28)
 RED = (212, 36, 44)
 GRID = (196, 195, 191)
@@ -310,7 +310,7 @@ def build():
     A.save(make_body(), T, "Body")
     A.save(make_kanji(), T, "Kanji")
     A.save(make_logo(), T, "Logo")
-    A.save(make_pad((190, 189, 186), INK), T, "Pad")
+    A.save(make_pad((184, 183, 179), INK), T, "Pad")
     A.save(make_pad(RED, INK), T, "Pad_Red")
     A.save(make_pad(INK, INK), T, "Pad_Black")
     A.save(make_ring(INK, INK), T, "Ring")

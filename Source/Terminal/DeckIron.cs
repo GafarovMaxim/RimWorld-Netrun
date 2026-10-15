@@ -262,7 +262,7 @@ public static partial class NetrunUI
         int[] ids = [KeyBack, KeyCore, KeyHelp];
         for (int i = 0; i < 3; i++)
         {
-            var key = new Rect(kx + i * 56f, yb + 16f, 46f, 34f);
+            var key = new Rect(kx + i * 56f, yb + 21f, 46f, 34f);
             string tip = active && Mouse.IsOver(key) ? (string)("NR_DeckKey_" + ids[i]).Translate() : null;
             if (IronKey(key, glyphs[i], i == 1 ? Hex(0xf05a46) : IronStencil, tip, active))
                 onKey?.Invoke(ids[i]);
@@ -275,7 +275,7 @@ public static partial class NetrunUI
         if (hw >= 120f)
         {
             float hx = kx + 3f * 56f + 24f;
-            var bar = new Rect(hx, yb + 18f, hw, 34f);
+            var bar = new Rect(hx, yb + 21f, hw, 34f);
             NineSlice(bar, IronTex.Window, 8f, 8f, 8f, 8f);
             int lit = Mathf.Clamp(Mathf.RoundToInt(heat / HeatTracker.MaxHeat * 10f), heat > 0.5f ? 1 : 0, 10);
             float step = (hw - 16f) / 10f;

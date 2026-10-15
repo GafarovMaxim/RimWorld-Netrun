@@ -188,10 +188,10 @@ def make_guard_button(cover_open, lit=False):
     img.alpha_composite(A.to_img(np.zeros_like(rgb), np.roll(A.blur(base, 2), 2, 0) * 0.6))
     img.alpha_composite(A.to_img(rgb, base))
     b = S.Big(W, H)
-    b.ellipse((9, 20, 31, 42), (120, 120, 114, 255), outline=(30, 30, 28, 255), width=1)        # the collar
     btn = (255, 70, 60) if lit else RED
-    b.ellipse((12, 23, 28, 39), btn + (255,), outline=(60, 10, 8, 255), width=1)                  # the button
-    b.ellipse((15, 26, 21, 31), (255, 220, 210, 150 if lit else 90))
+    b.ellipse((9, 20, 31, 42), (14, 14, 13, 255))                                                  # the recess
+    b.ellipse((10, 21, 30, 41), btn + (255,), outline=(60, 10, 8, 255), width=1)                  # the button, no grey collar (Maxim)
+    b.ellipse((14, 24, 19, 28), (255, 150, 140, 170 if lit else 120))                           # a small red glint, not grey
     if cover_open:
         b.rect((7, 0, 33, 13), RED + (255,), r=2, outline=(30, 10, 8, 255), width=1)               # the cover, up
         b.line([(9, 11), (31, 11)], (40, 10, 8, 255), 1)
@@ -204,10 +204,19 @@ def make_guard_button(cover_open, lit=False):
 
 
 def make_rubber_key(w=46, h=34):
+    """A rubber key with a skirt and a raised, slightly domed cap (Maxim, 2026-10-15: the flat keys looked cheap)."""
     m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], 7 * s, fill=255))
-    rgb = RUBBER + 8 + A.grain(w, h, 871, 3)[..., None] + (A.shade(m, 3.0) * 55)[..., None]
-    yy = np.mgrid[0:h, 0:w][0].astype(np.float32)
-    rgb += (np.clip(1 - yy / (h * 0.5), 0, 1) * 10)[..., None]
+    cap = A.mask((w, h), lambda d, s: d.rounded_rectangle([3 * s, 2 * s, (w - 3) * s - 1, (h - 5) * s - 1], 6 * s, fill=255))
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    rgb = RUBBER + A.grain(w, h, 871, 3)[..., None] + (A.shade(m, 2.0) * 30)[..., None]
+    # The cap: lighter, lit from the top left, a soft dome and wear on the face.
+    face = RUBBER + 22 + A.grain(w, h, 872, 4)[..., None] + (A.shade(cap, 2.5) * 70)[..., None]
+    face += (np.clip(1 - np.hypot(xx - w * 0.4, yy - h * 0.3) / (w * 0.55), 0, 1) * 16)[..., None]
+    face += (np.clip(A.fbm(w, h, 9, 2, 873), 0, 1) * 14)[..., None]
+    capa = cap[..., None] if cap.ndim == 2 else cap
+    rgb = rgb * (1 - capa) + face * capa
+    edge = np.clip(A.inner_edge(cap, 1.2), 0, 1) * (yy < h * 0.4)
+    rgb += (edge * 40)[..., None]
     img = A.to_img(np.zeros_like(rgb), np.roll(A.blur(m, 2), 2, 0) * 0.7)
     img.alpha_composite(A.to_img(rgb, m))
     return img

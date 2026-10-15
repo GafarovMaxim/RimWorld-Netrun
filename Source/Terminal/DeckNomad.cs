@@ -14,7 +14,7 @@ public static partial class NetrunUI
 {
     // Where the case sits in the window (room for the protruding parts) and where the screen sits in the case.
     private const float NomadOutL = 42f, NomadOutT = 50f, NomadOutR = 80f, NomadOutB = 32f;
-    private const float NomadInL = 24f, NomadInT = 60f, NomadInR = 24f, NomadInB = 72f;
+    private const float NomadInL = 24f, NomadInT = 68f, NomadInR = 24f, NomadInB = 72f;
     private const float NomadSlice = 170f;
     public static readonly Vector2 NomadExtra = new(NomadOutL + NomadOutR + NomadInL + NomadInR, NomadOutT + NomadOutB + NomadInT + NomadInB);
 
@@ -145,8 +145,8 @@ public static partial class NetrunUI
     private static void DrawNomadTop(Rect box, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu, bool paint)
     {
         NetrunSettings set = NetrunMod.Settings;
-        // Keys high enough that their stencils clear the screen's bezel (Maxim, 2026-10-15).
-        float y = box.y + 5f;
+        // Keys below the hinges and the top lip; their stencils still clear the screen bezel (Maxim, 2026-10-15).
+        float y = box.y + 14f;
 
         // CLOSE, MENU, ACHIEV, NET LOCK: worn rubber keys (red for close and for the lock while the colony is cut off).
         string[] names = ["CLOSE", "MENU", "ACHIEV", "NET LOCK"];
