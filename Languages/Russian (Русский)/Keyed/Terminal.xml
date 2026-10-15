@@ -291,7 +291,7 @@
   <NR_DeckTuner>Тюнер: метка прыгает на каждом новом событии в сети.</NR_DeckTuner>
   <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
   <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
-  <NR_DeckBeacon>Тревожный маячок: пульсирует, когда Heat доходит до уровня «Цель», и мигает стробом в красной зоне.</NR_DeckBeacon>
+  <NR_DeckBeacon>Тревожная лампа: пульсирует, когда Heat доходит до уровня «Цель», и мигает стробом в красной зоне.</NR_DeckBeacon>
   <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
   <NR_DeckKey_3>Закрыть терминал</NR_DeckKey_3>
   <NR_DeckKey_4>Меню: настройки, Киберпедия, достижения, сложность, кастомизация</NR_DeckKey_4>
@@ -304,7 +304,7 @@
   <NR_DeckNetLinkOn>Связь с сетью: онлайн.</NR_DeckNetLinkOn>
   <NR_DeckNetLinkOff>Связь с сетью: офлайн (сеть откроется после первых шагов в Ядре).</NR_DeckNetLinkOff>
   <NR_DeckThemeLocked>Достижение «{0}»: {1}/{2}</NR_DeckThemeLocked>
-  <NR_DeckTheme_Field>Полевая дека</NR_DeckTheme_Field>
+  <NR_DeckTheme_Field>Кибердека NR-1</NR_DeckTheme_Field>
   <NR_DeckTheme_Milspec>Iron Company</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
   <NR_DeckTheme_OpsPad>Kurenai Systems</NR_DeckTheme_OpsPad>
@@ -312,7 +312,7 @@
   <NR_DeckThemeDesc_Nomad>Пыльный дорожный кейс: солнечная панель, ручка из паракорда, батарея на ремнях.</NR_DeckThemeDesc_Nomad>
   <NR_DeckTheme_Retro>NR-80 Ретро</NR_DeckTheme_Retro>
   <NR_DeckThemeDesc_Retro>Кремовая портативка из старых времён: полосы заката, зелёный LCD, пиксельные огоньки Heat и ползунок сети.</NR_DeckThemeDesc_Retro>
-  <NR_DeckThemeDesc_Field>По умолчанию: тёмный оружейный металл, оранжевая клавиша Ядра.</NR_DeckThemeDesc_Field>
+  <NR_DeckThemeDesc_Field>По умолчанию: матовый чёрный пластик, вставки из карбона, плоские клавиши со светящимися значками и световая линия вокруг экрана, которая краснеет с ростом Heat.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>Защищённый полевой планшет: оливковая краска со сколами, резиновые бамперы, тумблеры под крышками, янтарные экраны и шкала угрозы.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Жёлтая уличная панель: неоновая трубка горит вместе с Heat, голографическая кицунэ, граффити.</NR_DeckThemeDesc_Street>
   <NR_DeckThemeDesc_OpsPad>Корпоративный терминал: светлый печатный корпус, красная полоса с 紅, штриховка и метки совмещения.</NR_DeckThemeDesc_OpsPad>

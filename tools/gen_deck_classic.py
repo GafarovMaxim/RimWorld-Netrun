@@ -371,9 +371,141 @@ def diy(heat):
     return img
 
 
+# ================================================================== B textures for the game (Frame/Cyber, DeckCyber.cs)
+
+T = "Cyber"
+BODY_W, BODY_H, SLICE, CHAMFER = 1400, 900, 170, 26
+
+
+def chamfer_pts(x0, y0, x1, y1, k):
+    return [(x0 + k, y0), (x1 - k, y0), (x1, y0 + k), (x1, y1 - k), (x1 - k, y1), (x0 + k, y1), (x0, y1 - k), (x0, y0 + k)]
+
+
+def make_body():
+    """Matte black plastic with chamfered corners and a lower, darker bezel step round the screen opening (baked:
+    IN_* here must match CyberIn* in C#). Carbon inserts, ridges and vents are separate, drawn at their own size."""
+    W, H = BODY_W, BODY_H
+    full = A.mask((W, H), lambda d, s: d.polygon([(x * s, y * s) for x, y in chamfer_pts(0, 0, W - 1, H - 1, CHAMFER)], fill=255))
+    hole = A.mask((W, H), lambda d, s: d.rectangle([IN_L * s, IN_T * s, (W - IN_R) * s - 1, (H - IN_B) * s - 1], fill=255))
+    bezel = A.mask((W, H), lambda d, s: d.polygon([(x * s, y * s) for x, y in chamfer_pts(IN_L - 16, IN_T - 16, W - IN_R + 15, H - IN_B + 15, 12)], fill=255))
+    rgb = A.hexc(0x1c1d21) + A.grain(W, H, 51, 3)[..., None] + A.fbm(W, H, 60, 3, 52)[..., None] * 6
+    rgb += (A.shade(full, 2.5) * 40)[..., None]
+    rgb = rgb * (1 - bezel[..., None]) + (A.hexc(0x111215) + A.grain(W, H, 53, 2)[..., None]) * bezel[..., None]
+    rgb -= (A.shade(bezel, 2.0) * 35)[..., None]
+    img = A.to_img(rgb, full * (1 - hole))
+    d = ImageDraw.Draw(img)
+    d.rectangle([IN_L - 6, IN_T - 6, W - IN_R + 5, H - IN_B + 5], fill=(14, 15, 18, 255))
+    img.paste((0, 0, 0, 0), (IN_L, IN_T, W - IN_R, H - IN_B))
+    for x, y in ((22, 22), (W - 22, 22), (22, H - 22), (W - 22, H - 22)):
+        A.over(img, A.rivet(10, A.hexc(0x3a3c42), x), (x - 7, y - 7))
+        d.regular_polygon((x, y, 2.6), 6, fill=(12, 12, 14))
+    return img
+
+
+def make_carbon():
+    """A carbon twill insert for the rails, 30x900: the C# draws the part it needs (cropped, never stretched)."""
+    w, h = 30, 900
+    m = A.mask((w, h), lambda d, s: d.rounded_rectangle([0, 0, w * s - 1, h * s - 1], 4 * s, fill=255))
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    tw = ((np.floor(xx / 4) + np.floor(yy / 4)) % 2) * np.where((np.floor(yy / 8) % 2) == 0, 1, -1)
+    rgb = A.hexc(0x24262b) + (tw * 7)[..., None] - (A.shade(m, 1.2) * 30)[..., None]
+    return A.to_img(rgb, m)
+
+
+def make_ridges():
+    """Grip ridges along the top and bottom bands, 1200x6, cropped to width in C#."""
+    w, h = 1200, 6
+    rid = A.mask((w, h), lambda d, s: [d.rectangle([x * s, 0, (x + 2) * s, h * s - 1], fill=255) for x in range(0, w, 6)])
+    rgb = A.hexc(0x1c1d21) + (A.shade(rid, 0.8) * 50)[..., None] - (rid * 6)[..., None]
+    out = Image.new("RGBA", (w, h), (8, 8, 10, 255))
+    out.alpha_composite(A.to_img(rgb, rid))
+    return out
+
+
+def make_key():
+    """A low chiclet key, 44x34 with its shadow (the face is 40x28 at (2, 1))."""
+    w, h = 40, 28
+    k = S.Big(w + 4, h + 6)
+    k.rect((2, 4, w + 1, h + 4), (6, 6, 8, 255), r=5)
+    k.rect((2, 1, w + 1, h + 1), (40, 42, 48, 255), r=5)
+    k.rect((4, 3, w - 1, h - 1), (30, 32, 37, 255), r=4)
+    k.rect((6, 3, w - 3, 5), (70, 72, 80, 160), r=1)
+    return k.done()
+
+
+def make_tray(fill, outline=None):
+    """A sunk tray, 9-sliced (borders 6): the key tray, the lamp sockets, the Heat tray, the OLED windows."""
+    n = 24
+    b = S.Big(n, n)
+    b.rect((0, 0, n - 1, n - 1), fill + (255,), r=5, outline=outline + (255,) if outline else None, width=1 if outline else 0)
+    return b.done()
+
+
+def make_wheel():
+    """The TUNE thumb wheel in its slot, 22x36."""
+    w, h = 22, 36
+    b = S.Big(w, h)
+    b.rect((0, 0, w - 1, h - 1), (8, 8, 10, 255), r=4)
+    img = b.done()
+    d = ImageDraw.Draw(img)
+    for k in range(11):
+        yk = 3 + k * 3
+        d.line([(3, yk), (w - 4, yk)], fill=(70, 72, 80, 255) if k % 2 else (40, 42, 46, 255), width=1)
+    return img
+
+
+def make_rocker(on):
+    """NET LINK: a rocker in its housing, 74x32; the C# lights the pipe on the ON side."""
+    w, h = 74, 32
+    b = S.Big(w, h)
+    b.rect((0, 0, w - 1, h - 1), (8, 8, 10, 255), r=5)
+    x0 = 37 if on else 3
+    b.rect((x0, 3, x0 + 33, h - 4), (40, 42, 48, 255), r=4)
+    b.rect((x0 + 2, 4, x0 + 31, 6), (70, 72, 80, 160), r=1)
+    return b.done()
+
+
+def make_vent():
+    w, h = 18, 64
+    b = S.Big(w, h)
+    for i in range(6):
+        b.rect((0, i * 10 + 2, w - 1, i * 10 + 6), (8, 8, 10, 255), r=2)
+    return b.done()
+
+
+def make_logo():
+    """NR-1 / CYBERDECK / NETRUN SYSTEMS with the cyan trace under it, 220x50 (the text sits on y 22)."""
+    w, h = 220, 50
+    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    cy = 20
+    d.text((0, cy), "NR-1", font=A.font(24), fill=(200, 204, 210, 255), anchor="lm")
+    d.text((64, cy - 6), "CYBERDECK", font=A.font(10), fill=(150, 156, 166, 255), anchor="lm")
+    d.text((64, cy + 7), "NETRUN SYSTEMS", font=A.font(7), fill=(100, 106, 116, 255), anchor="lm")
+    d.line([(0, 46), (148, 46), (156, 38), (198, 38)], fill=(54, 160, 170, 255), width=1)
+    return img
+
+
+def build():
+    A.save(make_body(), T, "Body")
+    A.save(make_carbon(), T, "Carbon")
+    A.save(make_ridges(), T, "Ridges")
+    A.save(make_key(), T, "Key")
+    A.save(make_tray((12, 13, 16)), T, "Tray")
+    A.save(make_tray((6, 7, 8), (50, 52, 58)), T, "Oled")
+    A.save(make_wheel(), T, "Wheel")
+    A.save(make_rocker(False), T, "Rocker_0")
+    A.save(make_rocker(True), T, "Rocker_1")
+    A.save(make_vent(), T, "Vent")
+    A.save(make_logo(), T, "Logo")
+    A.save(cyber(30).convert("RGBA").resize((300, 240), Image.LANCZOS), T, "Preview")
+
+
 if __name__ == "__main__":
     heat = int(sys.argv[sys.argv.index("--heat") + 1]) if "--heat" in sys.argv else 58
     out = os.path.join(os.path.dirname(__file__), "..", "docs", "mockups")
+    if "--mock" not in sys.argv:
+        build()
     cyber(heat).save(os.path.join(out, "46b-classic-cyberdeck.png"))
     diy(heat).save(os.path.join(out, "46c-classic-diy.png"))
     print("written")

@@ -4,6 +4,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 ### Added
+- The default deck frame is now the NR-1 Cyberdeck: matte black plastic with chamfered corners, carbon inserts and grip ridges, chiclet keys with glowing legends, a TUNE thumb wheel, light-pipe lamps with ALERT, RF on an OLED, an amber LCD, a light-pipe Heat tray and a NET LINK rocker. The light line round the screen is cyan and turns red, pulsing, from Target.
 - Iron Company: a red ALARM lamp over the nameplate pulses once Heat reaches Target and strobes in the Red Zone.
 - Deck frames react to high Heat: Nomad's charm swings harder, its RF bars jitter, the TUNE needle drifts with static and the hottest gem flickers; Kurenai's red band breathes, the logo square lights up and the current THREAT INDEX square pulses, flashing in the Red Zone; Retro's pixel flames dance and its LCD flashes "!! ALERT !!"; Street's neon buzzes and drops out in the Red Zone, its graffiti glows pink and its LCD log starts throwing red errors; the classic Heat scale's top segment pulses.
 - The game's music fades down while the terminal is open (to 30 %, a slider in Sound settings) and comes back when it closes.

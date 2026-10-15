@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron, Retro, Cyber }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -34,7 +34,8 @@ public static class DeckThemes
     [
         new DeckTheme
         {
-            Id = "Field", Top = Hex(0x23282e), Bottom = Hex(0x101317), Edge = Hex(0x434b54), Rubber = Hex(0x090a0c),
+            // The NR-1 cyberdeck (tools/gen_deck_classic.py); the Id stays Field, the old drawn casing is the fallback.
+            Id = "Field", Style = DeckStyle.Cyber, Art = "Cyber", Top = Hex(0x23282e), Bottom = Hex(0x101317), Edge = Hex(0x434b54), Rubber = Hex(0x090a0c),
             Stencil = new Color(1f, 1f, 1f, 0.58f), KeyFace = Hex(0x252a31), Tube = Hex(0x2a3036), TubeLight = Hex(0x4b545e), TubeDark = Hex(0x15181c),
         },
         // Iron Company: a rugged field tablet in chipped olive paint (tools/gen_deck_iron.py). The Id stays Milspec, so a

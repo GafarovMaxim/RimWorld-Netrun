@@ -5,7 +5,7 @@ description: Use when making or fixing a terminal deck frame theme (casing aroun
 
 # Deck frame themes (Netrun)
 
-A frame = a Python generator that writes textures + a C# partial of `NetrunUI` that draws the casing and its controls around the screen rect. Existing ones to copy from: Nomad (`DeckNomad.cs`, `gen_deck_nomad.py`), Street, Kurenai, Iron. Retro is in progress (`gen_deck_retro.py`, variants in `V`).
+A frame = a Python generator that writes textures + a C# partial of `NetrunUI` that draws the casing and its controls around the screen rect. Existing ones to copy from: Nomad (`DeckNomad.cs`, `gen_deck_nomad.py`), Street, Kurenai, Iron, Retro, Cyber (the default, `DeckCyber.cs`, `gen_deck_classic.py`: the cleanest small example).
 
 ## Pipeline
 1. References: Maxim says where they are or attaches them in chat; do not assume a folder. Describe 2-3 variants in words first if the brief is vague.
@@ -20,6 +20,8 @@ A frame = a Python generator that writes textures + a C# partial of `NetrunUI` t
 - `tools/deck_art.py` (as `A`): `mask`, `fbm` (about ±0.3, centred), `grain`, `shade` (top-left light), `inner_edge`, `blur`, `streaks`, `to_img`, `over`, `save(img, folder, name)`, `nine_slice`, `rivet`, `text_layer`, `spray`, `glow`, `font` (Tektur/bahnschrift; no exotic glyphs like ⏻ - they render as boxes), `SS = 3`.
 - `tools/deck_stickers.py` (as `S`): `Big` canvas (`rect`, `poly`, `ellipse`, `line`, `text`, `done`), `jfont` (Japanese), `barcode`, `graffiti`.
 - C# shared in `NetrunUI`: `NineSlice` (snaps to device pixels via `GUI.matrix`, overlaps 1 px), `Sprite`, `Stencil`, `GlyphText`, `GlyphTex`, `Glow`, `Tip`, `Cached`, `DrawLcd`/`LcdLines`, `TexturedKey`, state `_pressed`, `_rf`, `_tuner`; colours `Ok`, `Bad`, `DeckOrange`, `PodGreen`, `LcdGreen`, `HeatSegments`.
+- Repeating art (carbon, ridges) is drawn cropped with `GUI.DrawTextureWithTexCoords` and a partial uv rect, never stretched.
+- High Heat: every frame reacts from Target (pulse) and harder in the Red Zone (strobe); `Noise(time, rate, seed)` gives stepped jitter.
 - Mirroring a sprite: `GUI.DrawTextureWithTexCoords(r, tex, new Rect(1, 0, -1, 1))`.
 
 ## Checklist (bugs Maxim already caught)
