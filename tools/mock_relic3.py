@@ -236,38 +236,16 @@ def relic(heat):
         A.over(img, k.done(), (x - c, y - c + 2))
 
     def gauge(x, y, r, v):
-        g = S.Big(2 * r + 12, 2 * r + 12)
-        c = r + 6
-        g.ellipse((c - r - 5, c - r - 3, c + r + 5, c + r + 7), (14, 12, 10, 140))
-        for i, col in enumerate(((96, 94, 90), (210, 208, 202), (150, 148, 142), (120, 118, 112))):   # chrome ring
-            g.ellipse((c - r - 4 + i * 1.5, c - r - 4 + i * 1.5, c + r + 4 - i * 1.5, c + r + 4 - i * 1.5), col + (255,))
-        g.ellipse((c - r + 3, c - r + 3, c + r - 3, c + r - 3), (240, 204, 66, 255))
-        g.ellipse((c - r + 5, c - r + 5, c + r - 5, c + r - 5), (236, 198, 60, 255))
-        for i in range(41):
-            a = np.radians(150 + i * 6)
-            big = i % 4 == 0
-            r0 = r * (0.66 if big else 0.72)
-            g.line([(c + np.cos(a) * r0, c + np.sin(a) * r0), (c + np.cos(a) * r * 0.8, c + np.sin(a) * r * 0.8)], (40, 32, 18, 255), 2 if big else 1)
-            if big:
-                g.text((c + np.cos(a) * r * 0.53, c + np.sin(a) * r * 0.53), str(i // 4), A.font, 8, (40, 32, 18, 255))
-        red = [np.radians(a) for a in np.linspace(342, 390, 12)]
-        g.line([(c + np.cos(a) * r * 0.84, c + np.sin(a) * r * 0.84) for a in red], (196, 40, 30, 255), 4)
-        g.text((c, c + r * 0.3), "TUNE", A.font, 10, (40, 32, 18, 255))
-        g.text((c, c + r * 0.48), "MHz x10", A.font, 6, (70, 60, 36, 255))
-        g.text((c, c - r * 0.3), "NR", A.font, 7, (120, 96, 30, 255))
+        # 2026-10-15: the faded face and the cracked glass of the game sprites (gen_deck_relic.py)
+        import gen_deck_relic as G
+        g = G.make_gauge()
+        c = g.width / 2
+        d = ImageDraw.Draw(g)
         a = np.radians(150 + 240 * v)
-        g.line([(c - np.cos(a) * r * 0.16, c - np.sin(a) * r * 0.16), (c + np.cos(a) * r * 0.78, c + np.sin(a) * r * 0.78)], (176, 30, 24, 255), 2)
-        g.ellipse((c - 5, c - 5, c + 5, c + 5), (30, 28, 26, 255))
-        g.ellipse((c - 2, c - 3, c + 1, c), (110, 106, 100, 255))
-        A.over(img, g.done(), (x - c, y - c))
-        # glass: a soft crescent highlight and a little dust
-        gl = np.zeros((H, W), np.float32)
-        hl = A.mask((W, H), lambda dr, s: dr.ellipse([(x - r * 0.8) * s, (y - r * 0.86) * s, (x + r * 0.5) * s, (y + r * 0.1) * s], fill=255))
-        cut = A.mask((W, H), lambda dr, s: dr.ellipse([(x - r * 0.7) * s, (y - r * 0.62) * s, (x + r * 0.7) * s, (y + r * 0.4) * s], fill=255))
-        gl = A.blur(np.clip(hl - cut, 0, 1), 2) * 0.35
-        img.alpha_composite(A.to_img(np.full((H, W, 3), 255, np.float32), gl))
-        for i, (sx, sy) in enumerate(((0.3, 0.2), (-0.4, 0.35), (0.1, -0.5))):
-            screw(x + np.cos(np.radians(45 + i * 120)) * (r + 1), y + np.sin(np.radians(45 + i * 120)) * (r + 1), 6, 0x9a968c)
+        d.line([(c - np.cos(a) * r * 0.16, c - np.sin(a) * r * 0.16), (c + np.cos(a) * r * 0.78, c + np.sin(a) * r * 0.78)], fill=(176, 30, 24, 255), width=2)
+        d.ellipse((c - 5, c - 5, c + 5, c + 5), fill=(30, 28, 26, 255))
+        g.alpha_composite(G.make_gauge_glass())
+        A.over(img, g, (round(x - c), round(y - c)))
 
     # 1. two knobs on printed scales, VOL and SQL
     for nm, x in (("VOL", MX - 36), ("SQL", MX + 36)):
@@ -336,7 +314,7 @@ def relic(heat):
         d.rounded_rectangle([MX - 46, y, MX + 46, y + 3], 1, fill=(28, 26, 24, 255))
         d.line([(MX - 45, y + 4), (MX + 45, y + 4)], fill=(236, 230, 214, 140), width=1)
     bc = S.barcode(70, 22, "NR-02", 321)
-    A.over(img, A.spray(bc, 321, 0.93), (MX - 36, CY1 - 34))
+    A.over(img, A.spray(bc, 321, 0.93), (CX0 + 26, CY1 + 10))
 
     # ---- bottom: the orange LCD in its raised frame, stickers, round keys, Heat lamps, NET LINK
     cb, lb = SY1 + 58, SY1 + 86
@@ -365,8 +343,8 @@ def relic(heat):
     kx = vx + 512
     for i, nm in enumerate(("BACK", "CORE", "HELP")):
         x = kx + i * 46
-        A.over(img, A.rivet(34, A.hexc(0xb8b09a), x), (x - 19, cb - 19))
-        A.over(img, A.rivet(26, A.hexc(0x2e2c2a), x + 1), (x - 15, cb - 15))
+        import gen_deck_relic as G
+        A.over(img, G.make_square_key(), (x - 21, cb - 17))
         ImageDraw.Draw(img).text((x, lb), nm, font=A.font(8), fill=INK, anchor="mm")
     hx = kx + 150
     d = ImageDraw.Draw(img)
@@ -394,5 +372,5 @@ def relic(heat):
 if __name__ == "__main__":
     heat = int(sys.argv[sys.argv.index("--heat") + 1]) if "--heat" in sys.argv else 58
     out = os.path.join(os.path.dirname(__file__), "..", "docs", "mockups")
-    relic(heat).save(os.path.join(out, "48c-relic-column-v2.png"))
+    relic(heat).save(os.path.join(out, "48d-relic-column-v3.png"))
     print("written")

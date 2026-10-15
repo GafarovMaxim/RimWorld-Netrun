@@ -6,29 +6,33 @@ using Verse;
 namespace Netrun;
 
 /// <summary>
-/// The Relic, an old field deck (docs/mockups/47b-old-orange.png, Maxim's pick 2026-10-15): worn cream plastic with
-/// chipped paint and rust runs, an orange side panel, a rubber gasket round the screen, rubber keys on a dark plate,
-/// a dial gauge for TUNE, jewel lamps with ALARM, a small LCD for RF, an orange LCD, round keys, Heat lamps in a
-/// printed frame, a speaker grille and a slide switch for NET LINK. Textures from tools/gen_deck_relic.py.
+/// The Relic, an old field unit (docs/mockups/48d-relic-column-v3.png, Maxim's pick 2026-10-15): worn cream plastic
+/// chipped to rusty metal, the screen in a dark bezel with screws, rubber keys and jewel lamps on a dark top plate, and
+/// an instrument column on the right: VOL/SQL knobs, the TUNE gauge under cracked glass, SCAN with the ICE lamp, the
+/// TRACE knob turned to the Heat level, JACK and PURGE. At the bottom an orange LCD, stickers, grey square keys,
+/// Heat lamps and the NET LINK slide. Textures from tools/gen_deck_relic.py.
 /// </summary>
 public static partial class NetrunUI
 {
     private const float RelicOut = 4f;
-    private const float RelicInL = 60f, RelicInT = 96f, RelicInR = 64f, RelicInB = 100f;
+    private const float RelicInL = 60f, RelicInT = 96f, RelicInR = 168f, RelicInB = 100f;
     private const float RelicSlice = 170f;
     public static readonly Vector2 RelicExtra = new(2f * RelicOut + RelicInL + RelicInR, 2f * RelicOut + RelicInT + RelicInB);
 
     private static readonly Color RelicInk = new(0.2f, 0.19f, 0.16f, 0.9f), RelicLight = new(0.86f, 0.83f, 0.74f, 0.95f),
-        RelicLcdInk = new(0.24f, 0.09f, 0.02f), RelicRfInk = new(0.16f, 0.18f, 0.12f), RelicNeedle = new(0.75f, 0.16f, 0.12f);
+        RelicKeyInk = new(0.13f, 0.12f, 0.11f, 0.95f), RelicLcdInk = new(0.24f, 0.09f, 0.02f), RelicRfInk = new(0.16f, 0.18f, 0.12f),
+        RelicNeedle = new(0.7f, 0.13f, 0.1f);
 
     private static class RelicTex
     {
         private static Texture2D Get(string name) => ContentFinder<Texture2D>.Get("UI/Netrun/Frame/Relic/" + name, reportFailure: false);
 
-        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), Plate = Get("Plate"), KeyRed = Get("Key_Red"), KeyGrey = Get("Key_Grey"),
-            KeyOrange = Get("Key_Orange"), Gauge = Get("Gauge"), LampBezel = Get("LampBezel"), Glass = Get("Glass"), Lcd = Get("Lcd"),
-            LcdOrange = Get("LcdOrange"), Round = Get("Round"), SlideOff = Get("Slide_0"), SlideOn = Get("Slide_1"), Grille = Get("Grille"),
-            Jacks = Get("Jacks"), Danger = Get("Danger"), Rivet = Get("Rivet"), Barcode = Get("Barcode");
+        public static readonly Texture2D Body = Get("Body"), Badge = Get("Badge"), RailText = Get("RailText"), Plate = Get("Plate"),
+            KeyRed = Get("Key_Red"), KeyGrey = Get("Key_Grey"), KeyOrange = Get("Key_Orange"), KeySquare = Get("Key_Square"),
+            Gauge = Get("Gauge"), GaugeGlass = Get("GaugeGlass"), ColKnobs = Get("Col_Knobs"), ColScan = Get("Col_Scan"),
+            TraceScale = Get("Col_TraceScale"), TraceKnob = Get("Col_TraceKnob"), ColButtons = Get("Col_Buttons"), ColLine = Get("Col_Line"),
+            Vent = Get("Col_Vent"), DymoTune = Get("Dymo_Tune"), LampBezel = Get("LampBezel"), Glass = Get("Glass"), Lcd = Get("Lcd"),
+            LcdOrange = Get("LcdOrange"), SlideOff = Get("Slide_0"), SlideOn = Get("Slide_1"), Stickers = Get("Stickers"), Screw = Get("Screw");
 
         public static bool Ready => Body != null;
     }
@@ -41,7 +45,10 @@ public static partial class NetrunUI
         var screen = new Rect(box.x + RelicInL, box.y + RelicInT, box.width - RelicInL - RelicInR, box.height - RelicInT - RelicInB);
         bool paint = Event.current.type == EventType.Repaint;
         if (paint)
+        {
             DrawRelicCasing(box, screen);
+            DrawRelicColumn(box, heat, level, anim, time);
+        }
         DrawRelicTop(box, level, online, anim, time, onKey, menu, paint);
         DrawRelicBottom(box, heat, level, online, anim, time, menu ? onKey : null, paint);
         return screen;
@@ -50,20 +57,92 @@ public static partial class NetrunUI
     private static void DrawRelicCasing(Rect box, Rect screen)
     {
         NineSlice(box, RelicTex.Body, RelicSlice, RelicSlice, RelicSlice, RelicSlice);
-        Sprite(RelicTex.Badge, new Vector2(box.x + 44f, box.y + 10f));
-        // Rivets with rust runs down both rails; the jack strip on the left, DANGER and a barcode on the orange panel.
-        for (float y = screen.y + 40f; y < screen.yMax - 60f; y += 180f)
+        Sprite(RelicTex.Badge, new Vector2(box.x + 48f, box.y + 12f));
+        // Worn engraved text up the left rail, cut to the screen height.
+        float h = Mathf.Min(RelicTex.RailText.height, screen.height - 40f);
+        if (h > 100f)
+            GUI.DrawTextureWithTexCoords(new Rect(box.x + 9f, screen.yMax - 20f - h, RelicTex.RailText.width, h), RelicTex.RailText,
+                new Rect(0f, 0f, 1f, h / RelicTex.RailText.height));
+    }
+
+    /// <summary>A jewel lamp in a bezel: a dim glass, lit with a glow by <paramref name="a"/>.</summary>
+    private static void RelicLamp(Rect bezel, float a, Color c)
+    {
+        GUI.DrawTexture(bezel, RelicTex.LampBezel);
+        var glass = bezel.ContractedBy(4f);
+        GUI.color = new Color(c.r * 0.3f, c.g * 0.3f, c.b * 0.3f);
+        GUI.DrawTexture(glass, RelicTex.Glass);
+        if (a > 0f)
         {
-            Sprite(RelicTex.Rivet, new Vector2(box.x + 11f, y));
-            Sprite(RelicTex.Rivet, new Vector2(box.xMax - 35f, y));
+            Glow(glass, c, 0.6f * a, 5f);
+            GUI.color = new Color(c.r, c.g, c.b, a);
+            GUI.DrawTexture(glass, RelicTex.Glass);
         }
-        if (screen.height >= 340f)
-            Sprite(RelicTex.Jacks, new Vector2(box.x + 13f, screen.y + 80f));
-        if (screen.height >= 300f)
+        GUI.color = Color.white;
+    }
+
+    /// <summary>The instrument column: sections from the top while they fit above its bottom edge.</summary>
+    private static void DrawRelicColumn(Rect box, float heat, HeatLevel level, bool anim, float time)
+    {
+        float mx = box.xMax - 73f, top = box.y + 66f, bottom = box.yMax - 70f;
+        bool Fits(float y) => top + y <= bottom - 14f;
+        void Line(float y)
         {
-            Sprite(RelicTex.Danger, new Vector2(box.xMax - 43f, screen.y + 130f));
-            Sprite(RelicTex.Barcode, new Vector2(box.xMax - 46f, screen.yMax - 110f));
+            if (Fits(y))
+                Sprite(RelicTex.ColLine, new Vector2(mx - 55f, top + y));
         }
+        void At(Texture2D tex, float y) => Sprite(tex, new Vector2(Mathf.Round(mx - tex.width / 2f), top + y));
+
+        if (!Fits(100f))
+            return;
+        At(RelicTex.ColKnobs, 6f);
+        Line(96f);
+
+        // TUNE: the needle at the tuner under the cracked glass; from Target it shudders.
+        if (!Fits(290f))
+            return;
+        var gauge = new Rect(Mathf.Round(mx - 66f), top + 130f, 132f, 132f);
+        GUI.DrawTexture(gauge, RelicTex.Gauge);
+        float drift = level >= HeatLevel.Target && anim ? (Noise(time, 8f) - 0.5f) * (level >= HeatLevel.RedZone ? 0.14f : 0.06f) : 0f;
+        Matrix4x4 m = GUI.matrix;
+        GUIUtility.RotateAroundPivot(150f + 240f * Mathf.Clamp01(_tuner + drift), gauge.center);
+        Widgets.DrawBoxSolid(new Rect(gauge.center.x - 9f, gauge.center.y - 1f, 54f, 2f), RelicNeedle);
+        GUI.matrix = m;
+        Widgets.DrawBoxSolid(new Rect(gauge.center.x - 4f, gauge.center.y - 4f, 8f, 8f), new Color(0.12f, 0.11f, 0.1f));
+        GUI.DrawTexture(gauge, RelicTex.GaugeGlass);
+        At(RelicTex.DymoTune, 280f - RelicTex.DymoTune.height / 2f);
+        Tip(gauge, "NR_DeckTuner".Translate());
+        Line(300f);
+
+        // SCAN and the ICE lamp: lit from Target.
+        if (!Fits(390f))
+            return;
+        At(RelicTex.ColScan, 314f);
+        var ice = new Rect(Mathf.Round(mx - 61f) + 78f, top + 336f, 20f, 20f);
+        float a = level < HeatLevel.Target ? 0f : !anim ? 1f : 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(time * (level >= HeatLevel.RedZone ? 5f : 2.2f)));
+        RelicLamp(ice, a, Bad);
+        Tip(ice.ExpandedBy(5f), "NR_DeckBeacon".Translate());
+        Line(400f);
+
+        // TRACE: the pointer knob turned to the Heat level, 1..5 over 200..340 degrees; it twitches in the Red Zone.
+        if (!Fits(512f))
+            return;
+        At(RelicTex.TraceScale, 408f);
+        var knob = new Rect(Mathf.Round(mx - 40f), top + 420f, 80f, 80f);
+        float jitter = level >= HeatLevel.RedZone && anim ? (Noise(time, 12f) - 0.5f) * 8f : 0f;
+        m = GUI.matrix;
+        GUIUtility.RotateAroundPivot(200f + 35f * (int)level - 270f + jitter, knob.center);
+        GUI.DrawTexture(knob, RelicTex.TraceKnob);
+        GUI.matrix = m;
+        Tip(knob, "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
+        Line(520f);
+
+        if (!Fits(626f))
+            return;
+        At(RelicTex.ColButtons, 550f);
+        Line(630f);
+        if (Fits(692f))
+            At(RelicTex.Vent, 640f);
     }
 
     /// <summary>A rubber key: lights under the mouse, sinks while pressed, dims when it does nothing here.</summary>
@@ -84,10 +163,10 @@ public static partial class NetrunUI
 
     private static void DrawRelicTop(Rect box, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool menu, bool paint)
     {
-        float cy = box.y + 38f, ly = box.y + 62f;
-        float px = box.x + 420f;
+        float cy = box.y + 32f, ly = box.y + 52f;
+        float px = box.x + 418f, pr = box.xMax - 150f;
         if (paint)
-            NineSlice(new Rect(px, box.y + 14f, 214f, 66f), RelicTex.Plate, 10f, 10f, 10f, 10f);
+            NineSlice(new Rect(px, box.y + 10f, pr - px, 58f), RelicTex.Plate, 10f, 10f, 10f, 10f);
 
         string[] names = ["CLOSE", "MENU", "ACHIEV", "NET LOCK"];
         NodeDefense defense = Current.Game != null ? NodeDefense.Get() : null;
@@ -95,7 +174,7 @@ public static partial class NetrunUI
         AcceptanceReport lockReport = defense?.CanToggleIsolation() ?? false;
         for (int i = 0; i < 4; i++)
         {
-            float kx = px + 32f + i * 50f;
+            float kx = px + 34f + i * 50f;
             var hit = new Rect(kx - 18f, cy - 15f, 36f, 30f);
             bool active = i switch { 0 => onKey != null, 1 or 2 => onKey != null && menu, _ => defense != null && lockReport.Accepted };
             string tip = !Mouse.IsOver(hit) ? null : i == 3
@@ -112,7 +191,7 @@ public static partial class NetrunUI
             };
             if (paint && i == 3 && isolated && anim)
                 Glow(hit, Bad, 0.3f + 0.25f * Mathf.Abs(Mathf.Sin(time * 2f)), 5f);
-            if (RelicKey(kx, cy, tex, tip, active, glyph, RelicLight))
+            if (RelicKey(kx, cy - 2f, tex, tip, active, glyph, RelicLight))
             {
                 if (i == 3)
                     defense?.ToggleIsolation();
@@ -125,49 +204,32 @@ public static partial class NetrunUI
         if (!paint)
             return;
 
-        // TUNE: the dial gauge, its needle at the tuner; from Target it shudders.
-        float gx = px + 214f + 50f;
-        var gauge = new Rect(gx - 30f, cy - 30f, 60f, 60f);
-        GUI.DrawTexture(gauge, RelicTex.Gauge);
-        float drift = level >= HeatLevel.Target && anim ? (Noise(time, 8f) - 0.5f) * (level >= HeatLevel.RedZone ? 0.14f : 0.06f) : 0f;
-        Matrix4x4 m = GUI.matrix;
-        GUIUtility.RotateAroundPivot(150f + 240f * Mathf.Clamp01(_tuner + drift), gauge.center);
-        Widgets.DrawBoxSolid(new Rect(gauge.center.x - 3f, gauge.center.y - 1f, 21f, 2f), RelicNeedle);
-        GUI.matrix = m;
-        Widgets.DrawBoxSolid(new Rect(gauge.center.x - 2f, gauge.center.y - 2f, 4f, 4f), RelicInk);
-        RelicCaption(gx, ly + 6f, "TUNE", RelicInk);
-        Tip(gauge, "NR_DeckTuner".Translate());
-        float used = gauge.xMax + 20f;
-
-        // RF on a small LCD, right.
+        // RF on a small LCD.
         bool hot = level >= HeatLevel.Target;
-        float rx = box.xMax - 160f;
-        if (rx >= used)
-        {
-            var lcd = new Rect(rx, cy - 16f, 92f, 32f);
-            NineSlice(lcd, RelicTex.Lcd, 8f, 8f, 8f, 8f);
-            Text.Font = GameFont.Tiny;
-            Widgets.Label(new Rect(lcd.x + 7f, lcd.y + 4f, 30f, 16f), "RF".Colorize(RelicRfInk));
-            Text.Font = GameFont.Small;
-            int jitter = hot && anim ? Mathf.FloorToInt(Noise(time, 9f) * 3f) - 1 : 0;
-            int lit = online ? Mathf.Clamp(Mathf.RoundToInt(_rf / 6f * 7f) + jitter, 1, 7) : 0;
-            for (int i = 0; i < 7; i++)
-            {
-                float h = 3f + i * 2f;
-                bool on = i < lit || hot && i == 6 && online;
-                Color c = hot && i == 6 ? Bad : RelicRfInk;
-                Widgets.DrawBoxSolid(new Rect(lcd.x + 28f + i * 8f, lcd.yMax - 8f - h, 5f, h), on ? c : new Color(c.r, c.g, c.b, 0.15f));
-            }
-            RelicCaption(lcd.center.x, ly, "LINK", RelicInk);
-            Tip(lcd, (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
-        }
-        else
-            rx = box.xMax - 40f;
-
-        // ALARM, NET, SICK, POD: jewel lamps in bezels, between the gauge and RF.
-        float lx = rx - 130f;
-        if (!NetrunMod.Settings.FrameLights || lx - 14f < used)
+        float rx = px + 246f;
+        if (rx + 92f > pr - 8f)
             return;
+        var lcd = new Rect(rx, cy - 16f, 92f, 30f);
+        NineSlice(lcd, RelicTex.Lcd, 8f, 8f, 8f, 8f);
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(lcd.x + 7f, lcd.y + 3f, 30f, 16f), "RF".Colorize(RelicRfInk));
+        Text.Font = GameFont.Small;
+        int jitter = hot && anim ? Mathf.FloorToInt(Noise(time, 9f) * 3f) - 1 : 0;
+        int lit = online ? Mathf.Clamp(Mathf.RoundToInt(_rf / 6f * 7f) + jitter, 1, 7) : 0;
+        for (int i = 0; i < 7; i++)
+        {
+            float h = 3f + i * 2f;
+            bool on = i < lit || hot && i == 6 && online;
+            Color c = hot && i == 6 ? Bad : RelicRfInk;
+            Widgets.DrawBoxSolid(new Rect(lcd.x + 28f + i * 8f, lcd.yMax - 7f - h, 5f, h), on ? c : new Color(c.r, c.g, c.b, 0.15f));
+        }
+        RelicCaption(lcd.center.x, ly, "LINK", RelicLight);
+        Tip(lcd, (online ? "NR_DeckRfOn" : "NR_DeckRfOff").Translate());
+
+        // ALARM, NET, SICK, POD: jewel lamps after the LCD, as many as fit on the plate.
+        if (!NetrunMod.Settings.FrameLights)
+            return;
+        float lx = lcd.xMax + 34f;
         bool sick = Current.Game != null && Cached("deck.sick", () => PawnsFinder.AllMaps_FreeColonists.Any(p => p.health.hediffSet.HasHediff(NetrunDefOf.NR_Netsick)), 1f);
         bool pod = Current.Game != null && Cached("deck.pod", () => Find.Maps.Any(mm => mm.GetComponent<USH_HE.MapComponent_CyberpodManager>()?.Pods.Any(pp => pp.ContainedThing != null) == true), 1f);
         float phase = time * 1.4f % 1f;
@@ -184,20 +246,11 @@ public static partial class NetrunUI
         for (int i = 0; i < lights.Length; i++)
         {
             float x = lx + i * 34f;
-            var bezel = new Rect(x - 10f, cy - 10f, 20f, 20f);
-            GUI.DrawTexture(bezel, RelicTex.LampBezel);
-            var glass = bezel.ContractedBy(4f);
-            Color c = lights[i].c;
-            GUI.color = new Color(c.r * 0.3f, c.g * 0.3f, c.b * 0.3f);
-            GUI.DrawTexture(glass, RelicTex.Glass);
-            if (lights[i].a > 0f)
-            {
-                Glow(glass, c, 0.6f * lights[i].a, 5f);
-                GUI.color = new Color(c.r, c.g, c.b, lights[i].a);
-                GUI.DrawTexture(glass, RelicTex.Glass);
-            }
-            GUI.color = Color.white;
-            RelicCaption(x, ly, lights[i].label, RelicInk);
+            if (x + 16f > pr - 6f)
+                break;
+            var bezel = new Rect(x - 10f, cy - 12f, 20f, 20f);
+            RelicLamp(bezel, lights[i].a, lights[i].c);
+            RelicCaption(x, ly, lights[i].label, RelicLight);
             Tip(bezel.ExpandedBy(5f), lights[i].tip);
         }
     }
@@ -205,84 +258,82 @@ public static partial class NetrunUI
     private static void DrawRelicBottom(Rect box, float heat, HeatLevel level, bool online, bool anim, float time, System.Action<int> onKey, bool paint)
     {
         float yb = box.yMax - RelicInB;
-        float cb = yb + 52f, lb = yb + 74f;
+        float cb = yb + 58f, lb = yb + 80f;
         if (paint && NetrunMod.Settings.FrameLcd)
         {
-            var lcd = new Rect(box.x + 50f, yb + 24f, 272f, 54f);
+            NineSlice(new Rect(box.x + 50f, cb - 25f, 252f, 50f), RelicTex.Plate, 10f, 10f, 10f, 10f);
+            var lcd = new Rect(box.x + 54f, cb - 21f, 244f, 42f);
             NineSlice(lcd, RelicTex.LcdOrange, 8f, 8f, 8f, 8f);
             Glow(lcd.ContractedBy(8f), DeckOrange, 0.15f, 6f);
             string[] lines = Cached("deck.lcd", () => LcdLines(heat, level, online), 1f);
             Text.Font = GameFont.Tiny;
             for (int i = 0; i < lines.Length; i++)
-                Widgets.Label(new Rect(lcd.x + 12f, lcd.center.y - 8f + (i - (lines.Length - 1) / 2f) * 14f, lcd.width - 20f, 16f), lines[i].Colorize(RelicLcdInk));
+                Widgets.Label(new Rect(lcd.x + 10f, lcd.center.y - 8f + (i - (lines.Length - 1) / 2f) * 14f, lcd.width - 16f, 16f), lines[i].Colorize(RelicLcdInk));
             Text.Font = GameFont.Small;
+            Sprite(RelicTex.Screw, new Vector2(box.x + 30f, cb - 8f));
+            Sprite(RelicTex.Screw, new Vector2(box.x + 306f, cb - 8f));
             if (Mouse.IsOver(lcd))
                 Tip(lcd, "NR_DeckLcd".Translate());
         }
+        if (paint)
+            Sprite(RelicTex.Stickers, new Vector2(box.x + 334f, cb - 28f));
 
+        // BACK, CORE, HELP: grey square keys like the old handhelds.
         string[] glyphs = ["◁", "○", "?"];
         string[] names = ["BACK", "CORE", "HELP"];
         int[] ids = [KeyBack, KeyCore, KeyHelp];
-        float kx = box.x + 376f;
+        float kx = box.x + 568f;
         for (int i = 0; i < 3; i++)
         {
-            float cx = kx + i * 56f;
-            var hit = new Rect(cx - 17f, cb - 21f, 34f, 34f);
+            float cx = kx + i * 50f;
+            var hit = new Rect(cx - 21f, cb - 17f, 42f, 34f);
             bool active = onKey != null;
             string tip = active && Mouse.IsOver(hit) ? (string)("NR_DeckKey_" + ids[i]).Translate() : null;
             string g = glyphs[i];
-            if (RelicKey(cx, cb - 4f, RelicTex.Round, tip, active, (r, c) => GlyphText(new Rect(r.x, r.y + 2f, r.width, r.height), c, g, GameFont.Small), RelicLight))
+            if (RelicKey(cx, cb, RelicTex.KeySquare, tip, active, (r, c) => GlyphText(new Rect(r.x, r.y - 1f, r.width, r.height), c, g, GameFont.Small), RelicKeyInk))
                 onKey?.Invoke(ids[i]);
             if (paint)
                 RelicCaption(cx, lb, names[i], RelicInk);
         }
         if (!paint)
             return;
-        float used = kx + 2f * 56f + 34f;
+        float used = kx + 2f * 50f + 30f;
 
-        // NET LINK: the slide switch on the right.
-        float sx = box.xMax - 160f;
-        if (sx >= used)
+        // NET LINK: the slide switch just left of the column.
+        float sx = box.xMax - 238f;
+        if (sx - 30f >= used)
         {
-            var slide = new Rect(sx, cb - 15f, RelicTex.SlideOn.width, RelicTex.SlideOn.height);
+            var slide = new Rect(sx, cb - 11f, RelicTex.SlideOn.width, RelicTex.SlideOn.height);
             GUI.DrawTexture(slide, online ? RelicTex.SlideOn : RelicTex.SlideOff);
-            Stencil(new Rect(sx - 34f, cb - 12f, 30f, 14f), "OFF", TextAnchor.UpperRight, RelicInk);
-            Stencil(new Rect(slide.xMax + 4f, cb - 12f, 30f, 14f), "ON", TextAnchor.UpperLeft, RelicInk);
+            Stencil(new Rect(sx - 34f, cb - 7f, 30f, 14f), "OFF", TextAnchor.UpperRight, RelicInk);
+            Stencil(new Rect(slide.xMax + 4f, cb - 7f, 30f, 14f), "ON", TextAnchor.UpperLeft, RelicInk);
             RelicCaption(slide.center.x, lb, "NET LINK", RelicInk);
             if (Mouse.IsOver(slide))
                 Tip(slide, (online ? "NR_DeckNetLinkOn" : "NR_DeckNetLinkOff").Translate());
             sx -= 40f;
         }
         else
-            sx = box.xMax - 40f;
+            sx = box.xMax - 150f;
 
-        // HEAT: five lamps in a printed frame; the top lit one pulses from Target.
-        float hx = box.x + 576f;
-        if (hx + 180f > sx)
+        // HEAT: five lamps in a dark box; the top lit one pulses from Target.
+        float hx = box.x + 718f;
+        var frame = new Rect(hx - 12f, cb - 18f, 164f, 36f);
+        if (frame.xMax > sx)
             return;
-        var frame = new Rect(hx - 10f, cb - 20f, 180f, 30f);
-        GUI.color = RelicInk;
-        Widgets.DrawBox(frame);
-        GUI.color = Color.white;
+        NineSlice(frame, RelicTex.Plate, 10f, 10f, 10f, 10f);
         for (int i = 0; i < 5; i++)
         {
-            var sq = new Rect(hx + i * 34f, cb - 13f, 24f, 16f);
-            Widgets.DrawBoxSolid(sq, new Color(0.16f, 0.15f, 0.13f));
+            var sq = new Rect(hx - 2f + i * 30f, cb - 9f, 20f, 18f);
             bool lit = i <= (int)level;
             float k = !lit ? 0f : i == (int)level && level >= HeatLevel.Target && anim
                 ? 0.5f + 0.5f * Mathf.Abs(Mathf.Sin(time * (level >= HeatLevel.RedZone ? 5f : 2.5f))) : 1f;
             Color c = HeatSegments[i];
             if (k > 0f)
-                Glow(sq.ContractedBy(2f), c, 0.45f * k, 4f);
-            Widgets.DrawBoxSolid(sq.ContractedBy(2f), Color.Lerp(new Color(c.r * 0.3f, c.g * 0.3f, c.b * 0.3f), c, k));
+                Glow(sq, c, 0.45f * k, 4f);
+            Widgets.DrawBoxSolid(sq, Color.Lerp(new Color(c.r * 0.3f, c.g * 0.3f, c.b * 0.3f), c, k));
         }
         RelicCaption(frame.center.x, lb, "HEAT", RelicInk);
         if (Mouse.IsOver(frame))
             Tip(frame, "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
-
-        // The speaker grille fills the gap before NET LINK.
-        float gxl = frame.xMax + 20f;
-        if (sx - gxl >= RelicTex.Grille.width + 10f)
-            Sprite(RelicTex.Grille, new Vector2(Mathf.Round((gxl + sx - RelicTex.Grille.width) / 2f), cb - 28f));
     }
 }
