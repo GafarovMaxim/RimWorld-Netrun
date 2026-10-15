@@ -175,7 +175,7 @@ public static partial class NetrunUI
         // TUNE: the knob turns to the tuner position, with its dial scale around it.
         var knob = new Rect(x + 224f, y + 30f, IronTex.Knob.width, IronTex.Knob.height);
         Matrix4x4 m = GUI.matrix;
-        UI.RotateAroundPivot(Mathf.Lerp(-135f, 135f, _tuner), knob.center);
+        NetrunUI.RotateAround(Mathf.Lerp(-135f, 135f, _tuner), knob.center);
         GUI.DrawTexture(knob, IronTex.Knob);
         GUI.matrix = m;
         Tip(knob, "NR_DeckTuner".Translate());

@@ -128,7 +128,7 @@ public static partial class NetrunUI
         GUI.DrawTexture(gauge, RelicTex.Gauge);
         float drift = level >= HeatLevel.Target && anim ? (Noise(time, 8f) - 0.5f) * (level >= HeatLevel.RedZone ? 0.14f : 0.06f) : 0f;
         Matrix4x4 m = GUI.matrix;
-        UI.RotateAroundPivot(150f + 240f * Mathf.Clamp01(_tuner + drift), gauge.center);
+        NetrunUI.RotateAround(150f + 240f * Mathf.Clamp01(_tuner + drift), gauge.center);
         Widgets.DrawBoxSolid(new Rect(gauge.center.x - 9f, gauge.center.y - 1f, 54f, 2f), RelicNeedle);
         GUI.matrix = m;
         Widgets.DrawBoxSolid(new Rect(gauge.center.x - 4f, gauge.center.y - 4f, 8f, 8f), new Color(0.12f, 0.11f, 0.1f));
@@ -154,7 +154,7 @@ public static partial class NetrunUI
         var knob = new Rect(Mathf.Round(mx - 40f), top + 420f, 80f, 80f);
         float jitter = level >= HeatLevel.RedZone && anim ? (Noise(time, 12f) - 0.5f) * 8f : 0f;
         m = GUI.matrix;
-        UI.RotateAroundPivot(200f + 35f * (int)level - 270f + jitter, knob.center);
+        NetrunUI.RotateAround(200f + 35f * (int)level - 270f + jitter, knob.center);
         GUI.DrawTexture(knob, RelicTex.TraceKnob);
         GUI.matrix = m;
         Tip(knob, "NR_DeckHeatScale".Translate(heat.ToString("0"), level.Label()));
