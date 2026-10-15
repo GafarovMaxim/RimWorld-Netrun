@@ -26,6 +26,7 @@ public static class NetrunDebugActions
 
     private const AllowedGameStates Playing = AllowedGameStates.Playing;
     private const AllowedGameStates OnMap = AllowedGameStates.PlayingOnMap;
+    private const AllowedGameStates AnyState = AllowedGameStates.Entry | AllowedGameStates.Playing;
 
     private static void Done(string what) => Messages.Message("[Netrun dev] " + what, MessageTypeDefOf.NeutralEvent, historical: false);
 
@@ -45,15 +46,31 @@ public static class NetrunDebugActions
     }
 
     /// <summary>Opens a deck theme without its achievement and puts it on (to check a new casing in game).</summary>
-    [DebugAction(Unlock, "Unlock: deck theme...", allowedGameStates = Playing, displayPriority = 95)]
+    [DebugAction(Unlock, "Unlock: deck theme...", allowedGameStates = AnyState, displayPriority = 96)]
     private static void UnlockDeckTheme()
     {
         Find.WindowStack.Add(new FloatMenu(DeckThemes.All.Select(t => new FloatMenuOption(t.Label, () =>
         {
-            if (!NetrunMod.Settings.UnlockedThemes.Contains(t.Id))
-                NetrunMod.Settings.UnlockedThemes.Add(t.Id);
+            OpenTheme(t);
             DeckThemes.Select(t);
+            Done("deck theme open and on: " + t.Label);
         })).ToList()));
+    }
+
+    /// <summary>Opens every deck theme for good (kept in the mod settings, like an earned one). Works from the main menu too.</summary>
+    [DebugAction(Unlock, "Unlock: all deck themes", allowedGameStates = AnyState, displayPriority = 95)]
+    private static void UnlockAllDeckThemes()
+    {
+        foreach (DeckTheme t in DeckThemes.All)
+            OpenTheme(t);
+        NetrunMod.Settings.Write();
+        Done("all deck themes open; pick one in the mod settings or with \"Unlock: deck theme...\"");
+    }
+
+    private static void OpenTheme(DeckTheme t)
+    {
+        if (t.UnlockKey != null && !NetrunMod.Settings.UnlockedThemes.Contains(t.Id))
+            NetrunMod.Settings.UnlockedThemes.Add(t.Id);
     }
 
     [DebugAction(Unlock, "Unlock: skip onboarding (all core nodes)", allowedGameStates = Playing, displayPriority = 90)]
@@ -189,6 +206,16 @@ public static class NetrunDebugActions
         GatewayManager.Get()?.DevResetAllies();
         AIEventManager.Get()?.DevResetGap();
         ReadyAIs();
+    }
+
+    /// <summary>Locks every deck theme again and puts the classic deck back (to check the achievement unlock).</summary>
+    [DebugAction(Unlock, "Reset: lock deck themes", allowedGameStates = AnyState, displayPriority = 25)]
+    private static void LockDeckThemes()
+    {
+        NetrunMod.Settings.UnlockedThemes.Clear();
+        NetrunMod.Settings.FrameTheme = DeckThemes.All[0].Id;
+        NetrunMod.Settings.Write();
+        Done("deck themes locked, classic deck on");
     }
 
     // ---- Heat and Netsick ----
