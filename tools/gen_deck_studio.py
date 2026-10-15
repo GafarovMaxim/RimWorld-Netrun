@@ -197,10 +197,10 @@ def make_key(cap):
 
 
 def make_rocker(on):
-    """The power rocker, 30 x 34, black like a mains switch: a black bezel, a matte black rocker with a white I and O.
+    """The power rocker, 32 x 46, black like a mains switch: a black bezel, a matte black rocker with a white I and O.
     On, the I half is pressed flat and the O half stands out (lighter, a lit lip and a shadow under it); off, the
     other way round."""
-    w, h = 30, 34
+    w, h = 32, 46
     bez = rrect((w, h), (1, 1, w - 1, h - 1), 4)
     img = A.to_img(np.zeros((h, w, 3), np.float32), np.roll(A.blur(bez, 1.5), 2, 0) * 0.7)
     img.alpha_composite(A.to_img(np.array((22, 22, 24), np.float32) + (A.shade(bez, 1) * 26)[..., None], bez))
@@ -223,8 +223,8 @@ def make_rocker(on):
         d.line([(6, 5), (w - 7, 5)], fill=(96, 96, 100, 255))
         d.line([(6, int(mid) - 1), (w - 7, int(mid) - 1)], fill=(10, 10, 12, 255))
     ink = (236, 234, 230, 240)
-    d.line([(w / 2, 8), (w / 2, 13)], fill=ink, width=2)
-    d.ellipse((w / 2 - 3.5, h - 15, w / 2 + 3.5, h - 8), outline=ink, width=1)
+    d.line([(w / 2, 10), (w / 2, 17)], fill=ink, width=2)
+    d.ellipse((w / 2 - 4.5, h - 19, w / 2 + 4.5, h - 10), outline=ink, width=1)
     return img
 
 
@@ -788,8 +788,8 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
             put(tex, kx - 19, ky - 16)
             d.text((kx, ky - 3), g, font=A.font(12), fill=(40, 30, 22, 255) if tex != "Key_Red" else (240, 220, 200, 255), anchor="mm")
             cap(nm, kx, ky + 15)
-    put("Rocker_On", k0 + 3 * 42 - 15, yd + 86 - 17)
-    cap("POWER", k0 + 3 * 42, yd + 86 + 15)
+    put("Rocker_On", k0 + 3 * 42 - 16, yd + 86 - 17)
+    cap("POWER", k0 + 3 * 42, yd + 86 + 32)
     x = k0 + 3 * 42 + 44
     lcd = (x + 10, yd + 22, x + 210, yd + 84)
     if lcd[2] + 10 <= right:

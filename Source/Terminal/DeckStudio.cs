@@ -268,7 +268,7 @@ public static partial class NetrunUI
         // POWER: a red rocker after HELP; flipping it off shuts the terminal (as CLOSE).
         {
             float kx = k0 + 3f * 42f, ky = yd + 86f;
-            var rocker = new Rect(kx - 15f, ky - 17f, 30f, 34f);
+            var rocker = new Rect(kx - 16f, ky - 17f, 32f, 46f);
             bool active = onKey != null, over = active && Mouse.IsOver(rocker);
             if (paint && Event.current.type == EventType.Repaint)
             {
@@ -277,7 +277,7 @@ public static partial class NetrunUI
                 GUI.DrawTexture(rocker, over && _pressed ? StudioTex.RockerOff : StudioTex.RockerOn);
             }
             if (paint)
-                StudioCaption(kx, ky + 15f, "POWER");
+                StudioCaption(kx, ky + 32f, "POWER");
             if (CasingHit(rocker.ContractedBy(2f), active, over ? (string)"NR_DeckStudioPower".Translate() : null))
                 onKey(KeyClose);
         }
