@@ -387,29 +387,63 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
         st = load("Stripes")                    # thick bars from the case's top edge down to the screen surround
         A.over(img, st, (kx - 40 - st.width, by0))
         rail = IN_L - BEZEL                     # the visible side rail, 42 px
-        wheel = load("Wheel")
         y0 = by0 + IN_T + 40
+        lab7 = A.font(7, False)
+        light = (226, 222, 210)
+        plate = load("KeyPlate")
+        # Each rail gets a sunk dark strip holding its controls, with printed icons and scales (Maxim: the ports looked bare).
+        pl = (bx0 + 6, y0 - 14, rail - 10, 232)
+        pr = (bx1 - rail + 4, y0 - 14, rail - 10, 232)
+        for r in (pl, pr):
+            A.over(img, A.nine_slice(plate, r[2:], 12, 12, 12, 12), r[:2])
+        lc, rc = pl[0] + pl[2] / 2, pr[0] + pr[2] / 2
+        wheel = load("Wheel")
         A.over(img, wheel, (bx0 - 5, y0))
         A.over(img, wheel, (bx1 - wheel.width + 5, y0))
-        lab7 = A.font(7, False)
-        d.text((bx0 + rail / 2 + 4, y0 + 66), "VOL", font=lab7, fill=INK, anchor="mm")
-        d.text((bx1 - rail / 2 - 4, y0 + 66), "CONT", font=lab7, fill=INK, anchor="mm")
+        for cx0, name in ((lc + 6, "VOL"), (rc - 6, "CONT")):
+            d.text((cx0, y0 - 6), "+", font=lab7, fill=light, anchor="mm")
+            d.text((cx0, y0 + 62), "\u2013", font=lab7, fill=light, anchor="mm")
+            for k in range(7):                      # a wedge scale beside the wheel
+                yy = y0 + 4 + k * 8
+                ln = 9 - k
+                d.line([cx0 - ln / 2, yy, cx0 + ln / 2, yy], fill=light + (170,), width=2)
+            d.text((cx0, y0 + 76), name, font=lab7, fill=light, anchor="mm")
+        # left: headphones icon over the jack, a power icon over the lamp
+        hy = y0 + 98
+        d.arc([lc - 7, hy - 6, lc + 7, hy + 8], 180, 360, fill=light, width=2)
+        d.rectangle([lc - 8, hy, lc - 5, hy + 6], fill=light)
+        d.rectangle([lc + 5, hy, lc + 8, hy + 6], fill=light)
+        d.ellipse([lc - 11, hy + 14, lc + 11, hy + 36], fill=(150, 146, 140), outline=(40, 38, 36))
         jack = load("Jack")
-        A.over(img, jack, (int(bx0 + rail / 2 - 4), y0 + 100))
-        d.text((bx0 + rail / 2 + 4, y0 + 126), "PHONES", font=lab7, fill=INK, anchor="mm")
+        A.over(img, jack, (int(lc - 8), hy + 17))
+        d.text((lc, hy + 46), "PHONES", font=lab7, fill=light, anchor="mm")
+        py = y0 + 168
+        d.arc([lc - 6, py - 6, lc + 6, py + 6], 300, 240, fill=light, width=2)
+        d.line([lc, py - 8, lc, py], fill=light, width=2)
+        d.ellipse([lc - 7, py + 12, lc + 7, py + 26], fill=(150, 146, 140), outline=(40, 38, 36))
+        A.glow(img, (lc - 3, py + 16, lc + 3, py + 22), (240, 60, 50), 0.7, 6)
+        d.ellipse([lc - 4.5, py + 14.5, lc + 4.5, py + 23.5], fill=(240, 60, 50))
+        d.text((lc, py + 36), "POWER", font=lab7, fill=light, anchor="mm")
+        # right: the link port under a two-way arrow, a data lamp, a serial number
+        ay = y0 + 98
+        d.line([rc - 8, ay, rc + 8, ay], fill=light, width=2)
+        d.polygon([(rc + 9, ay), (rc + 4, ay - 4), (rc + 4, ay + 4)], fill=light)
+        d.line([rc - 8, ay + 7, rc + 8, ay + 7], fill=light, width=2)
+        d.polygon([(rc - 9, ay + 7), (rc - 4, ay + 3), (rc - 4, ay + 11)], fill=light)
         port_v = load("Port").rotate(90, expand=True)
-        A.over(img, port_v, (int(bx1 - rail / 2 - 12), y0 + 92))
-        d.text((bx1 - rail / 2 - 4, y0 + 146), "EXT", font=lab7, fill=INK, anchor="mm")
+        A.over(img, port_v, (int(rc - port_v.width / 2), ay + 18))
+        d.text((rc, ay + 72), "EXT", font=lab7, fill=light, anchor="mm")
+        d.ellipse([rc - 7, py + 12, rc + 7, py + 26], fill=(150, 146, 140), outline=(40, 38, 36))
+        A.glow(img, (rc - 3, py + 16, rc + 3, py + 22), (110, 220, 120), 0.5, 6)
+        d.ellipse([rc - 4.5, py + 14.5, rc + 4.5, py + 23.5], fill=(110, 220, 120))
+        d.text((rc, py + 36), "DATA", font=lab7, fill=light, anchor="mm")
         screw = load("Screw")
-        for sxx in (bx0 + rail / 2 + 4 - 5, bx1 - rail / 2 - 4 - 5):
+        for sxx in (lc - 5, rc - 5):
             for syy in (by0 + IN_T - 8, by1 - IN_B + 4):
                 A.over(img, screw, (int(sxx), int(syy)))
-        A.glow(img, (bx0 + rail / 2 + 1, y0 + 170, bx0 + rail / 2 + 7, y0 + 176), (240, 60, 50), 0.6, 5)
-        d.ellipse([bx0 + rail / 2, y0 + 169, bx0 + rail / 2 + 8, y0 + 177], fill=(240, 60, 50), outline=(60, 20, 20))
-        d.text((bx0 + rail / 2 + 4, y0 + 188), "POWER", font=lab7, fill=INK, anchor="mm")
         cap_img = Image.new("RGBA", (220, 14), (0, 0, 0, 0))
         ImageDraw.Draw(cap_img).text((110, 7), "NR-80  \u00b7  STEREO NET SOUND", font=lab7, fill=INK + (200,), anchor="mm")
-        A.over(img, cap_img.rotate(-90, expand=True), (int(bx1 - rail / 2 - 11), y0 + 190))
+        A.over(img, cap_img.rotate(-90, expand=True), (int(rc - 7), y0 + 236))
         for k in range(14):                       # grip ridges low on both rails
             yy = by1 - IN_B - 60 - k * 9
             for xa in (bx0 + 10, bx1 - rail + 2):
@@ -417,9 +451,15 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
                 d.line([xa, yy + 2, xa + rail - 12, yy + 2], fill=(242, 236, 220), width=1)
     top_ink = ink
     if v == "D":   # the keys and lamps sit on a sunk dark plate (Maxim: they looked bare)
-        plate_r = (kx - 18, top_y - 6, bx1 - IN_R - 112 + 2 * 36 + 22 - (kx - 18), 56)
+        plate_r = (kx - 24, top_y - 6, bx1 - IN_R - 112 + 2 * 36 + 36 - (kx - 24), 56)
         A.over(img, A.nine_slice(load("KeyPlate"), plate_r[2:], 12, 12, 12, 12), plate_r[:2])
         top_ink = (226, 222, 210)
+        screw = load("Screw")
+        for sxx in (plate_r[0] + 6, plate_r[0] + plate_r[2] - 16):
+            A.over(img, screw, (int(sxx), int(plate_r[1] + 12)))
+        dv = bx1 - IN_R - 112 - 30                  # a moulded groove between the keys and the lamps
+        d.line([dv, plate_r[1] + 8, dv, plate_r[1] + 46], fill=(28, 26, 30), width=2)
+        d.line([dv + 2, plate_r[1] + 8, dv + 2, plate_r[1] + 46], fill=(96, 94, 104), width=1)
     for i, name in enumerate(("CLOSE", "MENU", "ACHIEV", "NET-LOCK")):
         x = kx + i * 72
         pill = load("Pill")
@@ -428,6 +468,8 @@ def mock(v, out_path, screen=(930, 666), heat=58, online=True, heat_style="pixel
     lx = bx1 - IN_R - 112
     for i, (c, name) in enumerate((((240, 60, 50), "NET"), ((250, 160, 40), "SICK"), ((60, 50, 50), "POD"))):
         cx, cy = lx + i * 36, top_y + 15
+        if v == "D":
+            d.ellipse([cx - 8, cy - 8, cx + 8, cy + 8], fill=(150, 146, 140), outline=(30, 28, 26))
         if i < 2:
             A.glow(img, (cx - 3, cy - 3, cx + 3, cy + 3), c, 0.6, 5)
         d.ellipse([cx - 5, cy - 5, cx + 5, cy + 5], fill=c, outline=(30, 26, 24))
