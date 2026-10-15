@@ -304,13 +304,13 @@
   <NR_DeckNetLinkOff>Связь с сетью: офлайн (сеть откроется после первых шагов в Ядре).</NR_DeckNetLinkOff>
   <NR_DeckThemeLocked>Достижение «{0}»: {1}/{2}</NR_DeckThemeLocked>
   <NR_DeckTheme_Field>Полевая дека</NR_DeckTheme_Field>
-  <NR_DeckTheme_Milspec>Милспек</NR_DeckTheme_Milspec>
+  <NR_DeckTheme_Milspec>Iron Company</NR_DeckTheme_Milspec>
   <NR_DeckTheme_Street>Уличная сборка</NR_DeckTheme_Street>
   <NR_DeckTheme_OpsPad>Kurenai Systems</NR_DeckTheme_OpsPad>
   <NR_DeckTheme_Nomad>Номад</NR_DeckTheme_Nomad>
   <NR_DeckThemeDesc_Nomad>Пыльный дорожный кейс: солнечная панель, ручка из паракорда, батарея на ремнях.</NR_DeckThemeDesc_Nomad>
   <NR_DeckThemeDesc_Field>По умолчанию: тёмный оружейный металл, оранжевая клавиша Ядра.</NR_DeckThemeDesc_Field>
-  <NR_DeckThemeDesc_Milspec>Оливковый армейский корпус, потёртые трафареты.</NR_DeckThemeDesc_Milspec>
+  <NR_DeckThemeDesc_Milspec>Защищённый полевой планшет: оливковая краска со сколами, резиновые бамперы, тумблеры под крышками, янтарные экраны и шкала угрозы.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Жёлтая уличная панель: неоновая трубка горит вместе с Heat, голографическая кицунэ, граффити.</NR_DeckThemeDesc_Street>
   <NR_DeckThemeDesc_OpsPad>Корпоративный терминал: светлый печатный корпус, красная полоса с 紅, штриховка и метки совмещения.</NR_DeckThemeDesc_OpsPad>
   <NR_MenuTitle>NETRUN // СИСТЕМА</NR_MenuTitle>

@@ -5,7 +5,7 @@ using Verse;
 namespace Netrun;
 
 /// <summary>Classic: the coloured field deck drawn in code. The others have their own silhouette and textures.</summary>
-public enum DeckStyle { Classic, Nomad, Street, Kurenai }
+public enum DeckStyle { Classic, Nomad, Street, Kurenai, Iron }
 
 /// <summary>
 /// A look of the terminal casing (docs/CONCEPT_MAIN_MENU.md, section 1): colours of the body, rubber, keys and
@@ -37,9 +37,11 @@ public static class DeckThemes
             Id = "Field", Top = Hex(0x23282e), Bottom = Hex(0x101317), Edge = Hex(0x434b54), Rubber = Hex(0x090a0c),
             Stencil = new Color(1f, 1f, 1f, 0.58f), KeyFace = Hex(0x252a31), Tube = Hex(0x2a3036), TubeLight = Hex(0x4b545e), TubeDark = Hex(0x15181c),
         },
+        // Iron Company: a rugged field tablet in chipped olive paint (tools/gen_deck_iron.py). The Id stays Milspec, so a
+        // theme opened in an older version stays open.
         new DeckTheme
         {
-            Id = "Milspec", Top = Hex(0x343a26), Bottom = Hex(0x171a10), Edge = Hex(0x5a6244), Rubber = Hex(0x0f110a),
+            Id = "Milspec", Style = DeckStyle.Iron, Art = "Iron", Top = Hex(0x343a26), Bottom = Hex(0x171a10), Edge = Hex(0x5a6244), Rubber = Hex(0x0f110a),
             Stencil = new Color(0.93f, 0.9f, 0.72f, 0.62f), KeyFace = Hex(0x2a2f1e), Tube = Hex(0x3a3f2c), TubeLight = Hex(0x646b4c), TubeDark = Hex(0x1a1d12),
             UnlockKey = "CleanStreak", UnlockCount = 10,
         },
