@@ -508,6 +508,34 @@ def make_heart():
     return img.rotate(-8, expand=True, resample=Image.BICUBIC)
 
 
+SCOPE_W, SCOPE_H, SCOPE_BARS = 196, 84, 16
+
+
+def make_scope():
+    """The spectrum screen on the desk, 196 x 84: dark violet glass, a faint grid, a vignette (the bars are drawn in
+    code on top), and its glass overlay: a sheen and scanlines."""
+    w, h = SCOPE_W, SCOPE_H
+    m = rrect((w, h), (0, 0, w, h), 6)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    v = np.clip(1 - (((xx - w / 2) / (w * 0.62)) ** 2 + ((yy - h / 2) / (h * 0.7)) ** 2), 0, 1)
+    rgb = np.array((10, 6, 20), np.float32) + v[..., None] * np.array((22, 12, 36), np.float32)
+    grid = np.zeros((h, w), np.float32)
+    grid[::12, :] = 1
+    grid[:, ::14] = 1
+    rgb += grid[..., None] * np.array((34, 22, 58), np.float32) * (0.4 + 0.6 * v[..., None])
+    rgb += A.grain(w, h, 470, 2)[..., None]
+    screen = A.to_img(rgb, m)
+    # glass: a soft diagonal sheen at the top-left, darker scanlines, an inner rim
+    sheen = np.clip(1 - (xx + yy * 1.8) / (w * 0.55), 0, 1) ** 2 * 0.16
+    rgb2 = np.full((h, w, 3), 255, np.float32)
+    glass = A.to_img(rgb2, sheen * m)
+    lines = np.zeros((h, w), np.float32)
+    lines[1::2, :] = 0.22
+    glass.alpha_composite(A.to_img(np.zeros((h, w, 3), np.float32), lines * m))
+    glass.alpha_composite(A.to_img(np.zeros((h, w, 3), np.float32), A.inner_edge(m, 2) * 0.6))
+    return screen, glass
+
+
 def make_bdlogo():
     """A glitched "BD VIDEO" logo sticker, 76 x 40: our own mark in the style of the old disc logos, violet with
     scanlines and a chromatic split."""
@@ -614,6 +642,9 @@ def build():
     A.save(make_jack((200, 90, 160)), T, "Jack_Pink")
     A.save(make_reel(), T, "Sticker_Reel")
     A.save(make_heart(), T, "Sticker_Heart")
+    scope, glass = make_scope()
+    A.save(scope, T, "Scope")
+    A.save(glass, T, "ScopeGlass")
     A.save(make_bdlogo(), T, "Sticker_BdLogo")
     A.save(make_play(), T, "Sticker_Play")
     A.save(make_jp(), T, "Sticker_Jp")
@@ -760,8 +791,23 @@ def mock(heat=58, screen=(1000, 666), online=True, tuner=0.35, rf=0.7):
         put("FaderCapPink" if i == 0 else "FaderCap", fx - 15, yd + 18 + 86 - 80 * vals[i] - 4)
         cap(nm, fx, yd + 120, ACCENT + (240,) if i == 0 else INK + (230,))
     gap = right - x
-    if gap >= 260 + 150:
-        put("Plate", x + 150 + (gap - 150) / 2 - 120, yd + 44)
+    if gap >= 150 + SCOPE_W + 36:
+        sx = x + 150 + (gap - 150 - SCOPE_W - 20) / 2
+        panel(sx - 10, yd + 10, sx + SCOPE_W + 10, yd + 130)
+        put("Scope", sx, yd + 20)
+        bw = SCOPE_W / SCOPE_BARS
+        for i in range(SCOPE_BARS):
+            lvl = 0.25 + 0.7 * abs(np.sin(i * 1.7 + 0.6)) * (1 - i / SCOPE_BARS * 0.5)
+            n = int(lvl * 12)
+            for r in range(n):
+                t = r / 11
+                c = tuple(int(CYAN[k] * (1 - t) + PINK[k] * t) for k in range(3))
+                y = yd + 20 + SCOPE_H - 6 - (r + 1) * 6
+                d.rectangle([sx + 4 + i * bw, y, sx + 4 + i * bw + bw - 4, y + 3], fill=c + (255,))
+            d.rectangle([sx + 4 + i * bw, yd + 20 + SCOPE_H - 6 - (n + 2) * 6, sx + 4 + i * bw + bw - 4, yd + 20 + SCOPE_H - 6 - (n + 2) * 6 + 1], fill=(240, 230, 250, 255))
+        put("ScopeGlass", sx, yd + 20)
+        cap("SPECTRUM", sx + 34, yd + 112)
+        cap("L  R", sx + SCOPE_W - 24, yd + 112, PINK + (230,))
     if gap >= 150:
         put("Sticker_Sun", x + 12, yd + 18)
         put("Sticker_BdLogo", x + 66, yd + 66)

@@ -20,7 +20,7 @@ public static partial class NetrunUI
     public static readonly Vector2 StudioExtra = new(2f * StudioOut + StudioInL + StudioInR, 2f * StudioOut + StudioInT + StudioInB);
 
     private static readonly Color StudioInk = new(0.77f, 0.75f, 0.69f, 0.92f), StudioAccent = new(0.71f, 0.48f, 0.66f),
-        StudioPink = new(0.93f, 0.47f, 0.78f), StudioKeyInk = new(0.16f, 0.12f, 0.09f, 0.95f), StudioKeyLight = new(0.94f, 0.86f, 0.78f, 0.95f);
+        StudioPink = new(0.93f, 0.47f, 0.78f), StudioCyan = new(0.43f, 0.89f, 0.86f), StudioKeyInk = new(0.16f, 0.12f, 0.09f, 0.95f), StudioKeyLight = new(0.94f, 0.86f, 0.78f, 0.95f);
 
     private static readonly float[] StudioChannels = [0.3f, 0.55f, 0.7f, 0.45f];
 
@@ -31,7 +31,7 @@ public static partial class NetrunUI
         public static readonly Texture2D Body = Get("Body"), Meter = Get("Meter"), Bay = Get("Bay"), Wave = Get("Wave"),
             KeyGrey = Get("Key_Grey"), KeyRed = Get("Key_Red"), KeyAmber = Get("Key_Amber"), Lcd = Get("Lcd"), Panel = Get("Panel"),
             FaderSlot = Get("FaderSlot"), FaderCap = Get("FaderCap"), FaderCapPink = Get("FaderCapPink"), Jog = Get("Jog"),
-            LedBezel = Get("LedBezel"), Glass = Get("Glass"), Plate = Get("Plate"), Knob = Get("KnobSmall"), Note = Get("Note"),
+            LedBezel = Get("LedBezel"), Glass = Get("Glass"), Scope = Get("Scope"), ScopeGlass = Get("ScopeGlass"), Knob = Get("KnobSmall"), Note = Get("Note"),
             Vent = Get("Vent"), Badge = Get("Badge"), Sun = Get("Sticker_Sun"), Phones = Get("Sticker_Phones"), BdLogo = Get("Sticker_BdLogo"),
             Play = Get("Sticker_Play"), Jp = Get("Sticker_Jp"), Rating = Get("Sticker_Rating"), Side = Get("Sticker_Side"), Warn = Get("Sticker_Warn"),
             Mic = Get("Sticker_Mic"), JackGreen = Get("Jack_Green"), JackPink = Get("Jack_Pink"), Reel = Get("Sticker_Reel"), Heart = Get("Sticker_Heart");
@@ -321,8 +321,8 @@ public static partial class NetrunUI
             x += 220f;
         }
         float gap = limit - x;
-        if (gap >= 410f)
-            Sprite(StudioTex.Plate, new Vector2(Mathf.Round(x + 150f + (gap - 150f) / 2f - 120f), yd + 44f));
+        if (gap >= 150f + 196f + 36f)
+            StudioSpectrum(new Vector2(Mathf.Round(x + 150f + (gap - 150f - 196f - 20f) / 2f), yd + 20f), level, online, anim, time);
         if (gap >= 150f)
         {
             Sprite(StudioTex.Sun, new Vector2(x + 12f, yd + 18f));
@@ -330,6 +330,32 @@ public static partial class NetrunUI
         }
         else if (gap >= 76f)
             Sprite(StudioTex.Sun, new Vector2(Mathf.Round(x + (gap - 66f) / 2f), yd + 30f));
+    }
+
+    /// <summary>The decorative spectrum screen on the desk: 16 bars from cyan to pink bounce with the signal while the net is
+    /// up, a white peak tick over each; from Target the bars run hotter, in the Red Zone they hit the top.</summary>
+    private static void StudioSpectrum(Vector2 at, HeatLevel level, bool online, bool anim, float time)
+    {
+        NineSlice(new Rect(at.x - 10f, at.y - 10f, 216f, 120f), StudioTex.Panel, 12f, 12f, 12f, 12f);
+        Rect scr = Sprite(StudioTex.Scope, at);
+        const int bars = 16, rows = 12;
+        float bw = scr.width / bars, boost = level >= HeatLevel.RedZone ? 0.3f : level >= HeatLevel.Target ? 0.12f : 0f;
+        for (int i = 0; i < bars; i++)
+        {
+            float shape = 1f - i / (float)bars * 0.5f;
+            float v = !online ? 0.05f : !anim ? 0.25f + 0.7f * Mathf.Abs(Mathf.Sin(i * 1.7f + 0.6f)) * shape
+                : 0.2f + 0.75f * Noise(time, 9f, i) * shape + boost;
+            float peak = !online ? 0f : !anim ? v : 0.2f + 0.75f * Mathf.Max(Noise(time, 9f, i), Noise(time - 0.12f, 9f, i), Noise(time - 0.24f, 9f, i)) * shape + boost;
+            int n = Mathf.Clamp(Mathf.RoundToInt(v * rows), 0, rows), pk = Mathf.Clamp(Mathf.RoundToInt(peak * rows) + 1, 0, rows + 1);
+            float bx = scr.x + 4f + i * bw;
+            for (int r = 0; r < n; r++)
+                Widgets.DrawBoxSolid(new Rect(bx, scr.yMax - 6f - (r + 1) * 6f, bw - 3f, 4f), Color.Lerp(StudioCyan, StudioPink, r / (rows - 1f)));
+            if (online && pk > n)
+                Widgets.DrawBoxSolid(new Rect(bx, scr.yMax - 6f - (pk + 1) * 6f, bw - 3f, 2f), new Color(0.94f, 0.9f, 0.98f));
+        }
+        GUI.DrawTexture(scr, StudioTex.ScopeGlass);
+        StudioCaption(scr.x + 34f, scr.yMax + 8f, "SPECTRUM");
+        StudioCaption(scr.xMax - 24f, scr.yMax + 8f, "L  R", StudioPink);
     }
 
     /// <summary>A square key with a warm backlight: the edge glows under the mouse, the cap sinks while pressed.</summary>
