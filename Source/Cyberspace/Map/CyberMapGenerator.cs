@@ -168,17 +168,17 @@ public static class CyberMapGenerator
                 continue;
             }
             Vector2 c = L.Centers[key];
-            float r = 0.06f + 0.012f * n;
+            float r = 0.07f + 0.016f * n;
             int placed = 0, tries = 0;
-            // Room between hubs for their name plates and markers (Maxim, 2026-10-14: the map was cramped).
-            float minDist = 0.068f;
+            // Room between hubs for their name plates and markers (Maxim, 2026-10-14 and 2026-10-16: the map was cramped).
+            float minDist = Spacing;
             // Home goes on the left edge later: keep its spot clear, or a neighbour sat on top of it.
             var homeSpot = new Vector2(0.02f, L.Centers[Outskirts].y);
             while (placed < n && tries < 4000)
             {
                 tries++;
                 if (tries % 1000 == 0)
-                    minDist *= 0.85f;
+                    minDist *= 0.9f;
                 float a = Rand.Range(0f, Mathf.PI * 2f), rr = r * Mathf.Sqrt(Rand.Value);
                 float x = c.x + Mathf.Cos(a) * rr, y = c.y + Mathf.Sin(a) * rr * 0.9f;
                 if (!(x > 0.03f && x < 0.985f && y > 0.03f && y < 0.64f))
@@ -191,6 +191,8 @@ public static class CyberMapGenerator
                 placed++;
             }
         }
+
+        Relax(nodes, new Vector2(0.02f, L.Centers[Outskirts].y));
 
         List<int> Ids(string key) => nodes.Where(n => keyOf[n.Id] == key).Select(n => n.Id).ToList();
         List<int> main = nodes.Where(n => n.District != District.OldNet).Select(n => n.Id).ToList();
@@ -384,6 +386,49 @@ public static class CyberMapGenerator
         Uncross(map);
         map.Dirty();
         return map;
+    }
+
+    /// <summary>The gap the generator keeps between hubs (Maxim, 2026-10-16: the map was noisy, links crossed).</summary>
+    public const float Spacing = 0.09f;
+
+    /// <summary>
+    /// Pushes apart hubs that the random placement left closer than the spacing (it shrinks the gap when a district runs
+    /// out of room), inside the field and off Home's spot. Runs before any link is made.
+    /// </summary>
+    private static void Relax(List<MapNode> nodes, Vector2 homeSpot)
+    {
+        int count = nodes.Count;
+        var push = new Vector2[count];
+        for (int iter = 0; iter < 80; iter++)
+        {
+            bool moved = false;
+            System.Array.Clear(push, 0, count);
+            for (int i = 0; i < count; i++)
+            {
+                for (int j = i + 1; j < count; j++)
+                {
+                    Vector2 d = nodes[i].Pos - nodes[j].Pos;
+                    float len = d.magnitude;
+                    if (len >= Spacing)
+                        continue;
+                    Vector2 dir = len < 1e-5f ? new Vector2(Mathf.Cos(i * 2.4f), Mathf.Sin(i * 2.4f)) : d / len;
+                    Vector2 step = dir * ((Spacing - len) * 0.5f);
+                    push[i] += step;
+                    push[j] -= step;
+                    moved = true;
+                }
+                Vector2 h = nodes[i].Pos - homeSpot;
+                if (h.magnitude < HomeClearance)
+                    push[i] += (h.sqrMagnitude < 1e-6f ? Vector2.right : h.normalized) * (HomeClearance - h.magnitude);
+            }
+            if (!moved)
+                break;
+            for (int i = 0; i < count; i++)
+            {
+                nodes[i].X = Mathf.Clamp(nodes[i].X + push[i].x * 0.6f, 0.03f, 0.985f);
+                nodes[i].Y = Mathf.Clamp(nodes[i].Y + push[i].y * 0.6f, 0.03f, 0.64f);
+            }
+        }
     }
 
     /// <summary>How far other hubs keep from Home (Maxim, 2026-10-15: a neighbour sat right on top of it).</summary>
