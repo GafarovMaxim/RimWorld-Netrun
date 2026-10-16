@@ -689,6 +689,18 @@ public static class Patch_Research_TransitionLock
 [HarmonyPatch(typeof(Building_Cyberpod), nameof(Building_Cyberpod.IsContentsSuspended), MethodType.Getter)]
 public static class Patch_Cyberpod_ShellSuspended
 {
+    /// <summary>
+    /// HE's getter reads the pod's facility comp, which is only set in SpawnSetup: a minified (uninstalled) pod throws a
+    /// NullReferenceException every tick. Unspawned, the pod is not suspending anything.
+    /// </summary>
+    static bool Prefix(Building_Cyberpod __instance, ref bool __result)
+    {
+        if (__instance.Spawned)
+            return true;
+        __result = false;
+        return false;
+    }
+
     static void Postfix(Building_Cyberpod __instance, ref bool __result)
     {
         try

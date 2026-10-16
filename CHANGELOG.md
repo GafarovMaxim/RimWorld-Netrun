@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Fixed
+- An uninstalled (minified) Hacking Expansion cyberpod no longer throws an error every tick.
 
 ## [1.1.3] - 2026-10-16
 ### Fixed
