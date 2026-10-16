@@ -29,7 +29,6 @@ public class MapEventsSettingsDef : Def
 
     public float distressWorkHours = 2f;
     public float distressFragmentChance = 0.7f;
-    public int distressSteel = 30;
 
     public int mapHackTurrets = 3;
     public float mapHackHours = 12f;
@@ -611,12 +610,23 @@ public class CompProperties_DistressServer : CompProperties
     public CompProperties_DistressServer() => compClass = typeof(CompDistressServer);
 }
 
-/// <summary>The abandoned server from a distress signal: a colonist connects to it once.</summary>
+/// <summary>The abandoned server from a distress signal: a colonist connects to it once; the building stays (Maxim, 2026-10-16).</summary>
 public class CompDistressServer : ThingComp
 {
+    private bool _drained;
+
+    public override void PostExposeData() => Scribe_Values.Look(ref _drained, "drained");
+
+    public override string CompInspectStringExtra() => _drained ? "NR_DistressDrained".Translate() : null;
+
     public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
     {
         string label = "NR_DistressConnect".Translate();
+        if (_drained)
+        {
+            yield return new FloatMenuOption(label + " (" + "NR_DistressDrained".Translate() + ")", null);
+            yield break;
+        }
         if (selPawn.WorkTagIsDisabled(WorkTags.Intellectual))
         {
             yield return new FloatMenuOption(label + " (" + "NR_AwakenNoWorker".Translate() + ")", null);
@@ -631,15 +641,17 @@ public class CompDistressServer : ThingComp
             () => selPawn.jobs.TryTakeOrderedJob(JobMaker.MakeJob(NetrunDefOf.NR_ConnectDistressServer, parent), JobTag.Misc)), selPawn, parent);
     }
 
-    /// <summary>The colonist finished: a fragment or an ICE backlash, then the server falls apart.</summary>
+    /// <summary>The colonist finished: a fragment next to the server or an ICE backlash; the server goes dark but stays.</summary>
     public void Resolve(Pawn pawn)
     {
+        if (_drained)
+            return;
+        _drained = true;
         MapEventsSettingsDef s = NetrunDefOf.NR_MapEvents;
-        Map map = parent.Map;
-        IntVec3 pos = parent.Position;
         if (Rand.Chance(AIBalance.FragmentChance(s.distressFragmentChance)))
         {
-            Thing fragment = GenSpawn.Spawn(ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment), pos, map);
+            Thing fragment = ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment);
+            GenPlace.TryPlaceThing(fragment, pawn.Position, parent.Map, ThingPlaceMode.Near);
             Messages.Message("NR_DistressFragment".Translate(pawn.LabelShort), fragment, MessageTypeDefOf.PositiveEvent, historical: true);
         }
         else
@@ -649,10 +661,6 @@ public class CompDistressServer : ThingComp
                 pawn.health.AddHediff(nausea, pawn.health.hediffSet.GetBrain());
             Messages.Message("NR_DistressBacklash".Translate(pawn.LabelShort), pawn, MessageTypeDefOf.NegativeEvent, historical: true);
         }
-        parent.Destroy();
-        Thing steel = ThingMaker.MakeThing(ThingDefOf.Steel);
-        steel.stackCount = s.distressSteel;
-        GenPlace.TryPlaceThing(steel, pos, map, ThingPlaceMode.Near);
     }
 }
 

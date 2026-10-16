@@ -13,6 +13,7 @@
   <NR_BlackMarketNobody>nobody yet (needs {0} reputation)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Black market</NR_FixerShopBlack>
   <NR_DistressLabel>Distress signal</NR_DistressLabel>
+  <NR_DistressDrained>already drained</NR_DistressDrained>
   <NR_DistressConnect>Connect to the server</NR_DistressConnect>
   <NR_DistressFragment>{0} pulled an AI fragment out of the old server.</NR_DistressFragment>
   <NR_DistressBacklash>The old server hit {0} with ICE backlash.</NR_DistressBacklash>

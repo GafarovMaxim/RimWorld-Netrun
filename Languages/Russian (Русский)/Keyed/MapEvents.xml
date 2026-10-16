@@ -13,6 +13,7 @@
   <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Чёрный рынок</NR_FixerShopBlack>
   <NR_DistressLabel>Сигнал бедствия</NR_DistressLabel>
+  <NR_DistressDrained>уже опустошён</NR_DistressDrained>
   <NR_DistressConnect>Подключиться к серверу</NR_DistressConnect>
   <NR_DistressFragment>{0} вытащил(а) из старого сервера осколок ИИ.</NR_DistressFragment>
   <NR_DistressBacklash>Старый сервер ударил {0} ICE-отдачей.</NR_DistressBacklash>

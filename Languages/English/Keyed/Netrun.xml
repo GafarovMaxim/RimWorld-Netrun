@@ -80,7 +80,7 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsFreqAttacks>Net attacks and mercenaries:</NR_SettingsFreqAttacks>
   <NR_SettingsFreqAttacksTip>Net attacks, mercenary raids and the corporate hunt.</NR_SettingsFreqAttacksTip>
   <NR_SettingsFreqMap>Map events:</NR_SettingsFreqMap>
-  <NR_SettingsFreqMapTip>Data courier, black market, distress signal, turret hijack.</NR_SettingsFreqMapTip>
+  <NR_SettingsFreqMapTip>Data courier, black market, distress signal, network hijack.</NR_SettingsFreqMapTip>
   <NR_SettingsFreqCyber>Cyberspace events:</NR_SettingsFreqCyber>
   <NR_SettingsFreqCyberTip>ICE hunter, rival netrunners, honeypots, data storms, wild AIs.</NR_SettingsFreqCyberTip>
   <NR_SettingsAIEventFrequencyTip>AI events: requests, favors and tricks of your AIs.</NR_SettingsAIEventFrequencyTip>

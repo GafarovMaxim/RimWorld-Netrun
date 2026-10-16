@@ -4,7 +4,7 @@
   <!-- Map events (docs/PHASE5_MAPEVENTS.md) -->
   <Netrun.MapEventsSettingsDef>
     <defName>NR_MapEvents</defName>
-    <!-- Map events (courier, black market, distress signal, turret hijack) come from their own schedule, not the storyteller:
+    <!-- Map events (courier, black market, distress signal, network hijack) come from their own schedule, not the storyteller:
          one every this many days on average, divided by the "map events" frequency in the mod settings. -->
     <mapEventMtbDays>5</mapEventMtbDays>
     <courierDays>1</courierDays>
@@ -21,7 +21,6 @@
     <blackMarketCoreChance>0.3</blackMarketCoreChance>
     <distressWorkHours>2</distressWorkHours>
     <distressFragmentChance>0.4</distressFragmentChance>
-    <distressSteel>30</distressSteel>
     <mapHackTurrets>3</mapHackTurrets>
     <mapHackHours>12</mapHackHours>
     <mapHackWinHeat>5</mapHackWinHeat>
@@ -75,7 +74,7 @@
 
   <IncidentDef>
     <defName>NR_MapHack</defName>
-    <label>turret hijack</label>
+    <label>network hijack</label>
     <category>Misc</category>
     <targetTags><li>Map_PlayerHome</li></targetTags>
     <workerClass>Netrun.IncidentWorker_MapHack</workerClass>

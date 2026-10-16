@@ -46,7 +46,10 @@ public static partial class NetrunUI
             Text.Font = font;
             Text.Anchor = TextAnchor.MiddleCenter;
             Color c = !active ? new Color(ink.r, ink.g, ink.b, 0.4f) : ink;
-            BoldLabel(new Rect(at.x, at.y, hit.width, hit.height), label, c, TextAnchor.MiddleCenter);
+            // Centred on the ring's face (19.5, 19.3 in the 42 px sprite, the rest is its shadow), not on the hit rect;
+            // the bold pass adds half a pixel to the right (Maxim, 2026-10-16: the glyphs sat off centre).
+            float o = tex == KurTex.Ring || tex == KurTex.RingRed ? 1f : 0f;
+            BoldLabel(new Rect(at.x - o, at.y - o, hit.width, hit.height), label, c, TextAnchor.MiddleCenter);
             Text.Font = GameFont.Small;
         }
         return CasingHit(hit, active, tip);

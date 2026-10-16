@@ -80,7 +80,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFreqAttacks>Сетевые атаки и наёмники:</NR_SettingsFreqAttacks>
   <NR_SettingsFreqAttacksTip>Сетевые атаки, рейды наёмников и охота корпов.</NR_SettingsFreqAttacksTip>
   <NR_SettingsFreqMap>События на карте:</NR_SettingsFreqMap>
-  <NR_SettingsFreqMapTip>Курьер данных, чёрный рынок, сигнал бедствия, взлом турелей.</NR_SettingsFreqMapTip>
+  <NR_SettingsFreqMapTip>Курьер данных, чёрный рынок, сигнал бедствия, взлом сети.</NR_SettingsFreqMapTip>
   <NR_SettingsFreqCyber>События киберпространства:</NR_SettingsFreqCyber>
   <NR_SettingsFreqCyberTip>Охотник ICE, соперники, приманки, шторм данных, дикий ИИ.</NR_SettingsFreqCyberTip>
   <NR_SettingsAIEventFrequencyTip>События ИИ: просьбы, услуги и выходки ваших ИИ.</NR_SettingsAIEventFrequencyTip>
