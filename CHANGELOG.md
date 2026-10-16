@@ -3,8 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.2] - 2026-10-16
 ### Added
-- Dev mode: a "Netrun: test raids" group fires a corporation, runner crew, mercenary or corporate hunt raid with no conditions, at a chosen strength.
+- Dev mode: a "Netrun: test raids" group fires a corporation, runner crew, mercenary or corporate hunt raid with no conditions, at a chosen strength, and writes the raiders' weapons to the log.
 - Combat Extended: crew and corp raiders spawn with spare magazines (patch applies only when CE is loaded).
 
 ### Changed
