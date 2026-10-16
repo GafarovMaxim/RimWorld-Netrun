@@ -198,6 +198,25 @@ TEXT = {
             "*Fixers* hand out contracts and scrub your trace.",
             "*Corporations* carve up the net and hunt you; *runner crews* fight for fame.",
             "Relations, reputation and the net's top list live on their own."]),
+        "map": ("The map of the net", [
+            "A big zoomable *cyberspace map*: districts, corporate turf, locked nodes and routes.",
+            "Lenses for loot, danger, corps, jobs and time; rival crews and news move on it."]),
+        "newcomer": ("New player friendly", [
+            "The *Cyberpedia* explains every system with live examples from your game.",
+            "*Guide mode* outlines each part of the screen; first steps tick off as you play."]),
+        "dlc": ("Plays with your DLCs", [
+            "*Ideology*: net memes, rituals with their own look and sound, the Net Archon role.",
+            "*Royalty*: imperial clients among fixers. *Biotech*: a gene, braindance for children.",
+            "*Odyssey*: orbital hubs while your gravship is in space."]),
+        "ai": ("Living AIs, real threats", [
+            "Wake *AI fragments*: 13 personalities, 75 events with choices, personal quests.",
+            "Run hot and the net bites back: *malware, power surges*, ransomware and raids."]),
+        "quests": ("Signals in the dark", [
+            "A *distress signal* leads to an abandoned server in a sealed compound.",
+            "Get past the turrets and connect: an *AI fragment*, or an ICE backlash."]),
+        "braindance": ("Braindance", [
+            "*Goggles* capture your colonists' strongest moments.",
+            "Edit raw recordings into chips, sell them or watch them; *black chips* hit harder."]),
     },
 }
 
@@ -231,7 +250,48 @@ def p_club(lang, src):
     return overlay(img, *TEXT[lang]["club"])
 
 
-PREVIEWS = {"terminal": p_terminal, "cyberspace": p_cyberspace, "club": p_club}
+def scene(src, name, crop=None, k=1.0, blur=0):
+    """A game screenshot as the full background, optionally cropped to frame the subject above the caption."""
+    img = Image.open(os.path.join(src, name)).convert("RGBA")
+    if crop:
+        img = img.crop(crop)
+    img = cover(img)
+    return darken(img, k, blur) if k < 1 or blur else img
+
+
+def p_map(lang, src):
+    img = scene(src, "квесты.jpg", k=0.35, blur=8)
+    shadowed(img, shot("nr80_gateway", 980), (470, 12), 0, glow=CYAN)
+    return overlay(img, *TEXT[lang]["map"])
+
+
+def p_newcomer(lang, src):
+    img = scene(src, "киберпространство и нырки.jpg", k=0.35, blur=8)
+    shadowed(img, shot("nr1_cyberpedia", 820), (90, 40), -3, glow=GREEN)
+    shadowed(img, shot("kurenai_guide", 820), (1010, 50), 3, glow=CYAN)
+    return overlay(img, *TEXT[lang]["newcomer"])
+
+
+def p_dlc(lang, src):
+    return overlay(scene(src, "связь с DLC.jpg", crop=(220, 60, 1700, 892)), *TEXT[lang]["dlc"])
+
+
+def p_ai(lang, src):
+    return overlay(scene(src, "сетевые атаки, ии и его ивенты.jpg", crop=(280, 40, 1760, 872)), *TEXT[lang]["ai"], accent=GREEN)
+
+
+def p_quests(lang, src):
+    return overlay(scene(src, "квесты.jpg", crop=(200, 0, 1720, 855)), *TEXT[lang]["quests"])
+
+
+def p_braindance(lang, src):
+    img = scene(src, "брейндансы.jpg", crop=(60, 0, 1740, 945))
+    shadowed(img, shot("kurenai_studio", 500), (1390, 40), 4, glow=PINK)
+    return overlay(img, *TEXT[lang]["braindance"])
+
+
+PREVIEWS = {"terminal": p_terminal, "cyberspace": p_cyberspace, "club": p_club, "map": p_map, "newcomer": p_newcomer,
+            "dlc": p_dlc, "ai": p_ai, "quests": p_quests, "braindance": p_braindance}
 
 
 def main():
