@@ -1,0 +1,35 @@
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_banner.png[/img]
+
+[quote][i]«Сеть помнит ваш след. Данные — валюта, но нетраннер платит телом и разумом.»[/i][/quote]
+
+[b]Hacking Expansion: Netrun[/b] — киберпанк-надстройка над [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]. Каждый взлом оставляет след. Корпорации замечают. Фиксеры звонят. В ваших серверах просыпаются спящие ИИ. Глубоко в кибер-капсуле ваш нетраннер идёт по живой карте киберпространства, и сеть всегда отвечает.
+
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_heat.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_terminal.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_cyberspace.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_dives.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_fixers.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_corps.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_ais.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_braindance.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_events.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_colonists.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_card_newcomer.png[/img]
+
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_requirements.png[/img]
+[list]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077]Harmony[/url]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013]Vanilla Expanded Framework[/url]
+[*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]
+[/list]
+Загружать [b]после[/b] Hacking Expansion. Можно добавить в начатую игру, но не удалять из неё. Контент DLC грузится только с соответствующим DLC.
+Версии игры: [b]1.6[/b] и [b]1.7[/b].
+Языки: [b]English[/b], [b]Русский[/b].
+
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/ru_credits.png[/img]
+Автор: [b]Raul Moreau[/b]
+Мод построен на [b]Hacking Expansion[/b] от BlueEagle421 и команды Ushanka. Спасибо!
+Шрифт: [b]Tektur[/b] (SIL Open Font License 1.1)
+[url=https://github.com/GafarovMaxim/RimWorld-Netrun]Исходный код на GitHub[/url] (MIT)
+
+[i]Нашли ошибку? Пишите в комментарии с Player.log.[/i]

@@ -59,10 +59,11 @@ def picture(spec, w):
     return img
 
 
-# Sections that gen_steam.py has no header for: id -> (icon, title, tagline)
+# Sections that gen_steam.py has no header for: id -> (icon, EN title, EN tagline, RU title, RU tagline)
 EXTRA = {
-    "dives": ("Cyberspace/Dive_BLACKICE", "NETRUN DIVES", "turn-based runs through the ICE"),
-    "newcomer": ("Icon_Guide", "NEW PLAYER FRIENDLY", "the net explains itself"),
+    "dives": ("Cyberspace/Dive_BLACKICE", "NETRUN DIVES", "turn-based runs through the ICE", "НЫРКИ", "пошаговые забеги сквозь ICE"),
+    "events": ("Cyberspace/Event_DistressSignal", "EVENTS", "the net does not wait for you", "СОБЫТИЯ", "сеть не ждёт"),
+    "newcomer": ("Icon_Guide", "NEW PLAYER FRIENDLY", "the net explains itself", "УДОБНО НОВИЧКАМ", "сеть объясняет себя сама"),
 }
 
 
@@ -73,12 +74,15 @@ def head_img(cid, index, lang):
     os.makedirs(tmp, exist_ok=True)
     G.IMG = tmp
     sec = next((x for x in G.SECTIONS if x[0] == cid), None)
-    ico, title, tag = (sec[1], sec[2], sec[3]) if sec else EXTRA[cid]
+    row = sec if sec else (cid,) + EXTRA[cid]
+    ico, title, tag = (row[1], row[2], row[3]) if lang == "en" else (row[1], row[4], row[5])
     G.header(cid, ico, title, tag, index, lang)
     return Image.open(os.path.join(tmp, f"{lang}_{cid}.png")).convert("RGBA")
 
 
 def card(cid, pic, bullets, flip, index, lang="en"):
+    if lang == "ru":
+        bullets = RU[cid]
     head = head_img(cid, index, lang)
     f = P.font(29, True)
     probe = ImageDraw.Draw(Image.new("RGBA", (10, 10)))
@@ -147,11 +151,11 @@ CARDS = [
         "Edit raw recordings into chips, normal to masterwork, or forbidden *black chips*.",
         "Sell them, watch them, get hooked.",
         "Hunt down *8 unique recordings* hidden across the net."]),
-    ("defense", ("scene", "квесты.jpg", (200, 225, 1720, 1080)), [
-        "Wall-mounted *firewalls* and your own *ICE tiers* up to black ICE.",
-        "A *honeypot* that traces attackers back; netrunners on watch duty.",
-        "Full network isolation, or intercept an incoming intrusion with a dive.",
-        "*Distress signals* lead to abandoned servers worth the risk."]),
+    ("events", ("scene", "квесты.jpg", (200, 225, 1720, 1080)), [
+        "*Distress signals* lead to abandoned servers in sealed, turret-guarded compounds.",
+        "A fixer's *data courier*, a *black market*, a *network hijack* to win back in a counter-hack.",
+        "Net news with real effects: hardened ICE, leaked codes, *data storms*.",
+        "Hold the line with *firewalls*, your own *ICE tiers* and a *honeypot*."]),
     ("colonists", ("scene", "связь с DLC.jpg", (220, 60, 1700, 892)), [
         "*Netsick*: pod addiction, cravings and reckless emotional dives.",
         "Dive traits, *9 backstories*, *4 scenarios*, *26 achievements* (optional).",
@@ -163,6 +167,65 @@ CARDS = [
         "First steps tick off as you play; a free *training dive* teaches the dive screen.",
         "Threats wait until your colony touches the net."]),
 ]
+
+
+RU = {
+    "heat": [
+        "Каждый взлом поднимает *Heat* колонии: пять уровней от *Тени* до *Красной зоны*.",
+        "Чем горячее след, тем жёстче ответ: нейрошум, кража данных, саботаж, скачки напряжения, вымогатели.",
+        "На вершине рейды скрытых наёмников *Black Ledger*.",
+        "Затаитесь, сотрите след у фиксера или горите ярко и платите за это."],
+    "terminal": [
+        "Консоль связи становится *сетевой консолью*: неоновым терминалом на всю сеть.",
+        "*Ядро*, *Клуб*, *Доска*, *Архив*, *Серверная*, *Студия* и *Шлюз*.",
+        "*Восемь корпусов* терминала реагируют на Heat; новые открываются по ходу игры.",
+        "Пять звуковых наборов, масштаб и цвета акцента."],
+    "cyberspace": [
+        "Одна *живая карта* на игру: около 45 хабов в районах, которые вы открываете сами.",
+        "Корпоративные башни, рынки, руины, скрытый даркнет и *Старая сеть* за стеной.",
+        "Линзы, поиск, маршруты; сбои, бури и чужие команды меняют её день за днём.",
+        "До трёх раннеров в капсулах ходят по её связям в игровом времени."],
+    "dives": [
+        "*Пошаговые нырки*: кодовые врата, тайники, файлы, блоки памяти, лёгкие и трудные развилки.",
+        "*Чёрный лёд* бьёт в ответ тошнотой, блокировкой и комой из Hacking Expansion.",
+        "*Программы* и пять *демонов*; ледорубы HE тоже в деле.",
+        "*Корпоративные ядра* хранят лучшую добычу в сети."],
+    "fixers": [
+        "Сменяемый круг *фиксеров*: брокеры, чистильщики, скупщики, имперские клиенты.",
+        "У каждого скрытая черта: надёжный, жадный, параноик... или *крыса*, которая вас сдаст.",
+        "Растите репутацию, закрепляйте тех, кому верите.",
+        "*8 видов контрактов*: доставки, врезки, тихие заходы, лаборатории брейнданса."],
+    "corps": [
+        "*3–4 корпорации* с Тревогой и Силой: патрулируют, вторгаются, захватывают районы.",
+        "Надавите посильнее, и корпорация *рухнет*.",
+        "*Команды раннеров* соревнуются с вами, помогают и нанимаются.",
+        "*Топ-100 сети*: слава платит и привлекает внимание."],
+    "ais": [
+        "Добывайте *фрагменты ИИ* и будите их: *13 личностей*, у каждой услуга, голод и доверие.",
+        "Держите их на *сервере ИИ*, в *сопроцессоре* капсулы или в голове колониста.",
+        "*75 событий ИИ* с выбором и *личные квесты*.",
+        "Колонист с кибер-линком после смерти может оставить *Эхо*..."],
+    "braindance": [
+        "*Очки брейнданса* записывают самые яркие моменты колонистов.",
+        "Монтируйте сырые записи в чипы, от обычных до шедевров, или запретные *чёрные чипы*.",
+        "Продавайте, смотрите, подсаживайтесь.",
+        "Найдите *8 уникальных записей*, спрятанных по сети."],
+    "events": [
+        "*Сигналы бедствия* ведут к заброшенным серверам в запечатанных комплексах с турелями.",
+        "*Курьер данных* фиксера, *чёрный рынок*, *взлом сети* с контрвзломом.",
+        "Новости сети с настоящими последствиями: усиленный ICE, утёкшие коды, *бури данных*.",
+        "Держите оборону: *брандмауэры*, свои *уровни ICE* и *Honeypot*."],
+    "colonists": [
+        "*Netsick*: зависимость от капсулы, ломка и безрассудные эмоциональные нырки.",
+        "Черты, *9 предысторий*, *4 сценария*, *26 достижений* (по желанию).",
+        "*Ideology*: сетевые мемы, ритуалы, архонт сети. *Royalty*: имперские фиксеры.",
+        "*Biotech*: ген и брейнданс для детей. *Odyssey*: орбитальные хабы."],
+    "newcomer": [
+        "*Киберпедия* объясняет каждую систему на живых примерах из вашей игры.",
+        "*Режим гайда* подписывает каждую часть экрана.",
+        "Первые шаги отмечаются сами; бесплатный *тренировочный нырок* учит экрану нырка.",
+        "Угрозы ждут, пока колония не коснётся сети."],
+}
 
 
 def description(lang="en"):
@@ -186,12 +249,13 @@ def description(lang="en"):
 
 def main():
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else None
-    for i, (cid, pic, bullets) in enumerate(CARDS):
-        if only and cid not in only:
-            continue
-        card(cid, pic, bullets, flip=i % 2 == 1, index=i + 1).convert("RGB").save(os.path.join(IMG, f"en_card_{cid}.png"), optimize=True)
-        print("card", cid)
-    description("en")
+    for lang in ("en", "ru"):
+        for i, (cid, pic, bullets) in enumerate(CARDS):
+            if only and cid not in only:
+                continue
+            card(cid, pic, bullets, flip=i % 2 == 1, index=i + 1, lang=lang).convert("RGB").save(os.path.join(IMG, f"{lang}_card_{cid}.png"), optimize=True)
+            print("card", lang, cid)
+        description(lang)
 
 
 if __name__ == "__main__":

@@ -1,14 +1,15 @@
-# Релиз в Steam Workshop: 0.6.0
+# Релиз в Steam Workshop: 1.1.0
 
-Обновлено 2026-10-15. Версия 0.6.1 в `About.xml`, `Source/Netrun.csproj`, `SourceVAE/NetrunVAE.csproj`; поддержка RimWorld 1.6 и 1.7. Прежний чек-лист (состояние на 2026-10-08) в git-истории этого файла.
+Обновлено 2026-10-16. Версия 1.1.0 в `About.xml`, `Source/Netrun.csproj`, `SourceVAE/NetrunVAE.csproj`; поддержка RimWorld 1.6 и 1.7. Прежний чек-лист (состояние на 2026-10-08) в git-истории этого файла.
 
 ## 1. Готово
-- `About/About.xml`: имя, автор Raul Moreau, packageId `GafarovMaxim.HackingExpansionNetrun`, версии 1.6 и 1.7, зависимости HE, Harmony, VEF; описание обновлено под 0.6.0.
-- `About/Preview.png`: превью v3 (640x360, 200 КБ). Для страницы Workshop большая версия `docs/steam/img/preview_v3_1280x720.png`. Источник `docs/steam/preview_v3_source.html`.
-- `CHANGELOG.md`: раздел [0.6.0] - 2026-10-15 (Added, Changed, Fixed).
+- `About/About.xml`: имя, автор Raul Moreau, packageId `GafarovMaxim.HackingExpansionNetrun`, версии 1.6 и 1.7, зависимости HE, Harmony, VEF; описание обновлено под 1.1.0.
+- `About/Preview.png`: 640x360 из превью «The net terminal». Превью для страницы Workshop: 9 штук 1920x1080 в `docs/steam/previews/` (`en_*.png`, `ru_*.png`), генератор `tools/gen_steam_previews.py`.
+- `CHANGELOG.md`: раздел [1.1.0] - 2026-10-16 (Added, Changed).
 - `README.md`, `README_RU.md`: версии 1.6 и 1.7, экран навигации, карта с линзами, защищённые хабы, тренировочный нырок, «Переход», наёмники Black Ledger.
 - Описание Workshop: `docs/steam/description_{en,ru}.txt` (заголовки текстом) и `description_{en,ru}_images.txt` (заголовки картинками), все меньше 8000 знаков. Добавлен раздел «Переход», метка «1.6 / 1.7» на баннере.
-- Картинки описания: ссылки на GitHub по тегу `v0.6.1` (`https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.1/docs/steam/img/...`). Репозиторий публичный. Imgur не нужен.
+- Описание из картинок (как у Vanilla Expanded): `docs/steam/description_{en,ru}_cards.txt`, 11 карточек `img/{en,ru}_card_*.png` (`tools/gen_steam_cards.py`). Основной вариант для загрузки.
+- Картинки описания: ссылки на GitHub по тегу `v1.1.0` (`https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/...`). Репозиторий публичный. Imgur не нужен.
 - Код: все Harmony-патчи в try/catch, коды ErrorOnce уникальны; информационные Log.Message только в dev-режиме.
 - CI: zip только из About, Assemblies, Defs, Languages, Optional, Patches, Sounds, Textures, README.md, LICENSE; собирает обе DLL сам (VAE-часть тоже). По тегу `v*` прикрепляет zip к GitHub Release.
 - Исходный арт вынесен из репозитория в `G:\Modding\RimWorld\Hacking Expansion Netrun\Reserve`.
@@ -16,10 +17,10 @@
 ## 2. Порядок публикации (делает Maxim)
 1. Закрыть игру, собрать: `dotnet build Source/Netrun.csproj -c Release` (DLL в репозитории обновится; в zip CI её соберёт сам).
 2. Проверить в игре новую игру и старое сохранение: нет красных строк от мода в `Player.log`.
-3. Поставить тег на последний коммит `dev` и отправить его: `git tag v0.6.1`, `git push origin v0.6.1`. CI сделает Release с `HackingExpansionNetrun.zip`, а ссылки на картинки описания начнут работать.
+3. Поставить тег на последний коммит `dev` и отправить его: `git tag v1.1.0`, `git push origin v1.1.0`. CI сделает Release с `HackingExpansionNetrun.zip`, а ссылки на картинки описания начнут работать.
 4. Скачать zip из Release и распаковать в отдельную папку в `Mods` (например `Mods\HackingExpansionNetrun`). Загружать в Workshop только её: в папке `_Dev` лежат `.git`, `Source`, `SourceVAE`, `tools`, `docs`, `.github`, `CLAUDE.md`, они не должны попасть в Steam. Пока обе папки в `Mods`, у них один packageId: на время загрузки вынести `_Dev` из `Mods` или выключить её в списке модов.
 5. RimWorld → Моды → выбрать чистую папку → «Загрузить в Steam Workshop». Видимость сначала «только по ссылке».
-6. На странице Workshop: вставить `docs/steam/description_en_images.txt` (основной язык), русский `description_ru_images.txt` добавить как язык описания; большую картинку превью 1280x720 и 4–8 скриншотов 1920x1080; теги Workshop.
+6. На странице Workshop: вставить `docs/steam/description_en_cards.txt` (основной язык), русский `description_ru_cards.txt` добавить как язык описания; 9 превью из `docs/steam/previews/en_*.png`; теги Workshop.
 7. Проверить страницу по ссылке, потом открыть для всех.
 
 ## 3. Теги Workshop
@@ -39,6 +40,6 @@ Mod, 1.6, 1.7, Cyberpunk, Hacking, Events, Factions, Quests, UI, Translation: Ru
 `docs/`, `tools/`, `Source/`, `SourceVAE/`, `.git`, `.github`, `build.bat`, `CLAUDE.md`, `SECURITY.md`, `Test.txt`. В zip CI их нет; перед загрузкой посмотреть содержимое папки, размер около 8 МБ.
 
 ## 6. Риски
-- `docs/` в репозитории нужна для ссылок на картинки описания: они читаются из тега `v0.6.1`. Удалять `docs` только в копии для загрузки, не коммитить удаление.
+- `docs/` в репозитории нужна для ссылок на картинки описания: они читаются из тега `v1.1.0`. Удалять `docs` только в копии для загрузки, не коммитить удаление.
 - Ветка `main` отстаёт от `dev`; релиз идёт по тегу, `main` не трогаем без решения Maxim.
 - Сборка идёт против ссылок 1.6, игра 1.7: перед публикацией проверить в 1.7 (лог чистый).

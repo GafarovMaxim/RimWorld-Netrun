@@ -3,12 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
-### Changed
-- Frames at small scales: the Relic and NR-1 Heat scales shrink instead of vanishing, the NR-1 top lamps slide into any room, the Nomad tally shows as many groups as fit; the Retro HEAT caption sits higher, the Nomad cross pad core is centred.
-- Braindance studio at the default window: the spectrum screen shrinks to a small one instead of hiding, the LCD panel narrows, fader captions are short (NET LINK, EMO, SOMA, AUD, VIS) and no longer overlap. Net rituals: the floor circuit traces now light up and fade in turn (brighter, thicker) instead of static motes that did not show.
-- Relic HEAT lamps fit the default window (keys pack tighter on narrow windows). Net ritual effects are sparser and spread over a fixed area around the target, through walls, instead of crowding a small room.
-- The abandoned server stays after a colonist connects to it (once; the AI fragment drops next to them). The turret hijack event is now called network hijack. Corporate frame key glyphs centred on their rings.
 
+## [1.1.0] - 2026-10-16
 ### Added
 - The net rituals (litany of data, trace cleansing) have their own green look: a glow, circuit traces on the floor, falling columns of code and floating digits; and their own ambience (a cyberspace drone with data chirps) instead of the ideoligion music.
 - New terminal frame "Braindance studio": a violet monitor over a mixing desk with a scrolling timeline, a chip bay, a LED level meter (Heat and signal), faders, a jog wheel, headphone and mic AUX jacks, a spectrum screen and VHS stickers. Opens with 3 unique braindance recordings.
@@ -23,6 +19,10 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - The game's music fades down while the terminal is open (to 30 %, a slider in Sound settings) and comes back when it closes.
 - Settings: hovering a cyberspace layout shows a small preview of its map.
 ### Changed
+- Frames at small scales: the Relic and NR-1 Heat scales shrink instead of vanishing, the NR-1 top lamps slide into any room, the Nomad tally shows as many groups as fit; the Retro HEAT caption sits higher, the Nomad cross pad core is centred.
+- Braindance studio at the default window: the spectrum screen shrinks to a small one instead of hiding, the LCD panel narrows, fader captions are short (NET LINK, EMO, SOMA, AUD, VIS) and no longer overlap. Net rituals: the floor circuit traces now light up and fade in turn (brighter, thicker) instead of static motes that did not show.
+- Relic HEAT lamps fit the default window (keys pack tighter on narrow windows). Net ritual effects are sparser and spread over a fixed area around the target, through walls, instead of crowding a small room.
+- The abandoned server stays after a colonist connects to it (once; the AI fragment drops next to them). The turret hijack event is now called network hijack. Corporate frame key glyphs centred on their rings.
 - Hub watch has no button any more: while anyone lies in a powered cyberpod, the sharpest of them keeps watch (+1 hub defense per 4 Intellectual). Several pods do not stack.
 - Ideoligion screen: the Net Archon sits in one row with the leader and the moral guide (it had a lower impact, which started a row of its own).
 - Cyberspace maps keep more room between hubs (wider districts, a larger gap, and a pass that pushes apart hubs left too close), so links cross less and name plates overlap less. Applies to newly generated nets.

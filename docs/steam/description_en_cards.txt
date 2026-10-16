@@ -1,22 +1,22 @@
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_banner.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_banner.png[/img]
 
 [quote][i]"The net remembers your trace. Data is currency, but the netrunner pays in body and mind."[/i][/quote]
 
 [b]Hacking Expansion: Netrun[/b] is a cyberpunk layer for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3573344880]Ushanka's Hacking Expansion[/url]. Every hack leaves a trace. Corporations notice. Fixers call. Dormant AIs wake up in your servers. From a cyberpod your netrunner walks a living map of cyberspace.
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_heat.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_terminal.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_cyberspace.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_dives.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_fixers.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_corps.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_ais.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_braindance.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_defense.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_colonists.png[/img]
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_card_newcomer.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_heat.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_terminal.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_cyberspace.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_dives.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_fixers.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_corps.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_ais.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_braindance.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_events.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_colonists.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_card_newcomer.png[/img]
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_requirements.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_requirements.png[/img]
 [list]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077]Harmony[/url]
 [*][url=https://steamcommunity.com/sharedfiles/filedetails/?id=2023507013]Vanilla Expanded Framework[/url]
@@ -26,7 +26,7 @@ Load [b]after[/b] Hacking Expansion. Safe to add to a running save; do not remov
 Game versions: [b]1.6[/b] and [b]1.7[/b].
 Languages: [b]English[/b], [b]Русский[/b].
 
-[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_credits.png[/img]
+[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v1.1.0/docs/steam/img/en_credits.png[/img]
 Author: [b]Raul Moreau[/b]
 Built on [b]Hacking Expansion[/b] by BlueEagle421 and the Ushanka team. Thank you!
 Font: [b]Tektur[/b] (SIL Open Font License 1.1)
