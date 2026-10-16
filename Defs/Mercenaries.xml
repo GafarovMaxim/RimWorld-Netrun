@@ -13,6 +13,8 @@
     <hidden>true</hidden>
     <requiredCountAtGameStart>1</requiredCountAtGameStart>
     <settlementGenerationWeight>0</settlementGenerationWeight>
+    <!-- No settlements: keep vanilla quests (Anomaly distress call, Ideology work sites) from picking this faction -->
+    <canGenerateQuestSites>false</canGenerateQuestSites>
     <permanentEnemy>true</permanentEnemy>
     <humanlikeFaction>true</humanlikeFaction>
     <canSiege>false</canSiege>

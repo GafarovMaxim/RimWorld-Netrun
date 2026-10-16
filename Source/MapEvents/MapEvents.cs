@@ -244,7 +244,9 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         if (options.Count == 0)
             return;
         (IncidentDef def, IncidentParms parms, string _) = options.RandomElementByWeight(o => o.def.baseChance);
-        def.Worker.TryExecute(parms);
+        // Worker.TryExecute does not record the fire (the storyteller does that), so minRefireDays would never hold.
+        if (def.Worker.TryExecute(parms))
+            map.StoryState.Notify_IncidentFired(new FiringIncident(def, null, parms));
     }
 
     /// <summary>Each scheduled map event with its parms and why it cannot fire now (null if it can).</summary>
@@ -443,6 +445,8 @@ public class IncidentWorker_DistressSignal : IncidentWorker
 
     protected override bool CanFireNowSub(IncidentParms parms)
         => parms.target is Map map && Quest != null && DefDatabase<SitePartDef>.GetNamedSilentFail("NR_DistressSite") != null
+           // Only a colony with a netrunner hears the signal.
+           && map.mapPawns.FreeColonists.Any(p => USH_HE.CyberUtils.IsHacker(p))
            && RimWorld.Planet.TileFinder.TryFindNewSiteTile(out RimWorld.Planet.PlanetTile _, map.Tile, 2, 10);
 
     /// <summary>A vanilla quest: it shows in the Quests tab, has its own letter, timeout and site.</summary>

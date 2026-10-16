@@ -112,6 +112,8 @@
     <maxConfigurableAtWorldCreation>0</maxConfigurableAtWorldCreation>
     <canMakeRandomly>false</canMakeRandomly>
     <settlementGenerationWeight>0</settlementGenerationWeight>
+    <!-- No settlements: keep vanilla quests (Anomaly distress call, Ideology work sites) from picking this faction -->
+    <canGenerateQuestSites>false</canGenerateQuestSites>
     <humanlikeFaction>true</humanlikeFaction>
     <canSiege>false</canSiege>
     <canStageAttacks>true</canStageAttacks>
