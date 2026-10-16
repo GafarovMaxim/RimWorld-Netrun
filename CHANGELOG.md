@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.8] - 2026-10-17
 ### Changed
 - Ending the story after the Transition shows the credits and then returns to the main menu; the credits no longer repeat the "end or play on" line.
 ### Added
