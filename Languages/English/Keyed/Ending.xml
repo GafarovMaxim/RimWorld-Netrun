@@ -65,6 +65,7 @@
   <NR_UploadNoPower>The pod has no power.</NR_UploadNoPower>
   <NR_UploadStarted>{0} begins the Transition: {1} hours in the pod.</NR_UploadStarted>
   <NR_UploadHeat>The Transition of {0}</NR_UploadHeat>
+  <NR_UploadBarLabel>Transition {0}, {1} left</NR_UploadBarLabel>
   <NR_UploadBrokenLabel>Transition broken: {0}</NR_UploadBrokenLabel>
   <NR_UploadBroken>The upload of {0} was torn off halfway. The mind snapped back into a body it had half left: a heavy Netsick, but alive.</NR_UploadBroken>
   <NR_UploadBrokenDeath>The upload of {0} was torn off halfway. Half a mind came back, and it was not enough. {0} is dead.</NR_UploadBrokenDeath>

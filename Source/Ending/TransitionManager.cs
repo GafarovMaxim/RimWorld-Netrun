@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using USH_HE;
+using UnityEngine;
 using Verse;
 
 namespace Netrun;
@@ -489,6 +490,58 @@ public class TransitionManager : GameComponent
     {
         TransitionUpload u = _uploads.FirstOrDefault(x => x.Pawn == p);
         return u == null ? 0f : UnityEngine.Mathf.Clamp01((Find.TickManager.TicksGame - u.StartTick) / (UploadHours * GenDate.TicksPerHour));
+    }
+
+    // ---- Progress bar over the pods (Maxim, 2026-10-17: the gizmo percent alone was too easy to miss) ----
+    private static Material _barFilled, _barEmpty;
+    private static readonly Vector2 BarSize = new(1.4f, 0.16f);
+
+    private static bool UploadVisible(TransitionUpload u)
+        => u.Pod is { Spawned: true } && u.Pod.Map == Find.CurrentMap && !RimWorld.Planet.WorldRendererUtility.WorldSelected;
+
+    private static Vector3 BarCenter(Building_Cyberpod pod)
+        => pod.DrawPos + new Vector3(0f, 0f, pod.RotatedSize.z * 0.5f + 0.2f);
+
+    /// <summary>A purple bar above every pod with a mind going out, drawn each frame like vanilla fuel bars.</summary>
+    public override void GameComponentUpdate()
+    {
+        if (_uploads.Count == 0)
+            return;
+        _barFilled ??= SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.62f, 0.35f, 0.9f));
+        _barEmpty ??= SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.12f, 0.08f, 0.16f));
+        foreach (TransitionUpload u in _uploads)
+        {
+            if (!UploadVisible(u))
+                continue;
+            Vector3 center = BarCenter(u.Pod);
+            center.y = AltitudeLayer.MetaOverlays.AltitudeFor();
+            GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
+            {
+                center = center,
+                size = BarSize,
+                fillPercent = Progress(u.Pawn),
+                filledMat = _barFilled,
+                unfilledMat = _barEmpty,
+                margin = 0.03f,
+                rotation = Rot4.North,
+            });
+        }
+    }
+
+    /// <summary>Percent and time left under the bar, only when zoomed in enough to read it.</summary>
+    public override void GameComponentOnGUI()
+    {
+        if (_uploads.Count == 0 || Event.current.type != EventType.Repaint || Find.CameraDriver.CurrentZoom > CameraZoomRange.Middle)
+            return;
+        foreach (TransitionUpload u in _uploads)
+        {
+            if (!UploadVisible(u))
+                continue;
+            int left = System.Math.Max(0, (int)(UploadHours * GenDate.TicksPerHour) - (Find.TickManager.TicksGame - u.StartTick));
+            Vector2 at = (BarCenter(u.Pod) + new Vector3(0f, 0f, 0.35f)).MapToUIPosition();
+            GenMapUI.DrawThingLabel(at, "NR_UploadBarLabel".Translate(Progress(u.Pawn).ToStringPercent(), left.ToStringTicksToPeriod()),
+                new Color(0.8f, 0.65f, 1f));
+        }
     }
 
     /// <summary>The pod opened (or lost) mid-upload: a heavy Netsick, maybe death.</summary>

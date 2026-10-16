@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- A purple progress bar over every cyberpod with a colonist making the Transition, with the percent and time left when zoomed in.
 
 ## [1.1.7] - 2026-10-17
 ### Changed

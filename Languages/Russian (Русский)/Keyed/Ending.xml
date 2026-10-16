@@ -65,6 +65,7 @@
   <NR_UploadNoPower>У капсулы нет питания.</NR_UploadNoPower>
   <NR_UploadStarted>{0} начинает Переход: {1} ч в капсуле.</NR_UploadStarted>
   <NR_UploadHeat>Переход: {0}</NR_UploadHeat>
+  <NR_UploadBarLabel>Переход {0}, осталось {1}</NR_UploadBarLabel>
   <NR_UploadBrokenLabel>Переход прерван: {0}</NR_UploadBrokenLabel>
   <NR_UploadBroken>Загрузку {0} оборвали на полпути. Разум рывком вернулся в тело, которое уже наполовину покинул: тяжёлый Netsick, но жив.</NR_UploadBroken>
   <NR_UploadBrokenDeath>Загрузку {0} оборвали на полпути. Вернулась половина разума, и этого не хватило. {0} мёртв.</NR_UploadBrokenDeath>
