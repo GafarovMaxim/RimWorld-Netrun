@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Fixed
+- Mercenaries (the courier's hunters, mercenary raids, the corporate hunt for an AI) attack the colonists instead of breaching or sapping through the walls.
 
 ## [1.1.5] - 2026-10-17
 ### Changed

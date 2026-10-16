@@ -92,6 +92,20 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
         return parms.faction != null;
     }
 
+    /// <summary>
+    /// Mercenaries come to fight, not to dig: with heavy weapons and grenades the vanilla pick is often breaching or sappers,
+    /// and then they tunnel through walls and ignore the colonists.
+    /// </summary>
+    public override void ResolveRaidStrategy(IncidentParms parms, PawnGroupKindDef groupKind)
+    {
+        if (parms.raidStrategy == null)
+        {
+            RaidStrategyDef smart = DefDatabase<RaidStrategyDef>.GetNamedSilentFail("ImmediateAttackSmart");
+            parms.raidStrategy = smart != null && Rand.Chance(0.4f) ? smart : RaidStrategyDefOf.ImmediateAttack;
+        }
+        base.ResolveRaidStrategy(parms, groupKind);
+    }
+
     public override bool FactionCanBeGroupSource(Faction f, IncidentParms parms, bool desperate = false)
         => f?.def == NetrunDefOf.NR_Mercenaries;
 
