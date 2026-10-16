@@ -4,7 +4,7 @@
 
 ## 1. Готово
 - `About/About.xml`: имя, автор Raul Moreau, packageId `GafarovMaxim.HackingExpansionNetrun`, версии 1.6 и 1.7, зависимости HE, Harmony, VEF; описание обновлено под 1.1.0.
-- `About/Preview.png`: 640x360 из превью «The net terminal». Превью для страницы Workshop: 9 штук 1920x1080 в `docs/steam/previews/` (`en_*.png`, `ru_*.png`), генератор `tools/gen_steam_previews.py`.
+- `About/Preview.png`: превью v3 (640x360). `About/PublishedFileId.txt` (3819916266) привязывает загрузку к странице мода; без него RimWorld создаёт новую страницу. Превью для страницы Workshop: 9 штук 1920x1080 в `docs/steam/previews/` (`en_*.png`, `ru_*.png`), генератор `tools/gen_steam_previews.py`.
 - `CHANGELOG.md`: раздел [1.1.0] - 2026-10-16 (Added, Changed).
 - `README.md`, `README_RU.md`: версии 1.6 и 1.7, экран навигации, карта с линзами, защищённые хабы, тренировочный нырок, «Переход», наёмники Black Ledger.
 - Описание Workshop: `docs/steam/description_{en,ru}.txt` (заголовки текстом) и `description_{en,ru}_images.txt` (заголовки картинками), все меньше 8000 знаков. Добавлен раздел «Переход», метка «1.6 / 1.7» на баннере.
