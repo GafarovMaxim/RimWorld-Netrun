@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.7] - 2026-10-17
 ### Changed
 - Braindance goggles can be worn with open helmets and hats (simple, advanced and the like), but not with helmets that close the whole head (marine, cataphract, recon, phoenix and so on).
 
