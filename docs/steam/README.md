@@ -10,3 +10,6 @@
 По умолчанию скрипт ставит в `_images.txt` ссылки на файлы в GitHub по тегу релиза: `https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v<modVersion>/docs/steam/img/<имя>.png` (версия берётся из `About/About.xml`). Ссылки начинают работать, когда тег отправлен на GitHub. Другой хостинг: положить прямые ссылки в `docs/steam/urls.json` (`{"en_banner": "https://...", ...}`, ключи — имена файлов без `.png`) и запустить скрипт ещё раз.
 
 Английский вариант — основное описание. Русский можно выложить отдельным языком в Steam (у описания есть языки) или в обсуждения мода.
+
+## Превью 1920x1080
+`python tools/gen_steam_previews.py --lang ru|en [--only terminal,cyberspace,club]` собирает превью в `docs/steam/previews/` из скриншотов в папке Preview (вне репозитория) и мокапов из `docs/mockups`, `docs/ui-mockups`.
