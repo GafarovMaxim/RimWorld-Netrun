@@ -147,6 +147,7 @@ public class TransitionManager : GameComponent
             CheckRumour();
         if (_uploads.Count > 0)
             TickUploads(now);
+        CyberpodPowerCut.Check();
         if (now % 2500 == 0)
         {
             if (_labHub >= 0)

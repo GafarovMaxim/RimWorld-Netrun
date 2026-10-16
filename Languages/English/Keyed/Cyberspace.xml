@@ -123,6 +123,7 @@
   <NR_DiveExitFar>the exit is further on</NR_DiveExitFar>
   <NR_DiveLogExit>Out through the I/O port.</NR_DiveLogExit>
   <NR_DiveLogRetreat>Retreat.</NR_DiveLogRetreat>
+  <NR_DiveLogPowerCut>The pod lost power. Connection cut, the haul is lost.</NR_DiveLogPowerCut>
   <NR_DiveHeatReason>{0} dived into {1}</NR_DiveHeatReason>
   <NR_DiveDone>{0} finished the dive into {1}. Haul: {2}. Trace: +{3} Heat.</NR_DiveDone>
   <NR_DiveFailed>{0} left {1} early. Trace: +{2} Heat.</NR_DiveFailed>

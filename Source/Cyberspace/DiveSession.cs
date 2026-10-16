@@ -1112,6 +1112,15 @@ public class DiveSession : IExposable
         End(success: false, keepShare: safe ? 1f : 1f - RetreatLoss, sound: "Dive_Exit");
     }
 
+    /// <summary>The pod lost power and threw the runner out (CyberpodPowerCut): the dive fails and nothing is kept.</summary>
+    public void PowerCut()
+    {
+        if (Finished)
+            return;
+        AddLog("NR_DiveLogPowerCut".Translate().Colorize(NetrunUI.Bad));
+        End(success: false, keepShare: 0f);
+    }
+
     /// <summary>Delivers what was kept next to the pod, adds Heat and finishes the dive.</summary>
     /// <param name="sound">The pack sound for a retreat (Exit); otherwise the victory or failure sound.</param>
     private void End(bool success, float keepShare, string sound = null)

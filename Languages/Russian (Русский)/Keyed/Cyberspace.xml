@@ -123,6 +123,7 @@
   <NR_DiveExitFar>выход дальше</NR_DiveExitFar>
   <NR_DiveLogExit>Выход через порт.</NR_DiveLogExit>
   <NR_DiveLogRetreat>Отступление.</NR_DiveLogRetreat>
+  <NR_DiveLogPowerCut>Капсула обесточена. Связь оборвана, добыча потеряна.</NR_DiveLogPowerCut>
   <NR_DiveHeatReason>{0}: нырок в {1}</NR_DiveHeatReason>
   <NR_DiveDone>{0} закончил(а) нырок в {1}. Добыча: {2}. След: +{3} Heat.</NR_DiveDone>
   <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
