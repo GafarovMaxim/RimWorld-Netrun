@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- The AI server and the abandoned server are narrower from the side (front and back unchanged).
 
 ## [1.1.4] - 2026-10-16
 ### Fixed
