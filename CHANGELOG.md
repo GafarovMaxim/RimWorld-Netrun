@@ -6,6 +6,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ### Changed
 - Ending the story after the Transition shows the credits and then returns to the main menu; the credits no longer repeat the "end or play on" line.
 ### Added
+- The "Net found" window at the first entry into cyberspace is restyled as a terminal screen and lets you pick the layout template (Random, Ring, Spine, Archipelago, Metro) as well as the size; the preview lights up hub by hub from Home.
 - A cyberpod that loses power mid-Transition sends a letter and holds on reserve for 3-4 hours; restore power in time or the upload breaks and the pod throws the colonist out into a net coma with a cyberspace lockout. Finishing on reserve has a 40% chance to end the same way.
 - A progress bar in the terminal accent colour over every cyberpod with a colonist making the Transition, with the percent and time left in a framed label when zoomed in.
 

@@ -46,12 +46,21 @@
   <NR_SettingsMapSize>Cyberspace map size</NR_SettingsMapSize>
   <NR_SettingsMapSizeTip>Size of the cyberspace map in new games. The game asks again when the colony first enters the net; the layout comes from the world seed.</NR_SettingsMapSizeTip>
   <NR_NetFoundTitle>NET FOUND</NR_NetFoundTitle>
-  <NR_NetFoundIntro>The colony has found its way into the net. This world's net is laid out as a {0}. Pick its size: it stays for the whole game.</NR_NetFoundIntro>
+  <NR_NetFoundIntro>The colony has found its way into the net. Pick how this world's net is laid out and how big it is: both stay for the whole game.</NR_NetFoundIntro>
+  <NR_NetFoundStatus>handshake ok · seed {0} · first jack-in</NR_NetFoundStatus>
+  <NR_NetFoundStepLayout>01 // TEMPLATE</NR_NetFoundStepLayout>
+  <NR_NetFoundStepSize>02 // SIZE</NR_NetFoundStepSize>
+  <NR_NetFoundTag>LAYOUT // {0}</NR_NetFoundTag>
+  <NR_NetLayoutDesc_Random>The world seed decides.</NR_NetLayoutDesc_Random>
+  <NR_NetLayoutDesc_Ring>Transit hubs in a circle in the middle.</NR_NetLayoutDesc_Ring>
+  <NR_NetLayoutDesc_Spine>One transit line across the whole map.</NR_NetLayoutDesc_Spine>
+  <NR_NetLayoutDesc_Archipelago>Districts stand apart, few links between them.</NR_NetLayoutDesc_Archipelago>
+  <NR_NetLayoutDesc_Metro>A dense net with many links.</NR_NetLayoutDesc_Metro>
   <NR_NetFoundNodes>{0} hubs</NR_NetFoundNodes>
-  <NR_NetFoundStart>Enter the net</NR_NetFoundStart>
+  <NR_NetFoundStart>Jack in &gt;&gt;</NR_NetFoundStart>
   <NR_NetFoundOpen>Set up the net</NR_NetFoundOpen>
   <NR_NetFoundPrompt>The net has not been mapped yet.</NR_NetFoundPrompt>
-  <NR_NetFoundNote>The size can be changed in the mod settings for future games.</NR_NetFoundNote>
+  <NR_NetFoundNote>The defaults for future games are in the mod settings.</NR_NetFoundNote>
   <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Runners {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Runners {0}/{1}</NR_MapRunnersChip>

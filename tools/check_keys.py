@@ -91,6 +91,7 @@ DYNAMIC = {
     "NR_ScenSummary_": ["LastNode", "CorpRunaways", "PirateStudio", "FlyingNode"],
     "NR_NetSizeTip_": ["Small", "Normal", "Large"],
     "NR_NetLayout_": ["Ring", "Spine", "Archipelago", "Metro"],
+    "NR_NetLayoutDesc_": ["Random", "Ring", "Spine", "Archipelago", "Metro"],
     "NR_ClubTab_": ["Fixers", "Corps", "Crews", "Top"],
     "NR_CorpStatus_": ["Calm", "Wary", "Hunting", "Lockdown", "Expanding", "Brink"],
     "NR_CrewFocus_": ["Corps", "Markets", "Contracts", "Hunters"],

@@ -67,10 +67,14 @@ public static class CyberMapGenerator
 
     private static Dictionary<string, Vector2> C(params (string k, float x, float y)[] items) => items.ToDictionary(i => i.k, i => new Vector2(i.x, i.y));
 
-    /// <summary>The layout for this world: Ring 40%, the other three 20% each (CYBERSPACE_V2, section 10).</summary>
-    public static NetLayout LayoutFor(int seed)
+    /// <summary>
+    /// The layout for this world: Ring 40%, the other three 20% each (CYBERSPACE_V2, section 10).
+    /// <paramref name="picked"/>: a NetLayout, -1 for the seed's pick, -2 (default) for the mod setting.
+    /// </summary>
+    public static NetLayout LayoutFor(int seed, int picked = -2)
     {
-        int picked = NetrunMod.Settings.MapLayout;
+        if (picked == -2)
+            picked = NetrunMod.Settings.MapLayout;
         if (picked >= 0 && picked <= (int)NetLayout.Metro)
             return (NetLayout)picked;
         Rand.PushState(seed ^ 0x4E52);
@@ -112,9 +116,9 @@ public static class CyberMapGenerator
         return map;
     }
 
-    public static CyberMap Generate(NetSize size, int seed)
+    public static CyberMap Generate(NetSize size, int seed, int pickedLayout = -2)
     {
-        NetLayout layout = LayoutFor(seed);
+        NetLayout layout = LayoutFor(seed, pickedLayout);
         Rand.PushState(seed);
         try
         {

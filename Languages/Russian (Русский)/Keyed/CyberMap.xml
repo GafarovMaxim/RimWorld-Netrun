@@ -46,12 +46,21 @@
   <NR_SettingsMapSize>Размер карты киберпространства</NR_SettingsMapSize>
   <NR_SettingsMapSizeTip>Размер карты киберпространства в новых играх. Игра спросит ещё раз при первом входе колонии в сеть; раскладка берётся из сида мира.</NR_SettingsMapSizeTip>
   <NR_NetFoundTitle>СЕТЬ НАЙДЕНА</NR_NetFoundTitle>
-  <NR_NetFoundIntro>Колония нашла путь в сеть. Сеть этого мира устроена как «{0}». Выберите её размер: он останется на всю игру.</NR_NetFoundIntro>
+  <NR_NetFoundIntro>Колония нашла путь в сеть. Выберите, как устроена сеть этого мира и какого она размера: и то и другое останется на всю игру.</NR_NetFoundIntro>
+  <NR_NetFoundStatus>рукопожатие ок · сид {0} · первый вход</NR_NetFoundStatus>
+  <NR_NetFoundStepLayout>01 // ШАБЛОН</NR_NetFoundStepLayout>
+  <NR_NetFoundStepSize>02 // РАЗМЕР</NR_NetFoundStepSize>
+  <NR_NetFoundTag>СХЕМА // {0}</NR_NetFoundTag>
+  <NR_NetLayoutDesc_Random>Решает сид мира.</NR_NetLayoutDesc_Random>
+  <NR_NetLayoutDesc_Ring>Транзитные узлы кругом в центре.</NR_NetLayoutDesc_Ring>
+  <NR_NetLayoutDesc_Spine>Одна транзитная линия через всю карту.</NR_NetLayoutDesc_Spine>
+  <NR_NetLayoutDesc_Archipelago>Районы порознь, связей между ними мало.</NR_NetLayoutDesc_Archipelago>
+  <NR_NetLayoutDesc_Metro>Плотная сеть с множеством связей.</NR_NetLayoutDesc_Metro>
   <NR_NetFoundNodes>{0} узлов</NR_NetFoundNodes>
-  <NR_NetFoundStart>Войти в сеть</NR_NetFoundStart>
+  <NR_NetFoundStart>Подключиться &gt;&gt;</NR_NetFoundStart>
   <NR_NetFoundOpen>Настроить сеть</NR_NetFoundOpen>
   <NR_NetFoundPrompt>Сеть ещё не нанесена на карту.</NR_NetFoundPrompt>
-  <NR_NetFoundNote>Размер для будущих игр меняется в настройках мода.</NR_NetFoundNote>
+  <NR_NetFoundNote>Значения по умолчанию для будущих игр задаются в настройках мода.</NR_NetFoundNote>
   <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Раннеры {0}/{1}</NR_MapRunners>
   <NR_MapRunnersChip>Раннеры {0}/{1}</NR_MapRunnersChip>
