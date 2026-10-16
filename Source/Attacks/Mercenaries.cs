@@ -109,8 +109,11 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
     public override bool FactionCanBeGroupSource(Faction f, IncidentParms parms, bool desperate = false)
         => f?.def == NetrunDefOf.NR_Mercenaries;
 
-    /// <summary>Below this many raid points only grenadiers fit the budget, and the raid comes without guns.</summary>
-    private const float MinPoints = 300f;
+    /// <summary>
+    /// Enough for one gunner. The raid otherwise follows the storyteller's points (wealth, colonists, difficulty):
+    /// a fixed 300-point floor sent a strike team at a fresh colony that took the courier.
+    /// </summary>
+    private const float MinPoints = 90f;
 
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
