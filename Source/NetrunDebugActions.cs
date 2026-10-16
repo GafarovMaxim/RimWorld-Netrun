@@ -21,6 +21,7 @@ public static class NetrunDebugActions
     private const string AICat = "Netrun: AIs";
     private const string Fixers = "Netrun: fixers and contracts";
     private const string Events = "Netrun: events";
+    private const string Raids = "Netrun: test raids";
     private const string Spawn = "Netrun: spawn";
     private const string Tools = "Netrun: tools and achievements";
 
@@ -477,6 +478,57 @@ public static class NetrunDebugActions
         parms.forced = true;
         if (!d.Worker.TryExecute(parms))
             Messages.Message(d.defName + ": could not fire here (conditions)", MessageTypeDefOf.RejectInput, historical: false);
+    }
+
+    // ---- Test raids: no Heat, alert or hostility conditions ----
+
+    [DebugAction(Raids, "Raid: corporation...", allowedGameStates = OnMap, displayPriority = 100)]
+    private static void RaidCorp() => PickFaction(NetFactions.Corps, DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CorpRaid"));
+
+    [DebugAction(Raids, "Raid: runner crew...", allowedGameStates = OnMap, displayPriority = 90)]
+    private static void RaidCrew() => PickFaction(NetFactions.Crews, DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CrewRaid"));
+
+    [DebugAction(Raids, "Raid: mercenaries...", allowedGameStates = OnMap, displayPriority = 80)]
+    private static void RaidMercs() => PickPoints(NetrunDefOf.NR_MercRaid, null);
+
+    [DebugAction(Raids, "Raid: corporate hunt for the AI...", allowedGameStates = OnMap, displayPriority = 70)]
+    private static void RaidCorpHunt() => PickPoints(DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CorpHunt"), null);
+
+    private static void PickFaction(IEnumerable<Faction> factions, IncidentDef def)
+    {
+        var options = factions.Select(f => new FloatMenuOption(f.Name + (f.HostileTo(Faction.OfPlayer) ? "" : " (will turn hostile)"), () => PickPoints(def, f))).ToList();
+        if (options.Count == 0)
+        {
+            Messages.Message("[Netrun dev] No such faction in this game.", MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    private static void PickPoints(IncidentDef def, Faction faction)
+    {
+        if (def == null)
+            return;
+        var options = new[] { 0f, 300f, 800f, 1500f, 3000f }
+            .Select(p => new FloatMenuOption(p <= 0f ? "Storyteller points" : p + " points", () => TestRaid(def, faction, p))).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    private static void TestRaid(IncidentDef def, Faction faction, float points)
+    {
+        if (faction != null && !faction.HostileTo(Faction.OfPlayer))
+            Faction.OfPlayer.TryAffectGoodwillWith(faction, -200, canSendMessage: false, canSendHostilityLetter: false);
+        IncidentParms parms = StorytellerUtility.DefaultParmsNow(def.category, Find.CurrentMap);
+        parms.forced = true;
+        parms.faction = faction;
+        if (points > 0f)
+            parms.points = points;
+        if (!def.Worker.TryExecute(parms))
+        {
+            string why = def == NetrunDefOf.NR_MercRaid || def.defName == "NR_CorpHunt" ? (Mercenaries.Faction == null ? "no mercenary faction" : "the raid did not start") : "the raid did not start";
+            Log.Warning($"[Netrun] Test raid {def.defName}: {why}.");
+            Messages.Message($"[Netrun dev] {def.defName}: {why}", MessageTypeDefOf.RejectInput, historical: false);
+        }
     }
 
     // ---- Spawn ----

@@ -41,6 +41,8 @@
       <points>
         <li>(0,35)</li>
         <li>(70, 50)</li>
+        <!-- From 300 points (the raid's floor) a gunner fits, not only grenadiers -->
+        <li>(300, 90)</li>
         <li>(700, 100)</li>
         <li>(1300, 150)</li>
         <li>(100000, 10000)</li>
@@ -59,12 +61,13 @@
         </options>
       </li>
       <li>
-        <!-- Heavy team: breach and burn -->
+        <!-- Heavy team: breach and burn, with gunners for cover -->
         <kindDef>Combat</kindDef>
         <commonality>40</commonality>
         <options>
-          <Mercenary_Heavy>10</Mercenary_Heavy>
-          <Grenadier_Destructive>4</Grenadier_Destructive>
+          <Mercenary_Heavy>8</Mercenary_Heavy>
+          <Mercenary_Gunner>8</Mercenary_Gunner>
+          <Grenadier_Destructive>3</Grenadier_Destructive>
           <Mercenary_Elite>3</Mercenary_Elite>
         </options>
       </li>

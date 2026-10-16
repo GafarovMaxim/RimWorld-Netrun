@@ -4,7 +4,11 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 ### Added
+- Dev mode: a "Netrun: test raids" group fires a corporation, runner crew, mercenary or corporate hunt raid with no conditions, at a chosen strength.
 - Combat Extended: crew and corp raiders spawn with spare magazines (patch applies only when CE is loaded).
+
+### Changed
+- Mercenary raids and the corporate hunt for an AI bring gunners: small raids are no longer all grenadiers, and the heavy team has riflemen too.
 
 ## [1.1.1] - 2026-10-16
 ### Changed
