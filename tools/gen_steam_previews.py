@@ -277,11 +277,11 @@ def p_dlc(lang, src):
 
 
 def p_ai(lang, src):
-    return overlay(scene(src, "сетевые атаки, ии и его ивенты.jpg", crop=(280, 40, 1760, 872)), *TEXT[lang]["ai"], accent=GREEN)
+    return overlay(scene(src, "сетевые атаки, ии и его ивенты.jpg", crop=(280, 248, 1760, 1080)), *TEXT[lang]["ai"], accent=GREEN)
 
 
 def p_quests(lang, src):
-    return overlay(scene(src, "квесты.jpg", crop=(200, 0, 1720, 855)), *TEXT[lang]["quests"])
+    return overlay(scene(src, "квесты.jpg", crop=(200, 225, 1720, 1080)), *TEXT[lang]["quests"])
 
 
 def p_braindance(lang, src):
