@@ -24,12 +24,15 @@ public class TransitionUpload : IExposable
     public Pawn Pawn;
     public Building_Cyberpod Pod;
     public int StartTick;
+    /// <summary>Tick the line drops if the pod stays unpowered; -1 while it has power.</summary>
+    public int PowerDeadline = -1;
 
     public void ExposeData()
     {
         Scribe_References.Look(ref Pawn, "pawn");
         Scribe_References.Look(ref Pod, "pod");
         Scribe_Values.Look(ref StartTick, "start");
+        Scribe_Values.Look(ref PowerDeadline, "powerDeadline", -1);
     }
 }
 
@@ -81,6 +84,10 @@ public class TransitionManager : GameComponent
     public const float PurgeChance = 0.3f;
     public const float InterruptNetsick = 0.5f;
     public const float InterruptDeathChance = 0.35f;
+    /// <summary>Hours a pod holds the line on reserve after losing power (Maxim, 2026-10-17).</summary>
+    public static readonly FloatRange PowerGraceHours = new(2f, 3f);
+    /// <summary>Finishing on reserve power is a gamble: otherwise a short grace would be a free pass.</summary>
+    public const float UnpoweredFinishFailChance = 0.4f;
 
     private const int TickInterval = 250;
 
@@ -476,14 +483,50 @@ public class TransitionManager : GameComponent
                     Interrupt(u.Pawn);
                 continue;
             }
+            if (!TickPower(u, now))
+            {
+                _uploads.RemoveAt(i);
+                Interrupt(u.Pawn);
+                continue;
+            }
             if ((now - u.StartTick) % GenDate.TicksPerHour < TickInterval)
                 HeatTracker.Get()?.AddHeat(UploadHeatPerHour, "NR_UploadHeat".Translate(u.Pawn.LabelShort), HeatSource.Dive);
             if (now - u.StartTick >= UploadHours * GenDate.TicksPerHour)
             {
                 _uploads.RemoveAt(i);
-                Complete(u);
+                if (u.PowerDeadline >= 0 && Rand.Chance(UnpoweredFinishFailChance))
+                    Interrupt(u.Pawn);
+                else
+                    Complete(u);
             }
         }
+    }
+
+    /// <summary>
+    /// A pod without power warns once and holds on reserve for 2-3 hours; power back in time clears it.
+    /// Returns false when the reserve ran out and the line drops.
+    /// </summary>
+    private static bool TickPower(TransitionUpload u, int now)
+    {
+        bool powered = u.Pod.GetComp<CompPowerTrader>()?.PowerOn != false;
+        if (powered)
+        {
+            if (u.PowerDeadline >= 0)
+            {
+                u.PowerDeadline = -1;
+                Messages.Message("NR_UploadPowerBack".Translate(u.Pawn.LabelShort), u.Pod, MessageTypeDefOf.PositiveEvent);
+            }
+            return true;
+        }
+        if (u.PowerDeadline < 0)
+        {
+            int grace = (int)(PowerGraceHours.RandomInRange * GenDate.TicksPerHour);
+            u.PowerDeadline = now + grace;
+            Find.LetterStack.ReceiveLetter("NR_UploadPowerLostLabel".Translate(u.Pawn.LabelShort),
+                "NR_UploadPowerLost".Translate(u.Pawn.LabelShort, grace.ToStringTicksToPeriod()), LetterDefOf.ThreatSmall, u.Pod);
+            return true;
+        }
+        return now < u.PowerDeadline;
     }
 
     public float Progress(Pawn p)
@@ -550,7 +593,10 @@ public class TransitionManager : GameComponent
                 continue;
             int left = System.Math.Max(0, (int)(UploadHours * GenDate.TicksPerHour) - (Find.TickManager.TicksGame - u.StartTick));
             Vector2 at = (BarCenter(u.Pod) + new Vector3(0f, 0f, 0.35f)).MapToUIPosition();
-            DrawFramedLabel(at, "NR_UploadBarLabel".Translate(Progress(u.Pawn).ToStringPercent(), left.ToStringTicksToPeriod()));
+            string label = "NR_UploadBarLabel".Translate(Progress(u.Pawn).ToStringPercent(), left.ToStringTicksToPeriod());
+            if (u.PowerDeadline >= 0)
+                label += "\n" + "NR_UploadBarReserve".Translate(System.Math.Max(0, u.PowerDeadline - Find.TickManager.TicksGame).ToStringTicksToPeriod());
+            DrawFramedLabel(at, label);
         }
     }
 

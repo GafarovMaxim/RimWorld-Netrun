@@ -66,6 +66,10 @@
   <NR_UploadStarted>{0} начинает Переход: {1} ч в капсуле.</NR_UploadStarted>
   <NR_UploadHeat>Переход: {0}</NR_UploadHeat>
   <NR_UploadBarLabel>Переход {0}, осталось {1}</NR_UploadBarLabel>
+  <NR_UploadPowerLostLabel>Капсула без энергии: {0}</NR_UploadPowerLostLabel>
+  <NR_UploadPowerLost>Кибер-капсула, в которой лежит {0}, осталась без энергии. Переход идёт на резерве, и примерно через {1} связь оборвётся: верните питание до этого.\n\nЕсли загрузка закончится на резерве, она может сорваться.</NR_UploadPowerLost>
+  <NR_UploadPowerBack>Капсула {0} снова под питанием: Переход продолжается.</NR_UploadPowerBack>
+  <NR_UploadBarReserve>Нет энергии: обрыв через {0}</NR_UploadBarReserve>
   <NR_UploadBrokenLabel>Переход прерван: {0}</NR_UploadBrokenLabel>
   <NR_UploadBroken>Загрузку {0} оборвали на полпути. Разум рывком вернулся в тело, которое уже наполовину покинул: тяжёлый Netsick, но жив.</NR_UploadBroken>
   <NR_UploadBrokenDeath>Загрузку {0} оборвали на полпути. Вернулась половина разума, и этого не хватило. {0} мёртв.</NR_UploadBrokenDeath>
