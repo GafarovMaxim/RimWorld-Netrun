@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- Abandoned server site: a bigger compound with the four inside turrets in the corners, out of blast range of the server; six turrets outside on all sides; traps (hunter drones with Odyssey, otherwise IEDs) in a ring around the walls.
 
 ## [1.1.0] - 2026-10-16
 ### Added

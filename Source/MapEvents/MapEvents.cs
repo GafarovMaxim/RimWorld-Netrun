@@ -491,13 +491,14 @@ public class GenStep_DistressServer : GenStep
                 map.fogGrid.Unfog(c);
     }
 
-    private const int CompoundHalfX = 6;
-    private const int CompoundHalfZ = 5;
+    // Big enough that the inside turrets stand past their own blast radius (3.9) from the server.
+    private const int CompoundHalfX = 8;
+    private const int CompoundHalfZ = 6;
 
     /// <summary>
     /// A sealed steel compound around the server: walls, one door on the south side, a metal floor, turrets inside
-    /// and by the door (Odyssey's armored turrets when it is there, otherwise mechanoid auto mini-turrets), all hostile;
-    /// with Odyssey, a few dormant hunter drones hidden outside.
+    /// and around the outside (Odyssey's armored turrets when it is there, otherwise mechanoid auto mini-turrets), all hostile;
+    /// traps outside on every side (Odyssey's dormant hunter drones, otherwise IEDs).
     /// </summary>
     private static void BuildCompound(Map map, Thing server)
     {
@@ -529,14 +530,18 @@ public class GenStep_DistressServer : GenStep
         GenSpawn.Spawn(d, door, map);
         d.SetFaction(hostile);
 
-        // Turrets: two inside the far corners, two outside by the door.
+        // Turrets: four in the inside corners, far enough that a destroyed one does not blow up the server;
+        // six outside, two by the door and one or two on each other side.
         ThingDef turret = DefDatabase<ThingDef>.GetNamedSilentFail("Turret_AncientArmoredTurret") ?? DefDatabase<ThingDef>.GetNamedSilentFail("Turret_AutoMiniTurret");
         if (turret != null)
         {
             IntVec3[] spots =
             [
-                new(rect.minX + 2, 0, rect.maxZ - 2), new(rect.maxX - 2, 0, rect.maxZ - 2),
+                new(rect.minX + 1, 0, rect.maxZ - 1), new(rect.maxX - 1, 0, rect.maxZ - 1),
+                new(rect.minX + 1, 0, rect.minZ + 1), new(rect.maxX - 1, 0, rect.minZ + 1),
                 new(door.x - 3, 0, door.z - 3), new(door.x + 3, 0, door.z - 3),
+                new(rect.minX - 3, 0, c.z), new(rect.maxX + 3, 0, c.z),
+                new(c.x - 4, 0, rect.maxZ + 3), new(c.x + 4, 0, rect.maxZ + 3),
             ];
             foreach (IntVec3 spot in spots)
             {
@@ -548,15 +553,18 @@ public class GenStep_DistressServer : GenStep
             }
         }
 
-        // Odyssey: dormant hunter drones in the approach, never right next to each other.
-        if (ModsConfig.OdysseyActive && DefDatabase<ThingDef>.GetNamedSilentFail("HunterDroneTrap") is { } trap)
+        // Traps in a ring outside the walls, never right next to each other or to a wall.
+        ThingDef trap = (ModsConfig.OdysseyActive ? DefDatabase<ThingDef>.GetNamedSilentFail("HunterDroneTrap") : null)
+                        ?? DefDatabase<ThingDef>.GetNamedSilentFail("TrapIED_HighExplosive");
+        if (trap != null)
         {
+            CellRect inner = rect.ExpandedBy(2), outer = rect.ExpandedBy(8);
             var placed = new List<IntVec3>();
-            foreach (IntVec3 spot in GenRadial.RadialCellsAround(door, 9f, false).Where(x => x.z < door.z - 1).InRandomOrder())
+            foreach (IntVec3 spot in outer.Cells.Where(x => !inner.Contains(x)).InRandomOrder())
             {
-                if (placed.Count >= 3)
+                if (placed.Count >= 7)
                     break;
-                if (!spot.InBounds(map) || !spot.Standable(map) || spot.GetFirstBuilding(map) != null || placed.Any(p => p.DistanceTo(spot) < 3f))
+                if (!spot.InBounds(map) || !spot.Standable(map) || spot.GetFirstBuilding(map) != null || placed.Any(p => p.DistanceTo(spot) < 4f))
                     continue;
                 Thing t = ThingMaker.MakeThing(trap, trap.MadeFromStuff ? GenStuff.DefaultStuffFor(trap) : null);
                 t.SetFaction(hostile);
