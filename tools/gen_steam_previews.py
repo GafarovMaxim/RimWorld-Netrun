@@ -5,7 +5,7 @@ the corner, scanlines and a neon rule along the bottom edge.
 Sources: game screenshots from the Preview folder outside the repo (`--src`, default the Reserve path) and the frame and
 UI mockups in docs/. Writes docs/steam/previews/<lang>_<name>.png (and a 960 x 540 copy for a quick look).
 
-    python tools/gen_steam_previews.py [--lang ru|en] [--only terminal,cyberspace,club]
+    python tools/gen_steam_previews.py [--lang en|ru] [--only terminal,cyberspace,club]
 """
 import os
 import random
@@ -19,6 +19,7 @@ SRC = r"G:\Modding\RimWorld\Hacking Expansion Netrun\Preview"
 OUT = os.path.join(ROOT, "docs", "steam", "previews")
 MOCK = os.path.join(ROOT, "docs", "mockups")
 UI = os.path.join(ROOT, "docs", "ui-mockups")
+SHOTS = os.path.join(ROOT, "docs", "steam", "shots")   # in-game terminal screenshots (Maxim, 2026-10-16)
 FONT = os.path.join(ROOT, "tools", "fonts", "Tektur-Medium.ttf")
 FONT_REG = os.path.join(ROOT, "tools", "fonts", "Tektur-Regular.ttf")
 W, H = 1920, 1080
@@ -68,6 +69,27 @@ def framed(frame_name, ui_name, width):
     fr.alpha_composite(hole)
     k = width / fr.width
     return fr.resize((width, round(fr.height * k)), Image.LANCZOS)
+
+
+def shot(name, width):
+    """An in-game terminal screenshot, scaled to `width`, with the bits of map showing past the casing's rounded or cut
+    corners made transparent: each corner is flooded by similarity from its outermost pixel, within a 110 px box."""
+    img = Image.open(os.path.join(SHOTS, name + ".jpg")).convert("RGB")
+    w, h = img.size
+    alpha = np.full((h, w), 255, np.uint8)
+    n = 110
+    for cx, cy in ((0, 0), (w - 1, 0), (0, h - 1), (w - 1, h - 1)):
+        work = img.copy()
+        ImageDraw.floodfill(work, (cx, cy), (255, 0, 254), thresh=26)
+        a = np.array(work)
+        hit = (a[..., 0] == 255) & (a[..., 1] == 0) & (a[..., 2] == 254)
+        box = np.zeros_like(hit)
+        box[max(0, cy - n):cy + n, max(0, cx - n):cx + n] = True
+        if (hit & box).sum() < n * n * 0.45:   # a casing as dark as the map would flood half the box: leave it
+            alpha[hit & box] = 0
+    out = img.convert("RGBA")
+    out.putalpha(Image.fromarray(alpha).filter(ImageFilter.MinFilter(3)))
+    return out.resize((width, round(h * width / w)), Image.LANCZOS)
 
 
 def shadowed(base, img, xy, angle=0.0, glow=None):
@@ -155,7 +177,7 @@ TEXT = {
         "terminal": ("Терминал сети", [
             "Ядро, шлюз, клуб, студия и справка в одном окне.",
             "*Восемь корпусов* терминала: от корпоративного Kurenai до студии брейнданса.",
-            "Новые рамки открываются достижениями."]),
+            "Новые корпуса открываются по ходу игры."]),
         "cyberspace": ("Нырки в сеть", [
             "Нетраннер ложится в *капсулу* и уходит в киберпространство.",
             "Узлы, *ICE*, файлы и ловушки: пошаговый забег, где жадность стоит дорого."]),
@@ -168,7 +190,7 @@ TEXT = {
         "terminal": ("The net terminal", [
             "Core, gateway, club, studio and help in one window.",
             "*Eight terminal decks*, from the corporate Kurenai to a braindance studio.",
-            "New frames unlock with achievements."]),
+            "New decks unlock as you play."]),
         "cyberspace": ("Dive into the net", [
             "A netrunner lies down in a *pod* and jacks into cyberspace.",
             "Nodes, *ICE*, files and traps: a turn-based run where greed costs you."]),
@@ -182,36 +204,30 @@ TEXT = {
 
 def p_terminal(lang, src):
     img = darken(cover(Image.open(os.path.join(src, "киберпространство и нырки.jpg")).convert("RGBA")), 0.35, blur=6)
-    decks = [("48d-relic-column-v3.png", "6-contracts-board.png", 600, -4, (300, 30)),
-             ("49-studio.png", "4-club-contacts.png", 600, 4, (1010, 30)),
-             ("42d-retro.png", "10-heat-v2.png", 620, -7, (30, 220)),
-             ("38-nomad.png", "3-dive.png", 620, 6, (1250, 210)),
-             ("39-kurenai.png", "1-core-map.png", 820, 0, (550, 90))]
-    for frame, ui, width, ang, xy in decks:
-        shadowed(img, framed(frame, ui, width), xy, ang, glow=GREEN if frame.startswith("39") else None)
+    cards = [("retro_board", 600, -4, (300, 20)),
+             ("kurenai_studio", 600, 4, (1020, 20)),
+             ("nomad_heat", 600, -7, (20, 220)),
+             ("nr80_gateway", 600, 6, (1280, 200)),
+             ("street_core", 760, 0, (580, 60))]
+    for name, width, ang, xy in cards:
+        shadowed(img, shot(name, width), xy, ang, glow=GREEN if name == "street_core" else None)
     return overlay(img, *TEXT[lang]["terminal"])
 
 
 def p_cyberspace(lang, src):
-    img = cover(Image.open(os.path.join(src, "киберпространство и нырки.jpg")).convert("RGBA"))
-    img = darken(img, 0.9)
-    f = framed("46b-classic-cyberdeck.png", "3-dive.png", 620)
-    shadowed(img, f, (1250, 70), 3, glow=CYAN)
-    # a thin link from the pod to the screen
+    img = darken(cover(Image.open(os.path.join(src, "киберпространство и нырки.jpg")).convert("RGBA")), 0.9)
+    shadowed(img, shot("street_dive", 680), (1200, 60), 3, glow=CYAN)
     d = ImageDraw.Draw(img)
-    d.line([(1160, 680), (1250, 600)], fill=CYAN + (200,), width=3)
+    d.line([(1160, 680), (1235, 610)], fill=CYAN + (200,), width=3)
     d.ellipse((1150, 670, 1170, 690), outline=CYAN + (255,), width=3)
     return overlay(img, *TEXT[lang]["cyberspace"])
 
 
 def p_club(lang, src):
     img = darken(cover(Image.open(os.path.join(src, "квесты.jpg")).convert("RGBA")), 0.35, blur=8)
-    corps = window("29-club-v2.png", (20, 20, 920, 760), 760, PINK)
-    crews = window("29-club-v2.png", (960, 20, 1860, 760), 760, CYAN)
-    shadowed(img, corps, (50, 110), 4, glow=PINK)
-    shadowed(img, crews, (1110, 100), -4, glow=CYAN)
-    f = framed("38a-street-crt.png", "4-club-contacts.png", 720)
-    shadowed(img, f, (600, 40), 0, glow=GREEN)
+    shadowed(img, shot("studio_corps", 660), (40, 110), 5, glow=PINK)
+    shadowed(img, shot("studio_crews", 660), (1210, 100), -5, glow=CYAN)
+    shadowed(img, shot("studio_fixers", 760), (580, 30), 0, glow=GREEN)
     return overlay(img, *TEXT[lang]["club"])
 
 
@@ -219,7 +235,7 @@ PREVIEWS = {"terminal": p_terminal, "cyberspace": p_cyberspace, "club": p_club}
 
 
 def main():
-    lang = sys.argv[sys.argv.index("--lang") + 1] if "--lang" in sys.argv else "ru"
+    lang = sys.argv[sys.argv.index("--lang") + 1] if "--lang" in sys.argv else "en"
     src = sys.argv[sys.argv.index("--src") + 1] if "--src" in sys.argv else SRC
     only = sys.argv[sys.argv.index("--only") + 1].split(",") if "--only" in sys.argv else list(PREVIEWS)
     os.makedirs(OUT, exist_ok=True)
