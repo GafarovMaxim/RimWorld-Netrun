@@ -539,9 +539,29 @@ public class TransitionManager : GameComponent
                 continue;
             int left = System.Math.Max(0, (int)(UploadHours * GenDate.TicksPerHour) - (Find.TickManager.TicksGame - u.StartTick));
             Vector2 at = (BarCenter(u.Pod) + new Vector3(0f, 0f, 0.35f)).MapToUIPosition();
-            GenMapUI.DrawThingLabel(at, "NR_UploadBarLabel".Translate(Progress(u.Pawn).ToStringPercent(), left.ToStringTicksToPeriod()),
-                new Color(0.8f, 0.65f, 1f));
+            DrawFramedLabel(at, "NR_UploadBarLabel".Translate(Progress(u.Pawn).ToStringPercent(), left.ToStringTicksToPeriod()));
         }
+    }
+
+    private static readonly Color LabelText = new(0.8f, 0.65f, 1f);
+    private static readonly Color LabelBack = new(0.06f, 0.04f, 0.09f, 0.85f);
+    private static readonly Color LabelBorder = new(0.62f, 0.35f, 0.9f);
+
+    /// <summary>The label in a dark box with a purple outline, so it reads over any floor.</summary>
+    private static void DrawFramedLabel(Vector2 at, string text)
+    {
+        GameFont font = Text.Font;
+        TextAnchor anchor = Text.Anchor;
+        Text.Font = GameFont.Tiny;
+        Vector2 size = Text.CalcSize(text);
+        Rect box = new(at.x - size.x / 2f - 5f, at.y - size.y / 2f - 1f, size.x + 10f, size.y + 2f);
+        Widgets.DrawBoxSolidWithOutline(box, LabelBack, LabelBorder);
+        Text.Anchor = TextAnchor.MiddleCenter;
+        GUI.color = LabelText;
+        Widgets.Label(box, text);
+        GUI.color = Color.white;
+        Text.Anchor = anchor;
+        Text.Font = font;
     }
 
     /// <summary>The pod opened (or lost) mid-upload: a heavy Netsick, maybe death.</summary>
