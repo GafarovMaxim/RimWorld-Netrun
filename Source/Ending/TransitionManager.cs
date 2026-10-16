@@ -493,7 +493,13 @@ public class TransitionManager : GameComponent
     }
 
     // ---- Progress bar over the pods (Maxim, 2026-10-17: the gizmo percent alone was too easy to miss) ----
+    // Bar and label follow the terminal accent from the mod settings; materials are rebuilt only when it changes.
     private static Material _barFilled, _barEmpty;
+    private static Color _barAccent = Color.clear;
+
+    private static Color Dark(Color c, float k, float a = 1f) => new(c.r * k, c.g * k, c.b * k, a);
+
+    private static Color LabelText => Color.Lerp(NetrunTex.Accent, Color.white, 0.25f);
     private static readonly Vector2 BarSize = new(1.4f, 0.16f);
 
     private static bool UploadVisible(TransitionUpload u)
@@ -502,13 +508,18 @@ public class TransitionManager : GameComponent
     private static Vector3 BarCenter(Building_Cyberpod pod)
         => pod.DrawPos + new Vector3(0f, 0f, pod.RotatedSize.z * 0.5f + 0.2f);
 
-    /// <summary>A purple bar above every pod with a mind going out, drawn each frame like vanilla fuel bars.</summary>
+    /// <summary>A bar in the terminal accent above every pod with a mind going out, drawn each frame like vanilla fuel bars.</summary>
     public override void GameComponentUpdate()
     {
         if (_uploads.Count == 0)
             return;
-        _barFilled ??= SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.62f, 0.35f, 0.9f));
-        _barEmpty ??= SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.12f, 0.08f, 0.16f));
+        Color accent = NetrunTex.Accent;
+        if (_barFilled == null || accent != _barAccent)
+        {
+            _barAccent = accent;
+            _barFilled = SolidColorMaterials.SimpleSolidColorMaterial(accent);
+            _barEmpty = SolidColorMaterials.SimpleSolidColorMaterial(Dark(accent, 0.15f));
+        }
         foreach (TransitionUpload u in _uploads)
         {
             if (!UploadVisible(u))
@@ -543,11 +554,7 @@ public class TransitionManager : GameComponent
         }
     }
 
-    private static readonly Color LabelText = new(0.8f, 0.65f, 1f);
-    private static readonly Color LabelBack = new(0.06f, 0.04f, 0.09f, 0.85f);
-    private static readonly Color LabelBorder = new(0.62f, 0.35f, 0.9f);
-
-    /// <summary>The label in a dark box with a purple outline, so it reads over any floor.</summary>
+    /// <summary>The label in a dark box outlined in the terminal accent, so it reads over any floor.</summary>
     private static void DrawFramedLabel(Vector2 at, string text)
     {
         GameFont font = Text.Font;
@@ -555,7 +562,7 @@ public class TransitionManager : GameComponent
         Text.Font = GameFont.Tiny;
         Vector2 size = Text.CalcSize(text);
         Rect box = new(at.x - size.x / 2f - 5f, at.y - size.y / 2f - 1f, size.x + 10f, size.y + 2f);
-        Widgets.DrawBoxSolidWithOutline(box, LabelBack, LabelBorder);
+        Widgets.DrawBoxSolidWithOutline(box, Dark(NetrunTex.Accent, 0.08f, 0.85f), NetrunTex.Accent);
         Text.Anchor = TextAnchor.MiddleCenter;
         GUI.color = LabelText;
         Widgets.Label(box, text);

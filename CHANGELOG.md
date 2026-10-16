@@ -6,7 +6,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ### Changed
 - Ending the story after the Transition shows the credits and then returns to the main menu; the credits no longer repeat the "end or play on" line.
 ### Added
-- A purple progress bar over every cyberpod with a colonist making the Transition, with the percent and time left in a framed label when zoomed in.
+- A progress bar in the terminal accent colour over every cyberpod with a colonist making the Transition, with the percent and time left in a framed label when zoomed in.
 
 ## [1.1.7] - 2026-10-17
 ### Changed
