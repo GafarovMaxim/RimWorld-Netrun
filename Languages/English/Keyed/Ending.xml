@@ -67,7 +67,7 @@
   <NR_UploadHeat>The Transition of {0}</NR_UploadHeat>
   <NR_UploadBarLabel>Transition {0}, {1} left</NR_UploadBarLabel>
   <NR_UploadPowerLostLabel>Pod without power: {0}</NR_UploadPowerLostLabel>
-  <NR_UploadPowerLost>The cyberpod holding {0} lost power. The Transition runs on reserve now, and the line will drop in about {1}: restore power before then.\n\nIf the upload finishes on reserve, it may still fail.</NR_UploadPowerLost>
+  <NR_UploadPowerLost>The cyberpod holding {0} lost power. The Transition runs on reserve now, and the line will drop in about {1}: restore power before then, or the pod throws {0} out into a coma.\n\nIf the upload finishes on reserve, it may still fail.</NR_UploadPowerLost>
   <NR_UploadPowerBack>Power is back at the pod of {0}: the Transition goes on.</NR_UploadPowerBack>
   <NR_UploadBarReserve>No power: line drops in {0}</NR_UploadBarReserve>
   <NR_UploadBrokenLabel>Transition broken: {0}</NR_UploadBrokenLabel>

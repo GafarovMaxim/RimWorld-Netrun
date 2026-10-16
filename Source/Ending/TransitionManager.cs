@@ -85,7 +85,7 @@ public class TransitionManager : GameComponent
     public const float InterruptNetsick = 0.5f;
     public const float InterruptDeathChance = 0.35f;
     /// <summary>Hours a pod holds the line on reserve after losing power (Maxim, 2026-10-17).</summary>
-    public static readonly FloatRange PowerGraceHours = new(2f, 3f);
+    public static readonly FloatRange PowerGraceHours = new(3f, 4f);
     /// <summary>Finishing on reserve power is a gamble: otherwise a short grace would be a free pass.</summary>
     public const float UnpoweredFinishFailChance = 0.4f;
 
@@ -486,7 +486,7 @@ public class TransitionManager : GameComponent
             if (!TickPower(u, now))
             {
                 _uploads.RemoveAt(i);
-                Interrupt(u.Pawn);
+                PowerFailure(u);
                 continue;
             }
             if ((now - u.StartTick) % GenDate.TicksPerHour < TickInterval)
@@ -495,7 +495,7 @@ public class TransitionManager : GameComponent
             {
                 _uploads.RemoveAt(i);
                 if (u.PowerDeadline >= 0 && Rand.Chance(UnpoweredFinishFailChance))
-                    Interrupt(u.Pawn);
+                    PowerFailure(u);
                 else
                     Complete(u);
             }
@@ -625,6 +625,30 @@ public class TransitionManager : GameComponent
             return;
         _uploads.RemoveAt(at);
         Interrupt(p);
+    }
+
+    /// <summary>
+    /// The reserve ran dry: the pod spits the runner out, and a survivor lies in a net coma, locked out of cyberspace
+    /// (HE hediffs, Maxim 2026-10-17). Removed from the uploads first, so the eject patch does not interrupt twice.
+    /// </summary>
+    private static void PowerFailure(TransitionUpload u)
+    {
+        Pawn p = u.Pawn;
+        try
+        {
+            if (u.Pod is { Destroyed: false } && u.Pod.ContainedThing == p)
+                u.Pod.EjectContents();
+        }
+        catch (System.Exception e)
+        {
+            Log.ErrorOnce("[Netrun] Transition power eject failed: " + e.Message, 0x4E52540D);
+        }
+        Interrupt(p);
+        if (p.Dead)
+            return;
+        BodyPartRecord brain = p.health.hediffSet.GetBrain();
+        p.health.AddHediff(USH_DefOf.USH_CyberspaceComa, brain);
+        p.health.AddHediff(USH_DefOf.USH_CyberspaceLockOut, brain);
     }
 
     private static void Interrupt(Pawn p)
