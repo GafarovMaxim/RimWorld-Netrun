@@ -86,8 +86,10 @@
 
   <!-- The epilogue -->
   <NR_EpilogueLabel>Digital afterlife</NR_EpilogueLabel>
-  <NR_Epilogue>The colony is quiet. The pods hum, empty, and somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here, or play on: someone always wanders in to an empty base.</NR_Epilogue>
-  <NR_EpilogueSome>The upload is through. Somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}\n\nYou can end the story here with the credits, or play on with those who stayed.</NR_EpilogueSome>
+  <NR_Epilogue>The colony is quiet. The pods hum, empty, and somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}</NR_Epilogue>
+  <NR_EpilogueSome>The upload is through. Somewhere in the net a small crew keeps running, without bodies, without end.\n\nThose who crossed over:\n{0}</NR_EpilogueSome>
+  <NR_EpilogueChoice>You can end the story here, or play on: someone always wanders in to an empty base.</NR_EpilogueChoice>
+  <NR_EpilogueChoiceSome>You can end the story here with the credits, or play on with those who stayed.</NR_EpilogueChoiceSome>
   <NR_EpilogueLine>- {0}: "{1}"</NR_EpilogueLine>
   <NR_EpilogueEnd>End the story</NR_EpilogueEnd>
   <NR_EpilogueContinue>Play on</NR_EpilogueContinue>

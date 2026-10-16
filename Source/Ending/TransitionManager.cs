@@ -658,8 +658,10 @@ public class TransitionManager : GameComponent
         string list = string.Join("\n", Departed.Select(d => "NR_EpilogueLine".Translate(d.Name, d.Words).ToString()));
         string text = (empty ? "NR_Epilogue" : "NR_EpilogueSome").Translate(list);
         Find.LetterStack.ReceiveLetter("NR_EpilogueLabel".Translate(), text, LetterDefOf.PositiveEvent);
-        Find.WindowStack.Add(new Dialog_MessageBox(text, "NR_EpilogueEnd".Translate(),
-            () => GameVictoryUtility.ShowCredits(text, SongDefOf.EndCreditsSong),
+        // The choice line is for the dialog only: the credits show just the story, then go to the main menu.
+        string choice = (empty ? "NR_EpilogueChoice" : "NR_EpilogueChoiceSome").Translate();
+        Find.WindowStack.Add(new Dialog_MessageBox(text + "\n\n" + choice, "NR_EpilogueEnd".Translate(),
+            () => GameVictoryUtility.ShowCredits(text, SongDefOf.EndCreditsSong, exitToMainMenu: true),
             "NR_EpilogueContinue".Translate(), ContinueWithNewPeople, "NR_EpilogueLabel".Translate()));
     }
 
