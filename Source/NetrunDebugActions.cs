@@ -494,6 +494,19 @@ public static class NetrunDebugActions
     [DebugAction(Raids, "Raid: corporate hunt for the AI...", allowedGameStates = OnMap, displayPriority = 70)]
     private static void RaidCorpHunt() => PickPoints(DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CorpHunt"), null);
 
+    /// <summary>To the log: every hostile pawn on this map with its kind, faction, weapon, the weapon's tags and the kind's tags.</summary>
+    [DebugAction(Raids, "Raid: weapons report (log)", allowedGameStates = OnMap, displayPriority = 60)]
+    private static void RaidWeaponsReport()
+    {
+        var lines = Find.CurrentMap.mapPawns.AllPawnsSpawned.Where(p => p.RaceProps.Humanlike && p.HostileTo(Faction.OfPlayer))
+            .GroupBy(p => (p.kindDef, p.Faction, weapon: p.equipment?.Primary?.def))
+            .Select(g => $"{g.Count()}x {g.Key.kindDef.defName} [{g.Key.Faction?.def.defName}] money {g.Key.kindDef.weaponMoney} tags {string.Join(",", g.Key.kindDef.weaponTags ?? [])}"
+                         + $" -> {g.Key.weapon?.defName ?? "none"} ({g.Key.weapon?.BaseMarketValue:0}) tags {string.Join(",", g.Key.weapon?.weaponTags ?? [])}")
+            .ToList();
+        Log.Message("[Netrun] Raid weapons:\n" + string.Join("\n", lines));
+        Done(lines.Count + " groups written to the log");
+    }
+
     private static void PickFaction(IEnumerable<Faction> factions, IncidentDef def)
     {
         var options = factions.Select(f => new FloatMenuOption(f.Name + (f.HostileTo(Faction.OfPlayer) ? "" : " (will turn hostile)"), () => PickPoints(def, f))).ToList();
