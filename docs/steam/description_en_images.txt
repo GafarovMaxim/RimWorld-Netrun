@@ -84,7 +84,7 @@ A late-game ending for colonies that live in the net. It starts with a rumour in
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_customization.png[/img]
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
-[b]7 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.
+[b]8 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/en_requirements.png[/img]
 

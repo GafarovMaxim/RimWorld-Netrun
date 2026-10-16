@@ -13,3 +13,6 @@
 
 ## Превью 1920x1080
 `python tools/gen_steam_previews.py --lang ru|en [--only terminal,cyberspace,club]` собирает превью в `docs/steam/previews/` из скриншотов в папке Preview (вне репозитория) и мокапов из `docs/mockups`, `docs/ui-mockups`.
+
+## Описание из картинок (как у Vanilla Expanded)
+`python tools/gen_steam_cards.py` рисует 11 карточек `img/en_card_*.png` (заголовок раздела, скриншот, пункты) и `description_en_cards.txt`: баннер, вступление, цепочка карточек, требования и благодарности текстом (ссылки кликабельны). Ссылки на картинки берутся по тегу версии из About.xml.

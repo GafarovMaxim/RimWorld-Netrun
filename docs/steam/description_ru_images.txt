@@ -84,7 +84,7 @@
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/ru_customization.png[/img]
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
-[b]7 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.
+[b]8 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.
 
 [img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/v0.6.4/docs/steam/img/ru_requirements.png[/img]
 

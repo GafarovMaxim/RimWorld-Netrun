@@ -194,7 +194,7 @@ A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jo
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)
 [/list]""",
     "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/en_frames.png[/img]
-[b]7 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.""",
+[b]8 deck frames[/b] that react to your Heat. Accent colours, [b]5 sound packs[/b], the game music fades in the terminal. Dozens of settings for balance and difficulty.""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
 [*][url={VEF}]Vanilla Expanded Framework[/url]
@@ -263,7 +263,7 @@ RU = {
 [*][b]26 достижений[/b] с Vanilla Achievements Expanded (необязательно)
 [/list]""",
     "customization": """[img]https://raw.githubusercontent.com/GafarovMaxim/RimWorld-Netrun/dev/docs/steam/img/ru_frames.png[/img]
-[b]7 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.""",
+[b]8 рамок терминала[/b], реагируют на след. Цвета акцента, [b]5 звуковых наборов[/b], музыка игры стихает в терминале. Десятки настроек баланса и сложности.""",
     "requirements": f"""[list]
 [*][url={HARMONY}]Harmony[/url]
 [*][url={VEF}]Vanilla Expanded Framework[/url]
