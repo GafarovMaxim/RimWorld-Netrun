@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- Combat Extended: crew and corp raiders spawn with spare magazines (patch applies only when CE is loaded).
 
 ## [1.1.1] - 2026-10-16
 ### Changed

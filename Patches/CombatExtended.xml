@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Combat Extended: our crew and corp pawn kinds spawn with spare magazines, like CE's own vanilla kinds. Does nothing without CE. -->
+<Patch>
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Combat Extended</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationAddModExtension">
+          <xpath>Defs/PawnKindDef[defName="NR_CrewRunner" or defName="NR_CorpNetrunner"]</xpath>
+          <value>
+            <li Class="CombatExtended.LoadoutPropertiesExtension">
+              <primaryMagazineCount>
+                <min>2</min>
+                <max>4</max>
+              </primaryMagazineCount>
+            </li>
+          </value>
+        </li>
+        <li Class="PatchOperationAddModExtension">
+          <xpath>Defs/PawnKindDef[defName="NR_CrewMuscle" or defName="NR_CorpGuard"]</xpath>
+          <value>
+            <li Class="CombatExtended.LoadoutPropertiesExtension">
+              <primaryMagazineCount>
+                <min>3</min>
+                <max>5</max>
+              </primaryMagazineCount>
+            </li>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>
