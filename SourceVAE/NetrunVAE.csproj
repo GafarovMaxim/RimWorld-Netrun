@@ -8,7 +8,7 @@
     <Nullable>disable</Nullable>
     <AssemblyName>NetrunVAE</AssemblyName>
     <RootNamespace>NetrunVAE</RootNamespace>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
     <OutputPath>..\Optional\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <DebugType>none</DebugType>

@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.3] - 2026-10-16
 ### Fixed
 - Our factions (runner crews, corporations, mercenaries) no longer get picked for vanilla quests: they broke the Anomaly distress call and Ideology work sites.
 - Colony events (courier, black market, distress signal, network hijack) now respect their refire delay: they could repeat every few days.
