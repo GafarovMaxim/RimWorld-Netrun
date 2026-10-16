@@ -43,15 +43,18 @@ public static class CyberpodPowerCut
     {
         try
         {
+            // Eject before ending the dive: the eject patch sees the pawn still in the net, applies the jolt and sends
+            // the "pulled out" letter. A hacker is not in the net, so it gets the jolt and a message here.
+            pod.EjectContents();
             if (GatewayManager.Get()?.Session is { Finished: false } session && session.Runner == pawn)
                 session.PowerCut();
-            // In a run the eject patch applies the jolt and sends the "pulled out" letter; a hacker gets the jolt here.
-            pod.EjectContents();
             if (!inRun)
+            {
                 NetMapManager.EmergencyJolt(pawn);
+                Messages.Message("NR_PodPowerEject".Translate(pawn.LabelShort), pawn, MessageTypeDefOf.NegativeEvent);
+            }
             if (!pawn.Dead && Rand.Chance(ComaChance) && DefDatabase<HediffDef>.GetNamedSilentFail("USH_CyberspaceComa") is { } coma)
                 pawn.health.AddHediff(coma, pawn.health.hediffSet.GetBrain());
-            Messages.Message("NR_PodPowerEject".Translate(pawn.LabelShort), pawn, MessageTypeDefOf.NegativeEvent);
         }
         catch (System.Exception e)
         {
