@@ -6,7 +6,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 ### Changed
 - The data courier hides indoors, in the dining room or rec room, stays in that room and keeps out of the colony's fights, then leaves when his day is up.
 - One data courier at a time: no new offer while a courier or his hunters are still pending.
-- The courier's hunters come with small arms only (gunners, elites, snipers, slashers): grenadiers and rocket launchers come only in one hunt in ten, since they came for the courier, not to level the base.
+- The courier's hunters have their own team, mostly gunners and elites with a few grenadiers and heavies, since they came for the courier, not to level the base.
 ### Added
 - Debug actions "Net attack: hit now" (no Heat, defense or intrusion) and "Net attack: through the defenses" in Netrun: test raids.
 ### Fixed

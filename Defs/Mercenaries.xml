@@ -55,6 +55,7 @@
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
       <li>
+        <!-- The courier's hunters: mostly gunners, a few grenadiers and heavies (heavies only with enough points) -->
         <kindDef>NR_CourierHunt</kindDef>
         <commonality>100</commonality>
         <options>
