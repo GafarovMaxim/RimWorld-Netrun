@@ -6,6 +6,12 @@
     <workerClass>PawnGroupKindWorker_Normal</workerClass>
   </PawnGroupKindDef>
 
+  <!-- The courier's hunters while the raid is small (courierHuntersExplosivesPoints): small arms only -->
+  <PawnGroupKindDef>
+    <defName>NR_CourierHuntLight</defName>
+    <workerClass>PawnGroupKindWorker_Normal</workerClass>
+  </PawnGroupKindDef>
+
   <!-- Hidden mercenary faction: no settlements, comes only as raids (see Mercenaries.cs) -->
 
   <FactionDef ParentName="FactionBase">
@@ -54,6 +60,16 @@
       </points>
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
+      <li>
+        <kindDef>NR_CourierHuntLight</kindDef>
+        <commonality>100</commonality>
+        <options>
+          <Mercenary_Gunner>10</Mercenary_Gunner>
+          <Mercenary_Elite>3</Mercenary_Elite>
+          <Mercenary_Sniper>2</Mercenary_Sniper>
+          <Mercenary_Slasher>2</Mercenary_Slasher>
+        </options>
+      </li>
       <li>
         <!-- The courier's hunters: mostly gunners, a few grenadiers and heavies (heavies only with enough points) -->
         <kindDef>NR_CourierHunt</kindDef>

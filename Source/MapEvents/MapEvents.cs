@@ -14,6 +14,8 @@ public class MapEventsSettingsDef : Def
     public float courierDays = 1f;
     public IntRange courierHuntersHours = new(4, 8);
     public float courierHuntersPoints = 0.5f;
+    /// <summary>Below this many raid points the hunters bring small arms only (no grenadiers, no launchers) for a young colony.</summary>
+    public float courierHuntersExplosivesPoints = 500f;
     /// <summary>Cyberdata in the courier's pack: the colony's if the courier dies.</summary>
     public IntRange courierCyberdata = new(6, 10);
     public int courierSilver = 250;
@@ -111,7 +113,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         IncidentParms raid = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
         raid.forced = true;
         raid.points *= Settings.courierHuntersPoints;
-        raid.pawnGroupKind = NetrunDefOf.NR_CourierHunt;
+        raid.pawnGroupKind = raid.points < Settings.courierHuntersExplosivesPoints ? NetrunDefOf.NR_CourierHuntLight : NetrunDefOf.NR_CourierHunt;
         bool arrived = false;
         try
         {
@@ -140,7 +142,8 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     {
         if (_courier == null)
             return;
-        if (_courier.Dead || _courier.Downed)
+        // Only death or being carried off loses the job: a courier who falls to his wounds can be rescued and still finish it.
+        if (_courier.Dead || _courier.MapHeld == null)
         {
             HeatTracker.Get()?.AddHeat(Settings.courierFailHeat, "NR_CourierLostLog".Translate(), HeatSource.Event);
             FixerManager.Get()?.Fixers.RandomElementWithFallback()?.GainReputation(-Settings.courierFailReputation);
@@ -148,9 +151,19 @@ public class MapEventsManager : GameComponent, INetrunCleanable
             _courier = null;
             return;
         }
-        if (Find.TickManager.TicksGame < _courierUntilTick)
+        if (_courier.Downed)
             return;
+        int left = _courierUntilTick - Find.TickManager.TicksGame;
+        if (left > 0)
+        {
+            // Downed pawns drop out of their lord: back on his feet (and out of bed), the courier hides again.
+            if (_courier.Spawned && !_courier.InBed() && _courier.GetLord()?.LordJob is not LordJob_CourierHide)
+                IncidentWorker_DataCourier.Hide(_courier, left);
+            return;
+        }
 
+        if (_courier.Spawned && _courier.GetLord() == null)
+            LordMaker.MakeNewLord(_courier.Faction, new LordJob_ExitMapBest(LocomotionUrgency.Walk), _courier.Map, [_courier]);
         Map map = _courier.MapHeld ?? Find.AnyPlayerHomeMap;
         if (map != null)
         {
@@ -371,19 +384,30 @@ public class IncidentWorker_DataCourier : IncidentWorker
         return true;
     }
 
-    /// <summary>The courier lies low indoors: a cell in the dining room or rec room (Maxim, 2026-10-17); null if there is none.</summary>
+    /// <summary>
+    /// The courier lies low indoors: the dining room or rec room first, else any other room but a prison cell
+    /// (Maxim, 2026-10-17); null if there is none.
+    /// </summary>
     private static IntVec3? HidingSpot(Map map, Pawn courier)
     {
         RoomRoleDef dining = DefDatabase<RoomRoleDef>.GetNamedSilentFail("DiningRoom");
         RoomRoleDef rec = DefDatabase<RoomRoleDef>.GetNamedSilentFail("RecRoom");
-        List<Room> rooms = map.regionGrid.AllRooms.Where(r => !r.PsychologicallyOutdoors && r.Role != null && (r.Role == dining || r.Role == rec)).ToList();
-        foreach (Room room in rooms.InRandomOrder())
+        List<Room> rooms = map.regionGrid.AllRooms.Where(r => !r.PsychologicallyOutdoors && !r.IsPrisonCell && r.CellCount >= 4).ToList();
+        foreach (Room room in rooms.InRandomOrder().OrderByDescending(r => r.Role != null && (r.Role == dining || r.Role == rec)))
         {
             if (room.Cells.Where(c => c.Standable(map) && c.GetFirstBuilding(map) == null).TryRandomElement(out IntVec3 cell)
                 && map.reachability.CanReach(courier.Position, cell, PathEndMode.OnCell, TraverseParms.For(courier)))
                 return cell;
         }
         return null;
+    }
+
+    /// <summary>Puts the courier (back) under the hiding lord for the rest of his stay.</summary>
+    public static void Hide(Pawn courier, int ticks)
+    {
+        courier.GetLord()?.RemovePawn(courier);
+        IntVec3 spot = HidingSpot(courier.Map, courier) ?? DropCellFinder.TradeDropSpot(courier.Map);
+        LordMaker.MakeNewLord(courier.Faction, new LordJob_CourierHide(spot, ticks), courier.Map, [courier]);
     }
 
     /// <summary>The player took the job: the courier walks in and the hunters' clock starts.</summary>
@@ -407,8 +431,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
         data.stackCount = Settings.courierCyberdata.RandomInRange;
         courier.inventory?.TryAddItemNotForSale(data);
         GenSpawn.Spawn(courier, entry, map);
-        IntVec3 chill = HidingSpot(map, courier) ?? DropCellFinder.TradeDropSpot(map);
-        LordMaker.MakeNewLord(faction, new LordJob_CourierHide(chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
+        Hide(courier, (int)(Settings.courierDays * GenDate.TicksPerDay));
         // The hunters follow on our own clock, not the storyteller's queue (a queued raid that fails its checks is
         // dropped silently, which is how the mercenaries went missing).
         MapEventsManager.Get().StartCourier(courier, Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour);

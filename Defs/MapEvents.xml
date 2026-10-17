@@ -10,6 +10,7 @@
     <courierDays>1</courierDays>
     <courierHuntersHours>4~8</courierHuntersHours>
     <courierHuntersPoints>0.5</courierHuntersPoints>
+    <courierHuntersExplosivesPoints>500</courierHuntersExplosivesPoints>
     <courierSilver>250</courierSilver>
     <!-- Cyberdata the courier carries: it drops if the courier is killed (the job fails) -->
     <courierCyberdata>6~10</courierCyberdata>

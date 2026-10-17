@@ -68,6 +68,8 @@ public class JobGiver_CourierHide : ThinkNode_JobGiver
         Map map = pawn.Map;
         Room room = spot.GetRoom(map);
         bool indoors = room != null && !room.PsychologicallyOutdoors;
+        if (Fight(pawn, indoors ? room : null) is { } fight)
+            return fight;
         bool there = indoors ? pawn.GetRoom() == room : pawn.Position.InHorDistOf(spot, 6f);
         if (there && Rand.Chance(0.5f))
         {
@@ -88,5 +90,27 @@ public class JobGiver_CourierHide : ThinkNode_JobGiver
         Job go = JobMaker.MakeJob(JobDefOf.GotoWander, dest);
         go.locomotionUrgency = there ? LocomotionUrgency.Walk : LocomotionUrgency.Jog;
         return go;
+    }
+
+    private const float CloseRange = 5f;
+
+    /// <summary>He fights only an enemy who got into his room or right up to him (Maxim, 2026-10-17); never chases outside.</summary>
+    private static Job Fight(Pawn pawn, Room room)
+    {
+        if (pawn.WorkTagIsDisabled(WorkTags.Violent))
+            return null;
+        var target = AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToAll | TargetScanFlags.NeedThreat | TargetScanFlags.NeedAutoTargetable,
+            t => (room != null && t.GetRoom() == room) || t.Position.InHorDistOf(pawn.Position, CloseRange), 0f, 40f)?.Thing;
+        if (target == null)
+            return null;
+        Verb verb = pawn.TryGetAttackVerb(target);
+        if (verb == null)
+            return null;
+        Job job = JobMaker.MakeJob(verb.IsMeleeAttack ? JobDefOf.AttackMelee : JobDefOf.AttackStatic, target);
+        // Short jobs: the target is checked again soon, so he stops once it leaves the room.
+        job.expiryInterval = 120;
+        job.checkOverrideOnExpire = true;
+        job.endIfCantShootTargetFromCurPos = true;
+        return job;
     }
 }

@@ -3,6 +3,11 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- The data courier hides in any room (not a prison cell) when there is no dining room or rec room, and fights back against enemies who get into his room or come within 5 cells; he still never runs out to fight.
+- The courier's hunters bring small arms only while the raid is under 500 points; grenadiers and launchers join bigger hunts.
+### Fixed
+- A courier who falls to his wounds no longer counts as lost: rescue him and he hides again and finishes the job. Death or being carried off still fails it.
 
 ## [1.1.9] - 2026-10-17
 ### Changed

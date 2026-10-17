@@ -22,6 +22,7 @@ public static class NetrunDefOf
     public static DutyDef NR_CourierHide;
     public static GameConditionDef NR_GridLockdown;
     public static PawnGroupKindDef NR_CourierHunt;
+    public static PawnGroupKindDef NR_CourierHuntLight;
     public static QuestScriptDef NR_AIQuest;
     public static RankingSettingsDef NR_Ranking;
     public static IncidentDef NR_CrewRaid;
