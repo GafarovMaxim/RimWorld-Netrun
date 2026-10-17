@@ -111,6 +111,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         IncidentParms raid = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
         raid.forced = true;
         raid.points *= Settings.courierHuntersPoints;
+        raid.pawnGroupKind = NetrunDefOf.NR_CourierHunt;
         bool arrived = false;
         try
         {
