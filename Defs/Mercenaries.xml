@@ -55,24 +55,12 @@
     </maxPawnCostPerTotalPointsCurve>
     <pawnGroupMakers>
       <li>
-        <!-- The courier's hunters: they came for him, not for the base, so small arms only (no grenades, no rocket launchers) -->
         <kindDef>NR_CourierHunt</kindDef>
-        <commonality>90</commonality>
-        <options>
-          <Mercenary_Gunner>10</Mercenary_Gunner>
-          <Mercenary_Elite>4</Mercenary_Elite>
-          <Mercenary_Sniper>3</Mercenary_Sniper>
-          <Mercenary_Slasher>3</Mercenary_Slasher>
-        </options>
-      </li>
-      <li>
-        <!-- Rarely (1 hunt in 10) the hunters bring grenades and launchers along -->
-        <kindDef>NR_CourierHunt</kindDef>
-        <commonality>10</commonality>
+        <commonality>100</commonality>
         <options>
           <Mercenary_Gunner>10</Mercenary_Gunner>
           <Mercenary_Elite>3</Mercenary_Elite>
-          <Grenadier_Destructive>3</Grenadier_Destructive>
+          <Grenadier_Destructive>2</Grenadier_Destructive>
           <Mercenary_Heavy>3</Mercenary_Heavy>
         </options>
       </li>
