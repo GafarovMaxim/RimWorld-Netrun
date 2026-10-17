@@ -138,12 +138,16 @@ public class MapEventsManager : GameComponent, INetrunCleanable
             _huntersMap = null;
     }
 
+    private const int DownedGraceDays = 3;
+
     private void CheckCourier()
     {
         if (_courier == null)
             return;
-        // Only death or being carried off loses the job: a courier who falls to his wounds can be rescued and still finish it.
-        if (_courier.Dead || _courier.MapHeld == null)
+        // Death, being carried off, taken prisoner or left lying 3 days past his time loses the job: a courier who falls
+        // to his wounds can be rescued and still finish it.
+        if (_courier.Dead || _courier.MapHeld == null || _courier.IsPrisonerOfColony
+            || (_courier.Downed && Find.TickManager.TicksGame - _courierUntilTick > DownedGraceDays * GenDate.TicksPerDay))
         {
             HeatTracker.Get()?.AddHeat(Settings.courierFailHeat, "NR_CourierLostLog".Translate(), HeatSource.Event);
             FixerManager.Get()?.Fixers.RandomElementWithFallback()?.GainReputation(-Settings.courierFailReputation);
@@ -385,14 +389,15 @@ public class IncidentWorker_DataCourier : IncidentWorker
     }
 
     /// <summary>
-    /// The courier lies low indoors: the dining room or rec room first, else any other room but a prison cell
-    /// (Maxim, 2026-10-17); null if there is none.
+    /// The courier lies low indoors: the dining room or rec room first, else any other room but a prison cell, and never
+    /// one too cold or hot for him, like a freezer (Maxim, 2026-10-17); null if there is none.
     /// </summary>
     private static IntVec3? HidingSpot(Map map, Pawn courier)
     {
         RoomRoleDef dining = DefDatabase<RoomRoleDef>.GetNamedSilentFail("DiningRoom");
         RoomRoleDef rec = DefDatabase<RoomRoleDef>.GetNamedSilentFail("RecRoom");
-        List<Room> rooms = map.regionGrid.AllRooms.Where(r => !r.PsychologicallyOutdoors && !r.IsPrisonCell && r.CellCount >= 4).ToList();
+        FloatRange safe = courier.SafeTemperatureRange();
+        List<Room> rooms = map.regionGrid.AllRooms.Where(r => !r.PsychologicallyOutdoors && !r.IsPrisonCell && r.CellCount >= 4 && safe.Includes(r.Temperature)).ToList();
         foreach (Room room in rooms.InRandomOrder().OrderByDescending(r => r.Role != null && (r.Role == dining || r.Role == rec)))
         {
             if (room.Cells.Where(c => c.Standable(map) && c.GetFirstBuilding(map) == null).TryRandomElement(out IntVec3 cell)
