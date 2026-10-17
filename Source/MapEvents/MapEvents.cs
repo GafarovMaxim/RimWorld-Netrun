@@ -59,6 +59,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     private int _courierUntilTick = -1;
     private int _huntersTick = -1;
     private Map _huntersMap;
+    private int _huntersTries;
     private int _blackMarketUntilTick = -1;
     public bool BlackMarketCore;
     private List<Thing> _hijacked = [];
@@ -79,6 +80,16 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         _courierUntilTick = Find.TickManager.TicksGame + (int)(Settings.courierDays * GenDate.TicksPerDay);
         _huntersTick = Find.TickManager.TicksGame + huntersInTicks;
         _huntersMap = courier.Map;
+        _huntersTries = 0;
+        Log.Message($"[Netrun] Courier {courier.LabelShort} arrived; hunters due in {huntersInTicks.ToStringTicksToPeriod()} (tick {_huntersTick}).");
+    }
+
+    /// <summary>Dev: the hunters come at the next rare tick, on the current map if no courier is around.</summary>
+    public void DevHuntersNow()
+    {
+        _huntersTick = Find.TickManager.TicksGame;
+        _huntersMap ??= Find.CurrentMap;
+        _huntersTries = 0;
     }
 
     /// <summary>The mercenaries after the courier's data: fired directly when their time comes.</summary>
@@ -88,14 +99,37 @@ public class MapEventsManager : GameComponent, INetrunCleanable
             return;
         _huntersTick = -1;
         Map map = _huntersMap != null && Find.Maps.Contains(_huntersMap) ? _huntersMap : _courier?.MapHeld ?? Find.AnyPlayerHomeMap;
-        _huntersMap = null;
         if (map == null)
+        {
+            Log.Warning("[Netrun] The courier's hunters had no map to come to.");
+            _huntersMap = null;
             return;
+        }
         IncidentParms raid = StorytellerUtility.DefaultParmsNow(IncidentCategoryDefOf.ThreatBig, map);
         raid.forced = true;
         raid.points *= Settings.courierHuntersPoints;
-        if (!NetrunDefOf.NR_MercRaid.Worker.TryExecute(raid))
-            Log.Warning("[Netrun] The courier's hunters could not arrive: " + (Mercenaries.Faction == null ? "no mercenary faction." : "the raid did not start."));
+        bool arrived = false;
+        try
+        {
+            arrived = NetrunDefOf.NR_MercRaid.Worker.TryExecute(raid);
+        }
+        catch (System.Exception e)
+        {
+            Log.Error("[Netrun] The courier's hunters threw: " + e);
+        }
+        if (arrived)
+        {
+            Log.Message($"[Netrun] The courier's hunters arrived ({raid.points:0} points, {raid.raidStrategy?.defName}, {raid.raidArrivalMode?.defName}).");
+            _huntersMap = null;
+            return;
+        }
+        // A raid that cannot start now (no spawn spot, colonists away) tries again in an hour, three times.
+        Log.Warning($"[Netrun] The courier's hunters could not arrive (try {_huntersTries + 1}/3): faction {Mercenaries.Faction?.Name ?? "none"}, "
+                    + $"points {raid.points:0}, colonists on map {map.mapPawns.FreeColonistsSpawnedCount}.");
+        if (++_huntersTries < 3)
+            _huntersTick = Find.TickManager.TicksGame + GenDate.TicksPerHour;
+        else
+            _huntersMap = null;
     }
 
     private void CheckCourier()
@@ -276,6 +310,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
         Scribe_Values.Look(ref _huntersTick, "huntersTick", -1);
         Scribe_References.Look(ref _huntersMap, "huntersMap");
+        Scribe_Values.Look(ref _huntersTries, "huntersTries");
         Scribe_Values.Look(ref _blackMarketUntilTick, "blackMarketUntilTick", -1);
         Scribe_Defs.Look(ref BlackMarketUnique, "blackMarketUnique");
         Scribe_Collections.Look(ref _marketSold, "marketSold", LookMode.Def);
@@ -332,6 +367,21 @@ public class IncidentWorker_DataCourier : IncidentWorker
         return true;
     }
 
+    /// <summary>The courier lies low indoors: a cell in the dining room or rec room (Maxim, 2026-10-17); null if there is none.</summary>
+    private static IntVec3? HidingSpot(Map map, Pawn courier)
+    {
+        RoomRoleDef dining = DefDatabase<RoomRoleDef>.GetNamedSilentFail("DiningRoom");
+        RoomRoleDef rec = DefDatabase<RoomRoleDef>.GetNamedSilentFail("RecRoom");
+        List<Room> rooms = map.regionGrid.AllRooms.Where(r => !r.PsychologicallyOutdoors && r.Role != null && (r.Role == dining || r.Role == rec)).ToList();
+        foreach (Room room in rooms.InRandomOrder())
+        {
+            if (room.Cells.Where(c => c.Standable(map) && c.GetFirstBuilding(map) == null).TryRandomElement(out IntVec3 cell)
+                && map.reachability.CanReach(courier.Position, cell, PathEndMode.OnCell, TraverseParms.For(courier)))
+                return cell;
+        }
+        return null;
+    }
+
     /// <summary>The player took the job: the courier walks in and the hunters' clock starts.</summary>
     public static void Arrive(Map map)
     {
@@ -348,7 +398,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
         data.stackCount = Settings.courierCyberdata.RandomInRange;
         courier.inventory?.TryAddItemNotForSale(data);
         GenSpawn.Spawn(courier, entry, map);
-        IntVec3 chill = DropCellFinder.TradeDropSpot(map);
+        IntVec3 chill = HidingSpot(map, courier) ?? DropCellFinder.TradeDropSpot(map);
         LordMaker.MakeNewLord(faction, new LordJob_VisitColony(faction, chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
         // The hunters follow on our own clock, not the storyteller's queue (a queued raid that fails its checks is
         // dropped silently, which is how the mercenaries went missing).

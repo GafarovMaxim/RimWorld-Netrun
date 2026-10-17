@@ -3,6 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- The data courier waits indoors, in the dining room or rec room, instead of at the trade spot.
+### Fixed
+- The courier's hunters that cannot arrive (no spawn spot, colonists away) try again in an hour, up to three times, instead of being lost. The log now says when they are due, when they arrive and why they could not.
 
 ## [1.1.8] - 2026-10-17
 ### Changed

@@ -491,6 +491,9 @@ public static class NetrunDebugActions
     [DebugAction(Raids, "Raid: mercenaries...", allowedGameStates = OnMap, displayPriority = 80)]
     private static void RaidMercs() => PickPoints(NetrunDefOf.NR_MercRaid, null);
 
+    [DebugAction(Raids, "Raid: courier's hunters now", allowedGameStates = OnMap, displayPriority = 75)]
+    private static void RaidCourierHunters() => MapEventsManager.Get()?.DevHuntersNow();
+
     [DebugAction(Raids, "Raid: corporate hunt for the AI...", allowedGameStates = OnMap, displayPriority = 70)]
     private static void RaidCorpHunt() => PickPoints(DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CorpHunt"), null);
 
