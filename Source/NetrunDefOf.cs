@@ -1,5 +1,6 @@
 using RimWorld;
 using Verse;
+using Verse.AI;
 
 namespace Netrun;
 
@@ -18,6 +19,7 @@ public static class NetrunDefOf
     public static CorpSettingsDef NR_Corporations;
     public static LetterDef NR_ChoiceLetter;
     public static LetterDef NR_CourierOffer;
+    public static DutyDef NR_CourierHide;
     public static QuestScriptDef NR_AIQuest;
     public static RankingSettingsDef NR_Ranking;
     public static IncidentDef NR_CrewRaid;

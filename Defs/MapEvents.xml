@@ -177,4 +177,16 @@
     <arriveSound>LetterArrive_Good</arriveSound>
   </LetterDef>
 
+
+  <!-- The data courier lies low in the room he was given, out of fights (LordJob_CourierHide) -->
+  <DutyDef>
+    <defName>NR_CourierHide</defName>
+    <hook>HighPriority</hook>
+    <thinkNode Class="ThinkNode_Priority">
+      <subNodes>
+        <li Class="Netrun.JobGiver_CourierHide" />
+      </subNodes>
+    </thinkNode>
+  </DutyDef>
+
 </Defs>

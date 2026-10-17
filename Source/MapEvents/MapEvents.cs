@@ -74,6 +74,9 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
     // ---- Courier ----
 
+    /// <summary>One courier at a time: a second one would overwrite the first one's hunters (a player's report).</summary>
+    public bool CourierBusy => _courier != null || _huntersTick >= 0;
+
     public void StartCourier(Pawn courier, int huntersInTicks)
     {
         _courier = courier;
@@ -351,12 +354,12 @@ public class IncidentWorker_DataCourier : IncidentWorker
         .RandomElementWithFallback();
 
     protected override bool CanFireNowSub(IncidentParms parms)
-        => parms.target is Map && FixerManager.Get()?.Fixers.Count > 0 && CourierFaction() != null && MapEventsManager.Get() != null;
+        => parms.target is Map && FixerManager.Get()?.Fixers.Count > 0 && CourierFaction() != null && MapEventsManager.Get() is { CourierBusy: false };
 
     protected override bool TryExecuteWorker(IncidentParms parms)
     {
         var map = (Map)parms.target;
-        if (CourierFaction() == null)
+        if (CourierFaction() == null || MapEventsManager.Get() is not { CourierBusy: false })
             return false;
         var letter = (ChoiceLetter_CourierOffer)LetterMaker.MakeLetter(NetrunDefOf.NR_CourierOffer);
         letter.Label = "NR_CourierOfferLabel".Translate();
@@ -385,6 +388,11 @@ public class IncidentWorker_DataCourier : IncidentWorker
     /// <summary>The player took the job: the courier walks in and the hunters' clock starts.</summary>
     public static void Arrive(Map map)
     {
+        if (MapEventsManager.Get() is not { CourierBusy: false })
+        {
+            Messages.Message("NR_CourierBusy".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
         Faction faction = CourierFaction();
         if (map == null || faction == null || !RCellFinder.TryFindRandomPawnEntryCell(out IntVec3 entry, map, CellFinder.EdgeRoadChance_Friendly))
         {
@@ -399,7 +407,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
         courier.inventory?.TryAddItemNotForSale(data);
         GenSpawn.Spawn(courier, entry, map);
         IntVec3 chill = HidingSpot(map, courier) ?? DropCellFinder.TradeDropSpot(map);
-        LordMaker.MakeNewLord(faction, new LordJob_VisitColony(faction, chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
+        LordMaker.MakeNewLord(faction, new LordJob_CourierHide(chill, (int)(Settings.courierDays * GenDate.TicksPerDay)), map, [courier]);
         // The hunters follow on our own clock, not the storyteller's queue (a queued raid that fails its checks is
         // dropped silently, which is how the mercenaries went missing).
         MapEventsManager.Get().StartCourier(courier, Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour);

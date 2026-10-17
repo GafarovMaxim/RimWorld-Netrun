@@ -60,6 +60,9 @@ public abstract class IncidentWorker_NetAttack : IncidentWorker
 
     protected abstract bool Hit(Map map);
 
+    /// <summary>Dev: the hit itself, past Heat, isolation, intrusions and the node defense; false if there is nothing to hit.</summary>
+    public bool DevHit(Map map) => CanHit(map) && Hit(map);
+
     /// <summary>Attack strength: the type's base plus the Heat level (0-4).</summary>
     public int Strength => (def.GetModExtension<NetAttackExtension>()?.strength ?? 4) + (int)(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
 

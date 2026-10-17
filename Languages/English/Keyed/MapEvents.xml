@@ -28,5 +28,6 @@
   <NR_CourierDecline>Refuse</NR_CourierDecline>
   <NR_CourierDeclined>The courier has gone to another colony.</NR_CourierDeclined>
   <NR_CourierNoWay>The courier could not find a way to your colony.</NR_CourierNoWay>
+  <NR_CourierBusy>A courier is already under your roof: the fixer sends no second one until the first is gone and the hunters are dealt with.</NR_CourierBusy>
   <NR_StarterCrate>{0} found a hidden stash in the crate: {1} more cyberdata. A start for the net.</NR_StarterCrate>
 </LanguageData>

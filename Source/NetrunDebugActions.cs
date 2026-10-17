@@ -494,6 +494,28 @@ public static class NetrunDebugActions
     [DebugAction(Raids, "Raid: courier's hunters now", allowedGameStates = OnMap, displayPriority = 75)]
     private static void RaidCourierHunters() => MapEventsManager.Get()?.DevHuntersNow();
 
+    [DebugAction(Raids, "Net attack: hit now (no Heat, defense or intrusion)...", allowedGameStates = OnMap, displayPriority = 65)]
+    private static void NetAttackHit() => PickNetAttack(d => ((IncidentWorker_NetAttack)d.Worker).DevHit(Find.CurrentMap));
+
+    [DebugAction(Raids, "Net attack: through the defenses (no Heat)...", allowedGameStates = OnMap, displayPriority = 64)]
+    private static void NetAttackDefended() => PickNetAttack(d =>
+    {
+        IncidentParms parms = StorytellerUtility.DefaultParmsNow(d.category, Find.CurrentMap);
+        parms.forced = true;
+        return d.Worker.TryExecute(parms);
+    });
+
+    private static void PickNetAttack(System.Func<IncidentDef, bool> fire)
+    {
+        var options = DefDatabase<IncidentDef>.AllDefs.Where(d => d.Worker is IncidentWorker_NetAttack).OrderBy(d => d.defName)
+            .Select(d => new FloatMenuOption(d.LabelCap + " (" + d.defName + ")", () =>
+            {
+                if (!fire(d))
+                    Messages.Message(d.defName + ": nothing to hit here", MessageTypeDefOf.RejectInput, historical: false);
+            })).ToList();
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
     [DebugAction(Raids, "Raid: corporate hunt for the AI...", allowedGameStates = OnMap, displayPriority = 70)]
     private static void RaidCorpHunt() => PickPoints(DefDatabase<IncidentDef>.GetNamedSilentFail("NR_CorpHunt"), null);
 

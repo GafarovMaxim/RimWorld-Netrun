@@ -4,9 +4,12 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 ### Changed
-- The data courier waits indoors, in the dining room or rec room, instead of at the trade spot.
+- The data courier hides indoors, in the dining room or rec room, stays in that room and keeps out of the colony's fights, then leaves when his day is up.
+- One data courier at a time: no new offer while a courier or his hunters are still pending.
+### Added
+- Debug actions "Net attack: hit now" (no Heat, defense or intrusion) and "Net attack: through the defenses" in Netrun: test raids.
 ### Fixed
-- The courier's hunters that cannot arrive (no spawn spot, colonists away) try again in an hour, up to three times, instead of being lost. The log now says when they are due, when they arrive and why they could not.
+- The courier's hunters that cannot arrive (no spawn spot, colonists away) try again in an hour, up to three times, instead of being lost; a second courier no longer cancels the first one's hunters. The log now says when they are due, when they arrive and why they could not.
 
 ## [1.1.8] - 2026-10-17
 ### Changed
