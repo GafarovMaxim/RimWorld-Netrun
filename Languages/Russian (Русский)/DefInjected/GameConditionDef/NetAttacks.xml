@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_GridLockdown.label>блокировка энергосети</NR_GridLockdown.label>
+  <NR_GridLockdown.description>Поддельная команда контроллеру сети заблокировала энергосеть колонии. Электроприборы не работают, пока блокировка не снимется по таймеру.</NR_GridLockdown.description>
+  <NR_GridLockdown.endMessage>Блокировка энергосети снята по таймеру: электричество вернулось.</NR_GridLockdown.endMessage>
+</LanguageData>

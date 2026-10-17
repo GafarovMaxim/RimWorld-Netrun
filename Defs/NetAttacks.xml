@@ -60,6 +60,17 @@
     </modExtensions>
   </IncidentDef>
 
+  <!-- The power surge locks the colony grid down: works like a solar flare, on this map only -->
+  <GameConditionDef>
+    <defName>NR_GridLockdown</defName>
+    <conditionClass>GameCondition_DisableElectricity</conditionClass>
+    <label>grid lockdown</label>
+    <description>A forged command from the grid controller locked the colony's power grid down. No electrical device works until the lock times out.</description>
+    <endMessage>The grid lock has timed out: power is back.</endMessage>
+    <letterDef>NegativeEvent</letterDef>
+    <preventShuttleLaunch>true</preventShuttleLaunch>
+  </GameConditionDef>
+
   <IncidentDef>
     <defName>NR_NetAttack_PowerSurge</defName>
     <label>power surge</label>

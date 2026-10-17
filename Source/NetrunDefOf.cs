@@ -20,6 +20,7 @@ public static class NetrunDefOf
     public static LetterDef NR_ChoiceLetter;
     public static LetterDef NR_CourierOffer;
     public static DutyDef NR_CourierHide;
+    public static GameConditionDef NR_GridLockdown;
     public static PawnGroupKindDef NR_CourierHunt;
     public static QuestScriptDef NR_AIQuest;
     public static RankingSettingsDef NR_Ranking;

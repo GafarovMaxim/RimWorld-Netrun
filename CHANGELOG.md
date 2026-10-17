@@ -3,7 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.9] - 2026-10-17
 ### Changed
+- The "power surge" net attack also locks the colony grid down: no electricity on the map for 1.5 days (like a solar flare). It can now hit a colony without batteries.
 - The data courier hides indoors, in the dining room or rec room, stays in that room and keeps out of the colony's fights, then leaves when his day is up.
 - One data courier at a time: no new offer while a courier or his hunters are still pending.
 - The courier's hunters have their own team, mostly gunners and elites with a few grenadiers and heavies, since they came for the courier, not to level the base.

@@ -184,14 +184,16 @@ public class IncidentWorker_NetNeuralNoise : IncidentWorker_NetAttack
     }
 }
 
-/// <summary>A power surge empties the batteries.</summary>
+/// <summary>A power surge empties the batteries and locks the grid down: no electricity for 1.5 days (Maxim, 2026-10-17).</summary>
 public class IncidentWorker_NetPowerSurge : IncidentWorker_NetAttack
 {
+    private const float LockdownDays = 1.5f;
+
     private static List<CompPowerBattery> Batteries(Map map)
         => map.listerBuildings.allBuildingsColonist.Select(b => b.GetComp<CompPowerBattery>())
             .Where(b => b != null && b.StoredEnergy > 1f).ToList();
 
-    protected override bool CanHit(Map map) => Batteries(map).Count > 0;
+    protected override bool CanHit(Map map) => map.powerNetManager.AllNetsListForReading.Count > 0;
 
     protected override bool Hit(Map map)
     {
@@ -199,7 +201,13 @@ public class IncidentWorker_NetPowerSurge : IncidentWorker_NetAttack
         foreach (CompPowerBattery battery in batteries)
             battery.DrawPower(battery.StoredEnergy);
 
-        Letter(map, "NR_AttackPowerSurge".Translate(batteries.Count), new LookTargets(batteries.Select(b => b.parent)));
+        int ticks = (int)(LockdownDays * GenDate.TicksPerDay);
+        if (map.gameConditionManager.GetActiveCondition(NetrunDefOf.NR_GridLockdown) is { } active)
+            active.TicksLeft = System.Math.Max(active.TicksLeft, ticks);
+        else
+            map.gameConditionManager.RegisterCondition(GameConditionMaker.MakeCondition(NetrunDefOf.NR_GridLockdown, ticks));
+
+        Letter(map, "NR_AttackPowerSurge".Translate(batteries.Count, LockdownDays.ToString("0.#")), new LookTargets(batteries.Select(b => b.parent)));
         return true;
     }
 }
