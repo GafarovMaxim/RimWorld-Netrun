@@ -211,6 +211,7 @@
     <workerClass>RitualObligationTargetWorker_ThingDef</workerClass>
     <thingDefs>
       <li>CommsConsole</li>
+      <li MayRequire="vanillaexpanded.gravship">VGE_CommsTerminal</li>
     </thingDefs>
   </RitualObligationTargetFilterDef>
 

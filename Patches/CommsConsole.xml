@@ -9,6 +9,17 @@
     </value>
   </Operation>
 
+  <!-- Vanilla Gravship Expanded: the compact comms terminal works as a network terminal too (a player's request). -->
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="VGE_CommsTerminal"]/comps</xpath>
+    <match Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="VGE_CommsTerminal"]/comps</xpath>
+      <value>
+        <li Class="Netrun.CompProperties_NetTerminal" />
+      </value>
+    </match>
+  </Operation>
+
   <!-- Renamed: it is the colony's network console now. -->
   <Operation Class="PatchOperationReplace">
     <xpath>Defs/ThingDef[defName="CommsConsole"]/label</xpath>

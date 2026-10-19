@@ -16,10 +16,9 @@ public static class AIAwakening
         => map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer)
             .FirstOrDefault(b => b.GetComp<CompAIServer>() is { Powered: true, HasFreeSlot: true });
 
-    /// <summary>A powered network console. Only the comms console carries the terminal comp, so its def list is enough.</summary>
+    /// <summary>A powered network console: any building with the terminal comp.</summary>
     public static Building Console(Map map)
-        => map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.CommsConsole)
-            .FirstOrDefault(b => b.TryGetComp<CompNetTerminal>() != null && b.GetComp<CompPowerTrader>()?.PowerOn != false);
+        => NetTerminalUtility.Consoles(map).FirstOrDefault(b => b.GetComp<CompPowerTrader>()?.PowerOn != false);
 
     public static AcceptanceReport CanAwaken(Map map)
     {

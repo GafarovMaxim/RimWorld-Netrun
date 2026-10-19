@@ -847,7 +847,7 @@ public partial class Dialog_NetTerminal
     {
         if (step == OnboardingStep.Console)
         {
-            Building console = _map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.CommsConsole).FirstOrDefault(b => b.TryGetComp<CompNetTerminal>() != null);
+            Building console = NetTerminalUtility.Consoles(_map).FirstOrDefault();
             return "NR_OnboardingDone_Console".Translate(console?.LabelCap ?? ThingDefOf.CommsConsole.LabelCap);
         }
         return ("NR_OnboardingDone_" + step).Translate();

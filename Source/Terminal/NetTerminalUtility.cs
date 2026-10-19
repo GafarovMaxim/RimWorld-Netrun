@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -6,6 +8,14 @@ namespace Netrun;
 
 public static class NetTerminalUtility
 {
+    private static List<ThingDef> _consoleDefs;
+
+    /// <summary>Buildings with the terminal comp: the comms console, and modded ones (VGE comms terminal) via patches.</summary>
+    public static List<ThingDef> ConsoleDefs => _consoleDefs ??= DefDatabase<ThingDef>.AllDefs
+        .Where(d => d.comps?.Any(c => c is CompProperties_NetTerminal) == true).ToList();
+
+    public static IEnumerable<Building> Consoles(Map map) => ConsoleDefs.SelectMany(d => map.listerBuildings.AllBuildingsColonistOfDef(d));
+
     public static Command_Action MakeGizmo(Map map, bool powered)
     {
         var command = new Command_Action

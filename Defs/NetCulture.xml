@@ -7,7 +7,7 @@
   <IssueDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_NetCulture</defName>
     <label>net culture</label>
-    <iconPath>UI/Netrun/Cyberspace/Node_NeutralZone</iconPath>
+    <iconPath>UI/Netrun/Ideo/Issue_NetCulture</iconPath>
   </IssueDef>
 
   <HistoryEventDef MayRequire="Ludeon.RimWorld.Ideology">

@@ -141,7 +141,7 @@ public class NetworkGate : GameComponent
         HeatTracker heat = HeatTracker.Get();
         return step switch
         {
-            OnboardingStep.Console => map.listerBuildings.AllBuildingsColonistOfDef(ThingDefOf.CommsConsole).Any(b => b.TryGetComp<CompNetTerminal>() != null),
+            OnboardingStep.Console => NetTerminalUtility.Consoles(map).Any(),
             OnboardingStep.Cyberpod => DefDatabase<ThingDef>.GetNamedSilentFail("USH_Cyberpod") is { } pod && map.listerBuildings.ColonistsHaveBuilding(pod),
             OnboardingStep.Cyberlink => map.mapPawns.FreeColonists.Any(p => p.IsHacker()),
             OnboardingStep.FirstHack => heat != null && (heat.Heat > 0f || heat.Log.Count > 0),

@@ -3,6 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- Compatibility with Vanilla Gravship Expanded - Chapter 1: the compact comms terminal serves as a network terminal (terminal, AI awakening, onboarding step, console rituals).
+### Changed
+- New icon for the "net culture" ideoligion issue.
 
 ## [1.1.10] - 2026-10-17
 ### Changed
