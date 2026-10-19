@@ -13,28 +13,32 @@ namespace Netrun;
 [StaticConstructorOnStartup]
 public static class NetTerminalDefs
 {
+    /// <summary>Every def that carries the terminal comp, filled once at startup.</summary>
+    public static readonly List<ThingDef> Consoles = [];
+
     static NetTerminalDefs()
     {
         foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
         {
-            if (def.thingClass == null || !typeof(Building_CommsConsole).IsAssignableFrom(def.thingClass)
-                || def.comps?.Any(c => c is CompProperties_NetTerminal) == true)
-                continue;
-            def.comps ??= [];
-            def.comps.Add(new CompProperties_NetTerminal());
+            bool has = def.comps?.Any(c => c is CompProperties_NetTerminal) == true;
+            if (!has && def.thingClass != null && typeof(Building_CommsConsole).IsAssignableFrom(def.thingClass))
+            {
+                def.comps ??= [];
+                def.comps.Add(new CompProperties_NetTerminal());
+                has = true;
+            }
+            if (has)
+                Consoles.Add(def);
         }
+        // The console rituals take any of them (Ideology only).
+        if (DefDatabase<RitualObligationTargetFilterDef>.GetNamedSilentFail("NR_RitualTarget_Console") is { } ritualTarget)
+            ritualTarget.thingDefs = Consoles;
     }
 }
 
 public static class NetTerminalUtility
 {
-    private static List<ThingDef> _consoleDefs;
-
-    /// <summary>Buildings with the terminal comp: the comms console, and modded ones (VGE comms terminal) via patches.</summary>
-    public static List<ThingDef> ConsoleDefs => _consoleDefs ??= DefDatabase<ThingDef>.AllDefs
-        .Where(d => d.comps?.Any(c => c is CompProperties_NetTerminal) == true).ToList();
-
-    public static IEnumerable<Building> Consoles(Map map) => ConsoleDefs.SelectMany(d => map.listerBuildings.AllBuildingsColonistOfDef(d));
+    public static IEnumerable<Building> Consoles(Map map) => NetTerminalDefs.Consoles.SelectMany(d => map.listerBuildings.AllBuildingsColonistOfDef(d));
 
     public static Command_Action MakeGizmo(Map map, bool powered)
     {

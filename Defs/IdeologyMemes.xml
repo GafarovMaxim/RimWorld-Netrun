@@ -209,9 +209,9 @@
   <RitualObligationTargetFilterDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>NR_RitualTarget_Console</defName>
     <workerClass>RitualObligationTargetWorker_ThingDef</workerClass>
+    <!-- Filled in code at startup with every comms console, modded ones too (NetTerminalDefs) -->
     <thingDefs>
       <li>CommsConsole</li>
-      <li MayRequire="vanillaexpanded.gravship">VGE_CommsTerminal</li>
     </thingDefs>
   </RitualObligationTargetFilterDef>
 
