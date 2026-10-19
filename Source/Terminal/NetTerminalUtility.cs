@@ -6,6 +6,26 @@ using Verse;
 
 namespace Netrun;
 
+/// <summary>
+/// Any comms console, vanilla or from another mod (Vanilla Gravship Expanded's compact terminal and the like), doubles as
+/// the network terminal: every Building_CommsConsole def gets the terminal comp at startup, no per-mod patch needed.
+/// </summary>
+[StaticConstructorOnStartup]
+public static class NetTerminalDefs
+{
+    static NetTerminalDefs()
+    {
+        foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs)
+        {
+            if (def.thingClass == null || !typeof(Building_CommsConsole).IsAssignableFrom(def.thingClass)
+                || def.comps?.Any(c => c is CompProperties_NetTerminal) == true)
+                continue;
+            def.comps ??= [];
+            def.comps.Add(new CompProperties_NetTerminal());
+        }
+    }
+}
+
 public static class NetTerminalUtility
 {
     private static List<ThingDef> _consoleDefs;

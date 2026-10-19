@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
 
-  <!-- The vanilla comms console doubles as the network terminal. -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>Defs/ThingDef[defName="CommsConsole"]/comps</xpath>
-    <value>
-      <li Class="Netrun.CompProperties_NetTerminal" />
-    </value>
-  </Operation>
-
-  <!-- Vanilla Gravship Expanded: the compact comms terminal works as a network terminal too (a player's request). -->
-  <Operation Class="PatchOperationConditional">
-    <xpath>Defs/ThingDef[defName="VGE_CommsTerminal"]/comps</xpath>
-    <match Class="PatchOperationAdd">
-      <xpath>Defs/ThingDef[defName="VGE_CommsTerminal"]/comps</xpath>
-      <value>
-        <li Class="Netrun.CompProperties_NetTerminal" />
-      </value>
-    </match>
-  </Operation>
+  <!-- Every comms console (vanilla and modded) gets the network terminal in code: NetTerminalDefs. -->
 
   <!-- Renamed: it is the colony's network console now. -->
   <Operation Class="PatchOperationReplace">

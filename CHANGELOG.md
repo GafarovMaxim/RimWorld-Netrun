@@ -3,8 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.1.11] - 2026-10-19
 ### Added
-- Compatibility with Vanilla Gravship Expanded - Chapter 1: the compact comms terminal serves as a network terminal (terminal, AI awakening, onboarding step, console rituals).
+- Comms consoles from other mods serve as network terminals (terminal, AI awakening, onboarding step), for example the compact comms terminal from Vanilla Gravship Expanded - Chapter 1; console rituals also accept the VGE terminal.
 ### Changed
 - New icon for the "net culture" ideoligion issue.
 
