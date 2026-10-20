@@ -4,6 +4,12 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 
 ## [Unreleased]
 
+## [1.1.12] - 2026-10-20
+### Changed
+- The braindance storage category is now a subcategory of Drugs.
+### Fixed
+- The braindance category showed a missing-texture icon in the categorized resource readout.
+
 ## [1.1.11] - 2026-10-19
 ### Added
 - Comms consoles from other mods, such as the compact comms terminal from Vanilla Gravship Expanded - Chapter 1, serve as network terminals: the terminal itself, AI awakening, the onboarding step and console rituals.

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Braindance chips and recordings get their own shelf filter. -->
+  <!-- Braindance chips and recordings: their own filter under Drugs, with an icon for the categorized resource readout. -->
   <ThingCategoryDef>
     <defName>NR_Braindance</defName>
     <label>braindance</label>
-    <parent>Manufactured</parent>
+    <parent>Drugs</parent>
+    <iconPath>UI/Netrun/ThingCategories/NR_Braindance</iconPath>
   </ThingCategoryDef>
 
 </Defs>
