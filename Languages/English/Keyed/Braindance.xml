@@ -5,6 +5,12 @@
   <NR_BDRecordsRest>Other recordings in the stack ({0}):</NR_BDRecordsRest>
   <NR_BDPickNext>Choose next</NR_BDPickNext>
   <NR_BDPickNextDesc>Choose which recording of this stack is watched, sold or taken next.</NR_BDPickNextDesc>
+  <NR_BDOwn>own</NR_BDOwn>
+  <NR_BDWatchMenu>Watch...</NR_BDWatchMenu>
+  <NR_StudioShowTo>Show to...</NR_StudioShowTo>
+  <NR_StudioShowToTip>Choose a colonist to watch this recording.</NR_StudioShowToTip>
+  <NR_StudioNoViewers>No colonist can watch it now (goggles or a cyberlink needed).</NR_StudioNoViewers>
+  <NR_StudioSearch>Search by author or event</NR_StudioSearch>
   <NR_BDRecordInspect>Recorded by {0}: {1}. Mood: {2}. Quality: {3}.</NR_BDRecordInspect>
   <NR_BDMood_Bright>bright</NR_BDMood_Bright>
   <NR_BDMood_Dark>dark</NR_BDMood_Dark>

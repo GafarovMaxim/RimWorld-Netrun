@@ -8,6 +8,9 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Recorded braindance chips of one kind share a stack, like a playlist: the inspect pane lists every recording, and a button chooses which one is watched, sold or taken next.
 - Each AI archetype page in the Cyberpedia now lists what the AI gives a cyberpod from a coprocessor.
 - The AI archetype gallery card shows what the AI gives in a host and in a coprocessor.
+- Right-clicking a stack of recorded braindance chips offers "Watch...": a list of every recording in it, with the colonist's own and relatives' recordings marked and listed first.
+- The Studio library lists every recording on the map with a search line and a "Show to..." button that sends a chosen colonist to watch it.
+- Watching one's own recording or a loved one's gives a mood bonus, stronger if that person is dead.
 
 ## [1.1.12] - 2026-10-20
 ### Changed

@@ -50,6 +50,32 @@
     </stages>
   </ThoughtDef>
 
+  <!-- Watching one's own memory or a loved one's (BraindanceUtility.RelativeMemory): own, alive, dead -->
+  <ThoughtDef>
+    <defName>NR_BraindanceRelativeMemory</defName>
+    <thoughtClass>Thought_Memory</thoughtClass>
+    <durationDays>3</durationDays>
+    <stackLimit>1</stackLimit>
+    <developmentalStageFilter>Adult</developmentalStageFilter>
+    <stages>
+      <li>
+        <label>relived my own memory</label>
+        <description>I went back to a moment of my own life. It felt good to be there again.</description>
+        <baseMoodEffect>3</baseMoodEffect>
+      </li>
+      <li>
+        <label>saw through a loved one's eyes</label>
+        <description>I felt what someone close to me felt. I understand them better now.</description>
+        <baseMoodEffect>5</baseMoodEffect>
+      </li>
+      <li>
+        <label>memory of someone I lost</label>
+        <description>For a while they were alive again, and I was right there with them. It hurts, but I am grateful.</description>
+        <baseMoodEffect>8</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+
   <JobDef>
     <defName>NR_EditBraindance</defName>
     <driverClass>Netrun.JobDriver_EditBraindance</driverClass>

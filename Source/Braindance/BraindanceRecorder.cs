@@ -46,6 +46,7 @@ public class BraindanceRecorder : GameComponent, INetrunCleanable
         Thing raw = ThingMaker.MakeThing(NetrunDefOf.NR_BraindanceRaw);
         CompBraindanceRecord rec = raw.TryGetComp<CompBraindanceRecord>();
         rec.Author = pawn.LabelShort;
+        rec.AuthorId = pawn.ThingID;
         rec.Event = what;
         rec.Mood = mood;
         rec.Strength = Mathf.Clamp01(strength);

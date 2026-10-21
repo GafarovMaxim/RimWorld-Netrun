@@ -5,6 +5,12 @@
   <NR_BDRecordsRest>Другие записи в стопке ({0}):</NR_BDRecordsRest>
   <NR_BDPickNext>Выбрать следующую</NR_BDPickNext>
   <NR_BDPickNextDesc>Выбрать, какую запись из этой стопки посмотрят, продадут или заберут следующей.</NR_BDPickNextDesc>
+  <NR_BDOwn>своя</NR_BDOwn>
+  <NR_BDWatchMenu>Смотреть...</NR_BDWatchMenu>
+  <NR_StudioShowTo>Показать...</NR_StudioShowTo>
+  <NR_StudioShowToTip>Выбрать колониста, который посмотрит эту запись.</NR_StudioShowToTip>
+  <NR_StudioNoViewers>Сейчас никто из колонистов не может её посмотреть (нужны очки или кибер-линк).</NR_StudioNoViewers>
+  <NR_StudioSearch>Поиск по автору или событию</NR_StudioSearch>
   <NR_BDRecordInspect>Записал(а) {0}: {1}. Настрой: {2}. Качество: {3}.</NR_BDRecordInspect>
   <NR_BDMood_Bright>светлый</NR_BDMood_Bright>
   <NR_BDMood_Dark>тёмный</NR_BDMood_Dark>

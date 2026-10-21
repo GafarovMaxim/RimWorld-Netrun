@@ -48,6 +48,7 @@ public static class NetrunDefOf
     public static ThingDef NR_BraindanceRaw;
     public static ThingDef NR_BlackBraindanceChip;
     public static ThoughtDef NR_BraindanceGoodRecording;
+    public static ThoughtDef NR_BraindanceRelativeMemory;
     public static JobDef NR_EditBraindance;
     public static JobDef NR_EditBraindanceBatch;
     public static HediffDef NR_NeuralNoise;

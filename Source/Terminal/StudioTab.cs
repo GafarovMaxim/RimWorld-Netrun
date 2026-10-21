@@ -296,12 +296,39 @@ public static class StudioTab
 
     // ---- Library: unique recordings, then chips in storage ----
 
+    private static string _search = "";
+
+    /// <summary>
+    /// Every recording on the map, one row each (a stack of chips holds many), and plain chips one row per stack;
+    /// filtered by the search line.
+    /// </summary>
+    private static List<(Thing chip, int index, BraindanceRecordData rec)> LibraryRows(List<Thing> chips)
+    {
+        var rows = new List<(Thing, int, BraindanceRecordData)>();
+        foreach (Thing chip in chips)
+        {
+            if (chip.TryGetComp<CompBraindanceRecord>() is not { HasRecord: true } comp)
+            {
+                if (_search.NullOrEmpty())
+                    rows.Add((chip, -1, null));
+                continue;
+            }
+            List<BraindanceRecordData> all = comp.All;
+            for (int i = 0; i < all.Count; i++)
+                if (_search.NullOrEmpty() || all[i].Author?.IndexOf(_search, System.StringComparison.OrdinalIgnoreCase) >= 0
+                    || all[i].Event?.IndexOf(_search, System.StringComparison.OrdinalIgnoreCase) >= 0)
+                    rows.Add((chip, i, all[i]));
+        }
+        return rows;
+    }
+
     private static void DrawLibrary(Rect rect, Map map, List<Thing> chips, ref Vector2 scroll)
     {
         List<ThingDef> all = UniqueBraindance.All.ToList();
         UniqueBraindanceManager ub = UniqueBraindanceManager.Get();
+        List<(Thing chip, int index, BraindanceRecordData rec)> rows = LibraryRows(chips);
         float width = rect.width - 16f;
-        float height = SectionHeight + all.Count * (78f + 6f) + 16f + SectionHeight + Mathf.Max(1, chips.Count) * (RowHeight + 4f) + 10f;
+        float height = SectionHeight + all.Count * (78f + 6f) + 16f + SectionHeight + Mathf.Max(1, rows.Count) * (RowHeight + 4f) + 10f;
         var view = new Rect(0f, 0f, width, height);
         NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = 0f;
@@ -315,11 +342,21 @@ public static class StudioTab
         foreach (ThingDef def in all)
             y = UniqueRow(new Rect(0f, y, width, 78f), def, ub?.IsFound(def) == true, map) + 6f;
 
-        y = NetrunUI.Section(new Rect(0f, y + 10f, width, SectionHeight), "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)));
-        if (chips.Count == 0)
+        float headY = y + 10f;
+        y = NetrunUI.Section(new Rect(0f, headY, width, SectionHeight), "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)));
+        float sw = Mathf.Min(200f, width * 0.4f);
+        var search = new Rect(width - sw, headY + 4f, sw, 26f);
+        _search = Widgets.TextField(search, _search);
+        if (_search.NullOrEmpty() && GUI.GetNameOfFocusedControl().NullOrEmpty())
+        {
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(new Rect(search.x + 8f, search.y, search.width - 10f, search.height), ("⌕ " + "NR_StudioSearch".Translate()).Colorize(NetrunUI.Muted));
+            Text.Anchor = TextAnchor.UpperLeft;
+        }
+        if (rows.Count == 0)
             NetrunUI.EmptyState(new Rect(0f, y, width, RowHeight), NetrunUI.T("NR_StateEmpty"), NetrunUI.T("NR_StudioNoChips"), NetrunUI.Muted, center: false);
-        foreach (Thing chip in chips)
-            y = DrawChip(new Rect(0f, y, width, RowHeight), chip);
+        foreach ((Thing chip, int index, BraindanceRecordData rec) in rows)
+            y = rec == null ? DrawChip(new Rect(0f, y, width, RowHeight), chip) : DrawLibraryRecord(new Rect(0f, y, width, RowHeight), chip, index, rec, map);
         Widgets.EndScrollView();
     }
 
@@ -524,6 +561,54 @@ public static class StudioTab
         Widgets.Label(new Rect(row.x + 50f, row.y, row.width * 0.55f, row.height), chip.LabelCap.Truncate(row.width * 0.55f));
         Text.Anchor = TextAnchor.UpperLeft;
         NetrunUI.Tip(new Rect(row.x, row.y, row.width * 0.6f, row.height), chip.GetInspectString());
+        return row.yMax + 4f;
+    }
+
+    /// <summary>One recording of a chip stack with "Show to...": the colonist picked goes and watches exactly this one.</summary>
+    private static float DrawLibraryRecord(Rect row, Thing chip, int index, BraindanceRecordData rec, Map map)
+    {
+        if (OffView(row))
+            return row.yMax + 4f;
+        Color color = MoodColor(rec.Mood);
+        NetrunUI.Card(row, color);
+        GUI.DrawTexture(new Rect(row.x + 10f, row.y + 4f, 32f, 32f), chip.def.uiIcon);
+
+        string label = "NR_StudioShowTo".Translate();
+        float w = NetrunUI.ButtonWidth(label);
+        float bx = row.xMax - 8f - w;
+        if (NetrunUI.Button(new Rect(bx, row.y + 5f, w, 30f), label, NetrunUI.Accent, true, "NR_StudioShowToTip".Translate()))
+        {
+            var options = map.mapPawns.FreeColonistsSpawned.Where(p => BraindanceUtility.CanWatchChip(p, chip).Accepted)
+                .OrderBy(p => BraindanceUtility.RelationTag(p, rec) == null).ThenBy(p => p.LabelShort)
+                .Select(p =>
+                {
+                    string tag = BraindanceUtility.RelationTag(p, rec);
+                    return new FloatMenuOption(p.LabelShort + (tag != null ? " [" + tag + "]" : ""), () => BraindanceUtility.OrderWatch(p, chip, index));
+                }).ToList();
+            if (options.Count == 0)
+                options.Add(new FloatMenuOption("NR_StudioNoViewers".Translate(), null));
+            Find.WindowStack.Add(new FloatMenu(options));
+        }
+        bx -= 8f;
+
+        string mood = ((string)("NR_BDMood_" + rec.Mood).Translate()).ToUpper();
+        int tier = rec.Strength >= 0.85f ? 2 : rec.Strength >= 0.55f ? 1 : 0;
+        string quality = ((string)("NR_BDQuality_" + tier).Translate()).ToUpper();
+        Text.Font = GameFont.Tiny;
+        float qw = Text.CalcSize(quality).x + 12f, mw = Text.CalcSize(mood).x + 12f;
+        Text.Font = GameFont.Small;
+        bx -= qw;
+        NetrunUI.Chip(bx, row.y + 11f, quality, NetrunUI.Warn);
+        bx -= mw + 6f;
+        NetrunUI.Chip(bx, row.y + 11f, mood, color);
+        bx -= 8f;
+
+        float x = row.x + 50f;
+        string text = $"{rec.Author}: {rec.Event}";
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text.Truncate(Mathf.Max(0f, bx - x)));
+        Text.Anchor = TextAnchor.UpperLeft;
+        NetrunUI.Tip(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text + "\n" + chip.LabelCap);
         return row.yMax + 4f;
     }
 

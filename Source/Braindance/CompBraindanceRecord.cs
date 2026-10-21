@@ -22,6 +22,8 @@ public class CompProperties_BraindanceRecord : CompProperties
 public class BraindanceRecordData : IExposable
 {
     public string Author;
+    /// <summary>The recording colonist's ThingID, to find relatives; empty on older and outside recordings.</summary>
+    public string AuthorId;
     public string Event;
     public BraindanceMood Mood;
     public float Strength;
@@ -29,6 +31,7 @@ public class BraindanceRecordData : IExposable
     public void ExposeData()
     {
         Scribe_Values.Look(ref Author, "author");
+        Scribe_Values.Look(ref AuthorId, "authorId");
         Scribe_Values.Look(ref Event, "event");
         Scribe_Values.Look(ref Mood, "mood");
         Scribe_Values.Look(ref Strength, "strength");
@@ -44,6 +47,7 @@ public class BraindanceRecordData : IExposable
 public class CompBraindanceRecord : ThingComp
 {
     public string Author;
+    public string AuthorId;
     public string Event;
     public BraindanceMood Mood;
     public float Strength;
@@ -57,12 +61,13 @@ public class CompBraindanceRecord : ThingComp
     public void CopyFrom(CompBraindanceRecord other)
     {
         Author = other.Author;
+        AuthorId = other.AuthorId;
         Event = other.Event;
         Mood = other.Mood;
         Strength = other.Strength;
     }
 
-    private BraindanceRecordData Top => new() { Author = Author, Event = Event, Mood = Mood, Strength = Strength };
+    private BraindanceRecordData Top => new() { Author = Author, AuthorId = AuthorId, Event = Event, Mood = Mood, Strength = Strength };
 
     /// <summary>The stack's recordings, top first, trimmed or padded with copies of the top to <paramref name="count"/>.</summary>
     private List<BraindanceRecordData> Records(int count)
@@ -77,6 +82,7 @@ public class CompBraindanceRecord : ThingComp
     private void SetRecords(List<BraindanceRecordData> all)
     {
         Author = all[0].Author;
+        AuthorId = all[0].AuthorId;
         Event = all[0].Event;
         Mood = all[0].Mood;
         Strength = all[0].Strength;
@@ -140,6 +146,24 @@ public class CompBraindanceRecord : ThingComp
                + all.Skip(1).Select(Line).ToLineList("  - ");
     }
 
+    /// <summary>Moves one recording to the top: it is the next watched, sold or taken.</summary>
+    public void PutOnTop(int index)
+    {
+        List<BraindanceRecordData> all = All;
+        if (index <= 0 || index >= all.Count)
+            return;
+        BraindanceRecordData pick = all[index];
+        all.RemoveAt(index);
+        all.Insert(0, pick);
+        SetRecords(all);
+    }
+
+    public static string Line(BraindanceRecordData r, Pawn viewer)
+    {
+        string tag = viewer != null ? BraindanceUtility.RelationTag(viewer, r) : null;
+        return (tag != null ? "[" + tag + "] " : "") + Line(r);
+    }
+
     /// <summary>Pick which recording of the stack is watched, sold or taken next.</summary>
     public override IEnumerable<Gizmo> CompGetGizmosExtra()
     {
@@ -159,16 +183,7 @@ public class CompBraindanceRecord : ThingComp
                 for (int i = 1; i < all.Count; i++)
                 {
                     int index = i;
-                    options.Add(new FloatMenuOption(Line(all[i]), () =>
-                    {
-                        List<BraindanceRecordData> now = All;
-                        if (index >= now.Count)
-                            return;
-                        BraindanceRecordData pick = now[index];
-                        now.RemoveAt(index);
-                        now.Insert(0, pick);
-                        SetRecords(now);
-                    }));
+                    options.Add(new FloatMenuOption(Line(all[i]), () => PutOnTop(index)));
                 }
                 Find.WindowStack.Add(new FloatMenu(options));
             },
@@ -181,6 +196,7 @@ public class CompBraindanceRecord : ThingComp
         base.PostIngested(ingester);
         NetIdeo.Record("NR_WatchedBraindance", ingester);
         AIQuests.NotifyWatched(ingester, this);
+        BraindanceUtility.RelativeMemory(ingester, Top);
         if (QualityTier == 0 || ingester?.needs?.mood == null)
             return;
 
@@ -192,6 +208,7 @@ public class CompBraindanceRecord : ThingComp
     {
         base.PostExposeData();
         Scribe_Values.Look(ref Author, "author");
+        Scribe_Values.Look(ref AuthorId, "authorId");
         Scribe_Values.Look(ref Event, "event");
         Scribe_Values.Look(ref Mood, "mood");
         Scribe_Values.Look(ref Strength, "strength");
