@@ -108,43 +108,43 @@
   <NR_Help_AI_Archetypes.label>Архетипы ИИ</NR_Help_AI_Archetypes.label>
   <NR_Help_AI_Archetypes.body>У каждого пробуждённого ИИ один из тринадцати архетипов. Встреченные открываются здесь; остальные остаются «?», пока вы не разбудите такой ИИ. Выберите архетип, чтобы увидеть услугу и еду, и двигайте доверие: видно, когда работает услуга, когда открываются черты и когда ИИ оборачивается против вас.\n[[aigallery]]</NR_Help_AI_Archetypes.body>
   <NR_Help_AI_DataHunter.label>Архетип: Охотник за данными</NR_Help_AI_DataHunter.label>
-  <NR_Help_AI_DataHunter.body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:DataHunter}</NR_Help_AI_DataHunter.body>
+  <NR_Help_AI_DataHunter.body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:DataHunter}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:DataHunter}</NR_Help_AI_DataHunter.body>
   <NR_Help_AI_DataHunter.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_DataHunter.lockHint>
   <NR_Help_AI_Ghost.label>Архетип: Призрак</NR_Help_AI_Ghost.label>
-  <NR_Help_AI_Ghost.body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Ghost}</NR_Help_AI_Ghost.body>
+  <NR_Help_AI_Ghost.body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Ghost}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Ghost}</NR_Help_AI_Ghost.body>
   <NR_Help_AI_Ghost.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Ghost.lockHint>
   <NR_Help_AI_Muse.label>Архетип: Муза</NR_Help_AI_Muse.label>
-  <NR_Help_AI_Muse.body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Muse}</NR_Help_AI_Muse.body>
+  <NR_Help_AI_Muse.body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Muse}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Muse}</NR_Help_AI_Muse.body>
   <NR_Help_AI_Muse.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Muse.lockHint>
   <NR_Help_AI_Predator.label>Архетип: Хищник</NR_Help_AI_Predator.label>
-  <NR_Help_AI_Predator.body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Predator}</NR_Help_AI_Predator.body>
+  <NR_Help_AI_Predator.body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Predator}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Predator}</NR_Help_AI_Predator.body>
   <NR_Help_AI_Predator.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Predator.lockHint>
   <NR_Help_AI_Warden.label>Архетип: Страж</NR_Help_AI_Warden.label>
-  <NR_Help_AI_Warden.body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Warden}</NR_Help_AI_Warden.body>
+  <NR_Help_AI_Warden.body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Warden}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Warden}</NR_Help_AI_Warden.body>
   <NR_Help_AI_Warden.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Warden.lockHint>
   <NR_Help_AI_Oracle.label>Архетип: Оракул</NR_Help_AI_Oracle.label>
-  <NR_Help_AI_Oracle.body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Oracle}</NR_Help_AI_Oracle.body>
+  <NR_Help_AI_Oracle.body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Oracle}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Oracle}</NR_Help_AI_Oracle.body>
   <NR_Help_AI_Oracle.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Oracle.lockHint>
   <NR_Help_AI_Forge.label>Архетип: Кузнец</NR_Help_AI_Forge.label>
-  <NR_Help_AI_Forge.body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Forge}</NR_Help_AI_Forge.body>
+  <NR_Help_AI_Forge.body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Forge}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Forge}</NR_Help_AI_Forge.body>
   <NR_Help_AI_Forge.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Forge.lockHint>
   <NR_Help_AI_Siren.label>Архетип: Сирена</NR_Help_AI_Siren.label>
-  <NR_Help_AI_Siren.body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Siren}</NR_Help_AI_Siren.body>
+  <NR_Help_AI_Siren.body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Siren}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Siren}</NR_Help_AI_Siren.body>
   <NR_Help_AI_Siren.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Siren.lockHint>
   <NR_Help_AI_Trickster.label>Архетип: Трикстер</NR_Help_AI_Trickster.label>
-  <NR_Help_AI_Trickster.body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Trickster}</NR_Help_AI_Trickster.body>
+  <NR_Help_AI_Trickster.body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Trickster}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Trickster}</NR_Help_AI_Trickster.body>
   <NR_Help_AI_Trickster.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Trickster.lockHint>
   <NR_Help_AI_Echo.label>Архетип: Эхо</NR_Help_AI_Echo.label>
-  <NR_Help_AI_Echo.body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Echo}</NR_Help_AI_Echo.body>
+  <NR_Help_AI_Echo.body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Echo}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Echo}</NR_Help_AI_Echo.body>
   <NR_Help_AI_Echo.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Echo.lockHint>
   <NR_Help_AI_Doc.label>Архетип: Врач</NR_Help_AI_Doc.label>
-  <NR_Help_AI_Doc.body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Doc}</NR_Help_AI_Doc.body>
+  <NR_Help_AI_Doc.body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Doc}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Doc}</NR_Help_AI_Doc.body>
   <NR_Help_AI_Doc.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Doc.lockHint>
   <NR_Help_AI_Archivist.label>Архетип: Архивариус</NR_Help_AI_Archivist.label>
-  <NR_Help_AI_Archivist.body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Archivist}</NR_Help_AI_Archivist.body>
+  <NR_Help_AI_Archivist.body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Archivist}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Archivist}</NR_Help_AI_Archivist.body>
   <NR_Help_AI_Archivist.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Archivist.lockHint>
   <NR_Help_AI_Seed.label>Архетип: Зерно</NR_Help_AI_Seed.label>
-  <NR_Help_AI_Seed.body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Seed}</NR_Help_AI_Seed.body>
+  <NR_Help_AI_Seed.body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody В носителе\n{aiHost:Seed}\n## !thing:NR_NetrunCoprocessor В сопроцессоре\n{aiCoproc:Seed}</NR_Help_AI_Seed.body>
   <NR_Help_AI_Seed.lockHint>Пробудите ИИ этого архетипа, чтобы узнать о нём.</NR_Help_AI_Seed.lockHint>
   <NR_Help_Gateway.label>Киберпространство</NR_Help_Gateway.label>
   <NR_Help_Gateway.body>Киберпространство — сеть вокруг вашей колонии: узлы, соединённые связями, и у каждого узла ноды, в которые можно нырнуть. Вход из дома: колонист с кибер-линком ложится в кибер-капсулу и подключается раннером в вашем домашнем узле (или, за немного cyberdata, в точке выхода).\n## Узлы и ноды\nУзлы — перекрёстки карты, ноды висят на них: магазины, архивы, корпоративные системы. Раннер идёт от узла к узлу по связям, и это занимает игровые часы; быстрые транзитные связи короче. Раннер, стоящий в узле, сам раз в час сканирует сеть и находит скрытые ноды до двух узлов вокруг.\n[[gateway]]\n## Районы\nКарта поделена на районы: окраины, рынки, земли корпораций с их столицами, орбита и Старая сеть за Стеной. Чем дальше от дома и ближе к корпорации, тем богаче добыча и сильнее ICE.\n## Нырок\nВ ноде раннер ныряет: ступени, ворота, ICE и файлы, потом выход с добычей. Как идёт нырок, шанс взлома и след описаны на следующей странице.\n## Heat\nКаждый нырок оставляет след, а после нырка след превращается в Heat. Чем больше сеть знает о вас, тем чаще к вашим дверям приходят корпорации, команды и наёмники.\n## Кто здесь живёт\nКорпорации владеют районами и охотятся на хакеров; команды раннеров помогают или мешают; фиксеры продают работу и товары; а где-то в глубине сети спят ИИ.\n&gt; page:NR_Help_Gateway_Dive|Как идёт нырок\n&gt; page:NR_Help_Gateway_Map|Типы нод и районы\n&gt; page:NR_Help_Gateway_Ice|ICE и Black ICE\n&gt; page:NR_Help_Gateway_Effects|Что оставляет нырок\n&gt; open:Gateway|Открыть Шлюз</NR_Help_Gateway.body>

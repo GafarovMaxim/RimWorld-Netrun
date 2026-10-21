@@ -306,7 +306,7 @@
     <order>10</order>
     <color>Purple</color>
     <label>Archetype: Data Hunter</label>
-    <body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}</body>
+    <body>[[aigallery:DataHunter]]\n## !Gizmo_AI_Embody In a host\n{aiHost:DataHunter}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:DataHunter}</body>
     <icon>ai:DataHunter</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -320,7 +320,7 @@
     <order>11</order>
     <color>Purple</color>
     <label>Archetype: Ghost</label>
-    <body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}</body>
+    <body>[[aigallery:Ghost]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Ghost}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Ghost}</body>
     <icon>ai:Ghost</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -334,7 +334,7 @@
     <order>12</order>
     <color>Purple</color>
     <label>Archetype: Muse</label>
-    <body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}</body>
+    <body>[[aigallery:Muse]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Muse}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Muse}</body>
     <icon>ai:Muse</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -348,7 +348,7 @@
     <order>13</order>
     <color>Purple</color>
     <label>Archetype: Predator</label>
-    <body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}</body>
+    <body>[[aigallery:Predator]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Predator}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Predator}</body>
     <icon>ai:Predator</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -362,7 +362,7 @@
     <order>14</order>
     <color>Purple</color>
     <label>Archetype: Warden</label>
-    <body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}</body>
+    <body>[[aigallery:Warden]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Warden}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Warden}</body>
     <icon>ai:Warden</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -376,7 +376,7 @@
     <order>15</order>
     <color>Purple</color>
     <label>Archetype: Oracle</label>
-    <body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}</body>
+    <body>[[aigallery:Oracle]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Oracle}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Oracle}</body>
     <icon>ai:Oracle</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -390,7 +390,7 @@
     <order>16</order>
     <color>Purple</color>
     <label>Archetype: Forge</label>
-    <body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}</body>
+    <body>[[aigallery:Forge]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Forge}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Forge}</body>
     <icon>ai:Forge</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -404,7 +404,7 @@
     <order>17</order>
     <color>Purple</color>
     <label>Archetype: Siren</label>
-    <body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}</body>
+    <body>[[aigallery:Siren]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Siren}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Siren}</body>
     <icon>ai:Siren</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -418,7 +418,7 @@
     <order>18</order>
     <color>Purple</color>
     <label>Archetype: Trickster</label>
-    <body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}</body>
+    <body>[[aigallery:Trickster]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Trickster}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Trickster}</body>
     <icon>ai:Trickster</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -432,7 +432,7 @@
     <order>19</order>
     <color>Purple</color>
     <label>Archetype: Echo</label>
-    <body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}</body>
+    <body>[[aigallery:Echo]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Echo}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Echo}</body>
     <icon>ai:Echo</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -446,7 +446,7 @@
     <order>20</order>
     <color>Purple</color>
     <label>Archetype: Doc</label>
-    <body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}</body>
+    <body>[[aigallery:Doc]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Doc}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Doc}</body>
     <icon>ai:Doc</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -460,7 +460,7 @@
     <order>21</order>
     <color>Purple</color>
     <label>Archetype: Archivist</label>
-    <body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}</body>
+    <body>[[aigallery:Archivist]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Archivist}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Archivist}</body>
     <icon>ai:Archivist</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>
@@ -474,7 +474,7 @@
     <order>22</order>
     <color>Purple</color>
     <label>Archetype: Seed</label>
-    <body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}</body>
+    <body>[[aigallery:Seed]]\n## !Gizmo_AI_Embody In a host\n{aiHost:Seed}\n## !thing:NR_NetrunCoprocessor In a coprocessor\n{aiCoproc:Seed}</body>
     <icon>ai:Seed</icon>
     <lockedTitle>true</lockedTitle>
     <hideInTree>true</hideInTree>

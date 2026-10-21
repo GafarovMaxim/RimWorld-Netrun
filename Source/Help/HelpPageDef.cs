@@ -114,8 +114,8 @@ public class HelpPageDef : Def
         };
         foreach (KeyValuePair<string, string> kv in values)
             text = text.Replace("{" + kv.Key + "}", kv.Value);
-        // AI archetypes: {aiDesc:Ghost}, {aiService:Ghost}, {aiServiceDesc:Ghost}, {aiFood:Ghost}, {aiHost:Ghost}.
-        text = System.Text.RegularExpressions.Regex.Replace(text, @"\{ai(Desc|Service|ServiceDesc|Food|Host):(\w+)\}", m =>
+        // AI archetypes: {aiDesc:Ghost}, {aiService:Ghost}, {aiServiceDesc:Ghost}, {aiFood:Ghost}, {aiHost:Ghost}, {aiCoproc:Ghost}.
+        text = System.Text.RegularExpressions.Regex.Replace(text, @"\{ai(Desc|Service|ServiceDesc|Food|Host|Coproc):(\w+)\}", m =>
         {
             if (!System.Enum.TryParse(m.Groups[2].Value, out AIPersonality p))
                 return m.Value;
@@ -125,10 +125,25 @@ public class HelpPageDef : Def
                 "Service" => AIBehavior.ServiceLabel(p),
                 "ServiceDesc" => (string)("NR_AIServiceDesc_" + p).Translate(),
                 "Food" => AIBehavior.FoodText(p),
+                "Coproc" => CoprocessorText(p),
                 _ => StripModName(DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-"),
             };
         });
         return text;
+    }
+
+    /// <summary>What an AI of this archetype gives its cyberpod from a coprocessor, from the live numbers in CyberpodUtility.</summary>
+    private static string CoprocessorText(AIPersonality p)
+    {
+        var ai = new NetAI { Personality = p };
+        string text = "NR_HelpAICoproc".Translate(
+            ((1f - CyberpodUtility.HeatFactor(ai)) * 100f).ToString("0"),
+            (CyberpodUtility.BonusDataChance(ai) * 100f).ToString("0"),
+            ((1f - CyberpodUtility.NetsickFactor(ai)) * 100f).ToString("0"),
+            NetrunDefOf.NR_Cyberspace.coprocessorDiscount);
+        return p is AIPersonality.Ghost or AIPersonality.DataHunter or AIPersonality.Doc or AIPersonality.Warden
+            ? text + " " + "NR_HelpAICoprocBest".Translate()
+            : text;
     }
 
     /// <summary>The game adds the mod's name in italics to the end of def descriptions; the Cyberpedia does not need it.</summary>

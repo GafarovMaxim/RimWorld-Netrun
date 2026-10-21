@@ -282,4 +282,6 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AIToOtherCoprocessorTip>Move the AI straight into another free coprocessor, without going back to the server.</NR_AIToOtherCoprocessorTip>
   <NR_AICarrierMech>{0} (mechanoid)</NR_AICarrierMech>
   <NR_AICarrierMechRange>out of the mechanitor's range</NR_AICarrierMechRange>
+  <NR_HelpAICoproc>Linked to a cyberpod, it works for the netrunner inside: {0}% less Heat from the pod's hacks, +{1}% chance of extra cyberdata, {2}% slower network dependency, one more program slot in a dive and the dive costs {3} cyberdata less.</NR_HelpAICoproc>
+  <NR_HelpAICoprocBest>This archetype is especially good at it.</NR_HelpAICoprocBest>
 </LanguageData>
