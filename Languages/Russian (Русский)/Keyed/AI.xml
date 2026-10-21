@@ -284,4 +284,6 @@
   <NR_AICarrierMechRange>вне зоны управления механитора</NR_AICarrierMechRange>
   <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних cyberdata +{1}%, сетевая зависимость растёт на {2}% медленнее, в погружении на один слот программ больше, а само погружение стоит на {3} cyberdata дешевле.</NR_HelpAICoproc>
   <NR_HelpAICoprocBest>Этот архетип особенно хорош в этом.</NR_HelpAICoprocBest>
+  <NR_HelpAIInHost>В носителе</NR_HelpAIInHost>
+  <NR_HelpAIInCoproc>В сопроцессоре</NR_HelpAIInCoproc>
 </LanguageData>

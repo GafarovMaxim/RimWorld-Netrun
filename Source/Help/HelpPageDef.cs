@@ -126,14 +126,16 @@ public class HelpPageDef : Def
                 "ServiceDesc" => (string)("NR_AIServiceDesc_" + p).Translate(),
                 "Food" => AIBehavior.FoodText(p),
                 "Coproc" => CoprocessorText(p),
-                _ => StripModName(DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-"),
+                _ => HostText(p),
             };
         });
         return text;
     }
 
     /// <summary>What an AI of this archetype gives its cyberpod from a coprocessor, from the live numbers in CyberpodUtility.</summary>
-    private static string CoprocessorText(AIPersonality p)
+    public static string HostText(AIPersonality p) => StripModName(DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + p)?.description ?? "-");
+
+    public static string CoprocessorText(AIPersonality p)
     {
         var ai = new NetAI { Personality = p };
         string text = "NR_HelpAICoproc".Translate(

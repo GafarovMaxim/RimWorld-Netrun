@@ -78,6 +78,8 @@ public partial class HelpBrowser
                 float t = Mathf.Max(cr.y + 70f, Para(head, head.y + 30f, _demoAI.Description(), NetrunUI.TextColor));
                 t = KV(cr, t, "NR_HelpAIService".Translate(), AIBehavior.ServiceLabel(_demoAI) + ": " + ("NR_AIServiceDesc_" + _demoAI).Translate(), labelWidth: 110f);
                 t = KV(cr, t, "NR_HelpAIFood".Translate(), AIBehavior.FoodText(_demoAI), labelWidth: 110f);
+                t = KV(cr, t, "NR_HelpAIInHost".Translate(), HelpPageDef.HostText(_demoAI), labelWidth: 110f);
+                t = KV(cr, t, "NR_HelpAIInCoproc".Translate(), HelpPageDef.CoprocessorText(_demoAI), labelWidth: 110f);
                 t = Slider(cr, t + 8f, "NR_HelpAITrust".Translate(Mathf.RoundToInt(_demoTrust)), ref _demoTrust, 0f, 100f);
                 AISettingsDef s = NetrunDefOf.NR_AI;
                 var steps = new List<(float at, string text, bool good)>
