@@ -18,7 +18,10 @@ public class MapEventsSettingsDef : Def
     public float courierHuntersExplosivesPoints = 500f;
     /// <summary>Cyberdata in the courier's pack: the colony's if the courier dies.</summary>
     public IntRange courierCyberdata = new(6, 10);
+    /// <summary>The courier's pay: threat points times this, worth at least courierSilver and at most courierRewardMax.</summary>
     public int courierSilver = 250;
+    public float courierRewardPerPoint = 0.6f;
+    public int courierRewardMax = 3000;
     public float courierReputation = 10f;
     public float courierFailHeat = 10f;
     public float courierFailReputation = 5f;
@@ -59,6 +62,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
     private Pawn _courier;
     private int _courierUntilTick = -1;
+    private int _courierReward;
     private int _huntersTick = -1;
     private Map _huntersMap;
     private int _huntersTries;
@@ -79,9 +83,10 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     /// <summary>One courier at a time: a second one would overwrite the first one's hunters (a player's report).</summary>
     public bool CourierBusy => _courier != null || _huntersTick >= 0;
 
-    public void StartCourier(Pawn courier, int huntersInTicks)
+    public void StartCourier(Pawn courier, int huntersInTicks, int reward)
     {
         _courier = courier;
+        _courierReward = reward;
         _courierUntilTick = Find.TickManager.TicksGame + (int)(Settings.courierDays * GenDate.TicksPerDay);
         _huntersTick = Find.TickManager.TicksGame + huntersInTicks;
         _huntersMap = courier.Map;
@@ -168,18 +173,15 @@ public class MapEventsManager : GameComponent, INetrunCleanable
 
         if (_courier.Spawned && _courier.GetLord() == null)
             LordMaker.MakeNewLord(_courier.Faction, new LordJob_ExitMapBest(LocomotionUrgency.Walk), _courier.Map, [_courier]);
-        Map map = _courier.MapHeld ?? Find.AnyPlayerHomeMap;
-        if (map != null)
-        {
-            Thing silver = ThingMaker.MakeThing(ThingDefOf.Silver);
-            silver.stackCount = Settings.courierSilver;
-            DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [silver], forbid: false);
-        }
+        int reward = _courierReward > 0 ? _courierReward : Settings.courierSilver;
         Fixer fixer = FixerManager.Get()?.Fixers.RandomElementWithFallback();
         fixer?.GainReputation(Settings.courierReputation);
-        Find.LetterStack.ReceiveLetter("NR_CourierDoneLabel".Translate(),
-            "NR_CourierDone".Translate(_courier.LabelShort, Settings.courierSilver, fixer?.Name ?? "-", Settings.courierReputation.ToString("0")),
-            LetterDefOf.PositiveEvent);
+        var letter = (ChoiceLetter_CourierReward)LetterMaker.MakeLetter(NetrunDefOf.NR_CourierReward);
+        letter.Label = "NR_CourierDoneLabel".Translate();
+        letter.Text = "NR_CourierDone".Translate(_courier.LabelShort, reward, fixer?.Name ?? "-", Settings.courierReputation.ToString("0"));
+        letter.Map = _courier.MapHeld ?? Find.AnyPlayerHomeMap;
+        letter.Options = CourierReward.Roll(reward);
+        Find.LetterStack.ReceiveLetter(letter);
         _courier = null;
     }
 
@@ -329,6 +331,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         base.ExposeData();
         Scribe_References.Look(ref _courier, "courier");
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
+        Scribe_Values.Look(ref _courierReward, "courierReward");
         Scribe_Values.Look(ref _huntersTick, "huntersTick", -1);
         Scribe_References.Look(ref _huntersMap, "huntersMap");
         Scribe_Values.Look(ref _huntersTries, "huntersTries");
@@ -381,7 +384,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
             return false;
         var letter = (ChoiceLetter_CourierOffer)LetterMaker.MakeLetter(NetrunDefOf.NR_CourierOffer);
         letter.Label = "NR_CourierOfferLabel".Translate();
-        letter.Text = "NR_CourierOfferText".Translate(Settings.courierSilver, Settings.courierHuntersHours.min, Settings.courierHuntersHours.max);
+        letter.Text = "NR_CourierOfferText".Translate(CourierReward.Value(map), Settings.courierHuntersHours.min, Settings.courierHuntersHours.max);
         letter.Map = map;
         letter.StartTimeout((int)(Settings.courierOfferHours * GenDate.TicksPerHour));
         Find.LetterStack.ReceiveLetter(letter);
@@ -439,10 +442,11 @@ public class IncidentWorker_DataCourier : IncidentWorker
         Hide(courier, (int)(Settings.courierDays * GenDate.TicksPerDay));
         // The hunters follow on our own clock, not the storyteller's queue (a queued raid that fails its checks is
         // dropped silently, which is how the mercenaries went missing).
-        MapEventsManager.Get().StartCourier(courier, Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour);
+        int reward = CourierReward.Value(map);
+        MapEventsManager.Get().StartCourier(courier, Settings.courierHuntersHours.RandomInRange * GenDate.TicksPerHour, reward);
 
         HeatTracker.Get()?.Note("NR_CourierLabel".Translate(), HeatSource.Event);
-        Find.LetterStack.ReceiveLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, Settings.courierSilver, data.stackCount), LetterDefOf.NeutralEvent, courier);
+        Find.LetterStack.ReceiveLetter("NR_CourierLabel".Translate(), "NR_Courier".Translate(courier.LabelShort, reward, data.stackCount), LetterDefOf.NeutralEvent, courier);
     }
 }
 

@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- The data courier's payment grows with the colony's threat points (250 to 3000 silver worth); on completion the player picks silver, gold, a prosthetic (from any mod), exec chips or cyberdata.
 
 ## [1.1.12] - 2026-10-20
 ### Changed

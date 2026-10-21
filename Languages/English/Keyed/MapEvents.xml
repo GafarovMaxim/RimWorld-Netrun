@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_CourierLabel>Data courier</NR_CourierLabel>
-  <NR_Courier>A fixer's courier, {0}, is passing through with hot data ({2} cyberdata) and will stay for a day. Mercenaries are already on the way for it.\n\nYour choice: keep {0} on their feet and the fixer pays {1} silver and remembers it; or take the data yourself. If the courier dies, the cyberdata is yours, but the job fails, the trail leads to you and the fixers will not forget.</NR_Courier>
+  <NR_Courier>A fixer's courier, {0}, is passing through with hot data ({2} cyberdata) and will stay for a day. Mercenaries are already on the way for it.\n\nYour choice: keep {0} on their feet and the fixer pays goods worth {1} silver and remembers it; or take the data yourself. If the courier dies, the cyberdata is yours, but the job fails, the trail leads to you and the fixers will not forget.</NR_Courier>
   <NR_CourierDoneLabel>Courier safe</NR_CourierDoneLabel>
-  <NR_CourierDone>{0} left with the data. {1} silver is on its way; {2} is grateful (+{3} reputation).</NR_CourierDone>
+  <NR_CourierDone>{0} left with the data; {2} is grateful (+{3} reputation). Choose the payment, worth about {1} silver; it arrives by drop pod.</NR_CourierDone>
+  <NR_CourierRewardOption>{0} (worth {1})</NR_CourierRewardOption>
   <NR_CourierLostLabel>Courier lost</NR_CourierLostLabel>
   <NR_CourierLost>{0} did not make it. The data is gone, and the trail leads to your colony.</NR_CourierLost>
   <NR_CourierLostLog>A data courier fell</NR_CourierLostLog>
@@ -23,7 +24,7 @@
   <NR_CounterHackWon>The counter-hack worked: your turrets are online again.</NR_CounterHackWon>
   <NR_CounterHackLog>Counter-hack</NR_CounterHackLog>
   <NR_CourierOfferLabel>Courier needs shelter</NR_CourierOfferLabel>
-  <NR_CourierOfferText>A fixer asks you to shelter a data courier for a day. The courier carries hot data, and mercenaries will follow {1}-{2} hours after the courier arrives.\n\nKeep the courier alive and the fixer pays {0} silver and remembers it. Refuse and the courier goes to someone else; nothing is lost.</NR_CourierOfferText>
+  <NR_CourierOfferText>A fixer asks you to shelter a data courier for a day. The courier carries hot data, and mercenaries will follow {1}-{2} hours after the courier arrives.\n\nKeep the courier alive and the fixer pays goods worth {0} silver (silver, gold, a prosthetic, exec chips or cyberdata, of your choice) and remembers it. Refuse and the courier goes to someone else; nothing is lost.</NR_CourierOfferText>
   <NR_CourierAccept>Take the courier in</NR_CourierAccept>
   <NR_CourierDecline>Refuse</NR_CourierDecline>
   <NR_CourierDeclined>The courier has gone to another colony.</NR_CourierDeclined>

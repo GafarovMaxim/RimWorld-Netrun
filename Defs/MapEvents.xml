@@ -11,7 +11,10 @@
     <courierHuntersHours>4~8</courierHuntersHours>
     <courierHuntersPoints>0.5</courierHuntersPoints>
     <courierHuntersExplosivesPoints>500</courierHuntersExplosivesPoints>
+    <!-- The courier's pay: threat points x 0.6, between 250 and 3000 silver worth; the player picks silver, gold, a prosthetic, exec chips or cyberdata -->
     <courierSilver>250</courierSilver>
+    <courierRewardPerPoint>0.6</courierRewardPerPoint>
+    <courierRewardMax>3000</courierRewardMax>
     <!-- Cyberdata the courier carries: it drops if the courier is killed (the job fails) -->
     <courierCyberdata>6~10</courierCyberdata>
     <courierReputation>10</courierReputation>
@@ -178,6 +181,15 @@
     <arriveSound>LetterArrive_Good</arriveSound>
   </LetterDef>
 
+  <!-- The courier's job is done: pick the payment (ChoiceLetter_CourierReward) -->
+  <LetterDef>
+    <defName>NR_CourierReward</defName>
+    <letterClass>Netrun.ChoiceLetter_CourierReward</letterClass>
+    <color>(0.35, 0.8, 0.45)</color>
+    <flashColor>(0.35, 0.8, 0.45)</flashColor>
+    <flashInterval>90</flashInterval>
+    <arriveSound>LetterArrive_Good</arriveSound>
+  </LetterDef>
 
   <!-- The data courier lies low in the room he was given, out of fights (LordJob_CourierHide) -->
   <DutyDef>
