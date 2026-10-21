@@ -13,6 +13,9 @@
   <NR_StudioTab_Summary>Summary</NR_StudioTab_Summary>
   <NR_StudioTab_Raw>Raw recordings</NR_StudioTab_Raw>
   <NR_StudioTab_Library>Library</NR_StudioTab_Library>
+  <NR_StudioTab_Rare>Rare</NR_StudioTab_Rare>
+  <NR_StudioInfoLibTitle>Chips in storage</NR_StudioInfoLibTitle>
+  <NR_StudioInfoLib>One line per recording: a stack of chips holds many.\nSearch by the author or the event.\n"Show to..." sends a colonist to watch exactly that recording; relatives of the author are listed first.\nWatching one's own memory or a loved one's lifts the mood, more so if they are dead.</NR_StudioInfoLib>
   <NR_StudioTab_Addiction>Addiction</NR_StudioTab_Addiction>
   <NR_StudioTileGoggles>Goggles</NR_StudioTileGoggles>
   <NR_StudioTileRaw>Raw</NR_StudioTileRaw>

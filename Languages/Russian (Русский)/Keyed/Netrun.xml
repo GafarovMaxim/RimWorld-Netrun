@@ -151,7 +151,6 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpTraceStealth>Программа «Невидимка» или демон «Призрак» (след ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>Этот тип ноды умножает след на {0}. Кибер-капсула с ИИ-сопроцессором снижает его ещё.</NR_HelpTraceNote>
   <NR_HelpAIUnknown>Вы ещё не встречали этот архетип. Пробудите такой ИИ, чтобы увидеть его карточку.</NR_HelpAIUnknown>
-  <NR_HelpAIService>Услуга</NR_HelpAIService>
   <NR_HelpAIFood>Еда</NR_HelpAIFood>
   <NR_HelpAITrust>Доверие: {0} (двигайте, чтобы увидеть, что открывается)</NR_HelpAITrust>
   <NR_HelpAITrustBetray>Ниже {0}: сдаёт колонию и уходит.</NR_HelpAITrustBetray>

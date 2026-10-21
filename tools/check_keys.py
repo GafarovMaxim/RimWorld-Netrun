@@ -64,7 +64,7 @@ DYNAMIC = {
     "NR_SoundPackDesc_": SOUND_PACKS,
     "NR_AITrait_": AI_TRAITS,
     "NR_AITraitDesc_": AI_TRAITS,
-    "NR_StudioTab_": ["Summary", "Raw", "Library", "Addiction"],
+    "NR_StudioTab_": ["Summary", "Raw", "Library", "Rare", "Addiction"],
     "NR_UB_Author_": ["Concert", "ZeroRun", "Morton", "NightMarket", "Confession", "StreetRunner", "EchoLullaby", "Oracle"],
     "NR_UB_Good_": ["Concert", "ZeroRun", "Morton", "NightMarket", "Confession", "StreetRunner", "EchoLullaby", "Oracle"],
     "NR_UB_Bad_": ["Morton", "Confession", "Oracle"],

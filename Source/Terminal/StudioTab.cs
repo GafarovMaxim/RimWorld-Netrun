@@ -19,6 +19,7 @@ public static class StudioTab
         Summary,
         Raw,
         Library,
+        Rare,
         Addiction,
     }
 
@@ -78,8 +79,12 @@ public static class StudioTab
                 DrawInfo(right, "NR_StudioInfoRawTitle", "NR_StudioInfoRaw", StudioColor);
                 break;
             case Tab.Library:
-                GuideRegistry.Area("studio.library", left);
                 DrawLibrary(left, map, chips, ref scroll);
+                DrawInfo(right, "NR_StudioInfoLibTitle", "NR_StudioInfoLib", NetrunUI.Purple);
+                break;
+            case Tab.Rare:
+                GuideRegistry.Area("studio.library", left);
+                DrawRare(left, map, ref scroll);
                 DrawPanel(right);
                 break;
             case Tab.Addiction:
@@ -105,7 +110,8 @@ public static class StudioTab
             string count = tab switch
             {
                 Tab.Raw => raws.ToString(),
-                Tab.Library => $"{found}/{total}",
+                Tab.Library => NetrunUI.Cached("studio.chipcount", () => Find.CurrentMap?.listerThings.ThingsOfDef(NetrunDefOf.NR_BraindanceChip).Concat(Find.CurrentMap.listerThings.ThingsOfDef(NetrunDefOf.NR_BlackBraindanceChip)).Sum(t => t.stackCount) ?? 0, 1f).ToString(),
+                Tab.Rare => $"{found}/{total}",
                 Tab.Addiction => hooked.ToString(),
                 _ => null,
             };
@@ -113,7 +119,7 @@ public static class StudioTab
             var r = new Rect(x, rect.y, w, rect.height);
             bool active = _tab == tab;
             float lit = NetrunUI.HoverFade(r);
-            Color c = tab == Tab.Library ? Gold : StudioColor;
+            Color c = tab == Tab.Rare ? Gold : StudioColor;
             NetrunUI.Box(r, active ? NetrunUI.BgCardAlt : Color.Lerp(NetrunUI.BgCard, NetrunUI.BgCardAlt, lit),
                 active ? new Color(c.r, c.g, c.b, 0.8f) : new Color(1f, 1f, 1f, 0.12f + 0.2f * lit));
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -144,7 +150,7 @@ public static class StudioTab
             _tabLineX = Mathf.Lerp(_tabLineX, activeX, k);
             _tabLineW = Mathf.Lerp(_tabLineW, activeW, k);
         }
-        Widgets.DrawBoxSolid(new Rect(_tabLineX, rect.yMax - 2f, _tabLineW, 2f), _tab == Tab.Library ? Gold : StudioColor);
+        Widgets.DrawBoxSolid(new Rect(_tabLineX, rect.yMax - 2f, _tabLineW, 2f), _tab == Tab.Rare ? Gold : StudioColor);
     }
 
     // ---- Summary: four tiles and what to do next ----
@@ -163,7 +169,7 @@ public static class StudioTab
         Tile(new Rect(rect.x, y, tw, 64f), "NR_StudioTileGoggles".Translate(), goggles.ToString(), StudioColor, Tab.Summary);
         Tile(new Rect(rect.x + (tw + 6f), y, tw, 64f), "NR_StudioTileRaw".Translate(), raws.Count.ToString(), NetrunUI.Accent, Tab.Raw);
         Tile(new Rect(rect.x + 2 * (tw + 6f), y, tw, 64f), "NR_StudioTileChips".Translate(), $"{chips.Sum(c => c.stackCount)} ({black})", NetrunUI.Purple, Tab.Library);
-        Tile(new Rect(rect.x + 3 * (tw + 6f), y, tw, 64f), "NR_StudioTileUnique".Translate(), $"{found}/{total}", Gold, Tab.Library);
+        Tile(new Rect(rect.x + 3 * (tw + 6f), y, tw, 64f), "NR_StudioTileUnique".Translate(), $"{found}/{total}", Gold, Tab.Rare);
         y += 76f;
 
         string[] lines =
@@ -211,7 +217,7 @@ public static class StudioTab
             }
             if (Widgets.ButtonInvisible(r))
             {
-                _tab = Tab.Library;
+                _tab = Tab.Rare;
                 _picked = found ? all[i] : null;
             }
         }
@@ -322,14 +328,13 @@ public static class StudioTab
         return rows;
     }
 
-    private static void DrawLibrary(Rect rect, Map map, List<Thing> chips, ref Vector2 scroll)
+    /// <summary>The unique recordings: found ones with their effect, "???" for the rest.</summary>
+    private static void DrawRare(Rect rect, Map map, ref Vector2 scroll)
     {
         List<ThingDef> all = UniqueBraindance.All.ToList();
         UniqueBraindanceManager ub = UniqueBraindanceManager.Get();
-        List<(Thing chip, int index, BraindanceRecordData rec)> rows = LibraryRows(chips);
         float width = rect.width - 16f;
-        float height = SectionHeight + all.Count * (78f + 6f) + 16f + SectionHeight + Mathf.Max(1, rows.Count) * (RowHeight + 4f) + 10f;
-        var view = new Rect(0f, 0f, width, height);
+        var view = new Rect(0f, 0f, width, SectionHeight + all.Count * (78f + 6f) + 10f);
         NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = 0f;
         Text.Anchor = TextAnchor.MiddleLeft;
@@ -341,11 +346,13 @@ public static class StudioTab
         y += 36f;
         foreach (ThingDef def in all)
             y = UniqueRow(new Rect(0f, y, width, 78f), def, ub?.IsFound(def) == true, map) + 6f;
+        Widgets.EndScrollView();
+    }
 
-        float headY = y + 10f;
-        y = NetrunUI.Section(new Rect(0f, headY, width, SectionHeight), "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)));
-        float sw = Mathf.Min(200f, width * 0.4f);
-        var search = new Rect(width - sw, headY + 4f, sw, 26f);
+    /// <summary>Ordinary chips: one row per recording (a stack holds many), plain chips one row per stack, with a search line.</summary>
+    private static void DrawLibrary(Rect rect, Map map, List<Thing> chips, ref Vector2 scroll)
+    {
+        var search = new Rect(rect.x, rect.y, rect.width - 16f, 28f);
         _search = Widgets.TextField(search, _search);
         if (_search.NullOrEmpty() && GUI.GetNameOfFocusedControl().NullOrEmpty())
         {
@@ -353,11 +360,15 @@ public static class StudioTab
             Widgets.Label(new Rect(search.x + 8f, search.y, search.width - 10f, search.height), ("⌕ " + "NR_StudioSearch".Translate()).Colorize(NetrunUI.Muted));
             Text.Anchor = TextAnchor.UpperLeft;
         }
-        if (rows.Count == 0)
-            NetrunUI.EmptyState(new Rect(0f, y, width, RowHeight), NetrunUI.T("NR_StateEmpty"), NetrunUI.T("NR_StudioNoChips"), NetrunUI.Muted, center: false);
-        foreach ((Thing chip, int index, BraindanceRecordData rec) in rows)
-            y = rec == null ? DrawChip(new Rect(0f, y, width, RowHeight), chip) : DrawLibraryRecord(new Rect(0f, y, width, RowHeight), chip, index, rec, map);
-        Widgets.EndScrollView();
+        rect.yMin += 36f;
+        List<(Thing chip, int index, BraindanceRecordData rec)> rows = LibraryRows(chips);
+        DrawList(rect, ref scroll, "NR_StudioLibrary".Translate(chips.Sum(c => c.stackCount)), rows.Count, "NR_StudioNoChips".Translate(),
+            (y, w) =>
+            {
+                foreach ((Thing chip, int index, BraindanceRecordData rec) in rows)
+                    y = rec == null ? DrawChip(new Rect(0f, y, w, RowHeight), chip) : DrawLibraryRecord(new Rect(0f, y, w, RowHeight), chip, index, rec, map);
+                return y;
+            });
     }
 
     private static float UniqueRow(Rect r, ThingDef def, bool found, Map map)

@@ -18,6 +18,7 @@ public partial class HelpBrowser
     private AIPersonality _demoAI = AIPersonality.DataHunter;
     private string _aiPinnedFor;
     private float _demoTrust = 50f;
+    private int _galleryHome;
 
     private static bool AIKnown(AIPersonality p) => HelpProgress.Get()?.Has("ai:" + p) == true;
 
@@ -76,10 +77,33 @@ public partial class HelpBrowser
                 Text.Font = GameFont.Medium;
                 Widgets.Label(new Rect(head.x, head.y - 2f, head.width, 32f), _demoAI.Label().Colorize(pc));
                 float t = Mathf.Max(cr.y + 70f, Para(head, head.y + 30f, _demoAI.Description(), NetrunUI.TextColor));
-                t = KV(cr, t, "NR_HelpAIService".Translate(), AIBehavior.ServiceLabel(_demoAI) + ": " + ("NR_AIServiceDesc_" + _demoAI).Translate(), labelWidth: 110f);
                 t = KV(cr, t, "NR_HelpAIFood".Translate(), AIBehavior.FoodText(_demoAI), labelWidth: 110f);
-                t = KV(cr, t, "NR_HelpAIInHost".Translate(), HelpPageDef.HostText(_demoAI), labelWidth: 110f);
-                t = KV(cr, t, "NR_HelpAIInCoproc".Translate(), HelpPageDef.CoprocessorText(_demoAI), labelWidth: 110f);
+                // What it gives in each home: server (its service), coprocessor (the pod), socket (the host) (Maxim, 2026-10-22).
+                float tileW = (cr.width - 2 * 8f) / 3f;
+                for (int i = 0; i < Homes.Length; i++)
+                {
+                    var r = new Rect(cr.x + i * (tileW + 8f), t + 6f, tileW, 40f);
+                    bool sel = i == _galleryHome;
+                    NetrunUI.Box(r, NetrunUI.BgWindow, sel ? pc : new Color(1f, 1f, 1f, 0.15f + 0.15f * NetrunUI.HoverFade(r)), sel ? 2 : 1);
+                    if (HomeIcon(i) is { } icon)
+                        GUI.DrawTexture(new Rect(r.x + 6f, r.y + 4f, 32f, 32f), icon);
+                    Text.Anchor = TextAnchor.MiddleLeft;
+                    Widgets.Label(new Rect(r.x + 44f, r.y, r.width - 46f, r.height), ((string)("NR_HelpAIHome_" + Homes[i]).Translate()).Truncate(r.width - 46f).Colorize(sel ? pc : NetrunUI.TextColor));
+                    Text.Anchor = TextAnchor.UpperLeft;
+                    if (Widgets.ButtonInvisible(r, doMouseoverSound: false))
+                    {
+                        _galleryHome = i;
+                        NetrunSound.Click();
+                    }
+                }
+                t += 52f;
+                string gives = _galleryHome switch
+                {
+                    0 => AIBehavior.ServiceLabel(_demoAI) + ": " + ("NR_AIServiceDesc_" + _demoAI).Translate(),
+                    1 => HelpPageDef.CoprocessorText(_demoAI),
+                    _ => HelpPageDef.HostText(_demoAI),
+                };
+                t = Para(cr, t, gives, NetrunUI.TextColor);
                 t = Slider(cr, t + 8f, "NR_HelpAITrust".Translate(Mathf.RoundToInt(_demoTrust)), ref _demoTrust, 0f, 100f);
                 AISettingsDef s = NetrunDefOf.NR_AI;
                 var steps = new List<(float at, string text, bool good)>

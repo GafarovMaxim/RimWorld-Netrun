@@ -151,7 +151,6 @@ Heat now: {8}</NR_EconomySummary>
   <NR_HelpTraceStealth>Stealth program or Wraith daemon (trace ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>This node type multiplies the trace by {0}. A cyberpod with an AI coprocessor lowers it further.</NR_HelpTraceNote>
   <NR_HelpAIUnknown>You have not met this archetype yet. Awaken an AI of it to see its card.</NR_HelpAIUnknown>
-  <NR_HelpAIService>Service</NR_HelpAIService>
   <NR_HelpAIFood>Food</NR_HelpAIFood>
   <NR_HelpAITrust>Trust: {0} (move it to see what opens)</NR_HelpAITrust>
   <NR_HelpAITrustBetray>Below {0}: it sells the colony out and leaves.</NR_HelpAITrustBetray>

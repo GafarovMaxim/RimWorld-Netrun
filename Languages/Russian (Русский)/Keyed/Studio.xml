@@ -13,6 +13,9 @@
   <NR_StudioTab_Summary>Сводка</NR_StudioTab_Summary>
   <NR_StudioTab_Raw>Сырые записи</NR_StudioTab_Raw>
   <NR_StudioTab_Library>Библиотека</NR_StudioTab_Library>
+  <NR_StudioTab_Rare>Редкие</NR_StudioTab_Rare>
+  <NR_StudioInfoLibTitle>Чипы на складе</NR_StudioInfoLibTitle>
+  <NR_StudioInfoLib>По строке на запись: в стопке чипов их может быть много.\nПоиск по автору или событию.\n«Показать...» отправляет колониста посмотреть именно эту запись; родня автора в списке первая.\nСвоё воспоминание или запись близкого поднимают настроение, особенно если человека уже нет.</NR_StudioInfoLib>
   <NR_StudioTab_Addiction>Зависимость</NR_StudioTab_Addiction>
   <NR_StudioTileGoggles>Очки</NR_StudioTileGoggles>
   <NR_StudioTileRaw>Сырые</NR_StudioTileRaw>

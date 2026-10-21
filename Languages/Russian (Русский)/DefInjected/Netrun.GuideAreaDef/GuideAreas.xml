@@ -75,8 +75,8 @@
   <NR_Guide_studio_records.label>Сырые записи</NR_Guide_studio_records.label>
   <NR_Guide_studio_records.steps.0.text>Записи, сделанные очками. Смонтируйте запись в чип: выберите настроение и дождитесь работы.</NR_Guide_studio_records.steps.0.text>
   <NR_Guide_studio_records.steps.0.hint>смонтируйте запись.</NR_Guide_studio_records.steps.0.hint>
-  <NR_Guide_studio_library.label>Библиотека</NR_Guide_studio_library.label>
-  <NR_Guide_studio_library.steps.0.text>Уникальные записи: найденные с эффектом, остальные «???»; клик открывает карточку. Ниже — чипы на складе.</NR_Guide_studio_library.steps.0.text>
+  <NR_Guide_studio_library.label>Редкие</NR_Guide_studio_library.label>
+  <NR_Guide_studio_library.steps.0.text>Уникальные записи: найденные с эффектом, остальные «???»; клик открывает карточку.</NR_Guide_studio_library.steps.0.text>
   <NR_Guide_studio_hooked.label>Зависимость</NR_Guide_studio_hooked.label>
   <NR_Guide_studio_hooked.steps.0.text>Колонисты с привыканием или зависимостью от брейнданса. Без регулярного брейнданса у зависимого ломка.</NR_Guide_studio_hooked.steps.0.text>
   <NR_Guide_server_list.label>Ваши ИИ</NR_Guide_server_list.label>

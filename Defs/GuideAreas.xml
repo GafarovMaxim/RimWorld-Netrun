@@ -421,14 +421,14 @@
 
   <Netrun.GuideAreaDef>
     <defName>NR_Guide_studio_library</defName>
-    <label>Library</label>
+    <label>Rare</label>
     <area>studio.library</area>
     <screen>Studio</screen>
     <order>3</order>
     <helpPage>NR_Help_BD_Unique</helpPage>
     <steps>
       <li>
-        <text>Unique recordings: found ones with their effect, "???" for the rest; click one for its card. Below: chips in storage.</text>
+        <text>Unique recordings: found ones with their effect, "???" for the rest; click one for its card.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>
