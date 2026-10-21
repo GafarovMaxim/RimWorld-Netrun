@@ -284,4 +284,12 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AICarrierMechRange>out of the mechanitor's range</NR_AICarrierMechRange>
   <NR_HelpAICoproc>Linked to a cyberpod, it works for the netrunner inside: {0}% less Heat from the pod's hacks, +{1}% chance of extra cyberdata, {2}% slower network dependency, one more program slot in a dive and the dive costs {3} cyberdata less.</NR_HelpAICoproc>
   <NR_HelpAICoprocBest>This archetype is especially good at it.</NR_HelpAICoprocBest>
+  <NR_HelpAIServerNote>Works from the AI server at trust {0}+; costs trust and hunger, then rests.</NR_HelpAIServerNote>
+  <NR_HelpAICoprocIntro>Works for the netrunner in the linked cyberpod:</NR_HelpAICoprocIntro>
+  <NR_HelpAICoprocHeat>{0} Heat from the pod's hacks</NR_HelpAICoprocHeat>
+  <NR_HelpAICoprocData>{0} chance of extra cyberdata</NR_HelpAICoprocData>
+  <NR_HelpAICoprocNetsick>{0} network dependency growth</NR_HelpAICoprocNetsick>
+  <NR_HelpAICoprocSlot>{0} program slot in a dive</NR_HelpAICoprocSlot>
+  <NR_HelpAICoprocCost>{0} cyberdata to the dive cost</NR_HelpAICoprocCost>
+  <NR_HelpAICoprocBestTag>strong suit</NR_HelpAICoprocBestTag>
 </LanguageData>

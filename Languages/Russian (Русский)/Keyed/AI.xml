@@ -284,4 +284,12 @@
   <NR_AICarrierMechRange>вне зоны управления механитора</NR_AICarrierMechRange>
   <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних cyberdata +{1}%, сетевая зависимость растёт на {2}% медленнее, в погружении на один слот программ больше, а само погружение стоит на {3} cyberdata дешевле.</NR_HelpAICoproc>
   <NR_HelpAICoprocBest>Этот архетип особенно хорош в этом.</NR_HelpAICoprocBest>
+  <NR_HelpAIServerNote>Работает с ИИ-сервера при доверии от {0}; тратит доверие и голод, потом отдыхает.</NR_HelpAIServerNote>
+  <NR_HelpAICoprocIntro>Работает на нетраннера в подключённой кибер-капсуле:</NR_HelpAICoprocIntro>
+  <NR_HelpAICoprocHeat>{0} Heat от взломов из капсулы</NR_HelpAICoprocHeat>
+  <NR_HelpAICoprocData>{0} к шансу лишних cyberdata</NR_HelpAICoprocData>
+  <NR_HelpAICoprocNetsick>{0} к росту сетевой зависимости</NR_HelpAICoprocNetsick>
+  <NR_HelpAICoprocSlot>{0} слот программ в погружении</NR_HelpAICoprocSlot>
+  <NR_HelpAICoprocCost>{0} cyberdata к цене погружения</NR_HelpAICoprocCost>
+  <NR_HelpAICoprocBestTag>конёк</NR_HelpAICoprocBestTag>
 </LanguageData>

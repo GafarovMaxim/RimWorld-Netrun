@@ -96,14 +96,7 @@ public partial class HelpBrowser
                         NetrunSound.Click();
                     }
                 }
-                t += 52f;
-                string gives = _galleryHome switch
-                {
-                    0 => AIBehavior.ServiceLabel(_demoAI) + ": " + ("NR_AIServiceDesc_" + _demoAI).Translate(),
-                    1 => HelpPageDef.CoprocessorText(_demoAI),
-                    _ => HelpPageDef.HostText(_demoAI),
-                };
-                t = Para(cr, t, gives, NetrunUI.TextColor);
+                t = HomeCard(cr, t + 46f, pc);
                 t = Slider(cr, t + 8f, "NR_HelpAITrust".Translate(Mathf.RoundToInt(_demoTrust)), ref _demoTrust, 0f, 100f);
                 AISettingsDef s = NetrunDefOf.NR_AI;
                 var steps = new List<(float at, string text, bool good)>
@@ -124,6 +117,66 @@ public partial class HelpBrowser
                 return t;
             });
         });
+    }
+
+    /// <summary>
+    /// What the AI gives in the picked home, under the tiles: a title line, then the effects as bullets with the numbers
+    /// in the archetype's colour; the archetype's strong suit is marked.
+    /// </summary>
+    private float HomeCard(Rect cr, float y, Color pc)
+    {
+        var lines = new List<(string text, bool bullet)>();
+        string Num(string v) => v.Colorize(pc);
+        switch (_galleryHome)
+        {
+            case 0:
+                lines.Add((AIBehavior.ServiceLabel(_demoAI).Colorize(pc), false));
+                lines.Add((("NR_AIServiceDesc_" + _demoAI).Translate(), false));
+                lines.Add(("NR_HelpAIServerNote".Translate(NetrunDefOf.NR_AI.minTrustForService.ToString("0")).Colorize(NetrunUI.Muted), false));
+                break;
+            case 1:
+            {
+                var ai = new NetAI { Personality = _demoAI };
+                string best = " " + ("(" + "NR_HelpAICoprocBestTag".Translate() + ")").Colorize(NetrunUI.Warn);
+                lines.Add(("NR_HelpAICoprocIntro".Translate().Colorize(NetrunUI.Muted), false));
+                lines.Add(("NR_HelpAICoprocHeat".Translate(Num("-" + ((1f - CyberpodUtility.HeatFactor(ai)) * 100f).ToString("0") + "%"))
+                           + (_demoAI == AIPersonality.Ghost ? best : ""), true));
+                lines.Add(("NR_HelpAICoprocData".Translate(Num("+" + (CyberpodUtility.BonusDataChance(ai) * 100f).ToString("0") + "%"))
+                           + (_demoAI == AIPersonality.DataHunter ? best : ""), true));
+                lines.Add(("NR_HelpAICoprocNetsick".Translate(Num("-" + ((1f - CyberpodUtility.NetsickFactor(ai)) * 100f).ToString("0") + "%"))
+                           + (_demoAI is AIPersonality.Doc or AIPersonality.Warden ? best : ""), true));
+                lines.Add(("NR_HelpAICoprocSlot".Translate(Num("+1")), true));
+                lines.Add(("NR_HelpAICoprocCost".Translate(Num("-" + NetrunDefOf.NR_Cyberspace.coprocessorDiscount)), true));
+                break;
+            }
+            default:
+            {
+                HediffDef hediff = DefDatabase<HediffDef>.GetNamedSilentFail("NR_HostedAI_" + _demoAI);
+                lines.Add((HelpPageDef.HostText(_demoAI), false));
+                foreach (StatModifier mod in hediff?.stages?.FirstOrDefault()?.statOffsets ?? [])
+                    lines.Add((mod.stat.LabelCap + ": " + Num(mod.ValueToStringAsOffset), true));
+                break;
+            }
+        }
+
+        var inner = new Rect(cr.x + 12f, y, cr.width - 20f, 0f);
+        float h = 10f;
+        foreach ((string text, bool bullet) in lines)
+            h += Text.CalcHeight(text, inner.width - (bullet ? 16f : 0f)) + 3f;
+        var box = new Rect(cr.x, y, cr.width, h + 6f);
+        NetrunUI.Box(box, NetrunUI.BgWindow, new Color(pc.r, pc.g, pc.b, 0.35f));
+        Widgets.DrawBoxSolid(new Rect(box.x, box.y, 3f, box.height), pc);
+        float ty = y + 8f;
+        foreach ((string text, bool bullet) in lines)
+        {
+            float x = inner.x + (bullet ? 16f : 0f), w = inner.width - (bullet ? 16f : 0f);
+            float lh = Text.CalcHeight(text, w);
+            if (bullet)
+                Widgets.Label(new Rect(inner.x + 2f, ty, 14f, 22f), "▸".Colorize(pc));
+            Widgets.Label(new Rect(x, ty, w, lh), text);
+            ty += lh + 3f;
+        }
+        return box.yMax + 10f;
     }
 
     // ---- [[fixerpool]] ----
