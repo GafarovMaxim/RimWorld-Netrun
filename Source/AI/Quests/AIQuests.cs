@@ -404,7 +404,7 @@ public class AIQuests : GameComponent
             case AIQuestKind.WhoAmI when q.Step == 0:
             {
                 string name = q.AI.Name;
-                bool found = Find.Maps.Any(m => m.listerThings.AllThings.Any(t => t.TryGetComp<CompBraindanceRecord>() is { HasRecord: true } r && name.Contains(r.Author ?? "\u0001")));
+                bool found = Find.Maps.Any(m => m.listerThings.AllThings.Any(t => t.TryGetComp<CompBraindanceRecord>() is { HasRecord: true } r && r.Authors.Any(name.Contains)));
                 if (found)
                     Advance(q);
                 break;
