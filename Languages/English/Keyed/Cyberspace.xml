@@ -70,7 +70,7 @@
   <NR_TrainingNoRunner>No colonist at home can sit at the simulator.</NR_TrainingNoRunner>
   <NR_TrainingBusy>A dive is already under way.</NR_TrainingBusy>
   <NR_TrainingOfferTitle>Training dive</NR_TrainingOfferTitle>
-  <NR_TrainingOffer>First time in cyberspace? Try a dive in the simulator: it plays like a real one (gates, a fork, a hidden passage, ICE), but costs nothing and hurts no one.\n\nIt is always available later from the cyberspace panel.</NR_TrainingOffer>
+  <NR_TrainingOffer>First time in cyberspace? Try a dive in the simulator: it plays like a real one (gates, a fork, a hidden passage, ICE), but costs nothing and hurts no one.\n\nIt is always available later: pick the Home hub on the map.</NR_TrainingOffer>
   <NR_TrainingStart>Start training</NR_TrainingStart>
   <NR_TrainingLater>Later</NR_TrainingLater>
   <NR_TourTitle>Simulator: the screen, {0} of {1}</NR_TourTitle>

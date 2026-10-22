@@ -70,7 +70,7 @@
   <NR_TrainingNoRunner>Дома нет колониста, который может сесть за симулятор.</NR_TrainingNoRunner>
   <NR_TrainingBusy>Нырок уже идёт.</NR_TrainingBusy>
   <NR_TrainingOfferTitle>Тренировочный нырок</NR_TrainingOfferTitle>
-  <NR_TrainingOffer>Впервые в киберпространстве? Попробуйте нырок в симуляторе: всё как в настоящем (ворота, развилка, скрытый проход, ICE), но бесплатно и без вреда.\n\nПотом он всегда доступен из панели киберпространства.</NR_TrainingOffer>
+  <NR_TrainingOffer>Впервые в киберпространстве? Попробуйте нырок в симуляторе: всё как в настоящем (ворота, развилка, скрытый проход, ICE), но бесплатно и без вреда.\n\nПотом он всегда доступен: выберите на карте узел Дом.</NR_TrainingOffer>
   <NR_TrainingStart>Начать тренировку</NR_TrainingStart>
   <NR_TrainingLater>Позже</NR_TrainingLater>
   <NR_TourTitle>Симулятор: экран, {0} из {1}</NR_TourTitle>

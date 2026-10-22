@@ -1201,10 +1201,11 @@ public static partial class GatewayView
                 string sub = b.TypeLabel + (b.Deserted ? " · " + NetrunUI.T("NR_MapDeserted") : "") + (b.Offline ? " · " + NetrunUI.T("NR_MapStateOffline") : "");
                 Widgets.Label(new Rect(row.x + 30f, row.y + 14f, right - row.x - 30f, 16f), sub.Truncate(right - row.x - 30f));
                 // Defense as pips (red with Black ICE), marks after them.
-                Color pip = b.BlackIce ? NetrunUI.Bad : NetrunUI.Warn;
+                // Muted red pips, a stronger red with Black ICE; further left, clear of the marks (Maxim, 2026-10-23).
+                Color pip = b.BlackIce ? NetrunUI.Bad : new Color(0.78f, 0.47f, 0.43f);
                 int def = Mathf.Clamp(b.Defense, 0, 6);
                 for (int i = 0; i < 6; i++)
-                    Widgets.DrawBoxSolid(new Rect(right + 4f + i * 7f, row.center.y - 3f, 5f, 6f), i < def ? pip : new Color(pip.r, pip.g, pip.b, 0.15f));
+                    Widgets.DrawBoxSolid(new Rect(right - 22f + i * 7f, row.center.y - 3f, 5f, 6f), i < def ? pip : new Color(pip.r, pip.g, pip.b, 0.15f));
                 // The node's marks, as on the hub plate (Maxim, 2026-10-23): rival, key, known honeypot, contract; two fit.
                 float mx = row.xMax - 15f;
                 int marks = 0;

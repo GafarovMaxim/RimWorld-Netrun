@@ -673,8 +673,9 @@ public static partial class GatewayView
             Widgets.Label(new Rect(x, tag.y, tw + 2f, PlateRow), first);
             if (second != null)
             {
-                Text.Anchor = TextAnchor.MiddleCenter;
-                Widgets.Label(new Rect(tag.x, tag.y + PlateRow - 4f, tag.width, row - PlateRow + 4f), second);
+                // Same anchor and colour as the first line, placed by its measured width: centred exactly.
+                float sw = NameWidth(second);
+                Widgets.Label(new Rect(tag.center.x - sw / 2f, tag.y + PlateRow - 4f, sw + 2f, row - PlateRow + 4f), second);
             }
             // Second row: the chips, centred under the name.
             if (branches.Count == 0)

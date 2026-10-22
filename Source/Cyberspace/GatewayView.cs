@@ -78,8 +78,7 @@ public static partial class GatewayView
         gateway.TrainingOffered = true;
         if (!gateway.CanTrain(map).Accepted)
             return;
-        Find.WindowStack.Add(new Dialog_MessageBox("NR_TrainingOffer".Translate(), "NR_TrainingStart".Translate(), () => gateway.StartTraining(map),
-            "NR_TrainingLater".Translate(), title: "NR_TrainingOfferTitle".Translate()));
+        Find.WindowStack.Add(new Dialog_TrainingOffer(gateway, map));
     }
 
     /// <summary>
@@ -637,9 +636,6 @@ public static partial class GatewayView
         var inner = new Rect(0f, 0f, outer.width - (scrolls ? 16f : 0f), Mathf.Max(_panelHeight, outer.height));
         NetrunUI.BeginScroll(outer, ref _panelScroll, inner);
         float y = inner.y;
-        // Until the first training dive is done its button is the first thing in the panel, whatever is selected.
-        if (!gateway.TrainingDone)
-            y = DrawTrainingButton(inner, y, map, gateway);
         bool mapPanel = NetMapManager.Get() is { Ready: true };
         if (mapPanel)
             y = DrawMapPanel(inner, y, map, NetMapManager.Get());
@@ -656,8 +652,9 @@ public static partial class GatewayView
 
         if (HomeSelected)
         {
-            // Home: the defense block above is all; no programs, daemons or dive here.
+            // Home: the defense block above, and the training dive, always here and only here (Maxim, 2026-10-23).
             GuideRegistry.InScroll("gateway.defense", outer, _panelScroll, new Rect(inner.x, 0f, inner.width, y));
+            y = DrawTrainingButton(inner, y + 6f, map, gateway);
             _panelHeight = y + 4f;
             Widgets.EndScrollView();
             return;
@@ -899,9 +896,6 @@ public static partial class GatewayView
         if (NetrunUI.Button(vr, (_listMode ? "NR_GatewayViewCircles" : "NR_GatewayViewList").Translate(), NetrunUI.Muted, true))
             _listMode = !_listMode;
         y += 36f;
-        // After the first training dive the button sits quietly in the footer (before it, it stands on top of the panel).
-        if (withReports && GatewayManager.Get() is { TrainingDone: true } gateway)
-            y = DrawTrainingButton(inner, y, Find.CurrentMap, gateway, NetrunUI.Muted);
         GuideRegistry.InScroll("gateway.search", outer, _panelScroll, new Rect(inner.x, gSearch, inner.width, y - gSearch));
         return y;
     }

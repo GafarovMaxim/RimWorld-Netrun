@@ -235,7 +235,7 @@ public static class ContractsTab
         // cycles reward, time, type.
         string sortLabel = "NR_BoardSortButton".Translate(("NR_BoardSort_" + _sort).Translate().ToLower());
         float sw = NetrunUI.ButtonWidth(sortLabel);
-        if (NetrunUI.Button(new Rect(width - sw - 4f, y + 2f, sw, 26f), sortLabel, NetrunUI.Accent, true, "NR_BoardSortCycleTip".Translate()))
+        if (NetrunUI.Button(new Rect(width - sw - 4f, y - 1f, sw, 24f), sortLabel, NetrunUI.Accent, true, "NR_BoardSortCycleTip".Translate()))
             _sort = (Sort)(((int)_sort + 1) % 3);
         y = yAfter;
         if (offers.Count == 0)
