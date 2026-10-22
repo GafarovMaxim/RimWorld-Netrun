@@ -681,9 +681,8 @@ public static partial class GatewayView
             // A newly picked node: scroll the panel to it, so its facts and DIVE are in view (2026-10-23).
             if (node.Id != _lastPanelNode)
             {
+                // No scrolling on its own (Maxim, 2026-10-23): the panel stays where the player left it.
                 _lastPanelNode = node.Id;
-                if (scrolls)
-                    _panelScroll.y = Mathf.Max(0f, gNode - 4f);
             }
             // The node's header: its type icon, a bigger name and the type under it (UI audit 2026-10-23: the separate
             // NODE kicker and Type row cost two lines).

@@ -1167,15 +1167,9 @@ public static partial class GatewayView
 
         // The hub's nodes, as in the mockup: the type's shape, the name and type, the defense as pips, marks on the right.
         List<ExternalNode> nodes = BranchesOf(node.Id);
+        // A section header like the others (Maxim, 2026-10-23: the small grey NODES label got lost).
         if (nodes.Count > 0)
-        {
-            Text.Font = GameFont.Tiny;
-            GUI.color = NetrunUI.Muted;
-            Widgets.Label(new Rect(inner.x, y, inner.width, 16f), NetrunUI.Upper(NetrunUI.T("NR_MapHubNodes")));
-            GUI.color = Color.white;
-            Text.Font = GameFont.Small;
-            y += 18f;
-        }
+            y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), NetrunUI.T("NR_MapHubNodes"));
         foreach (ExternalNode b in nodes)
         {
             var row = new Rect(inner.x, y, inner.width, 30f);
@@ -1210,11 +1204,14 @@ public static partial class GatewayView
                 int def = Mathf.Clamp(b.Defense, 0, 6);
                 for (int i = 0; i < 6; i++)
                     Widgets.DrawBoxSolid(new Rect(right + 4f + i * 7f, row.center.y - 3f, 5f, 6f), i < def ? pip : new Color(pip.r, pip.g, pip.b, 0.15f));
-                // The same badges as on the map: a contract's amber "!" tag, a guard gateway's amber diamond (the key).
-                if (b.Contract)
-                    DrawNodeBadge(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), true);
-                else if (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
-                    DrawNodeBadge(new Rect(row.xMax - 18f, row.center.y - 5f, 10f, 10f), false);
+                // The node's marks, as on the hub plate (Maxim, 2026-10-23): rival, key, known honeypot, contract; two fit.
+                float mx = row.xMax - 15f;
+                int marks = 0;
+                mx = RowMark(mx, row.center.y, b.Rival, "Event_Rival", NetrunUI.Bad, ref marks);
+                mx = RowMark(mx, row.center.y, b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs, "Icon_Key", NetrunUI.Warn, ref marks);
+                mx = RowMark(mx, row.center.y, b.Honeypot && b.HoneypotKnown, "Event_Honeypot", NetrunUI.Warn, ref marks);
+                if (b.Contract && marks < 2)
+                    DrawNodeBadge(new Rect(mx + 1f, row.center.y - 5f, 10f, 10f), true);
             }
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
@@ -1231,6 +1228,23 @@ public static partial class GatewayView
             }
             y += 32f;
         }
+        // A gap and a rule between the list and the picked node's card below it.
+        if (nodes.Count > 0)
+        {
+            Widgets.DrawBoxSolid(new Rect(inner.x, y + 4f, inner.width, 1f), new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f));
+            y += 12f;
+        }
         return y + 4f;
+    }
+
+    private static float RowMark(float x, float cy, bool show, string icon, Color tint, ref int marks)
+    {
+        if (!show || marks >= 2 || NetrunTex.CyberIcon(icon) is not { } tex)
+            return x;
+        GUI.color = tint;
+        GUI.DrawTexture(new Rect(x, cy - 6f, 12f, 12f), tex);
+        GUI.color = Color.white;
+        marks++;
+        return x - 14f;
     }
 }

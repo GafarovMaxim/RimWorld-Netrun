@@ -482,6 +482,21 @@ public static partial class GatewayView
         return w;
     }
 
+    private static readonly Dictionary<string, (string, string)> Lines = [];
+
+    /// <summary>A wrapped name's two lines (the second null for one line), split once per text.</summary>
+    private static (string, string) NameLines(string text)
+    {
+        if (Lines.TryGetValue(text, out var lines))
+            return lines;
+        int nl = text.IndexOf('\n');
+        lines = nl < 0 ? (text, null) : (text.Substring(0, nl), text.Substring(nl + 1));
+        if (Lines.Count > 400)
+            Lines.Clear();
+        Lines[text] = lines;
+        return lines;
+    }
+
     private static float NameRow(string text) => text != null && text.IndexOf('\n') >= 0 ? PlateRow + (BigPlates ? 18f : 12f) : PlateRow;
 
     private struct NamePlate
@@ -574,7 +589,9 @@ public static partial class GatewayView
         // Named: states and name on the first row, the node chips centred on a second row (Maxim, 2026-10-23: one long
         // row made the plate too wide). Unnamed: one row of states and chips.
         float chipW = chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
-        float w = named ? Mathf.Max(NameWidth(text) + 16f + icons * LockWidth, chipW + 10f) : 6f + icons * LockWidth + chipW;
+        (string first, string second) = named ? NameLines(text) : (null, null);
+        float w = named ? Mathf.Max(Mathf.Max(NameWidth(first) + icons * LockWidth, second != null ? NameWidth(second) : 0f) + 16f, chipW + 10f)
+            : 6f + icons * LockWidth + chipW;
         float h = named && branches.Count > 0 ? NameRow(text) + ChipRow : NameRow(text);
         NameQueue.Add(new NamePlate
         {
@@ -641,16 +658,23 @@ public static partial class GatewayView
         float row = plate.Named ? NameRow(plate.Text) : PlateRow;
         int icons = StateCount(plate.States);
         Text.Font = PlateFont;
-        float x, cy = tag.y + row / 2f;
+        float x, cy = tag.y + PlateRow / 2f;
         if (plate.Named)
         {
-            // First row: the states and the name, centred together.
-            float tw = NameWidth(plate.Text);
+            // First row: the states and the name's first line, centred together; a wrapped name's second line centred
+            // on its own under it, the icons staying on the first (Maxim, 2026-10-23).
+            (string first, string second) = NameLines(plate.Text);
+            float tw = NameWidth(first);
             x = tag.center.x - (icons * LockWidth + tw) / 2f + 1f;
             x = DrawStates(x, cy, plate.States, a);
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = plate.Capital ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
-            Widgets.Label(new Rect(x, tag.y, tw + 2f, row), plate.Text);
+            Widgets.Label(new Rect(x, tag.y, tw + 2f, PlateRow), first);
+            if (second != null)
+            {
+                Text.Anchor = TextAnchor.MiddleCenter;
+                Widgets.Label(new Rect(tag.x, tag.y + PlateRow - 4f, tag.width, row - PlateRow + 4f), second);
+            }
             // Second row: the chips, centred under the name.
             if (branches.Count == 0)
             {
