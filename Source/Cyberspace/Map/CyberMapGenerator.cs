@@ -447,7 +447,7 @@ public static class CyberMapGenerator
             List<MapNode> near = map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit))
                 .OrderBy(x => Vector2.Distance(x.Pos, n.Pos)).ToList();
             if (near.Where(x => (x.District == District.OldNet) == old).Any(b => map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Normal }))
-                || old && near.Where(x => x.District is not (District.OldNet or District.Home))
+                || old && near.Where(x => x.District is not (District.OldNet or District.Home)).OrderBy(x => x.District == District.Transit)
                     .Any(b => map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Wall })))
                 added++;
         }

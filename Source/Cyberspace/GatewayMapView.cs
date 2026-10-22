@@ -478,8 +478,8 @@ public static partial class GatewayView
         MapNode na = map.Node(l.A), nb = map.Node(l.B);
         // A link to a hub that is offline (the orbit with no gravship in space, quarantine) reads like the shut Wall: red,
         // dashed, a lock (Maxim, 2026-10-23: links of an offline hub looked usable).
-        bool orbitShut = na?.Offline == true || nb?.Offline == true;
-        bool shut = orbitShut || l.Kind == LinkKind.Wall && !map.WallOpen;
+        bool offline = na?.Offline == true || nb?.Offline == true;
+        bool shut = offline || l.Kind == LinkKind.Wall && !map.WallOpen;
         Color c = l.Kind switch
         {
             LinkKind.Fast => HighwayColor,
@@ -488,7 +488,7 @@ public static partial class GatewayView
             LinkKind.Backdoor => NetrunUI.Warn,
             _ => StreetColor,
         };
-        if (orbitShut)
+        if (offline)
             c = NetrunUI.Bad;
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
@@ -535,7 +535,8 @@ public static partial class GatewayView
             if (NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
                 GUI.DrawTexture(lockRect, lockTex);
             GUI.color = Color.white;
-            NetrunUI.Tip(lockRect, (orbitShut ? "NR_MapCardOrbitClosed" : "NR_MapWallLocked").Translate());
+            NetrunUI.Tip(lockRect, (!offline ? "NR_MapWallLocked"
+                : !NetMapManager.OrbitOpen && (na?.District == District.Orbit || nb?.District == District.Orbit) ? "NR_MapCardOrbitClosed" : "NR_MapLinkOffline").Translate());
         }
         else if (l.Broken)
             Widgets.Label(new Rect(mid.x - 5f, mid.y - 9f, 14f, 18f), "✕".Colorize(NetrunUI.Bad));

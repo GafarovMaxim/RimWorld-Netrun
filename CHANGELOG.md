@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Fixed: a cable cut inside the Old Net could strand a hub there or lay a street around the Wall.
+- Fixed: the lock on an offline hub's link said the orbit was closed.
 - Fixed: links of an offline hub looked usable; they are now drawn shut, like the closed Wall.
 - Fixed: an orbital hub could appear right on top of another hub when no free spot was found.
 - Fixed: an Old Net hub could be left with no link; it now gets its own link through the Wall.

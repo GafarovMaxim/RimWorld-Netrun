@@ -128,6 +128,7 @@
   <NR_MapWall>Когда пало корпоративное ядро, старые ворота в Стене впервые откликнулись. За ними Старая сеть: древние системы за Black ICE 10 с легендарной добычей.</NR_MapWall>
 
   <NR_DistrictOldNetWalled>Старая сеть (за Стеной)</NR_DistrictOldNetWalled>
+  <NR_MapLinkOffline>Узел на этом конце отключён: пока здесь не пройти.</NR_MapLinkOffline>
   <NR_MapWallLocked>Стена: проход в Старую сеть закрыт.</NR_MapWallLocked>
   <NR_MapSearchHint>Найти узел, ноду или корпорацию… (F)</NR_MapSearchHint>
   <NR_MapSearchNone>Ничего не найдено.</NR_MapSearchNone>

@@ -128,6 +128,7 @@
   <NR_MapWall>With a corporate core broken, the old gates in the Wall answer for the first time. Beyond them lies the Old Net: ancient systems behind Black ICE 10, with legendary loot.</NR_MapWall>
 
   <NR_DistrictOldNetWalled>Old Net (behind the Wall)</NR_DistrictOldNetWalled>
+  <NR_MapLinkOffline>The hub at this end is offline: no way through for now.</NR_MapLinkOffline>
   <NR_MapWallLocked>The Wall: the way into the Old Net is shut.</NR_MapWallLocked>
   <NR_MapSearchHint>Find a hub, node or corp… (F)</NR_MapSearchHint>
   <NR_MapSearchNone>Nothing found.</NR_MapSearchNone>

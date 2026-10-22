@@ -210,7 +210,9 @@ public partial class NetMapManager
 
     private void CableCut()
     {
-        MapLink cut = Map.Links.Where(l => l.Kind == LinkKind.Normal && Map.SafeToRemove(l)).RandomElementWithFallback();
+        // Never inside the Old Net: SafeToRemove does not watch its hubs, and the rebuild would lay a street around the Wall.
+        MapLink cut = Map.Links.Where(l => l.Kind == LinkKind.Normal && Map.Node(l.A)?.District != District.OldNet
+                                           && Map.Node(l.B)?.District != District.OldNet && Map.SafeToRemove(l)).RandomElementWithFallback();
         if (cut == null)
             return;
         Map.Links.Remove(cut);
