@@ -130,15 +130,15 @@ public static partial class GatewayView
 
             // Links.
             HashSet<(int, int)> route = RouteSet(selRunner);
-            Dictionary<MapLink, Vector2> bends = LinkBends(map);
+            bool focus = _selectedMapNode >= 0 || route.Count > 0;
             foreach (MapLink l in map.Links)
             {
                 if (!l.Known)
                     continue;
                 MapNode na = map.Node(l.A), nb = map.Node(l.B);
-                Vector2? bend = bends.TryGetValue(l, out Vector2 ctrl) ? ToScreen(local, ctrl) : null;
-                DrawMapLink(ToScreen(local, na.Pos), ToScreen(local, nb.Pos), bend, LinkTrim(na), LinkTrim(nb), l, map,
-                    route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B))));
+                bool onRoute = route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B)));
+                DrawMapLink(ToScreen(local, na.Pos), ToScreen(local, nb.Pos), LinkTrim(na), LinkTrim(nb), l, map, onRoute, focus,
+                    onRoute ? RouteDirection(selRunner, l) : 1);
             }
 
             DrawPreview(local, net, hovered);
@@ -365,6 +365,21 @@ public static partial class GatewayView
         return Route;
     }
 
+    /// <summary>+1 when the runner walks this route link from A to B, -1 from B to A (the route dashes crawl that way).</summary>
+    private static int RouteDirection(NetRunner r, MapLink l)
+    {
+        int from = r.NodeId;
+        foreach (int to in r.Path)
+        {
+            if (from == l.A && to == l.B)
+                return 1;
+            if (from == l.B && to == l.A)
+                return -1;
+            from = to;
+        }
+        return 1;
+    }
+
     /// <summary>How far a link stops short of a hub's centre: the hub's drawn radius plus a small gap (links end at the ring).</summary>
     private static float LinkTrim(MapNode n)
     {
@@ -376,73 +391,13 @@ public static partial class GatewayView
         return r + 3f;
     }
 
-    /// <summary>Links that would pass right over another hub, with the control point of a curve around it (map units).</summary>
-    // Rebuilt every 5 s, not per frame: hubs hardly move (only orbit hubs, when they are placed).
-    private static Dictionary<MapLink, Vector2> LinkBends(CyberMap map) => NetrunUI.Cached("map.linkBends", () =>
-    {
-        const float Clearance = 0.022f;
-        var bends = new Dictionary<MapLink, Vector2>();
-        foreach (MapLink l in map.Links)
-        {
-            Vector2 a = map.Node(l.A).Pos, b = map.Node(l.B).Pos;
-            Vector2 ab = b - a;
-            float len2 = ab.sqrMagnitude;
-            if (len2 < 0.0001f)
-                continue;
-            MapNode blocker = null;
-            float blockerDist = Clearance, blockerSide = 0f;
-            foreach (MapNode o in map.Nodes)
-            {
-                if (o.Id == l.A || o.Id == l.B)
-                    continue;
-                float t = Vector2.Dot(o.Pos - a, ab) / len2;
-                if (t <= 0.08f || t >= 0.92f)
-                    continue;
-                Vector2 off = o.Pos - (a + ab * t);
-                float d = off.magnitude;
-                if (d < blockerDist)
-                {
-                    blocker = o;
-                    blockerDist = d;
-                    blockerSide = ab.x * off.y - ab.y * off.x;
-                }
-            }
-            if (blocker == null)
-                continue;
-            // Bend to the side away from the blocking hub, far enough that the curve's middle clears it.
-            Vector2 normal = new Vector2(-ab.y, ab.x).normalized;
-            if (blockerSide > 0f)
-                normal = -normal;
-            bends[l] = (a + b) / 2f + normal * (2f * (Clearance + blockerDist) + 0.01f);
-        }
-        return bends;
-    }, 5f);
+    private static readonly Vector2[] LinkPoints = new Vector2[2];
 
-    private const int CurveSteps = 12;
-    private static readonly Vector2[] LinkPoints = new Vector2[CurveSteps + 1];
-
-    /// <summary>The link's drawn polyline (a straight line or a curve around a hub), cut back at both hubs' rings.</summary>
-    private static int LinkPolyline(Vector2 a, Vector2 b, Vector2? bend, float trimA, float trimB)
+    /// <summary>The link's drawn line, cut back at both hubs' rings (links are straight: the generator keeps them clear).</summary>
+    private static void LinkLine(Vector2 a, Vector2 b, float trimA, float trimB)
     {
-        int n;
-        if (bend is { } c)
-        {
-            n = CurveSteps + 1;
-            for (int i = 0; i < n; i++)
-            {
-                float t = i / (float)CurveSteps, u = 1f - t;
-                LinkPoints[i] = u * u * a + 2f * u * t * c + t * t * b;
-            }
-        }
-        else
-        {
-            n = 2;
-            LinkPoints[0] = a;
-            LinkPoints[1] = b;
-        }
-        LinkPoints[0] = Trim(LinkPoints[0], LinkPoints[1], trimA);
-        LinkPoints[n - 1] = Trim(LinkPoints[n - 1], LinkPoints[n - 2], trimB);
-        return n;
+        LinkPoints[0] = Trim(a, b, trimA);
+        LinkPoints[1] = Trim(b, a, trimB);
     }
 
     private static Vector2 Trim(Vector2 from, Vector2 toward, float by)
@@ -452,76 +407,80 @@ public static partial class GatewayView
         return len <= by + 1f ? from + d * 0.5f : from + d / len * by;
     }
 
-    private static void DrawPolyline(int count, Color color, float width, bool dashed)
+    /// <summary>The line, solid (dash 0) or dashed; offset slides the dashes along (the route crawls toward its end).</summary>
+    private static void DrawLinkLine(Color color, float width, float dash = 0f, float gap = 0f, float offset = 0f)
     {
-        float carried = 0f;
-        for (int i = 0; i + 1 < count; i++)
+        Vector2 p = LinkPoints[0], q = LinkPoints[1];
+        if (dash <= 0f)
         {
-            Vector2 p = LinkPoints[i], q = LinkPoints[i + 1];
-            if (!dashed)
-            {
-                Widgets.DrawLine(p, q, color, width);
-                continue;
-            }
-            // 10 px dashes with 10 px gaps, carried across the curve's segments.
-            float len = Vector2.Distance(p, q);
-            for (float s = -carried; s < len; s += 20f)
-            {
-                float s0 = Mathf.Max(0f, s), s1 = Mathf.Min(len, s + 10f);
-                if (s1 > s0)
-                    Widgets.DrawLine(Vector2.Lerp(p, q, s0 / len), Vector2.Lerp(p, q, s1 / len), color, width);
-            }
-            carried = (carried + len) % 20f;
+            Widgets.DrawLine(p, q, color, width);
+            return;
+        }
+        float len = Vector2.Distance(p, q), period = dash + gap;
+        for (float s = offset % period - period; s < len; s += period)
+        {
+            float s0 = Mathf.Max(0f, s), s1 = Mathf.Min(len, s + dash);
+            if (s1 > s0)
+                Widgets.DrawLine(Vector2.Lerp(p, q, s0 / len), Vector2.Lerp(p, q, s1 / len), color, width);
         }
     }
 
-    private static void DrawMapLink(Vector2 a, Vector2 b, Vector2? bend, float trimA, float trimB, MapLink l, CyberMap map, bool onRoute)
+    // Map v5 link classes (Claude Design concept, approved by Maxim 2026-10-22): street, highway, darknet, shut; the route
+    // on top. Streets are neutral (no district tint) and lighter than in the mockup (Maxim: too dark).
+    private static readonly Color StreetColor = new(0.72f, 0.78f, 0.73f), HighwayColor = new(0.80f, 0.87f, 0.84f);
+
+    private static void DrawMapLink(Vector2 a, Vector2 b, float trimA, float trimB, MapLink l, CyberMap map, bool onRoute, bool focus, int direction)
     {
         bool nearSelected = _selectedMapNode >= 0 && (l.A == _selectedMapNode || l.B == _selectedMapNode);
         bool dim = LegendDims(l.A) && LegendDims(l.B);
-        Color c = l.Kind switch
-        {
-            LinkKind.Fast => new Color(0.24f, 0.82f, 0.9f),
-            LinkKind.Dark => NetrunUI.Purple,
-            LinkKind.Wall => map.WallOpen ? NetrunUI.Warn : NetrunUI.Bad,
-            LinkKind.Backdoor => NetrunUI.Warn,
-            _ => new Color(0.55f, 0.62f, 0.55f),
-        };
-        // A plain link inside one district takes the district's colour, fainter: the districts read as groups and the
-        // grey links between districts stand out as the ways across (Maxim, 2026-10-14: the map still read tangled).
         MapNode na = map.Node(l.A), nb = map.Node(l.B);
-        bool inside = l.Kind == LinkKind.Normal && na != null && nb != null && na.District == nb.District && na.CorpSlot == nb.CorpSlot;
-        if (inside && NetMapManager.Get() is { } mgr)
-            c = HubColor(na, mgr);
         // A link up to the orbit while no gravship is in space reads like the shut Wall: red, dashed, a lock.
         bool orbitShut = !NetMapManager.OrbitOpen && (na?.District == District.Orbit || nb?.District == District.Orbit);
         bool shut = orbitShut || l.Kind == LinkKind.Wall && !map.WallOpen;
+        Color c = l.Kind switch
+        {
+            LinkKind.Fast => HighwayColor,
+            LinkKind.Dark => NetrunUI.Purple,
+            LinkKind.Wall => map.WallOpen ? NetrunUI.Warn : NetrunUI.Bad,
+            LinkKind.Backdoor => NetrunUI.Warn,
+            _ => StreetColor,
+        };
         if (orbitShut)
             c = NetrunUI.Bad;
         if (l.Jammed)
             c = new Color(0.95f, 0.6f, 0.2f);
-        // A plain link is a thin, quiet line (map v4, D9): the hubs are the picture. Fast links keep their colour, thinner.
-        float alpha = l.Broken ? 0.25f : inside ? 0.38f : l.Kind == LinkKind.Normal ? 0.55f : 0.65f;
-        float width = 1.5f;
+        float alpha = l.Broken ? 0.25f : l.Kind == LinkKind.Normal ? 0.55f : 0.75f;
+        float width = l.Kind == LinkKind.Fast ? 2.5f : 1.5f;
         if (nearSelected)
         {
-            alpha = Mathf.Max(alpha, 0.85f);
-            width = 2f;
+            alpha = Mathf.Max(alpha, 0.9f);
+            width += 0.5f;
         }
+        // A picked hub or a shown route: the rest steps back.
+        else if (focus && !onRoute)
+            alpha *= 0.55f;
         if (dim)
             alpha *= 0.25f;
-        int count = LinkPolyline(a, b, bend, trimA, trimB);
+        LinkLine(a, b, trimA, trimB);
+        // A dark strip under every link: where two lines come close, the later one reads as passing over, not as a joint.
+        DrawLinkLine(new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f), width + 3f);
         if (onRoute)
         {
-            DrawPolyline(count, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f), 7f, false);
-            c = NetrunUI.Accent;
-            alpha = 1f;
+            DrawLinkLine(new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f), 7f);
+            // Dashes that crawl toward the route's end (12 px a second), still when animations are off.
+            float crawl = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * 12f * direction : 0f;
+            DrawLinkLine(NetrunUI.Accent, 2.5f, 8f, 5f, crawl);
         }
-        bool dashed = orbitShut || l.Kind is LinkKind.Dark or LinkKind.Backdoor or LinkKind.Wall;
-        if (!dashed && (onRoute || nearSelected))
-            DrawPolyline(count, new Color(c.r, c.g, c.b, 0.12f), width + 4f, false);
-        DrawPolyline(count, new Color(c.r, c.g, c.b, alpha), width, dashed);
-        Vector2 mid = count == 2 ? (LinkPoints[0] + LinkPoints[1]) / 2f : LinkPoints[count / 2];
+        else if (shut || l.Kind == LinkKind.Wall)
+            DrawLinkLine(new Color(c.r, c.g, c.b, alpha), width, 8f, 5f);
+        else if (l.Kind == LinkKind.Dark)
+            DrawLinkLine(new Color(c.r, c.g, c.b, alpha), width, 3f, 5f);
+        else if (l.Kind == LinkKind.Backdoor)
+            DrawLinkLine(new Color(c.r, c.g, c.b, alpha), width, 10f, 10f);
+        else
+            DrawLinkLine(new Color(c.r, c.g, c.b, alpha), width);
+        // One mark in the middle at most: lock > broken > toll.
+        Vector2 mid = (LinkPoints[0] + LinkPoints[1]) / 2f;
         Text.Font = GameFont.Tiny;
         if (shut)
         {
@@ -538,6 +497,8 @@ public static partial class GatewayView
             Widgets.Label(new Rect(mid.x - 5f, mid.y - 9f, 14f, 18f), "✕".Colorize(NetrunUI.Bad));
         else if (l.Toll)
         {
+            GUI.color = NetrunUI.BgWindow;
+            GUI.DrawTexture(new Rect(mid.x - 6f, mid.y - 6f, 12f, 12f), NetrunUI.Disc);
             GUI.color = NetrunUI.Warn;
             GUI.DrawTexture(new Rect(mid.x - 4f, mid.y - 4f, 8f, 8f), NetrunUI.Disc);
             GUI.color = Color.white;
@@ -642,7 +603,8 @@ public static partial class GatewayView
             bool shut = n.GuardLocked;
             GUI.color = shut ? NetrunUI.Warn : new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.5f);
             GUI.DrawTexture(rect.ExpandedBy(7f), DashedRing);
-            if (shut && GuardKeyHub(n.Id) is { } keyHub && net.Map.Node(keyHub) is { } key)
+            // The line to the key only for the hub or its key hub picked or hovered: always drawn, they read as crossing links.
+            if (shut && GuardKeyHub(n.Id) is { } keyHub && net.Map.Node(keyHub) is { } key && (selected || hover || keyHub == _selectedMapNode))
                 DrawKeyLine(ToScreen(local, key.Pos), p, r);
             guardTag = DrawGuardTag(rect, shut);
         }

@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: clearer links: straight, four kinds (street, highway, darknet, shut), the route crawls toward its end, and the key line shows only on hover or selection.
 - Cyberspace map: links never cross any more, also after map events; older saves get their crossing links rerouted once.
 - Russian: a full copy-edit of the Russian texts: gender forms, grammar after numbers, consistent terms (Stealth is now «Невидимка», Black ICE everywhere) and several meaning errors.
 - Russian: a glossary of terms and an automatic check of Russian texts; fixed a missing AI name in a quest step and «хаб» → «узел».
