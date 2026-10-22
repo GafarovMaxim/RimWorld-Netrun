@@ -875,7 +875,9 @@ public static partial class GatewayView
         NetRunner selected = SelectedRunner(net);
         if (selected != null)
         {
-            float bw = (inner.width - 6f) / 2f;
+            // Stop / Exit takes the row; the emergency exit is a small red icon button at its end (2026-10-23: two equal
+            // buttons, one of them red, read as a pair of equal choices).
+            float bw = inner.width - 34f;
             if (selected.Moving)
             {
                 if (NetrunUI.Button(new Rect(inner.x, y, bw, 28f), "NR_MapStop".Translate(), NetrunUI.Muted, true, "NR_MapStopTip".Translate()))
@@ -888,12 +890,15 @@ public static partial class GatewayView
                         "NR_MapExitTip".Translate()))
                     net.Disconnect(selected, emergency: false);
             }
-            if (NetrunUI.Button(new Rect(inner.x + bw + 6f, y, bw, 28f), "NR_MapEmergencyButton".Translate(), NetrunUI.Bad, true,
-                    "NR_MapEmergencyTip".Translate(NetMapManager.Settings.emergencyNetsick.ToString("0.##"), NetMapManager.Settings.emergencyLockoutChance.ToStringPercent())))
+            if (NetrunUI.Button(new Rect(inner.xMax - 28f, y, 28f, 28f), "", NetrunUI.Bad, true,
+                    NetrunUI.T("NR_MapEmergencyButton").Colorize(NetrunUI.Bad) + "\n" + "NR_MapEmergencyTip".Translate(NetMapManager.Settings.emergencyNetsick.ToString("0.##"), NetMapManager.Settings.emergencyLockoutChance.ToStringPercent()), NetrunTex.CyberIcon("Action_Exit")))
                 Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("NR_MapEmergencyConfirm".Translate(selected.Pawn?.LabelShort ?? "?"),
                     () => net.Disconnect(selected, emergency: true), destructive: true));
             y += 34f;
-            if (!net.AtExit(selected))
+            // Go and exit and Home share one row, half each.
+            bool showExit = !net.AtExit(selected), showHome = selected.NodeId != net.Map.HomeId || selected.Moving;
+            float half = showExit && showHome ? (inner.width - 6f) / 2f : inner.width;
+            if (showExit)
             {
                 // NearestExit runs a route search per exit hub: once a second or when the runner's hub changes, not per GUI event.
                 int exitFrom = selected.Moving ? selected.NextNodeId : selected.NodeId;
@@ -905,16 +910,14 @@ public static partial class GatewayView
                     _exitFound = net.NearestExit(selected) >= 0;
                 }
                 AcceptanceReport goExit = _exitFound ? true : (AcceptanceReport)"NR_MapNoRoute".Translate();
-                if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoAndExit".Translate(), NetrunUI.Ok, goExit, "NR_MapGoAndExitTip".Translate()))
+                if (NetrunUI.Button(new Rect(inner.x, y, half, 28f), "NR_MapGoAndExit".Translate(), NetrunUI.Ok, goExit, "NR_MapGoAndExitTip".Translate()))
                     net.GoAndExit(selected);
-                y += 32f;
             }
-            if (selected.NodeId != net.Map.HomeId || selected.Moving)
-            {
-                if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGoHome".Translate(), NetrunUI.Ok, net.CanTravel(selected, net.Map.HomeId), "NR_MapGoHomeTip".Translate()))
-                    net.Travel(selected, net.Map.HomeId);
+            if (showHome && NetrunUI.Button(new Rect(inner.xMax - half, y, half, 28f), "NR_MapGoHome".Translate(), NetrunUI.Ok,
+                    net.CanTravel(selected, net.Map.HomeId), "NR_MapGoHomeTip".Translate()))
+                net.Travel(selected, net.Map.HomeId);
+            if (showExit || showHome)
                 y += 32f;
-            }
         }
 
         // Pawns lying in pods who are not connected yet (the list twice a second: PERF_AUDIT_4, 21).

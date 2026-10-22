@@ -622,6 +622,8 @@ public static partial class GatewayView
         Widgets.EndScrollView();
     }
 
+    private static int _lastPanelNode = -1;
+
     private static void DrawPanel(Rect rect, Map map, GatewayManager gateway, ExternalNode node)
     {
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(1f, 1f, 1f, 0.12f));
@@ -661,11 +663,40 @@ public static partial class GatewayView
         {
             Widgets.Label(new Rect(inner.x, y, inner.width, 60f), (node == null ? "NR_GatewayPickNode" : "NR_GatewayNodeHidden").Translate().Colorize(NetrunUI.Muted));
             y += 64f;
+            // Nothing to dive into: no programs, daemons, cost or DIVE, straight to the footer.
+            if (mapPanel)
+            {
+                y = DrawPanelFooter(inner, y + 6f, outer, withReports: false);
+                _panelHeight = y + 4f;
+                Widgets.EndScrollView();
+                return;
+            }
         }
         else
         {
             float gNode = y;
-            y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), node.Name);
+            // A newly picked node: scroll the panel to it, so its facts and DIVE are in view (2026-10-23).
+            if (node.Id != _lastPanelNode)
+            {
+                _lastPanelNode = node.Id;
+                if (scrolls)
+                    _panelScroll.y = Mathf.Max(0f, gNode - 4f);
+            }
+            // The node's header, unlike the hub's section: a small NODE kicker over a bigger name with its type icon.
+            Text.Font = GameFont.Tiny;
+            GUI.color = NetrunUI.Muted;
+            Widgets.Label(new Rect(inner.x, y + 2f, inner.width, 16f), NetrunUI.Upper(NetrunUI.T("NR_GatewayNodeKicker")));
+            GUI.color = Color.white;
+            Text.Font = GameFont.Medium;
+            float nx = inner.x;
+            if (node.Icon != null)
+            {
+                GUI.DrawTexture(new Rect(nx, y + 20f, 24f, 24f), node.Icon);
+                nx += 30f;
+            }
+            Widgets.Label(new Rect(nx, y + 17f, inner.xMax - nx, 30f), node.Name.Truncate(inner.xMax - nx));
+            Text.Font = GameFont.Small;
+            y += 52f;
             y = Row(inner, y, node.Icon, "NR_GatewayRowType".Translate(), node.TypeLabel, NetrunUI.TextColor, "NR_GatewayTipType".Translate());
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_GATE"), "NR_GatewayRowDefense".Translate(),
                 "NR_GatewayDefenseValue".Translate(1 + node.Defense / 2, node.Defense), NetrunUI.Warn, "NR_GatewayTipDefense".Translate());

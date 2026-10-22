@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Gateway side panel: showing a hub picks its first node; with no node the panel skips programs and DIVE; the node gets its own header and the panel scrolls to it; the emergency exit is a small icon button, Go and exit and Home share a row.
 - Cyberspace map: a rival netrunner shows as an icon left of the hub name, like the key.
 - Cyberspace map: the contract target is an amber pulsing ring on every lens and the first, framed chip in the hub's plate.
 - Cyberspace map: a new path is drawn only where it leaves the active route, with a notch where it turns off.

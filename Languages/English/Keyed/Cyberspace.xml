@@ -244,6 +244,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HunterFollowed>The ICE hunter followed your netrunner back. Expect trouble with the machines soon.</NR_HunterFollowed>
   <NR_StormLabel>Data storm</NR_StormLabel>
   <NR_Storm>A data storm sweeps the net for {0}: every node is harder to crack, and every haul is bigger.</NR_Storm>
+  <NR_GatewayNodeKicker>node</NR_GatewayNodeKicker>
   <NR_GatewayRival>rival netrunner</NR_GatewayRival>
   <NR_GatewayRivalTurns>{0} turns before the files are gone</NR_GatewayRivalTurns>
   <NR_GatewayRivalTip>Another netrunner is after this node: you have {0} turns before the files are gone.</NR_GatewayRivalTip>

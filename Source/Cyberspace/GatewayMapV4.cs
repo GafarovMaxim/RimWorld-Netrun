@@ -53,6 +53,15 @@ public static partial class GatewayView
     public static void FocusNode(int hubId, int branchId = -1)
     {
         _selectedMapNode = hubId;
+        // No branch named (Show buttons, OpenGatewayAt): pick the hub's first known node, as a click does (2026-10-23:
+        // the panel showed programs and a dead DIVE with nothing picked).
+        if (branchId < 0)
+            foreach (ExternalNode b in BranchesOf(hubId))
+                if (!b.Hidden)
+                {
+                    branchId = b.Id;
+                    break;
+                }
         _selectedId = branchId;
         _centerOn = hubId;
         _pulseNode = hubId;
