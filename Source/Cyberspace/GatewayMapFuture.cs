@@ -144,7 +144,7 @@ public static partial class GatewayView
                 foreach (TimerEntry e in Timeline(net))
                 {
                     int left = Left(e);
-                    if (left > GenDate.TicksPerDay || list.Count >= 4)
+                    if (left > GenDate.TicksPerDay || list.Count >= 3)
                         continue;
                     list.Add(new NowRow { Text = e.Text, Right = Short(left), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = e.Hub, Tip = e.Text });
                 }
@@ -161,7 +161,7 @@ public static partial class GatewayView
                 int now = Find.TickManager.TicksGame, shown = 0;
                 foreach (NetHeadline h in g.RecentHeadlines)
                 {
-                    if (now - h.Tick > GenDate.TicksPerDay || shown++ >= 3)
+                    if (now - h.Tick > GenDate.TicksPerDay || shown++ >= 2)
                         break;
                     list.Add(new NowRow { Text = h.Text.StripTags(), Right = "NR_MapNowAgo".Translate(Short(now - h.Tick)), Color = h.Color, Hub = -1, Tip = h.Text });
                 }
@@ -176,9 +176,10 @@ public static partial class GatewayView
             Text.Font = GameFont.Small;
             return y + 24f;
         }
+        // The news reads in Small, fewer rows (UI audit 2026-10-23: Tiny was too small for the panel's main feed).
+        Text.Font = GameFont.Small;
         foreach (NowRow row in rows)
             y = DrawInfoRow(inner, y, row);
-        Text.Font = GameFont.Small;
         return y + 6f;
     }
 
@@ -190,7 +191,7 @@ public static partial class GatewayView
     {
         float rightW = row.Right.NullOrEmpty() ? 0f : NetrunUI.Width(row.Right) + 8f;
         float textW = inner.width - 12f - rightW;
-        float h = Mathf.Min(Text.CalcHeight(row.Text, textW), 30f);
+        float h = Mathf.Min(Text.CalcHeight(row.Text, textW), Text.Font == GameFont.Small ? 44f : 30f);
         var r = new Rect(inner.x, y, inner.width, Mathf.Max(20f, h + 4f));
         Widgets.DrawBoxSolid(r, new Color(row.Color.r, row.Color.g, row.Color.b, Mouse.IsOver(r) && row.Hub >= 0 ? 0.14f : 0.06f));
         Widgets.DrawBoxSolid(new Rect(r.x, r.y, 3f, r.height), row.Color);

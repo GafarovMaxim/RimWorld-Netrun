@@ -852,9 +852,9 @@ public static partial class GatewayView
         string diveTip = (runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) + "\n\n" : string.Empty)
                          + "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn) + source.Colorize(NetrunUI.Subtle) + "\n" + breakdown;
         string diveLabel = cost > 0 ? "NR_GatewayDiveCost".Translate(cost) : "NR_GatewayDive".Translate();
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 48f), diveLabel, NetrunUI.Accent, dive, diveTip, NetrunTex.Dive))
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 40f), diveLabel, NetrunUI.Accent, dive, diveTip, NetrunTex.Dive))
             gateway.Dive(map, node);
-        y += 52f;
+        y += 44f;
         // Why the button is off, under it (UI audit 2026-10-23: the reason was only in the tooltip).
         if (!dive.Accepted && !dive.Reason.NullOrEmpty())
         {

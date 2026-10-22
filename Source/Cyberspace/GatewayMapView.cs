@@ -177,7 +177,8 @@ public static partial class GatewayView
         DrawLensBar(rect);
         // Over the lens bar's row, never under it.
         DrawRunnerArrows(rect, net);
-        DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
+        // Never past the lens bar, which starts 274 px in.
+        DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, Mathf.Min(rect.width * 0.45f, 262f), 26f), net);
         GuideRegistry.Area("gateway.searchbox", new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f));
         GuideRegistry.Area("gateway.lenses", LensBarRect(rect));
         if (NetrunMod.Settings.MapMinimap)
@@ -1114,7 +1115,7 @@ public static partial class GatewayView
 
         if (selected != null && (selected.NodeId != node.Id || selected.Moving))
         {
-            if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_MapGo".Translate(), NetrunUI.Accent, net.CanTravel(selected, node.Id), "NR_MapGoTip".Translate()))
+            if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 28f), "NR_MapGo".Translate(), NetrunUI.Accent, net.CanTravel(selected, node.Id), "NR_MapGoTip".Translate()))
             {
                 net.Travel(selected, node.Id);
                 // The new route lights up for a moment (UI audit 2026-10-23: a click gave only a sound).

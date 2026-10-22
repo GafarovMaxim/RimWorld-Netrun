@@ -18,7 +18,7 @@ public static class ContractsTab
     private const float SectionHeight = 36f;
     private const float CardGap = 10f;
     private const float Pad = 12f;
-    private const float IconSize = 64f;
+    private const float IconSize = 52f;
     private const float ButtonHeight = 34f;
     private const float ButtonWidth = 130f;
     private const float RightColumn = 150f;
@@ -205,8 +205,8 @@ public static class ContractsTab
 
         float width = rect.width - 16f;
         float height = 2 * SectionHeight + 20f
-                       + (active.Count == 0 ? 30f : active.Sum(c => ActiveHeight(width) + CardGap))
-                       + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + groups * GroupHeight + (offers.Count == 0 ? 30f : 0f);
+                       + (active.Count == 0 ? EmptyH : active.Sum(c => ActiveHeight(width) + CardGap))
+                       + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + groups * GroupHeight + (offers.Count == 0 ? EmptyH : 0f);
         var view = new Rect(0f, 0f, width, height);
         if (_scrollTop)
         {
@@ -259,10 +259,13 @@ public static class ContractsTab
         Widgets.EndScrollView();
     }
 
+    private const float EmptyH = 56f;
+
+    // The terminal's shared empty state, as in the other tabs (UI audit 2026-10-23).
     private static float Empty(float width, float y, string text)
     {
-        Widgets.Label(new Rect(0f, y, width, 26f), NetrunUI.Prompt(text).Colorize(NetrunUI.Muted));
-        return y + 30f;
+        NetrunUI.EmptyState(new Rect(0f, y, width, EmptyH), "EMPTY", text, NetrunUI.Muted, center: false);
+        return y + EmptyH;
     }
 
     // ---- Shared bits ----
@@ -509,7 +512,7 @@ public static class ContractsTab
         float desc = HyperText.Height(contract.Description, TextWidth(width), "board." + contract.Id);
         Text.Font = GameFont.Small;
         float content = 28f + desc + 6f + 22f + 4f + 18f;
-        return Mathf.Max(Mathf.Max(IconSize, content), 30f + 20f + ButtonHeight + 22f) + 2 * Pad;
+        return Mathf.Max(Mathf.Max(IconSize, content), 46f + ButtonHeight + 20f) + 2 * Pad;
     }
 
     private static void DrawOffer(Rect rect, Contract contract, Fixer fixer, ContractManager contracts, System.Action<string> openHelp, int index, Map map)
@@ -559,7 +562,7 @@ public static class ContractsTab
 
         // No channel to the fixer: call them right here instead of a dead Accept (Maxim, 2026-10-23: the player had to go to
         // the Club and remember the name).
-        var button = new Rect(rect.xMax - Pad - ButtonWidth, ry + 50f, ButtonWidth, ButtonHeight);
+        var button = new Rect(rect.xMax - Pad - ButtonWidth, ry + 46f, ButtonWidth, ButtonHeight);
         var reason = new Rect(rx - 40f, button.yMax + 2f, RightColumn + 40f, 18f);
         if (!fixer.ChannelOpen && !NetworkIsolation.Active)
         {
