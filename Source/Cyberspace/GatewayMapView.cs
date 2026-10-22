@@ -23,16 +23,17 @@ public static partial class GatewayView
     public static Color DistrictColor(District d) => d switch
     {
         District.Home => NetrunUI.Accent,
-        District.Outskirts => new Color(0.35f, 0.78f, 0.47f),
+        // Outskirts, Corp and the Old Net moved off the green and red of Ok / Bad and the runner (Maxim, 2026-10-23).
+        District.Outskirts => new Color(0.45f, 0.62f, 0.88f),
         District.Transit => new Color(0.24f, 0.82f, 0.9f),
-        District.Corp => new Color(0.92f, 0.35f, 0.4f),
+        District.Corp => new Color(0.86f, 0.58f, 0.86f),
         District.Market => new Color(0.9f, 0.82f, 0.47f),
         District.Ruins => new Color(0.67f, 0.59f, 0.51f),
         District.Campus => new Color(0.43f, 0.78f, 0.82f),
         District.Entertainment => new Color(0.94f, 0.47f, 0.6f),
         District.Dump => new Color(0.59f, 0.67f, 0.35f),
         District.Dark => NetrunUI.Purple,
-        District.OldNet => new Color(0.86f, 0.24f, 0.27f),
+        District.OldNet => new Color(0.9f, 0.58f, 0.32f),
         District.Orbit => new Color(0.78f, 0.86f, 1f),
         _ => NetrunUI.Muted,
     };

@@ -434,15 +434,22 @@ public static partial class GatewayView
 
     private static float NameWidth(string text)
     {
-        if (NameWidths.TryGetValue(text, out float w))
+        // Big plates measure in their own font: keyed apart so the two never mix.
+        string key = BigPlates ? "\u0001" + text : text;
+        if (NameWidths.TryGetValue(key, out float w))
             return w;
-        Text.Font = GameFont.Tiny;
+        Text.Font = PlateFont;
         w = Text.CalcSize(text).x;
         if (NameWidths.Count > 400)
             NameWidths.Clear();
-        NameWidths[text] = w;
+        NameWidths[key] = w;
         return w;
     }
+
+    // Up close the plates read in Small on a taller row (Maxim, 2026-10-23: from 180 %).
+    private static bool BigPlates => _zoom >= 1.8f;
+    private static GameFont PlateFont => BigPlates ? GameFont.Small : GameFont.Tiny;
+    private static float PlateRow => BigPlates ? 22f : 16f;
 
     private struct NamePlate
     {
@@ -533,7 +540,7 @@ public static partial class GatewayView
         // row made the plate too wide). Unnamed: one row of states and chips.
         float chipW = chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
         float w = named ? Mathf.Max(NameWidth(text) + 16f + icons * LockWidth, chipW + 10f) : 6f + icons * LockWidth + chipW;
-        float h = named && branches.Count > 0 ? 16f + ChipRow : 16f;
+        float h = named && branches.Count > 0 ? PlateRow + ChipRow : PlateRow;
         NameQueue.Add(new NamePlate
         {
             Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, h),
@@ -596,9 +603,9 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         }
         List<ExternalNode> branches = plate.Branches;
-        float row = 16f;
+        float row = PlateRow;
         int icons = StateCount(plate.States);
-        Text.Font = GameFont.Tiny;
+        Text.Font = PlateFont;
         float x, cy = tag.y + row / 2f;
         if (plate.Named)
         {
@@ -655,7 +662,7 @@ public static partial class GatewayView
         {
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = new Color(1f, 1f, 1f, a);
-            Widgets.Label(new Rect(x + 1f, cy - 8f, NameWidth(more) + 2f, 16f), more);
+            Widgets.Label(new Rect(x + 1f, cy - 11f, NameWidth(more) + 2f, 22f), more);
         }
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
