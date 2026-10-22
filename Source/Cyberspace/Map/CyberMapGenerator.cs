@@ -198,53 +198,80 @@ public static class CyberMapGenerator
 
         Relax(nodes, new Vector2(0.02f, L.Centers[Outskirts].y));
 
+        // Home and the darknet hub are placed before any link: every link then comes from one planar pool (below).
+        MapNode home = Add(Outskirts, 0.02f, L.Centers[Outskirts].y, 0);
+        home.District = District.Home;
+        home.Exit = true;
+        map.HomeId = home.Id;
+        keyOf[home.Id] = "home";
+        Vector2 dp = Enumerable.Range(0, 200).Select(_ => new Vector2(Rand.Range(0.30f, 0.80f), Rand.Range(0.10f, 0.58f)))
+            .MaxBy(p => nodes.Min(n => Vector2.Distance(p, n.Pos)));
+        MapNode dark = Add(Market, dp.x, dp.y, 2);
+        dark.District = District.Dark;
+        map.DarkHubId = dark.Id;
+        keyOf[dark.Id] = "dark";
+
         List<int> Ids(string key) => nodes.Where(n => keyOf[n.Id] == key).Select(n => n.Id).ToList();
-        List<int> main = nodes.Where(n => n.District != District.OldNet).Select(n => n.Id).ToList();
+        List<int> main = nodes.Where(n => keyOf[n.Id] is not (OldNet or "home" or "dark")).Select(n => n.Id).ToList();
+        List<int> net = main.Append(home.Id).ToList();
         float Dist(int a, int b) => Vector2.Distance(map.Node(a).Pos, map.Node(b).Pos);
-        // A link is only added where it crosses no other link and passes no other hub (unless forced: the few links the
-        // net cannot do without, when no clear pair is left).
-        bool Link(int a, int b, LinkKind kind, bool force = false)
+        // Every link is a pair of the Gabriel graph of all hubs: any set of its pairs is planar, so links never cross
+        // (Maxim, 2026-10-22: links still crossed, the forced links were the cause). Pairs that pass close to another hub
+        // are kept only as a last resort, for the links the net cannot do without.
+        Dictionary<long, bool> pool = GabrielPool(map);
+        bool Link(int a, int b, LinkKind kind, bool loose = false)
         {
             if (a == b)
                 return false;
-            MapLink existing = map.Links.FirstOrDefault(l => l.Has(a) && l.Has(b));
+            MapLink existing = map.LinkBetween(a, b);
             if (existing != null)
             {
                 if (kind == LinkKind.Fast)
                     existing.Kind = LinkKind.Fast;
                 return true;
             }
-            if (!force && !map.LinkClear(a, b))
+            if (!pool.TryGetValue(PairKey(a, b), out bool clear) || (!clear && !loose))
                 return false;
             map.Links.Add(new MapLink { A = a, B = b, Kind = kind, Known = kind != LinkKind.Dark });
             map.Dirty();
             return true;
         }
-        // The shortest clear pair of a list, or the shortest one when none is clear.
-        void LinkBest(List<(float d, int a, int b)> pairs, LinkKind kind)
+        bool LinkBest(IEnumerable<(float d, int a, int b)> pairs, LinkKind kind, bool loose = false)
         {
-            if (pairs.Count == 0)
-                return;
-            foreach ((float _, int a, int b) in pairs)
-                if (Link(a, b, kind))
-                    return;
-            Link(pairs[0].a, pairs[0].b, kind, force: true);
+            foreach ((float _, int a, int b) in pairs.OrderBy(p => p.d))
+                if (Link(a, b, kind, loose))
+                    return true;
+            return false;
         }
-
-        // Gabriel graph inside the main net.
-        var cand = new List<(float d, int i, int j)>();
-        foreach (int i in main)
-            foreach (int j in main)
+        // The shortest tree through a set of hubs (Kruskal over the pool, clear pairs first): keeps them connected.
+        void Tree(List<int> ids, LinkKind kind)
+        {
+            var set = new HashSet<int>(ids);
+            var root = ids.ToDictionary(i => i, i => i);
+            int Find(int i) => root[i] == i ? i : root[i] = Find(root[i]);
+            var pairs = pool.Select(kv => (a: (int)(kv.Key >> 32), b: (int)(kv.Key & 0xFFFFFFFF), clear: kv.Value))
+                .Where(p => set.Contains(p.a) && set.Contains(p.b))
+                .OrderBy(p => p.clear ? 0 : 1).ThenBy(p => Dist(p.a, p.b));
+            foreach ((int a, int b, bool _) in pairs)
             {
-                if (i >= j)
+                int ra = Find(a), rb = Find(b);
+                if (ra == rb)
                     continue;
-                Vector2 mid = (map.Node(i).Pos + map.Node(j).Pos) / 2f;
-                float r2 = (map.Node(i).Pos - map.Node(j).Pos).sqrMagnitude / 4f;
-                if (main.All(k => k == i || k == j || (map.Node(k).Pos - mid).sqrMagnitude >= r2))
-                    cand.Add((Dist(i, j), i, j));
+                if (Link(a, b, kind, loose: true))
+                    root[ra] = rb;
             }
+        }
+        List<(float d, int a, int b)> PoolPairs(System.Func<int, int, bool> where)
+            => pool.Keys.Select(k => ((int)(k >> 32), (int)(k & 0xFFFFFFFF)))
+                .SelectMany(p => new[] { p, (p.Item2, p.Item1) })
+                .Where(p => where(p.Item1, p.Item2)).Select(p => (Dist(p.Item1, p.Item2), p.Item1, p.Item2)).ToList();
+
+        // The backbone: the shortest tree through the main net and Home.
+        Tree(net, LinkKind.Normal);
+
+        // Short neighbours inside a district, a few links between districts.
         var crossPairs = new Dictionary<string, int>();
-        foreach ((float d, int i, int j) in cand.OrderBy(c => c.d))
+        foreach ((float d, int i, int j) in PoolPairs((a, b) => a < b && main.Contains(a) && main.Contains(b)).OrderBy(c => c.d))
         {
             string ki = keyOf[i], kj = keyOf[j];
             if (ki == kj)
@@ -258,62 +285,26 @@ public static class CyberMapGenerator
                 continue;
             string pair = string.CompareOrdinal(ki, kj) < 0 ? ki + "|" + kj : kj + "|" + ki;
             crossPairs.TryGetValue(pair, out int used);
-            if (used < L.Cross && d < 0.20f)
-            {
+            if (used < L.Cross && d < 0.20f && Link(i, j, LinkKind.Normal))
                 crossPairs[pair] = used + 1;
-                Link(i, j, LinkKind.Normal);
-            }
         }
 
-        // Fast links: the transit hub.
-        List<int> hub = Ids(Hub);
-        if (L.Express == "chain")
-            hub = hub.OrderBy(i => map.Node(i).X).ToList();
-        else
-        {
-            Vector2 hc = hub.Aggregate(Vector2.zero, (s, i) => s + map.Node(i).Pos) / Mathf.Max(1, hub.Count);
-            hub = hub.OrderBy(i => Mathf.Atan2(map.Node(i).Y - hc.y, map.Node(i).X - hc.x)).ToList();
-        }
-        for (int k = 0; k + 1 < hub.Count; k++)
-            Link(hub[k], hub[k + 1], LinkKind.Fast, force: true);
-        // The ring closes only where the closing link crosses nothing (the chain already connects the transit).
-        if (L.Express != "chain" && hub.Count > 2)
-            Link(hub[hub.Count - 1], hub[0], LinkKind.Fast);
+        // Fast links: between transit hubs that are neighbours in the pool, and from each district to the transit.
+        var hub = new HashSet<int>(Ids(Hub));
+        foreach ((float _, int a, int b) in PoolPairs((a, b) => a < b && hub.Contains(a) && hub.Contains(b)))
+            Link(a, b, LinkKind.Fast, loose: true);
         foreach (string key in counts.Keys)
         {
-            if (key is Hub or OldNet)
+            if (key is Hub or OldNet || hub.Count == 0)
                 continue;
-            List<int> ids = Ids(key);
-            if (ids.Count == 0 || hub.Count == 0)
-                continue;
-            var pairs = (from i in ids from h in hub select (d: Dist(i, h), a: i, b: h)).OrderBy(p => p.d).ToList();
+            var ids = new HashSet<int>(Ids(key));
+            List<(float d, int a, int b)> pairs = PoolPairs((a, b) => ids.Contains(a) && hub.Contains(b));
             LinkBest(pairs, LinkKind.Fast);
             if (L.Express == "ring" && ids.Count > 2)
-                foreach ((float _, int a, int b) in pairs)
-                    if (map.LinkBetween(a, b) == null && Link(a, b, LinkKind.Fast))
-                        break;
+                LinkBest(pairs.Where(p => map.LinkBetween(p.a, p.b) == null), LinkKind.Fast);
         }
 
-        // Each district stays connected inside (a minimum spanning tree as a safety net).
-        foreach (string key in counts.Keys)
-        {
-            List<int> ids = Ids(key);
-            if (ids.Count < 2)
-                continue;
-            var inside = new HashSet<int> { ids[0] };
-            while (inside.Count < ids.Count)
-            {
-                var options = (from a in inside from b in ids where !inside.Contains(b) select (d: Dist(a, b), a, b)).OrderBy(p => p.d).ToList();
-                // The shortest clear link that grows the district's tree; the shortest one if none is clear.
-                var best = options.FirstOrDefault(o => map.LinkClear(o.a, o.b));
-                if (best.a == best.b)
-                    best = options[0];
-                Link(best.a, best.b, LinkKind.Normal, force: true);
-                inside.Add(best.b);
-            }
-        }
-
-        // Degree cap 3 for normal links (transit hubs may keep more), as long as the main net stays connected.
+        // Degree cap 3 for normal links (transit hubs may keep more), as long as the net stays connected.
         foreach (int i in main)
         {
             int cap = keyOf[i] == Hub ? 5 : 3;
@@ -323,7 +314,7 @@ public static class CyberMapGenerator
                     break;
                 map.Links.Remove(l);
                 map.Dirty();
-                if (!Connected(map, main))
+                if (!Connected(map, net))
                 {
                     map.Links.Add(l);
                     map.Dirty();
@@ -331,41 +322,31 @@ public static class CyberMapGenerator
             }
         }
 
-        // Home on the left edge, linked to the two nearest outskirts nodes.
-        MapNode home = Add(Outskirts, 0.02f, L.Centers[Outskirts].y, 0);
-        home.District = District.Home;
-        home.Exit = true;
-        map.HomeId = home.Id;
-        foreach (int j in Ids(Outskirts).Where(j => j != home.Id).OrderBy(j => Dist(home.Id, j)).Take(2))
-            Link(home.Id, j, LinkKind.Normal);
+        // Home: up to two links into the outskirts.
+        var outskirts = new HashSet<int>(Ids(Outskirts));
+        List<(float d, int a, int b)> homePairs = PoolPairs((a, b) => a == home.Id && outskirts.Contains(b));
+        if (map.LinksOf(home.Id).Count < 2)
+            LinkBest(homePairs.Where(p => map.LinkBetween(p.a, p.b) == null), LinkKind.Normal);
 
-        // The Old Net behind the wall: a chain, one wall link from the nearest main node outside the transit.
-        List<int> old = Ids(OldNet).OrderBy(i => map.Node(i).Y).ToList();
-        for (int k = 0; k + 1 < old.Count; k++)
-            Link(old[k], old[k + 1], LinkKind.Normal);
+        // The Old Net behind the wall: its own tree, one wall link to the nearest main hub outside the transit.
+        List<int> old = Ids(OldNet);
+        Tree(old, LinkKind.Normal);
         if (old.Count > 0)
         {
-            var gate = (from i in old from j in main where keyOf[j] != Hub select (d: Dist(i, j), i, j)).OrderBy(p => p.d).First();
-            Link(gate.i, gate.j, LinkKind.Wall);
+            var oldSet = new HashSet<int>(old);
+            var mainSet = new HashSet<int>(main);
+            if (!LinkBest(PoolPairs((a, b) => oldSet.Contains(a) && mainSet.Contains(b) && !hub.Contains(b)), LinkKind.Wall, loose: true))
+                LinkBest(PoolPairs((a, b) => oldSet.Contains(a) && mainSet.Contains(b)), LinkKind.Wall, loose: true);
         }
 
-        // The darknet: one hidden hub and dark links to the ruins, the dump and the market, plus one shortcut.
-        Vector2 dp = Enumerable.Range(0, 200).Select(_ => new Vector2(Rand.Range(0.30f, 0.80f), Rand.Range(0.10f, 0.58f)))
-            .MaxBy(p => nodes.Min(n => Vector2.Distance(p, n.Pos)));
-        MapNode dark = Add(Market, dp.x, dp.y, 2);
-        dark.District = District.Dark;
-        map.DarkHubId = dark.Id;
+        // The darknet: hidden links from its hub to the nearest ruins, dump and market hub it can reach in the pool.
         foreach (string key in new[] { Ruins, Dump, Market })
         {
-            List<int> ids = Ids(key);
-            if (ids.Count > 0)
-                Link(dark.Id, ids.MinBy(j => Dist(dark.Id, j)), LinkKind.Dark);
+            var ids = new HashSet<int>(Ids(key));
+            LinkBest(PoolPairs((a, b) => a == dark.Id && ids.Contains(b)), LinkKind.Dark, loose: true);
         }
-        // The shortcut only where it crosses nothing (a long dark line across the map read as a broken link).
-        List<int> far = main.OrderByDescending(i => Dist(dark.Id, i)).Take(6).ToList();
-        foreach ((int a, int b) in (from a in far from b in far where a < b select (a, b)).InRandomOrder())
-            if (Link(a, b, LinkKind.Dark))
-                break;
+        if (map.LinksOf(dark.Id).Count == 0)
+            LinkBest(PoolPairs((a, b) => a == dark.Id && main.Contains(b)), LinkKind.Dark, loose: true);
 
         // One fortress per corporation: its node farthest from Home.
         foreach (string key in CorpKeys)
@@ -387,7 +368,10 @@ public static class CyberMapGenerator
             if (n.District == District.Transit || nodes.Where(o => o.Exit).All(o => map.Hops(i, o.Id, 2) >= 2))
                 n.Exit = true;
         }
-        Uncross(map);
+        // Self-check: the pool makes crossings impossible, so the safety net should find nothing.
+        int crossings = Uncross(map);
+        if (crossings > 0 && Prefs.DevMode)
+            Log.Warning($"[Netrun] Map generator: {crossings} crossing links had to be removed ({layout}).");
         map.Dirty();
         return map;
     }
@@ -438,16 +422,55 @@ public static class CyberMapGenerator
     /// <summary>How far other hubs keep from Home (Maxim, 2026-10-15: a neighbour sat right on top of it).</summary>
     public const float HomeClearance = 0.11f;
 
+    /// <summary>One key per unordered pair of hub ids.</summary>
+    public static long PairKey(int a, int b) => a < b ? ((long)a << 32) | (uint)b : ((long)b << 32) | (uint)a;
+
     /// <summary>
-    /// Removes crossings: of two crossing links the longer normal or fast one goes (or the other one), as long as every
-    /// hub that was reachable stays reachable. Dark and wall links stay; a normal link crossing them goes instead.
+    /// The Gabriel graph of all hubs (a pair whose diameter circle holds no other hub): the pool every link comes from.
+    /// It is planar, so no two of its pairs cross. The value: the pair keeps CyberMap.LinkClearance from every other hub.
+    /// O(n^3) for about 60 hubs: only at generation and in the one-time pass for older saves.
+    /// </summary>
+    public static Dictionary<long, bool> GabrielPool(CyberMap map)
+    {
+        var pool = new Dictionary<long, bool>();
+        List<MapNode> all = map.Nodes;
+        for (int i = 0; i < all.Count; i++)
+        {
+            for (int j = i + 1; j < all.Count; j++)
+            {
+                Vector2 pi = all[i].Pos, pj = all[j].Pos, mid = (pi + pj) / 2f;
+                float r2 = (pi - pj).sqrMagnitude / 4f;
+                bool gabriel = true, clear = true;
+                for (int k = 0; k < all.Count && gabriel; k++)
+                {
+                    if (k == i || k == j)
+                        continue;
+                    if ((all[k].Pos - mid).sqrMagnitude < r2)
+                        gabriel = false;
+                    else if (clear && CyberMap.DistanceToSegment(all[k].Pos, pi, pj) < CyberMap.LinkClearance)
+                        clear = false;
+                }
+                if (gabriel)
+                    pool[PairKey(all[i].Id, all[j].Id)] = clear;
+            }
+        }
+        return pool;
+    }
+
+    /// <summary>
+    /// Removes crossings, for older saves and as a safety net after generation. Of two crossing links a backdoor goes
+    /// first, then the longer one (normal, fast, or a dark shortcut not on the darknet hub). When cutting it would split
+    /// the net, the two parts are joined again by the shortest clear pair of the Gabriel pool, if there is one. Hubs
+    /// never move; runners on a removed link find another way themselves.
     /// </summary>
     public static int Uncross(CyberMap map)
     {
         if (map.Node(map.HomeId) == null)
             return 0;
         List<int> reach = Reachable(map, map.HomeId);
-        static bool Removable(MapLink l) => l.Kind is LinkKind.Normal or LinkKind.Fast;
+        Dictionary<long, bool> pool = null;
+        bool Removable(MapLink l) => l.Kind is LinkKind.Normal or LinkKind.Fast or LinkKind.Backdoor
+            || (l.Kind == LinkKind.Dark && !l.Has(map.DarkHubId));
         float Len(MapLink l) => Vector2.Distance(map.Node(l.A).Pos, map.Node(l.B).Pos);
         int removed = 0;
         for (int guard = 0; guard < 200; guard++)
@@ -461,7 +484,7 @@ public static class CyberMapGenerator
                     MapLink a = links[i], b = links[j];
                     if (a.Has(b.A) || a.Has(b.B) || !map.Crosses(a, b))
                         continue;
-                    foreach (MapLink cut in new[] { a, b }.Where(Removable).OrderByDescending(Len))
+                    foreach (MapLink cut in new[] { a, b }.Where(Removable).OrderBy(l => l.Kind == LinkKind.Backdoor ? 0 : 1).ThenByDescending(Len))
                     {
                         map.Links.Remove(cut);
                         map.Dirty();
@@ -470,6 +493,25 @@ public static class CyberMapGenerator
                             removed++;
                             changed = true;
                             break;
+                        }
+                        // A bridge: join the two parts by another way, or keep it.
+                        pool ??= GabrielPool(map);
+                        var near = new HashSet<int>(Reachable(map, map.HomeId));
+                        var join = pool.Keys.Select(k => ((int)(k >> 32), (int)(k & 0xFFFFFFFF)))
+                            .Where(p => near.Contains(p.Item1) != near.Contains(p.Item2) && reach.Contains(p.Item1) && reach.Contains(p.Item2)
+                                && map.LinkClear(p.Item1, p.Item2))
+                            .OrderBy(p => Vector2.Distance(map.Node(p.Item1).Pos, map.Node(p.Item2).Pos)).ToList();
+                        if (join.Count > 0)
+                        {
+                            map.Links.Add(new MapLink { A = join[0].Item1, B = join[0].Item2, Kind = LinkKind.Normal });
+                            map.Dirty();
+                            if (Connected(map, reach))
+                            {
+                                removed++;
+                                changed = true;
+                                break;
+                            }
+                            map.Links.RemoveAt(map.Links.Count - 1);
                         }
                         map.Links.Add(cut);
                         map.Dirty();

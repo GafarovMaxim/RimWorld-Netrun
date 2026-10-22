@@ -179,13 +179,19 @@ public partial class NetMapManager
         List<MapNode> pool = Playable.ToList();
         if (pool.Count < 4)
             return;
-        MapNode a = pool.RandomElement();
-        MapNode b = pool.Where(x => x != a && Map.LinkBetween(a.Id, x.Id) == null).OrderByDescending(x => Vector2.Distance(a.Pos, x.Pos)).FirstOrDefault();
-        if (b == null)
-            return;
-        Map.Links.Add(new MapLink { A = a.Id, B = b.Id, Kind = LinkKind.Backdoor, ExpiresTick = Now + Days(Rand.Range(3f, 5f)) });
-        Map.Dirty();
-        Headline("NR_MapNewsBackdoor", 1, NodeLabel(a).Named("NODE"), NodeLabel(b).Named("OTHER"));
+        // A shortcut between hubs at least 3 hops apart, only where it crosses no link (Maxim, 2026-10-22: the farthest
+        // hub always made a long crossing line). A few tries, else no event.
+        for (int attempt = 0; attempt < 3; attempt++)
+        {
+            MapNode a = pool.RandomElement();
+            foreach (MapNode b in pool.Where(x => x != a && Map.Hops(a.Id, x.Id, 3) >= 3).OrderByDescending(x => Vector2.Distance(a.Pos, x.Pos)))
+            {
+                if (!Map.TryAddLink(new MapLink { A = a.Id, B = b.Id, Kind = LinkKind.Backdoor, ExpiresTick = Now + Days(Rand.Range(3f, 5f)) }))
+                    continue;
+                Headline("NR_MapNewsBackdoor", 1, NodeLabel(a).Named("NODE"), NodeLabel(b).Named("OTHER"));
+                return;
+            }
+        }
     }
 
     /// <summary>A hidden dark link becomes known (also sold by data brokers).</summary>
@@ -208,13 +214,12 @@ public partial class NetMapManager
         if (cut == null)
             return;
         Map.Links.Remove(cut);
-        // The net rebuilds around the break: a new link between the nearest unlinked neighbors.
-        MapNode a = Map.Node(cut.A);
-        MapNode b = Playable.Where(x => x.Id != cut.A && x.Id != cut.B && Map.LinkBetween(a.Id, x.Id) == null)
-            .OrderBy(x => Vector2.Distance(a.Pos, x.Pos)).FirstOrDefault();
-        if (b != null)
-            Map.Links.Add(new MapLink { A = a.Id, B = b.Id, Kind = LinkKind.Normal });
         Map.Dirty();
+        // The net rebuilds around the break: a new link to the nearest neighbour it can reach without crossing a link.
+        MapNode a = Map.Node(cut.A);
+        foreach (MapNode b in Playable.Where(x => x.Id != cut.A && x.Id != cut.B).OrderBy(x => Vector2.Distance(a.Pos, x.Pos)).Take(6))
+            if (Map.TryAddLink(new MapLink { A = a.Id, B = b.Id, Kind = LinkKind.Normal }))
+                break;
         _lastPermanentTick = Now;
         Headline("NR_MapNewsCableCut", 0, NodeLabel(a).Named("NODE"));
     }
@@ -225,10 +230,12 @@ public partial class NetMapManager
         if (anchor == null)
             return;
         Vector2 pos = anchor.Pos;
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 60; i++)
         {
-            Vector2 p = anchor.Pos + Rand.InsideUnitCircle * 0.08f;
-            if (p.x > 0.05f && p.x < 0.95f && p.y > 0.04f && p.y < 0.63f && Map.Nodes.All(n => Vector2.Distance(n.Pos, p) > 0.045f))
+            Vector2 p = anchor.Pos + Rand.InsideUnitCircle * 0.12f;
+            // As much room as the generator keeps, and off every link (2026-10-22: new hubs sat on top of links).
+            if (p.x > 0.05f && p.x < 0.95f && p.y > 0.04f && p.y < 0.63f && Map.Nodes.All(n => Vector2.Distance(n.Pos, p) > 0.07f)
+                && Map.Links.All(l => CyberMap.DistanceToSegment(p, Map.Node(l.A).Pos, Map.Node(l.B).Pos) > CyberMap.LinkClearance))
             {
                 pos = p;
                 break;
@@ -238,11 +245,18 @@ public partial class NetMapManager
             return;
         var node = new MapNode { Id = Map.NextNodeId++, District = anchor.District, X = pos.x, Y = pos.y, Slots = Rand.RangeInclusive(1, 2) };
         Map.Nodes.Add(node);
-        Map.Links.Add(new MapLink { A = anchor.Id, B = node.Id, Kind = LinkKind.Normal });
-        MapNode second = Playable.Where(x => x.Id != anchor.Id && x.Id != node.Id).OrderBy(x => Vector2.Distance(x.Pos, pos)).FirstOrDefault();
-        if (second != null && Rand.Bool)
-            Map.Links.Add(new MapLink { A = second.Id, B = node.Id, Kind = LinkKind.Normal });
         Map.Dirty();
+        // Linked to the nearest hubs it can reach without crossing a link; none: the node does not appear.
+        int links = 0;
+        foreach (MapNode near in Playable.Where(x => x.Id != node.Id).OrderBy(x => Vector2.Distance(x.Pos, pos)).Take(4))
+            if ((links == 0 || Rand.Bool) && Map.TryAddLink(new MapLink { A = near.Id, B = node.Id, Kind = LinkKind.Normal }) && ++links == 2)
+                break;
+        if (links == 0)
+        {
+            Map.Nodes.Remove(node);
+            Map.Dirty();
+            return;
+        }
         if (Gateway != null)
             Attach(ExternalNode.ForDistrict(Gateway.NextBranchId(), node.District), node);
         _lastPermanentTick = Now;

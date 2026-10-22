@@ -212,12 +212,32 @@ public class CyberMap : IExposable
         return true;
     }
 
+    /// <summary>
+    /// How far a new link keeps from other hubs: a hub with its markers and name is about this wide on screen, so a link
+    /// closer than this looked like it ran through the hub (2026-10-22).
+    /// </summary>
+    public const float LinkClearance = 0.042f;
+
+    /// <summary>
+    /// The one way to add a link after generation (map events, orbit): only where it crosses no link and keeps clear of
+    /// other hubs, so a crossing never appears in game (Maxim, 2026-10-22). False when it is not clear.
+    /// </summary>
+    public bool TryAddLink(MapLink link)
+    {
+        if (link.A == link.B || Node(link.A) == null || Node(link.B) == null || LinkBetween(link.A, link.B) != null
+            || !LinkClear(link.A, link.B, LinkClearance))
+            return false;
+        Links.Add(link);
+        Dirty();
+        return true;
+    }
+
     /// <summary>Whether two links cross (sharing an end does not count).</summary>
     public bool Crosses(MapLink a, MapLink b)
         => Node(a.A) != null && Node(a.B) != null && Node(b.A) != null && Node(b.B) != null
            && SegmentsCross(Node(a.A).Pos, Node(a.B).Pos, Node(b.A).Pos, Node(b.B).Pos);
 
-    private static float DistanceToSegment(Vector2 p, Vector2 a, Vector2 b)
+    internal static float DistanceToSegment(Vector2 p, Vector2 a, Vector2 b)
     {
         Vector2 ab = b - a;
         float len2 = ab.sqrMagnitude;

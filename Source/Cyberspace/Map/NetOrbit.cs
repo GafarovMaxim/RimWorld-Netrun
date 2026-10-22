@@ -45,12 +45,16 @@ public partial class NetMapManager
     /// <summary>Adds the orbital nodes once (Odyssey only) and announces when the orbit opens or closes.</summary>
     private void EnsureOrbit()
     {
-        // Layout version 1 (2026-10-15): hubs step back from Home and crossing links go, once per older save.
-        if (Ready && _layoutVersion < 1)
+        // Layout version 1 (2026-10-15): hubs step back from Home. Version 2 (2026-10-22): crossing links go, bridges
+        // are rerouted through a clear pair. Once per older save; hubs never move here.
+        if (Ready && _layoutVersion < 2)
         {
-            CyberMapGenerator.ClearHome(Map);
-            CyberMapGenerator.Uncross(Map);
-            _layoutVersion = 1;
+            if (_layoutVersion < 1)
+                CyberMapGenerator.ClearHome(Map);
+            int removed = CyberMapGenerator.Uncross(Map);
+            if (Prefs.DevMode && removed > 0)
+                Log.Message($"[Netrun] Map layout v2: {removed} crossing links removed.");
+            _layoutVersion = 2;
         }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;
@@ -137,6 +141,15 @@ public partial class NetMapManager
                 Map.Dirty();
                 linked++;
             }
+            // No clear link to the corporation: the nearest hub of any kind that is clear.
+            if (linked == 0)
+                foreach (MapNode any in Map.Nodes.Where(h => h != n && h.District is not (District.Orbit or District.Dark or District.OldNet)).OrderBy(h => Vector2.Distance(h.Pos, p)))
+                    if (Map.TryAddLink(new MapLink { A = n.Id, B = any.Id, Kind = LinkKind.Normal }))
+                    {
+                        linked++;
+                        break;
+                    }
+            // shortcut: an orbital hub boxed in by links on every side keeps one forced link; a crossing is better than an unreachable hub.
             if (linked == 0)
             {
                 MapNode nearest = byDistance.FirstOrDefault() ?? ground.OrderBy(h => Vector2.Distance(h.Pos, p)).First();
