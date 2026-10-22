@@ -561,7 +561,11 @@ public static class ContractsTab
         if (!fixer.ChannelOpen && !NetworkIsolation.Active)
         {
             AcceptanceReport canCall = fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
-            if (NetrunUI.Button(button, "NR_FixerCall".Translate(fixer.EffectiveCallCost), NetrunUI.Warn, canCall,
+            string callLabel = "NR_FixerCall".Translate(fixer.EffectiveCallCost);
+            // The call's label carries its price: as wide as it needs, growing left (UI audit 2026-10-23).
+            float cw = Mathf.Max(ButtonWidth, NetrunUI.ButtonWidth(callLabel, NetrunTex.CallFixer != null));
+            button = new Rect(rect.xMax - Pad - cw, button.y, cw, ButtonHeight);
+            if (NetrunUI.Button(button, callLabel, NetrunUI.Warn, canCall,
                     "NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
                 FixerDeals.Call(fixer, map);
             ReasonLine(reason, "NR_BoardNoChannel".Translate(fixer.Name), NetrunUI.Warn);

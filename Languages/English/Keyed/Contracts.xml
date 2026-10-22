@@ -63,7 +63,7 @@
   <NR_BoardSort_Type>Type</NR_BoardSort_Type>
   <NR_BoardFilterAllShort>All</NR_BoardFilterAllShort>
   <NR_BoardSortCycleTip>Click to change the sort.</NR_BoardSortCycleTip>
-  <NR_BoardChannelOpenShort>on line</NR_BoardChannelOpenShort>
+  <NR_BoardChannelOpenShort>online</NR_BoardChannelOpenShort>
   <NR_BoardFilterFixerTip>Click: only {0}'s offers.</NR_BoardFilterFixerTip>
   <NR_BoardNoChannel>no channel to {0}</NR_BoardNoChannel>
   <NR_BoardAcceptDrops>Accepting withdraws {0}'s other offers ({1}).</NR_BoardAcceptDrops>
