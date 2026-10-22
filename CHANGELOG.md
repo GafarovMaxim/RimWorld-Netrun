@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.2.0] - 2026-10-23
 - The training dive offer opens in the terminal's style; the training button lives on the Home hub only, always. Node rows show defense as muted red pips further left; the second line of a wrapped hub name is centred and matches the first; the Board's sort button no longer covers the divider.
 - UI tails: Board cards are lower with a smaller type icon, empty Board lists use the terminal's empty state; "Now in the net" reads in the larger font with fewer rows; the search box never runs under the lens bar; DIVE is 40 px and Go 28 px like the other panel buttons.
 - Gateway: a wrapped hub name keeps its state icons on the first line and centres the second; the panel no longer scrolls on its own; the hub's node list has a proper section header, a rule before the picked node, and shows rival, key, known honeypot and contract marks.
