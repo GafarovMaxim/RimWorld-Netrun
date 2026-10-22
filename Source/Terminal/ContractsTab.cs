@@ -231,19 +231,12 @@ public static class ContractsTab
 
         float gOff = y;
         float yAfter = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardOffers".Translate(offers.Count));
-        Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.MiddleRight;
-        // The sort label cycles the sort.
-        var sortRect = new Rect(width - 200f, y, 200f, 26f);
-        Widgets.Label(sortRect, (("NR_BoardSort_" + _sort).Translate().ToLower() + " ▼").Colorize(Mouse.IsOver(sortRect) ? NetrunUI.Accent : NetrunUI.Muted));
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
-        NetrunUI.Tip(sortRect, "NR_BoardSortCycleTip".Translate());
-        if (Widgets.ButtonInvisible(sortRect))
-        {
-            NetrunSound.Click();
+        // The sort as a real button over the offers (Maxim, 2026-10-23: the grey "reward ▼" was barely visible); a click
+        // cycles reward, time, type.
+        string sortLabel = "NR_BoardSortButton".Translate(("NR_BoardSort_" + _sort).Translate().ToLower());
+        float sw = NetrunUI.ButtonWidth(sortLabel);
+        if (NetrunUI.Button(new Rect(width - sw - 4f, y + 2f, sw, 26f), sortLabel, NetrunUI.Accent, true, "NR_BoardSortCycleTip".Translate()))
             _sort = (Sort)(((int)_sort + 1) % 3);
-        }
         y = yAfter;
         if (offers.Count == 0)
             y = Empty(width, y, "NR_ContractsNoOffers".Translate());

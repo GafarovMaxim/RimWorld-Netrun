@@ -60,6 +60,7 @@
   <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Тип</NR_BoardSort_Type>
   <NR_BoardFilterAllShort>Все</NR_BoardFilterAllShort>
+  <NR_BoardSortButton>Сортировка: {0} ↻</NR_BoardSortButton>
   <NR_BoardSortCycleTip>Нажмите, чтобы сменить сортировку.</NR_BoardSortCycleTip>
   <NR_BoardChannelOpenShort>на связи</NR_BoardChannelOpenShort>
   <NR_BoardFilterFixerTip>Нажмите: только предложения от {0}.</NR_BoardFilterFixerTip>

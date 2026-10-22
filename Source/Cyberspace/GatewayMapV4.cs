@@ -45,7 +45,18 @@ public static partial class GatewayView
 
     private static readonly List<ExternalNode> NoBranches = [];
 
-    private static List<ExternalNode> BranchesOf(int hubId) => BranchIndex.TryGetValue(hubId, out List<ExternalNode> list) ? list : NoBranches;
+    private static List<ExternalNode> BranchesOf(int hubId) => BranchIndex.TryGetValue(hubId, out List<ExternalNode> list) && InSight(hubId) ? list : NoBranches;
+
+    /// <summary>
+    /// A hub whose nodes the player may see: charted, and not the Old Net behind a shut Wall (Maxim, 2026-10-23: a "?" hub
+    /// past the Wall listed its vault in the panel).
+    /// </summary>
+    private static bool InSight(int hubId)
+    {
+        NetMapManager net = NetMapManager.Get();
+        MapNode n = net?.Map?.Node(hubId);
+        return n == null || net.Charted(n) && (n.District != District.OldNet || net.Map.WallOpen);
+    }
 
     // ---- Camera ----
 

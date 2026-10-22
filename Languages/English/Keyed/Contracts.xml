@@ -60,6 +60,7 @@
   <NR_BoardSort_Duration>Time</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Type</NR_BoardSort_Type>
   <NR_BoardFilterAllShort>All</NR_BoardFilterAllShort>
+  <NR_BoardSortButton>Sort: {0} ↻</NR_BoardSortButton>
   <NR_BoardSortCycleTip>Click to change the sort.</NR_BoardSortCycleTip>
   <NR_BoardChannelOpenShort>online</NR_BoardChannelOpenShort>
   <NR_BoardFilterFixerTip>Click: only {0}'s offers.</NR_BoardFilterFixerTip>

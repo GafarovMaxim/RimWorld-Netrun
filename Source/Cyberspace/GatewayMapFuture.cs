@@ -223,10 +223,22 @@ public static partial class GatewayView
     /// A hub where something is going on (a timer: patrol, storm, transit, outage, intrusion) breathes with a soft
     /// amber ring, instead of arrows pointing at it (Maxim, 2026-10-14). Uses the hourly timeline, nothing extra.
     /// </summary>
+    private static readonly HashSet<long> PulseSeen = [];
+
     private static void DrawEventPulse(Rect hubRect, MapNode n, NetMapManager net)
     {
         Timeline(net);
         if (!_nearestTimer.TryGetValue(n.Id, out TimerEntry e))
+            return;
+        // Once the hub is clicked the event is seen: no more waves for it (Maxim, 2026-10-23). Session-only, events are short.
+        long seen = ((long)n.Id << 32) | (uint)e.Ticks;
+        if (_selectedMapNode == n.Id)
+        {
+            if (PulseSeen.Count > 256)
+                PulseSeen.Clear();
+            PulseSeen.Add(seen);
+        }
+        if (PulseSeen.Contains(seen))
             return;
         Color c = e.Bad ? NetrunUI.Bad : NetrunUI.Warn;
         if (!NetrunMod.Settings.Animations)
@@ -236,13 +248,15 @@ public static partial class GatewayView
             GUI.color = Color.white;
             return;
         }
-        // Two rings half a beat apart, each hub on its own phase so a busy district does not blink in step.
-        float t = Time.realtimeSinceStartup * 0.6f + n.Id * 0.137f;
+        // Two rings half a beat apart, each hub on its own phase so a busy district does not blink in step; slow, eased
+        // out and faded in and out so the waves breathe rather than tick (Maxim, 2026-10-23).
+        float t = Time.realtimeSinceStartup * 0.35f + n.Id * 0.137f;
         for (int i = 0; i < 2; i++)
         {
             float k = Mathf.Repeat(t + i * 0.5f, 1f);
-            GUI.color = new Color(c.r, c.g, c.b, 0.55f * (1f - k));
-            GUI.DrawTexture(hubRect.ExpandedBy(4f + 18f * k * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
+            float grow = 1f - (1f - k) * (1f - k);
+            GUI.color = new Color(c.r, c.g, c.b, 0.45f * Mathf.Sin(k * Mathf.PI));
+            GUI.DrawTexture(hubRect.ExpandedBy(4f + 18f * grow * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
         }
         GUI.color = Color.white;
     }
@@ -451,6 +465,25 @@ public static partial class GatewayView
     private static GameFont PlateFont => BigPlates ? GameFont.Small : GameFont.Tiny;
     private static float PlateRow => BigPlates ? 22f : 16f;
 
+    // A long name breaks at its last space onto a second line (Maxim, 2026-10-23: "Entertainment quarter-36" made the
+    // widest plates). Cached per text and font.
+    private static readonly Dictionary<string, string> Wrapped = [];
+
+    private static string WrapName(string text)
+    {
+        string key = BigPlates ? "\u0001" + text : text;
+        if (Wrapped.TryGetValue(key, out string w))
+            return w;
+        int space = text.LastIndexOf(' ');
+        w = space > 0 && NameWidth(text) > (BigPlates ? 150f : 110f) ? text.Substring(0, space) + "\n" + text.Substring(space + 1) : text;
+        if (Wrapped.Count > 400)
+            Wrapped.Clear();
+        Wrapped[key] = w;
+        return w;
+    }
+
+    private static float NameRow(string text) => text != null && text.IndexOf('\n') >= 0 ? PlateRow + (BigPlates ? 18f : 12f) : PlateRow;
+
     private struct NamePlate
     {
         public Rect Tag, Hub;
@@ -534,13 +567,15 @@ public static partial class GatewayView
             return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
         string text = !named ? null : capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
+        if (text != null)
+            text = WrapName(text);
         int chips = Mathf.Min(branches.Count, PlateChips);
         string more = MoreText(branches.Count - chips);
         // Named: states and name on the first row, the node chips centred on a second row (Maxim, 2026-10-23: one long
         // row made the plate too wide). Unnamed: one row of states and chips.
         float chipW = chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
         float w = named ? Mathf.Max(NameWidth(text) + 16f + icons * LockWidth, chipW + 10f) : 6f + icons * LockWidth + chipW;
-        float h = named && branches.Count > 0 ? PlateRow + ChipRow : PlateRow;
+        float h = named && branches.Count > 0 ? NameRow(text) + ChipRow : NameRow(text);
         NameQueue.Add(new NamePlate
         {
             Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, h),
@@ -603,7 +638,7 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         }
         List<ExternalNode> branches = plate.Branches;
-        float row = PlateRow;
+        float row = plate.Named ? NameRow(plate.Text) : PlateRow;
         int icons = StateCount(plate.States);
         Text.Font = PlateFont;
         float x, cy = tag.y + row / 2f;

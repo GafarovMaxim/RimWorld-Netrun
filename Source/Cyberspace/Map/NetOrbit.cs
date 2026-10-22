@@ -47,14 +47,21 @@ public partial class NetMapManager
     {
         // Layout version 1 (2026-10-15): hubs step back from Home. Version 2 (2026-10-22): crossing links go, bridges
         // are rerouted through a clear pair. Once per older save; hubs never move here.
-        if (Ready && _layoutVersion < 2)
+        // Version 3 (2026-10-23): corporations sewn back into one piece, no hub without a street.
+        if (Ready && _layoutVersion < 3)
         {
             if (_layoutVersion < 1)
                 CyberMapGenerator.ClearHome(Map);
-            int removed = CyberMapGenerator.Uncross(Map);
-            if (Prefs.DevMode && removed > 0)
-                Log.Message($"[Netrun] Map layout v2: {removed} crossing links removed.");
-            _layoutVersion = 2;
+            if (_layoutVersion < 2)
+            {
+                int removed = CyberMapGenerator.Uncross(Map);
+                if (Prefs.DevMode && removed > 0)
+                    Log.Message($"[Netrun] Map layout v2: {removed} crossing links removed.");
+            }
+            int joined = CyberMapGenerator.JoinParts(Map);
+            if (Prefs.DevMode && joined > 0)
+                Log.Message($"[Netrun] Map layout v3: {joined} links added to join corporations.");
+            _layoutVersion = 3;
         }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;

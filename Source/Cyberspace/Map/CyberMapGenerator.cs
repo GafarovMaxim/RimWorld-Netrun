@@ -388,8 +388,64 @@ public static class CyberMapGenerator
         int crossings = Uncross(map);
         if (crossings > 0 && Prefs.DevMode)
             Log.Warning($"[Netrun] Map generator: {crossings} crossing links had to be removed ({layout}).");
+        JoinParts(map);
         map.Dirty();
         return map;
+    }
+
+    /// <summary>
+    /// Sews each corporation back into one piece by its own streets, and gives a street to any hub left with none
+    /// (Maxim, 2026-10-23: Uncross keeps the whole net connected, but could leave a corporation in parts joined only
+    /// through other districts, or its fortress on an unknown dark link). Clear pairs only, through TryAddLink.
+    /// </summary>
+    public static int JoinParts(CyberMap map)
+    {
+        int added = 0;
+        foreach (IGrouping<int, MapNode> corp in map.Nodes.Where(n => n.District == District.Corp).GroupBy(n => n.CorpSlot))
+        {
+            var ids = corp.Select(n => n.Id).ToList();
+            for (int guard = 0; guard < ids.Count; guard++)
+            {
+                var part = new HashSet<int> { ids[0] };
+                var stack = new Stack<int>();
+                stack.Push(ids[0]);
+                while (stack.Count > 0)
+                {
+                    int u = stack.Pop();
+                    foreach (MapLink l in map.LinksOf(u))
+                        if (l.Kind is LinkKind.Normal or LinkKind.Fast && ids.Contains(l.Other(u)) && part.Add(l.Other(u)))
+                            stack.Push(l.Other(u));
+                }
+                if (part.Count == ids.Count)
+                    break;
+                bool joined = false;
+                foreach ((int a, int b) in part.SelectMany(a => ids.Where(b => !part.Contains(b)).Select(b => (a, b)))
+                             .OrderBy(p => Vector2.Distance(map.Node(p.a).Pos, map.Node(p.b).Pos)))
+                    if (map.TryAddLink(new MapLink { A = a, B = b, Kind = LinkKind.Normal }))
+                    {
+                        joined = true;
+                        added++;
+                        break;
+                    }
+                if (!joined)
+                    break;
+            }
+        }
+        foreach (MapNode n in map.Nodes.ToList())
+        {
+            if (n.District is District.Home or District.Dark or District.Orbit || map.LinksOf(n.Id).Any(l => l.Kind is LinkKind.Normal or LinkKind.Fast))
+                continue;
+            foreach (MapNode b in map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit))
+                         .OrderBy(x => Vector2.Distance(x.Pos, n.Pos)).Take(8))
+                if (map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Normal }))
+                {
+                    added++;
+                    break;
+                }
+        }
+        if (added > 0)
+            map.Dirty();
+        return added;
     }
 
     /// <summary>The gap the generator keeps between hubs (Maxim, 2026-10-16: the map was noisy, links crossed).</summary>

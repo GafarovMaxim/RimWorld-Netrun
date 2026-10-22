@@ -214,7 +214,8 @@ public static partial class GatewayView
 
     private static void DrawDistrictName(Rect local, NetMapManager net)
     {
-        if (_districtKey < 0 || _districtAlpha <= 0f)
+        // Far out only: up close the player reads hubs, and the name covered their plates (Maxim, 2026-10-23).
+        if (_districtKey < 0 || _districtAlpha <= 0f || _zoom >= 1.1f)
             return;
         Vector2 sum = Vector2.zero;
         int count = 0;
@@ -231,9 +232,14 @@ public static partial class GatewayView
         Vector2 c = sum / count;
         string text = NetrunUI.Upper(DistrictLabel(any, net));
         Text.Font = GameFont.Small;
-        float w = Text.CalcSize(text).x + 20f;
+        // A long name on two lines (Maxim, 2026-10-23).
+        int space = text.LastIndexOf(' ');
+        if (space > 0 && Text.CalcSize(text).x > 170f)
+            text = text.Substring(0, space) + "\n" + text.Substring(space + 1);
+        Vector2 size = Text.CalcSize(text);
+        float w = size.x + 20f, h = size.y + 4f;
         float a = Mathf.SmoothStep(0f, 1f, _districtAlpha);
-        DrawPlate(new Rect(c.x - w / 2f, c.y - 12f, w, 24f), text, HubColor(any, net), false, 0.8f, true, a, GameFont.Small);
+        DrawPlate(new Rect(c.x - w / 2f, c.y - h / 2f, w, h), text, HubColor(any, net), false, 0.8f, true, a, GameFont.Small);
     }
 
     private static string DistrictLabel(MapNode n, NetMapManager net)
