@@ -3,6 +3,9 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Fixed: the street-repair pass could link an Old Net hub straight to the main net, bypassing the Wall.
+- Fixed: a rival trap was not shown in a hub's description when the hub had other timed events.
+- The hub description lists its events without repeating the hub's name.
 - A hub's description lists every running event with its time left (outage, storm, patrol, quarantine); every district, not only corporations, is sewn back into one piece by its own streets (new maps and, once, existing saves).
 
 ## [1.2.0] - 2026-10-23

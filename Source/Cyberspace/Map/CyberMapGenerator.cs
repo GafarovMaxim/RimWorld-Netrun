@@ -429,14 +429,21 @@ public static class CyberMapGenerator
                         break;
                     }
                 if (!joined)
+                {
+                    // Self-check: no clear pair left to join this district's parts.
+                    if (Prefs.DevMode)
+                        Log.Warning($"[Netrun] Map: {corp.First().District} {ids.Count - part.Count} of {ids.Count} hubs stay cut off, no clear link to join them.");
                     break;
+                }
             }
         }
         foreach (MapNode n in map.Nodes.ToList())
         {
             if (n.District is District.Home or District.Dark or District.Orbit || map.LinksOf(n.Id).Any(l => l.Kind is LinkKind.Normal or LinkKind.Fast))
                 continue;
-            foreach (MapNode b in map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit))
+            // An Old Net hub only ever gets a street inside the Old Net: anything else would walk around the Wall.
+            foreach (MapNode b in map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit)
+                                                       && (x.District == District.OldNet) == (n.District == District.OldNet))
                          .OrderBy(x => Vector2.Distance(x.Pos, n.Pos)).Take(8))
                 if (map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Normal }))
                 {

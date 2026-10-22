@@ -20,6 +20,8 @@ public static partial class GatewayView
         public int Ticks;
         public int Hub;
         public string Text;
+        // The state alone, without the hub's name, for the hub's own description (null: use Text).
+        public string State;
         public bool Bad;
     }
 
@@ -41,20 +43,21 @@ public static partial class GatewayView
         var list = new List<TimerEntry>();
         int tick = Find.TickManager.TicksGame;
         int horizon = 3 * GenDate.TicksPerDay;
-        void Add(int until, int hub, string key, bool bad, string arg)
+        void Add(int until, int hub, string key, bool bad, string arg, string state = null)
         {
             int left = until - tick;
             if (left > 0 && left <= horizon)
-                list.Add(new TimerEntry { Ticks = left, Hub = hub, Text = key.Translate(arg), Bad = bad });
+                list.Add(new TimerEntry { Ticks = left, Hub = hub, Text = key.Translate(arg), State = state?.Translate(), Bad = bad });
         }
         foreach (MapNode n in net.Map.Nodes)
         {
             string label = NetMapManager.NodeLabel(n);
-            Add(n.TransitUntil, n.Id, "NR_MapTimerTransit", false, label);
-            Add(n.PatrolUntil, n.Id, "NR_MapTimerPatrol", true, label);
-            Add(n.OfflineUntil, n.Id, "NR_MapTimerOffline", false, label);
-            Add(n.StormUntil, n.Id, "NR_MapTimerStorm", false, label);
-            Add(n.QuarantineUntil, n.Id, "NR_MapTimerQuarantine", false, label);
+            Add(n.TransitUntil, n.Id, "NR_MapTimerTransit", false, label, "NR_MapStateTransit");
+            Add(n.PatrolUntil, n.Id, "NR_MapTimerPatrol", true, label, "NR_MapStatePatrol");
+            Add(n.OfflineUntil, n.Id, "NR_MapTimerOffline", false, label, "NR_MapStateOffline");
+            Add(n.StormUntil, n.Id, "NR_MapTimerStorm", false, label, "NR_MapStateStorm");
+            Add(n.QuarantineUntil, n.Id, "NR_MapTimerQuarantine", false, label, "NR_MapStateQuarantine");
+            Add(n.RivalTrapUntil, n.Id, "NR_MapTimerRivalTrap", true, label, "NR_MapStateRivalTrap");
         }
         GatewayManager g = GatewayManager.Get();
         if (g?.Boss is { } boss)

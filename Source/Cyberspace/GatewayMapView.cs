@@ -1088,7 +1088,7 @@ public static partial class GatewayView
         foreach (TimerEntry e in Timeline(net))
             if (e.Hub == node.Id && Left(e) > 0)
             {
-                y = DrawInfoRow(inner, y, new NowRow { Text = e.Text, Right = Short(Left(e)), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = -1 });
+                y = DrawInfoRow(inner, y, new NowRow { Text = e.State ?? e.Text, Right = Short(Left(e)), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = -1 });
                 timed = true;
             }
         if (!timed)

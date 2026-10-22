@@ -84,6 +84,7 @@
   <NR_NewsQuarantine>{0} has quarantined {1}.</NR_NewsQuarantine>
   <NR_DiveLogForgottenCache>The scan turns up a forgotten cache: +{0} cyberdata.</NR_DiveLogForgottenCache>
   <NR_DiveLogOverloadCrash>The overloaded node falls over. You are out, with what you took.</NR_DiveLogOverloadCrash>
+  <NR_MapTimerRivalTrap>the rivals' trap at {0} expires</NR_MapTimerRivalTrap>
   <NR_MapStateRivalTrap>a rival's trap</NR_MapStateRivalTrap>
   <NR_MapStateQuarantine>quarantine</NR_MapStateQuarantine>
   <NR_MapRivalTrapHit>A rival crew's trap at {1} caught {0}.</NR_MapRivalTrapHit>

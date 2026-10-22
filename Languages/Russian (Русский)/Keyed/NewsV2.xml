@@ -84,6 +84,7 @@
   <NR_NewsQuarantine>{0} закрыла на карантин {1}.</NR_NewsQuarantine>
   <NR_DiveLogForgottenCache>Скан находит забытый кэш: +{0} киберданных.</NR_DiveLogForgottenCache>
   <NR_DiveLogOverloadCrash>Перегруженная нода падает. Вы снаружи, с тем, что успели взять.</NR_DiveLogOverloadCrash>
+  <NR_MapTimerRivalTrap>ловушка соперников снимается: {0}</NR_MapTimerRivalTrap>
   <NR_MapStateRivalTrap>ловушка соперников</NR_MapStateRivalTrap>
   <NR_MapStateQuarantine>карантин</NR_MapStateQuarantine>
   <NR_MapRivalTrapHit>Ловушка команды соперников у {1} задела {0}.</NR_MapRivalTrapHit>
