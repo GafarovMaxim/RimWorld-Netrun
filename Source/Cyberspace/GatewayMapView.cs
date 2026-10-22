@@ -609,8 +609,17 @@ public static partial class GatewayView
         bool contract = false;
         for (int i = 0; i < branches.Count; i++)
             contract |= !branches[i].Hidden && branches[i].Contract;
+        // The contract target (Maxim, 2026-10-23: the badge got covered): an amber ring that pulses on every lens, the
+        // map's only pulse besides the runner; the target node leads the plate's chips.
         if (contract)
-            DrawNodeBadge(new Rect(rect.xMax - 2f, rect.y - 8f, 10f, 10f), true);
+        {
+            float pulse = NetrunMod.Settings.Animations ? (Time.realtimeSinceStartup * 0.7f) % 1f : 0.35f;
+            GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.85f * (1f - pulse));
+            GUI.DrawTexture(rect.ExpandedBy(5f + 16f * pulse * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
+            GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.7f);
+            GUI.DrawTexture(rect.ExpandedBy(4f), NetrunUI.ThinRing);
+            GUI.color = Color.white;
+        }
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
         if (WatchedHubs().Contains(n.Id))

@@ -1,125 +1,120 @@
-# UX: Gateway side panel + Contracts board (ArchitectUX, 2026-10-23)
+# UX: боковая панель Gateway + доска контрактов (ArchitectUX, 2026-10-23)
 
-Line numbers are from the working tree on 2026-10-23. GatewayMapView.cs, GatewayView.cs and GatewayMapFuture.cs have
-uncommitted edits from another session, so trust the method names first and the line numbers second.
-Builds on uxarchitect.md section 4 (structure) and uidesigner.md section 5 (look). Both are kept as phase 2.
-
----------------------------------------------------------------------------------------------------------------------
-## A. Gateway side panel
-
-### What is wrong (from 180-184.webp + code)
-1. **Three contexts in one column.** `GatewayView.DrawPanel` (GatewayView.cs:625) stacks: training button -> `DrawMapPanel`
-   (GatewayMapView.cs:852): runners + 3 button rows + hub + node list -> node block (GatewayView.cs:665-730) -> programs
-   (734) -> daemons -> cost -> DIVE (796) -> footer. On 180 the DIVE button sits about 900 px below the fold. The reader
-   cannot tell which block belongs to the runner, which to the hub and which to the node.
-2. **Every header looks the same.** RUNNERS, MARKET QUARTER-22 and MARKET-31 all use `NetrunUI.Section` at 36 px with
-   "//". The hub and the node have near-identical names ("Market quarter-22" next to "Market-31").
-3. **"Pick a node to read it" plus programs (183).** `FocusNode` (GatewayMapV4.cs:53) sets `_selectedId = branchId`,
-   which is -1 for every caller without a branch (Show buttons, OpenGatewayAt). A map click instead picks the first
-   visible node (GatewayMapView.cs:752-753). With node == null, DrawPanel prints the hint (GatewayView.cs:662) and then
-   still draws PROGRAMS, daemons and a disabled DIVE.
-4. **Runner buttons have no owner.** Stop/Exit + Emergency (GatewayMapView.cs:865-881), Go and exit (896) and Home (902)
-   are 3 full-width rows of the same weight. The red Emergency button is as large as Stop and sits right beside it.
-5. **Truncated runner card.** "4 h in the" (180): `RunnerCard` draws `NR_MapSessionHours` ("{0} h in the net") into a
-   56 px rect (GatewayMapPanel.cs:55).
-6. **Rival is invisible.** It shows only as a Tiny Warn chip "⚔ rival" below RISK (GatewayView.cs:716-725). The font has
-   no ⚔ glyph, so it renders as "x rival" (182). It is not on the map at all: `ImportantColor` (GatewayMapView.cs:627)
-   skips Rival, the hub badge (GatewayMapView.cs:~611, `DrawNodeBadge` 708) knows only contract/key, and the panel node
-   rows (GatewayMapView.cs:1072-1080) show contract/key badges but no rival. The ⚔ also shows in the list view
-   (GatewayView.cs:576).
-
-### Phase 1: cheap wins (each about 1-15 lines, no layout rewrite)
-| # | Change | Where |
-|---|---|---|
-| A1 | A focused hub always has a node: in `FocusNode`, if `branchId < 0`, use the first visible branch of `hubId` (same rule as the click, GatewayMapView.cs:752). | GatewayMapV4.cs:56 |
-| A2 | With node == null or hidden: show the hint, then go **straight to the footer**. No programs, no daemons, no cost, no DIVE. | GatewayView.cs:660-664 (early `DrawPanelFooter` + return, as at 646) |
-| A3 | Runner card time: measure the label with `Text.CalcSize` (or a short key "{0} h"); give the location label the rest of the width. | GatewayMapPanel.cs:53-55 |
-| A4 | **Rival in the panel**: remove the chip at GatewayView.cs:722. Under the node's Section header (line 666), draw a full-width warning strip: 24 px, Warn 0.12 fill, 2 px Warn left edge, `NetrunTex.CyberIcon("Event_Rival")` 18 px, text `NR_DiveRivalActive`(rivalTurns) "Rival netrunner: N turns left", tip `NR_GatewayRivalTip`. It is the same strip the dive shows (DiveView.cs:657/857), so it means the same thing in both places. Lift `DiveView.Warning` (DiveView.cs:832) to `NetrunUI` and use it in both. | GatewayView.cs:666, 716-725 |
-| A5 | **Rival on the map (one-badge rule kept)**: in `ImportantColor` add `if (b.Rival) return NetrunUI.Bad;`. The rival node then sorts first among the plate chips (GatewayMapFuture.cs:577) and pulses like the other important nodes. Badge priority at GatewayMapView.cs:~611: contract > **rival** > key. The rival badge is the `Event_Rival` icon, 12 px, Bad tint, on a dark rim like the contract badge (`DrawNodeBadge(Rect, kind)`). Add one legend row (GatewayMapLegend.cs:~360). | GatewayMapView.cs:611, 627, 708; GatewayMapLegend.cs |
-| A6 | Rival in the panel node rows: a 12 px Event_Rival icon just left of the defense pips (`right - 16`). Add "Rival: N turns" to the row tip. List view: replace " · ⚔" with the word key `NR_GatewayRival` without the glyph (drop ⚔ from the EN/RU value). | GatewayMapView.cs:1072-1086; GatewayView.cs:576; Keyed Cyberspace.xml:247 |
-| A7 | Calm the runner buttons: Emergency becomes a 28x28 icon button (Bad border, no fill, keeps the confirm dialog) at the right of the Stop/Exit row. Stop/Exit takes the remaining width. Go and exit + Home share one row, half width each. That saves 32 px and one row of red. | GatewayMapView.cs:865-905 |
-| A8 | Make the hub and node headers different. Hub: keep the Section header. Node: a Tiny caps "NODE" kicker above a Medium name with the type icon, no "//" rule. Both pass a `level` arg to a new 3-line `NetrunUI.SubSection` (or inline). | GatewayView.cs:666 |
-| A9 | When a hub is picked, the DIVE block must be visible without scrolling. In DrawPanel, set `_panelScroll.y` to the node block's y the frame `_selectedId` changes (store `_lastPanelNode`). It is a cheap stand-in for the sticky footer. | GatewayView.cs:625-640 |
-
-Phase 1 needs no new textures; Event_Rival already exists. New keys: the legend row only (EN+RU).
-
-### Phase 2: structure (from uxarchitect.md section 4, cut down)
-- **Sticky action bar** at the bottom of the panel, outside the scroll. Compute its height first, then
-  `outer.height -= barH`. Contents follow the deepest context: node -> cost line + DIVE 40 px; hub without a node ->
-  GO (route h); runner moving -> STOP; runner at an exit -> DISCONNECT. Secondary icon row 28 px: Go home, Go & exit,
-  Jump, Intercept, Emergency (red border, last). This moves the buttons at GatewayMapView.cs:865-1025 and
-  GatewayView.cs:780-799 into one `DrawActionBar(Rect, ctx)`.
-- **Breadcrumb header**, fixed at 28 px: `Leo › Market quarter-22 › Market-31`. Each crumb selects its level; [x]
-  clears the hub. It replaces the three 36 px Section headers.
-- **Runner strip**: runner cards shrink to 28 px chips (initial, state dot, ETA) in one row, with "+" for a pod pawn
-  that is not connected (replaces the Connect buttons at GatewayMapView.cs:908-920). The selected runner's
-  route line sits under it.
-- **Node detail in two columns**: TYPE / DEFENSE / ICE / TRACE / RISK as a key/value grid (key Tiny, col 84 px).
-  Today these are 5 rows of 52 px (GatewayView.cs:667-700), about 260 -> 120 px. Reward items stay one per line.
-- **Programs**: hide them behind a "Programs 1/2 ▸" fold when nothing is picked. They are a pre-dive setting, not
-  information.
-- Width: 270 -> 296 (GatewayView.cs:18). The map loses 26 px, which is fine at 1080p. Do this only together with the
-  two-column grid.
-Order: action bar first (it fixes the scroll problem for good), then the breadcrumb, then the runner strip.
+Номера строк взяты из рабочей копии на 2026-10-23. В GatewayMapView.cs, GatewayView.cs и GatewayMapFuture.cs есть
+незакоммиченные правки из другой сессии, поэтому сначала ориентируйтесь на имена методов, а номера строк — во вторую очередь.
+Опирается на uxarchitect.md, раздел 4 (структура), и uidesigner.md, раздел 5 (облик). Оба остаются как фаза 2.
 
 ---------------------------------------------------------------------------------------------------------------------
-## B. Contracts board (Terminal/ContractsTab.cs)
+## A. Боковая панель Gateway
 
-### How availability works today
-- `ContractManager.CanAccept` (Contracts/ContractManager.cs:317): blocked by isolation, a silent fixer,
-  **`!fixer.ChannelOpen` -> "Contact the fixer first."**, one active contract per fixer, and QuietRun when Heat > Tracked.
-- The channel is a paid call: `FixerDeals.Call` (Fixers/FixerDeals.cs:12) takes `EffectiveCallCost` silver and opens it
-  for `channelHours` (`Fixer.ChannelOpen`, Fixers/Fixer.cs:68). The Club card has the Call button
-  (FixersTab.cs:284-289).
-- The board's **active** card already has an inline Call button (ContractsTab.cs:383-393). **Offer cards do not**: the
-  Accept button just goes disabled (ContractsTab.cs:475-478), and the reason shows only in a tooltip. That is why the
-  player walks to the Club and has to remember a name.
-- Hidden trap: `Accept` deletes every other offer from that fixer (ContractManager.cs:339,
-  `_contracts.RemoveAll(c => !c.Accepted && c.FixerId == fixer.Id)`). The UI never says so.
-- Fixer chip click opens a help article (ContractsTab.cs:294-296), not the fixer.
+### Что не так (по 180-184.webp и коду)
+1. **Три контекста в одной колонке.** `GatewayView.DrawPanel` (GatewayView.cs:625) складывает блоки сверху вниз: кнопка
+   тренировки -> `DrawMapPanel` (GatewayMapView.cs:852): раннеры + 3 ряда кнопок + хаб + список нод -> блок ноды
+   (GatewayView.cs:665-730) -> программы (734) -> демоны -> стоимость -> DIVE (796) -> футер. На 180 кнопка DIVE находится
+   примерно в 900 px ниже линии сгиба. Читатель не может понять, какой блок относится к раннеру, какой к хабу, а какой к ноде.
+2. **Все заголовки выглядят одинаково.** RUNNERS, MARKET QUARTER-22 и MARKET-31 используют `NetrunUI.Section` с размером 36 px
+   и "//". Хаб и нода имеют почти одинаковые названия ("Market quarter-22" рядом с "Market-31").
+3. **"Pick a node to read it" и программы (183).** `FocusNode` (GatewayMapV4.cs:53) ставит `_selectedId = branchId`, что равно -1
+   для всех вызовов без ветки (кнопки Show, OpenGatewayAt). Клик по карте вместо этого выбирает первую видимую ноду
+   (GatewayMapView.cs:752-753). Если node == null, DrawPanel печатает подсказку (GatewayView.cs:662), а затем всё равно
+   рисует PROGRAMS, демоны и неактивную DIVE.
+4. **У кнопок раннера нет владельца.** Stop/Exit + Emergency (GatewayMapView.cs:865-881), Go and exit (896) и Home (902)
+   — это 3 полноширинных ряда одинакового веса. Красная кнопка Emergency такого же размера, что и Stop, и стоит рядом с ней.
+5. **Обрезанная карточка раннера.** "4 h in the" (180): `RunnerCard` выводит `NR_MapSessionHours` ("{0} h in the net")
+   в прямоугольник 56 px (GatewayMapPanel.cs:55).
+6. **Соперник незаметен.** Он виден только как мелкий предупреждающий чип "⚔ rival" под RISK (GatewayView.cs:716-725).
+   В шрифте нет глифа ⚔, поэтому он выводится как "x rival" (182). На карте его вообще нет: `ImportantColor`
+   (GatewayMapView.cs:627) пропускает Rival, бейдж хаба (GatewayMapView.cs:~611, `DrawNodeBadge` 708) знает только
+   contract/key, а строки нод панели (GatewayMapView.cs:1072-1080) показывают бейджи contract/key, но не rival.
+   ⚔ также выводится в режиме списка (GatewayView.cs:576).
 
-### Recommendation: call in place, plus a jump
-The real need is "accept this offer", not "visit the fixer". Phase 1 fixes this on the card; the jump is the secondary
-route for everything else (scrub, shop, trait).
-
-### Phase 1 (priority order)
-| # | Change | Where |
+### Фаза 1: быстрые победы (каждая около 1-15 строк, без переделки компоновки)
+| # | Изменение | Где |
 |---|---|---|
-| B1 | **Call on the offer card.** When `!fixer.ChannelOpen` (and the fixer is not silent), the button slot shows `Call · {cost}` (Warn, `NetrunTex.CallFixer`, same AcceptanceReport as ContractsTab.cs:388-390) instead of a disabled Accept. After the call, the same slot turns into Accept. Two clicks, no tab change. Move the call-button code into a `static bool CallButton(Rect, Fixer, Map)` used by both DrawActive and DrawOffer. DrawOffer needs `map` (pass it down from DrawMain:193). | ContractsTab.cs:383-393, 475-478 |
-| B2 | **Reason under the button, not only in a tip.** A Tiny Muted line under the button, right-aligned, 2 lines max: report.Reason, or with an open channel "channel 5h" (Ok). | ContractsTab.cs:478 (ry + 50 + 34 + 2) |
-| B3 | **Jump to the fixer.** The fixer chip (first tag) becomes a link: click -> `Dialog_NetTerminal.OpenFixer(fixer.Id)`, which sets `ClubTabs._tab = Fixers` and `FixersTab.FocusId = id`, then `OpenNode(View.Club)` (pattern: `OpenGatewayAt`, Dialog_NetTerminal.cs:485). In `FixersTab.Draw` (FixersTab.cs:83), when `FocusId >= 0`, set `scroll.y` to that card's y once, flash its border for 1.5 s (`NetrunUI.ScanlineOnce`), then reset. Chip tip: "Open in the Club". The other tags keep the article link. Also add a small "↗" button on the fixer item in the left column (ContractsTab.cs:104) next to its filter click. | ContractsTab.cs:249-250, 294-296; Dialog_NetTerminal.cs (~485); ClubTabs.cs:15-23 (make Tab settable); FixersTab.cs:83-140 |
-| B4 | **Medium filter.** `DifficultyFilter { Any, Easy, Medium, Hard }` with values 0..3, filter `(int)_difficulty == Difficulty(c)` (ContractsTab.cs:153). The filter is a static, not saved, so it is safe. Draw it as **one segmented row** of 4 (All, ■, ■■, ■■■ in Ok/Warn/Bad) instead of 4 stacked 28 px toggles. That frees ~70 px of the left column. Keys: `NR_BoardFilter_Medium` (EN/RU); keep the Easy/Hard keys as tips. | ContractsTab.cs:27-32, 88-94, 153 |
-| B5 | **Sort by type.** `Sort { Reward, Duration, Type }`; Type = `OrderBy(c.Type).ThenByDescending(c.Reward)`. With Type sort, draw a 20 px Tiny caps divider when the type changes (title + count). This is what the owner means by sorting by type: grouping. Left column: 3 toggles in one row (thirds). The "reward ▼" label at ContractsTab.cs:184 becomes a click that cycles the sort. | ContractsTab.cs:34-38, 95-100, 155-157, 184, 190-195 |
-| B6 | **Warn before Accept wipes offers.** When the fixer has more offers, add to the Accept tip: "His other {n} offers will be withdrawn." Do not add a confirm dialog (it is one click, and the offers come back on rotation). | ContractsTab.cs:476-478; new key `NR_BoardAcceptDrops` |
-| B7 | **Channel state in the fixer column.** Sub line: `rep 4 · 2 offers · ● open 5h` (Ok dot) or `· ○ closed` (Muted). The player sees whose offers he can take before reading the cards. | ContractsTab.cs:82-84 |
-| B8 | **Dim locked offers.** When report is not accepted and the reason is not the channel (one active per fixer, too loud), draw the card at 0.55 alpha. Channel-closed cards stay at full brightness, because B1 makes them actionable. | ContractsTab.cs:431-435 |
-| B9 | Perf (TECH_DETAILS: no per-frame LINQ in GUI): `DrawLeft` sorts and sums (69, 76) and `DrawMain` rebuilds `offers` (151-157) on every GUI event. Wrap both in `NetrunUI.Cached("board.offers", ..., 0.5f)`, keyed by filter/sort/fixer. | ContractsTab.cs:69-76, 150-157 |
+| A1 | Сфокусированный хаб всегда имеет ноду: в `FocusNode`, если `branchId < 0`, взять первую видимую ветку `hubId` (то же правило, что и при клике, GatewayMapView.cs:752). | GatewayMapV4.cs:56 |
+| A2 | Если node == null или скрыта: показать подсказку, затем **сразу перейти к футеру**. Без программ, демонов, стоимости и DIVE. | GatewayView.cs:660-664 (ранний `DrawPanelFooter` + return, как на 646) |
+| A3 | Время карточки раннера: измерять подпись через `Text.CalcSize` (или короткий ключ "{0} h"); остальную ширину отдать названию локации. | GatewayMapPanel.cs:53-55 |
+| A4 | **Соперник в панели**: убрать чип на GatewayView.cs:722. Под заголовком Section ноды (строка 666) нарисовать полноширинную полосу предупреждения: 24 px, заливка Warn 0.12, левая кромка Warn 2 px, `NetrunTex.CyberIcon("Event_Rival")` 18 px, текст `NR_DiveRivalActive`(rivalTurns) "Rival netrunner: N turns left", подсказка `NR_GatewayRivalTip`. Это та же полоса, что показывает dive (DiveView.cs:657/857), поэтому в обоих местах она означает одно и то же. Поднять `DiveView.Warning` (DiveView.cs:832) в `NetrunUI` и использовать в обоих местах. | GatewayView.cs:666, 716-725 |
+| A5 | **Соперник на карте (правило одного бейджа сохраняется)**: в `ImportantColor` добавить `if (b.Rival) return NetrunUI.Bad;`. Нода соперника тогда становится первой среди чипов на плашке (GatewayMapFuture.cs:577) и пульсирует, как другие важные ноды. Приоритет бейджей у GatewayMapView.cs:~611: contract > **rival** > key. Бейдж соперника — иконка `Event_Rival` 12 px, оттенок Bad, на тёмном ободе, как бейдж контракта (`DrawNodeBadge(Rect, kind)`). Добавить одну строку в легенду (GatewayMapLegend.cs:~360). | GatewayMapView.cs:611, 627, 708; GatewayMapLegend.cs |
+| A6 | Соперник в строках нод панели: иконка Event_Rival 12 px сразу слева от пипсов защиты (`right - 16`). В подсказку строки добавить "Rival: N turns". Режим списка: заменить " · ⚔" на ключ-слово `NR_GatewayRival` без глифа (убрать ⚔ из значения EN/RU). | GatewayMapView.cs:1072-1086; GatewayView.cs:576; Keyed Cyberspace.xml:247 |
+| A7 | Успокоить кнопки раннера: Emergency становится кнопкой-иконкой 28x28 (рамка Bad, без заливки, сохраняет диалог подтверждения) справа от ряда Stop/Exit. Stop/Exit занимает остаток ширины. Go and exit и Home делят один ряд, по половине ширины каждая. Это экономит 32 px и один ряд красного цвета. | GatewayMapView.cs:865-905 |
+| A8 | Сделать заголовки хаба и ноды разными. Хаб: оставить заголовок Section. Нода: маленький капс-кикер "NODE" над названием среднего размера с иконкой типа, без правила "//". Оба получают аргумент `level` в новом 3-строчном `NetrunUI.SubSection` (или встроенно). | GatewayView.cs:666 |
+| A9 | Когда хаб выбран, блок DIVE должен быть видим без прокрутки. В DrawPanel задавать `_panelScroll.y` равным y блока ноды в кадре, когда меняется `_selectedId` (хранить `_lastPanelNode`). Это дешёвая замена липкому футеру. | GatewayView.cs:625-640 |
 
-### Offer card, phase 1 target layout (same grid as today, IconSize 64, RightColumn 150)
+Фаза 1 не требует новых текстур; Event_Rival уже есть. Новые ключи: только строка легенды (EN+RU).
+
+### Фаза 2: структура (из uxarchitect.md, раздел 4, урезанно)
+- **Липкая панель действий** внизу панели, вне прокрутки. Сначала вычислить её высоту, затем `outer.height -= barH`.
+  Содержимое следует за самым глубоким контекстом: нода -> строка стоимости + DIVE 40 px; хаб без ноды -> GO (маршрут h);
+  раннер в движении -> STOP; раннер на выходе -> DISCONNECT. Вторичный ряд иконок 28 px: Go home, Go & exit, Jump,
+  Intercept, Emergency (красная рамка, последняя). Это переносит кнопки из GatewayMapView.cs:865-1025 и
+  GatewayView.cs:780-799 в один `DrawActionBar(Rect, ctx)`.
+- **Заголовок-«хлебные крошки»**, фиксированные 28 px: `Leo › Market quarter-22 › Market-31`. Каждая крошка выбирает свой уровень;
+  [x] сбрасывает хаб. Он заменяет три заголовка Section по 36 px.
+- **Полоса раннеров**: карточки раннеров уменьшаются до чипов 28 px (инициал, точка состояния, ETA) в один ряд, с "+" для
+  пешки из пода, которая не подключена (заменяет кнопки Connect на GatewayMapView.cs:908-920). Линия маршрута выбранного
+  раннера идёт под ней.
+- **Детали ноды в две колонки**: TYPE / DEFENSE / ICE / TRACE / RISK как сетка ключ/значение (ключ Tiny, колонка 84 px).
+  Сейчас это 5 строк по 52 px (GatewayView.cs:667-700), примерно 260 -> 120 px. Награды остаются по одной в строке.
+- **Программы**: прятать за сворачиваемым блоком "Programs 1/2 ▸", когда ничего не выбрано. Это настройка перед нырком, а не информация.
+- Ширина: 270 -> 296 (GatewayView.cs:18). Карта теряет 26 px, при 1080p это нормально. Делать только вместе с
+  двухколоночной сеткой.
+Порядок: сначала панель действий (она окончательно решает проблему прокрутки), затем хлебные крошки, затем полоса раннеров.
+
+---------------------------------------------------------------------------------------------------------------------
+## B. Доска контрактов (Terminal/ContractsTab.cs)
+
+### Как сейчас устроена доступность
+- `ContractManager.CanAccept` (Contracts/ContractManager.cs:317): блокируется изоляцией, молчащим фиксером,
+  **`!fixer.ChannelOpen` -> "Contact the fixer first."**, одним активным контрактом на фиксера и QuietRun, когда Heat > Tracked.
+- Канал — платный вызов: `FixerDeals.Call` (Fixers/FixerDeals.cs:12) берёт `EffectiveCallCost` серебра и открывает его на
+  `channelHours` (`Fixer.ChannelOpen`, Fixers/Fixer.cs:68). На карточке клуба есть кнопка Call (FixersTab.cs:284-289).
+- На **активной** карточке доски уже есть встроенная кнопка Call (ContractsTab.cs:383-393). **У карточек предложений её нет**:
+  кнопка Accept просто становится неактивной (ContractsTab.cs:475-478), а причина видна только во всплывающей подсказке.
+  Поэтому игрок идёт в клуб и должен помнить имя.
+- Скрытая ловушка: `Accept` удаляет все остальные предложения этого фиксера (ContractManager.cs:339,
+  `_contracts.RemoveAll(c => !c.Accepted && c.FixerId == fixer.Id)`). UI об этом не говорит.
+- Клик по чипу фиксера открывает статью справки (ContractsTab.cs:294-296), а не фиксера.
+
+### Рекомендация: вызов на месте плюс переход
+Реальная потребность — «принять это предложение», а не «зайти к фиксеру». Фаза 1 исправляет это на самой карточке;
+переход — вторичный путь для всего остального (scrub, магазин, трейт).
+
+### Фаза 1 (в порядке приоритета)
+| # | Изменение | Где |
+|---|---|---|
+| B1 | **Call на карточке предложения.** Когда `!fixer.ChannelOpen` (и фиксер не молчит), слот кнопки показывает `Call · {cost}` (Warn, `NetrunTex.CallFixer`, тот же AcceptanceReport, что ContractsTab.cs:388-390) вместо неактивного Accept. После вызова тот же слот превращается в Accept. Два клика, без смены вкладки. Перенести код кнопки вызова в `static bool CallButton(Rect, Fixer, Map)`, который используют DrawActive и DrawOffer. DrawOffer нужен `map` (передать из DrawMain:193). | ContractsTab.cs:383-393, 475-478 |
+| B2 | **Причина под кнопкой, а не только в подсказке.** Мелкая приглушённая строка под кнопкой, выровненная справа, максимум 2 строки: report.Reason, либо при открытом канале "channel 5h" (Ok). | ContractsTab.cs:478 (ry + 50 + 34 + 2) |
+| B3 | **Переход к фиксеру.** Чип фиксера (первый тег) становится ссылкой: клик -> `Dialog_NetTerminal.OpenFixer(fixer.Id)`, который ставит `ClubTabs._tab = Fixers` и `FixersTab.FocusId = id`, затем `OpenNode(View.Club)` (образец: `OpenGatewayAt`, Dialog_NetTerminal.cs:485). В `FixersTab.Draw` (FixersTab.cs:83), при `FocusId >= 0`, один раз выставить `scroll.y` на y этой карточки, подсветить её рамку на 1.5 с (`NetrunUI.ScanlineOnce`), затем сбросить. Подсказка чипа: "Open in the Club". Остальные теги оставляют ссылку на статью. Также добавить маленькую кнопку "↗" у фиксера в левой колонке (ContractsTab.cs:104) рядом с его кликом-фильтром. | ContractsTab.cs:249-250, 294-296; Dialog_NetTerminal.cs (~485); ClubTabs.cs:15-23 (сделать Tab присваиваемым); FixersTab.cs:83-140 |
+| B4 | **Фильтр по среднему уровню.** `DifficultyFilter { Any, Easy, Medium, Hard }` со значениями 0..3, фильтр `(int)_difficulty == Difficulty(c)` (ContractsTab.cs:153). Фильтр — статический, не сохраняется, поэтому безопасен. Нарисовать его **одной сегментированной строкой** из 4 пунктов (All, ■, ■■, ■■■ в Ok/Warn/Bad) вместо 4 стопочных переключателей по 28 px. Это освобождает около 70 px левой колонки. Ключи: `NR_BoardFilter_Medium` (EN/RU); ключи Easy/Hard оставить как подсказки. | ContractsTab.cs:27-32, 88-94, 153 |
+| B5 | **Сортировка по типу.** `Sort { Reward, Duration, Type }`; Type = `OrderBy(c.Type).ThenByDescending(c.Reward)`. При сортировке по типу рисовать разделитель 20 px в капс-Tiny, когда тип меняется (название + количество). Именно это владелец имеет в виду под сортировкой по типу: группировка. Левая колонка: 3 переключателя в одном ряду (по трети). Надпись "reward ▼" в ContractsTab.cs:184 становится кликом, который переключает сортировку. | ContractsTab.cs:34-38, 95-100, 155-157, 184, 190-195 |
+| B6 | **Предупреждение перед тем, как Accept сотрёт предложения.** Если у фиксера есть другие предложения, добавить в подсказку Accept: "His other {n} offers will be withdrawn." Диалог подтверждения не добавлять (это один клик, а предложения вернутся при ротации). | ContractsTab.cs:476-478; новый ключ `NR_BoardAcceptDrops` |
+| B7 | **Состояние канала в колонке фиксеров.** Вторая строка: `rep 4 · 2 offers · ● open 5h` (точка Ok) или `· ○ closed` (Muted). Игрок видит, чьи предложения он может взять, до чтения карточек. | ContractsTab.cs:82-84 |
+| B8 | **Приглушить заблокированные предложения.** Когда report не принят и причина не в канале (один активный на фиксера, слишком шумно), рисовать карточку с альфой 0.55. Карточки с закрытым каналом остаются полностью яркими, потому что B1 делает их действуемыми. | ContractsTab.cs:431-435 |
+| B9 | Производительность (TECH_DETAILS: без LINQ по кадрам в GUI): `DrawLeft` сортирует и суммирует (69, 76), а `DrawMain` пересобирает `offers` (151-157) при каждом событии GUI. Обернуть оба в `NetrunUI.Cached("board.offers", ..., 0.5f)`, ключ — фильтр/сортировка/фиксер. | ContractsTab.cs:69-76, 150-157 |
+
+### Фаза 1, целевой макет карточки предложения (та же сетка, что сейчас, IconSize 64, RightColumn 150)
 ```
 | [icon]  Quiet run                                         660 silver |
 |         Complete 3 hacks without your trace rising ...      +10 rep. |
-|         [IronByte ↗] [Heat ≤ Tracked]                 [ Call · 40 ]  |  <- or [ Accept ]
-|         ■■□ medium · Time: 7 days                    channel closed  |  <- Tiny reason line (B2)
+|         [IronByte ↗] [Heat ≤ Tracked]                 [ Call · 40 ]  |  <- или [ Accept ]
+|         ■■□ medium · Time: 7 days                    channel closed  |  <- мелкая строка причины (B2)
 ```
-- The left stripe stays in the fixer's specialty colour (it already matches the fixer chip).
-- The active card title drops " · ColdHalo" (ContractsTab.cs:328) and gets the same fixer chip with ↗, so the two
-  card types read the same way.
+- Левая полоса остаётся в цвете специализации фиксера (он уже совпадает с чипом фиксера).
+- В заголовке активной карточки убрать " · ColdHalo" (ContractsTab.cs:328) и добавить тот же чип фиксера с ↗, чтобы оба типа карточек читались одинаково.
 
-### Phase 2 (only if the board still feels crowded)
-- Move filter/sort out of the left column into a 32 px toolbar above AVAILABLE (difficulty segment, sort segment,
-  count). The left column then holds only fixers, and its card height drops 52 -> 44.
-- Per-type filter chips in that toolbar (Delivery, Hack, Watch, ...), toggled as a set.
-- Recheck the "One active per fixer" button label (ContractsTab.cs:476): name the blocking contract in the reason
-  line instead.
+### Фаза 2 (только если доска всё ещё перегружена)
+- Вынести фильтр/сортировку из левой колонки в панель инструментов 32 px над AVAILABLE (сегмент сложности, сегмент сортировки,
+  счётчик). Левая колонка тогда содержит только фиксеров, и высота их карточек падает 52 -> 44.
+- Фильтры по типу в этой панели (Delivery, Hack, Watch, ...), переключаемые как набор.
+- Пересмотреть подпись кнопки "One active per fixer" (ContractsTab.cs:476): вместо неё назвать блокирующий контракт в строке причины.
 
-### Keys to add (EN + RU, run tools/check_keys.py)
-`NR_BoardFilter_Medium`, `NR_BoardSort_Type`, `NR_BoardOpenFixer` (chip tip), `NR_BoardAcceptDrops`,
-`NR_BoardChannelOpenShort`, `NR_BoardChannelClosedShort`, legend row for the rival badge. Reuse: `NR_FixerCall`,
+### Ключи для добавления (EN + RU, запустить tools/check_keys.py)
+`NR_BoardFilter_Medium`, `NR_BoardSort_Type`, `NR_BoardOpenFixer` (подсказка чипа), `NR_BoardAcceptDrops`,
+`NR_BoardChannelOpenShort`, `NR_BoardChannelClosedShort`, строка легенды для бейджа соперника. Переиспользовать: `NR_FixerCall`,
 `NR_FixerCallTip`, `NR_DiveRivalActive`, `NR_GatewayRivalTip`.
 
-### Not checked
-- I could not see whether `NetrunUI.Button` already prints the disabled reason anywhere but the tip. B2 assumes it
-  does not.
-- Russian string widths in the 3-way sort row (Награда / Срок / Тип should fit at a third of 220).
-- Whether the font really lacks ⚔. The "x rival" in 182 suggests it does. A6 drops the glyph either way.
+### Не проверено
+- Не удалось увидеть, выводит ли `NetrunUI.Button` где-либо причину неактивности, кроме подсказки. B2 исходит из того, что не выводит.
+- Ширина русских строк в трёхкнопочном ряду сортировки (Награда / Срок / Тип должны помещаться в треть из 220).
+- Действительно ли в шрифте нет ⚔. "x rival" на 182 намекает, что нет. A6 в любом случае убирает глиф.

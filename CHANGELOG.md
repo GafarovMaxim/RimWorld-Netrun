@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: the contract target is an amber pulsing ring on every lens and the first, framed chip in the hub's plate.
+- Cyberspace map: a new path is drawn only where it leaves the active route, with a notch where it turns off.
 - Cyberspace map: exit and key icons now sit left of the hub name, like the lock; district names are gone from the map.
 - Contracts: a Medium filter, sorting by type, and a Call button right on an offer whose fixer has no open channel.
 - Fixed: the grid animation on the cyberspace map slid over the map while panning.

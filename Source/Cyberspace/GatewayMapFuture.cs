@@ -480,9 +480,12 @@ public static partial class GatewayView
         // Up close every hub has its name; farther out only the interesting ones, the rest keep just their node chips.
         bool named = interesting || _zoom >= 1.3f;
         bool locked = n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs;
-        bool exit = n.Exit && n.District != District.Home, key = false;
+        bool exit = n.Exit && n.District != District.Home, key = false, target = false;
         for (int i = 0; i < branches.Count; i++)
+        {
             key |= !branches[i].Hidden && branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
+            target |= !branches[i].Hidden && branches[i].Contract;
+        }
         int icons = (locked ? 1 : 0) + (exit ? 1 : 0) + (key ? 1 : 0);
         if (!named && branches.Count == 0 && icons == 0)
             return false;
@@ -490,7 +493,7 @@ public static partial class GatewayView
         string text = !named ? null : capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
         int chips = Mathf.Min(branches.Count, PlateChips);
         string more = MoreText(branches.Count - chips);
-        float w = (named ? NameWidth(text) + 16f : 6f) + icons * LockWidth + chips * ChipStep + (more != null ? NameWidth(more) + 2f : 0f);
+        float w = (named ? NameWidth(text) + 16f : 6f) + icons * LockWidth + chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
         NameQueue.Add(new NamePlate
         {
             Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f),
@@ -568,15 +571,27 @@ public static partial class GatewayView
             Widgets.Label(new Rect(x, tag.y, tw + 2f, tag.height), plate.Text);
             x += tw + 5f;
         }
-        // Chips: important nodes first, then the rest, three at most (two passes, no sorting allocation per frame).
+        // Chips: the contract target first (in an amber frame), then other important nodes, then the rest, three at most
+        // (passes, no sorting allocation per frame).
         List<ExternalNode> branches = plate.Branches;
         int drawn = 0;
-        for (int pass = 0; pass < 2 && drawn < PlateChips; pass++)
+        for (int pass = 0; pass < 3 && drawn < PlateChips; pass++)
             for (int i = 0; i < branches.Count && drawn < PlateChips; i++)
             {
-                if ((pass == 0) != (!branches[i].Hidden && ImportantColor(branches[i]) != null))
+                ExternalNode b = branches[i];
+                bool target = !b.Hidden && b.Contract, important = !b.Hidden && ImportantColor(b) != null;
+                if (pass == 0 ? !target : pass == 1 ? target || !important : important)
                     continue;
-                DrawShape(new Rect(x, cy - ChipSize / 2f, ChipSize, ChipSize), branches[i], a);
+                if (target)
+                    x += 2f;
+                var chip = new Rect(x, cy - ChipSize / 2f, ChipSize, ChipSize);
+                if (target)
+                {
+                    x += 2f;
+                    GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, a);
+                    Widgets.DrawBox(chip.ExpandedBy(2f));
+                }
+                DrawShape(chip, b, a);
                 x += ChipStep;
                 drawn++;
             }

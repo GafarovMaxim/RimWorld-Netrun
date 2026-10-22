@@ -378,12 +378,26 @@ public static partial class GatewayView
         // Dashes of 8 px with 6 px gaps, shifting along the path over time (still when animations are off).
         float phase = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * 18f % 14f : 0f;
         Color glow = new(c.r, c.g, c.b, 0.12f);
+        bool shared = false;
         for (int i = 1; i < path.Count; i++)
         {
             Vector2 a = ToScreen(local, net.Map.Node(path[i - 1]).Pos), b = ToScreen(local, net.Map.Node(path[i]).Pos);
             float len = Vector2.Distance(a, b);
             if (len < 1f)
                 continue;
+            // Where the new path runs on the active route it is not drawn: the route is already there (Maxim, 2026-10-23,
+            // variant 2). A notch marks where the new path leaves it.
+            if (Route.Contains((Mathf.Min(path[i - 1], path[i]), Mathf.Max(path[i - 1], path[i]))))
+            {
+                shared = true;
+                continue;
+            }
+            if (shared)
+            {
+                shared = false;
+                Vector2 n = new Vector2(-(b - a).y, (b - a).x) / len * 7f;
+                Widgets.DrawLine(a - n, a + n, c, 2.5f);
+            }
             Widgets.DrawLine(a, b, glow, 8f);
             Vector2 u = (b - a) / len;
             for (float d = phase - 14f; d < len; d += 14f)
