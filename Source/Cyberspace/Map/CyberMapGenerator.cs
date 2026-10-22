@@ -441,15 +441,15 @@ public static class CyberMapGenerator
         {
             if (n.District is District.Home or District.Dark or District.Orbit || map.LinksOf(n.Id).Any(l => l.Kind is LinkKind.Normal or LinkKind.Fast))
                 continue;
-            // An Old Net hub only ever gets a street inside the Old Net: anything else would walk around the Wall.
-            foreach (MapNode b in map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit)
-                                                       && (x.District == District.OldNet) == (n.District == District.OldNet))
-                         .OrderBy(x => Vector2.Distance(x.Pos, n.Pos)).Take(8))
-                if (map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Normal }))
-                {
-                    added++;
-                    break;
-                }
+            // An Old Net hub only gets a street inside the Old Net; boxed in there, it gets its own Wall link to the main
+            // net, never a street around the Wall (Maxim, 2026-10-23: an Old Net hub was left with no link at all).
+            bool old = n.District == District.OldNet;
+            List<MapNode> near = map.Nodes.Where(x => x != n && x.District is not (District.Dark or District.Orbit))
+                .OrderBy(x => Vector2.Distance(x.Pos, n.Pos)).ToList();
+            if (near.Where(x => (x.District == District.OldNet) == old).Any(b => map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Normal }))
+                || old && near.Where(x => x.District is not (District.OldNet or District.Home))
+                    .Any(b => map.TryAddLink(new MapLink { A = n.Id, B = b.Id, Kind = LinkKind.Wall })))
+                added++;
         }
         if (added > 0)
             map.Dirty();

@@ -3,6 +3,9 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Fixed: links of an offline hub looked usable; they are now drawn shut, like the closed Wall.
+- Fixed: an orbital hub could appear right on top of another hub when no free spot was found.
+- Fixed: an Old Net hub could be left with no link; it now gets its own link through the Wall.
 - Fixed: the street-repair pass could link an Old Net hub straight to the main net, bypassing the Wall.
 - Fixed: a rival trap was not shown in a hub's description when the hub had other timed events.
 - The hub description lists its events without repeating the hub's name.

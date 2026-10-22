@@ -48,7 +48,8 @@ public partial class NetMapManager
         // Layout version 1 (2026-10-15): hubs step back from Home. Version 2 (2026-10-22): crossing links go, bridges
         // are rerouted through a clear pair. Once per older save; hubs never move here.
         // Version 3 (2026-10-23): corporations sewn back into one piece, no hub without a street; version 4: every district.
-        if (Ready && _layoutVersion < 4)
+        // Version 5: streets between the Old Net and the main net (v4 laid some around the Wall) go, joined again.
+        if (Ready && _layoutVersion < 5)
         {
             if (_layoutVersion < 1)
                 CyberMapGenerator.ClearHome(Map);
@@ -58,19 +59,23 @@ public partial class NetMapManager
                 if (Prefs.DevMode && removed > 0)
                     Log.Message($"[Netrun] Map layout v2: {removed} crossing links removed.");
             }
+            Map.Links.RemoveAll(l => l.Kind is LinkKind.Normal or LinkKind.Fast
+                                     && (Map.Node(l.A)?.District == District.OldNet) != (Map.Node(l.B)?.District == District.OldNet));
+            Map.Dirty();
             int joined = CyberMapGenerator.JoinParts(Map);
             if (Prefs.DevMode && joined > 0)
                 Log.Message($"[Netrun] Map layout v4: {joined} links added to join districts.");
-            _layoutVersion = 4;
+            _layoutVersion = 5;
         }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;
         // Version 2 (2026-10-14): placed on free ground with one clear link; older saves are laid out again once.
-        if (!_orbitByCorp || _orbitVersion < 2 || !Map.Nodes.Any(n => n.District == District.Orbit))
+        // Version 3 (2026-10-23): no spot left free kept the first candidate, on top of a hub; now the roomiest one.
+        if (!_orbitByCorp || _orbitVersion < 3 || !Map.Nodes.Any(n => n.District == District.Orbit))
         {
             PlaceOrbitByCorp();
             _orbitByCorp = true;
-            _orbitVersion = 2;
+            _orbitVersion = 3;
             Map.Dirty();
         }
         bool open = OrbitOpen;
@@ -114,6 +119,7 @@ public partial class NetMapManager
             // room around it (Maxim, 2026-10-14: orbital hubs sat on other hubs and pulled long odd links).
             Vector2 p = centre + away * 0.12f;
             bool found = false;
+            float roomiest = -1f;
             for (int ring = 0; ring < 5 && !found; ring++)
             {
                 float radius = 0.11f + ring * 0.035f;
@@ -124,11 +130,14 @@ public partial class NetMapManager
                     Vector2 c = centre + dir * radius;
                     if (c.x < 0.04f || c.x > 0.96f || c.y < 0.04f || c.y > 0.66f)
                         continue;
-                    if (Map.Nodes.Any(o => o != n && o.District != District.Orbit && Vector2.Distance(o.Pos, c) < 0.085f)
-                        || orbit.Take(i).Any(o => Vector2.Distance(o.Pos, c) < 0.085f))
-                        continue;
-                    p = c;
-                    found = true;
+                    float room = Map.Nodes.Where(o => o != n && (o.District != District.Orbit || orbit.IndexOf(o) < i))
+                        .Select(o => Vector2.Distance(o.Pos, c)).DefaultIfEmpty(1f).Min();
+                    if (room > roomiest)
+                    {
+                        roomiest = room;
+                        p = c;
+                    }
+                    found = room >= 0.085f;
                 }
             }
             n.X = p.x;

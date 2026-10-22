@@ -476,8 +476,9 @@ public static partial class GatewayView
         bool nearSelected = _selectedMapNode >= 0 && (l.A == _selectedMapNode || l.B == _selectedMapNode);
         bool dim = LegendDims(l.A) && LegendDims(l.B);
         MapNode na = map.Node(l.A), nb = map.Node(l.B);
-        // A link up to the orbit while no gravship is in space reads like the shut Wall: red, dashed, a lock.
-        bool orbitShut = !NetMapManager.OrbitOpen && (na?.District == District.Orbit || nb?.District == District.Orbit);
+        // A link to a hub that is offline (the orbit with no gravship in space, quarantine) reads like the shut Wall: red,
+        // dashed, a lock (Maxim, 2026-10-23: links of an offline hub looked usable).
+        bool orbitShut = na?.Offline == true || nb?.Offline == true;
         bool shut = orbitShut || l.Kind == LinkKind.Wall && !map.WallOpen;
         Color c = l.Kind switch
         {
