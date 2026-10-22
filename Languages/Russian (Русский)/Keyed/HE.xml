@@ -35,7 +35,7 @@
   <USH_HE_HackPoints>Объём работы</USH_HE_HackPoints>
   <USH_HE_DataRippingProgress>Прогресс выкачки</USH_HE_DataRippingProgress>
   <USH_HE_BlackICEWarning>Для выкачки помечено устройство под защитой Black ICE</USH_HE_BlackICEWarning>
-  <USH_HE_MentalStateReason>Причина: взлом {0}.</USH_HE_MentalStateReason>
+  <USH_HE_MentalStateReason>Причина: взлом ({0}).</USH_HE_MentalStateReason>
   <USH_HE_OutcomeMessage>{PAWN}: {OUTCOME} ({HACKSET}).</USH_HE_OutcomeMessage>
   <USH_HE_SecurityHackset>Система защиты</USH_HE_SecurityHackset>
   <USH_HE_HacksetDormant>спит</USH_HE_HacksetDormant>
@@ -69,7 +69,7 @@
   <USH_HE_BlackBoxLetter>Разведывательный спутник фракции {OWNER} разбился на ближней орбите, и его бортовой самописец упал неподалёку. В нём секретные данные о фракции {COMPROMISED}.\n\nЕго можно взломать, чтобы улучшить отношения с фракцией {COMPROMISED}, но тогда {OWNER} может устроить на вас налёт.</USH_HE_BlackBoxLetter>
   <USH_HE_RaidLetterLabel>Налёт!</USH_HE_RaidLetterLabel>
   <USH_HE_RaidLetter>Похоже, хакер, который раньше пользовался этим кибердеком, чем-то разозлил фракцию {FACTION}, и она идёт сюда. Возможно, его выслеживали месяцами, если не дольше.\n\nСкоро они будут здесь.</USH_HE_RaidLetter>
-  <USH_HE_RaidBlackBoxLetter>Фракция {FACTION} засекла передачу данных с их чёрного ящика и идёт к вам.\n\nСкоро они будут здесь.</USH_HE_RaidBlackBoxLetter>
+  <USH_HE_RaidBlackBoxLetter>Фракция {FACTION} засекла передачу данных со своего чёрного ящика и идёт к вам.\n\nСкоро они будут здесь.</USH_HE_RaidBlackBoxLetter>
   <USH_HE_AbilityLearnedLetterLabel>Освоено: {0}</USH_HE_AbilityLearnedLetterLabel>
   <USH_HE_AbilityLearnedLetter>После долгих тренировок {PAWN} {PAWN_gender ? освоил : освоила} скрипт «{0}» и может его запускать.</USH_HE_AbilityLearnedLetter>
   <USH_HE_BreakerFailLetterLabel>Ответ Black ICE</USH_HE_BreakerFailLetterLabel>

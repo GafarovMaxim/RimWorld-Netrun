@@ -2,8 +2,8 @@
 <LanguageData>
 
   <!-- Настройки -->
-  <NR_SettingsHeatGain>Прирост цифрового следа: {0}</NR_SettingsHeatGain>
-  <NR_SettingsHeatDecay>Остывание цифрового следа в день: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsHeatGain>Прирост Heat: {0}</NR_SettingsHeatGain>
+  <NR_SettingsHeatDecay>Остывание Heat в день: {0}</NR_SettingsHeatDecay>
   <NR_SettingsAccent>Цвет подсветки терминала:</NR_SettingsAccent>
   <NR_SettingsAccent_0>Голубой</NR_SettingsAccent_0>
   <NR_SettingsAccent_1>Пурпурный</NR_SettingsAccent_1>
@@ -11,7 +11,7 @@
   <NR_SettingsAccent_3>Янтарный</NR_SettingsAccent_3>
   <NR_SettingsAccent_4>Белый</NR_SettingsAccent_4>
   <NR_BDNeedsDevice>нужны брейнданс-очки или кибер-линк</NR_BDNeedsDevice>
-  <NR_SettingsReset>Сбросить по умолчанию</NR_SettingsReset>
+  <NR_SettingsReset>Сбросить настройки</NR_SettingsReset>
 
   <!-- Уровни следа -->
   <NR_HeatFloat>+{0} Heat</NR_HeatFloat>
@@ -41,16 +41,16 @@
   <!-- Сетевой терминал -->
   <NR_CommandNetTerminal>Сетевой терминал</NR_CommandNetTerminal>
   <NR_CommandNetTerminalDesc>Открыть сетевой терминал: цифровой след, фиксеры, контракты и журнал последних событий.</NR_CommandNetTerminalDesc>
-  <NR_TerminalNoPower>Терминал обесточен. Нет питания.</NR_TerminalNoPower>
+  <NR_TerminalNoPower>Терминал погас. Нет питания.</NR_TerminalNoPower>
   <NR_TerminalComingSoon>Скоро.</NR_TerminalComingSoon>
 
   <!-- Кибер-капсула и ICE -->
   <NR_StatPartInCyberpod>В кибер-капсуле</NR_StatPartInCyberpod>
   <NR_LogTraceLock>Захват следа: {0}</NR_LogTraceLock>
-  <NR_LogRip>{0} вытянул(а) {1} из: {2}</NR_LogRip>
-  <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишние киберданные.</NR_CyberpodBonusData>
+  <NR_LogRip>{0} выкачал(а) {1}, источник: {2}</NR_LogRip>
+  <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу дополнительные киберданные.</NR_CyberpodBonusData>
 
-  <NR_EconomySummary>Последние {0} дней:
+  <NR_EconomySummary>За последние {0} дн.:
 
 Добыто киберданных (нырки): {1}
 Потрачено киберданных (нырки, поиск, сброс, доставки): {2}
@@ -61,9 +61,9 @@ Heat поднят на {3}, снижен на {4} (без пассивного �
 Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAIEventFrequency>События ИИ:</NR_SettingsAIEventFrequency>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
-  <NR_SettingsDiveReport>Показывать итоги вылазки</NR_SettingsDiveReport>
+  <NR_SettingsDiveReport>Показывать итоги нырка</NR_SettingsDiveReport>
   <NR_SettingsDiveReportTip>После выхода из нырка открывать окно с добычей, затратами, Heat и Netsick.</NR_SettingsDiveReportTip>
-  <NR_SettingsNewcomer>Сетевые события только после начала игры с сетью</NR_SettingsNewcomer>
+  <NR_SettingsNewcomer>Сетевые события — только после выхода колонии в сеть</NR_SettingsNewcomer>
   <NR_SettingsNewcomerTip>Угрозы Netrun (сетевые атаки, охота корпов, наёмники, события ИИ и фиксеров) не приходят, пока колония не вошла в сеть: любой Heat, построена капсула, консоль или ИИ-сервер, колонист с кибер-линком или нырок. Чёрный рынок и сигнал бедствия приходят всегда.</NR_SettingsNewcomerTip>
   <NR_SettingsGroupGameplay>Геймплей</NR_SettingsGroupGameplay>
   <NR_SettingsGroupInterface>Интерфейс</NR_SettingsGroupInterface>
@@ -92,7 +92,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsPause>Пауза при открытии терминала</NR_SettingsPause>
   <NR_SettingsPauseTip>Игра встаёт на паузу при открытии терминала; снять паузу можно и при открытом окне.</NR_SettingsPauseTip>
   <NR_SettingsAnimations>Анимации терминала</NR_SettingsAnimations>
-  <NR_SettingsAnimationsTip>Плавающие ноды Шлюза и свечение разделов Core. Выключите, если терминал тормозит.</NR_SettingsAnimationsTip>
+  <NR_SettingsAnimationsTip>Плавающие ноды Шлюза и свечение разделов Ядра. Выключите, если терминал тормозит.</NR_SettingsAnimationsTip>
   <NR_SettingsReportInfoDesc>Нашли ошибку? Скопируйте сведения и вставьте в баг-репорт на GitHub вместе с Player.log.</NR_SettingsReportInfoDesc>
   <NR_SettingsReportInfo>Скопировать сведения для отчёта</NR_SettingsReportInfo>
   <NR_SettingsReportCopied>Скопировано в буфер обмена.</NR_SettingsReportCopied>
@@ -115,8 +115,8 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SoundPack_Neon>Неон</NR_SoundPack_Neon>
   <NR_SoundPack_RetroDeck>Ретро-дека</NR_SoundPack_RetroDeck>
   <NR_SoundPack_Deep>Глубина</NR_SoundPack_Deep>
-  <NR_SoundPackDesc_Clean>Неоновая ночь: тёплые аналоговые пады, стеклянные электропианные сигналы, далёкая сирена.</NR_SoundPackDesc_Clean>
-  <NR_SoundPackDesc_Minimal>Холодная комната: короткие чистые пипы, тихий дрон и далёкий колокол. Очень скупо.</NR_SoundPackDesc_Minimal>
+  <NR_SoundPackDesc_Clean>Неоновая ночь: тёплые аналоговые пады, стеклянные сигналы электропиано, далёкая сирена.</NR_SoundPackDesc_Clean>
+  <NR_SoundPackDesc_Minimal>Холодная комната: короткие чистые сигналы, тихий дрон и далёкий колокол. Очень скупо.</NR_SoundPackDesc_Minimal>
   <NR_SoundPackDesc_Neon>Синтвейв: суперсо-пады, бас-арпеджио, пилообразные щипки и гейт-эхо.</NR_SoundPackDesc_Neon>
   <NR_SoundPackDesc_RetroDeck>Кибердека 80-х: 8-битные чип-звуки, реле, модемные трели, сонар.</NR_SoundPackDesc_RetroDeck>
   <NR_SoundPackDesc_Deep>Тяжёлая бездна: смычковые дроны, огромные колокола, гонги и длинное эхо.</NR_SoundPackDesc_Deep>
@@ -132,23 +132,23 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsResetGroupTip>Вернуть настройки раздела «{0}» к значениям по умолчанию.</NR_SettingsResetGroupTip>
   <NR_HelpGwNote_Market>Лёгкая добыча и мало следа. Хорошо для первых нырков.</NR_HelpGwNote_Market>
   <NR_HelpGwNote_Archive>Знания: иногда исследование или опыт навыка.</NR_HelpGwNote_Archive>
-  <NR_HelpGwNote_Corp>Богатая добыча, но каждый шаг оставляет в 1.5 раза больше следа. Часто нода контракта (★).</NR_HelpGwNote_Corp>
+  <NR_HelpGwNote_Corp>Богатая добыча, но каждый шаг оставляет в 1,5 раза больше следа. Часто нода контракта (★).</NR_HelpGwNote_Corp>
   <NR_HelpGwNote_Abandoned>Здесь водятся осколки ИИ, а иногда и дикий ИИ в памяти.</NR_HelpGwNote_Abandoned>
-  <NR_HelpGwNote_DarkExchange>Серебро и ценности. Её Black ICE бьёт больно: берите щит или ловушку.</NR_HelpGwNote_DarkExchange>
+  <NR_HelpGwNote_DarkExchange>Серебро и ценности. Её Black ICE бьёт больно: берите «Щит» или «Приманку».</NR_HelpGwNote_DarkExchange>
   <NR_HelpGwNote_CorpCore>Появляется раз в несколько недель на пару дней. Когда оно падает, у корпораций неделя тревоги.</NR_HelpGwNote_CorpCore>
-  <NR_HelpGwHome>Ваш узел: отсюда начинается каждый нырок.</NR_HelpGwHome>
+  <NR_HelpGwHome>Ваш домашний узел: отсюда начинается каждый нырок.</NR_HelpGwHome>
   <NR_HelpGwHint>Щёлкните ноду</NR_HelpGwHint>
   <NR_HelpHackSkill>Интеллект нетраннера: {0}</NR_HelpHackSkill>
   <NR_HelpHackStrength>Сила ворот или ICE: {0}</NR_HelpHackStrength>
   <NR_HelpHackSword>Программа «Меч» или демон «Жнец» (+{0})</NR_HelpHackSword>
   <NR_HelpHackFlow>Сетевой поток после чистого нырка (+{0})</NR_HelpHackFlow>
   <NR_HelpHackNatural>Прирождённый нетраннер (+5%)</NR_HelpHackNatural>
-  <NR_HelpHackBurned>Выжженный линк (−{0})</NR_HelpHackBurned>
+  <NR_HelpHackBurned>Выжженный кибер-линк (−{0})</NR_HelpHackBurned>
   <NR_HelpHackFormula>{0} + {1}×{2} − {3}×{4} и бонусы = {5}</NR_HelpHackFormula>
   <NR_HelpHackClamp>Шанс всегда между 5% и 95%.</NR_HelpHackClamp>
   <NR_HelpTraceAmount>След нырка (шаги и действия): {0}</NR_HelpTraceAmount>
   <NR_HelpTraceQuiet>Новость «Сеть затихла» (×{0})</NR_HelpTraceQuiet>
-  <NR_HelpTraceStealth>Программа «Невидимка» или демон «Призрак» (след ×{0})</NR_HelpTraceStealth>
+  <NR_HelpTraceStealth>Программа «Невидимка» или демон «Морок» (след ×{0})</NR_HelpTraceStealth>
   <NR_HelpTraceNote>Этот тип ноды умножает след на {0}. Кибер-капсула с ИИ-сопроцессором снижает его ещё.</NR_HelpTraceNote>
   <NR_HelpAIUnknown>Вы ещё не встречали этот архетип. Пробудите такой ИИ, чтобы увидеть его карточку.</NR_HelpAIUnknown>
   <NR_HelpAIFood>Еда</NR_HelpAIFood>
@@ -166,7 +166,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpFixerRareOn>Редкие товары есть в магазине.</NR_HelpFixerRareOn>
   <NR_HelpFixerRareOff>Редкие товары появятся после закрепления.</NR_HelpFixerRareOff>
   <NR_HelpContractStage_Board>Доска</NR_HelpContractStage_Board>
-  <NR_HelpContractStage_Taken>Взяли</NR_HelpContractStage_Taken>
+  <NR_HelpContractStage_Taken>Взят</NR_HelpContractStage_Taken>
   <NR_HelpContractStage_Work>Дело</NR_HelpContractStage_Work>
   <NR_HelpContractStage_Pay>Оплата</NR_HelpContractStage_Pay>
   <NR_HelpContractStageHint>Щёлкните этап.</NR_HelpContractStageHint>
@@ -179,7 +179,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpBDStepRaw>Сырая запись: очки ловят сильный момент.</NR_HelpBDStepRaw>
   <NR_HelpBDStepEdit>Монтаж у сетевой консоли (из Студии).</NR_HelpBDStepEdit>
   <NR_HelpBDStrength>Сила момента: {0}</NR_HelpBDStrength>
-  <NR_HelpBDTier_0>Обычное: без добавок.</NR_HelpBDTier_0>
+  <NR_HelpBDTier_0>Обычное: без бонусов.</NR_HelpBDTier_0>
   <NR_HelpBDTier_1>Отличное: хорошее воспоминание после просмотра.</NR_HelpBDTier_1>
   <NR_HelpBDTier_2>Мастерское: сильное воспоминание после просмотра.</NR_HelpBDTier_2>
   <NR_HelpIce_Strike>ICE бьёт</NR_HelpIce_Strike>
@@ -191,7 +191,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpIceDesc_Shield>Каждый заряд «Щита» полностью поглощает один удар.</NR_HelpIceDesc_Shield>
   <NR_HelpIceDesc_Decoy>Заряд «Приманки» уводит удар с шансом {1}.</NR_HelpIceDesc_Decoy>
   <NR_HelpIceDesc_Killer>Заряд «Убийцы» сразу ломает следующие ворота или ICE: удара от них уже не будет.</NR_HelpIceDesc_Killer>
-  <NR_HelpIceDesc_Hit>Пробивший удар: +{2} Netsick, затем тошнота (60%), выброс (30%, нырок кончается) или кома (10%). Black ICE может ещё выжечь кибер-линк ({3} за удар).</NR_HelpIceDesc_Hit>
+  <NR_HelpIceDesc_Hit>Пробивший удар: +{2} Netsick, затем тошнота (60%), выброс (30%, нырок обрывается) или кома (10%). Black ICE может ещё выжечь кибер-линк ({3} за удар).</NR_HelpIceDesc_Hit>
   <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} киберданных</NR_HelpLoadoutPrograms>
   <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
   <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
@@ -202,7 +202,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpFixerPinLabel>Закрепление</NR_HelpFixerPinLabel>
   <NR_HelpFixerPriceLabel>Цены</NR_HelpFixerPriceLabel>
   <NR_HelpFixerScrubLabel>Сброс следа</NR_HelpFixerScrubLabel>
-  <NR_HelpFixerScrubValue>{0} Heat за киберданные в «Тени»</NR_HelpFixerScrubValue>
+  <NR_HelpFixerScrubValue>{0} Heat за единицу киберданных в «Тени»</NR_HelpFixerScrubValue>
   <NR_HelpFixerCallLabel>Звонок</NR_HelpFixerCallLabel>
   <NR_HelpFixerRareLabel>Редкие товары</NR_HelpFixerRareLabel>
   <NR_HelpContractGoal>Цель</NR_HelpContractGoal>
@@ -233,10 +233,10 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpTermNode_Gateway>Шлюз</NR_HelpTermNode_Gateway>
   <NR_HelpTermNodeDesc_Gateway>Киберпространство: карта внешних нод, сборка перед нырком и сам нырок.</NR_HelpTermNodeDesc_Gateway>
   <NR_HelpChecklist_Console>Постройте консоль связи: она станет сетевой консолью и откроет терминал.</NR_HelpChecklist_Console>
-  <NR_HelpChecklist_Pod>Постройте кибер-капсулу (меню «Киберпространство» из Hacking Expansion).</NR_HelpChecklist_Pod>
-  <NR_HelpChecklist_Link>Поставьте колонисту кибер-линк: теперь он может взламывать.</NR_HelpChecklist_Link>
-  <NR_HelpChecklist_Hack>Взломайте любую цель: появится первый Heat, и откроется Core.</NR_HelpChecklist_Hack>
-  <NR_HelpChecklist_Fixer>Позвоните фиксеру в Клубе и сделайте первую сделку.</NR_HelpChecklist_Fixer>
+  <NR_HelpChecklist_Pod>Постройте кибер-капсулу (вкладка «Киберпространство» из Hacking Expansion).</NR_HelpChecklist_Pod>
+  <NR_HelpChecklist_Link>Поставьте колонисту кибер-линк: после этого он сможет взламывать.</NR_HelpChecklist_Link>
+  <NR_HelpChecklist_Hack>Взломайте любую цель: появится первый Heat, и откроется Ядро.</NR_HelpChecklist_Hack>
+  <NR_HelpChecklist_Fixer>Позвоните фиксеру в Клубе и заключите первую сделку.</NR_HelpChecklist_Fixer>
   <NR_HelpChecklist_Dive>Нырните в ноду через Шлюз.</NR_HelpChecklist_Dive>
   <NR_HelpChecklist_AI>Пробудите осколок ИИ на ИИ-сервере.</NR_HelpChecklist_AI>
   <NR_HelpChecklistDone>Сделано {0} из {1}</NR_HelpChecklistDone>
@@ -260,12 +260,12 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLowerScrub>Сброс у фиксера</NR_HelpLowerScrub>
   <NR_HelpLowerScrubValue>{0} киберданных до нуля (без скидок)</NR_HelpLowerScrubValue>
   <NR_HelpLowerGhost>ИИ «Призрак»</NR_HelpLowerGhost>
-  <NR_HelpLowerGhostValue>−{0} за услугу, {1} услуг (раз в {2} дн.)</NR_HelpLowerGhostValue>
+  <NR_HelpLowerGhostValue>−{0} за услугу, услуг: {1} (раз в {2} дн.)</NR_HelpLowerGhostValue>
   <NR_HelpLowerContract>Контракт «Залечь на дно»</NR_HelpLowerContract>
   <NR_HelpLowerContractValue>фиксер платит {0} серебра за каждый сбитый пункт</NR_HelpLowerContractValue>
   <NR_HelpAIHome_Server>ИИ-сервер</NR_HelpAIHome_Server>
   <NR_HelpAIHomeService_Server>Да: услуги работают только с главного сервера.</NR_HelpAIHomeService_Server>
-  <NR_HelpAIHomeHunger_Server>Растёт каждый день на {1}; вы кормите.</NR_HelpAIHomeHunger_Server>
+  <NR_HelpAIHomeHunger_Server>Растёт на {1} в день; кормите его сами.</NR_HelpAIHomeHunger_Server>
   <NR_HelpAIHomeGives_Server>Услугу архетипа, просьбы и события. Стойки добавляют слоты, до трёх.</NR_HelpAIHomeGives_Server>
   <NR_HelpAIHome_Coprocessor>Сопроцессор</NR_HelpAIHome_Coprocessor>
   <NR_HelpAIHomeService_Coprocessor>Услуги нет: он работает на связанную кибер-капсулу.</NR_HelpAIHomeService_Coprocessor>
@@ -296,10 +296,10 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpAIHungerHoarder>Черта «Запасливый» (голод ×{0})</NR_HelpAIHungerHoarder>
   <NR_HelpAIHungerValue>Голод {0}</NR_HelpAIHungerValue>
   <NR_HelpAIHungerTrust>Доверие</NR_HelpAIHungerTrust>
-  <NR_HelpAIHungerFine>Доволен: работает и ждёт следующей еды.</NR_HelpAIHungerFine>
+  <NR_HelpAIHungerFine>Доволен: работает и ждёт следующей кормёжки.</NR_HelpAIHungerFine>
   <NR_HelpAIHungerStarving>Голодает: каждый день теряет доверие, пока не накормят.</NR_HelpAIHungerStarving>
   <NR_HelpAIHungerRun>Голодный и недоверчивый: вот-вот сбежит в сеть.</NR_HelpAIHungerRun>
-  <NR_HelpAITraitsReveal>Каждый ИИ просыпается с чертами, до двух; первая открывается при доверии {0}, вторая при {1}.</NR_HelpAITraitsReveal>
+  <NR_HelpAITraitsReveal>Каждый ИИ просыпается максимум с двумя чертами: первая открывается при доверии {0}, вторая — при {1}.</NR_HelpAITraitsReveal>
   <NR_HelpAwakenSources>Откуда берутся осколки:</NR_HelpAwakenSources>
   <NR_HelpAwakenWork>Пробуждение</NR_HelpAwakenWork>
   <NR_HelpAwakenWorkValue>около {0} ч работы у сервера, быстрее с высокой скоростью взлома</NR_HelpAwakenWorkValue>
@@ -311,7 +311,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpBDMoodDarkCombat>Тёмное / боевое</NR_HelpBDMoodDarkCombat>
   <NR_HelpFixerTraitsReveal>Черта фиксера открывается при репутации {0} или когда фиксер сам себя выдаст.</NR_HelpFixerTraitsReveal>
   <NR_DiveTraitLabel>{0}: {1}</NR_DiveTraitLabel>
-  <NR_DiveTrait>Сеть оставила на {0} постоянный след: {1}.\n\n{2}</NR_DiveTrait>
+  <NR_DiveTrait>{0}: сеть оставила постоянный след — {1}.\n\n{2}</NR_DiveTrait>
   <NR_PermitCooldown>будет готово через {0} дн.</NR_PermitCooldown>
   <NR_PermitScrubLog>Имперская зачистка следа ({0})</NR_PermitScrubLog>
   <NR_PermitScrubDone>{0}: след колонии стёрт из публичных журналов, Heat −{1}.</NR_PermitScrubDone>
@@ -320,7 +320,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsMinimapTip>Маленькая карта всей сети в углу: рамка показывает вид, клик переносит туда.</NR_SettingsMinimapTip>
   <NR_SettingAutopause>Автопауза при угрозе на маршруте</NR_SettingAutopause>
   <NR_SettingAutopauseTip>Когда на маршруте раннера появляется патруль или вторжение, игра один раз встаёт на паузу и приходит письмо.</NR_SettingAutopauseTip>
-  <NR_SettingsFirstHints>Знакомство и подсказки первого раза</NR_SettingsFirstHints>
+  <NR_SettingsFirstHints>Вводный тур и первые подсказки</NR_SettingsFirstHints>
   <NR_SettingsFirstHintsTip>Короткий тур при первом открытии терминала и одна карточка, когда впервые встречаются ICE, Netsick, фиксер или событие ИИ.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Словарь в подсказках</NR_SettingsGlossary>
   <NR_SettingsGlossaryTip>Пока вы новичок (пресет «Новичок» или первые 15 дней игры): если подсказка мода упоминает Heat, ICE, Netsick, киберданные или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
@@ -330,7 +330,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsHubScale>Узлов в новых картах киберпространства: {0}</NR_SettingsHubScale>
   <NR_SettingsRegenMap>Перегенерировать карту киберпространства</NR_SettingsRegenMap>
   <NR_SettingsRegenMapTip>Строит карту киберпространства этой игры заново, с размером и шаблоном, выбранными выше.</NR_SettingsRegenMapTip>
-  <NR_SettingsRegenMapConfirm>Перегенерировать карту киберпространства?\n\nКарта, её хабы и ветки строятся заново; отметки на узлах и раннеры на карте пропадут. Текущее погружение, босс-ноды, контрвзломы и дикие ИИ переедут на новую карту. Отменить это нельзя.</NR_SettingsRegenMapConfirm>
+  <NR_SettingsRegenMapConfirm>Перегенерировать карту киберпространства?\n\nКарта, её узлы и ветки строятся заново; отметки на нодах и раннеры на карте пропадут. Текущий нырок, босс-ноды, контрвзломы и дикие ИИ переедут на новую карту. Отменить это нельзя.</NR_SettingsRegenMapConfirm>
   <NR_SettingsRegenMapDone>Карта киберпространства перегенерирована.</NR_SettingsRegenMapDone>
   <NR_SettingsHubScaleWarn>Больше узлов — тяжелее карта и игра (ниже TPS). Действует на карты, созданные после изменения.</NR_SettingsHubScaleWarn>
 </LanguageData>

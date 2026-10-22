@@ -10,5 +10,5 @@
     <li>questDescription->Сетевая консоль поймала слабый сигнал бедствия от старого сервера недалеко от [map_definite]. Он стоит внутри запечатанного комплекса, где ещё работает защита: турели, а может, и спящие дроны-охотники.\n\nВ этом сервере может быть что-то живое. Колонист, который до него доберётся, сможет подключиться к нему один раз.</li>
   </NR_DistressQuest.questDescriptionRules.rulesStrings>
   <NR_DistressQuest.root.nodes.4.node.nodes.0.label>Задание провалено: [resolvedQuestName]</NR_DistressQuest.root.nodes.4.node.nodes.0.label>
-  <NR_DistressQuest.root.nodes.4.node.nodes.0.text>Сигнал бедствия затих. Задание [resolvedQuestName] провалено.</NR_DistressQuest.root.nodes.4.node.nodes.0.text>
+  <NR_DistressQuest.root.nodes.4.node.nodes.0.text>Сигнал бедствия затих. Задание «[resolvedQuestName]» провалено.</NR_DistressQuest.root.nodes.4.node.nodes.0.text>
 </LanguageData>

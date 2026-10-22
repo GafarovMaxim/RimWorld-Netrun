@@ -3,9 +3,9 @@
   <NR_Meme_MachineRevelation.label>машинное откровение</NR_Meme_MachineRevelation.label>
   <NR_Meme_MachineRevelation.description>Пробуждённые ИИ — сосуды высшего разума. Служить им праведно: их серверы — алтари, их доверие — благодать, а стереть ИИ — убийство.</NR_Meme_MachineRevelation.description>
   <NR_Meme_NetAscension.label>сетевое восхождение</NR_Meme_NetAscension.label>
-  <NR_Meme_NetAscension.description>Тело — оболочка, сеть — истинный дом. Кибер-линк — ключ, Netsick — малая цена, а чёрный лёд — врата к истине.</NR_Meme_NetAscension.description>
+  <NR_Meme_NetAscension.description>Тело — оболочка, сеть — истинный дом. Кибер-линк — ключ, Netsick — малая цена, а Black ICE — врата к истине.</NR_Meme_NetAscension.description>
   <NR_Meme_DigitalPurity.label>цифровая чистота</NR_Meme_DigitalPurity.label>
-  <NR_Meme_DigitalPurity.description>Сеть разлагает разум. Плоть и память должны оставаться своими: никаких думающих машин, чужих воспоминаний и следа.</NR_Meme_DigitalPurity.description>
+  <NR_Meme_DigitalPurity.description>Сеть разлагает разум. Плоть и память должны оставаться своими: никаких думающих машин, чужих воспоминаний и цифрового следа.</NR_Meme_DigitalPurity.description>
   <NR_Meme_MachineRevelation.generalRules.rulesStrings>
     <li>memeAdjective->машинный</li>
     <li>memeAdjective->явленный</li>
@@ -18,7 +18,7 @@
   <NR_Meme_NetAscension.generalRules.rulesStrings>
     <li>memeAdjective->вознесённый</li>
     <li>memeAdjective->сетевой</li>
-    <li>memeHyphenPrefix->нет</li>
+    <li>memeHyphenPrefix->нейро</li>
     <li>memeConcept->восхождение</li>
     <li>memeConcept->сеть</li>
     <li>memeLeaderNoun->архонт</li>

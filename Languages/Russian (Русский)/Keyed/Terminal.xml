@@ -53,12 +53,12 @@
   <NR_CoreAlertMercs>След на уровне «Цель»: возможны рейды наёмников</NR_CoreAlertMercs>
   <NR_CoreAlertRequest>{0} просит: {1}</NR_CoreAlertRequest>
   <NR_CoreAlertHungry>{0} голодает</NR_CoreAlertHungry>
-  <NR_CoreAlertNetsick>Netsick: {0} колонистов</NR_CoreAlertNetsick>
+  <NR_CoreAlertNetsick>Netsick у колонистов: {0}</NR_CoreAlertNetsick>
   <NR_HeatScreenGraph>Heat за 7 дней</NR_HeatScreenGraph>
   <NR_HeatScreenLowers>Что снижает Heat</NR_HeatScreenLowers>
-  <NR_HeatScreenNoFixer>Сброс: ни один фиксер не отвечает. Позже.</NR_HeatScreenNoFixer>
-  <NR_HeatScreenRaises>Что поднимало за неделю</NR_HeatScreenRaises>
-  <NR_HeatScreenNothingRaised>За неделю Heat не растёт.</NR_HeatScreenNothingRaised>
+  <NR_HeatScreenNoFixer>Сброс: ни один фиксер не отвечает. Попробуйте позже.</NR_HeatScreenNoFixer>
+  <NR_HeatScreenRaises>Что подняло Heat за неделю</NR_HeatScreenRaises>
+  <NR_HeatScreenNothingRaised>За неделю Heat не поднимался.</NR_HeatScreenNothingRaised>
   <NR_HeatScreenNetsickTip>Зависимость от киберпространства у тех, кто много ныряет. Растёт от времени в капсуле и ударов Black ICE.</NR_HeatScreenNetsickTip>
   <NR_TipTrace>Цифровой след (Heat), 0–100. Растёт от взломов, остывает со временем, фиксер может сбросить.</NR_TipTrace>
   <NR_TipNet>Есть ли на карте запитанная сетевая консоль. Без неё терминал работает только из капсулы.</NR_TipNet>
@@ -71,8 +71,8 @@
   <NR_BadgeServer>ИИ, которым нужно внимание (просьба, голод, побег): {0}. Красный: кто-то сбегает.</NR_BadgeServer>
   <NR_BadgeStudio>Сырых записей ждут монтажа: {0}</NR_BadgeStudio>
   <NR_BadgeGateway>Новых внешних нод: {0}</NR_BadgeGateway>
-  <NR_StatusNetOnline>СЕТЬ В ЭФИРЕ</NR_StatusNetOnline>
-  <NR_StatusNetOffline>СЕТЬ ОФФЛАЙН</NR_StatusNetOffline>
+  <NR_StatusNetOnline>СЕТЬ ОНЛАЙН</NR_StatusNetOnline>
+  <NR_StatusNetOffline>СЕТЬ ОФЛАЙН</NR_StatusNetOffline>
   <NR_StatusTraceClick>Клик: экран «Heat и след».</NR_StatusTraceClick>
   <NR_CoreGatewayRefresh>Новые ноды через</NR_CoreGatewayRefresh>
   <NR_CoreBossActive>Корп-ядро: открыто ещё</NR_CoreBossActive>
@@ -92,17 +92,17 @@
   <NR_CoreTileAdvanced>+{0} прод.</NR_CoreTileAdvanced>
   <NR_CoreTileCyberdataTip>Киберданные в колонии: нырки, сброс следа, программы. Малое число — продвинутые.</NR_CoreTileCyberdataTip>
   <NR_CoreTileAI>ИИ</NR_CoreTileAI>
-  <NR_CoreTileSlots>{0}/{1} слота</NR_CoreTileSlots>
+  <NR_CoreTileSlots>слоты: {0}/{1}</NR_CoreTileSlots>
   <NR_CoreTileAITip>Пробуждённые ИИ и слоты главного ИИ-сервера.</NR_CoreTileAITip>
   <NR_CoreTileChips>Чипы</NR_CoreTileChips>
   <NR_CoreTileBlack>{0} чёрн.</NR_CoreTileBlack>
   <NR_CoreTileChipsTip>Брейнданс-чипы в колонии; малое число — чёрные.</NR_CoreTileChipsTip>
   <NR_CoreRowNetTip>Сколько тянет сеть: консоль, капсулы, сопроцессоры, серверы. Онлайн — консоль с питанием.</NR_CoreRowNetTip>
   <NR_CoreOnline>онлайн</NR_CoreOnline>
-  <NR_CoreOffline>оффлайн</NR_CoreOffline>
+  <NR_CoreOffline>офлайн</NR_CoreOffline>
   <NR_ChipNetInactive>Сеть не активна</NR_ChipNetInactive>
   <NR_OnboardingTitle>ДОБРО ПОЖАЛОВАТЬ В СЕТЬ</NR_OnboardingTitle>
-  <NR_OnboardingIntro>Здесь появится экран навигации, Heat и тревоги. Чтобы начать, пройди эти шаги. Остальное откроется само.</NR_OnboardingIntro>
+  <NR_OnboardingIntro>Здесь появится экран навигации, Heat и тревоги. Чтобы начать, пройдите эти шаги. Остальное откроется само.</NR_OnboardingIntro>
   <NR_OnboardingStep_Console>Построить консоль связи: она станет сетевой консолью</NR_OnboardingStep_Console>
   <NR_OnboardingStep_Cyberpod>Построить кибер-капсулу (меню «Киберпространство», исследование: {0})</NR_OnboardingStep_Cyberpod>
   <NR_OnboardingStep_Cyberlink>Поставить колонисту кибер-линк (исследование: {1})</NR_OnboardingStep_Cyberlink>
@@ -116,8 +116,8 @@
   <NR_OnboardingNoteProtected>Пока колония не в сети, события Netrun не приходят (защита новичка).</NR_OnboardingNoteProtected>
   <NR_OnboardingNoteOpen>Колония уже в сети: события Netrun могут приходить.</NR_OnboardingNoteOpen>
   <NR_OnboardingSkip>Пропустить</NR_OnboardingSkip>
-  <NR_OnboardingSkipTip>Сразу показать полный Core со всеми разделами.</NR_OnboardingSkipTip>
-  <NR_OnboardingDone>Netrun: колония в сети. Разделы Core открываются по одному.</NR_OnboardingDone>
+  <NR_OnboardingSkipTip>Сразу показать полное Ядро со всеми разделами.</NR_OnboardingSkipTip>
+  <NR_OnboardingDone>Netrun: колония в сети. Разделы Ядра открываются по одному.</NR_OnboardingDone>
   <NR_NodeLockedSub>нет доступа</NR_NodeLockedSub>
   <NR_NodeLocked_Club>Откроется с первым Heat (первым взломом).</NR_NodeLocked_Club>
   <NR_NodeLocked_Board>Откроется после первого звонка фиксеру в Клубе.</NR_NodeLocked_Board>
@@ -142,12 +142,12 @@
   <NR_HeatV2LessThanDay>меньше суток</NR_HeatV2LessThanDay>
   <NR_HeatV2ViaFixer>Через фиксера</NR_HeatV2ViaFixer>
   <NR_HeatV2ViaFixerDesc>Фиксер стирает след за киберданные. У вас {0} (+{1} прод.). Позвоните, чтобы открыть канал, потом сбрасывайте.</NR_HeatV2ViaFixerDesc>
-  <NR_HeatV2FixerRate>1 data = −{0}, прод. = −{1}</NR_HeatV2FixerRate>
+  <NR_HeatV2FixerRate>обычн. = −{0}, прод. = −{1}</NR_HeatV2FixerRate>
   <NR_HeatV2FixerDiscount>скидка {0}</NR_HeatV2FixerDiscount>
   <NR_HeatV2FixerSilent>молчит: {0}</NR_HeatV2FixerSilent>
   <NR_HeatV2ScrubWith>Сбросить…</NR_HeatV2ScrubWith>
   <NR_HeatV2ScrubWithTip>Канал с {0} открыт: выберите, сколько киберданных отдать.</NR_HeatV2ScrubWithTip>
-  <NR_HeatV2CallFixer>Позвать · {0}</NR_HeatV2CallFixer>
+  <NR_HeatV2CallFixer>Позвонить · {0}</NR_HeatV2CallFixer>
   <NR_HeatV2CallFixerTip>Заплатить серебро и открыть канал с {0} на {1} ч; затем откроется окно сброса.</NR_HeatV2CallFixerTip>
   <NR_HeatV2Ghost>ИИ «Призрак»</NR_HeatV2Ghost>
   <NR_HeatV2GhostNone>Нужен ИИ «Призрак» на сервере или в носителе.</NR_HeatV2GhostNone>
@@ -163,9 +163,9 @@
   <NR_HeatV2AdviceNear>сбросьте след ниже {0}, пока не пришёл уровень «{1}».</NR_HeatV2AdviceNear>
   <NR_HeatV2AdviceOk>след под контролем, до нуля {0}.</NR_HeatV2AdviceOk>
   <NR_HeatV2AdviceClean>следа нет. Хорошее время для нырка.</NR_HeatV2AdviceClean>
-  <NR_HelpCtx_DiveReport>Итоги вылазки</NR_HelpCtx_DiveReport>
-  <NR_GuideButtonTip>Гайд по экрану: области подсвечиваются, клик по области — короткий разбор.</NR_GuideButtonTip>
-  <NR_GuideCardHeader>ГАЙД ПО ЭКРАНУ · {0} / {1}</NR_GuideCardHeader>
+  <NR_HelpCtx_DiveReport>Итоги нырка</NR_HelpCtx_DiveReport>
+  <NR_GuideButtonTip>Гид по экрану: области подсвечиваются, клик по области — короткий разбор.</NR_GuideButtonTip>
+  <NR_GuideCardHeader>ГИД ПО ЭКРАНУ · {0} / {1}</NR_GuideCardHeader>
   <NR_GuideStep>шаг {0}/{1}</NR_GuideStep>
   <NR_GuideTry>Попробуйте:</NR_GuideTry>
   <NR_GuideBack>◄ Назад</NR_GuideBack>
@@ -173,9 +173,9 @@
   <NR_GuideDone>Готово ✔</NR_GuideDone>
   <NR_GuideHelp>Киберпедия ↗</NR_GuideHelp>
   <NR_GuideExit>Выход (Esc)</NR_GuideExit>
-  <NR_HelpBackTo>К: {0}</NR_HelpBackTo>
-  <NR_HelpLeaveTip>Назад к экрану, откуда открыли (Esc)</NR_HelpLeaveTip>
-  <NR_GuideButtonLeaveTip>Выйти из гайда (Esc)</NR_GuideButtonLeaveTip>
+  <NR_HelpBackTo>Назад: {0}</NR_HelpBackTo>
+  <NR_HelpLeaveTip>Назад к предыдущему экрану (Esc)</NR_HelpLeaveTip>
+  <NR_GuideButtonLeaveTip>Выйти из гида (Esc)</NR_GuideButtonLeaveTip>
   <NR_HelpCtx_Help>Киберпедия</NR_HelpCtx_Help>
   <NR_HelpTitle>NETRUN // КИБЕРПЕДИЯ</NR_HelpTitle>
   <NR_HelpSearch>Поиск по Киберпедии…</NR_HelpSearch>
@@ -205,7 +205,7 @@
   <NR_HelpCtx_Settings>Настройки мода</NR_HelpCtx_Settings>
   <NR_HeatV2ScaleClick>Клик: показать эффекты этого уровня.</NR_HeatV2ScaleClick>
   <NR_HeatV2Graph24>Heat за 24 часа</NR_HeatV2Graph24>
-  <NR_HeatV2Period7>7 дн</NR_HeatV2Period7>
+  <NR_HeatV2Period7>7 дн.</NR_HeatV2Period7>
   <NR_HeatV2Period24>24 ч</NR_HeatV2Period24>
   <NR_HeatV2Axis24>24 ч назад</NR_HeatV2Axis24>
   <NR_HeatV2Axis12>12 ч назад</NR_HeatV2Axis12>
@@ -240,20 +240,20 @@
   <NR_ArchiveDayChip>День: {0} ✕</NR_ArchiveDayChip>
   <NR_ArchiveDayChipTip>Показать все дни.</NR_ArchiveDayChipTip>
   <NR_ArchiveDaySum>{0} Heat за день</NR_ArchiveDaySum>
-  <NR_ArchiveEmpty>Записей нет.</NR_ArchiveEmpty>
+  <NR_ArchiveEmpty>Нет подходящих записей.</NR_ArchiveEmpty>
   <NR_ArchiveNoReports>Нырки не записаны.</NR_ArchiveNoReports>
   <NR_ArchiveNoRaids>Рейды и атаки не записаны.</NR_ArchiveNoRaids>
-  <NR_ArchivePick>Выбери строку, чтобы увидеть подробности.</NR_ArchivePick>
+  <NR_ArchivePick>Выберите строку, чтобы увидеть подробности.</NR_ArchivePick>
   <NR_ArchiveDetail>Событие</NR_ArchiveDetail>
   <NR_ArchiveDetailReport>Нырок</NR_ArchiveDetailReport>
   <NR_ArchiveHeat>Heat</NR_ArchiveHeat>
   <NR_ArchiveOutcome>Исход</NR_ArchiveOutcome>
   <NR_ArchiveLoot>Добыча</NR_ArchiveLoot>
   <NR_ArchiveLootNone>ничего</NR_ArchiveLootNone>
-  <NR_ArchiveTurns>Ходов</NR_ArchiveTurns>
+  <NR_ArchiveTurns>Ходы</NR_ArchiveTurns>
   <NR_ArchiveTurnsShort>ходов: {0}</NR_ArchiveTurnsShort>
-  <NR_ArchiveEvents>Событий в нырке</NR_ArchiveEvents>
-  <NR_ArchiveOpenReport>Открыть отчёт нырка</NR_ArchiveOpenReport>
+  <NR_ArchiveEvents>События в нырке</NR_ArchiveEvents>
+  <NR_ArchiveOpenReport>Открыть отчёт о нырке</NR_ArchiveOpenReport>
   <NR_ArchiveHeatThen>Экран Heat</NR_ArchiveHeatThen>
   <NR_ArchiveHeatThenTip>График Heat и что на него влияет.</NR_ArchiveHeatThenTip>
   <NR_ArchiveArticle>Статья: {0} ↗</NR_ArchiveArticle>
@@ -268,9 +268,9 @@
   <NR_HelpDiveStep_EXIT>Выход</NR_HelpDiveStep_EXIT>
   <NR_HelpDiveStepDesc_LOBBY>Лобби: здесь начинается каждый нырок. Уйти отсюда можно бесплатно.</NR_HelpDiveStepDesc_LOBBY>
   <NR_HelpDiveStepDesc_GATE>Кодовые ворота: стена, которую надо взломать, чтобы идти дальше. У сильных нод ворота крепче.</NR_HelpDiveStepDesc_GATE>
-  <NR_HelpDiveStepDesc_FILES>Файлы: загрузите их ради добычи. Они окупают нырок с множителем.</NR_HelpDiveStepDesc_FILES>
+  <NR_HelpDiveStepDesc_FILES>Файлы: скачайте их, это добыча. Они окупают нырок с множителем.</NR_HelpDiveStepDesc_FILES>
   <NR_HelpDiveStepDesc_HIDDEN>Скрытая ступень: не видна до скана. Не всё скрытое стоит брать.</NR_HelpDiveStepDesc_HIDDEN>
-  <NR_HelpDiveStepDesc_BLACKICE>Black ICE: бьёт каждый ход ноды, пока вы в ней. Помогают щиты, фальшивки и убийцы.</NR_HelpDiveStepDesc_BLACKICE>
+  <NR_HelpDiveStepDesc_BLACKICE>Black ICE: бьёт каждый ход ноды, пока вы в ней. Помогают «Щит», «Фальшивка» и программы-убийцы.</NR_HelpDiveStepDesc_BLACKICE>
   <NR_HelpDiveStepDesc_MEMORY>Блоки памяти: в них бывают осколки ИИ и модули ядра.</NR_HelpDiveStepDesc_MEMORY>
   <NR_HelpDiveStepDesc_EXIT>Порт ввода-вывода: уходите со всем найденным. Чистый выход может принести особую находку.</NR_HelpDiveStepDesc_EXIT>
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
@@ -278,7 +278,7 @@
   <NR_HelpDemoHeat>Heat сейчас: {0}</NR_HelpDemoHeat>
   <NR_HelpDemoData>Потратить киберданные: {0}</NR_HelpDemoData>
   <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
-  <NR_HelpDemoNeeded>Киберданные до нуля отсюда: {0} (фиксер без скидок).</NR_HelpDemoNeeded>
+  <NR_HelpDemoNeeded>Киберданных нужно до нуля: {0} (фиксер без скидок).</NR_HelpDemoNeeded>
   <NR_HelpDemoSick_Mild>Лёгкая (до 30%): пока без эффекта.</NR_HelpDemoSick_Mild>
   <NR_HelpDemoSick_Noticeable>Заметная (30%+): после суток без сети падает настроение, реальность кажется плоской.</NR_HelpDemoSick_Noticeable>
   <NR_HelpDemoSick_Strong>Сильная (60%+): чуть меньше сознания, срывы «тяга к сети» раз в несколько дней.</NR_HelpDemoSick_Strong>
@@ -288,9 +288,9 @@
   <NR_DeckKey_0>Назад</NR_DeckKey_0>
   <NR_DeckKey_1>Домой: карта сети</NR_DeckKey_1>
   <NR_DeckKey_2>Киберпедия</NR_DeckKey_2>
-  <NR_DeckTuner>Тюнер: метка прыгает на каждом новом событии в сети.</NR_DeckTuner>
+  <NR_DeckTuner>Тюнер: метка прыгает при каждом новом событии в сети.</NR_DeckTuner>
   <NR_DeckLightNet>Сеть: горит, пока колония в сети.</NR_DeckLightNet>
-  <NR_DeckLightSick>Netsick: мигает, пока у колониста есть зависимость.</NR_DeckLightSick>
+  <NR_DeckLightSick>Netsick: мигает, пока Netsick есть хоть у одного колониста.</NR_DeckLightSick>
   <NR_DeckBeacon>Тревожная лампа: пульсирует, когда Heat доходит до уровня «Цель», и мигает стробом в красной зоне.</NR_DeckBeacon>
   <NR_DeckLightPod>Капсула: горит, пока нетраннер лежит в кибер-капсуле.</NR_DeckLightPod>
   <NR_DeckKey_3>Закрыть терминал</NR_DeckKey_3>
@@ -322,7 +322,7 @@
   <NR_DeckThemeDesc_Field>По умолчанию: матовый чёрный пластик, вставки из карбона, плоские клавиши со светящимися значками и световая линия вокруг экрана, которая краснеет с ростом Heat.</NR_DeckThemeDesc_Field>
   <NR_DeckThemeDesc_Milspec>Защищённый полевой планшет: оливковая краска со сколами, резиновые бамперы, тумблеры под крышками, янтарные экраны и шкала угрозы.</NR_DeckThemeDesc_Milspec>
   <NR_DeckThemeDesc_Street>Жёлтая уличная панель: неоновая трубка горит вместе с Heat, голографическая кицунэ, граффити.</NR_DeckThemeDesc_Street>
-  <NR_DeckThemeDesc_OpsPad>Корпоративный терминал: светлый печатный корпус, красная полоса с 紅, штриховка и метки совмещения.</NR_DeckThemeDesc_OpsPad>
+  <NR_DeckThemeDesc_OpsPad>Терминал корпоративного топ-менеджера: светлый печатный корпус, красная полоса с 紅, штриховка и метки совмещения.</NR_DeckThemeDesc_OpsPad>
   <NR_MenuTitle>NETRUN // СИСТЕМА</NR_MenuTitle>
   <NR_MenuTitlePage>NETRUN // {0}</NR_MenuTitlePage>
   <NR_MenuButtonTip>Меню (клавиша MENU на корпусе делает то же)</NR_MenuButtonTip>
@@ -347,7 +347,7 @@
   <NR_MenuCopyDiagnostics>Скопировать диагностику</NR_MenuCopyDiagnostics>
   <NR_MenuReportBug>Сообщить об ошибке</NR_MenuReportBug>
   <NR_MenuEsc>Esc закрывает меню</NR_MenuEsc>
-  <NR_MenuAchHead>Выполнено {0} из {1} · {2} очков</NR_MenuAchHead>
+  <NR_MenuAchHead>Выполнено {0} из {1} · очки: {2}</NR_MenuAchHead>
   <NR_MenuAchVae>Включён Vanilla Achievements Expanded: они есть и в его вкладке Netrun.</NR_MenuAchVae>
   <NR_MenuAchSecret>Секретное достижение. Откроется, когда будет выполнено.</NR_MenuAchSecret>
   <NR_MenuAchTheme>Награда: тема рамки «{0}».</NR_MenuAchTheme>
@@ -393,7 +393,7 @@
   <NR_HintRead>Читать</NR_HintRead>
   <NR_HintGotIt>Понятно</NR_HintGotIt>
   <NR_HintTitle_Ice>ICE ударил в ответ</NR_HintTitle_Ice>
-  <NR_Hint_Ice>ICE охраняет ноды и бьёт нетраннера при сорванном взломе: тошнота, блокировка, иногда кома. Программы Shield и Decoy смягчают удар; уходите, пока можно.</NR_Hint_Ice>
+  <NR_Hint_Ice>ICE охраняет ноды и бьёт нетраннера при сорванном взломе: тошнота, блокировка, иногда кома. Программы «Щит» и «Фальшивка» смягчают удар; уходите, пока можно.</NR_Hint_Ice>
   <NR_HintTitle_Netsick>Netsick</NR_HintTitle_Netsick>
   <NR_Hint_Netsick>Время в сети растит зависимость. Вне сети она спадает; на высоких уровнях приходят ломка и срыв «тяга к сети». Помогают нейростабилизаторы и живой отдых.</NR_Hint_Netsick>
   <NR_HintTitle_Fixer>Фиксеры</NR_HintTitle_Fixer>
@@ -407,7 +407,7 @@
   <NR_Intro_1>Всё о Netrun с живыми примерами из вашей игры. Открывается на странице о текущем экране (также F1).</NR_Intro_1>
   <NR_IntroTitle_2>Гид</NR_IntroTitle_2>
   <NR_Intro_2>Нажмите на любом экране: области подсвечиваются, наведите на любую, чтобы узнать, что она делает. Начните с первого шага в Ядре; меню (справа вверху) вернёт этот тур.</NR_Intro_2>
-  <NR_IntroNext>Дальше</NR_IntroNext>
+  <NR_IntroNext>Далее</NR_IntroNext>
   <NR_IntroDone>Начать</NR_IntroDone>
   <NR_IntroSkip>Пропустить</NR_IntroSkip>
   <NR_MenuIntro>Знакомство</NR_MenuIntro>
@@ -422,7 +422,7 @@
   <NR_GlossTerms_Trace>след,следа,следу</NR_GlossTerms_Trace>
   <NR_Gloss_BlackIce>Black ICE: смертельная защита богатых нод. Его удары выжигают связь и могут уничтожить сам кибер-линк.</NR_Gloss_BlackIce>
   <NR_Gloss_Ice>ICE: защитная программа ноды. Сорванный взлом против неё бьёт по нетраннеру.</NR_Gloss_Ice>
-  <NR_Gloss_Heat>Heat: насколько колония заметна в сети (0–100). Растёт от взломов и нырков, приводит атаки; фиксеры его сбрасывают.</NR_Gloss_Heat>
+  <NR_Gloss_Heat>Heat: насколько колония заметна в сети (0–100). Растёт от взломов и нырков, навлекает атаки; фиксеры его сбрасывают.</NR_Gloss_Heat>
   <NR_Gloss_Netsick>Netsick: зависимость от сети. Растёт в сети, спадает вне её; на высоких уровнях ломка и срывы.</NR_Gloss_Netsick>
   <NR_Gloss_Cyberdata>Киберданные: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
   <NR_Gloss_Trace>След: то, что оставляют нырок или взлом; после окончания он превращается в Heat.</NR_Gloss_Trace>
@@ -434,12 +434,12 @@
   <NR_CoreTodayContract>закрывается контракт: {0}</NR_CoreTodayContract>
   <NR_SettingsSurveillanceNode>Наблюдение в узле</NR_SettingsSurveillanceNode>
   <NR_SettingsSurveillanceNodeTip>Контракт наблюдения называет узел на карте киберпространства, и считается только раннер, стоящий там. Выкл.: считается любой нетраннер в капсуле, как в старых версиях.</NR_SettingsSurveillanceNodeTip>
-  <NR_SettingsIsolationCooldown>Охлаждение изоляции</NR_SettingsIsolationCooldown>
+  <NR_SettingsIsolationCooldown>Откат изоляции</NR_SettingsIsolationCooldown>
   <NR_SettingsIsolationCooldownTip>После снятия изоляции сеть нельзя снова изолировать 6 игровых часов. Снятие изоляции, длившейся меньше 2 часов, даёт +4 Heat и немного Netsick раннерам в капсулах. Выкл.: изоляция переключается свободно.</NR_SettingsIsolationCooldownTip>
   <NR_SettingsLegend>Легенда на карте</NR_SettingsLegend>
   <NR_SettingsLegendTip>Сворачиваемая легенда в левом нижнем углу карты киберпространства; щелчок по строке подсвечивает узлы, к которым она относится.</NR_SettingsLegendTip>
   <NR_SettingsProtectedHubs>Защищённые узлы корпораций</NR_SettingsProtectedHubs>
-  <NR_SettingsProtectedHubsTip>Все узлы корпораций закрыты, пока раннер не сломает их ключ, шлюз охраны (жёлтый ромб) в соседнем узле: внешние узлы открываются с нейтральной земли, внутренние из узла той же корпорации. Открытый узел открыт 3 дня, добыча ×1,4. Провал нырка там даёт +6 Heat.</NR_SettingsProtectedHubsTip>
+  <NR_SettingsProtectedHubsTip>Все узлы корпораций закрыты, пока раннер не взломает их ключ — шлюз охраны (жёлтый ромб) в соседнем узле: внешние узлы открываются с нейтральной земли, внутренние из узла той же корпорации. Открытый узел остаётся открытым 3 дня, добыча ×1,4. Провал нырка там даёт +6 Heat.</NR_SettingsProtectedHubsTip>
   <NR_SettingsNotifySounds>Звуки уведомлений</NR_SettingsNotifySounds>
   <NR_SettingsNotifySoundsTip>Звуки сообщений и писем Netrun. Только важные: угрозы, потери, итоги контрактов и нырков, события с выбором; остальное приходит без звука. Выкл.: никаких звуков уведомлений Netrun. Клики и звуки нырка не меняются.</NR_SettingsNotifySoundsTip>
   <NR_SettingsNotifyAll>Все</NR_SettingsNotifyAll>

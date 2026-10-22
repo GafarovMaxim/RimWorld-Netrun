@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <NR_ErasedAI.label>стёр ИИ</NR_ErasedAI.label>
-  <NR_UsedAIService.label>воспользовался услугой ИИ</NR_UsedAIService.label>
-  <NR_WatchedBraindance.label>смотрел брейнданс</NR_WatchedBraindance.label>
+  <NR_ErasedAI.label>стирание ИИ</NR_ErasedAI.label>
+  <NR_UsedAIService.label>услуга ИИ</NR_UsedAIService.label>
+  <NR_WatchedBraindance.label>просмотр брейнданса</NR_WatchedBraindance.label>
 </LanguageData>

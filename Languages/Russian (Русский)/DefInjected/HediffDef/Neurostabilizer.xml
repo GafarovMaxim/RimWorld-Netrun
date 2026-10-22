@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-  <NR_NeurostabilizerHigh.label>нейростабилизирован</NR_NeurostabilizerHigh.label>
+  <NR_NeurostabilizerHigh.label>нейростабилизация</NR_NeurostabilizerHigh.label>
   <NR_NeurostabilizerHigh.description>Нейробуфер держит тягу к сети в тишине. Пока он действует, Netsick не вызывает ни ломки, ни сетевой тяги.</NR_NeurostabilizerHigh.description>
   <NR_NeurostabilizerTolerance.label>толерантность к нейростабилизатору</NR_NeurostabilizerTolerance.label>
   <NR_NeurostabilizerTolerance.description>Привыкание к нейростабилизатору. Чем оно сильнее, тем слабее действует доза.</NR_NeurostabilizerTolerance.description>

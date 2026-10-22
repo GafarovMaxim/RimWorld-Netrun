@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_BraindanceHigh.stages.0.label>послевкусие брейнданса</NR_BraindanceHigh.stages.0.label>
-  <NR_BraindanceHigh.stages.0.description>Ненадолго я прожил чей-то лучший момент. Он всё ещё отзывается внутри.</NR_BraindanceHigh.stages.0.description>
+  <NR_BraindanceHigh.stages.0.description>Ненадолго я {PAWN_gender ? прожил : прожила} чей-то лучший момент. Он всё ещё отзывается внутри.</NR_BraindanceHigh.stages.0.description>
 
   <NR_BraindanceWithdrawal.stages.1.label>ломка без брейнданса</NR_BraindanceWithdrawal.stages.1.label>
   <NR_BraindanceWithdrawal.stages.1.description>Всё вокруг серое и приглушённое. Я всё тянусь к воспоминаниям, которые никогда не были моими.</NR_BraindanceWithdrawal.stages.1.description>

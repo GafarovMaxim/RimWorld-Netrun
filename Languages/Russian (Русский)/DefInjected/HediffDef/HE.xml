@@ -2,19 +2,19 @@
 <!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
 <LanguageData>
   <USH_ExecDataHediff_VirtualICEBreaker.label>виртуальный ледоруб Black ICE</USH_ExecDataHediff_VirtualICEBreaker.label>
-  <USH_ExecDataHediff_VirtualICEBreaker.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «виртуальный ледоруб Black ICE».</USH_ExecDataHediff_VirtualICEBreaker.description>
+  <USH_ExecDataHediff_VirtualICEBreaker.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «виртуальный ледоруб Black ICE».</USH_ExecDataHediff_VirtualICEBreaker.description>
   <USH_ExecDataHediff_Zapcode.label>зап-код</USH_ExecDataHediff_Zapcode.label>
-  <USH_ExecDataHediff_Zapcode.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «зап-код».</USH_ExecDataHediff_Zapcode.description>
+  <USH_ExecDataHediff_Zapcode.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «зап-код».</USH_ExecDataHediff_Zapcode.description>
   <USH_ExecDataHediff_ForkBomb.label>форк-бомба</USH_ExecDataHediff_ForkBomb.label>
-  <USH_ExecDataHediff_ForkBomb.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «форк-бомба».</USH_ExecDataHediff_ForkBomb.description>
+  <USH_ExecDataHediff_ForkBomb.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «форк-бомба».</USH_ExecDataHediff_ForkBomb.description>
   <USH_ExecDataHediff_Discharge.label>разряд</USH_ExecDataHediff_Discharge.label>
-  <USH_ExecDataHediff_Discharge.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «разряд».</USH_ExecDataHediff_Discharge.description>
+  <USH_ExecDataHediff_Discharge.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «разряд».</USH_ExecDataHediff_Discharge.description>
   <USH_ExecDataHediff_Disarm.label>разоружение</USH_ExecDataHediff_Disarm.label>
-  <USH_ExecDataHediff_Disarm.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «разоружение».</USH_ExecDataHediff_Disarm.description>
+  <USH_ExecDataHediff_Disarm.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «разоружение».</USH_ExecDataHediff_Disarm.description>
   <USH_ExecDataHediff_ShortCircuit.label>короткое замыкание</USH_ExecDataHediff_ShortCircuit.label>
-  <USH_ExecDataHediff_ShortCircuit.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «короткое замыкание».</USH_ExecDataHediff_ShortCircuit.description>
+  <USH_ExecDataHediff_ShortCircuit.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «короткое замыкание».</USH_ExecDataHediff_ShortCircuit.description>
   <USH_ExecDataHediff_HijackSubcore.label>захват подъядра</USH_ExecDataHediff_HijackSubcore.label>
-  <USH_ExecDataHediff_HijackSubcore.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «захват подъядра».</USH_ExecDataHediff_HijackSubcore.description>
+  <USH_ExecDataHediff_HijackSubcore.description>Дискета в кейсе скриптов: скрипт ещё осваивается. Когда освоение завершится, станет доступен скрипт «захват подъядра».</USH_ExecDataHediff_HijackSubcore.description>
   <USH_CyberNecrosis.label>кибернекроз</USH_CyberNecrosis.label>
   <USH_CyberNecrosis.labelNoun>кибернекроз</USH_CyberNecrosis.labelNoun>
   <USH_CyberNecrosis.description>Кибернекроз, вызванный столкновением в киберпространстве.</USH_CyberNecrosis.description>

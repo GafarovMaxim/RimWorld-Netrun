@@ -29,7 +29,14 @@
 | braindance | брейнданс | брэйнданс, брейн-данс |
 | coprocessor | сопроцессор | |
 | Cyberpedia | Киберпедия | |
-| ICE, Black ICE | без перевода: ICE, Black ICE | |
+| Core (terminal screen) | Ядро | |
+| gate (in a dive) | ворота | |
+| Gateway (screen) | Шлюз | |
+| honeypot node / firewall honeypot mode | нода-приманка / режим ловушки | |
+| program Stealth / Decoy / Shield | «Невидимка» / «Фальшивка» / «Щит» | |
+| AI archetype Ghost / daemon Wraith | «Призрак» / «Морок» | |
+| Black ICE | Black ICE | чёрный лёд, чёрного льда, чёрным льдом |
+| ICE (as a word) | ICE | |
 | Heat | без перевода: Heat | |
 | Netsick | без перевода: Netsick | |
 

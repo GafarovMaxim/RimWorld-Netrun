@@ -33,7 +33,7 @@ ACH = [
      "На волне", "10 нырков подряд с чистым выходом."),
     ("BlackICEPassed", 1, "common", 15, "UI/Netrun/Cyberspace/Dive_BLACKICE",
      "Through the black", "Get through a node guarded by Black ICE.",
-     "Сквозь чёрный лёд", "Пройти узел под защитой Black ICE."),
+     "Сквозь Black ICE", "Пройти узел под защитой Black ICE."),
     ("CorpCores", 1, "rare", 50, "UI/Netrun/Cyberspace/Node_CorpCore",
      "Core breach", "Take a corporate core.",
      "Пробой ядра", "Взять корпоративное ядро."),

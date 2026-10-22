@@ -3,29 +3,29 @@
 
   <NR_Bs_ServerRoomChild.title>дитя серверной</NR_Bs_ServerRoomChild.title>
   <NR_Bs_ServerRoomChild.titleShort>дитя серверной</NR_Bs_ServerRoomChild.titleShort>
-  <NR_Bs_ServerRoomChild.baseDesc>[PAWN_nameDef] рос между гудящими стойками, где родители держали подпольный дата-центр. Вентиляторы были колыбельной, а читать [PAWN_pronoun] учился по журналам ошибок.</NR_Bs_ServerRoomChild.baseDesc>
+  <NR_Bs_ServerRoomChild.baseDesc>[PAWN_nameDef] {PAWN_gender ? рос : росла} между гудящими стойками, где родители держали подпольный дата-центр. Вентиляторы были колыбельной, а читать [PAWN_pronoun] {PAWN_gender ? учился : училась} по журналам ошибок.</NR_Bs_ServerRoomChild.baseDesc>
   <NR_Bs_StreetHackerKid.title>уличный хакер-подросток</NR_Bs_StreetHackerKid.title>
   <NR_Bs_StreetHackerKid.titleShort>хакер-подросток</NR_Bs_StreetHackerKid.titleShort>
-  <NR_Bs_StreetHackerKid.baseDesc>[PAWN_nameDef] вскрывал торговые автоматы и турникеты для банды ребят постарше. Когда код не срабатывал, срабатывали кулаки.</NR_Bs_StreetHackerKid.baseDesc>
+  <NR_Bs_StreetHackerKid.baseDesc>[PAWN_nameDef] {PAWN_gender ? вскрывал : вскрывала} торговые автоматы и турникеты для банды ребят постарше. Когда не срабатывал код, срабатывали кулаки.</NR_Bs_StreetHackerKid.baseDesc>
   <NR_Bs_BraindanceSubject.title>подопытный брейнданса</NR_Bs_BraindanceSubject.title>
   <NR_Bs_BraindanceSubject.titleShort>подопытный</NR_Bs_BraindanceSubject.titleShort>
   <NR_Bs_BraindanceSubject.baseDesc>Студия платила семье [PAWN_nameDef] за записи того, что чувствует ребёнок. Годы чужих воспоминаний, и до сих пор нет уверенности, какие из своих настоящие.</NR_Bs_BraindanceSubject.baseDesc>
   <NR_Bs_StreetNetrunner.title>уличный нетраннер</NR_Bs_StreetNetrunner.title>
   <NR_Bs_StreetNetrunner.titleShort>нетраннер</NR_Bs_StreetNetrunner.titleShort>
-  <NR_Bs_StreetNetrunner.baseDesc>[PAWN_nameDef] нырял для того, кто платил: фиксеров, банд, однажды даже для корпорации, которой нужно было навредить другой корпорации. Знает, каков чёрный лёд на ощупь, и держит ствол под рукой на случай, если сеть придёт следом домой.</NR_Bs_StreetNetrunner.baseDesc>
+  <NR_Bs_StreetNetrunner.baseDesc>[PAWN_nameDef] {PAWN_gender ? нырял : ныряла} для всех, кто платил: для фиксеров, для банд, однажды даже для корпорации, которой нужно было навредить другой корпорации. Знает, каков Black ICE на ощупь, и держит ствол под рукой на случай, если сеть пойдёт следом до самого дома.</NR_Bs_StreetNetrunner.baseDesc>
   <NR_Bs_CorpCoder.title>корпоративный кодер</NR_Bs_CorpCoder.title>
   <NR_Bs_CorpCoder.titleShort>корп-кодер</NR_Bs_CorpCoder.titleShort>
-  <NR_Bs_CorpCoder.baseDesc>[PAWN_nameDef] писал ICE для мегакорпорации, в башне с чистым воздухом и ещё более чистыми правилами. Тяжелее чипа с данными ничего не носил и начинать не собирается.</NR_Bs_CorpCoder.baseDesc>
+  <NR_Bs_CorpCoder.baseDesc>[PAWN_nameDef] {PAWN_gender ? писал : писала} ICE для мегакорпорации, в башне с чистым воздухом и ещё более чистыми правилами. Тяжелее чипа с данными ничего не {PAWN_gender ? носил : носила} и начинать не собирается.</NR_Bs_CorpCoder.baseDesc>
   <NR_Bs_BraindanceTester.title>сбежавший тестер брейнданса</NR_Bs_BraindanceTester.title>
   <NR_Bs_BraindanceTester.titleShort>тестер БД</NR_Bs_BraindanceTester.titleShort>
-  <NR_Bs_BraindanceTester.baseDesc>[PAWN_nameDef] проверял сырые записи брейнданса для студии, слишком острые для продажи. Однажды встал и ушёл посреди сеанса. С тех пор сеть так до конца и не отпустила.</NR_Bs_BraindanceTester.baseDesc>
+  <NR_Bs_BraindanceTester.baseDesc>[PAWN_nameDef] {PAWN_gender ? проверял : проверяла} сырые записи брейнданса для студии, слишком острые для продажи. Однажды {PAWN_gender ? встал и ушёл : встала и ушла} посреди сеанса. С тех пор сеть так до конца и не отпустила {PAWN_objective}.</NR_Bs_BraindanceTester.baseDesc>
   <NR_Bs_DataCourier.title>курьер данных</NR_Bs_DataCourier.title>
   <NR_Bs_DataCourier.titleShort>курьер</NR_Bs_DataCourier.titleShort>
-  <NR_Bs_DataCourier.baseDesc>[PAWN_nameDef] возил данные, слишком горячие для любой сети: в голове или в кейсе, пристёгнутом к запястью. Научился заговаривать зубы на блокпостах и стрелять мимо тех, кто не слушал.</NR_Bs_DataCourier.baseDesc>
+  <NR_Bs_DataCourier.baseDesc>[PAWN_nameDef] {PAWN_gender ? возил : возила} данные, слишком горячие для любой сети: в голове или в кейсе, пристёгнутом к запястью. {PAWN_gender ? Научился : Научилась} заговаривать зубы на блокпостах, а где не слушали, прорываться с боем.</NR_Bs_DataCourier.baseDesc>
   <NR_Bs_FormerFixer.title>бывший фиксер</NR_Bs_FormerFixer.title>
   <NR_Bs_FormerFixer.titleShort>фиксер</NR_Bs_FormerFixer.titleShort>
-  <NR_Bs_FormerFixer.baseDesc>[PAWN_nameDef] сидел между теми, кому нужно что-то сделать, и теми, кто делает. Из ремесла ушёл, но ремесло не забыло: другие фиксеры всё ещё берут трубку, когда звонит [PAWN_pronoun].</NR_Bs_FormerFixer.baseDesc>
+  <NR_Bs_FormerFixer.baseDesc>[PAWN_nameDef] {PAWN_gender ? был : была} посредником между теми, кому нужно что-то сделать, и теми, кто делает. Из ремесла {PAWN_gender ? ушёл : ушла}, но ремесло не забыло: другие фиксеры всё ещё берут трубку, когда звонит [PAWN_pronoun].</NR_Bs_FormerFixer.baseDesc>
   <NR_Bs_CorpGuard.title>корп-охранник</NR_Bs_CorpGuard.title>
   <NR_Bs_CorpGuard.titleShort>корп-охрана</NR_Bs_CorpGuard.titleShort>
-  <NR_Bs_CorpGuard.baseDesc>[PAWN_nameDef] стоял между телами нетраннеров и корпорациями, которые те грабили: когда ICE не мог остановить раннера, к капсуле посылали [PAWN_objective].</NR_Bs_CorpGuard.baseDesc>
+  <NR_Bs_CorpGuard.baseDesc>[PAWN_nameDef] {PAWN_gender ? стоял : стояла} между телами нетраннеров и корпорациями, которые те грабили: когда ICE не мог остановить раннера, к капсуле посылали [PAWN_objective].</NR_Bs_CorpGuard.baseDesc>
 </LanguageData>

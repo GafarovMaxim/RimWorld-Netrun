@@ -3,9 +3,9 @@
 
   <NR_DiveStory.label>рассказ о нырке</NR_DiveStory.label>
   <NR_DiveStory.logRulesInitiator.rulesStrings>
-    <li>r_logentry->[INITIATOR_nameDef] рассказал [RECIPIENT_nameDef] про [story].</li>
-    <li>story->ночь, когда прошёл мимо чёрного льда</li>
-    <li>story->корп-хранилище, которое чуть его не оставило себе</li>
+    <li>r_logentry->[INITIATOR_nameDef] рассказывает [RECIPIENT_nameDef] про [story].</li>
+    <li>story->ночь, когда {INITIATOR_gender ? прошёл : прошла} мимо Black ICE</li>
+    <li>story->корп-хранилище, которое чуть не оставило {INITIATOR_gender ? его : её} себе</li>
     <li>story->патруль ICE, который промахнулся на один ход</li>
     <li>story->ноду, которой нет ни на одной карте</li>
   </NR_DiveStory.logRulesInitiator.rulesStrings>

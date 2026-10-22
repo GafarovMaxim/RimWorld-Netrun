@@ -4,8 +4,8 @@
   <NR_AIEventNeedsHacker>нужен колонист с кибер-линком</NR_AIEventNeedsHacker>
   <NR_AIEventIgnored>{0} не дождался ответа и решил сам.</NR_AIEventIgnored>
   <NR_AIEventHeatReason>{0}: {1}</NR_AIEventHeatReason>
-  <NR_AIEventInspired>Вдохновил(а) {0}.</NR_AIEventInspired>
-  <NR_AIEventQualityUp>ИИ переделал(а) {0}: качество выросло.</NR_AIEventQualityUp>
+  <NR_AIEventInspired>Вдохновение от {0}.</NR_AIEventInspired>
+  <NR_AIEventQualityUp>ИИ переделал {0}: качество выросло.</NR_AIEventQualityUp>
   <NR_AIEventArtSold>{0}: продано в сети за {1} серебра.</NR_AIEventArtSold>
   <NR_AIEventDefenseName>ловушка ИИ</NR_AIEventDefenseName>
 </LanguageData>

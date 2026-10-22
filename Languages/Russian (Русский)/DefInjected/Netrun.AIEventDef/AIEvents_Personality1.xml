@@ -24,16 +24,16 @@
   <NR_AIEvent_Ghost5.options.0.result>{AI} остался.</NR_AIEvent_Ghost5.options.0.result>
   <NR_AIEvent_Ghost5.options.1.label>Отпустить</NR_AIEvent_Ghost5.options.1.label>
   <NR_AIEvent_Hunter1.label>слив</NR_AIEvent_Hunter1.label>
-  <NR_AIEvent_Hunter1.description>{AI} нашёл «слив» корпорации. Его можно продать им обратно или оставить себе.</NR_AIEvent_Hunter1.description>
+  <NR_AIEvent_Hunter1.description>{AI} нашёл «слив» корпорации. Его можно продать корпорации обратно или оставить себе.</NR_AIEvent_Hunter1.description>
   <NR_AIEvent_Hunter1.options.0.label>Продать корпорации</NR_AIEvent_Hunter1.options.0.label>
   <NR_AIEvent_Hunter1.options.0.result>Серебро уже в пути. Корпорация вас запомнит.</NR_AIEvent_Hunter1.options.0.result>
   <NR_AIEvent_Hunter1.options.1.label>Оставить колонии</NR_AIEvent_Hunter1.options.1.label>
   <NR_AIEvent_Hunter1.options.1.result>{AI} доволен.</NR_AIEvent_Hunter1.options.1.result>
   <NR_AIEvent_Hunter2.label>конкурент</NR_AIEvent_Hunter2.label>
-  <NR_AIEvent_Hunter2.description>Другой охотник пытается переманить {AI}. {HACKER} может отбить его в сети.</NR_AIEvent_Hunter2.description>
+  <NR_AIEvent_Hunter2.description>Другой ИИ-охотник пытается переманить {AI}. {HACKER} может отбить его в сети.</NR_AIEvent_Hunter2.description>
   <NR_AIEvent_Hunter2.options.0.label>Принять бой ({HACKER})</NR_AIEvent_Hunter2.options.0.label>
-  <NR_AIEvent_Hunter2.options.0.effects.1.branches.0.result>{HACKER} победил(а). {AI} остаётся и гордится колонией.</NR_AIEvent_Hunter2.options.0.effects.1.branches.0.result>
-  <NR_AIEvent_Hunter2.options.0.effects.1.branches.1.result>{HACKER} проиграл(а), часть данных ушла к конкуренту.</NR_AIEvent_Hunter2.options.0.effects.1.branches.1.result>
+  <NR_AIEvent_Hunter2.options.0.effects.1.branches.0.result>Победа за {HACKER}. {AI} остаётся и гордится колонией.</NR_AIEvent_Hunter2.options.0.effects.1.branches.0.result>
+  <NR_AIEvent_Hunter2.options.0.effects.1.branches.1.result>Бой проигран ({HACKER}), часть данных ушла к конкуренту.</NR_AIEvent_Hunter2.options.0.effects.1.branches.1.result>
   <NR_AIEvent_Hunter2.options.1.label>Пусть {AI} решает сам</NR_AIEvent_Hunter2.options.1.label>
   <NR_AIEvent_Hunter2.options.1.effects.0.branches.0.result>{AI} остался.</NR_AIEvent_Hunter2.options.1.effects.0.branches.0.result>
   <NR_AIEvent_Hunter2.options.1.effects.0.branches.1.result>{AI} остался, но задумался, что ещё есть в мире.</NR_AIEvent_Hunter2.options.1.effects.0.branches.1.result>
@@ -47,7 +47,7 @@
   <NR_AIEvent_Hunter4.description>{AI} притащил в колонию данные с вирусом.</NR_AIEvent_Hunter4.description>
   <NR_AIEvent_Hunter4.options.0.label>Прогнать антивирус ({HACKER})</NR_AIEvent_Hunter4.options.0.label>
   <NR_AIEvent_Hunter4.options.0.result>{HACKER} чистит данные.</NR_AIEvent_Hunter4.options.0.result>
-  <NR_AIEvent_Hunter4.options.1.label>Пустить как есть</NR_AIEvent_Hunter4.options.1.label>
+  <NR_AIEvent_Hunter4.options.1.label>Взять как есть</NR_AIEvent_Hunter4.options.1.label>
   <NR_AIEvent_Hunter4.options.1.result>Данных больше, но с ними пришло что-то ещё.</NR_AIEvent_Hunter4.options.1.result>
   <NR_AIEvent_Hunter5.label>голод охоты</NR_AIEvent_Hunter5.label>
   <NR_AIEvent_Hunter5.description>{AI} изголодался и вот-вот сам уйдёт на крупную охоту.</NR_AIEvent_Hunter5.description>
@@ -59,9 +59,9 @@
   <NR_AIEvent_Muse1.label>песня</NR_AIEvent_Muse1.label>
   <NR_AIEvent_Muse1.description>{AI} сочинил мелодию из шума серверов. Вся колония её напевает. Сегодня работа идёт чуть медленнее.</NR_AIEvent_Muse1.description>
   <NR_AIEvent_Muse2.label>муза выбирает</NR_AIEvent_Muse2.label>
-  <NR_AIEvent_Muse2.description>{AI} выбрал любимчика: {PAWN}, и хочет его вдохновить. Другие ИИ будут ревновать.</NR_AIEvent_Muse2.description>
+  <NR_AIEvent_Muse2.description>{AI} выбрал любимца ({PAWN}) и хочет вдохновить. Другие ИИ будут ревновать.</NR_AIEvent_Muse2.description>
   <NR_AIEvent_Muse2.options.0.label>Принять</NR_AIEvent_Muse2.options.0.label>
-  <NR_AIEvent_Muse2.options.0.result>{PAWN} вдохновлён(а).</NR_AIEvent_Muse2.options.0.result>
+  <NR_AIEvent_Muse2.options.0.result>У {PAWN} вдохновение.</NR_AIEvent_Muse2.options.0.result>
   <NR_AIEvent_Muse2.options.1.label>Отказать</NR_AIEvent_Muse2.options.1.label>
   <NR_AIEvent_Muse2.options.1.result>{AI} обижен.</NR_AIEvent_Muse2.options.1.result>
   <NR_AIEvent_Muse3.label>выставка</NR_AIEvent_Muse3.label>
@@ -83,9 +83,9 @@
   <NR_AIEvent_Muse5.options.0.result>Дуэт вдохновил двух колонистов.</NR_AIEvent_Muse5.options.0.result>
   <NR_AIEvent_Muse5.options.1.label>Отказать</NR_AIEvent_Muse5.options.1.label>
   <NR_AIEvent_Muse5.options.1.result>{AI} разочарован.</NR_AIEvent_Muse5.options.1.result>
-  <NR_AIEvent_Predator1.label>след зверя</NR_AIEvent_Predator1.label>
+  <NR_AIEvent_Predator1.label>запах добычи</NR_AIEvent_Predator1.label>
   <NR_AIEvent_Predator1.description>{AI} учуял чужой сервер и просит ударить первым.</NR_AIEvent_Predator1.description>
-  <NR_AIEvent_Predator1.options.0.label>Согласиться</NR_AIEvent_Predator1.options.0.label>
+  <NR_AIEvent_Predator1.options.0.label>Ударить</NR_AIEvent_Predator1.options.0.label>
   <NR_AIEvent_Predator1.options.0.result>{AI} принёс добычу и много шума.</NR_AIEvent_Predator1.options.0.result>
   <NR_AIEvent_Predator1.options.1.label>Отказать</NR_AIEvent_Predator1.options.1.label>
   <NR_AIEvent_Predator1.options.1.result>{AI} рычит в логах.</NR_AIEvent_Predator1.options.1.result>
@@ -100,7 +100,7 @@
   <NR_AIEvent_Predator4.label>клыки наружу</NR_AIEvent_Predator4.label>
   <NR_AIEvent_Predator4.description>{AI} готовится к «прыжку» на собственный сервер.</NR_AIEvent_Predator4.description>
   <NR_AIEvent_Predator4.options.0.label>Усмирить ({HACKER})</NR_AIEvent_Predator4.options.0.label>
-  <NR_AIEvent_Predator4.options.0.result>{HACKER} несколько часов с {AI}. Он успокоился.</NR_AIEvent_Predator4.options.0.result>
+  <NR_AIEvent_Predator4.options.0.result>{HACKER} проводит с {AI} несколько часов. ИИ успокоился.</NR_AIEvent_Predator4.options.0.result>
   <NR_AIEvent_Predator4.options.1.label>Игнорировать</NR_AIEvent_Predator4.options.1.label>
   <NR_AIEvent_Predator4.options.1.result>Сервер перегружен.</NR_AIEvent_Predator4.options.1.result>
   <NR_AIEvent_Predator5.label>чужой хищник</NR_AIEvent_Predator5.label>

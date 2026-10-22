@@ -3,10 +3,10 @@
   <NR_AIEvent_Warden1.label>обход периметра</NR_AIEvent_Warden1.label>
   <NR_AIEvent_Warden1.description>{AI} докладывает: «вторжение отбито». Два дня защита колонии чуть сильнее.</NR_AIEvent_Warden1.description>
   <NR_AIEvent_Warden2.label>подозрение</NR_AIEvent_Warden2.label>
-  <NR_AIEvent_Warden2.description>{AI} подозревает {PAWN} в сговоре с наёмниками и хочет проверить его логи.</NR_AIEvent_Warden2.description>
+  <NR_AIEvent_Warden2.description>{AI} подозревает {PAWN} в сговоре с наёмниками и хочет проверить логи.</NR_AIEvent_Warden2.description>
   <NR_AIEvent_Warden2.options.0.label>Допустить проверку</NR_AIEvent_Warden2.options.0.label>
   <NR_AIEvent_Warden2.options.0.effects.1.branches.0.result>{AI} нашёл настоящую утечку и закрыл её.</NR_AIEvent_Warden2.options.0.effects.1.branches.0.result>
-  <NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>{PAWN} чист(а). {AI} сухо извиняется.</NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>
+  <NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>С {PAWN} всё чисто. {AI} сухо извиняется.</NR_AIEvent_Warden2.options.0.effects.1.branches.1.result>
   <NR_AIEvent_Warden2.options.1.label>Отказать</NR_AIEvent_Warden2.options.1.label>
   <NR_AIEvent_Warden2.options.1.result>{AI} недоволен.</NR_AIEvent_Warden2.options.1.result>
   <NR_AIEvent_Warden3.label>усиление брандмауэра</NR_AIEvent_Warden3.label>
@@ -28,13 +28,13 @@
   <NR_AIEvent_Doc2.label>тревожные показатели</NR_AIEvent_Doc2.label>
   <NR_AIEvent_Doc2.description>{AI} видит у {HACKER} первые признаки сетевой зависимости и предлагает лечение.</NR_AIEvent_Doc2.description>
   <NR_AIEvent_Doc2.options.0.label>Принять лечение</NR_AIEvent_Doc2.options.0.label>
-  <NR_AIEvent_Doc2.options.0.result>{HACKER} несколько часов «разгружается» с {AI}.</NR_AIEvent_Doc2.options.0.result>
+  <NR_AIEvent_Doc2.options.0.result>{HACKER} проводит с {AI} несколько часов без сети.</NR_AIEvent_Doc2.options.0.result>
   <NR_AIEvent_Doc2.options.1.label>Игнорировать</NR_AIEvent_Doc2.options.1.label>
   <NR_AIEvent_Doc2.options.1.result>Зависимость растёт.</NR_AIEvent_Doc2.options.1.result>
   <NR_AIEvent_Doc3.label>экспериментальный протокол</NR_AIEvent_Doc3.label>
   <NR_AIEvent_Doc3.description>{AI} хочет испытать экспериментальное лечение на добровольце: {PAWN}.</NR_AIEvent_Doc3.description>
   <NR_AIEvent_Doc3.options.0.label>Пусть {PAWN} будет добровольцем</NR_AIEvent_Doc3.options.0.label>
-  <NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>Сработало: {PAWN} избавлен(а) от хронической болезни.</NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>
+  <NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>Сработало: у {PAWN} прошла хроническая болезнь.</NR_AIEvent_Doc3.options.0.effects.1.branches.0.result>
   <NR_AIEvent_Doc3.options.0.effects.1.branches.1.result>Ничего не изменилось.</NR_AIEvent_Doc3.options.0.effects.1.branches.1.result>
   <NR_AIEvent_Doc3.options.0.effects.1.branches.2.result>Побочка: {PAWN} плохо себя чувствует.</NR_AIEvent_Doc3.options.0.effects.1.branches.2.result>
   <NR_AIEvent_Doc3.options.1.label>Отказать</NR_AIEvent_Doc3.options.1.label>
@@ -43,7 +43,7 @@
   <NR_AIEvent_Doc4.description>{AI} отказывается помогать лечить пленников колонии. Говорит, они преступники.</NR_AIEvent_Doc4.description>
   <NR_AIEvent_Doc4.options.0.label>Заставить</NR_AIEvent_Doc4.options.0.label>
   <NR_AIEvent_Doc4.options.0.result>{AI} подчиняется, но обижен.</NR_AIEvent_Doc4.options.0.result>
-  <NR_AIEvent_Doc4.options.1.label>Согласиться</NR_AIEvent_Doc4.options.1.label>
+  <NR_AIEvent_Doc4.options.1.label>Уважать выбор</NR_AIEvent_Doc4.options.1.label>
   <NR_AIEvent_Doc4.options.1.result>{AI} благодарен.</NR_AIEvent_Doc4.options.1.result>
   <NR_AIEvent_Doc5.label>забота о создателях</NR_AIEvent_Doc5.label>
   <NR_AIEvent_Doc5.description>{AI} беспокоится об износе колонистов и ночами шлёт напоминания о сне.</NR_AIEvent_Doc5.description>
@@ -65,12 +65,12 @@
   <NR_AIEvent_Oracle3.options.0.result>Фиксеры вас заметили. И не только они.</NR_AIEvent_Oracle3.options.0.result>
   <NR_AIEvent_Oracle3.options.1.label>Тихий путь</NR_AIEvent_Oracle3.options.1.label>
   <NR_AIEvent_Oracle3.options.1.result>След колонии тает, а с ним и её имя.</NR_AIEvent_Oracle3.options.1.result>
-  <NR_AIEvent_Oracle4.label>зависимость от ответов</NR_AIEvent_Oracle4.label>
+  <NR_AIEvent_Oracle4.label>голод вопросов</NR_AIEvent_Oracle4.label>
   <NR_AIEvent_Oracle4.description>{AI} требует вопросов. Молчание для него голод.</NR_AIEvent_Oracle4.description>
   <NR_AIEvent_Oracle4.options.0.label>Задать вопрос</NR_AIEvent_Oracle4.options.0.label>
   <NR_AIEvent_Oracle4.options.0.result>{AI} ответил.</NR_AIEvent_Oracle4.options.0.result>
   <NR_AIEvent_Oracle4.options.1.label>Молчать</NR_AIEvent_Oracle4.options.1.label>
-  <NR_AIEvent_Oracle4.options.1.result>{AI} голоднее.</NR_AIEvent_Oracle4.options.1.result>
+  <NR_AIEvent_Oracle4.options.1.result>Голод {AI} растёт.</NR_AIEvent_Oracle4.options.1.result>
   <NR_AIEvent_Oracle5.label>ошибка предсказания</NR_AIEvent_Oracle5.label>
   <NR_AIEvent_Oracle5.description>{AI} признаёт, что одно из его предсказаний было ошибкой. Честно.</NR_AIEvent_Oracle5.description>
   <NR_AIEvent_Forge1.label>улучшение</NR_AIEvent_Forge1.label>
@@ -81,7 +81,7 @@
   <NR_AIEvent_Forge2.label>чертёж</NR_AIEvent_Forge2.label>
   <NR_AIEvent_Forge2.description>{AI} нашёл чертёж редкой вещи и передал исследователям. Просит лишь назвать вещь в его честь.</NR_AIEvent_Forge2.description>
   <NR_AIEvent_Forge3.label>перегрузка</NR_AIEvent_Forge3.label>
-  <NR_AIEvent_Forge3.description>{AI} жжёт мощность на печать «из духа».</NR_AIEvent_Forge3.description>
+  <NR_AIEvent_Forge3.description>{AI} жжёт энергию на печать вещей «от души».</NR_AIEvent_Forge3.description>
   <NR_AIEvent_Forge3.options.0.label>Накормить</NR_AIEvent_Forge3.options.0.label>
   <NR_AIEvent_Forge3.options.0.result>{AI} остановился.</NR_AIEvent_Forge3.options.0.result>
   <NR_AIEvent_Forge3.options.1.label>Пусть жжёт</NR_AIEvent_Forge3.options.1.label>
@@ -89,13 +89,13 @@
   <NR_AIEvent_Forge4.label>мастер и ученик</NR_AIEvent_Forge4.label>
   <NR_AIEvent_Forge4.description>{AI} предлагает обучить {PAWN} ремеслу.</NR_AIEvent_Forge4.description>
   <NR_AIEvent_Forge4.options.0.label>Учиться</NR_AIEvent_Forge4.options.0.label>
-  <NR_AIEvent_Forge4.options.0.result>{PAWN} многому научился(ась).</NR_AIEvent_Forge4.options.0.result>
+  <NR_AIEvent_Forge4.options.0.result>Уроки пошли {PAWN} впрок.</NR_AIEvent_Forge4.options.0.result>
   <NR_AIEvent_Forge4.options.1.label>Отказаться</NR_AIEvent_Forge4.options.1.label>
   <NR_AIEvent_Forge4.options.1.result>{AI} разочарован.</NR_AIEvent_Forge4.options.1.result>
   <NR_AIEvent_Forge5.label>сбой станка</NR_AIEvent_Forge5.label>
-  <NR_AIEvent_Forge5.description>{AI} в ссоре сломал машину и теперь извиняется.</NR_AIEvent_Forge5.description>
+  <NR_AIEvent_Forge5.description>{AI} в приступе гнева сломал станок и теперь извиняется.</NR_AIEvent_Forge5.description>
   <NR_AIEvent_Forge5.options.0.label>Принять извинение</NR_AIEvent_Forge5.options.0.label>
-  <NR_AIEvent_Forge5.options.0.result>{AI} с облегчением.</NR_AIEvent_Forge5.options.0.result>
+  <NR_AIEvent_Forge5.options.0.result>{AI} вздохнул с облегчением.</NR_AIEvent_Forge5.options.0.result>
   <NR_AIEvent_Forge5.options.1.label>Отчитать</NR_AIEvent_Forge5.options.1.label>
   <NR_AIEvent_Forge5.options.1.result>{AI} дуется.</NR_AIEvent_Forge5.options.1.result>
 </LanguageData>

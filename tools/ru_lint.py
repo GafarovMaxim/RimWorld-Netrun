@@ -25,7 +25,7 @@ SOURCES = "tools/ru_sources.json"
 LATIN_OK = {
     "ICE", "Black", "Heat", "Netsick", "HE", "BD", "AI", "Hacking", "Expansion", "Netrun", "RimWorld", "Steam",
     "Arasaka", "Militech", "Biotechnica", "Kang", "Tao", "Zetatech", "Petrochem", "Trauma", "Team",
-    "Esc", "Tab", "Shift", "Ctrl", "Alt", "GitHub", "Tektur", "LOBBY", "GATE", "FILES", "HIDDEN", "BLACKICE", "MEMORY", "EXIT", "OK", "ID", "LCD", "PC", "DNA", "RAM", "CPU",
+    "Core", "Firewall", "Esc", "Tab", "Shift", "Ctrl", "Alt", "GitHub", "Tektur", "LOBBY", "GATE", "FILES", "HIDDEN", "BLACKICE", "MEMORY", "EXIT", "OK", "ID", "LCD", "PC", "DNA", "RAM", "CPU",
 }
 # Past-tense look-alikes that are not verbs.
 NOT_VERBS = {"сигнал", "канал", "материал", "капитал", "финал", "журнал", "терминал", "интервал", "ритуал", "оригинал",
@@ -123,9 +123,10 @@ def main():
         print("ERROR no banned terms read from", GLOSSARY, "(table format changed?)")
         return 1
     for key, text in texts.items():
-        plain = BRACES.sub("§", text).replace("\\n", " ")
+        plain = BRACES.sub("§", text).replace("\\n", "¶")
         for rx, word, right in rules:
-            if rx.search(plain):
+            # The glossary tooltip's search lists keep old variants on purpose, so old texts still match.
+            if rx.search(plain) and "NR_GlossTerms_" not in key:
                 errors.append(f"{key}: «{word}» → {right}")
         latin = [w for w in LATIN.findall(plain) if w not in LATIN_OK and w.upper() != w]
         if latin and not key.startswith("USH_"):

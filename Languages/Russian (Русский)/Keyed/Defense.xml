@@ -8,12 +8,12 @@
   <NR_DefenseUpkeepShort>Не хватает киберданных для этой ступени ICE.</NR_DefenseUpkeepShort>
   <NR_DefenseUpkeepLostLabel>ICE отключён</NR_DefenseUpkeepLostLabel>
   <NR_DefenseUpkeepLost>Колония не смогла оплатить содержание ICE в этом сезоне (или больше нет исследования). У узла снова только брандмауэры.</NR_DefenseUpkeepLost>
-  <NR_DefenseBlackIceHeat>Чёрный лёд сжёг атакующего ({0})</NR_DefenseBlackIceHeat>
+  <NR_DefenseBlackIceHeat>Black ICE сжёг атакующего ({0})</NR_DefenseBlackIceHeat>
   <NR_IceTier_None>Без ICE</NR_IceTier_None>
   <NR_IceTier_Firewall>Firewall</NR_IceTier_Firewall>
   <NR_IceTier_Ice>ICE</NR_IceTier_Ice>
   <NR_IceTier_BlackIce>Black ICE</NR_IceTier_BlackIce>
-  <NR_IceTierGizmoDesc>Собственный ICE колонии поверх брандмауэров: Firewall +1 (сетевая безопасность), ICE +2 (активный ICE), Black ICE +3 (чёрный лёд). Каждая ступень стоит киберданных раз в сезон; чёрный лёд к тому же добавляет немного Heat за каждого сожжённого атакующего.</NR_IceTierGizmoDesc>
+  <NR_IceTierGizmoDesc>Собственный ICE колонии поверх брандмауэров: Firewall +1 (сетевая безопасность), ICE +2 (активный ICE), Black ICE +3 (одноимённое исследование). Каждая ступень стоит киберданных раз в сезон; Black ICE к тому же добавляет немного Heat за каждого сожжённого атакующего.</NR_IceTierGizmoDesc>
   <NR_IceTierUpkeep>{0} киберданных за {1} дн.</NR_IceTierUpkeep>
   <NR_IceTierUpkeepAdv>{0} продвинутых киберданных за {1} дн.</NR_IceTierUpkeepAdv>
   <NR_IceTierLocked>нужно исследование</NR_IceTierLocked>
@@ -23,7 +23,7 @@
   <NR_HoneypotReveal>Ловушка отследила атакующего: раскрыта нода {0}.</NR_HoneypotReveal>
   <NR_HoneypotLoot>Ловушка отследила атакующего: {0} киберданных.</NR_HoneypotLoot>
   <NR_IsolationGizmo>Изолировать сеть</NR_IsolationGizmo>
-  <NR_IsolationGizmoDesc>Полностью отключить колонию от сети. Сетевые атаки не проходят, но Шлюз, нырки, контракты, услуги ИИ и звонки фиксерам останавливаются, а активные ИИ теряют доверие, как на изолированном сервере. Сетевого шума они тоже не создают.</NR_IsolationGizmoDesc>
+  <NR_IsolationGizmoDesc>Полностью отключить колонию от сети. Сетевые атаки не проходят, но Шлюз, нырки, контракты, услуги ИИ и звонки фиксерам останавливаются, а пробуждённые ИИ теряют доверие, как на изолированном сервере. Сетевого шума они тоже не создают.</NR_IsolationGizmoDesc>
   <NR_IsolationOn>Колония отключена от сети.</NR_IsolationOn>
   <NR_IsolationOff>Колония снова в сети.</NR_IsolationOff>
   <NR_IsolationDiveActive>Идёт нырок.</NR_IsolationDiveActive>
@@ -32,11 +32,11 @@
 
   <NR_DefensePanelTitle>Защита колонии</NR_DefensePanelTitle>
   <NR_DefensePanelTotal>Защита {0}</NR_DefensePanelTotal>
-  <NR_DefensePanelNone>Защиты пока нет: постройте файервол, включите ICE, поставьте дежурного.</NR_DefensePanelNone>
+  <NR_DefensePanelNone>Защиты пока нет: постройте брандмауэр, включите ICE, поставьте дежурного.</NR_DefensePanelNone>
   <NR_DefensePanelIce>ICE на узле</NR_DefensePanelIce>
-  <NR_DefensePanelFirewalls>Файерволы {0}/{1}</NR_DefensePanelFirewalls>
-  <NR_DefensePanelNoFirewall>Нет работающего файервола. Для ICE нужен хотя бы один.</NR_DefensePanelNoFirewall>
-  <NR_DefensePanelFirewall>Файервол {0}</NR_DefensePanelFirewall>
+  <NR_DefensePanelFirewalls>Брандмауэры {0}/{1}</NR_DefensePanelFirewalls>
+  <NR_DefensePanelNoFirewall>Нет работающего брандмауэра. Для ICE нужен хотя бы один.</NR_DefensePanelNoFirewall>
+  <NR_DefensePanelFirewall>Брандмауэр {0}</NR_DefensePanelFirewall>
   <NR_DefensePanelGuarding>охраняет</NR_DefensePanelGuarding>
   <NR_DefensePanelReconnect>Подключить сеть снова</NR_DefensePanelReconnect>
   <NR_DefensePanelIntrusions>Вторжения идут к Дому: {0}. Раннер может перехватить их на карте.</NR_DefensePanelIntrusions>

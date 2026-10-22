@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_UBT_Concert.stages.0.label>последний концерт Кибер-Лизы</NR_UBT_Concert.stages.0.label>
-  <NR_UBT_Concert.stages.0.description>Я был там. Двадцать тысяч голосов, и мой среди них.</NR_UBT_Concert.stages.0.description>
+  <NR_UBT_Concert.stages.0.description>Я {PAWN_gender ? был : была} там. Двадцать тысяч голосов, и мой среди них.</NR_UBT_Concert.stages.0.description>
 </LanguageData>

@@ -2,7 +2,7 @@
 <LanguageData>
 
   <NR_AIQ_Progress>Шаг {0} из {1}:</NR_AIQ_Progress>
-  <NR_AIQ_Terms>{0} дн. после принятия. Провал стоит 15 доверия и услуги на 3 дня; если не принять вовремя, −5 доверия. Первый квест поднимает ИИ до 2 уровня (+25% к услуге), третий — до 3 (вторая услуга).</NR_AIQ_Terms>
+  <NR_AIQ_Terms>Срок — {0} дн. после принятия. Провал: −15 доверия и 3 дня без услуги; если не принять вовремя, −5 доверия. Первый квест поднимает ИИ до 2 уровня (+25% к услуге), третий — до 3 (вторая услуга).</NR_AIQ_Terms>
   <NR_AIQ_StepDone>{0}: шаг выполнен. Дальше: {1}</NR_AIQ_StepDone>
   <NR_AIQ_PartsTaken>{0} забрал компоненты.</NR_AIQ_PartsTaken>
   <NR_AIQ_Fed>{0} забрал киберданные.</NR_AIQ_Fed>
@@ -36,7 +36,7 @@
   <NR_AI2R_Oracle>следующей: {0} (Тревога {1}), через {2}</NR_AI2R_Oracle>
   <NR_AI2R_Seed>Heat −5</NR_AI2R_Seed>
   <NR_AI2News_Ghost>Кто-то повесил свежий след на {0}.</NR_AI2News_Ghost>
-  <NR_AI2News_Trickster>{0} день гонялись за ложной наводкой.</NR_AI2News_Trickster>
+  <NR_AI2News_Trickster>{0}: целый день гонялись за ложной наводкой.</NR_AI2News_Trickster>
   <NR_AI2Tip>Вторая услуга ИИ 3 уровня. Раз в {0} дн.</NR_AI2Tip>
   <NR_AILevelTip>Уровень {0} (выполнено квестов: {1}). 2 уровень после первого квеста: услуга +25%, черты открыты. 3 уровень после третьего: вторая услуга.</NR_AILevelTip>
   <NR_AIQuestChip>квест {0}/{1}</NR_AIQuestChip>
@@ -49,7 +49,7 @@
   <NR_AIQ_BloodOfCorp_Step2>Взять ответвление в крепости {0}.</NR_AIQ_BloodOfCorp_Step2>
   <NR_AIQ_Name_AnotherName>Чужое имя</NR_AIQ_Name_AnotherName>
   <NR_AIQ_Desc_AnotherName>{0} хочет на время исчезнуть и вернуться под другим именем.</NR_AIQ_Desc_AnotherName>
-  <NR_AIQ_AnotherName_Step1>Держать Heat в Тени 5 дней подряд.</NR_AIQ_AnotherName_Step1>
+  <NR_AIQ_AnotherName_Step1>Держать Heat в «Тени» 5 дней подряд.</NR_AIQ_AnotherName_Step1>
   <NR_AIQ_AnotherName_Step2>Нырнуть в брошенное или задетое соперником ответвление и выйти без удара ICE.</NR_AIQ_AnotherName_Step2>
   <NR_AIQ_Name_AnotherMemory>Чужая память</NR_AIQ_Name_AnotherMemory>
   <NR_AIQ_Desc_AnotherMemory>{0} хочет почувствовать что-то {1} через человеческий разум.</NR_AIQ_Desc_AnotherMemory>
@@ -70,25 +70,25 @@
   <NR_AIQ_Name_MissingPart>Недостающая деталь</NR_AIQ_Name_MissingPart>
   <NR_AIQ_Desc_MissingPart>{0} нужно тело больше одного сервера.</NR_AIQ_Desc_MissingPart>
   <NR_AIQ_MissingPart_Step1>Построить ИИ-сопроцессор или серверную стойку.</NR_AIQ_MissingPart_Step1>
-  <NR_AIQ_MissingPart_Step2>Отдать 5 продвинутых компонентов (заберутся со склада).</NR_AIQ_MissingPart_Step2>
+  <NR_AIQ_MissingPart_Step2>Отдать 5 продвинутых компонентов (их заберут со склада).</NR_AIQ_MissingPart_Step2>
   <NR_AIQ_Name_HeartToHeart>Разговор по душам</NR_AIQ_Name_HeartToHeart>
   <NR_AIQ_Desc_HeartToHeart>{0} хочет найти подход к {1}.</NR_AIQ_Desc_HeartToHeart>
   <NR_AIQ_HeartToHeart_Step1>Поднять репутацию у {0} до 40.</NR_AIQ_HeartToHeart_Step1>
-  <NR_AIQ_HeartToHeart_Step2>Выполнить контракт {0}.</NR_AIQ_HeartToHeart_Step2>
+  <NR_AIQ_HeartToHeart_Step2>Выполнить контракт от {0}.</NR_AIQ_HeartToHeart_Step2>
   <NR_AIQ_Name_ChoiceOfJoke>Выбор шутки</NR_AIQ_Name_ChoiceOfJoke>
   <NR_AIQ_Desc_ChoiceOfJoke>{0} приготовил для колонии шутку. Или подарок. Или и то и другое.</NR_AIQ_Desc_ChoiceOfJoke>
-  <NR_AIQ_ChoiceOfJoke_Step1>Выбрать: подарок, розыгрыш или оба (письмо).</NR_AIQ_ChoiceOfJoke_Step1>
+  <NR_AIQ_ChoiceOfJoke_Step1>Выбрать: подарок, розыгрыш или оба (в письме).</NR_AIQ_ChoiceOfJoke_Step1>
   <NR_AIQ_ChoiceOfJoke_Step2>Найти подарок в следующем чистом нырке.</NR_AIQ_ChoiceOfJoke_Step2>
   <NR_AIQ_Name_Patient>Пациент</NR_AIQ_Name_Patient>
   <NR_AIQ_Desc_Patient>{0} хочет как следует вылечить Netsick у {1}.</NR_AIQ_Desc_Patient>
   <NR_AIQ_Patient_Step1>Снизить Netsick у {0} до лёгкой стадии.</NR_AIQ_Patient_Step1>
-  <NR_AIQ_Patient_Step2>{0} не ныряет 3 дня.</NR_AIQ_Patient_Step2>
+  <NR_AIQ_Patient_Step2>{0}: 3 дня без нырков.</NR_AIQ_Patient_Step2>
   <NR_AIQ_Name_MissingVolume>Недостающий том</NR_AIQ_Name_MissingVolume>
   <NR_AIQ_Desc_MissingVolume>{0} не хватает одного тома в архиве.</NR_AIQ_Desc_MissingVolume>
   <NR_AIQ_MissingVolume_Step1>Сделать особую находку в ответвлении-архиве.</NR_AIQ_MissingVolume_Step1>
   <NR_AIQ_Name_FirstStep>Первый шаг</NR_AIQ_Name_FirstStep>
   <NR_AIQ_Desc_FirstStep>{0} хочет кем-то стать.</NR_AIQ_Desc_FirstStep>
-  <NR_AIQ_FirstStep_Step1>Кормить его одним путём несколько дней.</NR_AIQ_FirstStep_Step1>
+  <NR_AIQ_FirstStep_Step1>Несколько дней кормить его одним и тем же.</NR_AIQ_FirstStep_Step1>
   <NR_AIQ_FirstStep_Step2>Нырнуть с ним в сопроцессоре капсулы.</NR_AIQ_FirstStep_Step2>
   <NR_AIQ_Name_WhoAmI>Кто я</NR_AIQ_Name_WhoAmI>
   <NR_AIQ_Desc_WhoAmI>{0} хочет вспомнить, кем был.</NR_AIQ_Desc_WhoAmI>
@@ -96,7 +96,7 @@
   <NR_AIQ_WhoAmI_Step2>Показать эту запись кому-нибудь.</NR_AIQ_WhoAmI_Step2>
   <NR_AIQ_Name_HungryChannel>Голодный канал</NR_AIQ_Name_HungryChannel>
   <NR_AIQ_Desc_HungryChannel>{0} изголодался по данным.</NR_AIQ_Desc_HungryChannel>
-  <NR_AIQ_HungryChannel_Step1>Иметь 10 киберданных на складе (заберутся).</NR_AIQ_HungryChannel_Step1>
+  <NR_AIQ_HungryChannel_Step1>Собрать на складе 10 киберданных (их заберут).</NR_AIQ_HungryChannel_Step1>
   <NR_AIQ_Name_QuietHour>Тихий час</NR_AIQ_Name_QuietHour>
   <NR_AIQ_Desc_QuietHour>{0} просит тишины.</NR_AIQ_Desc_QuietHour>
   <NR_AIQ_QuietHour_Step1>Ни одного взлома 2 дня.</NR_AIQ_QuietHour_Step1>
@@ -128,6 +128,6 @@
   <NR_AI2_Seed>Болезнь роста</NR_AI2_Seed>
   <NR_AI2Desc_Seed>Понемногу всего: Heat −5.</NR_AI2Desc_Seed>
   <NR_AI2_Echo>Голос близкого</NR_AI2_Echo>
-  <NR_AI2Desc_Echo>Снимает горе по умершему у одного колониста.</NR_AI2Desc_Echo>
+  <NR_AI2Desc_Echo>Снимает у одного колониста горе по умершему.</NR_AI2Desc_Echo>
 
 </LanguageData>

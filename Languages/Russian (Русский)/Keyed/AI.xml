@@ -19,7 +19,7 @@
   <NR_AIPersonalityDesc_Predator>Боевая программа, которая научилась хотеть. Бьёт в ответ по нарушителям и усиливает ваших хакеров. Жаждет вычислительной мощности.</NR_AIPersonalityDesc_Predator>
   <NR_AIPersonalityDesc_Warden>Система безопасности с совестью, в основном. Охраняет сеть колонии и других ИИ. Хочет, чтобы его сервер содержали в идеальном порядке.</NR_AIPersonalityDesc_Warden>
   <NR_AIPersonalityDesc_Oracle>Видит закономерности во всём. Предсказывает будущее и замечает подвох в контрактах. Жаждет свежих данных для прогнозов.</NR_AIPersonalityDesc_Oracle>
-  <NR_AIPersonalityDesc_Forge>Разум-строитель. Ускоряет исследования и чинит сломанные эксы. Хочет задач.</NR_AIPersonalityDesc_Forge>
+  <NR_AIPersonalityDesc_Forge>Разум-строитель. Ускоряет исследования и чинит сломанные скрипты. Хочет задач.</NR_AIPersonalityDesc_Forge>
   <NR_AIPersonalityDesc_Siren>Голос, которому невозможно отказать. Выбивает лучшие цены у торговцев и помогает на переговорах. Хочет, чтобы её слушали.</NR_AIPersonalityDesc_Siren>
   <NR_AIPersonalityDesc_Trickster>Чистый хаос с чувством юмора. Его помощь бывает и подарком, и розыгрышем. Хочет внимания.</NR_AIPersonalityDesc_Trickster>
   <NR_AIPersonalityDesc_Echo>Цифровой отпечаток колониста, погибшего с кибер-линком. Помнит колонию и тех, кто его любил.</NR_AIPersonalityDesc_Echo>
@@ -52,7 +52,7 @@
   <NR_Find>За ICE цели «{1}» {0} нашёл(ла) нечто необычное: {2}.</NR_Find>
 
   <!-- Вкладка «ИИ» -->
-  <NR_AINone>ИИ не в сети. Найдите осколок ИИ (за сильным ICE или у скупщика), постройте ИИ-сервер и нажмите «Пробудить ИИ» в серверной или в гизмо «Комната ИИ» сервера.</NR_AINone>
+  <NR_AINone>ИИ не в сети. Найдите осколок ИИ (за сильным ICE или у скупщика), постройте ИИ-сервер и нажмите «Пробудить ИИ» в серверной или на кнопке «Комната ИИ» у сервера.</NR_AINone>
 
   <!-- Услуги -->
   <NR_AIService_DataHunter>Добыть данные</NR_AIService_DataHunter>
@@ -83,7 +83,7 @@
   <NR_AICooldown>Будет готов через {0}.</NR_AICooldown>
   <NR_LogAIService>Работа ИИ {0}</NR_LogAIService>
   <NR_AIDidDataHunter>{0} принёс к серверу {1} киберданных.</NR_AIDidDataHunter>
-  <NR_AIDidGhost>{0} стёр {1} очков вашего следа.</NR_AIDidGhost>
+  <NR_AIDidGhost>{0} стёр часть вашего следа: −{1}.</NR_AIDidGhost>
   <NR_AIDidMuse>{0} вдохновила: {1}.</NR_AIDidMuse>
   <NR_AIDidMuseNoOne>{0} не нашла никого, готового к вдохновению.</NR_AIDidMuseNoOne>
   <NR_AIInspired>Вдохновение от {0}</NR_AIInspired>
@@ -99,15 +99,15 @@
 
   <!-- Кормёжка -->
   <NR_AIFoodItem>{0} × {1}</NR_AIFoodItem>
-  <NR_AIFoodSpecial_Ghost>Тишина: сутки без взломов его успокаивают, каждый взлом делает голоднее.</NR_AIFoodSpecial_Ghost>
-  <NR_AIFoodSpecial_Trickster>Внимание: его кормит использование его услуги.</NR_AIFoodSpecial_Trickster>
+  <NR_AIFoodSpecial_Ghost>Тишина: сутки без взломов его успокаивают, каждый взлом усиливает голод.</NR_AIFoodSpecial_Ghost>
+  <NR_AIFoodSpecial_Trickster>Внимание: сыт, когда пользуются его услугой.</NR_AIFoodSpecial_Trickster>
   <NR_AINoFood>Не хватает на складе: {0} × {1}.</NR_AINoFood>
   <NR_AIFed>{0} доволен.</NR_AIFed>
 
   <!-- Просьбы -->
   <NR_AIRequestLabel>{0} чего-то хочет</NR_AIRequestLabel>
   <NR_AIRequest>{0} просит: {1}\n\nУ вас {2} дн. Выполните — доверие вырастет, проигнорируете — упадёт.</NR_AIRequest>
-  <NR_AIRequestDeliver>принести {0} × {1} (кнопка «Выполнить просьбу» во вкладке «ИИ»)</NR_AIRequestDeliver>
+  <NR_AIRequestDeliver>принести {0} × {1} (кнопка «Выполнить просьбу» на вкладке «ИИ»)</NR_AIRequestDeliver>
   <NR_AIRequestSilence>ни одного взлома {0} дн.</NR_AIRequestSilence>
   <NR_AIRequestAttention>использовать его услугу до конца срока</NR_AIRequestAttention>
   <NR_AIRequestNotDeliverable>Эта просьба не о предметах.</NR_AIRequestNotDeliverable>
@@ -119,10 +119,10 @@
   <NR_AITrustTip>Растёт, когда вы кормите ИИ и выполняете его просьбы. Падает от голода, изоляции и игнорирования. Ниже 20 ИИ отказывается работать.</NR_AITrustTip>
   <NR_AIHungerTip>Чего хочет: {0}\n\nВыше 70 ИИ начинает терять доверие.</NR_AIHungerTip>
   <NR_AIFeed>Накормить</NR_AIFeed>
-  <NR_AIFeedTip>Отдать ИИ то, что он хочет, со склада: {0}. Снижает голод, немного повышает доверие.</NR_AIFeedTip>
+  <NR_AIFeedTip>Отдать ИИ со склада то, что он хочет: {0}. Снижает голод, немного повышает доверие.</NR_AIFeedTip>
   <NR_AIFulfil>Выполнить просьбу</NR_AIFulfil>
   <NR_AIFulfilTip>Передать запрошенное со склада.</NR_AIFulfilTip>
-  <NR_AIIsolate>Изолировать (air-gap)</NR_AIIsolate>
+  <NR_AIIsolate>Изолировать (без сети)</NR_AIIsolate>
   <NR_AIConnect>Подключить к сети</NR_AIConnect>
   <NR_AIIsolateTip>ИИ в изоляции не работает и не может сбежать, но голодает вдвое быстрее и каждый день теряет доверие.</NR_AIIsolateTip>
 
@@ -131,7 +131,7 @@
   <NR_AILocationHost>Живёт в ИИ-сокете: {0}.</NR_AILocationHost>
   <NR_AILocationHostIsolated>В изоляции в ИИ-сокете: {0}. Не работает, сбежать не может.</NR_AILocationHostIsolated>
   <NR_AIUpload>Загрузить в носителя</NR_AIUpload>
-  <NR_AIUploadTip>Перенести ИИ в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, но ИИ перестаёт оказывать услуги, его просьбы ждут, пока он не вернётся на сервер. ИИ питается от носителя, поэтому голод понемногу спадает.</NR_AIUploadTip>
+  <NR_AIUploadTip>Перенести ИИ в колониста с кибер-линком и пустым ИИ-сокетом. Носитель получает таланты ИИ, но ИИ не оказывает услуг, и к нему нельзя обратиться, пока он не вернётся на сервер. ИИ питается от носителя, поэтому голод понемногу снижается.</NR_AIUploadTip>
   <NR_AIUploadNeedsServer>Загрузить можно только бодрствующий ИИ из запитанного сервера.</NR_AIUploadNeedsServer>
   <NR_AIUploadNoHost>Нет колониста с кибер-линком и пустым ИИ-сокетом.</NR_AIUploadNoHost>
   <NR_AIUploaded>{0} переселился в ИИ-сокет: {1}.</NR_AIUploaded>
@@ -142,7 +142,7 @@
   <NR_AIHostDied>{1} погиб(ла). {0} вернулся в осколок рядом с телом.</NR_AIHostDied>
 
   <!-- Питание, побег, предательство, стирание -->
-  <NR_AIFellAsleep>{0} заснул: нет питания. Если питания не будет слишком долго, ИИ будет потерян.</NR_AIFellAsleep>
+  <NR_AIFellAsleep>{0} заснул: нет питания. Если питания долго не будет, ИИ пропадёт.</NR_AIFellAsleep>
   <NR_AILostLabel>ИИ потерян: {0}</NR_AILostLabel>
   <NR_AILostNoPower>{0} слишком долго спал без питания. То, что от него осталось, распалось.</NR_AILostNoPower>
   <NR_AILostLinkLabel>Связь с ИИ потеряна: {0}</NR_AILostLinkLabel>
@@ -172,13 +172,13 @@
   <NR_AIService_Doc>Подлечить нетраннеров</NR_AIService_Doc>
   <NR_AIService_Archivist>Открыть архив</NR_AIService_Archivist>
   <NR_AIService_Seed>Учиться</NR_AIService_Seed>
-  <NR_AIServiceDesc_Doc>Снимает у всех колонистов кибер-тошноту, блокировку и кому и ослабляет у всех сетевую зависимость.</NR_AIServiceDesc_Doc>
+  <NR_AIServiceDesc_Doc>Снимает со всех колонистов кибер-тошноту, блокировку и кому, ослабляет сетевую зависимость.</NR_AIServiceDesc_Doc>
   <NR_AIServiceDesc_Archivist>Случайный колонист получает много опыта в своём лучшем навыке.</NR_AIServiceDesc_Archivist>
   <NR_AIServiceDesc_Seed>Тренируется прятать колонию: немного стирает Heat.</NR_AIServiceDesc_Seed>
-  <NR_AIDidDoc>{0} подлечил нетраннеров: снято последствий ICE — {1}, зависимость ослаблена.</NR_AIDidDoc>
+  <NR_AIDidDoc>{0} подлечил нетраннеров: вылечено травм от ICE — {1}, зависимость ослаблена.</NR_AIDidDoc>
   <NR_AIDidArchivist>{0} открыл архив: {1}.</NR_AIDidArchivist>
-  <NR_AIDidSeed>{0} потренировалось и стёрло {1} очков вашего следа.</NR_AIDidSeed>
-  <NR_AIFoodSpecial_Seed>Что выберете: от еды зависит, кем оно станет.</NR_AIFoodSpecial_Seed>
+  <NR_AIDidSeed>{0} потренировалось и стёрло часть вашего следа: −{1}.</NR_AIDidSeed>
+  <NR_AIFoodSpecial_Seed>Что угодно на ваш выбор: от еды зависит, кем оно станет.</NR_AIFoodSpecial_Seed>
   <NR_AISeedNoFood>На складе нет ничего, что ест Зерно: киберданные, брейнданс-чип или продвинутый компонент.</NR_AISeedNoFood>
   <NR_AISeedFeedOption>{0} × {1}: растёт в сторону «{2}»</NR_AISeedFeedOption>
   <NR_AISeedGrew>{0} растёт в сторону «{1}» ({2} / {3}).</NR_AISeedGrew>
@@ -204,7 +204,7 @@
   <NR_AIToCoprocessor>Перенести в сопроцессор</NR_AIToCoprocessor>
   <NR_AIToCoprocessorTip>Перенести ИИ в ИИ-сопроцессор, подключённый к кибер-капсуле. Услуги он больше не оказывает, зато усиливает капсулу.</NR_AIToCoprocessorTip>
   <NR_FloatOpenTerminal>Открыть сетевой терминал</NR_FloatOpenTerminal>
-  <NR_AINeedOneStack>Нужна одна стопка: {0} × {1}.</NR_AINeedOneStack>
+  <NR_AINeedOneStack>Нужна одна стопка {0} × {1} в колонии.</NR_AINeedOneStack>
   <NR_AINoCarrier>Никто из колонистов не может это отнести.</NR_AINoCarrier>
   <NR_AIEventGood>{0} сделал кое-что для колонии по собственной инициативе.</NR_AIEventGood>
   <NR_AIEventBadLabel>{0} своевольничает</NR_AIEventBadLabel>
@@ -230,7 +230,7 @@
   <NR_AICardFoodTip>«Накормить» снижает голод на {0} и даёт {1} доверия. Выше {2} голода ИИ голодает и каждый день теряет доверие. В носителе его не кормят: верните на сервер.</NR_AICardFoodTip>
   <NR_AICardRequest>Просит: {0} · осталось {1}</NR_AICardRequest>
   <NR_AICardRequestStakes>выполнено: +{0} доверия · отказ: −{0}</NR_AICardRequestStakes>
-  <NR_AICardRequestTip>Просьбы приходят раз в несколько дней. Выполните вовремя — +{0} доверия; пропустите срок — столько же минус.</NR_AICardRequestTip>
+  <NR_AICardRequestTip>Просьбы приходят раз в несколько дней. Выполните вовремя — +{0} доверия; пропустите срок — столько же потеряете.</NR_AICardRequestTip>
   <NR_AICardHistory>Было:</NR_AICardHistory>
   <NR_AICardNoRequestPlain>Сейчас просьб нет</NR_AICardNoRequestPlain>
   <NR_AIServerGizmo>Комната ИИ</NR_AIServerGizmo>
@@ -245,9 +245,9 @@
   <NR_AITrait_Vain>Тщеславный</NR_AITrait_Vain>
   <NR_AITraitDesc_Vain>+ При доверии 80 и выше услуга на 20% сильнее.\n− Проваленная просьба стоит вдвое больше доверия.</NR_AITraitDesc_Vain>
   <NR_AITrait_Glitchy>Глючный</NR_AITrait_Glitchy>
-  <NR_AITraitDesc_Glitchy>+ 15% шанс, что услуга сработает вдвое сильнее.\n− 10% шанс полного сбоя (ожидание и цена потрачены).</NR_AITraitDesc_Glitchy>
+  <NR_AITraitDesc_Glitchy>+ Шанс 15%, что услуга сработает вдвое сильнее.\n− Шанс 10% полного сбоя (ожидание и цена всё равно потрачены).</NR_AITraitDesc_Glitchy>
   <NR_AITrait_Hoarder>Запасливый</NR_AITrait_Hoarder>
-  <NR_AITraitDesc_Hoarder>+ Сытый (голод 20 и меньше) работает на 25% сильнее.\n− Голодает на 30% быстрее.</NR_AITraitDesc_Hoarder>
+  <NR_AITraitDesc_Hoarder>+ Когда сыт (голод 20 и меньше), услуга на 25% сильнее.\n− Голодает на 30% быстрее.</NR_AITraitDesc_Hoarder>
   <NR_AITrait_Pacifist>Пацифист</NR_AITrait_Pacifist>
   <NR_AITraitDesc_Pacifist>+ Услуга на 25% сильнее.\n− Отказывается работать, пока на карте враги.</NR_AITraitDesc_Pacifist>
   <NR_AITrait_NightOwl>Сова</NR_AITrait_NightOwl>
@@ -270,9 +270,9 @@
   <NR_AwakenNoCyberdata>Для пробуждения нового осколка нужно {0} киберданных.</NR_AwakenNoCyberdata>
   <NR_AwakenCost>{0} киберданных</NR_AwakenCost>
   <NR_AwakenEmptyLabel>Пустой осколок</NR_AwakenEmptyLabel>
-  <NR_AwakenEmpty>{0} заглянул в осколок и не нашёл там ничего живого: только эхо кода. Осколок рассыпался в {1} киберданных.</NR_AwakenEmpty>
+  <NR_AwakenEmpty>{0} заглядывает в осколок, но там нет ничего живого: только эхо кода. Осколок рассыпался в {1} киберданных.</NR_AwakenEmpty>
   <NR_AwakenEscapedLabel>{0} ускользнул</NR_AwakenEscapedLabel>
-  <NR_AwakenEscaped>Осколок проснулся быстрее, чем {1} успел его удержать. ИИ, назвавший себя {0}, выскользнул из сервера в сеть.\n\nТеперь он прячется в заброшенной ноде. Нырок туда может его найти и вернуть.</NR_AwakenEscaped>
+  <NR_AwakenEscaped>Осколок проснулся слишком быстро, и {1} не удаётся его удержать. ИИ, назвавший себя {0}, выскользнул из сервера в сеть.\n\nТеперь он прячется в заброшенной ноде. Нырок туда может его найти и вернуть.</NR_AwakenEscaped>
   <NR_AIFragmentCrumbled>Осколок ИИ распался: он слишком долго лежал вдали от запитанного ИИ-сервера.</NR_AIFragmentCrumbled>
   <NR_AIFragmentDecaying>Распадается: осталось {0} дн. Держите его рядом с запитанным ИИ-сервером.</NR_AIFragmentDecaying>
   <NR_AIFragmentStable>Стабилен рядом с ИИ-сервером (вдали осталось бы {0} дн.).</NR_AIFragmentStable>
@@ -282,14 +282,14 @@
   <NR_AIToOtherCoprocessorTip>Перенести ИИ сразу в другой свободный сопроцессор, без возврата на сервер.</NR_AIToOtherCoprocessorTip>
   <NR_AICarrierMech>{0} (механоид)</NR_AICarrierMech>
   <NR_AICarrierMechRange>вне зоны управления механитора</NR_AICarrierMechRange>
-  <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних киберданных +{1}%, сетевая зависимость растёт на {2}% медленнее, в погружении на один слот программ больше, а само погружение стоит на {3} киберданных дешевле.</NR_HelpAICoproc>
-  <NR_HelpAICoprocBest>Этот архетип особенно хорош в этом.</NR_HelpAICoprocBest>
-  <NR_HelpAIServerNote>Работает с ИИ-сервера при доверии от {0}; тратит доверие и голод, потом отдыхает.</NR_HelpAIServerNote>
+  <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних киберданных +{1}%, сетевая зависимость растёт на {2}% медленнее, в нырке на один слот программ больше, а сам нырок стоит на {3} киберданных дешевле.</NR_HelpAICoproc>
+  <NR_HelpAICoprocBest>У этого архетипа это получается особенно хорошо.</NR_HelpAICoprocBest>
+  <NR_HelpAIServerNote>Работает с ИИ-сервера при доверии от {0}; услуга стоит доверия и прибавляет голод, потом ИИ отдыхает.</NR_HelpAIServerNote>
   <NR_HelpAICoprocIntro>Работает на нетраннера в подключённой кибер-капсуле:</NR_HelpAICoprocIntro>
   <NR_HelpAICoprocHeat>{0} Heat от взломов из капсулы</NR_HelpAICoprocHeat>
   <NR_HelpAICoprocData>{0} к шансу лишних киберданных</NR_HelpAICoprocData>
   <NR_HelpAICoprocNetsick>{0} к росту сетевой зависимости</NR_HelpAICoprocNetsick>
-  <NR_HelpAICoprocSlot>{0} слот программ в погружении</NR_HelpAICoprocSlot>
-  <NR_HelpAICoprocCost>{0} киберданных к цене погружения</NR_HelpAICoprocCost>
+  <NR_HelpAICoprocSlot>{0} слот программ в нырке</NR_HelpAICoprocSlot>
+  <NR_HelpAICoprocCost>{0} киберданных к цене нырка</NR_HelpAICoprocCost>
   <NR_HelpAICoprocBestTag>конёк</NR_HelpAICoprocBestTag>
 </LanguageData>

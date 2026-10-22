@@ -7,8 +7,8 @@
   <NR_ClubTab_Top>Топ-100</NR_ClubTab_Top>
   <NR_ClubNoCorps>В сети тихо. Ни одна корпорация пока не пошевелилась.</NR_ClubNoCorps>
   <NR_ClubOnMap>На карте</NR_ClubOnMap>
-  <NR_ClubCorpTerritory>Территория: {0} узлов</NR_ClubCorpTerritory>
-  <NR_ClubCorpBarsTip>Тревога: насколько корпорация ищет колонию. +3 за ответвление, +10 за крепость, +25 за ядро; −2 в день. На 40 её ICE крепнет и проход по её земле оставляет след, на 60 патрули ICE, на 80 вторжения, наёмники и рейды.\n\nСила: насколько она богата. Сильная и спокойная захватывает соседние узлы; долго слабая может рухнуть.</NR_ClubCorpBarsTip>
+  <NR_ClubCorpTerritory>Узлов на территории: {0}</NR_ClubCorpTerritory>
+  <NR_ClubCorpBarsTip>Тревога: насколько упорно корпорация ищет колонию. +3 за ответвление, +10 за крепость, +25 за ядро; −2 в день. На 40 её ICE крепнет и проход по её земле оставляет след, на 60 — патрули ICE, на 80 — вторжения, наёмники и рейды.\n\nСила: насколько она богата. Сильная и спокойная захватывает соседние узлы; долго слабая может рухнуть.</NR_ClubCorpBarsTip>
   <NR_ClubCorpIntrusion>Идёт вторжение: {0}, около {1} ч до Дома</NR_ClubCorpIntrusion>
   <NR_ClubCorpsHelp>Корпорации живут в своих районах на карте киберпространства. Взломы их ответвлений, крепости и ядра поднимают Тревогу; корпорация, сломанная дважды за месяц или долго слабая, может рухнуть, и её район займёт новая.</NR_ClubCorpsHelp>
   <NR_CorpStatus_Calm>спокойна</NR_CorpStatus_Calm>
@@ -22,7 +22,7 @@
   <NR_ClubCrewCall>Позвать на помощь</NR_ClubCrewCall>
   <NR_ClubCrewNotBest>Откликается только самая дружелюбная команда.</NR_ClubCrewNotBest>
   <NR_ClubCrewHire>Одолжить раннера</NR_ClubCrewHire>
-  <NR_ClubCrewHireTip>Подключённый раннер {0} ч работает на команду: серебро и лучше отношения, небольшой риск.</NR_ClubCrewHireTip>
+  <NR_ClubCrewHireTip>Подключённый раннер работает на команду {0} ч: серебро и отношения лучше, риск невелик.</NR_ClubCrewHireTip>
   <NR_ClubCrewRace>Гонка</NR_ClubCrewRace>
   <NR_ClubCrewRaceTip>Команда выставляет ноду; кто возьмёт первым, получает славу. Два дня.</NR_ClubCrewRaceTip>
   <NR_ClubCrewOrder>Заказать ({0} серебра)</NR_ClubCrewOrder>
@@ -37,7 +37,7 @@
   <NR_ClubTopFirst>Ваш раннер — №1 в сети.</NR_ClubTopFirst>
   <NR_ClubTopNext>До места №{0}: {1} славы</NR_ClubTopNext>
   <NR_ClubTopNotIn>Пока не в топ-100: у №100 {0} славы</NR_ClubTopNotIn>
-  <NR_ClubTopHelp>Слава: чистый нырок даёт защита ×10 (+50% на сложной ветке), крепость +100, ядро +200, выигранная гонка +50, остановленное вторжение +30. Остывает на 1% в день. Топ-10: +10% к наградам контрактов; топ-3: корпорации внимательнее; №1: +20% к наградам.</NR_ClubTopHelp>
+  <NR_ClubTopHelp>Слава: за чистый нырок — защита ×10 (+50% на сложной ветке), за крепость +100, за ядро +200, за выигранную гонку +50, за остановленное вторжение +30. Остывает на 1% в день. Топ-10: +10% к наградам контрактов; топ-3: корпорации внимательнее; №1: +20% к наградам.</NR_ClubTopHelp>
   <NR_RankKind_Solo>одиночка</NR_RankKind_Solo>
   <NR_RankKind_Crew>команда</NR_RankKind_Crew>
   <NR_RankKind_Colony>ваш</NR_RankKind_Colony>
@@ -47,7 +47,7 @@
   <NR_RankTitle_50>Известный</NR_RankTitle_50>
   <NR_RankTitle_100>Новичок сети</NR_RankTitle_100>
   <NR_RankNewsClimb>{0} поднимается на №{1} в сети.</NR_RankNewsClimb>
-  <NR_RankNewsRetired>Сеть помнит: {0} отключился навсегда.</NR_RankNewsRetired>
+  <NR_RankNewsRetired>Сеть помнит: {0} больше не выйдет на связь.</NR_RankNewsRetired>
   <NR_CorpNewsHarden>{0} усилила ICE.</NR_CorpNewsHarden>
   <NR_CorpNewsCapture>{0} расширяется: забирает {1}.</NR_CorpNewsCapture>
   <NR_CorpNewsAssets>{0} теряет активы.</NR_CorpNewsAssets>
@@ -80,12 +80,12 @@
   <NR_CrewRace>{0} предлагают гонку: {1}. Кто возьмёт первым за два дня, получит славу.</NR_CrewRace>
   <NR_CrewRaceRunning>Гонка уже идёт.</NR_CrewRaceRunning>
   <NR_CrewHostile>Команда враждебна.</NR_CrewHostile>
-  <NR_CrewNeedFriends>Нужны отношения 25+.</NR_CrewNeedFriends>
+  <NR_CrewNeedFriends>Нужны отношения от 25.</NR_CrewNeedFriends>
   <NR_CrewRunnerBusy>Раннер занят.</NR_CrewRunnerBusy>
-  <NR_CrewHired>{0} {2} ч работает на {1}.</NR_CrewHired>
-  <NR_CrewHireBack>{0} вернулся с дела {1}: {2} серебра.</NR_CrewHireBack>
-  <NR_CrewHireBackHurt>{0} вернулся с дела {1}: {2} серебра, но дело оставило след.</NR_CrewHireBackHurt>
-  <NR_CrewGoodwillRace>{0} не понравилось проиграть гонку: {1}.</NR_CrewGoodwillRace>
+  <NR_CrewHired>{0} работает на {1}: {2} ч.</NR_CrewHired>
+  <NR_CrewHireBack>{0}: дело для {1} закончено, {2} серебра.</NR_CrewHireBack>
+  <NR_CrewHireBackHurt>{0}: дело для {1} закончено, {2} серебра, но без последствий не обошлось.</NR_CrewHireBackHurt>
+  <NR_CrewGoodwillRace>{0} не рады проигрышу в гонке: {1}.</NR_CrewGoodwillRace>
   <NR_CrewGoodwillOrder>{0} узнали, кто заплатил: {1}.</NR_CrewGoodwillOrder>
 
   <NR_ClubCorpAlertLabel>Тревога</NR_ClubCorpAlertLabel>
@@ -96,6 +96,6 @@
   <NR_ClubTopColKind>Кто</NR_ClubTopColKind>
   <NR_ClubTopColFame>Слава</NR_ClubTopColFame>
   <NR_ClubTopColWeek>Неделя</NR_ClubTopColWeek>
-  <NR_ClubTopYou>Ваша колония: #{0}, {1}</NR_ClubTopYou>
+  <NR_ClubTopYou>Ваша колония: №{0}, {1}</NR_ClubTopYou>
   <NR_ClubTopYouOut>Вашей колонии пока нет в топ-100</NR_ClubTopYouOut>
 </LanguageData>

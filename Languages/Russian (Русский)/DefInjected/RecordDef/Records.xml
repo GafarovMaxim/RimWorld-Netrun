@@ -4,7 +4,7 @@
   <NR_Record_Dives.description>Нырки в ноды киберпространства.</NR_Record_Dives.description>
   <NR_Record_CleanExits.label>чистых выходов из сети</NR_Record_CleanExits.label>
   <NR_Record_CleanExits.description>Нырки, законченные на выходе с добычей.</NR_Record_CleanExits.description>
-  <NR_Record_BlackICEPassed.label>пройдено чёрного льда</NR_Record_BlackICEPassed.label>
+  <NR_Record_BlackICEPassed.label>пройдено Black ICE</NR_Record_BlackICEPassed.label>
   <NR_Record_BlackICEPassed.description>Чистые нырки через ноды под защитой Black ICE.</NR_Record_BlackICEPassed.description>
   <NR_Record_CorpCores.label>взято корп-ядер</NR_Record_CorpCores.label>
   <NR_Record_CorpCores.description>Вскрытые корпоративные ядра.</NR_Record_CorpCores.description>
@@ -13,6 +13,6 @@
   <NR_Record_AIsAwakened.label>пробуждено ИИ</NR_Record_AIsAwakened.label>
   <NR_Record_AIsAwakened.description>Пробуждённые осколки ИИ.</NR_Record_AIsAwakened.description>
 
-  <NR_Record_LinkBurns.label>выжженные линки</NR_Record_LinkBurns.label>
+  <NR_Record_LinkBurns.label>выжженных линков</NR_Record_LinkBurns.label>
   <NR_Record_LinkBurns.description>Сколько раз Black ICE выжигал кибер-линк этого нетраннера (выжженный линк, потеря линка).</NR_Record_LinkBurns.description>
 </LanguageData>

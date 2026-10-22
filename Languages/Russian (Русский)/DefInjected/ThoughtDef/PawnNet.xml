@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <NR_MissedSpouse.stages.0.label>скучал по {0}</NR_MissedSpouse.stages.0.label>
-  <NR_MissedSpouse.stages.0.description>{0} провёл в сети несколько дней. Кровать казалась пустой.</NR_MissedSpouse.stages.0.description>
-  <NR_HeardDiveStory.stages.0.label>слышал рассказ о нырке</NR_HeardDiveStory.stages.0.label>
-  <NR_HeardDiveStory.stages.0.description>Чёрный лёд, корп-ядро и кто-то, кто вернулся рассказать. Вот это история.</NR_HeardDiveStory.stages.0.description>
+  <NR_MissedSpouse.stages.0.label>тоска по {0}</NR_MissedSpouse.stages.0.label>
+  <NR_MissedSpouse.stages.0.description>{0} — несколько дней в сети. Кровать кажется пустой.</NR_MissedSpouse.stages.0.description>
+  <NR_HeardDiveStory.stages.0.label>{PAWN_gender ? слышал : слышала} рассказ о нырке</NR_HeardDiveStory.stages.0.label>
+  <NR_HeardDiveStory.stages.0.description>Black ICE, корп-ядро и кто-то, кто вернулся рассказать. Вот это история.</NR_HeardDiveStory.stages.0.description>
   <NR_AlienInPod.stages.0.label>дома в сети</NR_AlienInPod.stages.0.label>
   <NR_AlienInPod.stages.0.description>В капсуле тихо, тело далеко. Вот где моё место.</NR_AlienInPod.stages.0.description>
-  <NR_AlienOffline.stages.0.label>застрял в мясе</NR_AlienOffline.stages.0.label>
+  <NR_AlienOffline.stages.0.label>{PAWN_gender ? застрял : застряла} в мясе</NR_AlienOffline.stages.0.label>
   <NR_AlienOffline.stages.0.description>Три дня без нырка. Здесь всё такое медленное и тяжёлое.</NR_AlienOffline.stages.0.description>
 </LanguageData>

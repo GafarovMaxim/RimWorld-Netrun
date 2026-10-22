@@ -56,10 +56,10 @@
   <USH_BrokenExecData.label>пустая дискета скрипта</USH_BrokenExecData.label>
   <USH_BrokenExecData.description>Космическая дискета, когда-то хранившая мощный скрипт. Её можно разобрать на компоненты или восстановить и записать на неё новый скрипт.\n\nВыпадает при выкачке данных из взламываемых устройств под защитой ICE и его разновидностей.</USH_BrokenExecData.description>
   <USH_ICEBreaker.label>ледоруб Black ICE</USH_ICEBreaker.label>
-  <USH_ICEBreaker.description>Продвинутое устройство, отключающее смертельные функции Black ICE. С небольшим шансом ICE его замечает и вызывает короткий взрыв, уничтожающий устройство.</USH_ICEBreaker.description>
+  <USH_ICEBreaker.description>Продвинутое устройство, отключающее смертельные функции Black ICE. Есть небольшой шанс, что ICE его заметит и вызовет короткий взрыв, который уничтожит устройство.</USH_ICEBreaker.description>
   <USH_Cyberlink.comps.CompUsableImplant.useLabel>Установить: {0_label}</USH_Cyberlink.comps.CompUsableImplant.useLabel>
   <USH_Cyberlink.label>кибер-линк</USH_Cyberlink.label>
-  <USH_Cyberlink.description>Бионический имплант, открывающий доступ в киберпространство. Кибер-линк позволяет ставить другие импланты и помогает хакеру эффективнее работать с кибер-сущностями. Но у него есть и обратная сторона: он может вызвать особые ответы систем защиты, которые на хакеров без подключения не действуют.</USH_Cyberlink.description>
+  <USH_Cyberlink.description>Бионический имплант, открывающий доступ в киберпространство. Кибер-линк позволяет ставить другие импланты и помогает хакеру эффективнее работать с кибер-сущностями. Но у него есть и обратная сторона: он может вызвать особые ответные меры защиты, которые на хакеров без кибер-линка не действуют.</USH_Cyberlink.description>
   <USH_AdvancedCyberlink.comps.CompUsableImplant.useLabel>Установить: {0_label}</USH_AdvancedCyberlink.comps.CompUsableImplant.useLabel>
   <USH_AdvancedCyberlink.label>продвинутый кибер-линк</USH_AdvancedCyberlink.label>
   <USH_AdvancedCyberlink.description>Улучшенная версия кибер-линка: обновлённое ПО и дополнительные слоты памяти для сложных имплантов. Даёт хакеру более стабильное и чистое подключение к киберпространству. Ставится и без обычного кибер-линка; если он есть, то будет заменён.</USH_AdvancedCyberlink.description>

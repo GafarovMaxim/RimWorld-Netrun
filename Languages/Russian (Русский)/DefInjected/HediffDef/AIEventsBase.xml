@@ -5,11 +5,11 @@
   <NR_AIEventDistracted.label>напевает</NR_AIEventDistracted.label>
   <NR_AIEventDistracted.description>Песня ИИ засела в голове. Работа идёт медленнее.</NR_AIEventDistracted.description>
   <NR_AIEventImmunity.label>наблюдение ИИ</NR_AIEventImmunity.label>
-  <NR_AIEventImmunity.description>ИИ следит за показателями колониста. Болезнь ловится рано.</NR_AIEventImmunity.description>
+  <NR_AIEventImmunity.description>ИИ следит за показателями колониста. Болезни замечают рано.</NR_AIEventImmunity.description>
   <NR_AIEventProtected.label>под защитой Оракула</NR_AIEventProtected.label>
   <NR_AIEventProtected.description>Оракул видел смерть этого колониста и уводит его от неё.</NR_AIEventProtected.description>
-  <NR_AIEventEnchanted.label>зачарован Сиреной</NR_AIEventEnchanted.label>
+  <NR_AIEventEnchanted.label>чары Сирены</NR_AIEventEnchanted.label>
   <NR_AIEventEnchanted.description>Песня Сирены держит колониста. Трудно думать о чём-то ещё.</NR_AIEventEnchanted.description>
   <NR_AIEventSideEffect.label>побочный эффект</NR_AIEventSideEffect.label>
-  <NR_AIEventSideEffect.description>После протокола Врача кружится голова и всё медленнее.</NR_AIEventSideEffect.description>
+  <NR_AIEventSideEffect.description>После протокола Врача кружится голова и всё идёт медленнее.</NR_AIEventSideEffect.description>
 </LanguageData>

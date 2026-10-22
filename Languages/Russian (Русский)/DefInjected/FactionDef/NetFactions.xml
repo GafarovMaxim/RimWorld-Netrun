@@ -35,7 +35,7 @@
   <NR_Corp_Media.pawnSingular>корп-охранник</NR_Corp_Media.pawnSingular>
   <NR_Corp_Media.pawnsPlural>корп-охрана</NR_Corp_Media.pawnsPlural>
   <NR_Corp_Biotech.label>биотех-корпорация</NR_Corp_Biotech.label>
-  <NR_Corp_Biotech.description>Корпорация, которая правит жизнь. Её данные плотные и дорогие, а атаки приходят нейрошумом.</NR_Corp_Biotech.description>
+  <NR_Corp_Biotech.description>Корпорация, которая переписывает жизнь. Её данные плотные и дорогие, а атаки приходят нейрошумом.</NR_Corp_Biotech.description>
   <NR_Corp_Biotech.pawnSingular>корп-охранник</NR_Corp_Biotech.pawnSingular>
   <NR_Corp_Biotech.pawnsPlural>корп-охрана</NR_Corp_Biotech.pawnsPlural>
   <NR_Corp_Neurotech.label>нейротех-корпорация</NR_Corp_Neurotech.label>
@@ -67,7 +67,7 @@
   <NR_Corp_DataBroker.pawnSingular>корп-охранник</NR_Corp_DataBroker.pawnSingular>
   <NR_Corp_DataBroker.pawnsPlural>корп-охрана</NR_Corp_DataBroker.pawnsPlural>
   <NR_Corp_Orbital.label>орбитальная корпорация</NR_Corp_Orbital.label>
-  <NR_Corp_Orbital.description>Корпорация, которая живёт над небом. Её ноды и крепость на орбите.</NR_Corp_Orbital.description>
+  <NR_Corp_Orbital.description>Корпорация, которая живёт над небом. Её ноды и крепость — на орбите.</NR_Corp_Orbital.description>
   <NR_Corp_Orbital.pawnSingular>корп-охранник</NR_Corp_Orbital.pawnSingular>
   <NR_Corp_Orbital.pawnsPlural>корп-охрана</NR_Corp_Orbital.pawnsPlural>
 

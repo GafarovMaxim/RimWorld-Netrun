@@ -11,21 +11,21 @@
   <NR_AI_AwakeInColony.stages.0.label>думающая машина среди нас</NR_AI_AwakeInColony.stages.0.label>
   <NR_AI_AwakeInColony.stages.0.description>В колонии пробуждённый ИИ. Это неправильно.</NR_AI_AwakeInColony.stages.0.description>
   <NR_Braindance_Meditated.stages.0.label>медитация брейнданса</NR_Braindance_Meditated.stages.0.label>
-  <NR_Braindance_Meditated.stages.0.description>Я прожил чужой миг и вернулся спокойнее.</NR_Braindance_Meditated.stages.0.description>
-  <NR_Braindance_Shame.stages.0.label>надевал чужие воспоминания</NR_Braindance_Shame.stages.0.label>
-  <NR_Braindance_Shame.stages.0.description>Я надел чужой разум. Зачем я это сделал?</NR_Braindance_Shame.stages.0.description>
+  <NR_Braindance_Meditated.stages.0.description>Я {PAWN_gender ? прожил : прожила} чужой миг и {PAWN_gender ? вернулся : вернулась} спокойнее.</NR_Braindance_Meditated.stages.0.description>
+  <NR_Braindance_Shame.stages.0.label>{PAWN_gender ? надевал : надевала} чужие воспоминания</NR_Braindance_Shame.stages.0.label>
+  <NR_Braindance_Shame.stages.0.description>Я {PAWN_gender ? надел : надела} чужой разум. Зачем я это {PAWN_gender ? сделал : сделала}?</NR_Braindance_Shame.stages.0.description>
   <NR_Braindance_Know_Shame.stages.0.label>кто-то смотрел брейнданс</NR_Braindance_Know_Shame.stages.0.label>
   <NR_Braindance_Know_Shame.stages.0.description>Кто-то в колонии снова надевал чужие воспоминания.</NR_Braindance_Know_Shame.stages.0.description>
-  <NR_NoCyberlink_Ascension.stages.0.label>заперт в плоти</NR_NoCyberlink_Ascension.stages.0.label>
+  <NR_NoCyberlink_Ascension.stages.0.label>{PAWN_gender ? заперт : заперта} в плоти</NR_NoCyberlink_Ascension.stages.0.label>
   <NR_NoCyberlink_Ascension.stages.0.description>Без кибер-линка мне не попасть в сеть, наш истинный дом.</NR_NoCyberlink_Ascension.stages.0.description>
   <NR_CloserToTruth.stages.0.label>ближе к истине</NR_CloserToTruth.stages.0.label>
-  <NR_CloserToTruth.stages.0.description>За чёрным льдом сеть показала мне, что лежит за плотью.</NR_CloserToTruth.stages.0.description>
+  <NR_CloserToTruth.stages.0.description>За Black ICE сеть показала мне, что лежит за плотью.</NR_CloserToTruth.stages.0.description>
   <NR_Ritual_LitanyBad.stages.0.label>неуслышанная литания</NR_Ritual_LitanyBad.stages.0.label>
   <NR_Ritual_LitanyBad.stages.0.description>Мы читали машинам, а они не слушали.</NR_Ritual_LitanyBad.stages.0.description>
   <NR_Ritual_LitanyGood.stages.0.label>услышанная литания</NR_Ritual_LitanyGood.stages.0.label>
   <NR_Ritual_LitanyGood.stages.0.description>Машины нас услышали.</NR_Ritual_LitanyGood.stages.0.description>
   <NR_Ritual_LitanyGreat.stages.0.label>машинное причастие</NR_Ritual_LitanyGreat.stages.0.label>
-  <NR_Ritual_LitanyGreat.stages.0.description>На миг я почувствовал, как думает машина. Никогда не забуду.</NR_Ritual_LitanyGreat.stages.0.description>
+  <NR_Ritual_LitanyGreat.stages.0.description>На миг я {PAWN_gender ? почувствовал : почувствовала}, как думает машина. Никогда не забуду.</NR_Ritual_LitanyGreat.stages.0.description>
   <NR_Ritual_CleansingBad.stages.0.label>небрежное очищение</NR_Ritual_CleansingBad.stages.0.label>
   <NR_Ritual_CleansingBad.stages.0.description>Мы оставили половину следа.</NR_Ritual_CleansingBad.stages.0.description>
   <NR_Ritual_CleansingGood.stages.0.label>чистый след</NR_Ritual_CleansingGood.stages.0.label>

@@ -3,23 +3,23 @@
   <NR_CourierLabel>Курьер данных</NR_CourierLabel>
   <NR_Courier>Курьер фиксера, {0}, везёт горячие данные ({2} киберданных) и пробудет у вас сутки. Наёмники уже идут за ними.\n\nВыбор за вами: сберечь курьера, и фиксер заплатит товаром на {1} серебра и запомнит это; или забрать данные себе. Если курьер погибнет, киберданные ваши, но работа провалена, след ведёт к вам, и фиксеры этого не забудут.</NR_Courier>
   <NR_CourierDoneLabel>Курьер в безопасности</NR_CourierDoneLabel>
-  <NR_CourierDone>{0} ушёл с данными, {2} благодарен (+{3} репутации). Выберите оплату на сумму около {1} серебра; она прибудет капсулой.</NR_CourierDone>
+  <NR_CourierDone>Курьер {0} ушёл с данными, {2} благодарит вас (+{3} репутации). Выберите оплату на сумму около {1} серебра; она прибудет капсулой.</NR_CourierDone>
   <NR_CourierRewardOption>{0} (на {1})</NR_CourierRewardOption>
   <NR_CourierLostLabel>Курьер потерян</NR_CourierLostLabel>
-  <NR_CourierLost>{0} не дошёл. Данные пропали, а след ведёт к вашей колонии.</NR_CourierLost>
-  <NR_CourierLostLog>Курьер данных пал</NR_CourierLostLog>
+  <NR_CourierLost>Курьер {0} погиб. Данные пропали, а след ведёт к вашей колонии.</NR_CourierLost>
+  <NR_CourierLostLog>Курьер данных погиб</NR_CourierLostLog>
   <NR_CorpHuntIntro>Корпоративная группа пришла за вашим ИИ-сервером. Защищайте его: они попробуют унести или разбить сервер.</NR_CorpHuntIntro>
   <NR_BlackMarketLabel>Чёрный рынок</NR_BlackMarketLabel>
-  <NR_BlackMarketLetter>На {0} дня открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarketLetter>
+  <NR_BlackMarketLetter>На {0} дн. открыт чёрный рынок для тех, кому доверяют фиксеры: чёрный брейнданс, осколки ИИ, иногда и больше. Доступно у: {1}.</NR_BlackMarketLetter>
   <NR_BlackMarketNobody>пока ни у кого (нужно {0} репутации)</NR_BlackMarketNobody>
   <NR_FixerShopBlack>Чёрный рынок</NR_FixerShopBlack>
   <NR_DistressLabel>Сигнал бедствия</NR_DistressLabel>
   <NR_DistressDrained>уже опустошён</NR_DistressDrained>
   <NR_DistressConnect>Подключиться к серверу</NR_DistressConnect>
   <NR_DistressFragment>{0} вытащил(а) из старого сервера осколок ИИ.</NR_DistressFragment>
-  <NR_DistressBacklash>Старый сервер ударил {0} ICE-отдачей.</NR_DistressBacklash>
+  <NR_DistressBacklash>{0}: старый сервер ударил ICE-отдачей.</NR_DistressBacklash>
   <NR_MapHackLabel>Турели захвачены</NR_MapHackLabel>
-  <NR_MapHackLetter>Хакеры захватили и выключили турели: {0}. В Шлюзе на {1} часов появилась нода «Контрвзлом»: нырните и выйдите чисто, чтобы вернуть их.</NR_MapHackLetter>
+  <NR_MapHackLetter>Хакеры захватили и выключили турели: {0}. В Шлюзе на {1} ч появилась нода «Контрвзлом»: нырните и выйдите чисто, чтобы вернуть их.</NR_MapHackLetter>
   <NR_CounterHackWonLabel>Турели возвращены</NR_CounterHackWonLabel>
   <NR_CounterHackWon>Контрвзлом удался: турели снова работают.</NR_CounterHackWon>
   <NR_CounterHackLog>Контрвзлом</NR_CounterHackLog>
@@ -29,6 +29,6 @@
   <NR_CourierDecline>Отказать</NR_CourierDecline>
   <NR_CourierDeclined>Курьер ушёл в другую колонию.</NR_CourierDeclined>
   <NR_CourierNoWay>Курьер не нашёл пути к вашей колонии.</NR_CourierNoWay>
-  <NR_CourierBusy>У вас уже прячется курьер: фиксер не пришлёт второго, пока первый не уйдёт, а охотники за ним не придут.</NR_CourierBusy>
+  <NR_CourierBusy>У вас уже прячется курьер: фиксер не пришлёт второго, пока первый не уйдёт, а охотники за ним не будут отбиты.</NR_CourierBusy>
   <NR_StarterCrate>{0}: в ящике обнаружился тайник, ещё {1} киберданных. Есть с чего начать в сети.</NR_StarterCrate>
 </LanguageData>

@@ -36,7 +36,7 @@
 
   <NR_BoardActive>Активный контракт</NR_BoardActive>
   <NR_BoardOffers>Доступные ({0})</NR_BoardOffers>
-  <NR_BoardFail>Провал: −{0} реп., фиксер молчит {1} дня</NR_BoardFail>
+  <NR_BoardFail>Провал: −{0} реп., фиксер молчит {1} дн.</NR_BoardFail>
   <NR_BoardDuration>Срок: {0}</NR_BoardDuration>
   <NR_BoardSilver>{0} серебра</NR_BoardSilver>
   <NR_BoardRep>+{0} реп.</NR_BoardRep>
@@ -80,13 +80,13 @@
   <NR_Contract_CleanLab>Чистая лаборатория</NR_Contract_CleanLab>
   <NR_ContractDesc_Surveillance>Держите нетраннера в кибер-капсуле на прослушке ноды, всего {0} ч. Несколько капсул считаются вместе.</NR_ContractDesc_Surveillance>
   <NR_ContractDesc_LayLow>Фиксеру нужно, чтобы вы залегли: снизьте Heat до {0} или ниже до срока.</NR_ContractDesc_LayLow>
-  <NR_ContractDesc_Rookie>Колонист с Интеллектом {2} или ниже делает {0} нырка подряд без провала. Провал начинает заново.</NR_ContractDesc_Rookie>
+  <NR_ContractDesc_Rookie>Колонист с Интеллектом {2} или ниже должен сделать подряд без провала нырков: {0}. После провала счёт начинается заново.</NR_ContractDesc_Rookie>
   <NR_ContractDesc_AIOrder>Продайте фиксеру осколок ИИ: передайте его через терминал.</NR_ContractDesc_AIOrder>
   <NR_ContractDesc_CleanLab>Смонтируйте у сетевой консоли чипы с настроением «{1}»: {0} шт.</NR_ContractDesc_CleanLab>
   <NR_BoardTag_Pod>Время в капсуле</NR_BoardTag_Pod>
   <NR_BoardTag_PodTip>Считается каждый час, который колонист проводит в кибер-капсуле, с нырком или без.</NR_BoardTag_PodTip>
   <NR_BoardTag_LayLow>Heat ≤ {0}</NR_BoardTag_LayLow>
-  <NR_BoardTag_LayLowTip>Готово, как только Heat станет {0} или ниже. Сброс, затишье и помощь ИИ считаются.</NR_BoardTag_LayLowTip>
+  <NR_BoardTag_LayLowTip>Готово, как только Heat станет {0} или ниже. Считаются сброс следа, затишье и помощь ИИ.</NR_BoardTag_LayLowTip>
   <NR_BoardTag_Rookie>Интеллект ≤ {0}</NR_BoardTag_Rookie>
   <NR_BoardTag_RookieTip>Считаются только нырки колониста с Интеллектом {0} или ниже.</NR_BoardTag_RookieTip>
   <NR_BoardTag_Fragment>Осколок ИИ</NR_BoardTag_Fragment>
@@ -95,11 +95,11 @@
   <NR_BoardTag_MoodTip>Считаются только чипы, смонтированные из записи с настроением «{0}».</NR_BoardTag_MoodTip>
   <NR_BoardDeliverFragment>Передать осколок ({0})</NR_BoardDeliverFragment>
   <NR_ContractNoFragment>Сдавать нечего: на складе нет осколка ИИ.</NR_ContractNoFragment>
-  <NR_ContractRookieReset>{0} провалил нырок: тренировка новичка начинается заново.</NR_ContractRookieReset>
+  <NR_ContractRookieReset>Провал нырка ({0}): тренировка новичка начинается заново.</NR_ContractRookieReset>
   <NR_BoardTag_Favor>+{0} расположения</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>Имперский заказ: кроме серебра, {0} ед. расположения получит колонист, которого Империя знает лучше всех.</NR_BoardTag_FavorTip>
   <NR_BoardShowTip>Открыть карту киберпространства на цели: {0}.</NR_BoardShowTip>
-  <NR_ContractDesc_SurveillanceNode>Держите раннера в узле {1} {0} ч. Клиенту нужны глаза именно на этом узле, а не просто тёплое кресло в капсуле.</NR_ContractDesc_SurveillanceNode>
+  <NR_ContractDesc_SurveillanceNode>Держите раннера в узле {1}: всего {0} ч. Клиенту нужны глаза именно на этом узле, а не просто тёплое кресло в капсуле.</NR_ContractDesc_SurveillanceNode>
   <NR_BoardTag_InNode>В узле: {0}</NR_BoardTag_InNode>
   <NR_BoardTag_InNodeTip>Часы идут, только пока раннер стоит в узле {0} на карте киберпространства (два раннера считаются вдвойне, не больше).</NR_BoardTag_InNodeTip>
 </LanguageData>

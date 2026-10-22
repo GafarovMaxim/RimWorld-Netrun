@@ -28,7 +28,7 @@
   <NR_FixerSilent>{0} не отвечает.</NR_FixerSilent>
   <NR_NotEnoughSilver>Не хватает серебра на складе: нужно {0}.</NR_NotEnoughSilver>
   <NR_NotEnoughCyberdata>Не хватает киберданных на складе.</NR_NotEnoughCyberdata>
-  <NR_FixerScrubbed>{0} стёр {1} очков вашего цифрового следа.</NR_FixerScrubbed>
+  <NR_FixerScrubbed>{0} подчистил ваш цифровой след: −{1}.</NR_FixerScrubbed>
   <NR_LogScrub>След стёр фиксер {0}</NR_LogScrub>
   <NR_FixerDelivery>{0} прислал дроп-под: {1}.</NR_FixerDelivery>
   <NR_FixerPinned>{0} теперь вам доверяет и останется в ваших контактах.</NR_FixerPinned>
@@ -67,8 +67,8 @@
   <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену: первая платится сразу, следующие при смене пула (не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
-  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт киберданные со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
-  <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дней.</NR_FixerBreakConfirm>
+  <NR_FixerBreakTip>Порвать с фиксером: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт киберданные со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дн.</NR_FixerBreakTip>
+  <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дн.</NR_FixerBreakConfirm>
   <NR_FixerTiesBroken>Связь с {0} разорвана. В пул пришёл {1}.</NR_FixerTiesBroken>
   <NR_FixerHoldPaid>Удержать · {0}</NR_FixerHoldPaid>
   <NR_FixerHoldLapsed>Не хватило серебра, чтобы удержать {0} ({1}): удержание снято.</NR_FixerHoldLapsed>
@@ -79,23 +79,23 @@
   <NR_ScrubMaxTip>Ровно столько, чтобы обнулить Heat (или всё, что есть).</NR_ScrubMaxTip>
   <NR_ShopTitleShort>МАГАЗИН //</NR_ShopTitleShort>
   <NR_ShopBlackTag>ЧЁРНЫЙ РЫНОК</NR_ShopBlackTag>
-  <NR_ShopBlackTip>Продаётся только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>
+  <NR_ShopBlackTip>Продаётся, только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>
   <NR_ClubRotateNow>Новый пул ({0} киберданных)</NR_ClubRotateNow>
   <NR_ClubRotateNowTip>Сменить пул сейчас, не дожидаясь срока. Закреплённые, удержанные и фиксеры с идущим контрактом остаются. Стоит {0} киберданных.</NR_ClubRotateNowTip>
   <NR_FixerTrait_Greedy>Жадный</NR_FixerTrait_Greedy>
   <NR_FixerTraitDesc_Greedy>+ Больше товаров в магазине.
 − Всё на четверть дороже, звонок тоже.</NR_FixerTraitDesc_Greedy>
   <NR_FixerTrait_Reliable>Надёжный</NR_FixerTrait_Reliable>
-  <NR_FixerTraitDesc_Reliable>+ Прощает проваленный контракт наполовину (молчит меньше, репутация падает меньше) и никого не посылает следом.
+  <NR_FixerTraitDesc_Reliable>+ Наполовину прощает проваленный контракт (молчит меньше, репутация падает меньше) и никого не посылает следом.
 − Награды контрактов на 10% меньше.</NR_FixerTraitDesc_Reliable>
   <NR_FixerTrait_Rat>Крыса</NR_FixerTrait_Rat>
-  <NR_FixerTraitDesc_Rat>+ Дёшево: всё и звонок на 20% дешевле.
+  <NR_FixerTraitDesc_Rat>+ Дёшево: всё, включая звонок, на 20% дешевле.
 − Иногда сливает колонию после сделки (+10 Heat), после проваленного контракта чаще.</NR_FixerTraitDesc_Rat>
   <NR_FixerTrait_Paranoid>Параноик</NR_FixerTrait_Paranoid>
   <NR_FixerTraitDesc_Paranoid>+ Пока он в пуле, рейды мести на колонию на 25% слабее: он сливает их планы.
 − Не берёт трубку, пока Heat «Отслеживается» и выше.</NR_FixerTraitDesc_Paranoid>
   <NR_FixerTrait_Gambler>Игрок</NR_FixerTrait_Gambler>
-  <NR_FixerTraitDesc_Gambler>+ Плата бросается при сдаче работы: от половины до почти двойной, в среднем чуть больше.
+  <NR_FixerTraitDesc_Gambler>+ Оплата выпадает случайно при сдаче работы: от половины до почти двойной, в среднем чуть больше.
 − Ничего не гарантировано.</NR_FixerTraitDesc_Gambler>
   <NR_FixerTrait_Loyal>Верный</NR_FixerTrait_Loyal>
   <NR_FixerTraitDesc_Loyal>+ Репутация растёт вдвое быстрее; закреплённый даёт ещё 10% скидки.
@@ -108,7 +108,7 @@
 − Обычных товаров меньше.</NR_FixerTraitDesc_Collector>
   <NR_FixerTrait_Hothead>Горячая голова</NR_FixerTrait_Hothead>
   <NR_FixerTraitDesc_Hothead>+ Контракты платят на 40% больше.
-− Они на 40% короче, а провал добавляет 10 Heat.</NR_FixerTraitDesc_Hothead>
+− Сроки на 40% короче, а провал добавляет 10 Heat.</NR_FixerTraitDesc_Hothead>
   <NR_FixerRefuseParanoid>{0} не берёт трубку: слишком горячо, пока Heat «{1}» и выше.</NR_FixerRefuseParanoid>
   <NR_FixerRefuseLoyal>{0} не работает с вами, пока {1} у вас в закреплённых.</NR_FixerRefuseLoyal>
   <NR_FixerHotheadFail>{0} нашумел из-за проваленной работы</NR_FixerHotheadFail>
@@ -118,5 +118,5 @@
   <NR_FixerRefuseImperial>{0} не работает с врагами Империи.</NR_FixerRefuseImperial>
   <NR_ImperialFavor>{0} замолвил словечко при дворе: {1} получает {2} ед. расположения.</NR_ImperialFavor>
   <NR_FixerPinFull>(места для закреплённых заняты: {0})</NR_FixerPinFull>
-  <NR_FixerHoldPaidMsg>{0} останется в пуле после ротации. Заплачено {1} серебра.</NR_FixerHoldPaidMsg>
+  <NR_FixerHoldPaidMsg>{0} останется в пуле после смены. Заплачено {1} серебра.</NR_FixerHoldPaidMsg>
 </LanguageData>

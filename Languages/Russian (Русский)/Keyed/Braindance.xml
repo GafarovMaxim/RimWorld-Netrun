@@ -11,26 +11,26 @@
   <NR_StudioShowToTip>Выбрать колониста, который посмотрит эту запись.</NR_StudioShowToTip>
   <NR_StudioNoViewers>Сейчас никто из колонистов не может её посмотреть (нужны очки или кибер-линк).</NR_StudioNoViewers>
   <NR_StudioSearch>Поиск по автору или событию</NR_StudioSearch>
-  <NR_BDRecordInspect>Записал(а) {0}: {1}. Настрой: {2}. Качество: {3}.</NR_BDRecordInspect>
+  <NR_BDRecordInspect>Автор: {0}, событие: {1}. Настрой: {2}. Качество: {3}.</NR_BDRecordInspect>
   <NR_BDMood_Bright>светлый</NR_BDMood_Bright>
   <NR_BDMood_Dark>тёмный</NR_BDMood_Dark>
   <NR_BDMood_Combat>боевой</NR_BDMood_Combat>
   <NR_BDQuality_0>обычное</NR_BDQuality_0>
   <NR_BDQuality_1>отличное</NR_BDQuality_1>
   <NR_BDQuality_2>мастерское</NR_BDQuality_2>
-  <NR_BDRecorded>Брейнданс-очки {0} записали: {1}.</NR_BDRecorded>
+  <NR_BDRecorded>{0} — брейнданс-очки записали: {1}.</NR_BDRecorded>
   <NR_BDEventKill>убийство: {0}</NR_BDEventKill>
   <NR_BDEditCommand>Смонтировать брейнданс</NR_BDEditCommand>
-  <NR_BDEditOption>Смонтировать запись {0} ({1}) в: {2}</NR_BDEditOption>
-  <NR_BDEdited>{0} закончил(а) монтаж: {1}.</NR_BDEdited>
+  <NR_BDEditOption>Смонтировать запись ({0}, {1}): {2}</NR_BDEditOption>
+  <NR_BDEdited>{0}: монтаж закончен — {1}.</NR_BDEdited>
   <NR_UB_ViewsLeft>Осталось просмотров: {0} из {1}</NR_UB_ViewsLeft>
   <NR_UB_BurnedOut>Запись «{0}» выгорела.</NR_UB_BurnedOut>
-  <NR_UB_Watched>{0} прожил запись: {1}</NR_UB_Watched>
-  <NR_UB_ConfessionLog>{0} посмотрел украденную исповедь</NR_UB_ConfessionLog>
+  <NR_UB_Watched>{0}: запись прожита — {1}</NR_UB_Watched>
+  <NR_UB_ConfessionLog>{0}: просмотр украденной исповеди</NR_UB_ConfessionLog>
   <NR_UB_Found>Найдена уникальная запись: {0}</NR_UB_Found>
   <NR_UB_ContractBonusLabel>Бонусная запись</NR_UB_ContractBonusLabel>
   <NR_UB_ContractBonus>{0} добавляет к оплате кое-что особое: уникальную брейнданс-запись «{1}».</NR_UB_ContractBonus>
-  <NR_UB_MarketDiscount>Знание ночного рынка: фиксеры берут на {0} меньше ещё {1}.</NR_UB_MarketDiscount>
+  <NR_UB_MarketDiscount>Знание ночного рынка: фиксеры берут на {0} меньше, осталось {1}.</NR_UB_MarketDiscount>
   <NR_UB_Author_Concert>Лиза Вэнс</NR_UB_Author_Concert>
   <NR_UB_Author_ZeroRun>«Нулевой»</NR_UB_Author_ZeroRun>
   <NR_UB_Author_Morton>доктор Мортон</NR_UB_Author_Morton>
@@ -41,12 +41,12 @@
   <NR_UB_Author_Oracle>ИИ по имени Оракул</NR_UB_Author_Oracle>
   <NR_UB_Good_Concert>настроение +30 на 3 дня, снимает Netsick, без привыкания</NR_UB_Good_Concert>
   <NR_UB_Good_ZeroRun>скорость взлома +30% и шанс взлома в нырке +10% на 5 дней</NR_UB_Good_ZeroRun>
-  <NR_UB_Good_Morton>отпускает плохие воспоминания, рабочий азарт</NR_UB_Good_Morton>
-  <NR_UB_Good_NightMarket>фиксеры берут на 30% меньше 3 дня</NR_UB_Good_NightMarket>
+  <NR_UB_Good_Morton>снимает плохие воспоминания, даёт рабочий азарт</NR_UB_Good_Morton>
+  <NR_UB_Good_NightMarket>фиксеры берут на 30% меньше в течение 3 дней</NR_UB_Good_NightMarket>
   <NR_UB_Good_Confession>следующий нырок покажет все скрытые ступени и ловушки</NR_UB_Good_Confession>
-  <NR_UB_Good_StreetRunner>скорость работы +15% и передвижение +15% на 2 дня</NR_UB_Good_StreetRunner>
-  <NR_UB_Good_EchoLullaby>полный отдых сразу, снимает тошноту и похмелье</NR_UB_Good_EchoLullaby>
-  <NR_UB_Good_Oracle>наёмники придут на 3 дня позже; быстрее прицел и лучше уклонение 3 дня</NR_UB_Good_Oracle>
+  <NR_UB_Good_StreetRunner>скорость работы и передвижения +15% на 2 дня</NR_UB_Good_StreetRunner>
+  <NR_UB_Good_EchoLullaby>мгновенно восстанавливает отдых, снимает тошноту и похмелье</NR_UB_Good_EchoLullaby>
+  <NR_UB_Good_Oracle>наёмники придут на 3 дня позже; быстрее прицел и лучше уклонение на 3 дня</NR_UB_Good_Oracle>
   <NR_UB_Bad_Morton>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Morton>
   <NR_UB_Bad_Confession>+8 Heat; привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Oracle>
@@ -80,9 +80,9 @@
   <NR_UB_Bad_Morton>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Morton>
   <NR_UB_Bad_Confession>+8 Heat; привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>привыкание вдвое быстрее чёрного чипа</NR_UB_Bad_Oracle>
-  <NR_BDBatchDone>{0}: монтаж закончен, из {1} записей получилось {2} чипов.</NR_BDBatchDone>
+  <NR_BDBatchDone>{0}: монтаж закончен. Записей: {1}, чипов: {2}.</NR_BDBatchDone>
   <NR_BDBatchWarn>Смонтировать все сырые записи разом?\n\nЭто бесплатно и сразу, но массовый монтаж может дать сбой (шанс {0}%): тогда {1}% чипов теряются или выходят хуже. Монтаж по одной записи сбоев не даёт.\n\nЭто предупреждение показывается один раз.</NR_BDBatchWarn>
   <NR_BDBatchConsole>Консоль</NR_BDBatchConsole>
   <NR_BDBatchGlitchLabel>Сбой массового монтажа</NR_BDBatchGlitchLabel>
-  <NR_BDBatchGlitch>{0}: массовый монтаж {1} записей дал сбой. Получилось {2} чипов; {3} записей потеряно, {4} чипов потеряли качество.</NR_BDBatchGlitch>
+  <NR_BDBatchGlitch>{0}: массовый монтаж дал сбой (записей: {1}). Получено чипов: {2}; потеряно записей: {3}; чипов с потерей качества: {4}.</NR_BDBatchGlitch>
 </LanguageData>

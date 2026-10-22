@@ -9,7 +9,7 @@
   <NR_ExtNodeName_Corp>Корп-хранилище-{0}</NR_ExtNodeName_Corp>
   <NR_ExtNodeType_Corp>корпоративное хранилище</NR_ExtNodeType_Corp>
   <NR_ExtNodeReward_Corp>киберданные, 1–2 продвинутых, ценности</NR_ExtNodeReward_Corp>
-  <NR_ExtNodeName_Abandoned>Заброш. сервер-{0}</NR_ExtNodeName_Abandoned>
+  <NR_ExtNodeName_Abandoned>Мёртвый сервер-{0}</NR_ExtNodeName_Abandoned>
   <NR_ExtNodeType_Abandoned>заброшенный сервер</NR_ExtNodeType_Abandoned>
   <NR_ExtNodeReward_Abandoned>киберданные, осколок ИИ в хранилище</NR_ExtNodeReward_Abandoned>
   <NR_ExtNodeName_DarkExchange>Тёмная биржа-{0}</NR_ExtNodeName_DarkExchange>
@@ -50,8 +50,8 @@
   <NR_Program_Shield>Щит</NR_Program_Shield>
   <NR_ProgramDesc_Shield>Поглощает один удар Black ICE. Стоит {0} киберданных.</NR_ProgramDesc_Shield>
   <NR_Program_Decoy>Фальшивка</NR_Program_Decoy>
-  <NR_ProgramDesc_Decoy>50% отвести один удар ICE. Стоит {0} киберданных.</NR_ProgramDesc_Decoy>
-  <NR_Program_Stealth>Призрак</NR_Program_Stealth>
+  <NR_ProgramDesc_Decoy>Шанс 50% отвести один удар ICE. Стоит {0} киберданных.</NR_ProgramDesc_Decoy>
+  <NR_Program_Stealth>Невидимка</NR_Program_Stealth>
   <NR_ProgramDesc_Stealth>Вдвое меньше следа за весь нырок. Стоит {0} киберданных.</NR_ProgramDesc_Stealth>
   <NR_Program_Killer>Убийца</NR_Program_Killer>
   <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки. Стоит {0} киберданных.</NR_ProgramDesc_Killer>
@@ -66,36 +66,36 @@
   <NR_TrainingDone>Тренировочный нырок пройден. Настоящие ноды ждут на карте.</NR_TrainingDone>
   <NR_TrainingFailed>Тренировка окончена. Повторить можно в любой момент из панели киберпространства.</NR_TrainingFailed>
   <NR_TrainingButton>Тренировочный нырок</NR_TrainingButton>
-  <NR_TrainingButtonTip>Бесплатный нырок в симулятор с подсказчиком, который объясняет каждый шаг: развилка, скрытый проход, ICE и два заряда щита. Легче настоящей ноды. Капсула не нужна, ни Heat, ни вреда, ни добычи.</NR_TrainingButtonTip>
+  <NR_TrainingButtonTip>Бесплатный нырок в симулятор с тренером, который объясняет каждый шаг: развилка, скрытый проход, ICE и два заряда щита. Легче настоящей ноды. Капсула не нужна. Ни Heat, ни вреда, ни добычи.</NR_TrainingButtonTip>
   <NR_TrainingNoRunner>Дома нет колониста, который может сесть за симулятор.</NR_TrainingNoRunner>
   <NR_TrainingBusy>Нырок уже идёт.</NR_TrainingBusy>
   <NR_TrainingOfferTitle>Тренировочный нырок</NR_TrainingOfferTitle>
-  <NR_TrainingOffer>Впервые в киберпространстве? Попробуй нырок в симуляторе: всё как в настоящем (шлюзы, развилка, скрытый проход, ICE), но бесплатно и без вреда.\n\nПотом он всегда доступен из панели киберпространства.</NR_TrainingOffer>
+  <NR_TrainingOffer>Впервые в киберпространстве? Попробуйте нырок в симуляторе: всё как в настоящем (ворота, развилка, скрытый проход, ICE), но бесплатно и без вреда.\n\nПотом он всегда доступен из панели киберпространства.</NR_TrainingOffer>
   <NR_TrainingStart>Начать тренировку</NR_TrainingStart>
   <NR_TrainingLater>Позже</NR_TrainingLater>
   <NR_TourTitle>Симулятор: экран, {0} из {1}</NR_TourTitle>
   <NR_TourNext>Дальше</NR_TourNext>
   <NR_TourStart>Начать нырок</NR_TourStart>
   <NR_TourSkip>Пропустить</NR_TourSkip>
-  <NR_Tour_0>Это нода: её шаги от лобби слева до выхода справа. Вы стоите на подсвеченном шаге; впереди шлюзы, ICE и файлы. Где путь развилкой расходится, трудная дорожка идёт сверху, лёгкая снизу.</NR_Tour_0>
+  <NR_Tour_0>Это нода: её шаги от входа слева до выхода справа. Вы стоите на подсвеченном шаге; впереди ворота, ICE и файлы. Где путь раздваивается, сложная ветка идёт сверху, простая снизу.</NR_Tour_0>
   <NR_Tour_1>Ходы, действия и след. Каждый ход даёт несколько действий; когда они кончаются, ходит нода. Когда кончаются ходы, нырок проваливается. Каждое действие повышает след, а высокий след оборачивается Heat дома.</NR_Tour_1>
   <NR_Tour_2>Ваши действия: «Двигаться», «Сканировать», «Взломать», «Скачать», «Назад» и «Выход». Серые сейчас недоступны; наведите на любое, чтобы увидеть, почему и сколько оно стоит.</NR_Tour_2>
-  <NR_Tour_3>Программы, загруженные перед нырком. Щит поглощает один удар ICE за заряд: здесь их {0}. В настоящих нырках программы выбираются в панели киберпространства.</NR_Tour_3>
+  <NR_Tour_3>Программы, загруженные перед нырком. Щит поглощает один удар ICE за заряд; зарядов здесь: {0}. В настоящих нырках программы выбираются в панели киберпространства.</NR_Tour_3>
   <NR_Tour_4>Добыча: всё, что вы скачали. Считается только то, что вынесено через выход; при отступлении часть теряется.</NR_Tour_4>
   <NR_Tour_5>Журнал: каждый бросок, удар и находка, чтобы было видно, почему всё вышло так. Дальше тренер ведёт по шагам.</NR_Tour_5>
   <NR_CoachTitle>Тренировка: следующий шаг</NR_CoachTitle>
-  <NR_Coach_MoveFirst>Двигаться: шаг к следующему элементу ноды. Каждое действие (движение, скан, взлом, загрузка) тратит одно из твоих действий в этом ходу и немного поднимает след.</NR_Coach_MoveFirst>
+  <NR_Coach_MoveFirst>Двигаться: шаг к следующему элементу ноды. Каждое действие («Двигаться», «Сканировать», «Взломать», «Скачать») тратит одно из твоих действий в этом ходу и немного поднимает след.</NR_Coach_MoveFirst>
   <NR_Coach_Move>Иди дальше: двигайся к следующему элементу.</NR_Coach_Move>
-  <NR_Coach_Gate>Путь закрыт шлюзом. Взломай его: шанс {0}. Провал стоит действия и поднимает тревогу ноды (в настоящих нодах высокая тревога будит патруль ICE, в симуляторе его нет).</NR_Coach_Gate>
+  <NR_Coach_Gate>Путь закрыт воротами. Взломай их: шанс {0}. Провал стоит действия и поднимает тревогу ноды (в настоящих нодах высокая тревога будит патруль ICE, в симуляторе патруля нет).</NR_Coach_Gate>
   <NR_Coach_ForkScan>Развилка: нода делится на два пути. Просканируй развилку, чтобы увидеть цифры обоих (добыча, ICE, след) до выбора.</NR_Coach_ForkScan>
   <NR_Coach_ForkChoose>Выбери путь в панели. Трудный платит больше, но там Black ICE; лёгкий тихий и прячет проход, который увеличивает добычу. Выбор окончательный и не тратит действие.</NR_Coach_ForkChoose>
   <NR_Coach_HiddenScan>Впереди что-то скрыто, и войти туда нельзя. Скан открывает скрытые шаги.</NR_Coach_HiddenScan>
-  <NR_Coach_Ice>Впереди ICE. Взломай его: шанс {0}. Провал взлома — и он бьёт по тебе; пока он следит за тобой, он может ударить и в конце хода. Программа Shield поглощает один удар (зарядов: {1}). В настоящем нырке удары дают Netsick и хуже, здесь их только показывают.</NR_Coach_Ice>
-  <NR_Coach_Cache>Тайник. Скачай его: добыча попадёт к тебе за одно действие. Считается только то, что ты вынес.</NR_Coach_Cache>
+  <NR_Coach_Ice>Впереди ICE. Взломай его: шанс {0}. Провал взлома — и он бьёт по тебе; пока он следит за тобой, он может ударить и в конце хода. Программа «Щит» поглощает один удар (зарядов: {1}). В настоящем нырке удары дают Netsick и хуже, здесь их только показывают.</NR_Coach_Ice>
+  <NR_Coach_Cache>Тайник. Скачай его: добыча попадёт к тебе за одно действие. Считается только то, что вынесено.</NR_Coach_Cache>
   <NR_Coach_Passage>Скрытый проход, найденный сканом. Скачай его: он повышает множитель добычи всего нырка.</NR_Coach_Passage>
   <NR_Coach_Files>Основные файлы ноды, настоящая добыча. Скачай их.</NR_Coach_Files>
-  <NR_Coach_Exit>Это выход. Нажми «Выход», чтобы уйти со всем, что взял. Уход раньше (отступление) стоит части добычи.</NR_Coach_Exit>
-  <NR_Coach_Done>Тренировка пройдена. Ты двигался, сканировал развилку и скрытый шаг, ломал шлюз и ICE, выбирал путь, скачивал и вышел с добычей. Настоящие ноды ждут на карте: они стоят киберданных, и там удары настоящие.</NR_Coach_Done>
+  <NR_Coach_Exit>Это выход. Нажми «Выход», чтобы уйти со всей добычей. Уход раньше (отступление) стоит части добычи.</NR_Coach_Exit>
+  <NR_Coach_Done>Тренировка пройдена: движение, скан развилки и скрытого шага, взлом ворот и ICE, выбор пути, загрузка и выход с добычей. Настоящие ноды ждут на карте: они стоят киберданных, и там удары настоящие.</NR_Coach_Done>
   <NR_Coach_Failed>Симуляция закончилась раньше выхода. Следи за счётчиком ходов: когда ходы кончаются, нырок проваливается, и настоящий нетраннер расплачивается. Попробуй ещё раз из панели киберпространства или из Киберпедии.</NR_Coach_Failed>
   <NR_Coach_ActionsLow>Последнее действие в этом ходу: когда действия кончаются, ходит нода (ICE может ударить, счётчик ходов растёт).</NR_Coach_ActionsLow>
   <NR_Coach_TimeLow>Осталось ходов: {0}. Заканчивай и иди к выходу.</NR_Coach_TimeLow>
@@ -109,7 +109,7 @@
   <NR_DiveNothingToHack>впереди нет целей для взлома</NR_DiveNothingToHack>
   <NR_DiveLogKiller>Убийца сломал: {0}.</NR_DiveLogKiller>
   <NR_DiveLogHackOk>{0}: пройдено.</NR_DiveLogHackOk>
-  <NR_DiveLogHackFail>{0} устоял(и).</NR_DiveLogHackFail>
+  <NR_DiveLogHackFail>{0}: взлом не удался.</NR_DiveLogHackFail>
   <NR_DiveNothingToDownload>качать здесь нечего</NR_DiveNothingToDownload>
   <NR_DiveAlreadyLooted>уже скачано</NR_DiveAlreadyLooted>
   <NR_DiveLogDownload>Скачано. Добыча: {0}.</NR_DiveLogDownload>
@@ -118,26 +118,26 @@
   <NR_DiveLogShield>Щит принял удар ICE.</NR_DiveLogShield>
   <NR_DiveLogDecoy>Фальшивка отвела ICE.</NR_DiveLogDecoy>
   <NR_DiveLogNausea>Black ICE ударил {0}: тошнота.</NR_DiveLogNausea>
-  <NR_DiveLogLockOut>Black ICE заблокировал {0} в сети.</NR_DiveLogLockOut>
+  <NR_DiveLogLockOut>Black ICE закрыл для {0} доступ в сеть.</NR_DiveLogLockOut>
   <NR_DiveLogComa>Black ICE отправил {0} в кому.</NR_DiveLogComa>
   <NR_DiveExitFar>выход дальше</NR_DiveExitFar>
   <NR_DiveLogExit>Выход через порт.</NR_DiveLogExit>
   <NR_DiveLogRetreat>Отступление.</NR_DiveLogRetreat>
   <NR_DiveLogPowerCut>Капсула обесточена. Связь оборвана, добыча потеряна.</NR_DiveLogPowerCut>
   <NR_DiveHeatReason>{0}: нырок в {1}</NR_DiveHeatReason>
-  <NR_DiveDone>{0} закончил(а) нырок в {1}. Добыча: {2}. След: +{3} Heat.</NR_DiveDone>
-  <NR_DiveFailed>{0} покинул(а) {1} раньше времени. След: +{2} Heat.</NR_DiveFailed>
+  <NR_DiveDone>{0}: нырок в {1} завершён. Добыча: {2}. След: +{3} Heat.</NR_DiveDone>
+  <NR_DiveFailed>{0}: досрочный выход из {1}. След: +{2} Heat.</NR_DiveFailed>
   <NR_DiveAborted>Нырок прерван: нетраннер больше не в капсуле.</NR_DiveAborted>
   <NR_GatewayPickNode>Выберите ноду, чтобы прочесть её.</NR_GatewayPickNode>
-  <NR_GatewayNodeHidden>Нода скрыта. Её может раскрыть обратный след ловушки.</NR_GatewayNodeHidden>
+  <NR_GatewayNodeHidden>Нода скрыта. Её может раскрыть след приманки.</NR_GatewayNodeHidden>
   <NR_GatewayNoPod>нужен раннер: колонист с кибер-линком в запитанной капсуле</NR_GatewayNoPod>
   <NR_GatewayHidden>скрыта</NR_GatewayHidden>
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
-  <NR_GatewayHiddenRow>? скрытая нода (её раскроет ловушка)</NR_GatewayHiddenRow>
+  <NR_GatewayHiddenRow>? скрытая нода (её раскроет след приманки)</NR_GatewayHiddenRow>
   <NR_GatewayRowType>Тип</NR_GatewayRowType>
   <NR_GatewayRowDefense>Защита</NR_GatewayRowDefense>
-  <NR_GatewayDefenseValue>{0} ворот, уровень {1}</NR_GatewayDefenseValue>
+  <NR_GatewayDefenseValue>ворот: {0}, уровень {1}</NR_GatewayDefenseValue>
   <NR_GatewayRowIce>ICE</NR_GatewayRowIce>
   <NR_GatewayIceBlack>Black ICE, сила {0}</NR_GatewayIceBlack>
   <NR_GatewayIceWhite>только белый, без Black ICE</NR_GatewayIceWhite>
@@ -146,7 +146,7 @@
   <NR_GatewayTraceValue>x{0} Heat за действие</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
-  <NR_GatewayPrograms>Программы ({0} слота)</NR_GatewayPrograms>
+  <NR_GatewayPrograms>Программы (слотов: {0})</NR_GatewayPrograms>
   <NR_GatewayNoSlots>все слоты заняты</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
   <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>
@@ -160,7 +160,7 @@
   <NR_DiveTurn>Ход {0} из {1}</NR_DiveTurn>
   <NR_DiveLogHeader>Лог</NR_DiveLogHeader>
   <NR_DiveTraceChip>След +{0}</NR_DiveTraceChip>
-  <NR_DiveActionsChip>Сет. действий: {0}/{1}</NR_DiveActionsChip>
+  <NR_DiveActionsChip>Сетевые действия: {0}/{1}</NR_DiveActionsChip>
   <NR_DiveBackToGateway>◄ Шлюз</NR_DiveBackToGateway>
   <NR_DiveRetreatButton>◄ Отступить</NR_DiveRetreatButton>
   <NR_TerminalTitleDive>NETRUN // В СЕТИ: {0}</NR_TerminalTitleDive>
@@ -175,23 +175,23 @@
   <NR_GatewayRisk_1>средний: крепкие ворота и развилка; сложный путь стережёт Black ICE</NR_GatewayRisk_1>
   <NR_GatewayRisk_2>высокий: Black ICE (тошнота, блокировка или кома); проваленный нырок оставляет ожоги</NR_GatewayRisk_2>
   <NR_GatewayTipType>Тип ноды: от него зависят добыча и шум нырка.</NR_GatewayTipType>
-  <NR_GatewayTipDefense>Кодовые ворота на пути внутрь; уровень делает каждые сложнее.</NR_GatewayTipDefense>
-  <NR_GatewayTipIce>Белый лёд только мешает. Black ICE бьёт нетраннера, если подойти близко или провалить взлом.</NR_GatewayTipIce>
+  <NR_GatewayTipDefense>Кодовые ворота на пути внутрь; чем выше уровень, тем труднее каждые.</NR_GatewayTipDefense>
+  <NR_GatewayTipIce>Белый лёд только мешает. Black ICE бьёт нетраннера, если подойти близко и провалить взлом.</NR_GatewayTipIce>
   <NR_GatewayTipReward>Что можно скачать из файлов и хранилища.</NR_GatewayTipReward>
   <NR_GatewayTipTrace>Сколько Heat добавляет каждое сетевое действие до модификаторов программ и сопроцессора.</NR_GatewayTipTrace>
   <NR_GatewayTipRisk>Серый: низкий. Жёлтый: средний, риск на сложном пути. Красный: Black ICE; его удары — исходы Hacking Expansion, а провал нырка обжигает раннера.</NR_GatewayTipRisk>
   <NR_GatewayZoomIn>Приблизить (колесо мыши)</NR_GatewayZoomIn>
   <NR_GatewayZoomOut>Отдалить (колесо мыши)</NR_GatewayZoomOut>
-  <NR_GatewayZoomReset>Сбросить масштаб и положение (или средняя кнопка мыши на поле). Поле можно таскать мышью.</NR_GatewayZoomReset>
+  <NR_GatewayZoomReset>Сбросить масштаб и положение (или средняя кнопка мыши на поле). Поле можно перетаскивать мышью.</NR_GatewayZoomReset>
   <NR_DiveLogSpecial>У выхода ждало что-то особенное.</NR_DiveLogSpecial>
   <NR_ExtNodeName_CorpCore>Корп-ядро-{0}</NR_ExtNodeName_CorpCore>
   <NR_ExtNodeType_CorpCore>корпоративное ядро (босс)</NR_ExtNodeType_CorpCore>
   <NR_ExtNodeReward_CorpCore>демон или редкая уникальная запись, иногда модуль ядра ИИ, много данных</NR_ExtNodeReward_CorpCore>
   <NR_BossNodeLabel>Корпоративное ядро в Шлюзе</NR_BossNodeLabel>
-  <NR_BossNode>{0} всплыло в Шлюзе на {1} дня: максимальная защита, сильный Black ICE и награда, которая стоит риска.</NR_BossNode>
+  <NR_BossNode>{0} всплыло в Шлюзе на {1} дн.: максимальная защита, сильный Black ICE и награда, которая стоит риска.</NR_BossNode>
   <NR_DiveLogBoss>Хранилище ядра открыто.</NR_DiveLogBoss>
-  <NR_FindResearch>Данные исследований из сети: {0} продвинулось.</NR_FindResearch>
-  <NR_FindFixerService>{0} должен вам услугу: один бесплатный сброс {1} Heat (Клуб).</NR_FindFixerService>
+  <NR_FindResearch>Данные исследований из сети: проект «{0}» продвинулся.</NR_FindResearch>
+  <NR_FindFixerService>{0} в долгу перед вами: один бесплатный сброс {1} Heat (Клуб).</NR_FindFixerService>
   <NR_FindGroupFavor>Хакерская группа заметила вашу работу. Благосклонность: {0}/{1}.</NR_FindGroupFavor>
   <NR_FindCelebrity>Нашлась редкая запись: {0}.</NR_FindCelebrity>
   <NR_CelebrityEvent>знаменитое выступление</NR_CelebrityEvent>
@@ -210,7 +210,7 @@
   <NR_Daemon_Aegis>Эгида</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>Один заряд Щита в каждом нырке.</NR_DaemonDesc_Aegis>
   <NR_Daemon_Wraith>Морок</NR_Daemon_Wraith>
-  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как Призрак. Патрулю нужна на одну неудачу больше, чтобы проснуться.</NR_DaemonDesc_Wraith>
+  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как программа «Невидимка». Патрулю нужна на одну неудачу больше, чтобы проснуться.</NR_DaemonDesc_Wraith>
   <NR_Daemon_Hound>Гончая</NR_Daemon_Hound>
   <NR_DaemonDesc_Hound>Один заряд Убийцы в каждом нырке.</NR_DaemonDesc_Hound>
   <NR_Daemon_Lens>Линза</NR_Daemon_Lens>
@@ -228,7 +228,7 @@
   <NR_DiveLogHunterHolds>Охотник ICE выдержал атаку.</NR_DiveLogHunterHolds>
   <NR_DiveLogHunterStrikes>Охотник ICE бьёт.</NR_DiveLogHunterStrikes>
   <NR_DiveLogHunter>Охотник ICE вышел на ваш след.</NR_DiveLogHunter>
-  <NR_DiveLogRival>В ноде соперник: через {0} ходов файлов не станет.</NR_DiveLogRival>
+  <NR_DiveLogRival>В ноде соперник. Ходов, пока файлы на месте: {0}.</NR_DiveLogRival>
   <NR_DiveLogRivalTook>Соперник добрался до файлов первым.</NR_DiveLogRivalTook>
   <NR_DiveLogHoneypot>Приманка! Файлы наполовину пусты, а след вспыхнул.</NR_DiveLogHoneypot>
   <NR_WildAITitle>Дикий ИИ</NR_WildAITitle>
@@ -245,19 +245,19 @@
   <NR_StormLabel>Шторм данных</NR_StormLabel>
   <NR_Storm>Сеть накрыл шторм данных на {0}: все ноды сложнее, а добыча больше.</NR_Storm>
   <NR_GatewayRival>⚔ соперник</NR_GatewayRival>
-  <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой: у вас {0} ходов, потом файлов не станет.</NR_GatewayRivalTip>
+  <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой. Ходов у вас: {0}, потом файлов не станет.</NR_GatewayRivalTip>
   <NR_DiveHunterActive>Охотник ICE на следу: бьёт каждый ход ноды. Взломайте его, когда путь свободен.</NR_DiveHunterActive>
-  <NR_DiveRivalActive>Соперник: осталось {0} ходов</NR_DiveRivalActive>
+  <NR_DiveRivalActive>Соперник, осталось ходов: {0}</NR_DiveRivalActive>
   <NR_DiveStorm>Шторм данных: защита сильнее, добыча больше</NR_DiveStorm>
   <NR_ExtNodeName_CounterHack>Контрвзлом</NR_ExtNodeName_CounterHack>
-  <NR_ReportTitle>ИТОГИ ВЫЛАЗКИ // {0}</NR_ReportTitle>
+  <NR_ReportTitle>ИТОГИ НЫРКА // {0}</NR_ReportTitle>
   <NR_ReportSuccess>Чистый выход</NR_ReportSuccess>
   <NR_ReportRetreat>Отступление</NR_ReportRetreat>
   <NR_ReportFail>Провал</NR_ReportFail>
   <NR_ReportHaul>Добыча</NR_ReportHaul>
   <NR_ReportNothing>Вернулись с пустыми руками.</NR_ReportNothing>
   <NR_ReportSpecial>★ Особая находка на выходе.</NR_ReportSpecial>
-  <NR_ReportLost>Потеряно при отходе: киберданные {0}, продвинутых {1}, серебра {2}, предметов {3}.</NR_ReportLost>
+  <NR_ReportLost>Потеряно при отходе: киберданных {0}, продвинутых {1}, серебра {2}, предметов {3}.</NR_ReportLost>
   <NR_ReportCosts>Затраты и последствия</NR_ReportCosts>
   <NR_ReportCost>Потрачено киберданных</NR_ReportCost>
   <NR_ReportHeat>Heat</NR_ReportHeat>
@@ -276,16 +276,16 @@
   <NR_DiveHudActions>Действия</NR_DiveHudActions>
   <NR_DiveHudTurn>Ход {0} / {1}</NR_DiveHudTurn>
   <NR_DiveHudTrace>След {0} (≈ +{1} Heat на выходе)</NR_DiveHudTrace>
-  <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. Призрак и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
+  <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. «Невидимка» и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Добыча: пусто.</NR_DiveHudHaulEmpty>
   <NR_GatewayRewardMult>x{0} от стоимости нырка</NR_GatewayRewardMult>
-  <NR_GatewayReportsTip>Итоги вылазок: последние {0}.</NR_GatewayReportsTip>
+  <NR_GatewayReportsTip>Итоги нырков: последние {0}.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>Нырки не записаны.</NR_GatewayNoReports>
   <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>
-  <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}: небольших ожогов: {1}.</NR_DiveLogBurns>
+  <NR_DiveLogBurns>Обратная нейросвязь обжигает {0}, мелких ожогов: {1}.</NR_DiveLogBurns>
   <NR_GatewayHome>Дом</NR_GatewayHome>
-  <NR_GatewayHomeTip>Ваша домашняя нода: назад, на главный экран терминала.</NR_GatewayHomeTip>
+  <NR_GatewayHomeTip>Ваш домашний узел: назад, на главный экран терминала.</NR_GatewayHomeTip>
   <NR_DiveChoosePath>Сначала выберите путь.</NR_DiveChoosePath>
   <NR_DiveLogForkScan>Обе ветки впереди просканированы.</NR_DiveLogForkScan>
   <NR_DiveLogPathHard>Выбран сложный путь.</NR_DiveLogPathHard>
@@ -305,18 +305,18 @@
   <NR_DiveBranchScanHint>Просканируйте развилку, чтобы увидеть числа.</NR_DiveBranchScanHint>
   <NR_DiveBranchTake>Выбрать этот путь</NR_DiveBranchTake>
   <NR_DiveBranchTakeTip>Выбор окончательный: к развилке не вернуться. Действие не тратится.</NR_DiveBranchTakeTip>
-  <NR_DiveLogConfession>Лазейки из исповеди открыты: все скрытые ступени видны.</NR_DiveLogConfession>
+  <NR_DiveLogConfession>Лазейки из исповеди открыты: все скрытые шаги видны.</NR_DiveLogConfession>
   <NR_NewsTag>НОВОСТИ //</NR_NewsTag>
   <NR_NewsStorm>Шторм данных: защита крепче, добыча больше, осталось {0}</NR_NewsStorm>
   <NR_NewsBossActive>Корп-ядро {0} открыто ещё {1}</NR_NewsBossActive>
   <NR_NewsBossSoon>Слухи: корп-ядро всплывёт через {0}</NR_NewsBossSoon>
-  <NR_NewsCounterHack>Ваши турели держат из {0}: нырните, чтобы вернуть</NR_NewsCounterHack>
+  <NR_NewsCounterHack>Ваши турели захвачены из {0}: нырните, чтобы вернуть</NR_NewsCounterHack>
   <NR_NewsRival>Соперник кружит у {0}</NR_NewsRival>
   <NR_NewsWildAI>В памяти {0} что-то шевелится</NR_NewsWildAI>
   <NR_NewsContract>Фиксер хочет взлома {0}</NR_NewsContract>
   <NR_NewsLastDive>Последний нырок: {0}, {1}, {2}</NR_NewsLastDive>
   <NR_NewsRefresh>Новые ноды всплывут через {0}</NR_NewsRefresh>
-  <NR_GatewayDaemonPick>Демон · 1 на нырок ({0})</NR_GatewayDaemonPick>
+  <NR_GatewayDaemonPick>Демон · 1 на нырок (найдено: {0})</NR_GatewayDaemonPick>
   <NR_GatewayDaemonLocked>Ещё не найден: демоны выпадают из корп-ядра и редких находок.</NR_GatewayDaemonLocked>
   <NR_GatewayDaemonOne>Один демон на нырок: выбор другого заменяет его. Бесплатно, слот программы не занимает.</NR_GatewayDaemonOne>
   <NR_NewsEffectsHeader>Сейчас в киберпространстве действует:</NR_NewsEffectsHeader>
@@ -328,8 +328,8 @@
   <NR_NewsEffectConfession>Просмотренная исповедь: следующий нырок покажет всё скрытое</NR_NewsEffectConfession>
   <NR_NewsEffectNone>Особых эффектов нет.</NR_NewsEffectNone>
   <NR_DiveEffectFlow>{0} в потоке: сутки учёба и исследования быстрее, взломы удаются чаще.</NR_DiveEffectFlow>
-  <NR_DiveEffectMemory>{0} вынес кое-что из сети: +{2} опыта к навыку «{1}».</NR_DiveEffectMemory>
-  <NR_DiveEffectAdrenaline>{0} пережил ICE и чувствует себя неудержимым.</NR_DiveEffectAdrenaline>
+  <NR_DiveEffectMemory>{0} приносит кое-что из сети: +{2} опыта к навыку «{1}».</NR_DiveEffectMemory>
+  <NR_DiveEffectAdrenaline>{0}: ICE позади, адреналин зашкаливает.</NR_DiveEffectAdrenaline>
   <NR_DiveEffectMigraine>У {0} цифровая мигрень после долгого нырка.</NR_DiveEffectMigraine>
   <NR_DiveEffectPhantom>{0} ловит фантомные сигналы: зависимость показывает ICE в реальном мире.</NR_DiveEffectPhantom>
   <NR_DiveEffectBurned>Black ICE выжег нейролинк {0}: три дня взломы даются труднее.</NR_DiveEffectBurned>
@@ -339,14 +339,14 @@
   <NR_HeadlineQuiet>Сеть затихла: нырки оставляют {0} следа ещё {1} дн.</NR_HeadlineQuiet>
   <NR_HeadlineLockdown>Корпоративное ядро пало. У корпораций режим тревоги: корп-ноды +1 к защите на {0} дн.</NR_HeadlineLockdown>
   <NR_HeadlineRunaway>{0} замечен в «{1}». Нырок туда может его найти.</NR_HeadlineRunaway>
-  <NR_HeadlineOrbitOpen>Гравикорабль колонии на орбите: орбитальные магистральные ноды в зоне доступа. Данных больше, лёд жёстче.</NR_HeadlineOrbitOpen>
+  <NR_HeadlineOrbitOpen>Гравикорабль колонии на орбите: орбитальные узлы магистрали в зоне доступа. Данных больше, лёд жёстче.</NR_HeadlineOrbitOpen>
   <NR_HeadlineOrbitClosed>Гравикорабль сел: орбитальные ноды снова вне досягаемости.</NR_HeadlineOrbitClosed>
   <NR_NewsEffectGlut>Избыток данных: киберданные из нырков {0}.</NR_NewsEffectGlut>
   <NR_NewsEffectQuiet>Тихая сеть: след от нырков {0}.</NR_NewsEffectQuiet>
   <NR_NewsEffectLockdown>Тревога у корпораций: у корп-нод ICE сильнее.</NR_NewsEffectLockdown>
   <NR_ReportUnique>Уникальная запись: {0}.</NR_ReportUnique>
   <NR_DiveAct_Back>Назад</NR_DiveAct_Back>
-  <NR_DiveActTip_Back>Шаг назад, на предыдущую ступень, если забыли забрать файлы. Забирает остаток хода. Из выбранной ветки назад не уйти.</NR_DiveActTip_Back>
+  <NR_DiveActTip_Back>Вернуться на предыдущий шаг, если там остались файлы. Забирает остаток хода. Из выбранной ветки назад не уйти.</NR_DiveActTip_Back>
   <NR_DiveBackStart>Назад некуда.</NR_DiveBackStart>
   <NR_DiveBackFork>Ветка выбрана: к развилке не вернуться.</NR_DiveBackFork>
   <NR_DiveLogBack>Шаг назад: {0}. Ход потрачен.</NR_DiveLogBack>
@@ -359,12 +359,12 @@
   <NR_NewsFlavor_3>РЕКЛАМА // Синтомясо «Делюкс»: на вкус как настоящее, если вы не пробовали настоящего.</NR_NewsFlavor_3>
   <NR_NewsFlavor_4>РЕКЛАМА // Потеряли конечность? Улучшите её. Протезы «Кесслер», рассрочка для смелых.</NR_NewsFlavor_4>
   <NR_NewsFlavor_5>РЕКЛАМА // Лотерея Блистающего мира! Цена билета — один небольшой орган.</NR_NewsFlavor_5>
-  <NR_NewsFlavor_6>РЕКЛАМА // Брейнданс недели: «Закат над миром, который ещё есть». 4.9 звезды.</NR_NewsFlavor_6>
-  <NR_NewsFlavor_7>РЕКЛАМА // Нужен фиксер? Вам нужен друг. FixerFriend™.</NR_NewsFlavor_7>
+  <NR_NewsFlavor_6>РЕКЛАМА // Брейнданс недели: «Закат над миром, который ещё есть». 4,9 звезды.</NR_NewsFlavor_6>
+  <NR_NewsFlavor_7>РЕКЛАМА // Нужен фиксер? Нет. Вам нужен друг. FixerFriend™.</NR_NewsFlavor_7>
   <NR_NewsFlavor_8>СЛУХ // Один раннер клянётся, что нода у края поёт по ночам. Больше никто не слышит.</NR_NewsFlavor_8>
   <NR_NewsFlavor_9>СЛУХ // Кто-то продаёт исходники корп-ядра. Скорее всего, ловушка.</NR_NewsFlavor_9>
   <NR_NewsFlavor_10>СЛУХ // Какой-то ИИ оставляет стихи в открытых архивах. Подпись: «всё ещё здесь».</NR_NewsFlavor_10>
-  <NR_NewsFlavor_11>СЛУХ // Фиксеры говорят, что киберданные подешевеет. Фиксеры всегда это говорят.</NR_NewsFlavor_11>
+  <NR_NewsFlavor_11>СЛУХ // Фиксеры говорят, что киберданные подешевеют. Фиксеры всегда это говорят.</NR_NewsFlavor_11>
   <NR_NewsFlavor_12>СЛУХ // Пиратская команда потеряла целый корабль из-за фишингового письма. Письмо было очень вежливым.</NR_NewsFlavor_12>
   <NR_NewsFlavor_13>СЛУХ // Есть нода совсем без ICE. Все, кто её нашёл, теперь очень тихие.</NR_NewsFlavor_13>
   <NR_NewsFlavor_14>СЛУХ // Стажёр корпорации оставил пароль админа на общей доске. Снова.</NR_NewsFlavor_14>
@@ -390,20 +390,20 @@
   <NR_Flavor_Ad_2>Надоел старый линк? Сдай любую кибердеку в HOLLOW RIDGE SALVAGE. Без вопросов и чеков.</NR_Flavor_Ad_2>
   <NR_Flavor_Ad_3>Твоей колонии нужен лучший ICE. Файрволы Warden-Grade™: последнее, что прочитает рейдер.</NR_Flavor_Ad_3>
   <NR_Flavor_Ad_4>CHROME KITCHEN: горячая еда, холодные чипы и тайник в каждой кабинке.</NR_Flavor_Ad_4>
-  <NR_Flavor_Ad_5>Потерял бойца в нырке? Наши консультанты по горю — ИИ, но они очень стараются.</NR_Flavor_Ad_5>
+  <NR_Flavor_Ad_5>Потеряли бойца в нырке? Наши консультанты по горю — ИИ, но они очень стараются.</NR_Flavor_Ad_5>
   <NR_Flavor_Ad_6>Шум в голове? Клиники доктора Велла с нейтроамином: первая доза за наш счёт, вторая в кредит.</NR_Flavor_Ad_6>
   <NR_Flavor_Ad_7>Продай воспоминания, сохрани достоинство! (Достоинство в комплект не входит.)</NR_Flavor_Ad_7>
-  <NR_Flavor_Ad_8>GLASS ORCHARD: свежие данные без пестицидов. Сертифицировано как почти человеческие.</NR_Flavor_Ad_8>
+  <NR_Flavor_Ad_8>GLASS ORCHARD: свежие данные без пестицидов. Сертифицированы как почти человеческие.</NR_Flavor_Ad_8>
   <NR_Flavor_Ad_9>След — это просто слух с отметкой времени. «Тихие руки» убирают и то и другое.</NR_Flavor_Ad_9>
   <NR_Flavor_Ad_10>Дворец брейнданса: почувствуй себя пиратским лордом. Возврат после пробуждения невозможен.</NR_Flavor_Ad_10>
   <NR_Flavor_Ad_11>Нужен фиксер? Он нужен всем. У нашего рейтинг 4,7 и всего два иска.</NR_Flavor_Ad_11>
-  <NR_Flavor_Ad_12>Таблетки-ICE-BREAKER для настроения. Побочное: уверенность, тахикардия, внезапная налоговая проверка.</NR_Flavor_Ad_12>
+  <NR_Flavor_Ad_12>Таблетки ICE-BREAKER для настроения. Побочное: уверенность, тахикардия, внезапная налоговая проверка.</NR_Flavor_Ad_12>
   <NR_Flavor_Ad_13>Rimstone Bank: займы для пиратов, без вопросов. Залог: имя и один глаз.</NR_Flavor_Ad_13>
   <NR_Flavor_Ad_14>Сон — для тех, кто не может позволить себе бодрствовать. Попробуйте WAKEFUL-3.</NR_Flavor_Ad_14>
   <NR_Flavor_Ad_15>SIGNAL &amp; SONS: три поколения ремонта антенн. Мы не спрашиваем, что вы слушаете.</NR_Flavor_Ad_15>
   <NR_Flavor_Ad_16>Ghost Mode™: ваш Heat, но тише. Не гарантия. Не юридическая консультация.</NR_Flavor_Ad_16>
   <NR_Flavor_Ad_17>Наймите двойника! Наши фрилансеры засветятся вместо вас. Оплата за час, шрамы за неделю.</NR_Flavor_Ad_17>
-  <NR_Flavor_Ad_18>Свежие киберданные, отобраны вручную, украдена этично.</NR_Flavor_Ad_18>
+  <NR_Flavor_Ad_18>Свежие киберданные, отобраны вручную, украдены этично.</NR_Flavor_Ad_18>
   <NR_Flavor_Ad_19>Ваш ИИ одинок. Прочитайте ему сказку на ночь. Пакет «Рассказчик Премиум»: 9 серебра.</NR_Flavor_Ad_19>
   <NR_Flavor_Ad_20>Капсульный отель «Башня 13»: койка, кабель, замок. Замок по желанию.</NR_Flavor_Ad_20>
   <NR_Flavor_Rumor_1>Говорят, корпорация стёрла целый архивный узел и свалила всё на белку.</NR_Flavor_Rumor_1>
@@ -414,14 +414,14 @@
   <NR_Flavor_Rumor_6>Говорят, старый узел Оракула всё ещё отвечает, если вежливо спросить и принести подарок.</NR_Flavor_Rumor_6>
   <NR_Flavor_Rumor_7>Курьер исчез с чемоданом киберданных. Его мать говорит, что он был хорошим мальчиком.</NR_Flavor_Rumor_7>
   <NR_Flavor_Rumor_8>По сети ходит слух: корпорация платит серебром за бойцов, способных шесть часов сидеть в кибер-капсуле.</NR_Flavor_Rumor_8>
-  <NR_Flavor_Rumor_9>В тёмной бирже слышали: «следующая буря будет во вторник». Вторников тут нет.</NR_Flavor_Rumor_9>
+  <NR_Flavor_Rumor_9>На тёмной бирже слышали: «следующий шторм будет во вторник». Вторников тут нет.</NR_Flavor_Rumor_9>
   <NR_Flavor_Rumor_10>ИИ в восточном секторе отказывается работать по выходным. Руководство в курсе.</NR_Flavor_Rumor_10>
   <NR_Flavor_Rumor_11>Кто-то продаёт один брейнданс трём разным колониям. Всегда тот, про закат.</NR_Flavor_Rumor_11>
   <NR_Flavor_Rumor_12>Говорят, если долго держать линк, начинаешь слышать, как дышит сеть.</NR_Flavor_Rumor_12>
   <NR_Flavor_Rumor_13>Раннер клянётся, что ядро корпорации напевало колыбельную. Какую именно, никто не спросил.</NR_Flavor_Rumor_13>
   <NR_Flavor_Rumor_14>Говорят, есть нода, в которую никто не входил: на каждой карте она в другом месте.</NR_Flavor_Rumor_14>
   <NR_Flavor_Rumor_15>Банда пиратов пытается научиться взламывать. По слухам, кибер-капсула оказалась в супе.</NR_Flavor_Rumor_15>
-  <NR_Flavor_Rumor_16>Говорят, ИИ-Смотритель одной дальней колонии вежливо предупредил каждого рейдера. Дважды.</NR_Flavor_Rumor_16>
+  <NR_Flavor_Rumor_16>Говорят, ИИ-Страж одной дальней колонии вежливо предупредил каждого рейдера. Дважды.</NR_Flavor_Rumor_16>
   <NR_Flavor_Rumor_17>Фиксеры тихо скупают старые консоли связи. Никто не знает зачем. Цены растут.</NR_Flavor_Rumor_17>
   <NR_Flavor_Rumor_18>Некоторые говорят, что у Heat есть память: он прощает, но только если попросить трижды.</NR_Flavor_Rumor_18>
   <NR_Flavor_Rumor_19>Племя за тремя долинами поставило кибер-капсулу в храме. Говорят, она работает.</NR_Flavor_Rumor_19>
@@ -430,7 +430,7 @@
   <NR_Flavor_Corp_2>Квартальный отчёт: траты на безопасность выросли на 40%, инциденты на 41%. Связь изучается.</NR_Flavor_Corp_2>
   <NR_Flavor_Corp_3>Фирма «Kestrel Vault» объявляет ICE v7.2: теперь с эмоциональной поддержкой.</NR_Flavor_Corp_3>
   <NR_Flavor_Corp_4>Объявление жильцам: дата-центр на третьем уровне не населён призраками. Прекратите подавать заявки.</NR_Flavor_Corp_4>
-  <NR_Flavor_Corp_5>Горячая линия корпорации: «Ваш звонок важен для нас. Ваши данные были важнее, и они проданы.»</NR_Flavor_Corp_5>
+  <NR_Flavor_Corp_5>Горячая линия корпорации: «Ваш звонок важен для нас. Ваши данные были важнее, и они проданы».</NR_Flavor_Corp_5>
   <NR_Flavor_Corp_6>Напоминание: каждое обязательное веселье записывается, оценивается и сравнивается с прошлогодним.</NR_Flavor_Corp_6>
   <NR_Flavor_Corp_7>Пресс-релиз: утечка была «плановым стресс-тестом доверия публики». Доверие тест не прошло.</NR_Flavor_Corp_7>
   <NR_Flavor_Corp_8>Бюро находок: один нейролинк, б/у, один владелец, разыскивается для допроса.</NR_Flavor_Corp_8>
@@ -446,7 +446,7 @@
   <NR_Flavor_Street_4>Потери пакетов на юге: виноваты погода, вспышки на солнце и человек по имени Гэри.</NR_Flavor_Street_4>
   <NR_Flavor_Street_5>Бесплатный совет: не ныряй голодным и не верь узлу, который говорит «с возвращением».</NR_Flavor_Street_5>
   <NR_Flavor_Street_6>Лапшичная в старом районе узлов теперь берёт киберданные. Курс: миска за осколок.</NR_Flavor_Street_6>
-  <NR_Flavor_Street_7>В кэше нашли надпись: «настоящий ICE — это друзья, которых мы нашли».</NR_Flavor_Street_7>
+  <NR_Flavor_Street_7>В тайнике нашли надпись: «настоящий ICE — это друзья, которых мы нашли».</NR_Flavor_Street_7>
   <NR_Flavor_Street_8>Где-то в сети узел крутит одни и те же восемь тактов. Какой именно, никто не может найти.</NR_Flavor_Street_8>
   <NR_Flavor_Street_9>Сегодня сеть пахнет озоном и холодной лапшой.</NR_Flavor_Street_9>
   <NR_Flavor_Street_10>Уличный музыкант играет модемные трели за монеты. Монеты — это киберданные.</NR_Flavor_Street_10>
@@ -455,7 +455,7 @@
   <NR_Flavor_Street_13>Фиксеры сегодня в хорошем настроении. Это никогда не к добру.</NR_Flavor_Street_13>
   <NR_Flavor_Street_14>Дрон-уборщик шесть часов чистит один и тот же узел. Ни у кого не хватает духу его остановить.</NR_Flavor_Street_14>
   <NR_Flavor_Street_15>В сети снова дождь. Пакеты прячутся под козырьками.</NR_Flavor_Street_15>
-  <NR_Flavor_Street_16>Подслушано в очереди: «Продал бы душу, но на души упали цены.»</NR_Flavor_Street_16>
+  <NR_Flavor_Street_16>Подслушано в очереди: «Продал бы душу, но на души упали цены».</NR_Flavor_Street_16>
   <NR_Flavor_Culture_1>Хит недели: «Static Heart» от Lost Packets. Критики называют это «настроением».</NR_Flavor_Culture_1>
   <NR_Flavor_Culture_2>Новый брейнданс «Last Train To Nowhere» возглавил чарты. 94% зрителей плакали, 6% лгали.</NR_Flavor_Culture_2>
   <NR_Flavor_Culture_3>Финал кибершахмат сегодня: ИИ «Rook-7» защищает титул против человека в одной и той же куртке.</NR_Flavor_Culture_3>
@@ -464,7 +464,7 @@
   <NR_Flavor_Culture_6>Погода в сети: лёгкая морось данных, после полуночи возможен корпоративный туман.</NR_Flavor_Culture_6>
   <NR_Flavor_Culture_7>Lost Packets объявили прощальный тур. Третий по счёту. Билеты за киберданные.</NR_Flavor_Culture_7>
   <NR_Flavor_Culture_8>Кибер-слэм поэтов: человек против трёх ИИ. Человек победил, расплакавшись первым.</NR_Flavor_Culture_8>
-  <NR_Flavor_Culture_9>Погода в сети: ледяные дожди в корпоративном квартале, возьмите щит.</NR_Flavor_Culture_9>
+  <NR_Flavor_Culture_9>Погода в сети: ливни ICE в корпоративном квартале, возьмите щит.</NR_Flavor_Culture_9>
   <NR_Flavor_Culture_10>Рецензия: «Last Train To Nowhere» — шедевр, если вы любите поезда. Или никуда.</NR_Flavor_Culture_10>
   <NR_Flavor_Culture_11>Мода: хит сезона — один отключённый кабель, который носят с гордостью.</NR_Flavor_Culture_11>
   <NR_Flavor_Culture_12>Спорт: «Ржавые дьяволы» обыграли «Хакеров Пустого Хребта» 6:2 в кибер-поло.</NR_Flavor_Culture_12>
@@ -472,20 +472,20 @@
   <NR_Flavor_Tip_2>Совет: нырок без программы — смелый нырок. С программой — умный.</NR_Flavor_Tip_2>
   <NR_Flavor_Tip_3>Совет: фиксеры помнят, кто заплатил, а кто сбежал. Держи слово или держись подальше.</NR_Flavor_Tip_3>
   <NR_Flavor_Tip_4>Совет: ИИ, который тебе доверяет, скажет об этом. ИИ, который не доверяет, скажет иначе.</NR_Flavor_Tip_4>
-  <NR_Flavor_Tip_5>Совет: Black ICE не прощает. Прочитай шлюз, прежде чем трогать его.</NR_Flavor_Tip_5>
+  <NR_Flavor_Tip_5>Совет: Black ICE не прощает. Прочитай ворота, прежде чем трогать его.</NR_Flavor_Tip_5>
   <NR_Flavor_Tip_6>Совет: сделай перерыв. Даже раннерам иногда нужно настоящее небо.</NR_Flavor_Tip_6>
   <NR_Flavor_Tip_7>Совет: нода со звездой кому-то нужна. Фиксеры платят больше за то, что просили.</NR_Flavor_Tip_7>
-  <NR_Flavor_Tip_8>Совет: Scan стоит недорого. Нырки без него для храбрых и везучих.</NR_Flavor_Tip_8>
+  <NR_Flavor_Tip_8>Совет: «Сканировать» стоит недорого. Нырки без него для храбрых и везучих.</NR_Flavor_Tip_8>
   <NR_Flavor_Tip_9>Совет: ИИ в сопроцессоре тише, чем ИИ на сервере. Слушают оба.</NR_Flavor_Tip_9>
   <NR_Flavor_Tip_10>Совет: правка брейнданса живёт в Студии. Консоль связи только принимает звонки.</NR_Flavor_Tip_10>
   <NR_Flavor_Tip_11>Совет: если сеть шумит, подождите. Сеть всегда устаёт первой.</NR_Flavor_Tip_11>
-  <NR_Flavor_Tip_12>Совет: Netsick это не слабость. Это счёт, а счета оплачиваются сном.</NR_Flavor_Tip_12>
-  <NR_DiveLogAlert>Тревога ноды {0}/{1}: проваленные ворота заметили.</NR_DiveLogAlert>
+  <NR_Flavor_Tip_12>Совет: Netsick — не слабость. Это счёт, а счета оплачиваются сном.</NR_Flavor_Tip_12>
+  <NR_DiveLogAlert>Тревога ноды {0}/{1}: проваленный взлом ворот заметили.</NR_DiveLogAlert>
   <NR_DiveLogPatrolAwake>Тревога ноды на максимуме: проснулся патруль ICE и прочёсывает ноду.</NR_DiveLogPatrolAwake>
   <NR_DiveLogPatrolShield>Патруль ICE ударил: щит принял удар.</NR_DiveLogPatrolShield>
   <NR_DiveLogPatrolStrike>Патруль ICE нашёл {0} и выбросил из ноды. Половина добычи потеряна.</NR_DiveLogPatrolStrike>
   <NR_DiveHudAlert>Тревога ноды</NR_DiveHudAlert>
-  <NR_DiveHudPatrol>патруль</NR_DiveHudPatrol>
+  <NR_DiveHudPatrol>патруль не спит</NR_DiveHudPatrol>
   <NR_DiveHudAlertTip>Каждый проваленный взлом ворот поднимает тревогу ноды (провал на ICE не поднимает). На {0} просыпается патруль ICE: каждый ход ноды он бьёт с шансом {1}. Удар выбрасывает раннера с половиной добычи и тошнотой; щит или Эгида принимают удар на себя.\n\nДемон Морок пропускает ещё одну неудачу. На нодах защиты 1 тревоги нет.</NR_DiveHudAlertTip>
   <NR_Program_IceBreaker>Ледоруб</NR_Program_IceBreaker>
   <NR_ProgramDesc_IceBreaker>Ледоруб Hacking Expansion как программа: ломает одни ворота без проверки, но это действие оставляет двойной след. Сжигает один ледоруб, без киберданных. Один предмет HE на нырок.</NR_ProgramDesc_IceBreaker>
@@ -501,8 +501,8 @@
   <NR_CrewGoodwillFind>Отношения с командой {0}: {1}.</NR_CrewGoodwillFind>
   <NR_GatewayDaemonHint>Демоны: пока нет. Их находят в корп-ядрах, и они остаются с вами на все следующие нырки.</NR_GatewayDaemonHint>
   <NR_NewsMore>...и ещё {0} похожих</NR_NewsMore>
-  <NR_PulledOutLabel>{0} вырван(а) из сети</NR_PulledOutLabel>
-  <NR_PulledOut>Кибер-капсула открылась, пока {0} был(а) в сети. Связь оборвалась: Netsick, тошнота, возможно блокировка, а всё, что нёс забег, потеряно.
+  <NR_PulledOutLabel>Обрыв связи: {0}</NR_PulledOutLabel>
+  <NR_PulledOut>Кибер-капсула открылась посреди забега. Связь {0} с сетью оборвалась: Netsick, тошнота, возможно блокировка, а всё, что нёс забег, потеряно.
 
 В следующий раз сначала закончите забег: выйдите из нырка или доведите раннера до точки выхода или Дома.</NR_PulledOut>
   <NR_WakeMidRunConfirm>{0} ещё в сети. Если разбудить сейчас, связь оборвётся: Netsick, тошнота, возможно блокировка, и забег будет потерян.
@@ -510,6 +510,6 @@
 Сначала закончите забег (выйдите из нырка или дойдите до точки выхода или Дома). Всё равно разбудить?</NR_WakeMidRunConfirm>
   <NR_WakeMidRunTip>Пешка в сети: сначала закончите забег.</NR_WakeMidRunTip>
   <NR_DiveRivalBar>Соперник: ходов до захвата — {0}</NR_DiveRivalBar>
-  <NR_DiveRivalBarTip>В этой ноде другой нетраннер. Через {0} ходов он заберёт файлы, которые ещё здесь. Где он в ноде, неизвестно, виден только его темп.</NR_DiveRivalBarTip>
+  <NR_DiveRivalBarTip>В этой ноде другой нетраннер. Ходов до того, как он заберёт оставшиеся файлы: {0}. Где он в ноде, неизвестно, виден только его темп.</NR_DiveRivalBarTip>
   <NR_ReportTurns>ходов в ноде: {0}</NR_ReportTurns>
 </LanguageData>

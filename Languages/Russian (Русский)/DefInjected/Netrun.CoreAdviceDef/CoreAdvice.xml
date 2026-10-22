@@ -15,7 +15,7 @@
   <NR_Advice_RawRecordings.label>Сырые записи: {0}</NR_Advice_RawRecordings.label>
   <NR_Advice_RawRecordings.text>Смонтируйте их в Студии в брейнданс-чипы.</NR_Advice_RawRecordings.text>
   <NR_Advice_FreeNode.label>В Шлюзе нод: {0}</NR_Advice_FreeNode.label>
-  <NR_Advice_FreeNode.text>{1} в капсуле и готов нырять.</NR_Advice_FreeNode.text>
+  <NR_Advice_FreeNode.text>{1} в капсуле, можно нырять.</NR_Advice_FreeNode.text>
   <NR_Advice_Nothing.label>Ничего срочного</NR_Advice_Nothing.label>
   <NR_Advice_Nothing.text>Хорошее время взять контракт или позвонить фиксеру.</NR_Advice_Nothing.text>
 </LanguageData>

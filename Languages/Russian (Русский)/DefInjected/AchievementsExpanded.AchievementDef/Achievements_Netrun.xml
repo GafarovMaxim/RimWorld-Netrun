@@ -8,7 +8,7 @@
   <NR_Ach_CleanStreak.label>На волне</NR_Ach_CleanStreak.label>
   <NR_Ach_CleanStreak.description>10 нырков подряд с чистым выходом.</NR_Ach_CleanStreak.description>
 
-  <NR_Ach_BlackICEPassed.label>Сквозь чёрный лёд</NR_Ach_BlackICEPassed.label>
+  <NR_Ach_BlackICEPassed.label>Сквозь Black ICE</NR_Ach_BlackICEPassed.label>
   <NR_Ach_BlackICEPassed.description>Пройти узел под защитой Black ICE.</NR_Ach_BlackICEPassed.description>
 
   <NR_Ach_CorpCores.label>Пробой ядра</NR_Ach_CorpCores.label>

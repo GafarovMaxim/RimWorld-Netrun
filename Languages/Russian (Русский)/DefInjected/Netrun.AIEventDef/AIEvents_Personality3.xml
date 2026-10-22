@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_AIEvent_Siren1.label>зов</NR_AIEvent_Siren1.label>
-  <NR_AIEvent_Siren1.description>{AI} поёт {PAWN} через динамик. {PAWN} забыл(а) обо всём.</NR_AIEvent_Siren1.description>
+  <NR_AIEvent_Siren1.description>{AI} поёт {PAWN} через динамик. {PAWN} теперь не до работы.</NR_AIEvent_Siren1.description>
   <NR_AIEvent_Siren1.options.0.label>Пусть слушает</NR_AIEvent_Siren1.options.0.label>
-  <NR_AIEvent_Siren1.options.0.result>{PAWN} пару часов зачарован(а).</NR_AIEvent_Siren1.options.0.result>
+  <NR_AIEvent_Siren1.options.0.result>Пару часов {PAWN} не слышит ничего, кроме песни.</NR_AIEvent_Siren1.options.0.result>
   <NR_AIEvent_Siren1.options.1.label>Заглушить</NR_AIEvent_Siren1.options.1.label>
   <NR_AIEvent_Siren1.options.1.result>{AI} обижена.</NR_AIEvent_Siren1.options.1.result>
   <NR_AIEvent_Siren2.label>ария</NR_AIEvent_Siren2.label>
@@ -17,7 +17,7 @@
   <NR_AIEvent_Siren3.options.0.effects.0.result>Концерт {AI} окупился.</NR_AIEvent_Siren3.options.0.effects.0.result>
   <NR_AIEvent_Siren3.options.1.label>Отказать</NR_AIEvent_Siren3.options.1.label>
   <NR_AIEvent_Siren3.options.1.result>{AI} задета.</NR_AIEvent_Siren3.options.1.result>
-  <NR_AIEvent_Siren4.label>завлечение чужого</NR_AIEvent_Siren4.label>
+  <NR_AIEvent_Siren4.label>приманка для чужака</NR_AIEvent_Siren4.label>
   <NR_AIEvent_Siren4.description>{AI} поёт пленнику.</NR_AIEvent_Siren4.description>
   <NR_AIEvent_Siren4.options.0.label>Пусть поёт</NR_AIEvent_Siren4.options.0.label>
   <NR_AIEvent_Siren4.options.0.effects.0.branches.0.result>Пленник смягчился.</NR_AIEvent_Siren4.options.0.effects.0.branches.0.result>
@@ -40,7 +40,7 @@
   <NR_AIEvent_Trickster2.description>{AI} поменял подписи в журнале фиксеров. Один из них получил очень странное письмо.</NR_AIEvent_Trickster2.description>
   <NR_AIEvent_Trickster3.label>двойная игра</NR_AIEvent_Trickster3.label>
   <NR_AIEvent_Trickster3.description>{AI} предлагает «обмануть» корпорацию.</NR_AIEvent_Trickster3.description>
-  <NR_AIEvent_Trickster3.options.0.label>Согласиться</NR_AIEvent_Trickster3.options.0.label>
+  <NR_AIEvent_Trickster3.options.0.label>Подыграть</NR_AIEvent_Trickster3.options.0.label>
   <NR_AIEvent_Trickster3.options.0.effects.0.branches.0.result>Обман удался.</NR_AIEvent_Trickster3.options.0.effects.0.branches.0.result>
   <NR_AIEvent_Trickster3.options.0.effects.0.branches.1.result>Корпорация раскусила обман.</NR_AIEvent_Trickster3.options.0.effects.0.branches.1.result>
   <NR_AIEvent_Trickster3.options.1.label>Отказать</NR_AIEvent_Trickster3.options.1.label>
@@ -50,7 +50,7 @@
   <NR_AIEvent_Trickster5.label>раскрытие</NR_AIEvent_Trickster5.label>
   <NR_AIEvent_Trickster5.description>{AI} вот-вот «случайно» выдаст тайну колонии.</NR_AIEvent_Trickster5.description>
   <NR_AIEvent_Trickster5.options.0.label>Остановить ({HACKER})</NR_AIEvent_Trickster5.options.0.label>
-  <NR_AIEvent_Trickster5.options.0.result>{HACKER} вовремя перехватил(а).</NR_AIEvent_Trickster5.options.0.result>
+  <NR_AIEvent_Trickster5.options.0.result>{HACKER} успевает вовремя.</NR_AIEvent_Trickster5.options.0.result>
   <NR_AIEvent_Trickster5.options.1.label>Не мешать</NR_AIEvent_Trickster5.options.1.label>
   <NR_AIEvent_Trickster5.options.1.result>Тайна раскрыта.</NR_AIEvent_Trickster5.options.1.result>
   <NR_AIEvent_Echo1.label>голос</NR_AIEvent_Echo1.label>
@@ -60,9 +60,9 @@
   <NR_AIEvent_Echo2.label>знакомая привычка</NR_AIEvent_Echo2.label>
   <NR_AIEvent_Echo2.description>{AI} рассказал любимую шутку погибшего, точь-в-точь как он.</NR_AIEvent_Echo2.description>
   <NR_AIEvent_Echo3.label>просьба</NR_AIEvent_Echo3.label>
-  <NR_AIEvent_Echo3.description>{AI} просит передать послание {PAWN}, тому, кого погибший любил.</NR_AIEvent_Echo3.description>
+  <NR_AIEvent_Echo3.description>{AI} просит передать послание {PAWN} — близкому человеку погибшего.</NR_AIEvent_Echo3.description>
   <NR_AIEvent_Echo3.options.0.label>Передать</NR_AIEvent_Echo3.options.0.label>
-  <NR_AIEvent_Echo3.options.0.result>{PAWN} прочитал(а).</NR_AIEvent_Echo3.options.0.result>
+  <NR_AIEvent_Echo3.options.0.result>Послание дошло до {PAWN}.</NR_AIEvent_Echo3.options.0.result>
   <NR_AIEvent_Echo3.options.1.label>Отказать</NR_AIEvent_Echo3.options.1.label>
   <NR_AIEvent_Echo3.options.1.result>Память {AI} немного тускнеет.</NR_AIEvent_Echo3.options.1.result>
   <NR_AIEvent_Echo4.label>забывание</NR_AIEvent_Echo4.label>
@@ -80,10 +80,10 @@
   <NR_AIEvent_Seed1.label>первые слова</NR_AIEvent_Seed1.label>
   <NR_AIEvent_Seed1.description>{AI} произнёс первое слово. Всем смешно.</NR_AIEvent_Seed1.description>
   <NR_AIEvent_Seed2.label>развилка роста</NR_AIEvent_Seed2.label>
-  <NR_AIEvent_Seed2.description>{AI} тянется в одну сторону, туда, чем его кормили.</NR_AIEvent_Seed2.description>
-  <NR_AIEvent_Seed2.options.0.label>Подтвердить</NR_AIEvent_Seed2.options.0.label>
+  <NR_AIEvent_Seed2.description>{AI} тянется к тому, чем его кормили.</NR_AIEvent_Seed2.description>
+  <NR_AIEvent_Seed2.options.0.label>Поощрить</NR_AIEvent_Seed2.options.0.label>
   <NR_AIEvent_Seed2.options.0.result>{AI} подрос в эту сторону.</NR_AIEvent_Seed2.options.0.result>
-  <NR_AIEvent_Seed2.options.1.label>Сбить</NR_AIEvent_Seed2.options.1.label>
+  <NR_AIEvent_Seed2.options.1.label>Одёрнуть</NR_AIEvent_Seed2.options.1.label>
   <NR_AIEvent_Seed2.options.1.result>{AI} потерял часть склонности.</NR_AIEvent_Seed2.options.1.result>
   <NR_AIEvent_Seed3.label>детская обида</NR_AIEvent_Seed3.label>
   <NR_AIEvent_Seed3.description>{AI} плачет в логах.</NR_AIEvent_Seed3.description>

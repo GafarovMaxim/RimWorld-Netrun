@@ -7,7 +7,7 @@
   <USH_HackingStealthMultiplier.description>Множитель скрытности при работе через кибер-капсулу.</USH_HackingStealthMultiplier.description>
   <USH_ResearchValue.label>очки исследования</USH_ResearchValue.label>
   <USH_ResearchValue.description>Сколько очков исследования даст этот предмет, если использовать его на текущем проекте.</USH_ResearchValue.description>
-  <USH_RippingWorkAmount.label>Объём выкачки</USH_RippingWorkAmount.label>
+  <USH_RippingWorkAmount.label>объём выкачки</USH_RippingWorkAmount.label>
   <USH_RippingWorkAmount.description>Сколько работы по взлому нужно проделать на устройстве, чтобы получить этот предмет.</USH_RippingWorkAmount.description>
   <USH_RemoteHackingDistance.label>дальность удалённого взлома</USH_RemoteHackingDistance.label>
   <USH_RemoteHackingDistance.description>На каком расстоянии может находиться устройство при удалённом взломе.</USH_RemoteHackingDistance.description>
