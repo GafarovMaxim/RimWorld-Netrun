@@ -61,6 +61,12 @@
   <NR_BoardSort_Reward>Reward</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Term</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Type</NR_BoardSort_Type>
+  <NR_BoardFilterAllShort>All</NR_BoardFilterAllShort>
+  <NR_BoardSortCycleTip>Click to change the sort.</NR_BoardSortCycleTip>
+  <NR_BoardChannelOpenShort>on line</NR_BoardChannelOpenShort>
+  <NR_BoardFilterFixerTip>Click: only {0}'s offers.</NR_BoardFilterFixerTip>
+  <NR_BoardNoChannel>no channel to {0}</NR_BoardNoChannel>
+  <NR_BoardAcceptDrops>Accepting withdraws {0}'s other offers ({1}).</NR_BoardAcceptDrops>
   <NR_BoardCallFirstTip>No channel to {0} yet: call them to take this contract. The channel stays open {1} h.</NR_BoardCallFirstTip>
   <NR_BoardDifficulty_1>easy</NR_BoardDifficulty_1>
   <NR_BoardDifficulty_2>medium</NR_BoardDifficulty_2>

@@ -61,6 +61,12 @@
   <NR_BoardSort_Reward>Выгода</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Тип</NR_BoardSort_Type>
+  <NR_BoardFilterAllShort>Все</NR_BoardFilterAllShort>
+  <NR_BoardSortCycleTip>Нажмите, чтобы сменить сортировку.</NR_BoardSortCycleTip>
+  <NR_BoardChannelOpenShort>на связи</NR_BoardChannelOpenShort>
+  <NR_BoardFilterFixerTip>Нажмите: только предложения от {0}.</NR_BoardFilterFixerTip>
+  <NR_BoardNoChannel>нет канала: {0}</NR_BoardNoChannel>
+  <NR_BoardAcceptDrops>Если принять, {0} снимет остальные предложения ({1}).</NR_BoardAcceptDrops>
   <NR_BoardCallFirstTip>Канала с {0} пока нет: позвоните, чтобы взять контракт. Канал открыт {1} ч.</NR_BoardCallFirstTip>
   <NR_BoardDifficulty_1>лёгкая</NR_BoardDifficulty_1>
   <NR_BoardDifficulty_2>средняя</NR_BoardDifficulty_2>

@@ -23,6 +23,7 @@ public static class ContractsTab
     private const float ButtonWidth = 130f;
     private const float RightColumn = 150f;
     private const float LeftWidth = 220f;
+    private const float GroupHeight = 24f;
 
     private enum DifficultyFilter
     {
@@ -58,7 +59,7 @@ public static class ContractsTab
         var left = new Rect(rect.x, rect.y, LeftWidth, rect.height - historyHeight - 8f);
         var main = new Rect(left.xMax + 14f, rect.y, rect.width - LeftWidth - 14f, rect.height - historyHeight - 8f);
         GuideRegistry.Area("board.fixers", left);
-        DrawLeft(left, fixers, contracts);
+        DrawLeft(left, fixers, contracts, map);
         DrawMain(main, map, ref scroll, contracts, fixers, openHelp);
         GuideRegistry.Area("board.history", new Rect(rect.x, rect.yMax - historyHeight, rect.width, historyHeight));
         DrawHistory(new Rect(rect.x, rect.yMax - historyHeight, rect.width, historyHeight), contracts);
@@ -66,17 +67,17 @@ public static class ContractsTab
 
     // ---- Left column: fixers, filter, sort ----
 
-    private static void DrawLeft(Rect rect, FixerManager fixers, ContractManager contracts)
+    private static void DrawLeft(Rect rect, FixerManager fixers, ContractManager contracts, Map map)
     {
-        List<Fixer> list = fixers.Fixers.OrderByDescending(f => f.Pinned).ThenByDescending(f => f.Reputation).ToList();
-        float height = SectionHeight + (list.Count + 1) * 58f + 2 * SectionHeight + 3 * 34f + 2 * 34f + 20f;
+        List<Fixer> list = NetrunUI.Cached("board.fixers", () => fixers.Fixers.OrderByDescending(f => f.Pinned).ThenByDescending(f => f.Reputation).ToList());
+        float height = SectionHeight + (list.Count + 1) * 58f + 2 * SectionHeight + 2 * 34f + 20f;
         var view = new Rect(0f, 0f, rect.width - (height > rect.height ? 16f : 0f), height);
         NetrunUI.BeginScroll(rect, ref _leftScroll, view);
         float w = view.width;
         float y = NetrunUI.Section(new Rect(0f, 0f, w, SectionHeight), "NR_BoardFixers".Translate());
 
-        int total = fixers.Fixers.Where(f => !f.IsSilent).Sum(f => contracts.OffersOf(f).Count());
-        y = FixerItem(new Rect(0f, y, w, 52f), -1, "NR_BoardAllFixers".Translate(total), "NR_BoardAllFixersSub".Translate(), NetrunUI.Accent, -1f, false) + 6f;
+        int total = NetrunUI.Cached("board.total", () => fixers.Fixers.Where(f => !f.IsSilent).Sum(f => contracts.OffersOf(f).Count()));
+        y = FixerItem(new Rect(0f, y, w, 52f), null, "NR_BoardAllFixers".Translate(total), "NR_BoardAllFixersSub".Translate(), NetrunUI.Accent, -1f, map, contracts) + 6f;
         foreach (Fixer f in list)
         {
             Color c = f.IsSilent ? NetrunUI.Muted : FixersTab.SpecialtyColor(f.Specialty);
@@ -84,16 +85,22 @@ public static class ContractsTab
             string sub = f.IsSilent
                 ? (string)"NR_BoardSilentBack".Translate((f.SilentUntilTick - Find.TickManager.TicksGame).ToStringTicksToPeriod())
                 : (string)"NR_BoardFixerSub".Translate(f.Reputation.ToString("0"), contracts.OffersOf(f).Count());
-            y = FixerItem(new Rect(0f, y, w, 52f), f.Id, name, sub, c, f.IsSilent ? -1f : f.Reputation / 100f, f.IsSilent) + 6f;
+            y = FixerItem(new Rect(0f, y, w, 52f), f, name, sub, c, f.IsSilent ? -1f : f.Reputation / 100f, map, contracts) + 6f;
         }
 
         y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardFilter".Translate());
+        // One segmented row: "all", then one to three squares like on the cards.
+        float quarter = (w - 18f) / 4f;
         foreach (DifficultyFilter d in System.Enum.GetValues(typeof(DifficultyFilter)))
         {
-            if (Toggle(new Rect(0f, y, w, 28f), ("NR_BoardFilter_" + d).Translate(), _difficulty == d))
+            var r = new Rect((int)d * (quarter + 6f), y, quarter, 28f);
+            if (Toggle(r, d == DifficultyFilter.Any ? "NR_BoardFilterAllShort".Translate() : string.Empty, _difficulty == d))
                 _difficulty = d;
-            y += 34f;
+            if (d != DifficultyFilter.Any)
+                Squares(r.center.x - 19.5f, r.center.y - 5.5f, (int)d);
+            TooltipHandler.TipRegion(r, ("NR_BoardFilter_" + d).Translate());
         }
+        y += 34f;
         y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardSort".Translate());
         float third = (w - 12f) / 3f;
         foreach (Sort sort in System.Enum.GetValues(typeof(Sort)))
@@ -102,8 +109,10 @@ public static class ContractsTab
         Widgets.EndScrollView();
     }
 
-    private static float FixerItem(Rect r, int id, string name, string sub, Color color, float rep, bool silent)
+    private static float FixerItem(Rect r, Fixer fixer, string name, string sub, Color color, float rep, Map map, ContractManager contracts)
     {
+        int id = fixer?.Id ?? -1;
+        bool silent = fixer is { IsSilent: true };
         bool on = _fixerId == id;
         float lit = NetrunUI.HoverFade(r, 0.12f);
         Widgets.DrawBoxSolid(r, on ? NetrunUI.BgCardAlt : Color.Lerp(NetrunUI.BgCard, NetrunUI.BgCardAlt, lit));
@@ -114,7 +123,41 @@ public static class ContractsTab
             Widgets.DrawBox(r);
             GUI.color = Color.white;
         }
-        Widgets.Label(new Rect(r.x + 10f, r.y + 4f, r.width - 14f, 22f), (silent ? name.Colorize(NetrunUI.Muted) : name).Truncate(r.width - 14f));
+        // Right of the name: "on line", or a call button for a fixer without a line, so a locked offer is one click away
+        // without leaving the Board (Maxim, 2026-10-23). It pulses while the fixer has offers waiting.
+        float right = 0f;
+        if (fixer != null && !silent)
+        {
+            Text.Font = GameFont.Tiny;
+            if (fixer.ChannelOpen)
+            {
+                string online = "NR_BoardChannelOpenShort".Translate();
+                float cw = Text.CalcSize(online).x;
+                Widgets.Label(new Rect(r.xMax - cw - 6f, r.y + 6f, cw + 2f, 18f), online.Colorize(NetrunUI.Ok));
+                right = cw + 8f;
+            }
+            else if (!NetworkIsolation.Active)
+            {
+                var call = new Rect(r.xMax - 26f, r.y + 4f, 22f, 22f);
+                bool waiting = contracts.OffersOf(fixer).Any();
+                float pulse = waiting && NetrunMod.Settings.Animations ? 0.5f + 0.5f * Mathf.Sin(Time.realtimeSinceStartup * 4f) : 1f;
+                Color tint = Mouse.IsOver(call) ? NetrunUI.Warn : Color.Lerp(NetrunUI.Muted, NetrunUI.Warn, waiting ? pulse : 0f);
+                if (NetrunTex.CallFixer != null)
+                {
+                    GUI.color = tint;
+                    GUI.DrawTexture(call.ContractedBy(2f), NetrunTex.CallFixer);
+                    GUI.color = Color.white;
+                }
+                string refusal = fixer.CallRefusal;
+                TooltipHandler.TipRegion(call, refusal ?? (string)"NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours)
+                    + "\n" + "NR_FixerCall".Translate(fixer.EffectiveCallCost));
+                right = 28f;
+                if (refusal == null && Widgets.ButtonInvisible(call))
+                    FixerDeals.Call(fixer, map);
+            }
+            Text.Font = GameFont.Small;
+        }
+        Widgets.Label(new Rect(r.x + 10f, r.y + 4f, r.width - 14f - right, 22f), (silent ? name.Colorize(NetrunUI.Muted) : name).Truncate(r.width - 14f - right));
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(r.x + 10f, r.y + 24f, r.width - 14f, 16f), sub.Truncate(r.width - 14f).Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
@@ -149,21 +192,24 @@ public static class ContractsTab
     private static void DrawMain(Rect rect, Map map, ref Vector2 scroll, ContractManager contracts, FixerManager fixers, System.Action<string> openHelp)
     {
         List<Contract> active = contracts.Active.ToList();
-        var offers = fixers.Fixers.Where(f => !f.IsSilent && (_fixerId < 0 || f.Id == _fixerId))
-            .SelectMany(f => contracts.OffersOf(f).Select(c => (contract: c, fixer: f)))
-            .Where(o => _difficulty == DifficultyFilter.Any || Difficulty(o.contract) == (int)_difficulty)
-            .ToList();
-        offers = _sort switch
+        var offers = NetrunUI.Cached("board.offers." + _fixerId + "." + _difficulty + "." + _sort, () =>
         {
-            Sort.Reward => offers.OrderByDescending(o => o.contract.Reward).ToList(),
-            Sort.Duration => offers.OrderBy(o => o.contract.DurationTicks).ToList(),
-            _ => offers.OrderBy(o => o.contract.Title).ThenByDescending(o => o.contract.Reward).ToList(),
-        };
+            var all = fixers.Fixers.Where(f => !f.IsSilent && (_fixerId < 0 || f.Id == _fixerId))
+                .SelectMany(f => contracts.OffersOf(f).Select(c => (contract: c, fixer: f)))
+                .Where(o => _difficulty == DifficultyFilter.Any || Difficulty(o.contract) == (int)_difficulty);
+            return (_sort switch
+            {
+                Sort.Reward => all.OrderByDescending(o => o.contract.Reward),
+                Sort.Duration => all.OrderBy(o => o.contract.DurationTicks),
+                _ => all.OrderBy(o => o.contract.Type).ThenByDescending(o => o.contract.Reward),
+            }).ToList();
+        });
+        int groups = _sort == Sort.Type ? offers.Select(o => o.contract.Type).Distinct().Count() : 0;
 
         float width = rect.width - 16f;
         float height = 2 * SectionHeight + 20f
                        + (active.Count == 0 ? 30f : active.Sum(c => ActiveHeight(width) + CardGap))
-                       + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + (offers.Count == 0 ? 30f : 0f);
+                       + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + groups * GroupHeight + (offers.Count == 0 ? 30f : 0f);
         var view = new Rect(0f, 0f, width, height);
 
         NetrunUI.BeginScroll(rect, ref scroll, view);
@@ -185,14 +231,31 @@ public static class ContractsTab
         float yAfter = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardOffers".Translate(offers.Count));
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleRight;
-        Widgets.Label(new Rect(width - 200f, y, 200f, 26f), (("NR_BoardSort_" + _sort).Translate().ToLower() + " ▼").Colorize(NetrunUI.Muted));
+        // The sort label cycles the sort.
+        var sortRect = new Rect(width - 200f, y, 200f, 26f);
+        Widgets.Label(sortRect, (("NR_BoardSort_" + _sort).Translate().ToLower() + " ▼").Colorize(Mouse.IsOver(sortRect) ? NetrunUI.Accent : NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
+        TooltipHandler.TipRegion(sortRect, "NR_BoardSortCycleTip".Translate());
+        if (Widgets.ButtonInvisible(sortRect))
+        {
+            NetrunSound.Click();
+            _sort = (Sort)(((int)_sort + 1) % 3);
+        }
         y = yAfter;
         if (offers.Count == 0)
             y = Empty(width, y, "NR_ContractsNoOffers".Translate());
         for (int i = 0; i < offers.Count; i++)
         {
+            if (groups > 0 && (i == 0 || offers[i].contract.Type != offers[i - 1].contract.Type))
+            {
+                ContractType type = offers[i].contract.Type;
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(new Rect(0f, y + 2f, width, 18f), (offers[i].contract.Title + " · " + offers.Count(o => o.contract.Type == type)).Colorize(NetrunUI.Muted));
+                Text.Font = GameFont.Small;
+                Widgets.DrawBoxSolid(new Rect(0f, y + GroupHeight - 5f, width, 1f), new Color(1f, 1f, 1f, 0.1f));
+                y += GroupHeight;
+            }
             float h = OfferHeight(offers[i].contract, width);
             DrawOffer(new Rect(0f, y, width, h), offers[i].contract, offers[i].fixer, contracts, openHelp, i, map);
             y += h + CardGap;
@@ -287,14 +350,27 @@ public static class ContractsTab
         if (fixer != null && fixer.TraitKnown)
             tags.Add((fixer.TraitLabel, FixersTab.TraitColor(fixer), fixer.TraitDescription));
 
-        foreach ((string text, Color color, string tip) in tags)
+        for (int i = 0; i < tags.Count; i++)
         {
+            (string text, Color color, string tip) = tags[i];
+            bool fixerChip = i == 0 && fixer != null;
             Text.Font = GameFont.Tiny;
             float w = Text.CalcSize(text).x + 12f;
             Text.Font = GameFont.Small;
             if (x + w > maxX)
                 break;
             var r = new Rect(x, y, w, 18f);
+            if (fixerChip)
+            {
+                NetrunUI.Chip(x, y, text, color, tip + "\n\n" + "NR_BoardFilterFixerTip".Translate(fixer.Name).Colorize(NetrunUI.Muted));
+                if (Widgets.ButtonInvisible(r))
+                {
+                    NetrunSound.Click();
+                    _fixerId = _fixerId == fixer.Id ? -1 : fixer.Id;
+                }
+                x += w + 6f;
+                continue;
+            }
             NetrunUI.Chip(x, y, text, color, openHelp != null ? tip + "\n\n" + "NR_BoardTagArticle".Translate().Colorize(NetrunUI.Muted) : tip);
             if (openHelp != null && Widgets.ButtonInvisible(r))
                 openHelp("NR_Help_Fixers_Contracts");
@@ -431,7 +507,7 @@ public static class ContractsTab
         float desc = HyperText.Height(contract.Description, TextWidth(width), "board." + contract.Id);
         Text.Font = GameFont.Small;
         float content = 28f + desc + 6f + 22f + 4f + 18f;
-        return Mathf.Max(Mathf.Max(IconSize, content), 30f + 20f + ButtonHeight + 8f) + 2 * Pad;
+        return Mathf.Max(Mathf.Max(IconSize, content), 30f + 20f + ButtonHeight + 22f) + 2 * Pad;
     }
 
     private static void DrawOffer(Rect rect, Contract contract, Fixer fixer, ContractManager contracts, System.Action<string> openHelp, int index, Map map)
@@ -481,18 +557,37 @@ public static class ContractsTab
         // No channel to the fixer: call them right here instead of a dead Accept (Maxim, 2026-10-23: the player had to go to
         // the Club and remember the name).
         var button = new Rect(rect.xMax - Pad - ButtonWidth, ry + 50f, ButtonWidth, ButtonHeight);
+        var reason = new Rect(rx - 40f, button.yMax + 2f, RightColumn + 40f, 18f);
         if (!fixer.ChannelOpen && !NetworkIsolation.Active)
         {
             AcceptanceReport canCall = fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
             if (NetrunUI.Button(button, "NR_FixerCall".Translate(fixer.EffectiveCallCost), NetrunUI.Warn, canCall,
                     "NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
                 FixerDeals.Call(fixer, map);
+            ReasonLine(reason, "NR_BoardNoChannel".Translate(fixer.Name), NetrunUI.Warn);
             return;
         }
         AcceptanceReport report = contracts.CanAccept(contract, fixer);
+        // Blocked for another reason (one active, isolation): the card steps back, the reason stays readable.
+        if (!report.Accepted)
+            Widgets.DrawBoxSolid(rect, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.45f));
         string label = contracts.HasActive(fixer) ? "NR_BoardOneActive".Translate() : (string)"NR_ContractAccept".Translate();
-        if (NetrunUI.Button(button, label, NetrunUI.Ok, report))
+        int others = contracts.OffersOf(fixer).Count() - 1;
+        string tip = others > 0 ? "NR_BoardAcceptDrops".Translate(fixer.Name, others).Colorize(NetrunUI.Warn) : null;
+        if (NetrunUI.Button(button, label, NetrunUI.Ok, report, tip))
             contracts.Accept(contract, fixer);
+        if (!report.Accepted && !report.Reason.NullOrEmpty())
+            ReasonLine(reason, report.Reason, NetrunUI.Muted);
+    }
+
+    private static void ReasonLine(Rect r, string text, Color color)
+    {
+        Text.Font = GameFont.Tiny;
+        Text.Anchor = TextAnchor.UpperRight;
+        Widgets.Label(r, text.Truncate(r.width).Colorize(color));
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
+        TooltipHandler.TipRegion(r, text);
     }
 
     // ---- History: a folding line at the bottom ----
