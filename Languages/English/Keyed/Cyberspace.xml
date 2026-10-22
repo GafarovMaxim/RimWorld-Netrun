@@ -135,7 +135,6 @@
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>defense {0}</NR_GatewayDefense>
   <NR_GatewayHiddenRow>? hidden node (found by a honeypot trace)</NR_GatewayHiddenRow>
-  <NR_GatewayRowType>Type</NR_GatewayRowType>
   <NR_GatewayRowDefense>Defense</NR_GatewayRowDefense>
   <NR_GatewayDefenseValue>{0} gates, level {1}</NR_GatewayDefenseValue>
   <NR_GatewayRowIce>ICE</NR_GatewayRowIce>
@@ -172,6 +171,10 @@
   <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>DIVE</NR_GatewayDive>
   <NR_GatewayDiveCost>DIVE · {0} cyberdata</NR_GatewayDiveCost>
+  <NR_GatewayRiskShort_0>low</NR_GatewayRiskShort_0>
+  <NR_GatewayRiskShort_1>medium</NR_GatewayRiskShort_1>
+  <NR_GatewayRiskShort_2>high</NR_GatewayRiskShort_2>
+  <NR_GatewayDaemonsNone>Daemons: none yet</NR_GatewayDaemonsNone>
   <NR_GatewayRisk_0>low: weak gates, no Black ICE</NR_GatewayRisk_0>
   <NR_GatewayRisk_1>medium: strong gates and a fork; the hard path is guarded by Black ICE</NR_GatewayRisk_1>
   <NR_GatewayRisk_2>high: Black ICE (nausea, lockout or coma); a failed dive leaves burns</NR_GatewayRisk_2>
@@ -245,7 +248,6 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_HunterFollowed>The ICE hunter followed your netrunner back. Expect trouble with the machines soon.</NR_HunterFollowed>
   <NR_StormLabel>Data storm</NR_StormLabel>
   <NR_Storm>A data storm sweeps the net for {0}: every node is harder to crack, and every haul is bigger.</NR_Storm>
-  <NR_GatewayNodeKicker>node</NR_GatewayNodeKicker>
   <NR_GatewayRival>rival netrunner</NR_GatewayRival>
   <NR_GatewayRivalTurns>{0} turns before the files are gone</NR_GatewayRivalTurns>
   <NR_GatewayRivalTip>Another netrunner is after this node: you have {0} turns before the files are gone.</NR_GatewayRivalTip>

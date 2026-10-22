@@ -683,22 +683,23 @@ public static partial class GatewayView
                 if (scrolls)
                     _panelScroll.y = Mathf.Max(0f, gNode - 4f);
             }
-            // The node's header, unlike the hub's section: a small NODE kicker over a bigger name with its type icon.
-            Text.Font = GameFont.Tiny;
-            GUI.color = NetrunUI.Muted;
-            Widgets.Label(new Rect(inner.x, y + 2f, inner.width, 16f), NetrunUI.Upper(NetrunUI.T("NR_GatewayNodeKicker")));
-            GUI.color = Color.white;
-            Text.Font = GameFont.Medium;
+            // The node's header: its type icon, a bigger name and the type under it (UI audit 2026-10-23: the separate
+            // NODE kicker and Type row cost two lines).
             float nx = inner.x;
             if (node.Icon != null)
             {
-                GUI.DrawTexture(new Rect(nx, y + 20f, 24f, 24f), node.Icon);
-                nx += 30f;
+                GUI.DrawTexture(new Rect(nx, y + 6f, 32f, 32f), node.Icon);
+                nx += 38f;
             }
-            Widgets.Label(new Rect(nx, y + 17f, inner.xMax - nx, 30f), node.Name.Truncate(inner.xMax - nx));
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(nx, y, inner.xMax - nx, 30f), node.Name.Truncate(inner.xMax - nx));
+            Text.Font = GameFont.Tiny;
+            GUI.color = NetrunUI.Subtle;
+            Widgets.Label(new Rect(nx, y + 27f, inner.xMax - nx, 16f), node.TypeLabel.Truncate(inner.xMax - nx));
+            GUI.color = Color.white;
             Text.Font = GameFont.Small;
-            y += 52f;
-            y = Row(inner, y, node.Icon, "NR_GatewayRowType".Translate(), node.TypeLabel, NetrunUI.TextColor, "NR_GatewayTipType".Translate());
+            NetrunUI.Tip(new Rect(inner.x, y, inner.width, 44f), "NR_GatewayTipType".Translate());
+            y += 48f;
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_GATE"), "NR_GatewayRowDefense".Translate(),
                 "NR_GatewayDefenseValue".Translate(1 + node.Defense / 2, node.Defense), NetrunUI.Warn, "NR_GatewayTipDefense".Translate());
             y = Row(inner, y, NetrunTex.CyberIcon(node.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"), "NR_GatewayRowIce".Translate(),
@@ -727,7 +728,9 @@ public static partial class GatewayView
             y = Row(inner, y, NetrunTex.CyberIcon("Dive_Heat"), "NR_GatewayRowTrace".Translate(),
                 "NR_GatewayTraceValue".Translate(node.HeatPerTrace.ToString("0.#")), NetrunUI.Warn, "NR_GatewayTipTrace".Translate());
             Color riskColor = node.Risk switch { 2 => NetrunUI.Bad, 1 => NetrunUI.Warn, _ => NetrunUI.Muted };
-            y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRisk_" + node.Risk).Translate(), riskColor, "NR_GatewayTipRisk".Translate());
+            // One word in the row; what it means is in the tooltip (the red three-line paragraph was the panel's loudest part).
+            y = Row(inner, y, node.RiskIcon, "NR_GatewayRowRisk".Translate(), ("NR_GatewayRiskShort_" + node.Risk).Translate(), riskColor,
+                ("NR_GatewayRisk_" + node.Risk).Translate().Colorize(riskColor) + "\n\n" + "NR_GatewayTipRisk".Translate());
             List<string> effects = node.EffectLabels.ToList();
             if (effects.Count > 0)
             {
@@ -819,10 +822,13 @@ public static partial class GatewayView
         int daemonsFound = gateway.Daemons.Count;
         if (daemonsFound == 0)
         {
-            string hint = "NR_GatewayDaemonHint".Translate();
-            float hh = NetrunUI.NoteHeight(hint, inner.width);
-            NetrunUI.Note(new Rect(inner.x, y + 4f, inner.width, hh), hint, NetrunUI.Purple);
-            y += hh + 8f;
+            // One line; the full hint in its tooltip.
+            var hintRect = new Rect(inner.x, y + 4f, inner.width, 18f);
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(hintRect, ("NR_GatewayDaemonsNone".Translate() + " ⓘ").Colorize(NetrunUI.Subtle));
+            Text.Font = GameFont.Small;
+            NetrunUI.Tip(hintRect, "NR_GatewayDaemonHint".Translate());
+            y += 26f;
         }
         else
         {
@@ -929,27 +935,30 @@ public static partial class GatewayView
     }
 
     /// <summary>One line of the node panel: icon, label, then the value (after small item icons, if any).</summary>
+    private const float RowLabelW = 70f;
+
     private static float Row(Rect inner, float y, Texture2D icon, string label, string value, Color color, string tip,
         IEnumerable<Texture2D> valueIcons = null)
     {
-        // Two tiers, so nothing breaks mid-word in the narrow panel: the icon and the label (small, muted) on top,
-        // the value under them across the whole width (its item icons first).
-        float s = NetrunUI.Icon(22f);
+        // One tier (UI audit 2026-10-23: two tiers pushed DIVE below the fold): the icon, the label (small, muted) in a
+        // fixed column, the value right of it (its item icons first); a long value wraps and the row grows.
+        float s = NetrunUI.Icon(18f);
         var icons = valueIcons?.Where(t => t != null).ToList();
-        float vx = inner.x + s + 6f;
+        float lx = inner.x + s + 6f;
+        float vx = lx + RowLabelW;
         float iconsW = icons == null || icons.Count == 0 ? 0f : icons.Count * (s + 2f) + 4f;
         Text.Font = GameFont.Small;
         float valueH = Mathf.Max(iconsW > 0f ? s : 0f, Text.CalcHeight(value, inner.xMax - vx - iconsW));
-        float h = 4f + 16f + valueH + 6f;
+        float h = Mathf.Max(24f, valueH + 4f);
         var row = new Rect(inner.x, y, inner.width, h);
         if (Mouse.IsOver(row))
             Widgets.DrawBoxSolid(row, new Color(1f, 1f, 1f, 0.04f));
         if (icon != null)
-            NetrunUI.BrightIcon(new Rect(inner.x, y + 4f, s, s), icon);
+            NetrunUI.BrightIcon(new Rect(inner.x, y + 3f, s, s), icon);
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(vx, y + 4f, inner.xMax - vx, 16f), ((string)label).ToUpper().Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(lx, y + 5f, RowLabelW - 4f, 16f), ((string)label).ToUpper().Truncate(RowLabelW - 4f).Colorize(NetrunUI.Muted));
         Text.Font = GameFont.Small;
-        float vy = y + 20f;
+        float vy = y + 2f;
         if (icons != null)
         {
             foreach (Texture2D tex in icons)

@@ -135,7 +135,6 @@
   <NR_GatewayBlackIce>Black ICE · {0}</NR_GatewayBlackIce>
   <NR_GatewayDefense>защита {0}</NR_GatewayDefense>
   <NR_GatewayHiddenRow>? скрытая нода (её раскроет след приманки)</NR_GatewayHiddenRow>
-  <NR_GatewayRowType>Тип</NR_GatewayRowType>
   <NR_GatewayRowDefense>Защита</NR_GatewayRowDefense>
   <NR_GatewayDefenseValue>ворот: {0}, уровень {1}</NR_GatewayDefenseValue>
   <NR_GatewayRowIce>ICE</NR_GatewayRowIce>
@@ -172,6 +171,10 @@
   <NR_DiveCostTotal>Итого: {0} киберданных</NR_DiveCostTotal>
   <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
   <NR_GatewayDiveCost>НЫРНУТЬ · киберданные: {0}</NR_GatewayDiveCost>
+  <NR_GatewayRiskShort_0>низкий</NR_GatewayRiskShort_0>
+  <NR_GatewayRiskShort_1>средний</NR_GatewayRiskShort_1>
+  <NR_GatewayRiskShort_2>высокий</NR_GatewayRiskShort_2>
+  <NR_GatewayDaemonsNone>Демоны: пока нет</NR_GatewayDaemonsNone>
   <NR_GatewayRisk_0>низкий: слабые ворота, без Black ICE</NR_GatewayRisk_0>
   <NR_GatewayRisk_1>средний: крепкие ворота и развилка; сложный путь стережёт Black ICE</NR_GatewayRisk_1>
   <NR_GatewayRisk_2>высокий: Black ICE (тошнота, блокировка или кома); проваленный нырок оставляет ожоги</NR_GatewayRisk_2>
@@ -245,7 +248,6 @@
   <NR_HunterFollowed>Охотник ICE прошёл по следу нетраннера. Скоро ждите проблем с машинами.</NR_HunterFollowed>
   <NR_StormLabel>Шторм данных</NR_StormLabel>
   <NR_Storm>Сеть накрыл шторм данных на {0}: все ноды сложнее, а добыча больше.</NR_Storm>
-  <NR_GatewayNodeKicker>нода</NR_GatewayNodeKicker>
   <NR_GatewayRival>нетраннер-соперник</NR_GatewayRival>
   <NR_GatewayRivalTurns>ходов до потери файлов: {0}</NR_GatewayRivalTurns>
   <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой. Ходов у вас: {0}, потом файлов не станет.</NR_GatewayRivalTip>
