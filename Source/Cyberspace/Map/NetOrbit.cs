@@ -49,7 +49,8 @@ public partial class NetMapManager
         // are rerouted through a clear pair. Once per older save; hubs never move here.
         // Version 3 (2026-10-23): corporations sewn back into one piece, no hub without a street; version 4: every district.
         // Version 5: streets between the Old Net and the main net (v4 laid some around the Wall) go, joined again.
-        if (Ready && _layoutVersion < 5)
+        // Version 6: every transit hub gets a fast link to a district where one fits.
+        if (Ready && _layoutVersion < 6)
         {
             if (_layoutVersion < 1)
                 CyberMapGenerator.ClearHome(Map);
@@ -65,17 +66,19 @@ public partial class NetMapManager
             int joined = CyberMapGenerator.JoinParts(Map);
             if (Prefs.DevMode && joined > 0)
                 Log.Message($"[Netrun] Map layout v4: {joined} links added to join districts.");
-            _layoutVersion = 5;
+            CyberMapGenerator.FeedTransit(Map);
+            _layoutVersion = 6;
         }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;
         // Version 2 (2026-10-14): placed on free ground with one clear link; older saves are laid out again once.
         // Version 3 (2026-10-23): no spot left free kept the first candidate, on top of a hub; now the roomiest one.
-        if (!_orbitByCorp || _orbitVersion < 3 || !Map.Nodes.Any(n => n.District == District.Orbit))
+        // Version 4: beyond the corporation's outer edge, off every link, never nearer a stranger than its own ground.
+        if (!_orbitByCorp || _orbitVersion < 4 || !Map.Nodes.Any(n => n.District == District.Orbit))
         {
             PlaceOrbitByCorp();
             _orbitByCorp = true;
-            _orbitVersion = 3;
+            _orbitVersion = 4;
             Map.Dirty();
         }
         bool open = OrbitOpen;
@@ -117,12 +120,14 @@ public partial class NetMapManager
             Vector2 away = (centre - middle).sqrMagnitude < 0.0001f ? Vector2.down : (centre - middle).normalized;
             // Candidates on rings around the corporation, the outward side first: the first spot inside the map with
             // room around it (Maxim, 2026-10-14: orbital hubs sat on other hubs and pulled long odd links).
-            Vector2 p = centre + away * 0.12f;
+            // Rings start past the corporation's farthest hub (Maxim, 2026-10-23: orbital hubs sat inside districts and on links).
+            float reach = ground.Max(h => Vector2.Distance(h.Pos, centre));
+            Vector2 p = centre + away * (reach + 0.07f);
             bool found = false;
             float roomiest = -1f;
-            for (int ring = 0; ring < 5 && !found; ring++)
+            for (int ring = 0; ring < 6 && !found; ring++)
             {
-                float radius = 0.11f + ring * 0.035f;
+                float radius = reach + 0.07f + ring * 0.035f;
                 for (int k = 0; k < 12 && !found; k++)
                 {
                     float turn = (k % 2 == 0 ? 1f : -1f) * (k + 1) / 2 * 25f * Mathf.Deg2Rad;
@@ -130,14 +135,23 @@ public partial class NetMapManager
                     Vector2 c = centre + dir * radius;
                     if (c.x < 0.04f || c.x > 0.96f || c.y < 0.04f || c.y > 0.66f)
                         continue;
-                    float room = Map.Nodes.Where(o => o != n && (o.District != District.Orbit || orbit.IndexOf(o) < i))
-                        .Select(o => Vector2.Distance(o.Pos, c)).DefaultIfEmpty(1f).Min();
+                    System.Collections.Generic.List<MapNode> others = Map.Nodes.Where(o => o != n && (o.District != District.Orbit || orbit.IndexOf(o) < i)).ToList();
+                    float room = others.Select(o => Vector2.Distance(o.Pos, c)).DefaultIfEmpty(1f).Min();
                     if (room > roomiest)
                     {
                         roomiest = room;
                         p = c;
                     }
-                    found = room >= 0.085f;
+                    if (room < 0.085f || !ground.Contains(others.Where(o => o.District != District.Orbit).MinBy(o => Vector2.Distance(o.Pos, c)))
+                        || Map.Links.Any(l => CyberMap.DistanceToSegment(c, Map.Node(l.A).Pos, Map.Node(l.B).Pos) < CyberMap.LinkClearance * 1.5f))
+                        continue;
+                    // And a clear way down to its own ground.
+                    n.X = c.x;
+                    n.Y = c.y;
+                    Map.Dirty();
+                    found = ground.Any(h => !h.Fortress && Map.LinkClear(n.Id, h.Id));
+                    if (found)
+                        p = c;
                 }
             }
             n.X = p.x;

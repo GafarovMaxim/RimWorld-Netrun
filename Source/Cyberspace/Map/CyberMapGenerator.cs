@@ -135,14 +135,22 @@ public static class CyberMapGenerator
         var map = new CyberMap { Size = size, Layout = layout };
         LayoutData L = Data(layout);
         Dictionary<string, int> counts = Counts(size);
-        // The player's hub count (a multiplier of the size); corporations keep their own count.
+        // The player's hub count (a multiplier of the size); corporations and the transit keep their own count (Maxim,
+        // 2026-10-23: on big maps many transit hubs led only to each other).
         float scale = NetrunMod.Settings.MapHubScale;
         if (!Mathf.Approximately(scale, 1f))
             foreach (string k in counts.Keys.ToList())
-                if (!k.StartsWith("corp"))
+                if (!k.StartsWith("corp") && k != Hub)
                     counts[k] = Mathf.Max(1, Mathf.RoundToInt(counts[k] * scale));
         var keyOf = new Dictionary<int, string>();
         var nodes = map.Nodes;
+        // More hubs in the same room: the gap shrinks with them, or districts spilled into each other.
+        float spacing = Spacing / Mathf.Sqrt(Mathf.Max(1f, scale));
+        // Each district keeps its own ground: the points nearer its centre than any other (corporations reach a bit
+        // farther). Hubs never leave it, so districts no longer mix or tear (Maxim, 2026-10-23, worse on big maps).
+        var centres = counts.Where(kv => kv.Value > 0).Select(kv => kv.Key).ToList();
+        string Owner(Vector2 p) => centres.MinBy(k => Vector2.Distance(p, L.Centers[k]) / (k.StartsWith("corp") ? 1.25f : 1f));
+        bool OnGround(string key, Vector2 p) => key == Hub && L.Express == "chain" || Owner(p) == key;
 
         MapNode Add(string key, float x, float y, int slots)
         {
@@ -175,19 +183,20 @@ public static class CyberMapGenerator
             float r = 0.07f + 0.016f * n;
             int placed = 0, tries = 0;
             // Room between hubs for their name plates and markers (Maxim, 2026-10-14 and 2026-10-16: the map was cramped).
-            float minDist = Spacing;
+            float minDist = spacing;
             // Home goes on the left edge later: keep its spot clear, or a neighbour sat on top of it.
             var homeSpot = new Vector2(0.02f, L.Centers[Outskirts].y);
-            while (placed < n && tries < 4000)
+            while (placed < n && tries < 8000)
             {
                 tries++;
                 if (tries % 1000 == 0)
                     minDist *= 0.9f;
-                float a = Rand.Range(0f, Mathf.PI * 2f), rr = r * Mathf.Sqrt(Rand.Value);
+                // The circle widens on later tries: part of it can lie on a neighbour's ground.
+                float a = Rand.Range(0f, Mathf.PI * 2f), rr = r * (1f + tries / 2000f) * Mathf.Sqrt(Rand.Value);
                 float x = c.x + Mathf.Cos(a) * rr, y = c.y + Mathf.Sin(a) * rr * 0.9f;
                 if (!(x > 0.03f && x < 0.985f && y > 0.03f && y < 0.64f))
                     continue;
-                if (nodes.Any(o => Vector2.Distance(new Vector2(x, y), o.Pos) < minDist))
+                if (!OnGround(key, new Vector2(x, y)) || nodes.Any(o => Vector2.Distance(new Vector2(x, y), o.Pos) < minDist))
                     continue;
                 if (Vector2.Distance(new Vector2(x, y), homeSpot) < HomeClearance)
                     continue;
@@ -196,7 +205,7 @@ public static class CyberMapGenerator
             }
         }
 
-        Relax(nodes, new Vector2(0.02f, L.Centers[Outskirts].y));
+        Relax(nodes, new Vector2(0.02f, L.Centers[Outskirts].y), spacing, (n, p) => OnGround(keyOf[n.Id], p));
 
         // Home and the darknet hub are placed before any link: every link then comes from one planar pool (below).
         MapNode home = Add(Outskirts, 0.02f, L.Centers[Outskirts].y, 0);
@@ -389,6 +398,23 @@ public static class CyberMapGenerator
         if (crossings > 0 && Prefs.DevMode)
             Log.Warning($"[Netrun] Map generator: {crossings} crossing links had to be removed ({layout}).");
         JoinParts(map);
+        // A transit hub that cannot reach any district leads nowhere: it goes, if the net holds together without it.
+        foreach (MapNode t in FeedTransit(map))
+        {
+            List<MapLink> links = map.LinksOf(t.Id).ToList();
+            map.Links.RemoveAll(links.Contains);
+            nodes.Remove(t);
+            map.Dirty();
+            List<int> rest = net.Where(i => i != t.Id).ToList();
+            if (Connected(map, rest))
+            {
+                net = rest;
+                continue;
+            }
+            nodes.Add(t);
+            map.Links.AddRange(links);
+            map.Dirty();
+        }
         map.Dirty();
         return map;
     }
@@ -456,6 +482,25 @@ public static class CyberMapGenerator
         return added;
     }
 
+    /// <summary>
+    /// Every transit hub leads somewhere: a fast link to the nearest district hub it reaches clear (Maxim, 2026-10-23:
+    /// transit hubs led only to each other). Returns the transit hubs still without one.
+    /// </summary>
+    public static List<MapNode> FeedTransit(CyberMap map)
+    {
+        static bool Ground(MapNode n) => n != null && n.District is not (District.Transit or District.Home or District.Dark or District.Orbit or District.OldNet);
+        var left = new List<MapNode>();
+        foreach (MapNode t in map.Nodes.Where(n => n.District == District.Transit).ToList())
+        {
+            if (map.LinksOf(t.Id).Any(l => l.Kind is LinkKind.Normal or LinkKind.Fast && Ground(map.Node(l.Other(t.Id)))))
+                continue;
+            if (!map.Nodes.Where(Ground).OrderBy(x => Vector2.Distance(x.Pos, t.Pos)).Take(6)
+                    .Any(b => map.TryAddLink(new MapLink { A = t.Id, B = b.Id, Kind = LinkKind.Fast })))
+                left.Add(t);
+        }
+        return left;
+    }
+
     /// <summary>The gap the generator keeps between hubs (Maxim, 2026-10-16: the map was noisy, links crossed).</summary>
     public const float Spacing = 0.09f;
 
@@ -463,7 +508,7 @@ public static class CyberMapGenerator
     /// Pushes apart hubs that the random placement left closer than the spacing (it shrinks the gap when a district runs
     /// out of room), inside the field and off Home's spot. Runs before any link is made.
     /// </summary>
-    private static void Relax(List<MapNode> nodes, Vector2 homeSpot)
+    private static void Relax(List<MapNode> nodes, Vector2 homeSpot, float spacing, System.Func<MapNode, Vector2, bool> onGround)
     {
         int count = nodes.Count;
         var push = new Vector2[count];
@@ -477,10 +522,10 @@ public static class CyberMapGenerator
                 {
                     Vector2 d = nodes[i].Pos - nodes[j].Pos;
                     float len = d.magnitude;
-                    if (len >= Spacing)
+                    if (len >= spacing)
                         continue;
                     Vector2 dir = len < 1e-5f ? new Vector2(Mathf.Cos(i * 2.4f), Mathf.Sin(i * 2.4f)) : d / len;
-                    Vector2 step = dir * ((Spacing - len) * 0.5f);
+                    Vector2 step = dir * ((spacing - len) * 0.5f);
                     push[i] += step;
                     push[j] -= step;
                     moved = true;
@@ -493,8 +538,12 @@ public static class CyberMapGenerator
                 break;
             for (int i = 0; i < count; i++)
             {
-                nodes[i].X = Mathf.Clamp(nodes[i].X + push[i].x * 0.6f, 0.03f, 0.985f);
-                nodes[i].Y = Mathf.Clamp(nodes[i].Y + push[i].y * 0.6f, 0.03f, 0.64f);
+                var to = new Vector2(Mathf.Clamp(nodes[i].X + push[i].x * 0.6f, 0.03f, 0.985f), Mathf.Clamp(nodes[i].Y + push[i].y * 0.6f, 0.03f, 0.64f));
+                // A push off the district's own ground is dropped: the hub stays a bit close rather than among strangers.
+                if (!onGround(nodes[i], to))
+                    continue;
+                nodes[i].X = to.x;
+                nodes[i].Y = to.y;
             }
         }
     }
