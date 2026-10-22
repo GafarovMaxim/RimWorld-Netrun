@@ -62,8 +62,6 @@
   <NR_NetFoundNote>Значения по умолчанию для будущих игр задаются в настройках мода.</NR_NetFoundNote>
   <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Раннеры {0}/{1}</NR_MapRunners>
-  <NR_MapRunnersChip>Раннеры {0}/{1}</NR_MapRunnersChip>
-  <NR_MapRunnersChipTip>Нетраннеры, подключённые к сети из кибер-капсул. Каждый ходит по карте сам.</NR_MapRunnersChipTip>
   <NR_MapConnect>Подключить: {0}</NR_MapConnect>
   <NR_MapConnectTip>Нетраннер в капсуле подключается в Доме. Путь по сети идёт в игровом времени: около часа на связь, вдвое быстрее по скоростным линиям.</NR_MapConnectTip>
   <NR_MapConnected>{0} в сети: {1}.</NR_MapConnected>

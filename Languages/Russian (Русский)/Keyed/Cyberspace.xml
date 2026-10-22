@@ -145,7 +145,7 @@
   <NR_GatewayTraceValue>×{0} Heat за действие</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
-  <NR_GatewayPrograms>Программы (слотов: {0})</NR_GatewayPrograms>
+  <NR_GatewayPrograms>Программы {0}/{1}</NR_GatewayPrograms>
   <NR_GatewayNoSlots>все слоты заняты</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} ныряет из капсулы. Пока идёт нырок, игра на паузе.</NR_GatewayDiveTip>
   <NR_GatewayViewCircles>Вид: ◉ круги</NR_GatewayViewCircles>

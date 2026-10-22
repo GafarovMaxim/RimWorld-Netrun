@@ -15,7 +15,8 @@ namespace Netrun;
 [StaticConstructorOnStartup]
 public static partial class GatewayView
 {
-    private const float PanelWidth = 270f;
+    // The panel grows with the window (Maxim, 2026-10-23): Russian lines need more than 270 px on a wide screen.
+    private static float PanelWidth;
 
     private static Texture2D Disc => NetrunUI.Disc;
     private static Texture2D Ring => NetrunUI.Ring;
@@ -54,6 +55,7 @@ public static partial class GatewayView
         IReadOnlyList<ExternalNode> nodes = gateway.Nodes;
         ExternalNode selected = nodes.FirstOrDefault(n => n.Id == _selectedId);
 
+        PanelWidth = Mathf.Clamp(Mathf.Round(rect.width * 0.27f), 270f, 340f);
         var mapRect = new Rect(rect.x, rect.y, rect.width - PanelWidth - 12f, rect.height);
         GuideRegistry.Area("gateway.field", mapRect);
         GuideRegistry.Area("gateway.panel", new Rect(rect.xMax - PanelWidth, rect.y, PanelWidth, rect.height));
@@ -786,8 +788,10 @@ public static partial class GatewayView
         // Programs: toggles, limited by the pod's slots, paid in cyberdata on diving.
         Pawn runner = GatewayManager.Runner(map, node, out Building_Cyberpod pod);
         int slots = GatewayManager.ProgramSlots(pod);
-        y = NetrunUI.Section(new Rect(inner.x, y + 6f, inner.width, 36f), "NR_GatewayPrograms".Translate(slots));
-        float x = inner.x;
+        y = NetrunUI.Section(new Rect(inner.x, y + 6f, inner.width, 36f), "NR_GatewayPrograms".Translate(gateway.SelectedPrograms.Count, slots));
+        // A two-column grid (UI audit 2026-10-23: buttons sized by their labels left a ragged edge).
+        float colW = (inner.width - 6f) / 2f;
+        int col = 0;
         foreach (DiveProgram program in System.Enum.GetValues(typeof(DiveProgram)))
         {
             bool on = gateway.SelectedPrograms.Contains(program);
@@ -795,17 +799,18 @@ public static partial class GatewayView
             if (HePrograms.IsHeItem(program) && NetrunDefOf.NR_Res_ExecPrograms?.IsFinished != true && !on)
                 continue;
             Texture2D programIcon = NetrunTex.CyberIcon("Program_" + program) ?? HePrograms.IconDef(program)?.uiIcon;
-            float w = NetrunUI.ButtonWidth(label, programIcon != null);
-            if (x + w > inner.xMax)
+            if (col == 2)
             {
-                x = inner.x;
+                col = 0;
                 y += 34f;
             }
+            float x = inner.x + col * (colW + 6f);
+            col++;
             AcceptanceReport report = on ? true
                 : gateway.SelectedPrograms.Count >= slots ? (AcceptanceReport)"NR_GatewayNoSlots".Translate()
                 : HePrograms.CanSelect(map, program, gateway.SelectedPrograms);
             Color color = on ? NetrunUI.Ok : NetrunUI.Muted;
-            if (NetrunUI.Button(new Rect(x, y, w, 28f), (on ? "✓ " : string.Empty) + label, on ? color : NetrunUI.TextColor, report,
+            if (NetrunUI.Button(new Rect(x, y, colW, 28f), ((on ? "✓ " : string.Empty) + label).Truncate(colW - (programIcon != null ? 40f : 16f)), on ? color : NetrunUI.TextColor, report,
                     ("NR_ProgramDesc_" + program).Translate(NetrunDefOf.NR_Cyberspace.programCost), programIcon))
             {
                 if (on)
@@ -813,7 +818,6 @@ public static partial class GatewayView
                 else
                     gateway.SelectedPrograms.Add(program);
             }
-            x += w + 6f;
         }
         y += 36f;
 
@@ -981,10 +985,10 @@ public static partial class GatewayView
     {
         if (NetMapManager.Get() is { Ready: true } net)
         {
-            float cx = NetrunUI.HeaderChip(xMax, y, "NR_MapRunnersChip".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners), "NR_MapRunnersChipTip".Translate()) - 8f;
-            // The colony's worst netsick, left of the runners (Maxim, 2026-10-14): runners in pods count too.
+            // The runner count lives in the panel's RUNNERS section only (Maxim, 2026-10-23). The colony's worst netsick
+            // (2026-10-14): runners in pods count too.
             (string text, string tip) sick = NetrunUI.Cached("gateway.netsickChip", () => NetsickChip(map), 1f);
-            NetrunUI.HeaderChip(cx, y, sick.text, sick.tip);
+            NetrunUI.HeaderChip(xMax, y, sick.text, sick.tip);
             return;
         }
         Pawn runner = GatewayManager.Runner(map, out _);

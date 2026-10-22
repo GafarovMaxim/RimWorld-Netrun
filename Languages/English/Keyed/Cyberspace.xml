@@ -145,7 +145,7 @@
   <NR_GatewayTraceValue>×{0} Heat per action</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Risk</NR_GatewayRowRisk>
   <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
-  <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
+  <NR_GatewayPrograms>Programs {0}/{1}</NR_GatewayPrograms>
   <NR_GatewayNoSlots>all slots taken</NR_GatewayNoSlots>
   <NR_GatewayDiveTip>{0} dives from the cyberpod. The game stays paused while you play the dive.</NR_GatewayDiveTip>
   <NR_GatewayViewCircles>View: ◉ circles</NR_GatewayViewCircles>

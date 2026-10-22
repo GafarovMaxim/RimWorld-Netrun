@@ -62,8 +62,6 @@
   <NR_NetFoundNote>The defaults for future games are in the mod settings.</NR_NetFoundNote>
   <NR_MapNodeLabel>{0}-{1}</NR_MapNodeLabel>
   <NR_MapRunners>Runners {0}/{1}</NR_MapRunners>
-  <NR_MapRunnersChip>Runners {0}/{1}</NR_MapRunnersChip>
-  <NR_MapRunnersChipTip>Netrunners connected to the net from cyberpods. Each walks the map on their own.</NR_MapRunnersChipTip>
   <NR_MapConnect>Connect {0}</NR_MapConnect>
   <NR_MapConnectTip>The netrunner in the pod connects at Home. Walking the net takes game time: about an hour per link, half that on fast lines.</NR_MapConnectTip>
   <NR_MapConnected>{0} connected at {1}.</NR_MapConnected>
