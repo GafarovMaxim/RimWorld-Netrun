@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: districts show as soft colour patches; district names lost their frames.
 - Cyberspace map: a hub's nodes are now chips in its name plate instead of icons around it; a shut hub shows a lock in the plate instead of the LOCKED tag.
 - Cyberspace map: clearer links: straight, four kinds (street, highway, darknet, shut), the route crawls toward its end, and the key line shows only on hover or selection.
 - Cyberspace map: links never cross any more, also after map events; older saves get their crossing links rerouted once.

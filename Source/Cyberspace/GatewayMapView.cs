@@ -95,6 +95,11 @@ public static partial class GatewayView
         if (paint)
         {
             DrawGrid(local, _pan);
+            // Map v5: each district reads as a soft patch of its colour under its hubs (Claude Design concept, 2026-10-22).
+            float patch = 55f * _zoom;
+            foreach (MapNode n in map.Nodes)
+                if (n.District is not (District.Home or District.Dark) && !n.Offline && net.Charted(n))
+                    NetrunUI.Glow(new Rect(ToScreen(local, n.Pos), Vector2.zero), HubColor(n, net), 0.09f, patch);
 
             // District names as plates (positions and texts rebuilt every 2 s, not per frame); they take their place first,
             // and hub names that would cover them are left out.
@@ -120,10 +125,11 @@ public static partial class GatewayView
                 Vector2 t = ToScreen(local, top);
                 float pw = NameWidth(text) + 16f;
                 var plate = new Rect(t.x - pw / 2f, t.y - 30f * Mathf.Sqrt(_zoom) - 20f, pw, 17f);
+                // No frame any more (map v5): a quiet watermark in the district's colour, under the links.
                 if (plate.Overlaps(local) && PlateFree(plate))
                 {
                     PlacedPlates.Add(plate);
-                    DrawPlate(plate, text, color, false, corp ? 0.5f : 0.3f, false);
+                    Widgets.Label(plate, text);
                 }
             }
             Text.Anchor = TextAnchor.UpperLeft;
