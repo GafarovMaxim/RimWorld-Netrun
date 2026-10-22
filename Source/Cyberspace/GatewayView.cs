@@ -285,24 +285,25 @@ public static partial class GatewayView
     private static void DrawZoomButtons(Rect rect)
     {
         GuideRegistry.Area("gateway.zoom", rect.ExpandedBy(4f));
+        // A backing, so the buttons read over busy map parts (UI audit 2026-10-23).
+        var back = new Rect(rect.x - 4f, rect.y - 4f, rect.width + 4f, ZoomBlockH + 8f);
+        Widgets.DrawBoxSolid(back, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
+        GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f);
+        Widgets.DrawBox(back);
+        GUI.color = Color.white;
         if (NetrunUI.Button(new Rect(rect.x, rect.y, 30f, 30f), "+", NetrunUI.Accent, _zoom < MaxZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomIn".Translate()))
             _zoom = Mathf.Min(MaxZoom, _zoom + 0.2f);
         if (NetrunUI.Button(new Rect(rect.x + 34f, rect.y, 30f, 30f), "−", NetrunUI.Accent, _zoom > MinZoom ? true : (AcceptanceReport)false, "NR_GatewayZoomOut".Translate()))
             _zoom = Mathf.Max(MinZoom, _zoom - 0.2f);
-        if (NetrunUI.Button(new Rect(rect.x + 68f, rect.y, 30f, 30f), "◎", NetrunUI.Muted, true, "NR_GatewayZoomReset".Translate()))
+        // The zoom percent lives in the reset button's tooltip (the label under the buttons was noise).
+        if (NetrunUI.Button(new Rect(rect.x + 68f, rect.y, 30f, 30f), "◎", NetrunUI.Muted, true,
+                "NR_GatewayZoomReset".Translate() + "\n" + (Mathf.RoundToInt(_zoom * 100f) + "%").Colorize(NetrunUI.Subtle)))
             ResetCamera();
-        Text.Font = GameFont.Tiny;
-        Text.Anchor = TextAnchor.UpperCenter;
-        GUI.color = NetrunUI.Muted;
-        Widgets.Label(new Rect(rect.x, rect.yMax + 2f, 98f, 16f), Mathf.RoundToInt(_zoom * 100f) + "%");
-        GUI.color = Color.white;
-        Text.Anchor = TextAnchor.UpperLeft;
-        Text.Font = GameFont.Small;
         // The H and R hotkeys as buttons too (map v4, D9).
         NetMapManager net = NetMapManager.Get();
         if (net is { Ready: true })
         {
-            float by = rect.yMax + 20f;
+            float by = rect.yMax + 4f;
             if (NetrunUI.Button(new Rect(rect.x, by, 47f, 26f), "⌂ H", NetrunUI.Accent, true, "NR_MapHomeButtonTip".Translate()))
                 FocusNode(net.Map.HomeId);
             AcceptanceReport anyRunner = net.Runners.Count > 0 ? true : (AcceptanceReport)"NR_MapNoRunnerToCycle".Translate();

@@ -269,6 +269,12 @@ public static partial class GatewayView
         // Right of the hub, or right of its LOCKED / OPEN tag so the two never overlap.
         // Top right, past the hub's badge.
         var tag = new Rect(hubRect.xMax + 10f, hubRect.y - 16f, w, 14f);
+        if (!PlateFree(tag))
+        {
+            Text.Font = GameFont.Small;
+            return;
+        }
+        PlacedPlates.Add(tag);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.7f);
         Widgets.DrawBox(tag);
@@ -325,7 +331,7 @@ public static partial class GatewayView
             Text.Font = GameFont.Tiny;
             float w = Text.CalcSize(tag).x + 10f;
             var box = new Rect(Mathf.Clamp(at.x - w / 2f - dir.x * 30f, mapRect.x + 2f, mapRect.xMax - w - 2f),
-                Mathf.Clamp(at.y - 9f - dir.y * 22f, mapRect.y + 2f, mapRect.yMax - 20f), w, 18f);
+                Mathf.Clamp(at.y - 9f - dir.y * 22f, mapRect.y + 38f, mapRect.yMax - 20f), w, 18f);
             Widgets.DrawBoxSolid(box, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
             GUI.color = NetrunUI.Ok;
             Widgets.DrawBox(box);

@@ -75,7 +75,7 @@ public static partial class GatewayView
         _mouseOnOverlay = new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f + (_search.NullOrEmpty() ? 0f : 6 * 23f)).Contains(mouse)
                           || NetrunMod.Settings.MapMinimap && new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f).Contains(mouse)
                           || LensBarRect(rect).Contains(mouse)
-                          || new Rect(ZoomRect(rect).x, ZoomRect(rect).y, 102f, 76f).Contains(mouse)
+                          || new Rect(ZoomRect(rect).x - 4f, ZoomRect(rect).y - 4f, 106f, ZoomBlockH + 8f).Contains(mouse)
                           || Lens != MapLens.Overview && new Rect(rect.x + 6f, rect.yMax - LensBoxH - 6f, 360f, LensBoxH).Contains(mouse)
                           || NetrunMod.Settings.MapLegend && LegendRect(rect, net).Contains(mouse);
         int hovered = _hoverHub;
@@ -116,6 +116,15 @@ public static partial class GatewayView
 
             // No district names on the map (Maxim, 2026-10-23): the colour patches and the hover card name the district.
             PlacedPlates.Clear();
+            // The map's own buttons take their places first, so no plate hides under them (UI audit 2026-10-23).
+            Vector2 o = rect.position;
+            PlacedPlates.Add(new Rect(0f, 0f, local.width, 38f));
+            Rect zoom = ZoomRect(rect);
+            PlacedPlates.Add(new Rect(zoom.x - o.x - 4f, zoom.y - o.y - 4f, zoom.width + 8f, ZoomBlockH + 8f));
+            Rect legend = LegendRect(rect, net);
+            PlacedPlates.Add(new Rect(legend.x - o.x - 4f, legend.y - o.y - 4f, legend.width + 8f, legend.height + 8f));
+            if (NetrunMod.Settings.MapMinimap)
+                PlacedPlates.Add(new Rect(local.width - 190f, local.height - 126f, 188f, 124f));
 
             // Links.
             HashSet<(int, int)> route = RouteSet(selRunner);
@@ -161,11 +170,12 @@ public static partial class GatewayView
         // above the minimap when it is shown.
         DrawZoomButtons(ZoomRect(rect));
         DrawHeatEdge(rect);
-        DrawRunnerArrows(rect, net);
         DrawMinimap(rect, net);
         DrawLensScale(rect, net);
         DrawLegend(rect, net);
         DrawLensBar(rect);
+        // Over the lens bar's row, never under it.
+        DrawRunnerArrows(rect, net);
         DrawSearch(new Rect(rect.x + 6f, rect.y + 6f, rect.width * 0.45f, 26f), net);
         GuideRegistry.Area("gateway.searchbox", new Rect(rect.x + 6f, rect.y + 6f, 262f, 26f));
         GuideRegistry.Area("gateway.lenses", LensBarRect(rect));
@@ -173,8 +183,10 @@ public static partial class GatewayView
             GuideRegistry.Area("gateway.minimap", new Rect(rect.xMax - 186f, rect.yMax - 122f, 180f, 116f));
     }
 
-    /// <summary>The zoom buttons' row; the % label and the H / R buttons hang below it (76 px in all).</summary>
-    private static Rect ZoomRect(Rect map) => new(map.xMax - 3 * 34f - 6f, map.yMax - 82f - (NetrunMod.Settings.MapMinimap ? 124f : 0f), 3 * 34f, 30f);
+    /// <summary>The zoom buttons' row; the H / R buttons hang below it (<see cref="ZoomBlockH"/> in all).</summary>
+    private static Rect ZoomRect(Rect map) => new(map.xMax - 3 * 34f - 6f, map.yMax - ZoomBlockH - 6f - (NetrunMod.Settings.MapMinimap ? 124f : 0f), 3 * 34f, 30f);
+
+    private const float ZoomBlockH = 60f;
 
     // The district under the mouse: its name fades in, framed, at the district's centre (Maxim, 2026-10-23). Corp
     // districts are one per corporation slot.
@@ -322,8 +334,14 @@ public static partial class GatewayView
         Text.Font = GameFont.Tiny;
         string text = NetrunUI.T("NR_MapWatchTag");
         float w = NetrunUI.Width(text) + 8f;
-        // Top left, clear of the patrol triangle at the hub's corner.
+        // Top left, clear of the patrol triangle at the hub's corner; left out where a button or a plate already is.
         var tag = new Rect(hubRect.x - w - 14f, hubRect.y - 16f, w, 14f);
+        if (!PlateFree(tag))
+        {
+            Text.Font = GameFont.Small;
+            return;
+        }
+        PlacedPlates.Add(tag);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.8f);
         Widgets.DrawBox(tag);

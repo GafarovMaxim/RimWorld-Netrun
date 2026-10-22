@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- UI pass 2: hub plates, watch and timer tags no longer hide under the map's buttons; the zoom buttons sit on a dark backing, the zoom percent moved into the reset button's tooltip; off-screen runner tags stay below the lens bar.
 - UI pass 1: the dive cost moved into the DIVE button, the reason it is off shows under it; readable small text is lighter; no loot bars under uncharted hubs; Board tooltips in the terminal style; an empty contract history says so and does not unfold; × in multipliers, hops in route info, Reward sort renamed.
 - Cyberspace map: hub plates show node chips on a second row under the name; up to three state icons left of the name (key, exit, ICE patrol, known honeypot, lock, rival, storm, offline, lab, corp core); a hub under contract surveillance pulses amber; hovering a district fades its name in at its centre.
 - Board: the fixer chip filters the offers by that fixer; a fixer without a line gets a call button in the left list (pulses while they have offers); a reason line under a blocked button; blocked offers dimmed; Accept warns that the fixer's other offers are withdrawn; difficulty filter as one row of squares; the type sort groups offers with headers; the sort label cycles the sort.
