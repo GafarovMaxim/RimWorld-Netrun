@@ -5,10 +5,9 @@ namespace Netrun;
 /// <summary>Cyberspace dependency balance numbers (Defs/Netsick.xml).</summary>
 public class NetsickSettingsDef : Def
 {
-    // Growth: per day spent in a cyberpod, per hack from a pod, per remote hack through a cyberlink.
+    // Growth: per day spent in a cyberpod, per hack from a pod.
     public float podGainPerDay = 0.15f;
     public float podHackGain = 0.02f;
-    public float remoteHackGain = 0.05f;
 
     // Recovery while disconnected.
     public float decayPerDay = 0.04f;

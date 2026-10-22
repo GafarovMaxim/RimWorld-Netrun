@@ -5,11 +5,10 @@
   <Netrun.NetsickSettingsDef>
     <defName>NR_NetsickSettings</defName>
 
-    <!-- Growth: per day in a cyberpod, per hack from a pod, per remote hack through a cyberlink.
+    <!-- Growth: per day in a cyberpod, per hack from a pod (hacks on the map do not count).
          A AI coprocessor multiplies pod growth by coprocessorNetsickFactor (Defs/Heat.xml). -->
     <podGainPerDay>0.10</podGainPerDay>
     <podHackGain>0.02</podHackGain>
-    <remoteHackGain>0.05</remoteHackGain>
 
     <!-- Recovery per day while disconnected -->
     <decayPerDay>0.06</decayPerDay>
@@ -46,7 +45,7 @@
     <defName>NR_Netsick</defName>
     <hediffClass>Netrun.Hediff_Netsick</hediffClass>
     <label>netsick</label>
-    <description>Dependency on cyberspace. Long sessions in a cyberpod and remote hacking through a cyberlink make the physical world feel slow and flat. It fades with time spent offline, but a strong dependency hurts when cut off and can drive the netrunner back into the pod against all reason.</description>
+    <description>Dependency on cyberspace. Long sessions and hacks in a cyberpod make the physical world feel slow and flat. It fades with time spent offline, but a strong dependency hurts when cut off and can drive the netrunner back into the pod against all reason.</description>
     <defaultLabelColor>(0.4, 0.9, 1)</defaultLabelColor>
     <isBad>true</isBad>
     <maxSeverity>1</maxSeverity>

@@ -169,17 +169,11 @@ public class NetsickManager : GameComponent
         return lines.Count == 0 ? "No Netsick." : string.Join("\n", lines);
     }
 
-    /// <summary>Called once per hack completed by a colonist.</summary>
+    /// <summary>Called once per hack completed by a colonist. Only hacks from a cyberpod count; hacks on the map do not (Maxim, 2026-10-22).</summary>
     public void NotifyHack(Pawn hacker)
     {
         if (hacker.TryGetHoldingCyberpod(out Building_Cyberpod pod))
-        {
             AddNetsick(hacker, Settings.podHackGain * PodFactor(pod)).LastConnectedTick = Find.TickManager.TicksGame;
-        }
-        else if (hacker.IsHacker())
-        {
-            AddNetsick(hacker, Settings.remoteHackGain).LastConnectedTick = Find.TickManager.TicksGame;
-        }
     }
 
     /// <summary>The severity where Netsick starts to hurt: the first stage with capacity losses or breaks.</summary>

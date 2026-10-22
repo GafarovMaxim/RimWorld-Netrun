@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Changed
+- Netsick no longer grows from hacks on the map; only time and hacks in a cyberpod cause it.
 
 ## [1.1.13] - 2026-10-22
 ### Changed
