@@ -58,7 +58,7 @@
   <NR_BoardFilter_Hard>Только тяжёлые</NR_BoardFilter_Hard>
   <NR_BoardFilter_Medium>Только средние</NR_BoardFilter_Medium>
   <NR_BoardSort>Сортировка</NR_BoardSort>
-  <NR_BoardSort_Reward>Выгода</NR_BoardSort_Reward>
+  <NR_BoardSort_Reward>Награда</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Тип</NR_BoardSort_Type>
   <NR_BoardFilterAllShort>Все</NR_BoardFilterAllShort>

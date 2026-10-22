@@ -75,7 +75,7 @@
   <NR_MapNoRunner>No runner.</NR_MapNoRunner>
   <NR_MapAlreadyHere>The runner is already here.</NR_MapAlreadyHere>
   <NR_MapNoRoute>No way there now.</NR_MapNoRoute>
-  <NR_MapRouteInfo>{0} links, about {1} h</NR_MapRouteInfo>
+  <NR_MapRouteInfo>hops: {0}, about {1} h</NR_MapRouteInfo>
   <NR_MapSessionHours>{0} h in the net</NR_MapSessionHours>
   <NR_MapGo>Go here</NR_MapGo>
   <NR_MapGoTip>The selected runner walks the shortest route. The game keeps running; a message comes on arrival.</NR_MapGoTip>

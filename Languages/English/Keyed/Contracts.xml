@@ -59,7 +59,7 @@
   <NR_BoardFilter_Medium>Medium only</NR_BoardFilter_Medium>
   <NR_BoardSort>Sort</NR_BoardSort>
   <NR_BoardSort_Reward>Reward</NR_BoardSort_Reward>
-  <NR_BoardSort_Duration>Term</NR_BoardSort_Duration>
+  <NR_BoardSort_Duration>Time</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Type</NR_BoardSort_Type>
   <NR_BoardFilterAllShort>All</NR_BoardFilterAllShort>
   <NR_BoardSortCycleTip>Click to change the sort.</NR_BoardSortCycleTip>

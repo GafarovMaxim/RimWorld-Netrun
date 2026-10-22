@@ -98,7 +98,7 @@ public static class ContractsTab
                 _difficulty = d;
             if (d != DifficultyFilter.Any)
                 Squares(r.center.x - 19.5f, r.center.y - 5.5f, (int)d);
-            TooltipHandler.TipRegion(r, ("NR_BoardFilter_" + d).Translate());
+            NetrunUI.Tip(r, ("NR_BoardFilter_" + d).Translate());
         }
         y += 34f;
         y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardSort".Translate());
@@ -149,7 +149,7 @@ public static class ContractsTab
                     GUI.color = Color.white;
                 }
                 string refusal = fixer.CallRefusal;
-                TooltipHandler.TipRegion(call, refusal ?? (string)"NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours)
+                NetrunUI.Tip(call, refusal ?? (string)"NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours)
                     + "\n" + "NR_FixerCall".Translate(fixer.EffectiveCallCost));
                 right = 28f;
                 if (refusal == null && Widgets.ButtonInvisible(call))
@@ -159,7 +159,7 @@ public static class ContractsTab
         }
         Widgets.Label(new Rect(r.x + 10f, r.y + 4f, r.width - 14f - right, 22f), (silent ? name.Colorize(NetrunUI.Muted) : name).Truncate(r.width - 14f - right));
         Text.Font = GameFont.Tiny;
-        Widgets.Label(new Rect(r.x + 10f, r.y + 24f, r.width - 14f, 16f), sub.Truncate(r.width - 14f).Colorize(NetrunUI.Muted));
+        Widgets.Label(new Rect(r.x + 10f, r.y + 24f, r.width - 14f, 16f), sub.Truncate(r.width - 14f).Colorize(NetrunUI.Subtle));
         Text.Font = GameFont.Small;
         if (rep >= 0f)
             NetrunUI.Bar(new Rect(r.x + 10f, r.yMax - 9f, r.width - 20f, 5f), rep, color);
@@ -236,7 +236,7 @@ public static class ContractsTab
         Widgets.Label(sortRect, (("NR_BoardSort_" + _sort).Translate().ToLower() + " ▼").Colorize(Mouse.IsOver(sortRect) ? NetrunUI.Accent : NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        TooltipHandler.TipRegion(sortRect, "NR_BoardSortCycleTip".Translate());
+        NetrunUI.Tip(sortRect, "NR_BoardSortCycleTip".Translate());
         if (Widgets.ButtonInvisible(sortRect))
         {
             NetrunSound.Click();
@@ -529,7 +529,7 @@ public static class ContractsTab
         y += 28f;
         Text.Font = GameFont.Tiny;
         float desc = HyperText.Height(contract.Description, width, "board." + contract.Id);
-        HyperText.Label(new Rect(x, y, width, desc), contract.Description, NetrunUI.Muted, "board." + contract.Id);
+        HyperText.Label(new Rect(x, y, width, desc), contract.Description, NetrunUI.Subtle, "board." + contract.Id);
         Text.Font = GameFont.Small;
         y += desc + 6f;
 
@@ -540,7 +540,7 @@ public static class ContractsTab
         Squares(x, y + 3f, level);
         Text.Font = GameFont.Tiny;
         Widgets.Label(new Rect(x + 48f, y, width - 48f, 18f),
-            (DifficultyLabel(level) + " · " + "NR_BoardDuration".Translate(contract.DurationTicks.ToStringTicksToPeriod())).Colorize(NetrunUI.Muted));
+            (DifficultyLabel(level) + " · " + "NR_BoardDuration".Translate(contract.DurationTicks.ToStringTicksToPeriod())).Colorize(NetrunUI.Subtle));
         Text.Font = GameFont.Small;
 
         // Right column: reward and reputation over the button (fixed width, never wraps).
@@ -591,7 +591,7 @@ public static class ContractsTab
         Widgets.Label(r, text.Truncate(r.width).Colorize(color));
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        TooltipHandler.TipRegion(r, text);
+        NetrunUI.Tip(r, text);
     }
 
     // ---- History: a folding line at the bottom ----
@@ -604,15 +604,16 @@ public static class ContractsTab
         int count = Mathf.Min(5, contracts.History.Count);
         Text.Anchor = TextAnchor.MiddleLeft;
         Text.Font = GameFont.Tiny;
+        // Nothing finished yet: say so in the head, nothing to unfold.
         Widgets.Label(new Rect(head.x + 12f, head.y, head.width - 20f, head.height),
-            ("NR_BoardHistoryHead".Translate(count) + (_historyOpen ? " ▾" : " ▸")).Colorize(NetrunUI.Muted));
+            (count == 0 ? (string)"NR_BoardNoHistory".Translate() : (string)"NR_BoardHistoryHead".Translate(count) + (_historyOpen ? " ▾" : " ▸")).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.UpperLeft;
-        if (Widgets.ButtonInvisible(head))
+        if (count > 0 && Widgets.ButtonInvisible(head))
         {
             NetrunSound.Click();
             _historyOpen = !_historyOpen;
         }
-        if (_historyOpen)
+        if (_historyOpen && count > 0)
         {
             float y = head.yMax + 4f;
             if (count == 0)

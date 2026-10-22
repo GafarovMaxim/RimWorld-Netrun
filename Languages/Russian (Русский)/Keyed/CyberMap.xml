@@ -75,7 +75,7 @@
   <NR_MapNoRunner>Нет раннера.</NR_MapNoRunner>
   <NR_MapAlreadyHere>Раннер уже здесь.</NR_MapAlreadyHere>
   <NR_MapNoRoute>Сейчас туда не пройти.</NR_MapNoRoute>
-  <NR_MapRouteInfo>связей: {0}, около {1} ч</NR_MapRouteInfo>
+  <NR_MapRouteInfo>переходов: {0}, около {1} ч</NR_MapRouteInfo>
   <NR_MapSessionHours>{0} ч в сети</NR_MapSessionHours>
   <NR_MapGo>Идти сюда</NR_MapGo>
   <NR_MapGoTip>Выбранный раннер идёт кратчайшим путём. Игра идёт дальше; по прибытии придёт сообщение.</NR_MapGoTip>

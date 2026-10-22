@@ -143,7 +143,7 @@
   <NR_GatewayIceWhite>white only, no Black ICE</NR_GatewayIceWhite>
   <NR_GatewayRowReward>Reward</NR_GatewayRowReward>
   <NR_GatewayRowTrace>Trace</NR_GatewayRowTrace>
-  <NR_GatewayTraceValue>x{0} Heat per action</NR_GatewayTraceValue>
+  <NR_GatewayTraceValue>×{0} Heat per action</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Risk</NR_GatewayRowRisk>
   <NR_GatewayContract>★ counts double for a contract</NR_GatewayContract>
   <NR_GatewayPrograms>Programs ({0} slots)</NR_GatewayPrograms>
@@ -171,6 +171,7 @@
   <NR_DiveCostPassenger>AI passenger in the netrunner: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Total: {0} cyberdata</NR_DiveCostTotal>
   <NR_GatewayDive>DIVE</NR_GatewayDive>
+  <NR_GatewayDiveCost>DIVE · {0} cyberdata</NR_GatewayDiveCost>
   <NR_GatewayRisk_0>low: weak gates, no Black ICE</NR_GatewayRisk_0>
   <NR_GatewayRisk_1>medium: strong gates and a fork; the hard path is guarded by Black ICE</NR_GatewayRisk_1>
   <NR_GatewayRisk_2>high: Black ICE (nausea, lockout or coma); a failed dive leaves burns</NR_GatewayRisk_2>
@@ -281,7 +282,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHudTraceTip>Every action raises the dive's trace; on leaving it becomes Heat. Stealth and the Wraith halve it.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Haul</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Haul: empty.</NR_DiveHudHaulEmpty>
-  <NR_GatewayRewardMult>x{0} of the dive cost</NR_GatewayRewardMult>
+  <NR_GatewayRewardMult>×{0} of the dive cost</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Dive summaries: the last {0} runs.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>No dives on record.</NR_GatewayNoReports>
   <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>

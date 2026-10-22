@@ -143,7 +143,7 @@
   <NR_GatewayIceWhite>только белый, без Black ICE</NR_GatewayIceWhite>
   <NR_GatewayRowReward>Награда</NR_GatewayRowReward>
   <NR_GatewayRowTrace>След</NR_GatewayRowTrace>
-  <NR_GatewayTraceValue>x{0} Heat за действие</NR_GatewayTraceValue>
+  <NR_GatewayTraceValue>×{0} Heat за действие</NR_GatewayTraceValue>
   <NR_GatewayRowRisk>Риск</NR_GatewayRowRisk>
   <NR_GatewayContract>★ засчитывается дважды по контракту</NR_GatewayContract>
   <NR_GatewayPrograms>Программы (слотов: {0})</NR_GatewayPrograms>
@@ -171,6 +171,7 @@
   <NR_DiveCostPassenger>ИИ-пассажир в нетраннере: −{0}</NR_DiveCostPassenger>
   <NR_DiveCostTotal>Итого: {0} киберданных</NR_DiveCostTotal>
   <NR_GatewayDive>НЫРНУТЬ</NR_GatewayDive>
+  <NR_GatewayDiveCost>НЫРНУТЬ · киберданные: {0}</NR_GatewayDiveCost>
   <NR_GatewayRisk_0>низкий: слабые ворота, без Black ICE</NR_GatewayRisk_0>
   <NR_GatewayRisk_1>средний: крепкие ворота и развилка; сложный путь стережёт Black ICE</NR_GatewayRisk_1>
   <NR_GatewayRisk_2>высокий: Black ICE (тошнота, блокировка или кома); проваленный нырок оставляет ожоги</NR_GatewayRisk_2>
@@ -281,7 +282,7 @@
   <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. «Невидимка» и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Добыча: пусто.</NR_DiveHudHaulEmpty>
-  <NR_GatewayRewardMult>x{0} от стоимости нырка</NR_GatewayRewardMult>
+  <NR_GatewayRewardMult>×{0} от стоимости нырка</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Итоги нырков: последние {0}.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>Нырки не записаны.</NR_GatewayNoReports>
   <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>

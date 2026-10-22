@@ -830,23 +830,30 @@ public static partial class GatewayView
 
         GuideRegistry.InScroll("gateway.programs", outer, _panelScroll, new Rect(inner.x, gProg, inner.width, y - gProg));
         float gDive = y;
-        // Dive cost with its breakdown, then the button.
+        // The cost sits in the button (Maxim, 2026-10-23); where it comes from and the breakdown are in its tooltip: the
+        // pod's hack points are spent first (2026-10-15).
         int cost = gateway.DiveCost(map, node, out string breakdown);
-        var costRect = new Rect(inner.x, y, inner.width, 22f);
-        // Where it comes from, in a muted tail: the pod's hack points are spent first (Maxim, 2026-10-15).
         GatewayManager.Runner(map, node, out Building_Cyberpod costPod);
         int fromPod = Mathf.Min(cost, GatewayManager.PodFuelCyberdata(costPod));
         string source = cost <= 0 || fromPod <= 0 ? string.Empty
-            : " · " + (fromPod >= cost ? NetrunUI.T("NR_DiveCostFromPod") : (string)"NR_DiveCostPartPod".Translate(fromPod));
-        Widgets.Label(costRect, "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn) + source.Colorize(NetrunUI.Muted));
-        NetrunUI.Tip(costRect, breakdown);
-        y += 26f;
+            : "\n" + (fromPod >= cost ? NetrunUI.T("NR_DiveCostFromPod") : (string)"NR_DiveCostPartPod".Translate(fromPod));
 
         AcceptanceReport dive = gateway.CanDive(map, node);
-        string diveTip = (runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) + "\n\n" : string.Empty) + breakdown;
-        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 48f), "NR_GatewayDive".Translate(), NetrunUI.Accent, dive, diveTip, NetrunTex.Dive))
+        string diveTip = (runner != null ? "NR_GatewayDiveTip".Translate(runner.LabelShort) + "\n\n" : string.Empty)
+                         + "NR_DiveCostLine".Translate(cost).Colorize(NetrunUI.Warn) + source.Colorize(NetrunUI.Subtle) + "\n" + breakdown;
+        string diveLabel = cost > 0 ? "NR_GatewayDiveCost".Translate(cost) : "NR_GatewayDive".Translate();
+        if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 48f), diveLabel, NetrunUI.Accent, dive, diveTip, NetrunTex.Dive))
             gateway.Dive(map, node);
         y += 52f;
+        // Why the button is off, under it (UI audit 2026-10-23: the reason was only in the tooltip).
+        if (!dive.Accepted && !dive.Reason.NullOrEmpty())
+        {
+            Text.Font = GameFont.Tiny;
+            float rh = Mathf.Min(Text.CalcHeight(dive.Reason, inner.width), 34f);
+            Widgets.Label(new Rect(inner.x, y - 2f, inner.width, rh), dive.Reason.Colorize(NetrunUI.Warn));
+            Text.Font = GameFont.Small;
+            y += rh + 2f;
+        }
 
         GuideRegistry.InScroll("gateway.dive", outer, _panelScroll, new Rect(inner.x, gDive, inner.width, y - gDive));
         y = DrawPanelFooter(inner, y, outer, withReports: !mapPanel);

@@ -45,7 +45,7 @@ public static partial class GatewayView
         GUI.color = sel ? NetrunUI.Ok : NetrunUI.TextColor;
         Widgets.Label(new Rect(tx, card.y + 3f, card.width - tx - 8f, 22f), name + "  ·  " + (moving ? NetrunUI.T("NR_MapRunnerWalking") : NetrunUI.T("NR_MapRunnerStanding")));
         Text.Font = GameFont.Tiny;
-        GUI.color = NetrunUI.Muted;
+        GUI.color = NetrunUI.Subtle;
         int hours = (Find.TickManager.TicksGame - r.SessionStartTick) / GenDate.TicksPerHour;
         string where = moving
             ? NetMapManager.NodeLabel(net.Map.Node(r.NodeId)) + " → " + NetMapManager.NodeLabel(net.Map.Node(r.Path[r.Path.Count - 1])) + " · " + net.HoursLeft(r).ToString("0.#") + " h"

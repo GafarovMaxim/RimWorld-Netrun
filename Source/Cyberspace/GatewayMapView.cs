@@ -690,7 +690,8 @@ public static partial class GatewayView
         if (WatchedHubs().Contains(n.Id))
             DrawWatchTag(rect);
         DrawTimerTag(rect, n, net);
-        if (!QueueHubName(rect, n, net, branches))
+        // No loot bars under an uncharted hub: it would tell the loot before the scouting (Maxim, 2026-10-23).
+        if (!QueueHubName(rect, n, net, branches) && net.Charted(n))
             DrawLootDots(rect, n, default);
 
         if (hover && !_mouseOnOverlay)
@@ -1145,7 +1146,7 @@ public static partial class GatewayView
             Widgets.Label(new Rect(row.x + 30f, row.y, right - row.x - 30f, 16f + 2f), name.Truncate(right - row.x - 30f));
             if (!b.Hidden)
             {
-                GUI.color = NetrunUI.Muted;
+                GUI.color = NetrunUI.Subtle;
                 string sub = b.TypeLabel + (b.Deserted ? " · " + NetrunUI.T("NR_MapDeserted") : "") + (b.Offline ? " · " + NetrunUI.T("NR_MapStateOffline") : "");
                 Widgets.Label(new Rect(row.x + 30f, row.y + 14f, right - row.x - 30f, 16f), sub.Truncate(right - row.x - 30f));
                 // Defense as pips (red with Black ICE), marks after them.
