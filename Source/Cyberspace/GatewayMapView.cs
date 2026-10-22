@@ -594,16 +594,17 @@ public static partial class GatewayView
         DrawPing(rect, n.Id);
         DrawEventPulse(rect, n, net);
         DrawVisited(rect, n);
-        GUI.color = NetrunUI.BgWindow;
-        GUI.DrawTexture(rect.ExpandedBy(2f), NetrunUI.Disc);
-        // Map v4 (D9): a hollow ring in the hub's colour with a faint fill; full only for hubs a runner has been to,
-        // and under a lens (its colour is the information) unless the lens has no data for it.
-        float a = (n.Offline ? 0.5f : 1f) * c.a;
-        bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         bool orbit = n.District == District.Orbit;
         // Orbit a diamond, transit a triangle, the rest a ring.
         Shape? shape = orbit ? Shape.Diamond : n.District == District.Transit ? Shape.Triangle : null;
         Rect shapeRect = orbit ? rect.ExpandedBy(2f) : rect.ExpandedBy(3f);
+        // The dark backing under the hub follows its shape (a round one showed around the transit triangle).
+        GUI.color = NetrunUI.BgWindow;
+        GUI.DrawTexture(shape != null ? shapeRect.ExpandedBy(2f) : rect.ExpandedBy(2f), shape is { } back ? ShapeTex(back, true) : NetrunUI.Disc);
+        // Map v4 (D9): a hollow ring in the hub's colour with a faint fill; full only for hubs a runner has been to,
+        // and under a lens (its colour is the information) unless the lens has no data for it.
+        float a = (n.Offline ? 0.5f : 1f) * c.a;
+        bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         // Far out there is no plate: the exit hangs beside the hub; closer it is an icon in the plate (2026-10-23).
         if (n.Exit && !home && _zoom < 0.8f)
             DrawExitBeside(local, p, r, a);
