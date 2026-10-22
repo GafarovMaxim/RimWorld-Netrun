@@ -8,7 +8,7 @@
     <defName>NR_Gene_NeuralResilience</defName>
     <label>neural resilience</label>
     <description>Carriers of this gene have a nervous system that shrugs off long hours in the net. Netsick grows 40% slower.</description>
-    <iconPath>UI/Netrun/Genes/NR_NeuralResilience</iconPath>
+    <iconPath>UI/Netrun/Genes/Gene_NeuralResistance</iconPath>
     <displayCategory>Miscellaneous</displayCategory>
     <displayOrderInCategory>900</displayOrderInCategory>
     <biostatCpx>1</biostatCpx>

@@ -67,6 +67,15 @@ public class CompBraindanceRecord : ThingComp
         Strength = other.Strength;
     }
 
+    public void CopyFrom(BraindanceRecordData r)
+    {
+        Author = r.Author;
+        AuthorId = r.AuthorId;
+        Event = r.Event;
+        Mood = r.Mood;
+        Strength = r.Strength;
+    }
+
     private BraindanceRecordData Top => new() { Author = Author, AuthorId = AuthorId, Event = Event, Mood = Mood, Strength = Strength };
 
     /// <summary>The stack's recordings, top first, trimmed or padded with copies of the top to <paramref name="count"/>.</summary>

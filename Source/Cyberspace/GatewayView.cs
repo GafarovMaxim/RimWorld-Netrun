@@ -400,8 +400,8 @@ public static partial class GatewayView
         if (!NetrunMod.Settings.Animations || Event.current.type != EventType.Repaint)
             return;
 
-        // The packets, motes and ripple stay in screen space: dragged with the map they jumped between grid lines
-        // (Maxim, 2026-10-14). Only the grid itself moves with the map.
+        // The packets run on the grid's own lines and the motes and ripple sit in map space, so all of them move with the
+        // map (Maxim, 2026-10-23: fixed to the screen they slid over the map while panning).
         float now = Time.realtimeSinceStartup;
         // Packets: a few at a time, each on its own line; every time slot picks new lines.
         for (int k = 0; k < 3; k++)
@@ -417,14 +417,14 @@ public static partial class GatewayView
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a);
             if (horizontal)
             {
-                float y = step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.height / step)));
-                float x = Mathf.Lerp(-60f, rect.width, forward ? t : 1f - t);
+                float y = offset.y + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.height / step)));
+                float x = Mathf.Lerp(-60f, rect.width, forward ? t : 1f - t) + offset.x;
                 GUI.DrawTexture(new Rect(x, y - 0.5f, 60f, 2f), BaseContent.WhiteTex);
             }
             else
             {
-                float x = step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / step)));
-                float y = Mathf.Lerp(-60f, rect.height, forward ? t : 1f - t);
+                float x = offset.x + step * rnd.Next(Mathf.Max(1, Mathf.FloorToInt(rect.width / step)));
+                float y = Mathf.Lerp(-60f, rect.height, forward ? t : 1f - t) + offset.y;
                 GUI.DrawTexture(new Rect(x - 0.5f, y, 2f, 60f), BaseContent.WhiteTex);
             }
         }
@@ -436,7 +436,7 @@ public static partial class GatewayView
             int slot = Mathf.FloorToInt(f);
             float t = f - slot;
             var rnd = new GridRng(slot * 131 + k * 7);
-            var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+            var p = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height) + offset;
             float a = 0.35f * Mathf.Sin(t * Mathf.PI);
             GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, a * 0.5f);
             GUI.DrawTexture(new Rect(p.x - 5f, p.y - 5f, 10f, 10f), NetrunUI.GlowTex);
@@ -452,7 +452,7 @@ public static partial class GatewayView
             if (t < 0.45f)
             {
                 var rnd = new GridRng(slot * 7919);
-                var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height);
+                var c = new Vector2((float)rnd.NextDouble() * rect.width, (float)rnd.NextDouble() * rect.height) + offset;
                 float r = Mathf.Lerp(10f, Mathf.Max(rect.width, rect.height) * 0.45f, t / 0.45f);
                 GUI.color = new Color(GridColor.r, GridColor.g, GridColor.b, 0.12f * (1f - t / 0.45f));
                 GUI.DrawTexture(new Rect(c.x - r, c.y - r, r * 2f, r * 2f), NetrunUI.ThinRing);
@@ -713,15 +713,29 @@ public static partial class GatewayView
                 }
                 y += 24f;
             }
-            if (node.Contract || node.Rival)
+            if (node.Contract)
             {
                 y += 4f;
-                float cx = inner.x;
-                if (node.Contract)
-                    cx += NetrunUI.Chip(cx, y, "NR_GatewayContract".Translate(), NetrunUI.Ok) + 6f;
-                if (node.Rival)
-                    NetrunUI.Chip(cx, y, "NR_GatewayRival".Translate(), NetrunUI.Warn, "NR_GatewayRivalTip".Translate(NetrunDefOf.NR_Cyberspace.rivalTurns));
+                NetrunUI.Chip(inner.x, y, "NR_GatewayContract".Translate(), NetrunUI.Ok);
                 y += 24f;
+            }
+            // A rival: a red strip across the panel with the turns left (Maxim, 2026-10-23: the small chip was easy to miss).
+            if (node.Rival)
+            {
+                y += 4f;
+                var strip = new Rect(inner.x, y, inner.width, 34f);
+                Widgets.DrawBoxSolid(strip, new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, 0.14f));
+                Widgets.DrawBoxSolid(new Rect(strip.x, strip.y, 3f, strip.height), NetrunUI.Bad);
+                Text.Font = GameFont.Tiny;
+                GUI.color = NetrunUI.Bad;
+                Widgets.Label(new Rect(strip.x + 10f, strip.y + 2f, strip.width - 14f, 16f), NetrunUI.Upper(NetrunUI.T("NR_GatewayRival")));
+                GUI.color = NetrunUI.TextColor;
+                Widgets.Label(new Rect(strip.x + 10f, strip.y + 17f, strip.width - 14f, 16f),
+                    "NR_GatewayRivalTurns".Translate(NetrunDefOf.NR_Cyberspace.rivalTurns));
+                GUI.color = Color.white;
+                Text.Font = GameFont.Small;
+                NetrunUI.Tip(strip, "NR_GatewayRivalTip".Translate(NetrunDefOf.NR_Cyberspace.rivalTurns));
+                y += 38f;
             }
         }
 

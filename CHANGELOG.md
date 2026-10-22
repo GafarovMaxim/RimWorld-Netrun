@@ -3,6 +3,12 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: exit and key icons now sit left of the hub name, like the lock; district names are gone from the map.
+- Contracts: a Medium filter, sorting by type, and a Call button right on an offer whose fixer has no open channel.
+- Fixed: the grid animation on the cyberspace map slid over the map while panning.
+- Fixed: some generated maps left corporate hubs cut off from the net.
+- Fixed: batch braindance editing used only the top recording of each stack.
+- The rival netrunner on a node is now a red strip in the side panel and the first chip on the map.
 - Cyberspace map: districts show as soft colour patches; district names lost their frames.
 - Cyberspace map: a hub's nodes are now chips in its name plate instead of icons around it; a shut hub shows a lock in the plate instead of the LOCKED tag.
 - Cyberspace map: clearer links: straight, four kinds (street, highway, darknet, shut), the route crawls toward its end, and the key line shows only on hover or selection.

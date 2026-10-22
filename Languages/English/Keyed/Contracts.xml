@@ -56,9 +56,12 @@
   <NR_BoardFilter_Any>Any difficulty</NR_BoardFilter_Any>
   <NR_BoardFilter_Easy>Easy only</NR_BoardFilter_Easy>
   <NR_BoardFilter_Hard>Hard only</NR_BoardFilter_Hard>
+  <NR_BoardFilter_Medium>Medium only</NR_BoardFilter_Medium>
   <NR_BoardSort>Sort</NR_BoardSort>
   <NR_BoardSort_Reward>Reward</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Term</NR_BoardSort_Duration>
+  <NR_BoardSort_Type>Type</NR_BoardSort_Type>
+  <NR_BoardCallFirstTip>No channel to {0} yet: call them to take this contract. The channel stays open {1} h.</NR_BoardCallFirstTip>
   <NR_BoardDifficulty_1>easy</NR_BoardDifficulty_1>
   <NR_BoardDifficulty_2>medium</NR_BoardDifficulty_2>
   <NR_BoardDifficulty_3>hard</NR_BoardDifficulty_3>

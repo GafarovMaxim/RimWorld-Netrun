@@ -260,6 +260,22 @@ public static class CyberMapGenerator
                 if (Link(a, b, kind, loose: true))
                     root[ra] = rb;
             }
+            // The pool alone can leave parts apart (the darknet hub or the Old Net took the pairs between them; Maxim,
+            // 2026-10-23: corporations came out cut off). Join them by the shortest pair that crosses no link, else the shortest.
+            for (int guard = 0; guard < ids.Count; guard++)
+            {
+                var parts = ids.GroupBy(Find).ToList();
+                if (parts.Count < 2)
+                    break;
+                var first = new HashSet<int>(parts[0]);
+                var joins = (from x in first from y in ids where !first.Contains(y) select (d: Dist(x, y), x, y)).OrderBy(p => p.d).ToList();
+                var join = joins.FirstOrDefault(p => map.LinkClear(p.x, p.y, 0f));
+                if (join.x == join.y)
+                    join = joins[0];
+                map.Links.Add(new MapLink { A = join.x, B = join.y, Kind = kind, Known = kind != LinkKind.Dark });
+                map.Dirty();
+                root[Find(join.x)] = Find(join.y);
+            }
         }
         List<(float d, int a, int b)> PoolPairs(System.Func<int, int, bool> where)
             => pool.Keys.Select(k => ((int)(k >> 32), (int)(k & 0xFFFFFFFF)))

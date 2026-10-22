@@ -24,7 +24,6 @@
   <!-- Gradual districts (I1) -->
   <NR_SettingsGradualDistricts>Chart districts gradually</NR_SettingsGradualDistricts>
   <NR_SettingsGradualDistrictsTip>At the start only Home and the districts next to it are charted; the rest are faint, with a "?", their branches hidden. A runner stepping in charts a district, and every clean dive charts the next one. Nothing is locked. Off: the whole map is charted from the start.</NR_SettingsGradualDistrictsTip>
-  <NR_DistrictUncharted>Uncharted</NR_DistrictUncharted>
   <NR_DistrictCharted>District charted: {0}. {1}</NR_DistrictCharted>
   <NR_DistrictHint_Home>Your own hub.</NR_DistrictHint_Home>
   <NR_DistrictHint_Outskirts>Weak nodes and little Heat: the place to learn.</NR_DistrictHint_Outskirts>

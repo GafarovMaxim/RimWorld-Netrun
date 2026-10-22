@@ -50,9 +50,9 @@ public static partial class GatewayView
         string where = moving
             ? NetMapManager.NodeLabel(net.Map.Node(r.NodeId)) + " → " + NetMapManager.NodeLabel(net.Map.Node(r.Path[r.Path.Count - 1])) + " · " + net.HoursLeft(r).ToString("0.#") + " h"
             : NetMapManager.NodeLabel(net.Map.Node(r.NodeId));
-        Widgets.Label(new Rect(tx, card.y + 24f, card.width - tx - 60f, 16f), where);
+        Widgets.Label(new Rect(tx, card.y + 24f, card.width - tx - 96f, 16f), where.Truncate(card.width - tx - 96f));
         Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(new Rect(card.xMax - 64f, card.y + 24f, 56f, 16f), "NR_MapSessionHours".Translate(hours));
+        Widgets.Label(new Rect(card.xMax - 96f, card.y + 24f, 88f, 16f), "NR_MapSessionHours".Translate(hours));
         Text.Anchor = TextAnchor.UpperLeft;
         GUI.color = Color.white;
         if (moving)

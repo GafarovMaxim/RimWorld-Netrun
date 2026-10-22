@@ -445,7 +445,7 @@ public static partial class GatewayView
         public string Text;
         public Color Edge;
         public int Priority;
-        public bool Capital, Interesting, Named, Lock;
+        public bool Capital, Interesting, Named, Lock, Exit, Key;
         public List<ExternalNode> Branches;
     }
 
@@ -480,13 +480,17 @@ public static partial class GatewayView
         // Up close every hub has its name; farther out only the interesting ones, the rest keep just their node chips.
         bool named = interesting || _zoom >= 1.3f;
         bool locked = n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs;
-        if (!named && branches.Count == 0 && !locked)
+        bool exit = n.Exit && n.District != District.Home, key = false;
+        for (int i = 0; i < branches.Count; i++)
+            key |= !branches[i].Hidden && branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
+        int icons = (locked ? 1 : 0) + (exit ? 1 : 0) + (key ? 1 : 0);
+        if (!named && branches.Count == 0 && icons == 0)
             return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
         string text = !named ? null : capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
         int chips = Mathf.Min(branches.Count, PlateChips);
         string more = MoreText(branches.Count - chips);
-        float w = (named ? NameWidth(text) + 16f : 6f) + (locked ? LockWidth : 0f) + chips * ChipStep + (more != null ? NameWidth(more) + 2f : 0f);
+        float w = (named ? NameWidth(text) + 16f : 6f) + icons * LockWidth + chips * ChipStep + (more != null ? NameWidth(more) + 2f : 0f);
         NameQueue.Add(new NamePlate
         {
             Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f),
@@ -499,6 +503,8 @@ public static partial class GatewayView
             Interesting = interesting,
             Named = named,
             Lock = locked,
+            Exit = exit,
+            Key = key,
             Branches = branches,
         });
         return true;
@@ -549,12 +555,10 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         }
         float x = tag.x + (plate.Named ? 7f : 3f), cy = tag.center.y;
-        if (plate.Lock && NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
-        {
-            GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, a);
-            GUI.DrawTexture(new Rect(x, cy - 5.5f, 11f, 11f), lockTex);
-            x += LockWidth;
-        }
+        // Icons left of the name (Maxim, 2026-10-23): shut (lock), a way out of the net (exit), holds a key (key).
+        x = PlateIcon(x, cy, plate.Lock, "Icon_Lock", NetrunUI.Warn, a);
+        x = PlateIcon(x, cy, plate.Exit, "Icon_ExitHub", Color.white, a);
+        x = PlateIcon(x, cy, plate.Key, "Icon_Key", NetrunUI.Warn, a);
         Text.Font = GameFont.Tiny;
         if (plate.Named)
         {
@@ -585,6 +589,15 @@ public static partial class GatewayView
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
+    }
+
+    private static float PlateIcon(float x, float cy, bool show, string icon, Color tint, float a)
+    {
+        if (!show || NetrunTex.CyberIcon(icon) is not { } tex)
+            return x;
+        GUI.color = new Color(tint.r, tint.g, tint.b, a);
+        GUI.DrawTexture(new Rect(x, cy - 5.5f, 11f, 11f), tex);
+        return x + LockWidth;
     }
 
     /// <summary>A terminal plate: a dark tag with a thin edge in the given colour and a marker tick on the left.</summary>

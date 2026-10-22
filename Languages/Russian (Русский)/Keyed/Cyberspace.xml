@@ -244,7 +244,8 @@
   <NR_HunterFollowed>Охотник ICE прошёл по следу нетраннера. Скоро ждите проблем с машинами.</NR_HunterFollowed>
   <NR_StormLabel>Шторм данных</NR_StormLabel>
   <NR_Storm>Сеть накрыл шторм данных на {0}: все ноды сложнее, а добыча больше.</NR_Storm>
-  <NR_GatewayRival>⚔ соперник</NR_GatewayRival>
+  <NR_GatewayRival>нетраннер-соперник</NR_GatewayRival>
+  <NR_GatewayRivalTurns>ходов до потери файлов: {0}</NR_GatewayRivalTurns>
   <NR_GatewayRivalTip>Другой нетраннер идёт за этой нодой. Ходов у вас: {0}, потом файлов не станет.</NR_GatewayRivalTip>
   <NR_DiveHunterActive>Охотник ICE на следу: бьёт каждый ход ноды. Взломайте его, когда путь свободен.</NR_DiveHunterActive>
   <NR_DiveRivalActive>Соперник, осталось ходов: {0}</NR_DiveRivalActive>

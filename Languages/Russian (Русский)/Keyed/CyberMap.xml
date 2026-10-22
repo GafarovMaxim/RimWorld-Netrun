@@ -24,7 +24,6 @@
   <!-- Постепенное открытие районов (И1) -->
   <NR_SettingsGradualDistricts>Открывать районы постепенно</NR_SettingsGradualDistricts>
   <NR_SettingsGradualDistrictsTip>В начале на карте только Дом и соседние районы; остальные бледные, со знаком «?», их ноды скрыты. Раннер, зашедший в район, наносит его на карту, а каждый чистый нырок открывает следующий. Ничего не запрещено. Выключено: вся карта открыта сразу.</NR_SettingsGradualDistrictsTip>
-  <NR_DistrictUncharted>Неизвестно</NR_DistrictUncharted>
   <NR_DistrictCharted>Район нанесён на карту: {0}. {1}</NR_DistrictCharted>
   <NR_DistrictHint_Home>Ваш собственный узел.</NR_DistrictHint_Home>
   <NR_DistrictHint_Outskirts>Слабые ноды и мало Heat: здесь учатся.</NR_DistrictHint_Outskirts>

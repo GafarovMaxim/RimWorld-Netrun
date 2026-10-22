@@ -28,6 +28,7 @@ public static class ContractsTab
     {
         Any,
         Easy,
+        Medium,
         Hard,
     }
 
@@ -35,6 +36,7 @@ public static class ContractsTab
     {
         Reward,
         Duration,
+        Type,
     }
 
     private static int _fixerId = -1;
@@ -93,11 +95,10 @@ public static class ContractsTab
             y += 34f;
         }
         y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardSort".Translate());
-        float half = (w - 6f) / 2f;
-        if (Toggle(new Rect(0f, y, half, 28f), "NR_BoardSort_Reward".Translate(), _sort == Sort.Reward))
-            _sort = Sort.Reward;
-        if (Toggle(new Rect(half + 6f, y, half, 28f), "NR_BoardSort_Duration".Translate(), _sort == Sort.Duration))
-            _sort = Sort.Duration;
+        float third = (w - 12f) / 3f;
+        foreach (Sort sort in System.Enum.GetValues(typeof(Sort)))
+            if (Toggle(new Rect((int)sort * (third + 6f), y, third, 28f), ("NR_BoardSort_" + sort).Translate(), _sort == sort))
+                _sort = sort;
         Widgets.EndScrollView();
     }
 
@@ -150,11 +151,14 @@ public static class ContractsTab
         List<Contract> active = contracts.Active.ToList();
         var offers = fixers.Fixers.Where(f => !f.IsSilent && (_fixerId < 0 || f.Id == _fixerId))
             .SelectMany(f => contracts.OffersOf(f).Select(c => (contract: c, fixer: f)))
-            .Where(o => _difficulty == DifficultyFilter.Any || (_difficulty == DifficultyFilter.Easy ? Difficulty(o.contract) == 1 : Difficulty(o.contract) == 3))
+            .Where(o => _difficulty == DifficultyFilter.Any || Difficulty(o.contract) == (int)_difficulty)
             .ToList();
-        offers = _sort == Sort.Reward
-            ? offers.OrderByDescending(o => o.contract.Reward).ToList()
-            : offers.OrderBy(o => o.contract.DurationTicks).ToList();
+        offers = _sort switch
+        {
+            Sort.Reward => offers.OrderByDescending(o => o.contract.Reward).ToList(),
+            Sort.Duration => offers.OrderBy(o => o.contract.DurationTicks).ToList(),
+            _ => offers.OrderBy(o => o.contract.Title).ThenByDescending(o => o.contract.Reward).ToList(),
+        };
 
         float width = rect.width - 16f;
         float height = 2 * SectionHeight + 20f
@@ -190,7 +194,7 @@ public static class ContractsTab
         for (int i = 0; i < offers.Count; i++)
         {
             float h = OfferHeight(offers[i].contract, width);
-            DrawOffer(new Rect(0f, y, width, h), offers[i].contract, offers[i].fixer, contracts, openHelp, i);
+            DrawOffer(new Rect(0f, y, width, h), offers[i].contract, offers[i].fixer, contracts, openHelp, i, map);
             y += h + CardGap;
         }
         GuideRegistry.InScroll("board.offers", rect, scroll, new Rect(0f, gOff, width, y - gOff));
@@ -430,7 +434,7 @@ public static class ContractsTab
         return Mathf.Max(Mathf.Max(IconSize, content), 30f + 20f + ButtonHeight + 8f) + 2 * Pad;
     }
 
-    private static void DrawOffer(Rect rect, Contract contract, Fixer fixer, ContractManager contracts, System.Action<string> openHelp, int index)
+    private static void DrawOffer(Rect rect, Contract contract, Fixer fixer, ContractManager contracts, System.Action<string> openHelp, int index, Map map)
     {
         // Cards slide in one after another.
         float k = NetrunMod.Settings.Animations ? Mathf.Clamp01((Time.realtimeSinceStartup - NetrunUI.CascadeStart("board") - index * 0.04f) / 0.25f) : 1f;
@@ -474,9 +478,20 @@ public static class ContractsTab
         Text.Font = GameFont.Small;
         Text.Anchor = TextAnchor.UpperLeft;
 
+        // No channel to the fixer: call them right here instead of a dead Accept (Maxim, 2026-10-23: the player had to go to
+        // the Club and remember the name).
+        var button = new Rect(rect.xMax - Pad - ButtonWidth, ry + 50f, ButtonWidth, ButtonHeight);
+        if (!fixer.ChannelOpen && !NetworkIsolation.Active)
+        {
+            AcceptanceReport canCall = fixer.CallRefusal is { } refusal ? (AcceptanceReport)refusal : true;
+            if (NetrunUI.Button(button, "NR_FixerCall".Translate(fixer.EffectiveCallCost), NetrunUI.Warn, canCall,
+                    "NR_BoardCallFirstTip".Translate(fixer.Name, NetrunDefOf.NR_Fixers.channelHours), NetrunTex.CallFixer))
+                FixerDeals.Call(fixer, map);
+            return;
+        }
         AcceptanceReport report = contracts.CanAccept(contract, fixer);
         string label = contracts.HasActive(fixer) ? "NR_BoardOneActive".Translate() : (string)"NR_ContractAccept".Translate();
-        if (NetrunUI.Button(new Rect(rect.xMax - Pad - ButtonWidth, ry + 50f, ButtonWidth, ButtonHeight), label, NetrunUI.Ok, report))
+        if (NetrunUI.Button(button, label, NetrunUI.Ok, report))
             contracts.Accept(contract, fixer);
     }
 

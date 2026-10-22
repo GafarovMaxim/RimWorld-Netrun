@@ -138,39 +138,41 @@ public static class BraindanceEditing
         if (map == null)
             return;
         List<Thing> raws = RawRecordings(map).ToList();
-        var best = new Dictionary<(string, string, BraindanceMood), Thing>();
+        // Every recording of every stack (2026-10-23: a stack holds different recordings; only its top one was edited).
+        var best = new Dictionary<(string, string, BraindanceMood), BraindanceRecordData>();
+        int total = 0;
         foreach (Thing raw in raws)
         {
             if (raw.TryGetComp<CompBraindanceRecord>() is not { HasRecord: true } rec)
                 continue;
-            var key = (rec.Author, rec.Event, rec.Mood);
-            if (!best.TryGetValue(key, out Thing kept) || kept.TryGetComp<CompBraindanceRecord>().Strength < rec.Strength)
-                best[key] = raw;
+            foreach (BraindanceRecordData r in rec.All)
+            {
+                total++;
+                var key = (r.Author, r.Event, r.Mood);
+                if (!best.TryGetValue(key, out BraindanceRecordData kept) || kept.Strength < r.Strength)
+                    best[key] = r;
+            }
         }
         if (best.Count == 0)
             return;
         int skill = editor?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
-        int total = 0;
-        foreach (Thing raw in raws)
-            total += raw.stackCount;
         IntVec3 cell = editor?.Spawned == true && editor.Map == map ? editor.Position
             : AIAwakening.Console(map)?.InteractionCell ?? raws[0].PositionHeld;
 
         // The glitch: a share of the chips (at least one) is hit, half of them lost, half dulled.
-        var hit = new HashSet<Thing>();
+        var hit = new HashSet<BraindanceRecordData>();
         if (Rand.Chance(BatchGlitchChance))
-            foreach (Thing raw in best.Values.InRandomOrder().Take(Mathf.Max(1, Mathf.RoundToInt(best.Count * BatchGlitchShare))))
+            foreach (BraindanceRecordData raw in best.Values.InRandomOrder().Take(Mathf.Max(1, Mathf.RoundToInt(best.Count * BatchGlitchShare))))
                 hit.Add(raw);
         int lost = 0, dulled = 0, made = 0;
-        foreach (Thing raw in best.Values)
+        foreach (BraindanceRecordData source in best.Values)
         {
-            bool glitched = hit.Contains(raw);
+            bool glitched = hit.Contains(source);
             if (glitched && Rand.Bool)
             {
                 lost++;
                 continue;
             }
-            CompBraindanceRecord source = raw.TryGetComp<CompBraindanceRecord>();
             ThingDef chipDef = ChipsFor(source.Mood).First();
             Thing chip = ThingMaker.MakeThing(chipDef);
             if (chip.TryGetComp<CompBraindanceRecord>() is { } target)

@@ -56,9 +56,12 @@
   <NR_BoardFilter_Any>Любая сложность</NR_BoardFilter_Any>
   <NR_BoardFilter_Easy>Только лёгкие</NR_BoardFilter_Easy>
   <NR_BoardFilter_Hard>Только тяжёлые</NR_BoardFilter_Hard>
+  <NR_BoardFilter_Medium>Только средние</NR_BoardFilter_Medium>
   <NR_BoardSort>Сортировка</NR_BoardSort>
   <NR_BoardSort_Reward>Выгода</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
+  <NR_BoardSort_Type>Тип</NR_BoardSort_Type>
+  <NR_BoardCallFirstTip>Канала с {0} пока нет: позвоните, чтобы взять контракт. Канал открыт {1} ч.</NR_BoardCallFirstTip>
   <NR_BoardDifficulty_1>лёгкая</NR_BoardDifficulty_1>
   <NR_BoardDifficulty_2>средняя</NR_BoardDifficulty_2>
   <NR_BoardDifficulty_3>тяжёлая</NR_BoardDifficulty_3>

@@ -101,38 +101,8 @@ public static partial class GatewayView
                 if (n.District is not (District.Home or District.Dark) && !n.Offline && net.Charted(n))
                     NetrunUI.Glow(new Rect(ToScreen(local, n.Pos), Vector2.zero), HubColor(n, net), 0.09f, patch);
 
-            // District names as plates (positions and texts rebuilt every 2 s, not per frame); they take their place first,
-            // and hub names that would cover them are left out.
+            // No district names on the map (Maxim, 2026-10-23): the colour patches and the hover card name the district.
             PlacedPlates.Clear();
-            Text.Font = GameFont.Tiny;
-            Text.Anchor = TextAnchor.MiddleCenter;
-            foreach ((Vector2 pos, string text, Color color, bool corp, float radius, Vector2 top) in NetrunUI.Cached(DistrictsKey, () => DistrictLabels(net), 2f))
-            {
-                Vector2 c = ToScreen(local, pos);
-                // A corporation's ground: a soft glow in its own colour and a thin dashed edge (red stays for ICE,
-                // patrols and fortresses).
-                if (corp)
-                {
-                    float s = 34f * _zoom;
-                    NetrunUI.Glow(new Rect(c.x - s, c.y - s, s * 2f, s * 2f), color, 0.24f, 70f * _zoom);
-                    float edge = radius * MapScale(local) + 26f * Mathf.Sqrt(_zoom);
-                    GUI.color = new Color(color.r, color.g, color.b, 0.3f);
-                    GUI.DrawTexture(new Rect(c.x - edge, c.y - edge, edge * 2f, edge * 2f), DashedRing);
-                    GUI.color = Color.white;
-                }
-                // A watermark under the links, fixed in map space (Maxim, 2026-10-14: no sliding to the screen edge) and
-                // above the district's topmost hub, clear of the hubs and their branch markers; off screen it is not drawn.
-                Vector2 t = ToScreen(local, top);
-                float pw = NameWidth(text) + 16f;
-                var plate = new Rect(t.x - pw / 2f, t.y - 30f * Mathf.Sqrt(_zoom) - 20f, pw, 17f);
-                // No frame any more (map v5): a quiet watermark in the district's colour, under the links.
-                if (plate.Overlaps(local) && PlateFree(plate))
-                {
-                    PlacedPlates.Add(plate);
-                    Widgets.Label(plate, text);
-                }
-            }
-            Text.Anchor = TextAnchor.UpperLeft;
 
             // Links.
             HashSet<(int, int)> route = RouteSet(selRunner);
@@ -277,7 +247,7 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(new Rect(x + i * slot + 1f, y, slot - 2f, 2f), new Color(gold.r, gold.g, gold.b, (i < count ? 0.85f : 0.15f) * a));
     }
 
-    private const string DistrictsKey = "map.districts", PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
+    private const string PodPawnsKey = "map.podPawns", WatchedKey = "map.watched";
 
     /// <summary>D3: hubs that an accepted surveillance contract watches (twice a second).</summary>
     public static HashSet<int> WatchedHubs() => NetrunUI.Cached(WatchedKey,
@@ -313,29 +283,6 @@ public static partial class GatewayView
     }
 
     private static float MapScale(Rect local) => Mathf.Min(local.width / 1.04f, local.height / 0.70f) * _zoom;
-
-    private static List<(Vector2, string, Color, bool, float, Vector2)> DistrictLabels(NetMapManager net)
-    {
-        var list = new List<(Vector2, string, Color, bool, float, Vector2)>();
-        foreach (IGrouping<string, MapNode> g in net.Map.Nodes.Where(n => n.District is not (District.Home or District.Dark))
-                     .GroupBy(n => n.District + "|" + n.CorpSlot))
-        {
-            MapNode first = g.First();
-            bool corp = first.District == District.Corp && net.CorpOfSlot(first.CorpSlot) != null;
-            // No district plate over the orbit or a corporation's ground: the orbit stands apart on its own, and the
-            // capital's plate already names the corporation (Maxim, 2026-10-14).
-            if (corp || first.District == District.Orbit)
-                continue;
-            Color dc = HubColor(first, net);
-            Vector2 centre = g.Aggregate(Vector2.zero, (s, n) => s + n.Pos) / g.Count();
-            float radius = g.Max(n => Vector2.Distance(n.Pos, centre));
-            // The label stands over the district's topmost hub, at the district's middle across.
-            var top = new Vector2(centre.x, g.Min(n => n.Pos.y));
-            string label = net.Charted(first) ? DistrictLabel(first, net) : "NR_DistrictUncharted".Translate().ToString();
-            list.Add((centre, label.ToUpper().Colorize(new Color(dc.r, dc.g, dc.b, corp ? 0.85f : 0.6f)), dc, corp, radius, top));
-        }
-        return list;
-    }
 
     /// <summary>A hub's colour: its district, or for corporate ground the corporation's own colour, lifted to read on black.</summary>
     private static Color HubColor(MapNode n, NetMapManager net)
@@ -560,7 +507,8 @@ public static partial class GatewayView
         float a = (n.Offline ? 0.5f : 1f) * c.a;
         bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         bool orbit = n.District == District.Orbit;
-        if (n.Exit && !home)
+        // Far out there is no plate: the exit hangs beside the hub; closer it is an icon in the plate (2026-10-23).
+        if (n.Exit && !home && _zoom < 0.8f)
             DrawExitBeside(local, p, r, a);
         if (home)
             DrawHomeHub(rect, c, a);
@@ -658,16 +606,11 @@ public static partial class GatewayView
         // Map v5 (variant B, Maxim 2026-10-22): no markers around the hub; its nodes are chips in the name plate and one
         // badge sits top right: a contract target first, else a key.
         List<ExternalNode> branches = BranchesOf(n.Id);
-        bool contract = false, keyNode = false;
+        bool contract = false;
         for (int i = 0; i < branches.Count; i++)
-        {
-            if (branches[i].Hidden)
-                continue;
-            contract |= branches[i].Contract;
-            keyNode |= branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
-        }
-        if (contract || keyNode)
-            DrawNodeBadge(new Rect(rect.xMax - 2f, rect.y - 8f, 10f, 10f), contract);
+            contract |= !branches[i].Hidden && branches[i].Contract;
+        if (contract)
+            DrawNodeBadge(new Rect(rect.xMax - 2f, rect.y - 8f, 10f, 10f), true);
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
         if (WatchedHubs().Contains(n.Id))
@@ -683,6 +626,9 @@ public static partial class GatewayView
     /// <summary>The pulse colour of an important node, or null for an ordinary one.</summary>
     private static Color? ImportantColor(ExternalNode b)
     {
+        // A rival netrunner on the node: first among the hub's chips (Maxim, 2026-10-23: the mark was hard to find).
+        if (b.Rival)
+            return NetrunUI.Bad;
         if (b.Contract || b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
             return NetrunUI.Warn;
         if (b.Lab)
@@ -779,7 +725,7 @@ public static partial class GatewayView
         {
             // The key of a protected hub: an amber diamond (the lock is kept for the shut hub itself, not its key).
             GUI.color = NetrunUI.Warn;
-            GUI.DrawTexture(r, ShapeTex(Shape.Diamond, true));
+            GUI.DrawTexture(r.ExpandedBy(1f), NetrunTex.CyberIcon("Icon_Key") ?? ShapeTex(Shape.Diamond, true));
         }
         GUI.color = Color.white;
     }
