@@ -3,7 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Added
+- Russian translation of Hacking Expansion itself (items, implants, hediffs, abilities, research, messages and settings).
 ### Changed
+- Russian: cyberdata is now «киберданные», exec data «дискета со скриптом», execs «скрипты».
 - Netsick no longer grows from hacks on the map; only time and hacks in a cyberpod cause it.
 
 ## [1.1.13] - 2026-10-22

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_InstallCyberlink.reportString>устанавливает TargetA.</USH_InstallCyberlink.reportString>
+  <USH_ApplyResearchGiver.reportString>использует TargetB.</USH_ApplyResearchGiver.reportString>
+  <USH_EnterCyberpod.reportString>забирается в кибер-капсулу.</USH_EnterCyberpod.reportString>
+  <USH_InstallICEBreaker.reportString>ставит ледоруб на TargetA.</USH_InstallICEBreaker.reportString>
+</LanguageData>

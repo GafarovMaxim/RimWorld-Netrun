@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_CyberspaceNausea.label>кибер-тошнота</USH_CyberspaceNausea.label>
+  <USH_CyberspaceLockOut.label>блокировка в киберпространстве</USH_CyberspaceLockOut.label>
+  <USH_EMPPulse.label>ЭМИ-импульс</USH_EMPPulse.label>
+  <USH_HullBreach.label>пробой корпуса</USH_HullBreach.label>
+  <USH_EMPExplosion.label>ЭМИ-взрыв</USH_EMPExplosion.label>
+  <USH_Berserk.label>берсерк</USH_Berserk.label>
+  <USH_WanderPsychotic.label>психоз</USH_WanderPsychotic.label>
+  <USH_CyberspaceComa.label>кибер-кома</USH_CyberspaceComa.label>
+  <USH_BrainFry.label>выжигание мозга</USH_BrainFry.label>
+  <USH_CyberspaceNecrosis.label>кибернекроз</USH_CyberspaceNecrosis.label>
+  <USH_LethalCyberspaceNecrosis.label>смертельный кибернекроз</USH_LethalCyberspaceNecrosis.label>
+  <USH_PowerDrainBug.label>жучок-пожиратель энергии</USH_PowerDrainBug.label>
+  <USH_EMIVirus.label>вирус ЭМ-помех</USH_EMIVirus.label>
+  <USH_ShortCircuitExec.label>скрипт «короткое замыкание»</USH_ShortCircuitExec.label>
+</LanguageData>

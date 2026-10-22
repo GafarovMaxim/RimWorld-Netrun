@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_BodyPartsHacker.label>кибертехника</USH_BodyPartsHacker.label>
+  <USH_ExecDatas.label>дискеты со скриптами</USH_ExecDatas.label>
+</LanguageData>

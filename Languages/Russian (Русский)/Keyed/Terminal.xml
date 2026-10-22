@@ -27,7 +27,7 @@
   <NR_NodeSub_Studio>Сырых записей: {0}</NR_NodeSub_Studio>
   <NR_NodeSub_Gateway>Нырок (нужна капсула)</NR_NodeSub_Gateway>
   <NR_ChipSilver>Серебро: {0}</NR_ChipSilver>
-  <NR_ChipCyberdata>Cyberdata: {0} / {1}</NR_ChipCyberdata>
+  <NR_ChipCyberdata>Киберданные: {0} / {1}</NR_ChipCyberdata>
   <NR_StatusTrace>След</NR_StatusTrace>
   <NR_StatusNetsick>Netsick: {0}</NR_StatusNetsick>
   <NR_StatusNetsickNone>Netsick: нет</NR_StatusNetsickNone>
@@ -88,9 +88,9 @@
   <NR_AdviceButton_Studio>В студию</NR_AdviceButton_Studio>
   <NR_AdviceButton_Gateway>Нырнуть</NR_AdviceButton_Gateway>
   <NR_AdviceButton_HeatScreen>Heat и след</NR_AdviceButton_HeatScreen>
-  <NR_CoreTileCyberdata>Cyberdata</NR_CoreTileCyberdata>
+  <NR_CoreTileCyberdata>Киберданные</NR_CoreTileCyberdata>
   <NR_CoreTileAdvanced>+{0} прод.</NR_CoreTileAdvanced>
-  <NR_CoreTileCyberdataTip>Cyberdata в колонии: нырки, сброс следа, программы. Малое число — продвинутые.</NR_CoreTileCyberdataTip>
+  <NR_CoreTileCyberdataTip>Киберданные в колонии: нырки, сброс следа, программы. Малое число — продвинутые.</NR_CoreTileCyberdataTip>
   <NR_CoreTileAI>ИИ</NR_CoreTileAI>
   <NR_CoreTileSlots>{0}/{1} слота</NR_CoreTileSlots>
   <NR_CoreTileAITip>Пробуждённые ИИ и слоты главного ИИ-сервера.</NR_CoreTileAITip>
@@ -106,7 +106,7 @@
   <NR_OnboardingStep_Console>Построить консоль связи: она станет сетевой консолью</NR_OnboardingStep_Console>
   <NR_OnboardingStep_Cyberpod>Построить кибер-капсулу (меню «Киберпространство», исследование: {0})</NR_OnboardingStep_Cyberpod>
   <NR_OnboardingStep_Cyberlink>Поставить колонисту кибер-линк (исследование: {1})</NR_OnboardingStep_Cyberlink>
-  <NR_OnboardingStep_FirstHack>Взломать любую цель на карте и получить первую cyberdata</NR_OnboardingStep_FirstHack>
+  <NR_OnboardingStep_FirstHack>Взломать любую цель на карте и получить первые киберданные</NR_OnboardingStep_FirstHack>
   <NR_OnboardingDone_Console>Консоль связи есть: {0}</NR_OnboardingDone_Console>
   <NR_OnboardingDone_Cyberpod>Кибер-капсула построена</NR_OnboardingDone_Cyberpod>
   <NR_OnboardingDone_Cyberlink>У колониста есть кибер-линк</NR_OnboardingDone_Cyberlink>
@@ -134,19 +134,19 @@
   <NR_HeatV2AxisNow>сейчас</NR_HeatV2AxisNow>
   <NR_HeatV2NoHistory>График заполнится по мере игры.</NR_HeatV2NoHistory>
   <NR_HeatV2Effects>Эффекты уровня: {0}</NR_HeatV2Effects>
-  <NR_HeatV2EffectScrub>Лучший сброс сейчас: {0} Heat за cyberdata ({1}).</NR_HeatV2EffectScrub>
+  <NR_HeatV2EffectScrub>Лучший сброс сейчас: {0} Heat за киберданные ({1}).</NR_HeatV2EffectScrub>
   <NR_HeatV2EffectDecay>Остывание: −{0} в сутки.</NR_HeatV2EffectDecay>
   <NR_HeatV2ToLower>До «{0}»: {1} без нового следа</NR_HeatV2ToLower>
   <NR_HeatV2NoTrace>Остывать нечему.</NR_HeatV2NoTrace>
   <NR_HeatV2Days>~{0} дн.</NR_HeatV2Days>
   <NR_HeatV2LessThanDay>меньше суток</NR_HeatV2LessThanDay>
   <NR_HeatV2ViaFixer>Через фиксера</NR_HeatV2ViaFixer>
-  <NR_HeatV2ViaFixerDesc>Фиксер стирает след за cyberdata. У вас {0} (+{1} прод.). Позвоните, чтобы открыть канал, потом сбрасывайте.</NR_HeatV2ViaFixerDesc>
+  <NR_HeatV2ViaFixerDesc>Фиксер стирает след за киберданные. У вас {0} (+{1} прод.). Позвоните, чтобы открыть канал, потом сбрасывайте.</NR_HeatV2ViaFixerDesc>
   <NR_HeatV2FixerRate>1 data = −{0}, прод. = −{1}</NR_HeatV2FixerRate>
   <NR_HeatV2FixerDiscount>скидка {0}</NR_HeatV2FixerDiscount>
   <NR_HeatV2FixerSilent>молчит: {0}</NR_HeatV2FixerSilent>
   <NR_HeatV2ScrubWith>Сбросить…</NR_HeatV2ScrubWith>
-  <NR_HeatV2ScrubWithTip>Канал с {0} открыт: выберите, сколько cyberdata отдать.</NR_HeatV2ScrubWithTip>
+  <NR_HeatV2ScrubWithTip>Канал с {0} открыт: выберите, сколько киберданных отдать.</NR_HeatV2ScrubWithTip>
   <NR_HeatV2CallFixer>Позвать · {0}</NR_HeatV2CallFixer>
   <NR_HeatV2CallFixerTip>Заплатить серебро и открыть канал с {0} на {1} ч; затем откроется окно сброса.</NR_HeatV2CallFixerTip>
   <NR_HeatV2Ghost>ИИ «Призрак»</NR_HeatV2Ghost>
@@ -276,9 +276,9 @@
   <NR_HelpDiveSchemaHint>Нода — это путь из ступеней. Наведите на ступень, чтобы узнать, что это; клик закрепит текст здесь.</NR_HelpDiveSchemaHint>
   <NR_ChipMarketDiscount>Ночной рынок −{0}</NR_ChipMarketDiscount>
   <NR_HelpDemoHeat>Heat сейчас: {0}</NR_HelpDemoHeat>
-  <NR_HelpDemoData>Потратить cyberdata: {0}</NR_HelpDemoData>
+  <NR_HelpDemoData>Потратить киберданные: {0}</NR_HelpDemoData>
   <NR_HelpDemoResult>Heat {0} → {1} ({2})</NR_HelpDemoResult>
-  <NR_HelpDemoNeeded>Cyberdata до нуля отсюда: {0} (фиксер без скидок).</NR_HelpDemoNeeded>
+  <NR_HelpDemoNeeded>Киберданные до нуля отсюда: {0} (фиксер без скидок).</NR_HelpDemoNeeded>
   <NR_HelpDemoSick_Mild>Лёгкая (до 30%): пока без эффекта.</NR_HelpDemoSick_Mild>
   <NR_HelpDemoSick_Noticeable>Заметная (30%+): после суток без сети падает настроение, реальность кажется плоской.</NR_HelpDemoSick_Noticeable>
   <NR_HelpDemoSick_Strong>Сильная (60%+): чуть меньше сознания, срывы «тяга к сети» раз в несколько дней.</NR_HelpDemoSick_Strong>
@@ -299,7 +299,7 @@
   <NR_DeckKey_TerminalOnly>Только в терминале.</NR_DeckKey_TerminalOnly>
   <NR_DeckRfOn>RF-сигнал: связь есть.</NR_DeckRfOn>
   <NR_DeckRfOff>RF-сигнал: связи нет, пока колония офлайн.</NR_DeckRfOff>
-  <NR_DeckLcd>Статус: cyberdata на складе, Heat и его тренд, день, время и сеть.</NR_DeckLcd>
+  <NR_DeckLcd>Статус: киберданные на складе, Heat и его тренд, день, время и сеть.</NR_DeckLcd>
   <NR_DeckHeatScale>Heat {0}: {1}.</NR_DeckHeatScale>
   <NR_DeckNetLinkOn>Связь с сетью: онлайн.</NR_DeckNetLinkOn>
   <NR_DeckNetLinkOff>Связь с сетью: офлайн (сеть откроется после первых шагов в Ядре).</NR_DeckNetLinkOff>
@@ -382,7 +382,7 @@
   <NR_MenuStatusHeat>Heat</NR_MenuStatusHeat>
   <NR_MenuStatusAI>ИИ</NR_MenuStatusAI>
   <NR_MenuStatusRunners>Раннеры</NR_MenuStatusRunners>
-  <NR_MenuStatusData>Cyberdata</NR_MenuStatusData>
+  <NR_MenuStatusData>Киберданные</NR_MenuStatusData>
   <NR_TipCaption>// СВОДКА</NR_TipCaption>
   <NR_CoreBossActiveAt>Корп-ядро в крепости {0}: открыто ещё</NR_CoreBossActiveAt>
   <NR_HelpCtx_MenuSettings>Меню: настройки</NR_HelpCtx_MenuSettings>
@@ -418,13 +418,13 @@
   <NR_GlossTerms_Ice>ICE,лёд,льда</NR_GlossTerms_Ice>
   <NR_GlossTerms_Heat>Heat</NR_GlossTerms_Heat>
   <NR_GlossTerms_Netsick>Netsick</NR_GlossTerms_Netsick>
-  <NR_GlossTerms_Cyberdata>cyberdata,кибердат</NR_GlossTerms_Cyberdata>
+  <NR_GlossTerms_Cyberdata>киберданн,киберданные</NR_GlossTerms_Cyberdata>
   <NR_GlossTerms_Trace>след,следа,следу</NR_GlossTerms_Trace>
   <NR_Gloss_BlackIce>Black ICE: смертельная защита богатых нод. Его удары выжигают связь и могут уничтожить сам кибер-линк.</NR_Gloss_BlackIce>
   <NR_Gloss_Ice>ICE: защитная программа ноды. Сорванный взлом против неё бьёт по нетраннеру.</NR_Gloss_Ice>
   <NR_Gloss_Heat>Heat: насколько колония заметна в сети (0–100). Растёт от взломов и нырков, приводит атаки; фиксеры его сбрасывают.</NR_Gloss_Heat>
   <NR_Gloss_Netsick>Netsick: зависимость от сети. Растёт в сети, спадает вне её; на высоких уровнях ломка и срывы.</NR_Gloss_Netsick>
-  <NR_Gloss_Cyberdata>Cyberdata: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
+  <NR_Gloss_Cyberdata>Киберданные: данные как ресурс (Hacking Expansion). Валюта сети: сброс следа, программы, контракты.</NR_Gloss_Cyberdata>
   <NR_Gloss_Trace>След: то, что оставляют нырок или взлом; после окончания он превращается в Heat.</NR_Gloss_Trace>
   <NR_HelpNewTag>НОВОЕ</NR_HelpNewTag>
   <NR_CoreTileToday>Карта сегодня</NR_CoreTileToday>

@@ -27,7 +27,7 @@
   <NR_FixerCalled>{0} на связи. Канал обошёлся в {1} серебра.</NR_FixerCalled>
   <NR_FixerSilent>{0} не отвечает.</NR_FixerSilent>
   <NR_NotEnoughSilver>Не хватает серебра на складе: нужно {0}.</NR_NotEnoughSilver>
-  <NR_NotEnoughCyberdata>Не хватает cyberdata на складе.</NR_NotEnoughCyberdata>
+  <NR_NotEnoughCyberdata>Не хватает киберданных на складе.</NR_NotEnoughCyberdata>
   <NR_FixerScrubbed>{0} стёр {1} очков вашего цифрового следа.</NR_FixerScrubbed>
   <NR_LogScrub>След стёр фиксер {0}</NR_LogScrub>
   <NR_FixerDelivery>{0} прислал дроп-под: {1}.</NR_FixerDelivery>
@@ -37,7 +37,7 @@
 
   <!-- Окно сброса -->
   <NR_ScrubTitle>Сбросить след: {0}</NR_ScrubTitle>
-  <NR_ScrubRates>Курс: {0} Heat за cyberdata, {1} за продвинутые cyberdata.</NR_ScrubRates>
+  <NR_ScrubRates>Курс: {0} Heat за киберданные, {1} за продвинутые киберданные.</NR_ScrubRates>
   <NR_ScrubResult>Heat −{0}: {1} → {2}</NR_ScrubResult>
   <NR_ScrubConfirm>Передать данные</NR_ScrubConfirm>
 
@@ -47,11 +47,11 @@
   <NR_ShopBuy>Купить</NR_ShopBuy>
   <!-- Подсказки -->
   <NR_FixerCallTip>Заплатить фиксеру и открыть канал на {0} ч. Пока канал открыт, можно сбрасывать след, покупать и брать контракты.</NR_FixerCallTip>
-  <NR_FixerScrubTip>Передать cyberdata со склада, чтобы снизить цифровой след.</NR_FixerScrubTip>
+  <NR_FixerScrubTip>Передать киберданные со склада, чтобы снизить цифровой след.</NR_FixerScrubTip>
   <NR_FixerShopTip>Купить снаряжение для взлома. Товар прилетает дроп-подом.</NR_FixerShopTip>
   <NR_ShopRestock>Новый ассортимент придёт со следующей сменой фиксеров, через {0}.</NR_ShopRestock>
 
-  <NR_ScrubNothing>сначала выберите cyberdata</NR_ScrubNothing>
+  <NR_ScrubNothing>сначала выберите киберданные</NR_ScrubNothing>
   <NR_ScrubNone>в колонии нет</NR_ScrubNone>
   <NR_ScrubMax>макс</NR_ScrubMax>
   <NR_ShopNoSilver>не хватает серебра</NR_ShopNoSilver>
@@ -67,21 +67,21 @@
   <NR_FixerHoldTip>Оставить фиксера при смене пула за {1} серебра за каждую смену: первая платится сразу, следующие при смене пула (не хватит серебра — удержание снимется). Одновременно не больше {0} незакреплённых.</NR_FixerHoldTip>
   <NR_FixerHoldLimit>Уже удержано {0}</NR_FixerHoldLimit>
   <NR_FixerBreak>Разорвать связь</NR_FixerBreak>
-  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт cyberdata со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
+  <NR_FixerBreakTip>Выбросить фиксера: репутация теряется, предложения отменяются; если бросить текущий контракт, он из обиды унесёт киберданные со склада (или сольёт ваш след); на его место сразу придёт новый. Он не вернётся {0} дней.</NR_FixerBreakTip>
   <NR_FixerBreakConfirm>Разорвать связь с {0}? Репутация и контракт с ним пропадут. Он не вернётся {1} дней.</NR_FixerBreakConfirm>
   <NR_FixerTiesBroken>Связь с {0} разорвана. В пул пришёл {1}.</NR_FixerTiesBroken>
   <NR_FixerHoldPaid>Удержать · {0}</NR_FixerHoldPaid>
   <NR_FixerHoldLapsed>Не хватило серебра, чтобы удержать {0} ({1}): удержание снято.</NR_FixerHoldLapsed>
   <NR_FixerSpiteLabel>Обиженный фиксер</NR_FixerSpiteLabel>
-  <NR_FixerSpiteData>{0} обиделся, что вы бросили контракт, и напоследок увёл со склада {1} cyberdata.</NR_FixerSpiteData>
+  <NR_FixerSpiteData>{0} обиделся, что вы бросили контракт, и напоследок увёл со склада {1} киберданных.</NR_FixerSpiteData>
   <NR_FixerSpiteHeat>{0} обиделся, что вы бросили контракт. Взять было нечего, и он слил ваш след: Heat +{1}.</NR_FixerSpiteHeat>
   <NR_FixerSpiteLog>{0} слил след из обиды</NR_FixerSpiteLog>
   <NR_ScrubMaxTip>Ровно столько, чтобы обнулить Heat (или всё, что есть).</NR_ScrubMaxTip>
   <NR_ShopTitleShort>МАГАЗИН //</NR_ShopTitleShort>
   <NR_ShopBlackTag>ЧЁРНЫЙ РЫНОК</NR_ShopBlackTag>
   <NR_ShopBlackTip>Продаётся только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>
-  <NR_ClubRotateNow>Новый пул ({0} cyberdata)</NR_ClubRotateNow>
-  <NR_ClubRotateNowTip>Сменить пул сейчас, не дожидаясь срока. Закреплённые, удержанные и фиксеры с идущим контрактом остаются. Стоит {0} cyberdata.</NR_ClubRotateNowTip>
+  <NR_ClubRotateNow>Новый пул ({0} киберданных)</NR_ClubRotateNow>
+  <NR_ClubRotateNowTip>Сменить пул сейчас, не дожидаясь срока. Закреплённые, удержанные и фиксеры с идущим контрактом остаются. Стоит {0} киберданных.</NR_ClubRotateNowTip>
   <NR_FixerTrait_Greedy>Жадный</NR_FixerTrait_Greedy>
   <NR_FixerTraitDesc_Greedy>+ Больше товаров в магазине.
 − Всё на четверть дороже, звонок тоже.</NR_FixerTraitDesc_Greedy>

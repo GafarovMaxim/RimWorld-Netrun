@@ -74,7 +74,7 @@
   <NR_AIEvent_Oracle5.label>ошибка предсказания</NR_AIEvent_Oracle5.label>
   <NR_AIEvent_Oracle5.description>{AI} признаёт, что одно из его предсказаний было ошибкой. Честно.</NR_AIEvent_Oracle5.description>
   <NR_AIEvent_Forge1.label>улучшение</NR_AIEvent_Forge1.label>
-  <NR_AIEvent_Forge1.description>{AI} предлагает переделать оружие или броню со склада за 2 продвинутых cyberdata.</NR_AIEvent_Forge1.description>
+  <NR_AIEvent_Forge1.description>{AI} предлагает переделать оружие или броню со склада за 2 продвинутых киберданных.</NR_AIEvent_Forge1.description>
   <NR_AIEvent_Forge1.options.0.label>Заплатить</NR_AIEvent_Forge1.options.0.label>
   <NR_AIEvent_Forge1.options.1.label>Отказать</NR_AIEvent_Forge1.options.1.label>
   <NR_AIEvent_Forge1.options.1.result>{AI} разочарован.</NR_AIEvent_Forge1.options.1.result>

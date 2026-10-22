@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_HE_HackedTooMuch>Прогресс взлома выше {0}</USH_HE_HackedTooMuch>
+  <USH_HE_AlreadyZapcoded>Уже взломано зап-кодом</USH_HE_AlreadyZapcoded>
+  <USH_HE_AlreadyForkBombed>Уже под действием форк-бомбы</USH_HE_AlreadyForkBombed>
+  <USH_HE_AlreadyDischarged>Уже разряжено</USH_HE_AlreadyDischarged>
+  <USH_HE_MustBeHacked>Сначала нужно взломать</USH_HE_MustBeHacked>
+  <USH_HE_NotIndustrial>Сначала нужно взломать</USH_HE_NotIndustrial>
+  <USH_HE_Learning>освоение</USH_HE_Learning>
+  <USH_HE_IncompatibleHediff>Уже есть: {HEDIFF}</USH_HE_IncompatibleHediff>
+  <USH_HE_ConfirmInstallCyberlinkIntellectual>Хакер должен быть способен к интеллектуальной работе.\n\nПродолжить?</USH_HE_ConfirmInstallCyberlinkIntellectual>
+  <USH_HE_MustHaveAnyHediff>Нужно одно из: {HEDIFFS}</USH_HE_MustHaveAnyHediff>
+  <USH_HE_CommandChooseToHack>Выбрать цель взлома</USH_HE_CommandChooseToHack>
+  <USH_HE_CommandChooseDataSource>Выбрать взламываемый источник данных</USH_HE_CommandChooseDataSource>
+  <USH_HE_CannotInstall>Нельзя установить</USH_HE_CannotInstall>
+  <USH_HE_NoNewData>Уже выкачивается</USH_HE_NoNewData>
+  <USH_HE_AlreadyBroken>Уже вскрыто</USH_HE_AlreadyBroken>
+  <USH_HE_NeedsBlackICE>Нет Black ICE</USH_HE_NeedsBlackICE>
+  <USH_HE_DisabledOutcomes>Отключено</USH_HE_DisabledOutcomes>
+  <USH_HE_Reconfigured>Перенастроено</USH_HE_Reconfigured>
+  <USH_HE_CommandChooseDataOutput>Выбрать добычу выкачки</USH_HE_CommandChooseDataOutput>
+  <USH_HE_CommandChooseDataOutputDesc>Выберите, что получится в результате взлома этого устройства.</USH_HE_CommandChooseDataOutputDesc>
+  <USH_HE_CommandRipDesignation>Пометить для выкачки</USH_HE_CommandRipDesignation>
+  <USH_HE_CommandRipDesignationDesc>Пометить устройство для выкачки киберданных. Когда выкачка начнётся, включатся внутренние системы защиты устройства. Процесс запускается сам во время взлома.</USH_HE_CommandRipDesignationDesc>
+  <USH_HE_CommandCancelRipDesignation>Отменить выкачку</USH_HE_CommandCancelRipDesignation>
+  <USH_HE_CommandCancelRipDesignationDesc>Снять пометку для выкачки данных.</USH_HE_CommandCancelRipDesignationDesc>
+  <USH_HE_OrderHackTarget>Взломать цель</USH_HE_OrderHackTarget>
+  <USH_HE_OrderHackTargetDesc>Выбрать цель для взлома этим хакером.</USH_HE_OrderHackTargetDesc>
+  <USH_HE_AlreadyHacked>Уже взломано</USH_HE_AlreadyHacked>
+  <USH_HE_BelongsToHacker>Принадлежит хакеру</USH_HE_BelongsToHacker>
+  <USH_HE_InstallICEBreaker>Поставить ледоруб Black ICE</USH_HE_InstallICEBreaker>
+  <USH_HE_HackToDisable>Взломать, чтобы отключить.</USH_HE_HackToDisable>
+  <USH_HE_HackToReconfigure>Взломать, чтобы перенастроить.</USH_HE_HackToReconfigure>
+  <USH_HE_HackPoints>Объём работы</USH_HE_HackPoints>
+  <USH_HE_DataRippingProgress>Прогресс выкачки</USH_HE_DataRippingProgress>
+  <USH_HE_BlackICEWarning>Для выкачки помечено устройство под защитой Black ICE</USH_HE_BlackICEWarning>
+  <USH_HE_MentalStateReason>Причина: взлом {0}.</USH_HE_MentalStateReason>
+  <USH_HE_OutcomeMessage>{PAWN}: {OUTCOME} ({HACKSET}).</USH_HE_OutcomeMessage>
+  <USH_HE_SecurityHackset>Система защиты</USH_HE_SecurityHackset>
+  <USH_HE_HacksetDormant>спит</USH_HE_HacksetDormant>
+  <USH_HE_HacksetActive>активна</USH_HE_HacksetActive>
+  <USH_HE_SecurityHacksetDesc>Какая система защиты охраняет это устройство во время выкачки.</USH_HE_SecurityHacksetDesc>
+  <USH_HE_HackActionsProbabilities>Ответы защиты и их шансы</USH_HE_HackActionsProbabilities>
+  <USH_HE_HackActions>Ответы защиты</USH_HE_HackActions>
+  <USH_HE_HackActionsHacksetDesc>Какие ответы есть у этой системы защиты.</USH_HE_HackActionsHacksetDesc>
+  <USH_HE_CyberpodGuestsNotAllowed>Временные члены фракции не допускаются.</USH_HE_CyberpodGuestsNotAllowed>
+  <USH_HE_EnterCyberpod>Лечь в кибер-капсулу</USH_HE_EnterCyberpod>
+  <USH_HE_CommandIgnoreAutoHack>Игнорировать автовзлом</USH_HE_CommandIgnoreAutoHack>
+  <USH_HE_CommandIgnoreAutoHackDesc>Если включено, хакер сам выбирает целью все взламываемые устройства, не глядя на их переключатель автовзлома.</USH_HE_CommandIgnoreAutoHackDesc>
+  <USH_HE_CommandStartWaking>Начать пробуждение</USH_HE_CommandStartWaking>
+  <USH_HE_CommandStartWakingDesc>Медленно и безопасно отключает хакера от киберпространства и по завершении выпускает из капсулы.</USH_HE_CommandStartWakingDesc>
+  <USH_HE_CommandStopWaking>Отменить пробуждение</USH_HE_CommandStopWaking>
+  <USH_HE_CommandStopWakingDesc>Отменить процедуру пробуждения.</USH_HE_CommandStopWakingDesc>
+  <USH_UtilizeCyberdata>Использовать: {0}</USH_UtilizeCyberdata>
+  <USH_UtilizeCyberdataPoints>Использовать: {0} ({1} очк.)</USH_UtilizeCyberdataPoints>
+  <USH_MessageNoResearchBench>Нельзя использовать: нет доступного свободного исследовательского стола.</USH_MessageNoResearchBench>
+  <USH_NoResearchProject>Нет активного исследования</USH_NoResearchProject>
+  <USH_HE_Hacking>Взлом: {THING} ({PROGRESS})</USH_HE_Hacking>
+  <USH_HE_WakingUpProgress>Пробуждение: {TIME}</USH_HE_WakingUpProgress>
+  <USH_HE_CannotUseNotHacker>Нельзя использовать: нет кибер-линка</USH_HE_CannotUseNotHacker>
+  <USH_HE_MissingCyberlink>Нет кибер-линка</USH_HE_MissingCyberlink>
+  <USH_HE_RipperInstalled>Данные выкачаны</USH_HE_RipperInstalled>
+  <USH_HE_ICEBreakerInstalled>Black ICE вскрыт</USH_HE_ICEBreakerInstalled>
+  <USH_HE_RippingMessage>Помеченное устройство начнут выкачивать, как только кто-нибудь возьмётся его взламывать. Выкачка даёт киберданные, но включает внутренние системы защиты устройства. Они могут включиться и сами, если электронику повредить.\n\nЗащита действует только на хакеров с установленным кибер-линком.</USH_HE_RippingMessage>
+  <USH_HE_CyberspaceLetterLabel>Он начинает верить...</USH_HE_CyberspaceLetterLabel>
+  <USH_HE_CyberspaceLetter>{PAWN} с кибер-линком начинает взламывать {BUILDING} под защитой «{HACKSET}». Если система активна, хакер теперь уязвим для новых киберугроз и может вызвать особые ответы защиты; их шанс зависит от его скрытности.\n\nКолонистов без кибер-линка это не касается, так что всегда думайте, кто будет взламывать устройства с более серьёзной защитой.\n\nЗащита включается от физических повреждений или при выкачке данных.\n\nИ помните: ложки нет.</USH_HE_CyberspaceLetter>
+  <USH_HE_BlackBoxLetterLabel>Падение спутника</USH_HE_BlackBoxLetterLabel>
+  <USH_HE_BlackBoxLetter>Разведывательный спутник фракции {OWNER} разбился на ближней орбите, и его бортовой самописец упал неподалёку. В нём секретные данные о фракции {COMPROMISED}.\n\nЕго можно взломать, чтобы улучшить отношения с фракцией {COMPROMISED}, но тогда {OWNER} может устроить на вас налёт.</USH_HE_BlackBoxLetter>
+  <USH_HE_RaidLetterLabel>Налёт!</USH_HE_RaidLetterLabel>
+  <USH_HE_RaidLetter>Похоже, хакер, который раньше пользовался этим кибердеком, чем-то разозлил фракцию {FACTION}, и она идёт сюда. Возможно, его выслеживали месяцами, если не дольше.\n\nСкоро они будут здесь.</USH_HE_RaidLetter>
+  <USH_HE_RaidBlackBoxLetter>Фракция {FACTION} засекла передачу данных с их чёрного ящика и идёт к вам.\n\nСкоро они будут здесь.</USH_HE_RaidBlackBoxLetter>
+  <USH_HE_AbilityLearnedLetterLabel>Освоено: {0}</USH_HE_AbilityLearnedLetterLabel>
+  <USH_HE_AbilityLearnedLetter>После долгих тренировок {PAWN} {PAWN_gender ? освоил : освоила} скрипт «{0}» и может его запускать.</USH_HE_AbilityLearnedLetter>
+  <USH_HE_BreakerFailLetterLabel>Ответ Black ICE</USH_HE_BreakerFailLetterLabel>
+  <USH_HE_BreakerFailLetter>Система защиты заметила ледоруб и защитилась, запустив в устройстве протокол самоуничтожения. Произошёл взрыв.</USH_HE_BreakerFailLetter>
+  <USH_GE_AutoRipDataSetting>Автоматическая выкачка данных</USH_GE_AutoRipDataSetting>
+  <USH_GE_AutoRipDataSettingDesc>Помечать ли устройства с низкой угрозой для выкачки данных автоматически.</USH_GE_AutoRipDataSettingDesc>
+  <USH_GE_EnableMechSetting>Взлом механоидов</USH_GE_EnableMechSetting>
+  <USH_GE_EnableMechSettingDesc>Можно ли взламывать механоидов. Изменение вступит в силу после перезапуска игры.</USH_GE_EnableMechSettingDesc>
+  <USH_GE_EnableTurretSetting>Взлом турелей</USH_GE_EnableTurretSetting>
+  <USH_GE_EnableTurretSettingDesc>Можно ли взламывать турели. Изменение вступит в силу после перезапуска игры.</USH_GE_EnableTurretSettingDesc>
+</LanguageData>

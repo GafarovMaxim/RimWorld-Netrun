@@ -48,12 +48,12 @@
   <NR_StatPartInCyberpod>В кибер-капсуле</NR_StatPartInCyberpod>
   <NR_LogTraceLock>Захват следа: {0}</NR_LogTraceLock>
   <NR_LogRip>{0} вытянул(а) {1} из: {2}</NR_LogRip>
-  <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишний cyberdata.</NR_CyberpodBonusData>
+  <NR_CyberpodBonusData>{0} вытянул(а) через кибер-капсулу лишние киберданные.</NR_CyberpodBonusData>
 
   <NR_EconomySummary>Последние {0} дней:
 
-Добыто cyberdata (нырки): {1}
-Потрачено cyberdata (нырки, поиск, сброс, доставки): {2}
+Добыто киберданных (нырки): {1}
+Потрачено киберданных (нырки, поиск, сброс, доставки): {2}
 Heat поднят на {3}, снижен на {4} (без пассивного остывания)
 Нырков: {5}, чистых выходов: {6}
 Событий ИИ: {7}
@@ -192,7 +192,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpIceDesc_Decoy>Заряд «Приманки» уводит удар с шансом {1}.</NR_HelpIceDesc_Decoy>
   <NR_HelpIceDesc_Killer>Заряд «Убийцы» сразу ломает следующие ворота или ICE: удара от них уже не будет.</NR_HelpIceDesc_Killer>
   <NR_HelpIceDesc_Hit>Пробивший удар: +{2} Netsick, затем тошнота (60%), выброс (30%, нырок кончается) или кома (10%). Black ICE может ещё выжечь кибер-линк ({3} за удар).</NR_HelpIceDesc_Hit>
-  <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} cyberdata</NR_HelpLoadoutPrograms>
+  <NR_HelpLoadoutPrograms>Программы: {0} из {1} слотов, по {2} киберданных</NR_HelpLoadoutPrograms>
   <NR_HelpLoadoutFull>Все слоты заняты.</NR_HelpLoadoutFull>
   <NR_HelpLoadoutDaemon>Демон: один на нырок, бесплатно</NR_HelpLoadoutDaemon>
   <NR_DiagnosticsButton>Скопировать диагностику</NR_DiagnosticsButton>
@@ -202,7 +202,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpFixerPinLabel>Закрепление</NR_HelpFixerPinLabel>
   <NR_HelpFixerPriceLabel>Цены</NR_HelpFixerPriceLabel>
   <NR_HelpFixerScrubLabel>Сброс следа</NR_HelpFixerScrubLabel>
-  <NR_HelpFixerScrubValue>{0} Heat за cyberdata в «Тени»</NR_HelpFixerScrubValue>
+  <NR_HelpFixerScrubValue>{0} Heat за киберданные в «Тени»</NR_HelpFixerScrubValue>
   <NR_HelpFixerCallLabel>Звонок</NR_HelpFixerCallLabel>
   <NR_HelpFixerRareLabel>Редкие товары</NR_HelpFixerRareLabel>
   <NR_HelpContractGoal>Цель</NR_HelpContractGoal>
@@ -217,7 +217,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLoadoutChance>Шанс взлома (Интеллект 8 против ворот силы 3)</NR_HelpLoadoutChance>
   <NR_HelpLoadoutTrace>След</NR_HelpLoadoutTrace>
   <NR_HelpLoadoutCost>Цена нырка</NR_HelpLoadoutCost>
-  <NR_HelpLoadoutCostValue>{0} cyberdata</NR_HelpLoadoutCostValue>
+  <NR_HelpLoadoutCostValue>{0} киберданных</NR_HelpLoadoutCostValue>
   <NR_HelpTermNode_Core>Core</NR_HelpTermNode_Core>
   <NR_HelpTermNodeDesc_Core>Кольцо — ваш Heat. Клик открывает экран Heat: шкала, график недели, что его подняло, и все способы его сбить. Вокруг «Сейчас» подсказывает самое полезное действие, а «Тревоги» показывают, что горит.</NR_HelpTermNodeDesc_Core>
   <NR_HelpTermNode_Club>Клуб</NR_HelpTermNode_Club>
@@ -258,7 +258,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_HelpLowerWait>Переждать</NR_HelpLowerWait>
   <NR_HelpLowerWaitValue>{0} дн. до нуля</NR_HelpLowerWaitValue>
   <NR_HelpLowerScrub>Сброс у фиксера</NR_HelpLowerScrub>
-  <NR_HelpLowerScrubValue>{0} cyberdata до нуля (без скидок)</NR_HelpLowerScrubValue>
+  <NR_HelpLowerScrubValue>{0} киберданных до нуля (без скидок)</NR_HelpLowerScrubValue>
   <NR_HelpLowerGhost>ИИ «Призрак»</NR_HelpLowerGhost>
   <NR_HelpLowerGhostValue>−{0} за услугу, {1} услуг (раз в {2} дн.)</NR_HelpLowerGhostValue>
   <NR_HelpLowerContract>Контракт «Залечь на дно»</NR_HelpLowerContract>
@@ -323,7 +323,7 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsFirstHints>Знакомство и подсказки первого раза</NR_SettingsFirstHints>
   <NR_SettingsFirstHintsTip>Короткий тур при первом открытии терминала и одна карточка, когда впервые встречаются ICE, Netsick, фиксер или событие ИИ.</NR_SettingsFirstHintsTip>
   <NR_SettingsGlossary>Словарь в подсказках</NR_SettingsGlossary>
-  <NR_SettingsGlossaryTip>Пока вы новичок (пресет «Новичок» или первые 15 дней игры): если подсказка мода упоминает Heat, ICE, Netsick, cyberdata или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
+  <NR_SettingsGlossaryTip>Пока вы новичок (пресет «Новичок» или первые 15 дней игры): если подсказка мода упоминает Heat, ICE, Netsick, киберданные или след, под ней добавляется короткое определение.</NR_SettingsGlossaryTip>
   <NR_SettingsWasd>Двигать карту киберпространства клавишами W A S D</NR_SettingsWasd>
   <NR_SettingsWasdTip>По умолчанию выключено: эти клавиши могут быть заняты камерой игры.</NR_SettingsWasdTip>
   <NR_SettingsTerminalScale>Размер окна терминала: {0}</NR_SettingsTerminalScale>

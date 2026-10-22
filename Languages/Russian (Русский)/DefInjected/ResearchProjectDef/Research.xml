@@ -19,7 +19,7 @@
   <NR_Res_BlackICEDefense.label>чёрный лёд</NR_Res_BlackICEDefense.label>
   <NR_Res_BlackICEDefense.description>Собственный Black ICE колонии: защитные программы, выжигающие разум взломщика. Открывает ICE третьей ступени.</NR_Res_BlackICEDefense.description>
 
-  <NR_Res_ExecPrograms.label>боевые исполняемые</NR_Res_ExecPrograms.label>
-  <NR_Res_ExecPrograms.description>Упаковка exec data и ледорубов в одноразовые программы, которые нетраннер запускает прямо в нырке.</NR_Res_ExecPrograms.description>
+  <NR_Res_ExecPrograms.label>боевые скрипты</NR_Res_ExecPrograms.label>
+  <NR_Res_ExecPrograms.description>Упаковка дискет со скриптами и ледорубов в одноразовые программы, которые нетраннер запускает прямо в нырке.</NR_Res_ExecPrograms.description>
 
 </LanguageData>

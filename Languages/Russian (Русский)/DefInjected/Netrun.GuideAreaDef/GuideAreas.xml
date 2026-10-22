@@ -19,7 +19,7 @@
   <NR_Guide_core_alerts.label>Тревоги</NR_Guide_core_alerts.label>
   <NR_Guide_core_alerts.steps.0.text>Что горит: побеги ИИ, сроки, захваченные турели, просьбы. Красное — срочно; клик ведёт в узел.</NR_Guide_core_alerts.steps.0.text>
   <NR_Guide_core_colony.label>Колония в сети</NR_Guide_core_colony.label>
-  <NR_Guide_core_colony.steps.0.text>Ресурсы сети: cyberdata, ИИ и слоты, брейнданс-чипы, благосклонность хакерской группы.</NR_Guide_core_colony.steps.0.text>
+  <NR_Guide_core_colony.steps.0.text>Ресурсы сети: киберданные, ИИ и слоты, брейнданс-чипы, благосклонность хакерской группы.</NR_Guide_core_colony.steps.0.text>
   <NR_Guide_core_colony.steps.1.text>Ниже: сколько энергии тянет сеть, когда придут новые ноды Шлюза и когда появится корп-ядро.</NR_Guide_core_colony.steps.1.text>
   <NR_Guide_heat_hero.label>Значение и шкала</NR_Guide_heat_hero.label>
   <NR_Guide_heat_hero.steps.0.text>Ваш Heat и его уровень, изменение за 7 дней и сегодняшнее остывание.</NR_Guide_heat_hero.steps.0.text>
@@ -97,7 +97,7 @@
   <NR_Guide_gateway_node.steps.0.hint>кликните по ноде на поле.</NR_Guide_gateway_node.steps.0.hint>
   <NR_Guide_gateway_node.steps.1.text>Награда: множитель от стоимости нырка и что можно вынести, по предметам.</NR_Guide_gateway_node.steps.1.text>
   <NR_Guide_gateway_programs.label>Программы и демоны</NR_Guide_gateway_programs.label>
-  <NR_Guide_gateway_programs.steps.0.text>Загрузите программы в слоты капсулы перед нырком; каждая стоит cyberdata. Демоны работают всегда.</NR_Guide_gateway_programs.steps.0.text>
+  <NR_Guide_gateway_programs.steps.0.text>Загрузите программы в слоты капсулы перед нырком; каждая стоит киберданных. Демоны работают всегда.</NR_Guide_gateway_programs.steps.0.text>
   <NR_Guide_gateway_programs.steps.0.hint>включите программу.</NR_Guide_gateway_programs.steps.0.hint>
   <NR_Guide_gateway_dive.label>Нырок</NR_Guide_gateway_dive.label>
   <NR_Guide_gateway_dive.steps.0.text>Итоговая цена (наведите — разбивка) и кнопка «НЫРНУТЬ»: нетраннер должен лежать в запитанной капсуле.</NR_Guide_gateway_dive.steps.0.text>
@@ -131,7 +131,7 @@
   <NR_Guide_menu_tiles.label>Плитки меню</NR_Guide_menu_tiles.label>
   <NR_Guide_menu_tiles.steps.0.text>«Продолжить» возвращает туда, где вы были. Настройки: события и интерфейс. Киберпедия: как всё устроено (НОВОЕ считает непрочитанные статьи). Достижения, сложность и вид терминала.</NR_Guide_menu_tiles.steps.0.text>
   <NR_Guide_menu_status.label>Состояние сети</NR_Guide_menu_status.label>
-  <NR_Guide_menu_status.steps.0.text>Heat и его уровень, пробуждённые ИИ, раннеры в сети и cyberdata на складе, одним взглядом.</NR_Guide_menu_status.steps.0.text>
+  <NR_Guide_menu_status.steps.0.text>Heat и его уровень, пробуждённые ИИ, раннеры в сети и киберданные на складе, одним взглядом.</NR_Guide_menu_status.steps.0.text>
   <NR_Guide_menu_footer.label>Версия и отчёты</NR_Guide_menu_footer.label>
   <NR_Guide_menu_footer.steps.0.text>Версия мода. «Скопировать диагностику» кладёт в буфер версии, моды и состояние игры для отчёта об ошибке. Esc закрывает меню.</NR_Guide_menu_footer.steps.0.text>
   <NR_Guide_menu_settings.label>Настройки</NR_Guide_menu_settings.label>

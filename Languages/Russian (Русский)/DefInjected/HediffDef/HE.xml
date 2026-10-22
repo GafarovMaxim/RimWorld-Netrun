@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_ExecDataHediff_VirtualICEBreaker.label>виртуальный ледоруб Black ICE</USH_ExecDataHediff_VirtualICEBreaker.label>
+  <USH_ExecDataHediff_VirtualICEBreaker.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «виртуальный ледоруб Black ICE».</USH_ExecDataHediff_VirtualICEBreaker.description>
+  <USH_ExecDataHediff_Zapcode.label>зап-код</USH_ExecDataHediff_Zapcode.label>
+  <USH_ExecDataHediff_Zapcode.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «зап-код».</USH_ExecDataHediff_Zapcode.description>
+  <USH_ExecDataHediff_ForkBomb.label>форк-бомба</USH_ExecDataHediff_ForkBomb.label>
+  <USH_ExecDataHediff_ForkBomb.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «форк-бомба».</USH_ExecDataHediff_ForkBomb.description>
+  <USH_ExecDataHediff_Discharge.label>разряд</USH_ExecDataHediff_Discharge.label>
+  <USH_ExecDataHediff_Discharge.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «разряд».</USH_ExecDataHediff_Discharge.description>
+  <USH_ExecDataHediff_Disarm.label>разоружение</USH_ExecDataHediff_Disarm.label>
+  <USH_ExecDataHediff_Disarm.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «разоружение».</USH_ExecDataHediff_Disarm.description>
+  <USH_ExecDataHediff_ShortCircuit.label>короткое замыкание</USH_ExecDataHediff_ShortCircuit.label>
+  <USH_ExecDataHediff_ShortCircuit.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «короткое замыкание».</USH_ExecDataHediff_ShortCircuit.description>
+  <USH_ExecDataHediff_HijackSubcore.label>захват подъядра</USH_ExecDataHediff_HijackSubcore.label>
+  <USH_ExecDataHediff_HijackSubcore.description>Дискета, вставленная в нейрокейс, со скриптом в процессе освоения. Когда он будет освоен полностью, станет доступен скрипт «захват подъядра».</USH_ExecDataHediff_HijackSubcore.description>
+  <USH_CyberNecrosis.label>кибернекроз</USH_CyberNecrosis.label>
+  <USH_CyberNecrosis.labelNoun>кибернекроз</USH_CyberNecrosis.labelNoun>
+  <USH_CyberNecrosis.description>Кибернекроз, вызванный столкновением в киберпространстве.</USH_CyberNecrosis.description>
+  <USH_CyberNecrosis.comps.HediffComp_TendDuration.labelTendedWell>перевязано</USH_CyberNecrosis.comps.HediffComp_TendDuration.labelTendedWell>
+  <USH_CyberNecrosis.comps.HediffComp_TendDuration.labelTendedWellInner>зашито</USH_CyberNecrosis.comps.HediffComp_TendDuration.labelTendedWellInner>
+  <USH_CyberNecrosis.comps.HediffComp_TendDuration.labelSolidTendedWell>вправлено</USH_CyberNecrosis.comps.HediffComp_TendDuration.labelSolidTendedWell>
+  <USH_CyberNecrosis.injuryProps.destroyedLabel>Уничтожено кибернекрозом</USH_CyberNecrosis.injuryProps.destroyedLabel>
+  <USH_CyberNecrosis.injuryProps.destroyedOutLabel>Уничтожено кибернекрозом</USH_CyberNecrosis.injuryProps.destroyedOutLabel>
+  <USH_CyberspaceNausea.label>кибер-тошнота</USH_CyberspaceNausea.label>
+  <USH_CyberspaceNausea.description>Сильная тошнота после столкновения с системой защиты в киберпространстве.</USH_CyberspaceNausea.description>
+  <USH_CyberspaceComa.label>кибер-кома</USH_CyberspaceComa.label>
+  <USH_CyberspaceComa.description>Безопасная кома, в которой мозг восстанавливается после тяжёлого столкновения в киберпространстве.</USH_CyberspaceComa.description>
+  <USH_CyberspaceLockOut.label>блокировка в киберпространстве</USH_CyberspaceLockOut.label>
+  <USH_CyberspaceLockOut.description>Цифровой отпечаток, закрывающий пользователю доступ в киберпространство.</USH_CyberspaceLockOut.description>
+  <USH_Disrupted.label>разрыв с роем</USH_Disrupted.label>
+  <USH_Disrupted.labelNoun>разрыв с роем</USH_Disrupted.labelNoun>
+  <USH_Disrupted.description>Сильная потеря синхронизации между механоидом и его роевым разумом.</USH_Disrupted.description>
+  <USH_Disabled.label>отключён</USH_Disabled.label>
+  <USH_Disabled.description>Внутреннее подъядро отключено, и тело отрезано от основной вычислительной мощности.</USH_Disabled.description>
+  <USH_ForkBomb.label>форк-бомба</USH_ForkBomb.label>
+  <USH_ForkBomb.description>Простая вредоносная программа, забивающая всю вычислительную мощность.</USH_ForkBomb.description>
+  <USH_InstalledCyberlink.label>кибер-линк</USH_InstalledCyberlink.label>
+  <USH_InstalledCyberlink.description>Бионический имплант, открывающий доступ в киберпространство. Кибер-линк позволяет ставить другие импланты и помогает хакеру эффективнее работать с системами кибербезопасности.</USH_InstalledCyberlink.description>
+  <USH_InstalledAdvancedCyberlink.label>продвинутый кибер-линк</USH_InstalledAdvancedCyberlink.label>
+  <USH_InstalledAdvancedCyberlink.description>Улучшенная версия кибер-линка: обновлённое ПО и дополнительные слоты памяти для сложных имплантов. Даёт хакеру более стабильное и чистое подключение к киберпространству.</USH_InstalledAdvancedCyberlink.description>
+  <USH_InstalledExecDataCase.label>кейс скриптов</USH_InstalledExecDataCase.label>
+  <USH_InstalledExecDataCase.description>Имплант, который наноконнекторами связывает дискеты со скриптами с кибер-линком и позволяет осваивать и запускать скрипты.</USH_InstalledExecDataCase.description>
+  <USH_InstalledJammerKit.label>набор глушения</USH_InstalledJammerKit.label>
+  <USH_InstalledJammerKit.description>Имплант, повышающий скрытность хакера.</USH_InstalledJammerKit.description>
+  <USH_InstalledOptimizationModule.label>модуль оптимизации</USH_InstalledOptimizationModule.label>
+  <USH_InstalledOptimizationModule.description>Имплант, повышающий скорость хакера.</USH_InstalledOptimizationModule.description>
+  <USH_InstalledRemoteAccessPort.label>порт удалённого доступа</USH_InstalledRemoteAccessPort.label>
+  <USH_InstalledRemoteAccessPort.description>Имплант, увеличивающий дальность удалённого взлома.</USH_InstalledRemoteAccessPort.description>
+</LanguageData>

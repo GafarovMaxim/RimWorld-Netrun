@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
   <NR_Neurostabilizer.label>нейростабилизатор</NR_Neurostabilizer.label>
-  <NR_Neurostabilizer.description>Блистер капсул нейтроамина с нейробуфером, настроенным на cyberdata. Глушит тягу к сети: зависимость немного слабеет, и два дня человек не чувствует себя отрезанным и не срывается в капсулу.\n\nСлегка затягивает, примерно как дымолист: при частом употреблении сам становится потребностью.</NR_Neurostabilizer.description>
+  <NR_Neurostabilizer.description>Блистер капсул нейтроамина с нейробуфером, настроенным на киберданные. Глушит тягу к сети: зависимость немного слабеет, и два дня человек не чувствует себя отрезанным и не срывается в капсулу.\n\nСлегка затягивает, примерно как дымолист: при частом употреблении сам становится потребностью.</NR_Neurostabilizer.description>
   <NR_Neurostabilizer.ingestible.ingestCommandString>Принять {0}</NR_Neurostabilizer.ingestible.ingestCommandString>
   <NR_Neurostabilizer.ingestible.ingestReportString>Принимает {0}.</NR_Neurostabilizer.ingestible.ingestReportString>
 </LanguageData>

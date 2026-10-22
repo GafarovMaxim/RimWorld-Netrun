@@ -6,10 +6,10 @@
   <NR_TransitionRumourMsg>По ленте ходит слух: корпорации что-то строят в своих чёрных лабораториях. Никто снаружи не знает, что именно.</NR_TransitionRumourMsg>
   <NR_InsiderNames>Веспер,Холлоран,Мира Коул,Сато,доктор Ленк,Ильза Варга,Квинн,Окафор,Джуно Рейес,Тарковский</NR_InsiderNames>
   <NR_TransitionContactLabel>Открылся мёртвый канал</NR_TransitionContactLabel>
-  <NR_TransitionContact>Сообщение приходит по каналу, который не признаёт ни один фиксер. Отправитель называет себя {0}: раньше работал в чёрной лаборатории корпорации, теперь в бегах.\n\n«Ты слышал слухи. Что они строят, я не скажу: сам не уверен, что понимаю. Что-то про разум или про машины, которые думают. Части хранятся в лабораториях. Я продаю координаты. Что вы оттуда вынесете, ваше дело».\n\n{0} теперь ждёт в Клубе гостем: координаты лаборатории за {1} cyberdata и {2} серебра.</NR_TransitionContact>
-  <NR_InsiderDesc>Работал в чёрной лаборатории и не говорит над чем. Продаёт координаты лабораторий, где хранятся прототипные схемы. В лабораториях Black ICE, а на входе нужен продвинутый cyberdata.</NR_InsiderDesc>
+  <NR_TransitionContact>Сообщение приходит по каналу, который не признаёт ни один фиксер. Отправитель называет себя {0}: раньше работал в чёрной лаборатории корпорации, теперь в бегах.\n\n«Ты слышал слухи. Что они строят, я не скажу: сам не уверен, что понимаю. Что-то про разум или про машины, которые думают. Части хранятся в лабораториях. Я продаю координаты. Что вы оттуда вынесете, ваше дело».\n\n{0} теперь ждёт в Клубе гостем: координаты лаборатории за {1} киберданных и {2} серебра.</NR_TransitionContact>
+  <NR_InsiderDesc>Работал в чёрной лаборатории и не говорит над чем. Продаёт координаты лабораторий, где хранятся прототипные схемы. В лабораториях Black ICE, а на входе нужен продвинутые киберданные.</NR_InsiderDesc>
   <NR_InsiderPrints>Прототипы: {0} / {1}</NR_InsiderPrints>
-  <NR_InsiderBuy>Купить координаты ({0} cyberdata, {1} серебра)</NR_InsiderBuy>
+  <NR_InsiderBuy>Купить координаты ({0} киберданных, {1} серебра)</NR_InsiderBuy>
   <NR_InsiderBuyTip>Лаборатория (фиолетовая нода) появится на карте киберпространства на {0} дней; письмо назовёт узел, на котором она висит, а узел будет отмечен на карте. Чистый нырок может принести прототипную схему (наверняка после двух чистых нырков без неё). Нырок даёт 15 Heat.</NR_InsiderBuyTip>
   <NR_InsiderReady>Готов продать новые координаты.</NR_InsiderReady>
   <NR_InsiderPrintsTip>Прототипные схемы, вынесенные из лабораторий.</NR_InsiderPrintsTip>
@@ -21,12 +21,12 @@
   <NR_InsiderLabActive>{0} на узле {1} ещё ждёт на карте.</NR_InsiderLabActive>
   <NR_InsiderCooldown>Новые координаты через {0}.</NR_InsiderCooldown>
   <NR_InsiderLabLine>На карте: {0}, {1}</NR_InsiderLabLine>
-  <NR_InsiderCantPay>Нужно {0} cyberdata и {1} серебра.</NR_InsiderCantPay>
+  <NR_InsiderCantPay>Нужно {0} киберданных и {1} серебра.</NR_InsiderCantPay>
   <NR_LabNodeName>Лаборатория «{0}»</NR_LabNodeName>
   <NR_LabHubFallback>земля корпораций</NR_LabHubFallback>
   <NR_LabCodeNames>Lazarus,Ark,Elysium,Straylight,Glass Orchid,Silent Choir,Chrome Lotus,Zero Meridian,Neon Cathedral,Ghost Orchard,Paper Moon,Sleeping Saint,Mirror Abbey,Hollow Crown,Black Lantern,Sable Echo,Iron Lullaby,Velvet Static,Saint Kilda,Cold Harbor</NR_LabCodeNames>
   <NR_LabFoundLabel>Координаты лаборатории</NR_LabFoundLabel>
-  <NR_LabFound>{0} присылает координаты: {1}, фиолетовая нода на узле {2}. Они действительны {3} дней; узел отмечен на карте киберпространства.\n\nBlack ICE, две развилки; дверь берёт продвинутый cyberdata. Чистый выход может принести прототипную схему.</NR_LabFound>
+  <NR_LabFound>{0} присылает координаты: {1}, фиолетовая нода на узле {2}. Они действительны {3} дней; узел отмечен на карте киберпространства.\n\nBlack ICE, две развилки; дверь берёт продвинутые киберданные. Чистый выход может принести прототипную схему.</NR_LabFound>
   <NR_LabHeat>Нырок в {0}</NR_LabHeat>
   <NR_LabNoPrint>{0}: в этот раз ничего не вынесли, но логи указывают на следующую лабораторию.</NR_LabNoPrint>
   <NR_DiveNeedsAdvanced>На входе нужен {0}.</NR_DiveNeedsAdvanced>

@@ -38,7 +38,7 @@
   <NR_AIEvent_Hunter2.options.1.effects.0.branches.0.result>{AI} остался.</NR_AIEvent_Hunter2.options.1.effects.0.branches.0.result>
   <NR_AIEvent_Hunter2.options.1.effects.0.branches.1.result>{AI} остался, но задумался, что ещё есть в мире.</NR_AIEvent_Hunter2.options.1.effects.0.branches.1.result>
   <NR_AIEvent_Hunter3.label>чёрный рынок</NR_AIEvent_Hunter3.label>
-  <NR_AIEvent_Hunter3.description>{AI} нашёл лот на тёмной бирже: редкий осколок ИИ за 4 продвинутых cyberdata.</NR_AIEvent_Hunter3.description>
+  <NR_AIEvent_Hunter3.description>{AI} нашёл лот на тёмной бирже: редкий осколок ИИ за 4 продвинутых киберданных.</NR_AIEvent_Hunter3.description>
   <NR_AIEvent_Hunter3.options.0.label>Купить</NR_AIEvent_Hunter3.options.0.label>
   <NR_AIEvent_Hunter3.options.0.result>Осколок доставлен к серверу.</NR_AIEvent_Hunter3.options.0.result>
   <NR_AIEvent_Hunter3.options.1.label>Отказаться</NR_AIEvent_Hunter3.options.1.label>

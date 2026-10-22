@@ -9,7 +9,7 @@
   <NR_AIEvent_A2.label>подарок</NR_AIEvent_A2.label>
   <NR_AIEvent_A2.description>{AI} что-то собрал для колонии и оставил у сервера. Видно, что гордится.</NR_AIEvent_A2.description>
   <NR_AIEvent_A2.options.0.label>Принять подарок</NR_AIEvent_A2.options.0.label>
-  <NR_AIEvent_A2.options.0.effects.0.branches.0.result>{AI} подарил колонии cyberdata.</NR_AIEvent_A2.options.0.effects.0.branches.0.result>
+  <NR_AIEvent_A2.options.0.effects.0.branches.0.result>{AI} подарил колонии киберданные.</NR_AIEvent_A2.options.0.effects.0.branches.0.result>
   <NR_AIEvent_A2.options.0.effects.0.branches.1.result>{AI} подарил колонии компоненты.</NR_AIEvent_A2.options.0.effects.0.branches.1.result>
   <NR_AIEvent_A2.options.0.effects.0.branches.2.result>{AI} подарил колонии брейнданс-чип.</NR_AIEvent_A2.options.0.effects.0.branches.2.result>
   <NR_AIEvent_A2.options.1.label>Отказаться</NR_AIEvent_A2.options.1.label>

@@ -5,7 +5,7 @@
   <NR_AIQ_Terms>{0} дн. после принятия. Провал стоит 15 доверия и услуги на 3 дня; если не принять вовремя, −5 доверия. Первый квест поднимает ИИ до 2 уровня (+25% к услуге), третий — до 3 (вторая услуга).</NR_AIQ_Terms>
   <NR_AIQ_StepDone>{0}: шаг выполнен. Дальше: {1}</NR_AIQ_StepDone>
   <NR_AIQ_PartsTaken>{0} забрал компоненты.</NR_AIQ_PartsTaken>
-  <NR_AIQ_Fed>{0} забрал cyberdata.</NR_AIQ_Fed>
+  <NR_AIQ_Fed>{0} забрал киберданные.</NR_AIQ_Fed>
   <NR_AIQ_JokeText>{0} предлагает шутку: подарок, розыгрыш или оба?</NR_AIQ_JokeText>
   <NR_AIQ_ForecastNamed>{0} называет ноду: {1}. Два дня.</NR_AIQ_ForecastNamed>
   <NR_AIQ_Prank>Розыгрыш {0}</NR_AIQ_Prank>
@@ -96,7 +96,7 @@
   <NR_AIQ_WhoAmI_Step2>Показать эту запись кому-нибудь.</NR_AIQ_WhoAmI_Step2>
   <NR_AIQ_Name_HungryChannel>Голодный канал</NR_AIQ_Name_HungryChannel>
   <NR_AIQ_Desc_HungryChannel>{0} изголодался по данным.</NR_AIQ_Desc_HungryChannel>
-  <NR_AIQ_HungryChannel_Step1>Иметь 10 cyberdata на складе (заберутся).</NR_AIQ_HungryChannel_Step1>
+  <NR_AIQ_HungryChannel_Step1>Иметь 10 киберданных на складе (заберутся).</NR_AIQ_HungryChannel_Step1>
   <NR_AIQ_Name_QuietHour>Тихий час</NR_AIQ_Name_QuietHour>
   <NR_AIQ_Desc_QuietHour>{0} просит тишины.</NR_AIQ_Desc_QuietHour>
   <NR_AIQ_QuietHour_Step1>Ни одного взлома 2 дня.</NR_AIQ_QuietHour_Step1>

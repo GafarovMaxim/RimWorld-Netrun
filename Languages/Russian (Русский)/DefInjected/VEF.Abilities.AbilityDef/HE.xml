@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_VirtualDataRipper.label>виртуальный выкачиватель данных</USH_VirtualDataRipper.label>
+  <USH_VirtualDataRipper.description>Эта способность устарела. Используйте кнопку выкачки данных.</USH_VirtualDataRipper.description>
+  <USH_VirtualICEBreaker.label>виртуальный ледоруб Black ICE</USH_VirtualICEBreaker.label>
+  <USH_VirtualICEBreaker.description>Ставит на выбранное устройство виртуальный ледоруб Black ICE и отключает его смертельную защиту.</USH_VirtualICEBreaker.description>
+  <USH_Zapcode.label>зап-код</USH_Zapcode.label>
+  <USH_Zapcode.description>Пробивает первые слои защиты. Сразу взламывает 35% устройства, если прогресс взлома меньше 25%.</USH_Zapcode.description>
+  <USH_ForkBomb.label>форк-бомба</USH_ForkBomb.label>
+  <USH_ForkBomb.description>Забивает программу цели простыми командами, которые размножаются рекурсивно и съедают почти всю её вычислительную мощность.</USH_ForkBomb.description>
+  <USH_Discharge.label>разряд</USH_Discharge.label>
+  <USH_Discharge.description>Заставляет устройство сбросить внутренний заряд, вызывая ЭМИ-взрыв.</USH_Discharge.description>
+  <USH_Disarm.label>разоружение</USH_Disarm.label>
+  <USH_Disarm.description>Взламывает оружие цели: оно временно отключается, и владелец его роняет.</USH_Disarm.description>
+  <USH_ShortCircuit.label>короткое замыкание</USH_ShortCircuit.label>
+  <USH_ShortCircuit.description>Вызывает короткое замыкание во внутренних компонентах устройства и небольшой взрыв с возгоранием.</USH_ShortCircuit.description>
+  <USH_HijackSubcore.label>захват подъядра</USH_HijackSubcore.label>
+  <USH_HijackSubcore.description>Перепрограммирует подъядро механоида, чтобы он считал хакера союзником. Долгое предельное сосредоточение физически повреждает ткани вокруг нейропорта и вызывает некроз, который потом можно вылечить.</USH_HijackSubcore.description>
+</LanguageData>

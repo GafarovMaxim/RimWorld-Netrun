@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_OutdatedFirewall.label>устаревший файрвол</USH_OutdatedFirewall.label>
+  <USH_OutdatedFirewall.description>Старая программа, которой индустриальные общества защищаются в киберпространстве.</USH_OutdatedFirewall.description>
+  <USH_ICE.label>ICE</USH_ICE.label>
+  <USH_ICE.description>Современная система защиты от вторжений в киберпространстве.</USH_ICE.description>
+  <USH_CoreCommandICE.label>командный ICE ядра</USH_CoreCommandICE.label>
+  <USH_CoreCommandICE.description>Аварийная разновидность ICE с более надёжной защитой. Часто стоит на сложной и дорогой электронике.</USH_CoreCommandICE.description>
+  <USH_BlackICE.label>Black ICE</USH_BlackICE.label>
+  <USH_BlackICE.description>Незаконная разновидность ICE, способная убить нарушителя в киберпространстве. Запрещена имперским законом.</USH_BlackICE.description>
+</LanguageData>

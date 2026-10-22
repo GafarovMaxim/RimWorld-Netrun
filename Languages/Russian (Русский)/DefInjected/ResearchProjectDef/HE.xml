@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_BasicCybertech.label>базовая кибертехника</USH_BasicCybertech.label>
+  <USH_BasicCybertech.description>Открывает выкачку киберданных и технологии для более эффективного взлома.</USH_BasicCybertech.description>
+  <USH_CybertechMachinery.label>кибертехнические машины</USH_CybertechMachinery.label>
+  <USH_CybertechMachinery.description>Технологии нейропортов в машинах.</USH_CybertechMachinery.description>
+  <USH_AdvancedCybertech.label>продвинутая кибертехника</USH_AdvancedCybertech.label>
+  <USH_AdvancedCybertech.description>Продвинутые технологии и сложные методы взлома.</USH_AdvancedCybertech.description>
+  <USH_ExecData.label>скрипты</USH_ExecData.label>
+  <USH_ExecData.description>Учит восстанавливать пустые дискеты скриптов и создавать мощные кибер-способности. Каждый скрипт сначала нужно освоить с установленным кейсом скриптов.</USH_ExecData.description>
+</LanguageData>

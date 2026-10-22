@@ -5,7 +5,7 @@
   <NR_Contract_DataDelivery>Доставка данных</NR_Contract_DataDelivery>
   <NR_Contract_SystemTap>Системный взлом</NR_Contract_SystemTap>
   <NR_Contract_QuietRun>Тихий заход</NR_Contract_QuietRun>
-  <NR_ContractDesc_DataDelivery>Передать через терминал {0} cyberdata. Продвинутые cyberdata засчитываются за несколько.</NR_ContractDesc_DataDelivery>
+  <NR_ContractDesc_DataDelivery>Передать через терминал {0} киберданных. Продвинутые киберданные засчитываются за несколько.</NR_ContractDesc_DataDelivery>
   <NR_ContractDesc_SystemTap>Завершить взломов: {0}.</NR_ContractDesc_SystemTap>
   <NR_ContractDesc_QuietRun>Завершить взломов: {0}, при этом след не должен подняться выше уровня «Отслеживается».</NR_ContractDesc_QuietRun>
 
@@ -31,7 +31,7 @@
   <NR_ContractFailedLoud>след поднялся слишком высоко</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>вы отказались от работы</NR_ContractFailedAbandoned>
   <!-- Прогресс -->
-  <NR_ContractDeliverTip>Передаёт cyberdata со склада. Одни продвинутые cyberdata засчитываются за {0}.</NR_ContractDeliverTip>
+  <NR_ContractDeliverTip>Передаёт киберданные со склада. Одни продвинутые киберданные засчитываются за {0}.</NR_ContractDeliverTip>
   <NR_ContractDelivered>Сдано: {0}. Выполнено {1} из {2}, осталось {3}.</NR_ContractDelivered>
 
   <NR_BoardActive>Активный контракт</NR_BoardActive>
@@ -62,8 +62,8 @@
   <NR_BoardDifficulty_1>лёгкая</NR_BoardDifficulty_1>
   <NR_BoardDifficulty_2>средняя</NR_BoardDifficulty_2>
   <NR_BoardDifficulty_3>тяжёлая</NR_BoardDifficulty_3>
-  <NR_BoardTag_Delivery>Доставка cyberdata</NR_BoardTag_Delivery>
-  <NR_BoardTag_DeliveryTip>Сдать cyberdata через терминал. Продвинутые засчитываются за {0}.</NR_BoardTag_DeliveryTip>
+  <NR_BoardTag_Delivery>Доставка киберданных</NR_BoardTag_Delivery>
+  <NR_BoardTag_DeliveryTip>Сдать киберданные через терминал. Продвинутые засчитываются за {0}.</NR_BoardTag_DeliveryTip>
   <NR_BoardTag_AnyHack>Любые взломы</NR_BoardTag_AnyHack>
   <NR_BoardTag_AnyHackTip>Засчитывается любой завершённый взлом.</NR_BoardTag_AnyHackTip>
   <NR_BoardTag_Quiet>Heat ≤ «{0}»</NR_BoardTag_Quiet>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Russian for Hacking Expansion (BlueEagle421, MIT), shipped with Netrun. Check with tools/he_strings.py. -->
+<LanguageData>
+  <USH_SalvageBrokenExecData.label>разобрать пустую дискету скрипта</USH_SalvageBrokenExecData.label>
+  <USH_SalvageBrokenExecData.description>Разобрать пустую дискету скрипта на ценные внутренние компоненты.</USH_SalvageBrokenExecData.description>
+  <USH_SalvageBrokenExecData.jobString>Разбирает пустую дискету скрипта.</USH_SalvageBrokenExecData.jobString>
+</LanguageData>

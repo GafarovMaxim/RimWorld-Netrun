@@ -168,7 +168,8 @@ def main() -> int:
         keys = set()
         for path in glob.glob(f"Languages/{lang}/Keyed/*.xml"):
             keys |= {e.tag for e in ET.parse(path).getroot()}
-        missing, unused = sorted(used - keys), sorted(keys - used)
+        # USH_ keys are our Russian for Hacking Expansion (Keyed/HE.xml), checked by tools/he_strings.py.
+        missing, unused = sorted(used - keys), sorted(k for k in keys - used if not k.startswith("USH_"))
         print(f"{lang}: missing {missing or 'none'}, unused {unused or 'none'}")
         ok &= not missing
     return 0 if ok else 1

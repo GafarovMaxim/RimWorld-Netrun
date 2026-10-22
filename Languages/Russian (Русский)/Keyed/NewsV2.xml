@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-  <NR_Flavor_Spam_1>ВЫ ВЫИГРАЛИ 500 CYBERDATA!!! Подтвердите нейроподпись, чтобы забрать.</NR_Flavor_Spam_1>
+  <NR_Flavor_Spam_1>ВЫ ВЫИГРАЛИ 500 КИБЕРДАННЫХ!!! Подтвердите нейроподпись, чтобы забрать.</NR_Flavor_Spam_1>
   <NR_Flavor_Spam_2>Одинокие нетраннеры вашего сектора хотят с вами синхронизироваться.</NR_Flavor_Spam_2>
   <NR_Flavor_Spam_3>Гарантия на ваш кибер-линк скоро истекает. Действуйте сейчас.</NR_Flavor_Spam_3>
   <NR_Flavor_Spam_4>Врачи ненавидят этот трюк: Netsick проходит за одну ночь.</NR_Flavor_Spam_4>
@@ -42,7 +42,7 @@
   <NR_Flavor_FixerAd_8>Есть контракт, который платит услугами. Интересно?</NR_Flavor_FixerAd_8>
   <NR_Flavor_FixerAd_9>Ищу команду, которая не боится чёрного льда.</NR_Flavor_FixerAd_9>
   <NR_Flavor_FixerAd_10>Чистой лаборатории нужен тестер. Работа лёгкая, сны странные.</NR_Flavor_FixerAd_10>
-  <NR_Flavor_FixerAd_11>Обменяю продвинутые cyberdata на молчание.</NR_Flavor_FixerAd_11>
+  <NR_Flavor_FixerAd_11>Обменяю продвинутые киберданные на молчание.</NR_Flavor_FixerAd_11>
   <NR_Flavor_FixerAd_12>Нужен призрак для тихого забега. След — и сделки нет.</NR_Flavor_FixerAd_12>
   <NR_Flavor_FixerAd_13>Требуется фиксер: честная работа, нечестные люди.</NR_Flavor_FixerAd_13>
   <NR_Flavor_FixerAd_14>В Кампусе кто-то платит за научные данные. Поспрашивайте.</NR_Flavor_FixerAd_14>
@@ -82,7 +82,7 @@
   <NR_HeadlineInterference>Помехи у {0}: сканировать трудно.</NR_HeadlineInterference>
   <NR_HeadlineAuction>Аукцион в {0}: серебро течёт.</NR_HeadlineAuction>
   <NR_NewsQuarantine>{0} закрыла на карантин {1}.</NR_NewsQuarantine>
-  <NR_DiveLogForgottenCache>Скан находит забытый кэш: +{0} cyberdata.</NR_DiveLogForgottenCache>
+  <NR_DiveLogForgottenCache>Скан находит забытый кэш: +{0} киберданных.</NR_DiveLogForgottenCache>
   <NR_DiveLogOverloadCrash>Перегруженная нода падает. Вы снаружи, с тем, что успели взять.</NR_DiveLogOverloadCrash>
   <NR_MapStateRivalTrap>ловушка соперников</NR_MapStateRivalTrap>
   <NR_MapStateQuarantine>карантин</NR_MapStateQuarantine>
@@ -105,8 +105,8 @@
   <NR_ChoiceIgnore>Пропустить</NR_ChoiceIgnore>
   <NR_ChoiceAccept>Принять</NR_ChoiceAccept>
   <NR_ChoiceDecline>Отказаться</NR_ChoiceDecline>
-  <NR_ChoiceLeak>Кто-то продаёт слитую карту района за {0} cyberdata.</NR_ChoiceLeak>
-  <NR_ChoiceLeakBuy>Купить ({0} cyberdata)</NR_ChoiceLeakBuy>
+  <NR_ChoiceLeak>Кто-то продаёт слитую карту района за {0} киберданных.</NR_ChoiceLeak>
+  <NR_ChoiceLeakBuy>Купить ({0} киберданных)</NR_ChoiceLeakBuy>
   <NR_ChoiceLeakBuyTip>Показывает скрытые ответвления в одном районе или тёмную связь.</NR_ChoiceLeakBuyTip>
   <NR_ChoiceTip>Фиксер спрашивает, не слышали ли вы чего полезного.</NR_ChoiceTip>
   <NR_ChoiceTipGive>Рассказать</NR_ChoiceTipGive>
@@ -120,7 +120,7 @@
   <NR_ChoiceMeetIt>Пусть идёт</NR_ChoiceMeetIt>
   <NR_ChoiceMeetItTip>Встретить на карте, ждать у Дома или положиться на защиту узла.</NR_ChoiceMeetItTip>
   <NR_PhishingJunk>Файл оказался мусором.</NR_PhishingJunk>
-  <NR_PhishingData>В файле были данные: 2 cyberdata.</NR_PhishingData>
+  <NR_PhishingData>В файле были данные: 2 киберданных.</NR_PhishingData>
   <NR_PhishingVirus>Файл оказался вирусом: машина сломалась.</NR_PhishingVirus>
   <NR_LeakShown>Слив показывает {0} ответвлений у {1}.</NR_LeakShown>
   <NR_TipHeat>Разговор с {0}</NR_TipHeat>

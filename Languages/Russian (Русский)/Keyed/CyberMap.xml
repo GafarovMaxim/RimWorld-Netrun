@@ -29,7 +29,7 @@
   <NR_DistrictHint_Home>Ваш собственный узел.</NR_DistrictHint_Home>
   <NR_DistrictHint_Outskirts>Слабые ноды и мало Heat: здесь учатся.</NR_DistrictHint_Outskirts>
   <NR_DistrictHint_Transit>Магистраль между районами: быстрые пути, мало нод.</NR_DistrictHint_Transit>
-  <NR_DistrictHint_Market>Магазины и биржи: стабильные cyberdata, иногда серебро.</NR_DistrictHint_Market>
+  <NR_DistrictHint_Market>Магазины и биржи: стабильные киберданные, иногда серебро.</NR_DistrictHint_Market>
   <NR_DistrictHint_Campus>Архивы академий: здесь попадаются данные исследований.</NR_DistrictHint_Campus>
   <NR_DistrictHint_Entertainment>Студии и клубы: чипы брейнданса знаменитостей.</NR_DistrictHint_Entertainment>
   <NR_DistrictHint_Corp>Земля корпораций: богатые хранилища, жёсткий ICE, громкий след.</NR_DistrictHint_Corp>
@@ -89,7 +89,7 @@
   <NR_MapEmergencyTip>Отключиться сразу, где угодно: Netsick +{0}, киберпространственная тошнота, шанс блокировки {1}. Эгида или ИИ Страж вдвое снижают.</NR_MapEmergencyTip>
   <NR_MapEmergencyConfirm>Выдернуть {0} из сети прямо сейчас? Это больно.</NR_MapEmergencyConfirm>
   <NR_MapEmergency>{0} вырвался из сети.</NR_MapEmergency>
-  <NR_MapJump>Подключить {0} · {1} cyberdata</NR_MapJump>
+  <NR_MapJump>Подключить {0} · {1} киберданных</NR_MapJump>
   <NR_MapJumpTip>Подключиться сразу в этой точке выхода, а не в Доме.</NR_MapJumpTip>
   <NR_MapArrived>{0} на месте: {1}.</NR_MapArrived>
   <NR_MapRouteLost>{0} потерял путь: маршрут оборвался.</NR_MapRouteLost>

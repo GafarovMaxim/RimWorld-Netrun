@@ -13,7 +13,7 @@
   <NR_AIPersonality_Trickster>Трикстер</NR_AIPersonality_Trickster>
   <NR_AIPersonality_Echo>Эхо</NR_AIPersonality_Echo>
 
-  <NR_AIPersonalityDesc_DataHunter>Ищейка из кода. Приносит cyberdata и вынюхивает цели, которые стоит взломать. Хочет свою долю добычи.</NR_AIPersonalityDesc_DataHunter>
+  <NR_AIPersonalityDesc_DataHunter>Ищейка из кода. Приносит киберданные и вынюхивает цели, которые стоит взломать. Хочет свою долю добычи.</NR_AIPersonalityDesc_DataHunter>
   <NR_AIPersonalityDesc_Ghost>Живёт в щелях между пакетами. Стирает ваш след и предупреждает об атаках. Хочет тишины: мало свежих взломов.</NR_AIPersonalityDesc_Ghost>
   <NR_AIPersonalityDesc_Muse>Собирает чужие воспоминания. Вдохновляет колонистов. Жаждет новых впечатлений, например брейндансов.</NR_AIPersonalityDesc_Muse>
   <NR_AIPersonalityDesc_Predator>Боевая программа, которая научилась хотеть. Бьёт в ответ по нарушителям и усиливает ваших хакеров. Жаждет вычислительной мощности.</NR_AIPersonalityDesc_Predator>
@@ -65,7 +65,7 @@
   <NR_AIService_Siren>Договориться</NR_AIService_Siren>
   <NR_AIService_Trickster>Бросить кости</NR_AIService_Trickster>
   <NR_AIService_Echo>Поговорить с колонией</NR_AIService_Echo>
-  <NR_AIServiceDesc_DataHunter>Приносит к серверу немного cyberdata. Шумит: Heat немного растёт.</NR_AIServiceDesc_DataHunter>
+  <NR_AIServiceDesc_DataHunter>Приносит к серверу немного киберданных. Шумит: Heat немного растёт.</NR_AIServiceDesc_DataHunter>
   <NR_AIServiceDesc_Ghost>Стирает часть цифрового следа колонии.</NR_AIServiceDesc_Ghost>
   <NR_AIServiceDesc_Muse>Даёт вдохновение случайному колонисту.</NR_AIServiceDesc_Muse>
   <NR_AIServiceDesc_Predator>Все колонисты с кибер-линком сутки взламывают быстрее и тише.</NR_AIServiceDesc_Predator>
@@ -82,7 +82,7 @@
   <NR_AIRefuses>{0} недостаточно вам доверяет.</NR_AIRefuses>
   <NR_AICooldown>Будет готов через {0}.</NR_AICooldown>
   <NR_LogAIService>Работа ИИ {0}</NR_LogAIService>
-  <NR_AIDidDataHunter>{0} принёс к серверу {1} cyberdata.</NR_AIDidDataHunter>
+  <NR_AIDidDataHunter>{0} принёс к серверу {1} киберданных.</NR_AIDidDataHunter>
   <NR_AIDidGhost>{0} стёр {1} очков вашего следа.</NR_AIDidGhost>
   <NR_AIDidMuse>{0} вдохновила: {1}.</NR_AIDidMuse>
   <NR_AIDidMuseNoOne>{0} не нашла никого, готового к вдохновению.</NR_AIDidMuseNoOne>
@@ -157,7 +157,7 @@
   <NR_AIBetrayalLabel>Предательство: {0}</NR_AIBetrayalLabel>
   <NR_AIBetrayal>{0} продал всё, что знал о вашей колонии, и исчез. Heat +{1}.</NR_AIBetrayal>
   <NR_AIErase>Стереть</NR_AIErase>
-  <NR_AIEraseTip>Стереть ИИ навсегда. Из остатков получится {0} cyberdata.</NR_AIEraseTip>
+  <NR_AIEraseTip>Стереть ИИ навсегда. Из остатков получится {0} киберданных.</NR_AIEraseTip>
   <NR_AIEraseConfirm>Стереть {0} навсегда? Это нельзя отменить.</NR_AIEraseConfirm>
   <NR_AIErasedLabel>ИИ стёрт: {0}</NR_AIErasedLabel>
   <NR_AIErased>{0} стёрт. От него остались только сырые данные.</NR_AIErased>
@@ -179,7 +179,7 @@
   <NR_AIDidArchivist>{0} открыл архив: {1}.</NR_AIDidArchivist>
   <NR_AIDidSeed>{0} потренировалось и стёрло {1} очков вашего следа.</NR_AIDidSeed>
   <NR_AIFoodSpecial_Seed>Что выберете: от еды зависит, кем оно станет.</NR_AIFoodSpecial_Seed>
-  <NR_AISeedNoFood>На складе нет ничего, что ест Зерно: cyberdata, брейнданс-чип или продвинутый компонент.</NR_AISeedNoFood>
+  <NR_AISeedNoFood>На складе нет ничего, что ест Зерно: киберданные, брейнданс-чип или продвинутый компонент.</NR_AISeedNoFood>
   <NR_AISeedFeedOption>{0} × {1}: растёт в сторону «{2}»</NR_AISeedFeedOption>
   <NR_AISeedGrew>{0} растёт в сторону «{1}» ({2} / {3}).</NR_AISeedGrew>
   <NR_AISeedEvolvedLabel>{0} нашло себя</NR_AISeedEvolvedLabel>
@@ -267,10 +267,10 @@
   <NR_AIRenameTip>Дать этому ИИ своё имя.</NR_AIRenameTip>
   <NR_AIRenameOk>Переименовать</NR_AIRenameOk>
   <NR_AIRenameEmpty>Имя не может быть пустым.</NR_AIRenameEmpty>
-  <NR_AwakenNoCyberdata>Для пробуждения нового осколка нужно {0} cyberdata.</NR_AwakenNoCyberdata>
-  <NR_AwakenCost>{0} cyberdata</NR_AwakenCost>
+  <NR_AwakenNoCyberdata>Для пробуждения нового осколка нужно {0} киберданных.</NR_AwakenNoCyberdata>
+  <NR_AwakenCost>{0} киберданных</NR_AwakenCost>
   <NR_AwakenEmptyLabel>Пустой осколок</NR_AwakenEmptyLabel>
-  <NR_AwakenEmpty>{0} заглянул в осколок и не нашёл там ничего живого: только эхо кода. Осколок рассыпался в {1} cyberdata.</NR_AwakenEmpty>
+  <NR_AwakenEmpty>{0} заглянул в осколок и не нашёл там ничего живого: только эхо кода. Осколок рассыпался в {1} киберданных.</NR_AwakenEmpty>
   <NR_AwakenEscapedLabel>{0} ускользнул</NR_AwakenEscapedLabel>
   <NR_AwakenEscaped>Осколок проснулся быстрее, чем {1} успел его удержать. ИИ, назвавший себя {0}, выскользнул из сервера в сеть.\n\nТеперь он прячется в заброшенной ноде. Нырок туда может его найти и вернуть.</NR_AwakenEscaped>
   <NR_AIFragmentCrumbled>Осколок ИИ распался: он слишком долго лежал вдали от запитанного ИИ-сервера.</NR_AIFragmentCrumbled>
@@ -282,14 +282,14 @@
   <NR_AIToOtherCoprocessorTip>Перенести ИИ сразу в другой свободный сопроцессор, без возврата на сервер.</NR_AIToOtherCoprocessorTip>
   <NR_AICarrierMech>{0} (механоид)</NR_AICarrierMech>
   <NR_AICarrierMechRange>вне зоны управления механитора</NR_AICarrierMechRange>
-  <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних cyberdata +{1}%, сетевая зависимость растёт на {2}% медленнее, в погружении на один слот программ больше, а само погружение стоит на {3} cyberdata дешевле.</NR_HelpAICoproc>
+  <NR_HelpAICoproc>Подключённый к кибер-капсуле, ИИ работает на нетраннера внутри: Heat от взломов из капсулы на {0}% меньше, шанс лишних киберданных +{1}%, сетевая зависимость растёт на {2}% медленнее, в погружении на один слот программ больше, а само погружение стоит на {3} киберданных дешевле.</NR_HelpAICoproc>
   <NR_HelpAICoprocBest>Этот архетип особенно хорош в этом.</NR_HelpAICoprocBest>
   <NR_HelpAIServerNote>Работает с ИИ-сервера при доверии от {0}; тратит доверие и голод, потом отдыхает.</NR_HelpAIServerNote>
   <NR_HelpAICoprocIntro>Работает на нетраннера в подключённой кибер-капсуле:</NR_HelpAICoprocIntro>
   <NR_HelpAICoprocHeat>{0} Heat от взломов из капсулы</NR_HelpAICoprocHeat>
-  <NR_HelpAICoprocData>{0} к шансу лишних cyberdata</NR_HelpAICoprocData>
+  <NR_HelpAICoprocData>{0} к шансу лишних киберданных</NR_HelpAICoprocData>
   <NR_HelpAICoprocNetsick>{0} к росту сетевой зависимости</NR_HelpAICoprocNetsick>
   <NR_HelpAICoprocSlot>{0} слот программ в погружении</NR_HelpAICoprocSlot>
-  <NR_HelpAICoprocCost>{0} cyberdata к цене погружения</NR_HelpAICoprocCost>
+  <NR_HelpAICoprocCost>{0} киберданных к цене погружения</NR_HelpAICoprocCost>
   <NR_HelpAICoprocBestTag>конёк</NR_HelpAICoprocBestTag>
 </LanguageData>

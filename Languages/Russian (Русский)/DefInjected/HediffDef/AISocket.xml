@@ -5,7 +5,7 @@
   <NR_AISocketInstalled.descriptionShort>Нейросокет, который может нести одного ИИ.</NR_AISocketInstalled.descriptionShort>
 
   <NR_HostedAI_DataHunter.label>ИИ-пассажир: Охотник за данными</NR_HostedAI_DataHunter.label>
-  <NR_HostedAI_DataHunter.description>В сокете этого колониста едет ИИ-охотник за данными. Взлом идёт быстрее и иногда приносит лишние cyberdata.</NR_HostedAI_DataHunter.description>
+  <NR_HostedAI_DataHunter.description>В сокете этого колониста едет ИИ-охотник за данными. Взлом идёт быстрее и иногда приносит лишние киберданные.</NR_HostedAI_DataHunter.description>
   <NR_HostedAI_Ghost.label>ИИ-пассажир: Призрак</NR_HostedAI_Ghost.label>
   <NR_HostedAI_Ghost.description>ИИ-призрак прячет вторжения этого колониста. Взломы оставляют намного меньше следа.</NR_HostedAI_Ghost.description>
   <NR_HostedAI_Muse.label>ИИ-пассажир: Муза</NR_HostedAI_Muse.label>
