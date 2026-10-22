@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: a rival netrunner shows as an icon left of the hub name, like the key.
 - Cyberspace map: the contract target is an amber pulsing ring on every lens and the first, framed chip in the hub's plate.
 - Cyberspace map: a new path is drawn only where it leaves the active route, with a notch where it turns off.
 - Cyberspace map: exit and key icons now sit left of the hub name, like the lock; district names are gone from the map.

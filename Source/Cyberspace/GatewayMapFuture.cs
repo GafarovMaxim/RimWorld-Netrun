@@ -445,7 +445,7 @@ public static partial class GatewayView
         public string Text;
         public Color Edge;
         public int Priority;
-        public bool Capital, Interesting, Named, Lock, Exit, Key;
+        public bool Capital, Interesting, Named, Lock, Exit, Key, Rival;
         public List<ExternalNode> Branches;
     }
 
@@ -480,13 +480,14 @@ public static partial class GatewayView
         // Up close every hub has its name; farther out only the interesting ones, the rest keep just their node chips.
         bool named = interesting || _zoom >= 1.3f;
         bool locked = n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs;
-        bool exit = n.Exit && n.District != District.Home, key = false, target = false;
+        bool exit = n.Exit && n.District != District.Home, key = false, target = false, rival = false;
         for (int i = 0; i < branches.Count; i++)
         {
             key |= !branches[i].Hidden && branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
             target |= !branches[i].Hidden && branches[i].Contract;
+            rival |= !branches[i].Hidden && branches[i].Rival;
         }
-        int icons = (locked ? 1 : 0) + (exit ? 1 : 0) + (key ? 1 : 0);
+        int icons = (locked ? 1 : 0) + (exit ? 1 : 0) + (key ? 1 : 0) + (rival ? 1 : 0);
         if (!named && branches.Count == 0 && icons == 0)
             return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
@@ -508,6 +509,7 @@ public static partial class GatewayView
             Lock = locked,
             Exit = exit,
             Key = key,
+            Rival = rival,
             Branches = branches,
         });
         return true;
@@ -558,10 +560,11 @@ public static partial class GatewayView
             Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         }
         float x = tag.x + (plate.Named ? 7f : 3f), cy = tag.center.y;
-        // Icons left of the name (Maxim, 2026-10-23): shut (lock), a way out of the net (exit), holds a key (key).
+        // The hub's states left of the name (Maxim, 2026-10-23): shut (lock), a way out (exit), holds a key, a rival on a node.
         x = PlateIcon(x, cy, plate.Lock, "Icon_Lock", NetrunUI.Warn, a);
         x = PlateIcon(x, cy, plate.Exit, "Icon_ExitHub", Color.white, a);
         x = PlateIcon(x, cy, plate.Key, "Icon_Key", NetrunUI.Warn, a);
+        x = PlateIcon(x, cy, plate.Rival, "Event_Rival", NetrunUI.Bad, a);
         Text.Font = GameFont.Tiny;
         if (plate.Named)
         {

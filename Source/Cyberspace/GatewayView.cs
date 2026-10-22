@@ -573,7 +573,7 @@ public static partial class GatewayView
             if (node.Contract)
                 sub += " · ★";
             if (node.Rival)
-                sub += " · ⚔";
+                sub += " · " + NetrunUI.T("NR_GatewayRival");
             subColor = node.BlackIce ? NetrunUI.Bad : color;
         }
         Text.Font = GameFont.Tiny;
@@ -728,9 +728,15 @@ public static partial class GatewayView
                 Widgets.DrawBoxSolid(new Rect(strip.x, strip.y, 3f, strip.height), NetrunUI.Bad);
                 Text.Font = GameFont.Tiny;
                 GUI.color = NetrunUI.Bad;
-                Widgets.Label(new Rect(strip.x + 10f, strip.y + 2f, strip.width - 14f, 16f), NetrunUI.Upper(NetrunUI.T("NR_GatewayRival")));
+                float tx = strip.x + 10f;
+                if (NetrunTex.CyberIcon("Event_Rival") is { } rivalTex)
+                {
+                    GUI.DrawTexture(new Rect(tx, strip.y + 8f, 18f, 18f), rivalTex);
+                    tx += 24f;
+                }
+                Widgets.Label(new Rect(tx, strip.y + 2f, strip.xMax - tx - 4f, 16f), NetrunUI.Upper(NetrunUI.T("NR_GatewayRival")));
                 GUI.color = NetrunUI.TextColor;
-                Widgets.Label(new Rect(strip.x + 10f, strip.y + 17f, strip.width - 14f, 16f),
+                Widgets.Label(new Rect(tx, strip.y + 17f, strip.xMax - tx - 4f, 16f),
                     "NR_GatewayRivalTurns".Translate(NetrunDefOf.NR_Cyberspace.rivalTurns));
                 GUI.color = Color.white;
                 Text.Font = GameFont.Small;
