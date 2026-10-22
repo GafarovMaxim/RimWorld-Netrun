@@ -25,7 +25,8 @@ public static partial class GatewayView
         District.Home => NetrunUI.Accent,
         // Outskirts, Corp and the Old Net moved off the green and red of Ok / Bad and the runner (Maxim, 2026-10-23).
         District.Outskirts => new Color(0.45f, 0.62f, 0.88f),
-        District.Transit => new Color(0.24f, 0.82f, 0.9f),
+        // Lime and a triangle: the old cyan read as the campus (Maxim, 2026-10-23).
+        District.Transit => new Color(0.66f, 0.9f, 0.4f),
         District.Corp => new Color(0.86f, 0.58f, 0.86f),
         District.Market => new Color(0.9f, 0.82f, 0.47f),
         District.Ruins => new Color(0.67f, 0.59f, 0.51f),
@@ -600,6 +601,9 @@ public static partial class GatewayView
         float a = (n.Offline ? 0.5f : 1f) * c.a;
         bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         bool orbit = n.District == District.Orbit;
+        // Orbit a diamond, transit a triangle, the rest a ring.
+        Shape? shape = orbit ? Shape.Diamond : n.District == District.Transit ? Shape.Triangle : null;
+        Rect shapeRect = orbit ? rect.ExpandedBy(2f) : rect.ExpandedBy(3f);
         // Far out there is no plate: the exit hangs beside the hub; closer it is an icon in the plate (2026-10-23).
         if (n.Exit && !home && _zoom < 0.8f)
             DrawExitBeside(local, p, r, a);
@@ -609,16 +613,16 @@ public static partial class GatewayView
         {
             // Offline: only a faint dashed outline, no fill and no cross.
             GUI.color = new Color(c.r, c.g, c.b, 0.55f * c.a);
-            GUI.DrawTexture(rect, orbit ? ShapeTex(Shape.Diamond, false) : DashedRing);
+            GUI.DrawTexture(shape != null ? shapeRect : rect, shape is { } s ? ShapeTex(s, false) : DashedRing);
         }
         else
         {
-            Texture2D fill = orbit ? ShapeTex(Shape.Diamond, true) : NetrunUI.Disc;
-            Texture2D ring = orbit ? ShapeTex(Shape.Diamond, false) : HubRing;
+            Texture2D fill = shape is { } s ? ShapeTex(s, true) : NetrunUI.Disc;
+            Texture2D ring = shape is { } s2 ? ShapeTex(s2, false) : HubRing;
             GUI.color = new Color(c.r, c.g, c.b, a * (full ? 1f : 0.18f));
-            GUI.DrawTexture(orbit ? rect.ExpandedBy(2f) : rect.ContractedBy(1f), fill);
+            GUI.DrawTexture(shape != null ? shapeRect : rect.ContractedBy(1f), fill);
             GUI.color = new Color(c.r, c.g, c.b, a);
-            GUI.DrawTexture(orbit ? rect.ExpandedBy(2f) : rect, ring);
+            GUI.DrawTexture(shape != null ? shapeRect : rect, ring);
         }
         if (n.Fortress)
         {

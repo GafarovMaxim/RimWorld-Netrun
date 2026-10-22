@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Orbital hubs stand one short step out from their corporation's outermost hub, off links.
+- Transit hubs are lime triangles on the map, so they no longer look like the campus.
 - Map generator: each district keeps its own ground, so districts no longer mix or tear, also on big maps.
 - Map generator: on big maps hubs stand closer instead of spilling into neighbouring districts; the transit no longer grows with the hub count.
 - Every transit hub now leads to a district; one that cannot is left out of a new map.

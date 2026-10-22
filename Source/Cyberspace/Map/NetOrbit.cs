@@ -74,11 +74,12 @@ public partial class NetMapManager
         // Version 2 (2026-10-14): placed on free ground with one clear link; older saves are laid out again once.
         // Version 3 (2026-10-23): no spot left free kept the first candidate, on top of a hub; now the roomiest one.
         // Version 4: beyond the corporation's outer edge, off every link, never nearer a stranger than its own ground.
-        if (!_orbitByCorp || _orbitVersion < 4 || !Map.Nodes.Any(n => n.District == District.Orbit))
+        // Version 5: a short step out from its outermost hub instead of rings around the whole corporation.
+        if (!_orbitByCorp || _orbitVersion < 5 || !Map.Nodes.Any(n => n.District == District.Orbit))
         {
             PlaceOrbitByCorp();
             _orbitByCorp = true;
-            _orbitVersion = 4;
+            _orbitVersion = 5;
             Map.Dirty();
         }
         bool open = OrbitOpen;
@@ -118,41 +119,47 @@ public partial class NetMapManager
             System.Collections.Generic.List<MapNode> ground = corps[i % corps.Count];
             Vector2 centre = ground.Aggregate(Vector2.zero, (s, h) => s + h.Pos) / ground.Count;
             Vector2 away = (centre - middle).sqrMagnitude < 0.0001f ? Vector2.down : (centre - middle).normalized;
-            // Candidates on rings around the corporation, the outward side first: the first spot inside the map with
-            // room around it (Maxim, 2026-10-14: orbital hubs sat on other hubs and pulled long odd links).
-            // Rings start past the corporation's farthest hub (Maxim, 2026-10-23: orbital hubs sat inside districts and on links).
-            float reach = ground.Max(h => Vector2.Distance(h.Pos, centre));
-            Vector2 p = centre + away * (reach + 0.07f);
+            // Candidates on short rings around the corporation's own hubs, the outermost hub and the outward side first:
+            // a short link down, room around, off every link, and no stranger nearer than its own ground (Maxim,
+            // 2026-10-14 and 2026-10-23: orbital hubs sat on other hubs and on links, inside districts, on long links).
+            System.Collections.Generic.List<MapNode> others = Map.Nodes.Where(o => o != n && (o.District != District.Orbit || orbit.IndexOf(o) < i)).ToList();
+            Vector2 p = centre + away * 0.12f;
             bool found = false;
             float roomiest = -1f;
-            for (int ring = 0; ring < 6 && !found; ring++)
+            bool roomiestClear = false;
+            foreach (MapNode anchor in ground.Where(h => !h.Fortress).OrderByDescending(h => Vector2.Dot(h.Pos - centre, away)))
             {
-                float radius = reach + 0.07f + ring * 0.035f;
-                for (int k = 0; k < 12 && !found; k++)
+                for (int ring = 0; ring < 3 && !found; ring++)
                 {
-                    float turn = (k % 2 == 0 ? 1f : -1f) * (k + 1) / 2 * 25f * Mathf.Deg2Rad;
-                    Vector2 dir = new(away.x * Mathf.Cos(turn) - away.y * Mathf.Sin(turn), away.x * Mathf.Sin(turn) + away.y * Mathf.Cos(turn));
-                    Vector2 c = centre + dir * radius;
-                    if (c.x < 0.04f || c.x > 0.96f || c.y < 0.04f || c.y > 0.66f)
-                        continue;
-                    System.Collections.Generic.List<MapNode> others = Map.Nodes.Where(o => o != n && (o.District != District.Orbit || orbit.IndexOf(o) < i)).ToList();
-                    float room = others.Select(o => Vector2.Distance(o.Pos, c)).DefaultIfEmpty(1f).Min();
-                    if (room > roomiest)
+                    float radius = 0.09f + ring * 0.025f;
+                    for (int k = 0; k < 13 && !found; k++)
                     {
-                        roomiest = room;
-                        p = c;
+                        float turn = (k % 2 == 0 ? 1f : -1f) * (k + 1) / 2 * 25f * Mathf.Deg2Rad;
+                        Vector2 dir = new(away.x * Mathf.Cos(turn) - away.y * Mathf.Sin(turn), away.x * Mathf.Sin(turn) + away.y * Mathf.Cos(turn));
+                        Vector2 c = anchor.Pos + dir * radius;
+                        if (c.x < 0.04f || c.x > 0.96f || c.y < 0.04f || c.y > 0.64f)
+                            continue;
+                        float room = others.Min(o => Vector2.Distance(o.Pos, c));
+                        bool clear = !Map.Links.Any(l => CyberMap.DistanceToSegment(c, Map.Node(l.A).Pos, Map.Node(l.B).Pos) < CyberMap.LinkClearance * 1.5f);
+                        // No good spot: the roomiest one off the links, else the roomiest at all.
+                        if (clear && !roomiestClear || clear == roomiestClear && room > roomiest)
+                        {
+                            roomiest = room;
+                            roomiestClear = clear;
+                            p = c;
+                        }
+                        if (!clear || room < 0.085f || !ground.Contains(others.Where(o => o.District != District.Orbit).MinBy(o => Vector2.Distance(o.Pos, c))))
+                            continue;
+                        n.X = c.x;
+                        n.Y = c.y;
+                        Map.Dirty();
+                        found = Map.LinkClear(n.Id, anchor.Id);
+                        if (found)
+                            p = c;
                     }
-                    if (room < 0.085f || !ground.Contains(others.Where(o => o.District != District.Orbit).MinBy(o => Vector2.Distance(o.Pos, c)))
-                        || Map.Links.Any(l => CyberMap.DistanceToSegment(c, Map.Node(l.A).Pos, Map.Node(l.B).Pos) < CyberMap.LinkClearance * 1.5f))
-                        continue;
-                    // And a clear way down to its own ground.
-                    n.X = c.x;
-                    n.Y = c.y;
-                    Map.Dirty();
-                    found = ground.Any(h => !h.Fortress && Map.LinkClear(n.Id, h.Id));
-                    if (found)
-                        p = c;
                 }
+                if (found)
+                    break;
             }
             n.X = p.x;
             n.Y = p.y;
