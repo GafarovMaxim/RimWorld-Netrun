@@ -766,14 +766,12 @@ public static partial class GatewayView
     /// <summary>Visited hubs keep a faint rim (the last visit is in the hover card).</summary>
     private static void DrawVisited(Rect hubRect, MapNode n)
     {
-        if (n.LastVisitTick < 0 || n.District == District.Home)
+        // Transit and orbit hubs show a visit by their full fill alone: an outline of their shape read as a dark rim
+        // under the triangle (Maxim, 2026-10-23).
+        if (n.LastVisitTick < 0 || n.District == District.Home || HubShape(n) != null)
             return;
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f);
-        // A shaped hub gets an outline of its own shape (a round ring showed around transit triangles).
-        if (HubShape(n) is { } shape)
-            GUI.DrawTexture(hubRect.ExpandedBy(n.District == District.Orbit ? 5f : 9f), ShapeTex(shape, false));
-        else
-            GUI.DrawTexture(hubRect.ExpandedBy(3f), NetrunUI.ThinRing);
+        GUI.DrawTexture(hubRect.ExpandedBy(3f), NetrunUI.ThinRing);
         GUI.color = Color.white;
     }
 }
