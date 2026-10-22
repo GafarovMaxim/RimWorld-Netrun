@@ -48,7 +48,6 @@
   <NR_BoardActiveChip>Активных: {0} / {1}</NR_BoardActiveChip>
   <NR_BoardFixers>Фиксеры</NR_BoardFixers>
   <NR_BoardAllFixers>Все ({0})</NR_BoardAllFixers>
-  <NR_BoardAllFixersSub>показаны все контракты</NR_BoardAllFixersSub>
   <NR_BoardFixerSub>реп. {0} · контрактов: {1}</NR_BoardFixerSub>
   <NR_BoardSilentShort>молчит</NR_BoardSilentShort>
   <NR_BoardSilentBack>вернётся через {0}</NR_BoardSilentBack>
@@ -57,7 +56,6 @@
   <NR_BoardFilter_Easy>Только лёгкие</NR_BoardFilter_Easy>
   <NR_BoardFilter_Hard>Только тяжёлые</NR_BoardFilter_Hard>
   <NR_BoardFilter_Medium>Только средние</NR_BoardFilter_Medium>
-  <NR_BoardSort>Сортировка</NR_BoardSort>
   <NR_BoardSort_Reward>Награда</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Срок</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Тип</NR_BoardSort_Type>

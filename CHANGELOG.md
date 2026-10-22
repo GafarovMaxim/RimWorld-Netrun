@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- UI pass 5: Board: the left sort block is gone (the label over the offers cycles the sort); a one-line "All" item; no empty reputation bar; grouped by type, cards are titled by their fixer; an accepted contract scrolls to the top and its card flashes.
 - UI pass 4: the Gateway panel widens with the window (270 to 340 px); programs in a two-column grid with a used/slots counter; the runner count chip left the window header (it is in the panel).
 - UI pass 3: the node card in the Gateway panel is compact: one-line fact rows, the type under the node's name, the risk in one word (details in the tooltip), the daemon hint in one line; DIVE fits without scrolling more often.
 - UI pass 2: hub plates, watch and timer tags no longer hide under the map's buttons; the zoom buttons sit on a dark backing, the zoom percent moved into the reset button's tooltip; off-screen runner tags stay below the lens bar.

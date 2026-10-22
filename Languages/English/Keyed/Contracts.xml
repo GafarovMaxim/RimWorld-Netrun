@@ -48,7 +48,6 @@
   <NR_BoardActiveChip>Active: {0} / {1}</NR_BoardActiveChip>
   <NR_BoardFixers>Fixers</NR_BoardFixers>
   <NR_BoardAllFixers>All ({0})</NR_BoardAllFixers>
-  <NR_BoardAllFixersSub>all offers shown</NR_BoardAllFixersSub>
   <NR_BoardFixerSub>rep. {0} · offers: {1}</NR_BoardFixerSub>
   <NR_BoardSilentShort>silent</NR_BoardSilentShort>
   <NR_BoardSilentBack>back in {0}</NR_BoardSilentBack>
@@ -57,7 +56,6 @@
   <NR_BoardFilter_Easy>Easy only</NR_BoardFilter_Easy>
   <NR_BoardFilter_Hard>Hard only</NR_BoardFilter_Hard>
   <NR_BoardFilter_Medium>Medium only</NR_BoardFilter_Medium>
-  <NR_BoardSort>Sort</NR_BoardSort>
   <NR_BoardSort_Reward>Reward</NR_BoardSort_Reward>
   <NR_BoardSort_Duration>Time</NR_BoardSort_Duration>
   <NR_BoardSort_Type>Type</NR_BoardSort_Type>

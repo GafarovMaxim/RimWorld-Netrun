@@ -43,7 +43,8 @@ public static class ContractsTab
     private static int _fixerId = -1;
     private static DifficultyFilter _difficulty;
     private static Sort _sort;
-    private static bool _historyOpen;
+    private static bool _historyOpen, _scrollTop;
+    private static float _acceptedAt = -10f;
     private static Vector2 _leftScroll;
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
@@ -70,14 +71,15 @@ public static class ContractsTab
     private static void DrawLeft(Rect rect, FixerManager fixers, ContractManager contracts, Map map)
     {
         List<Fixer> list = NetrunUI.Cached("board.fixers", () => fixers.Fixers.OrderByDescending(f => f.Pinned).ThenByDescending(f => f.Reputation).ToList());
-        float height = SectionHeight + (list.Count + 1) * 58f + 2 * SectionHeight + 2 * 34f + 20f;
+        float height = SectionHeight + 38f + list.Count * 58f + SectionHeight + 34f + 20f;
         var view = new Rect(0f, 0f, rect.width - (height > rect.height ? 16f : 0f), height);
         NetrunUI.BeginScroll(rect, ref _leftScroll, view);
         float w = view.width;
         float y = NetrunUI.Section(new Rect(0f, 0f, w, SectionHeight), "NR_BoardFixers".Translate());
 
         int total = NetrunUI.Cached("board.total", () => fixers.Fixers.Where(f => !f.IsSilent).Sum(f => contracts.OffersOf(f).Count()));
-        y = FixerItem(new Rect(0f, y, w, 52f), null, "NR_BoardAllFixers".Translate(total), "NR_BoardAllFixersSub".Translate(), NetrunUI.Accent, -1f, map, contracts) + 6f;
+        // "All": one line, no subtitle (UI audit 2026-10-23).
+        y = FixerItem(new Rect(0f, y, w, 32f), null, "NR_BoardAllFixers".Translate(total), string.Empty, NetrunUI.Accent, -1f, map, contracts) + 6f;
         foreach (Fixer f in list)
         {
             Color c = f.IsSilent ? NetrunUI.Muted : FixersTab.SpecialtyColor(f.Specialty);
@@ -85,7 +87,7 @@ public static class ContractsTab
             string sub = f.IsSilent
                 ? (string)"NR_BoardSilentBack".Translate((f.SilentUntilTick - Find.TickManager.TicksGame).ToStringTicksToPeriod())
                 : (string)"NR_BoardFixerSub".Translate(f.Reputation.ToString("0"), contracts.OffersOf(f).Count());
-            y = FixerItem(new Rect(0f, y, w, 52f), f, name, sub, c, f.IsSilent ? -1f : f.Reputation / 100f, map, contracts) + 6f;
+            y = FixerItem(new Rect(0f, y, w, 52f), f, name, sub, c, f.IsSilent || f.Reputation <= 0f ? -1f : f.Reputation / 100f, map, contracts) + 6f;
         }
 
         y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardFilter".Translate());
@@ -100,12 +102,7 @@ public static class ContractsTab
                 Squares(r.center.x - 19.5f, r.center.y - 5.5f, (int)d);
             NetrunUI.Tip(r, ("NR_BoardFilter_" + d).Translate());
         }
-        y += 34f;
-        y = NetrunUI.Section(new Rect(0f, y + 6f, w, SectionHeight), "NR_BoardSort".Translate());
-        float third = (w - 12f) / 3f;
-        foreach (Sort sort in System.Enum.GetValues(typeof(Sort)))
-            if (Toggle(new Rect((int)sort * (third + 6f), y, third, 28f), ("NR_BoardSort_" + sort).Translate(), _sort == sort))
-                _sort = sort;
+        // Sorting is the "▼" label over the offers only (UI audit 2026-10-23: two controls for one thing).
         Widgets.EndScrollView();
     }
 
@@ -211,6 +208,11 @@ public static class ContractsTab
                        + (active.Count == 0 ? 30f : active.Sum(c => ActiveHeight(width) + CardGap))
                        + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + groups * GroupHeight + (offers.Count == 0 ? 30f : 0f);
         var view = new Rect(0f, 0f, width, height);
+        if (_scrollTop)
+        {
+            scroll.y = 0f;
+            _scrollTop = false;
+        }
 
         NetrunUI.BeginScroll(rect, ref scroll, view);
         float y = 0f;
@@ -397,6 +399,13 @@ public static class ContractsTab
         Color color = fixer != null ? FixersTab.SpecialtyColor(fixer.Specialty) : NetrunUI.Ok;
         NetrunUI.Box(rect, NetrunUI.BgCard, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.5f));
         NetrunUI.ScanlineOnce(rect, NetrunUI.Accent, NetrunUI.HoverTime(rect), 0.5f);
+        float flash = 1f - (Time.realtimeSinceStartup - _acceptedAt) / 1.2f;
+        if (flash > 0f)
+        {
+            GUI.color = new Color(NetrunUI.Ok.r, NetrunUI.Ok.g, NetrunUI.Ok.b, flash);
+            Widgets.DrawBox(rect, 2);
+            GUI.color = Color.white;
+        }
         DrawIcon(rect, contract.Type, color);
 
         float x = rect.x + 4f + Pad + IconSize + 14f;
@@ -524,7 +533,8 @@ public static class ContractsTab
         float y = rect.y + Pad;
 
         Text.Font = GameFont.Medium;
-        Widgets.Label(new Rect(x, y - 2f, width, 30f), contract.Title.Truncate(width));
+        // Grouped by type, the group header names the type: the card names its fixer, the goal is the line under it (Maxim, 2026-10-23).
+        Widgets.Label(new Rect(x, y - 2f, width, 30f), (_sort == Sort.Type ? fixer.Name : contract.Title).Truncate(width));
         Text.Font = GameFont.Small;
         y += 28f;
         Text.Font = GameFont.Tiny;
@@ -579,7 +589,12 @@ public static class ContractsTab
         int others = contracts.OffersOf(fixer).Count() - 1;
         string tip = others > 0 ? "NR_BoardAcceptDrops".Translate(fixer.Name, others).Colorize(NetrunUI.Warn) : null;
         if (NetrunUI.Button(button, label, NetrunUI.Ok, report, tip))
+        {
             contracts.Accept(contract, fixer);
+            // The accepted job jumps to the top, where the active card flashes (it used to appear out of view).
+            _scrollTop = true;
+            _acceptedAt = Time.realtimeSinceStartup;
+        }
         if (!report.Accepted && !report.Reason.NullOrEmpty())
             ReasonLine(reason, report.Reason, NetrunUI.Muted);
     }
