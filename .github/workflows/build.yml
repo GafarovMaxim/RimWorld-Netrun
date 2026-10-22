@@ -42,6 +42,9 @@ jobs:
       - name: Check translation keys (code vs English and Russian)
         run: PYTHONIOENCODING=utf-8 python3 tools/check_keys.py
 
+      - name: Lint Russian texts (placeholders, glossary terms)
+        run: PYTHONIOENCODING=utf-8 python3 tools/ru_lint.py
+
       - name: Download Hacking Expansion
         run: curl -fsSL "$HE_DLL_URL" -o Source/lib/HackingExpansion.dll --create-dirs
 

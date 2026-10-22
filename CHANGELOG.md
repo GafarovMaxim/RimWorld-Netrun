@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Russian: a glossary of terms and an automatic check of Russian texts; fixed a missing AI name in a quest step and «хаб» → «узел».
 ### Fixed
 - The key diamond on the cyberspace map no longer has a black square behind it.
 ### Added

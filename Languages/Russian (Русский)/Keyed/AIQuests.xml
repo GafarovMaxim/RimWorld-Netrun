@@ -58,7 +58,7 @@
   <NR_AIQ_AnotherMemory_Step3>Показать запись «{0}» трём колонистам ({1}/3).</NR_AIQ_AnotherMemory_Step3>
   <NR_AIQ_Name_Retaliation>Ответный удар</NR_AIQ_Name_Retaliation>
   <NR_AIQ_Desc_Retaliation>{0} хочет ударить в ответ по {1}.</NR_AIQ_Desc_Retaliation>
-  <NR_AIQ_Retaliation_Step1>Отбить вторжение, пока ИИ в сети.</NR_AIQ_Retaliation_Step1>
+  <NR_AIQ_Retaliation_Step1>Отбить вторжение, пока {0} в сети.</NR_AIQ_Retaliation_Step1>
   <NR_AIQ_Retaliation_Step2>Взять ответвление в крепости {0}.</NR_AIQ_Retaliation_Step2>
   <NR_AIQ_Name_Drills>Учения</NR_AIQ_Name_Drills>
   <NR_AIQ_Desc_Drills>{0} хочет посмотреть, что выдержит узел колонии.</NR_AIQ_Desc_Drills>
