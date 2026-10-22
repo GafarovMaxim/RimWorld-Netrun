@@ -169,6 +169,8 @@ public class ExternalNode : IExposable
     public bool Rival;
     /// <summary>A trap that looks rich (hidden from the player until scanned in a dive).</summary>
     public bool Honeypot;
+    /// <summary>A runner's deep scan or the sprung trap showed the honeypot: its hub plate marks it.</summary>
+    public bool HoneypotKnown;
     /// <summary>A wild AI lives in this node's memory unit.</summary>
     public bool WildAI;
     /// <summary>The counter-hack against hackers holding the colony's turrets.</summary>
@@ -455,6 +457,7 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref ExpireTick, "expireTick", -1);
         Scribe_Values.Look(ref Rival, "rival");
         Scribe_Values.Look(ref Honeypot, "honeypot");
+        Scribe_Values.Look(ref HoneypotKnown, "honeypotKnown");
         Scribe_Values.Look(ref WildAI, "wildAI");
         Scribe_Values.Look(ref CounterHack, "counterHack");
         Scribe_Values.Look(ref MapNodeId, "mapNode", -1);

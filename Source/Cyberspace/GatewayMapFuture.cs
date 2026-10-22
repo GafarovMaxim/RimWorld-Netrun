@@ -445,13 +445,38 @@ public static partial class GatewayView
         public string Text;
         public Color Edge;
         public int Priority;
-        public bool Capital, Interesting, Named, Lock, Exit, Key, Rival;
+        public bool Capital, Interesting, Named;
+        public int States;
         public List<ExternalNode> Branches;
     }
 
     // Map v5 (variant B, Maxim 2026-10-22): up to three of a hub's nodes as chips at the plate's right end, "+N" for the rest.
-    private const int PlateChips = 3;
-    private const float ChipSize = 8f, ChipStep = 11f, LockWidth = 13f;
+    private const int PlateChips = 3, PlateStates = 3;
+    private const float ChipSize = 8f, ChipStep = 11f, LockWidth = 13f, ChipRow = 12f;
+
+    // The hub's states left of its name, most important first; three at most (Maxim, 2026-10-23: key, exit, patrol, trap
+    // lead). A bit per state in NamePlate.States, in this order.
+    private static readonly (string icon, Color tint)[] StateIcons =
+    [
+        ("Icon_Key", NetrunUI.Warn),
+        ("Icon_ExitHub", Color.white),
+        ("Event_HunterICE", NetrunUI.Bad),
+        ("Event_Honeypot", NetrunUI.Warn),
+        ("Icon_Lock", NetrunUI.Warn),
+        ("Event_Rival", NetrunUI.Bad),
+        ("Event_DataStorm", NetrunUI.Purple),
+        ("Dive_Lightning_Grey", NetrunUI.Muted),
+        ("Node_CorpLab", NetrunUI.Purple),
+        ("Node_CorpCore", NetrunUI.Bad),
+    ];
+
+    private static int StateCount(int states)
+    {
+        int count = 0;
+        for (; states != 0 && count < PlateStates; states &= states - 1)
+            count++;
+        return count;
+    }
     private static readonly string[] PlusN = Enumerable.Range(0, 10).Select(i => ("+" + i).Colorize(NetrunUI.Muted)).ToArray();
 
     private static string MoreText(int count) => count <= 0 ? null : PlusN[Mathf.Min(count, 9)];
@@ -479,25 +504,33 @@ public static partial class GatewayView
                 }
         // Up close every hub has its name; farther out only the interesting ones, the rest keep just their node chips.
         bool named = interesting || _zoom >= 1.3f;
-        bool locked = n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs;
-        bool exit = n.Exit && n.District != District.Home, key = false, target = false, rival = false;
+        int states = (n.Exit ? 1 << 1 : 0) | (n.Patrol ? 1 << 2 : 0) | (n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs ? 1 << 4 : 0)
+                     | (n.Storm ? 1 << 6 : 0) | (n.Offline ? 1 << 7 : 0);
+        bool target = false;
         for (int i = 0; i < branches.Count; i++)
         {
-            key |= !branches[i].Hidden && branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
-            target |= !branches[i].Hidden && branches[i].Contract;
-            rival |= !branches[i].Hidden && branches[i].Rival;
+            ExternalNode b = branches[i];
+            if (b.Hidden)
+                continue;
+            target |= b.Contract;
+            states |= (b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs ? 1 : 0) | (b.Honeypot && b.HoneypotKnown ? 1 << 3 : 0) | (b.Rival ? 1 << 5 : 0)
+                      | (b.Lab ? 1 << 8 : 0) | (b.IsBoss ? 1 << 9 : 0);
         }
-        int icons = (locked ? 1 : 0) + (exit ? 1 : 0) + (key ? 1 : 0) + (rival ? 1 : 0);
+        int icons = StateCount(states);
         if (!named && branches.Count == 0 && icons == 0)
             return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
         string text = !named ? null : capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
         int chips = Mathf.Min(branches.Count, PlateChips);
         string more = MoreText(branches.Count - chips);
-        float w = (named ? NameWidth(text) + 16f : 6f) + icons * LockWidth + chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
+        // Named: states and name on the first row, the node chips centred on a second row (Maxim, 2026-10-23: one long
+        // row made the plate too wide). Unnamed: one row of states and chips.
+        float chipW = chips * ChipStep + (target ? 4f : 0f) + (more != null ? NameWidth(more) + 2f : 0f);
+        float w = named ? Mathf.Max(NameWidth(text) + 16f + icons * LockWidth, chipW + 10f) : 6f + icons * LockWidth + chipW;
+        float h = named && branches.Count > 0 ? 16f + ChipRow : 16f;
         NameQueue.Add(new NamePlate
         {
-            Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f),
+            Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, h),
             Hub = hubRect,
             Node = n,
             Text = text,
@@ -506,10 +539,7 @@ public static partial class GatewayView
             Capital = capital,
             Interesting = interesting,
             Named = named,
-            Lock = locked,
-            Exit = exit,
-            Key = key,
-            Rival = rival,
+            States = states,
             Branches = branches,
         });
         return true;
@@ -559,24 +589,41 @@ public static partial class GatewayView
             GUI.color = Color.white;
             Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
         }
-        float x = tag.x + (plate.Named ? 7f : 3f), cy = tag.center.y;
-        // The hub's states left of the name (Maxim, 2026-10-23): shut (lock), a way out (exit), holds a key, a rival on a node.
-        x = PlateIcon(x, cy, plate.Lock, "Icon_Lock", NetrunUI.Warn, a);
-        x = PlateIcon(x, cy, plate.Exit, "Icon_ExitHub", Color.white, a);
-        x = PlateIcon(x, cy, plate.Key, "Icon_Key", NetrunUI.Warn, a);
-        x = PlateIcon(x, cy, plate.Rival, "Event_Rival", NetrunUI.Bad, a);
+        List<ExternalNode> branches = plate.Branches;
+        float row = 16f;
+        int icons = StateCount(plate.States);
         Text.Font = GameFont.Tiny;
+        float x, cy = tag.y + row / 2f;
         if (plate.Named)
         {
+            // First row: the states and the name, centred together.
             float tw = NameWidth(plate.Text);
+            x = tag.center.x - (icons * LockWidth + tw) / 2f + 1f;
+            x = DrawStates(x, cy, plate.States, a);
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = plate.Capital ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
-            Widgets.Label(new Rect(x, tag.y, tw + 2f, tag.height), plate.Text);
-            x += tw + 5f;
+            Widgets.Label(new Rect(x, tag.y, tw + 2f, row), plate.Text);
+            // Second row: the chips, centred under the name.
+            if (branches.Count == 0)
+            {
+                GUI.color = Color.white;
+                Text.Anchor = TextAnchor.UpperLeft;
+                Text.Font = GameFont.Small;
+                return;
+            }
+            int shown = Mathf.Min(branches.Count, PlateChips);
+            bool hasTarget = false;
+            for (int i = 0; i < branches.Count; i++)
+                hasTarget |= !branches[i].Hidden && branches[i].Contract;
+            string rest = MoreText(branches.Count - shown);
+            float chipW = shown * ChipStep - (ChipStep - ChipSize) + (hasTarget ? 4f : 0f) + (rest != null ? NameWidth(rest) + 3f : 0f);
+            x = tag.center.x - chipW / 2f;
+            cy = tag.y + row + ChipRow / 2f - 2f;
         }
+        else
+            x = DrawStates(tag.x + 3f, cy, plate.States, a);
         // Chips: the contract target first (in an amber frame), then other important nodes, then the rest, three at most
         // (passes, no sorting allocation per frame).
-        List<ExternalNode> branches = plate.Branches;
         int drawn = 0;
         for (int pass = 0; pass < 3 && drawn < PlateChips; pass++)
             for (int i = 0; i < branches.Count && drawn < PlateChips; i++)
@@ -602,32 +649,43 @@ public static partial class GatewayView
         {
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = new Color(1f, 1f, 1f, a);
-            Widgets.Label(new Rect(x, tag.y, NameWidth(more) + 2f, tag.height), more);
+            Widgets.Label(new Rect(x + 1f, cy - 8f, NameWidth(more) + 2f, 16f), more);
         }
         GUI.color = Color.white;
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
     }
 
-    private static float PlateIcon(float x, float cy, bool show, string icon, Color tint, float a)
+    /// <summary>Up to three of the hub's states in priority order (<see cref="StateIcons"/>); returns the x after them.</summary>
+    private static float DrawStates(float x, float cy, int states, float a)
     {
-        if (!show || NetrunTex.CyberIcon(icon) is not { } tex)
-            return x;
-        GUI.color = new Color(tint.r, tint.g, tint.b, a);
-        GUI.DrawTexture(new Rect(x, cy - 5.5f, 11f, 11f), tex);
-        return x + LockWidth;
+        int drawn = 0;
+        for (int i = 0; i < StateIcons.Length && drawn < PlateStates; i++)
+        {
+            if ((states & (1 << i)) == 0)
+                continue;
+            drawn++;
+            (string icon, Color tint) = StateIcons[i];
+            if (NetrunTex.CyberIcon(icon) is { } tex)
+            {
+                GUI.color = new Color(tint.r, tint.g, tint.b, a);
+                GUI.DrawTexture(new Rect(x, cy - 5.5f, 11f, 11f), tex);
+            }
+            x += LockWidth;
+        }
+        return x;
     }
 
     /// <summary>A terminal plate: a dark tag with a thin edge in the given colour and a marker tick on the left.</summary>
-    private static void DrawPlate(Rect tag, string text, Color edge, bool dims, float edgeAlpha, bool colouredText)
+    private static void DrawPlate(Rect tag, string text, Color edge, bool dims, float edgeAlpha, bool colouredText, float alpha = 1f, GameFont font = GameFont.Tiny)
     {
-        float a = dims ? 0.3f : 1f;
+        float a = (dims ? 0.3f : 1f) * alpha;
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.82f * a));
         GUI.color = new Color(edge.r, edge.g, edge.b, edgeAlpha * a);
         Widgets.DrawBox(tag);
         GUI.color = Color.white;
         Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
-        Text.Font = GameFont.Tiny;
+        Text.Font = font;
         Text.Anchor = TextAnchor.MiddleCenter;
         GUI.color = colouredText ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
         Widgets.Label(new Rect(tag.x + 3f, tag.y, tag.width - 3f, tag.height), text);

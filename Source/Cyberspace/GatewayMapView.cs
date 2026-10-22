@@ -97,9 +97,22 @@ public static partial class GatewayView
             DrawGrid(local, _pan);
             // Map v5: each district reads as a soft patch of its colour under its hubs (Claude Design concept, 2026-10-22).
             float patch = 55f * _zoom;
+            Vector2 cursor = Event.current.mousePosition;
+            MapNode near = null;
+            float best = patch * patch;
             foreach (MapNode n in map.Nodes)
                 if (n.District is not (District.Home or District.Dark) && !n.Offline && net.Charted(n))
-                    NetrunUI.Glow(new Rect(ToScreen(local, n.Pos), Vector2.zero), HubColor(n, net), 0.09f, patch);
+                {
+                    Vector2 at = ToScreen(local, n.Pos);
+                    NetrunUI.Glow(new Rect(at, Vector2.zero), HubColor(n, net), 0.09f, patch);
+                    float d = (at - cursor).sqrMagnitude;
+                    if (d < best)
+                    {
+                        best = d;
+                        near = n;
+                    }
+                }
+            TrackDistrictHover(_mouseOnOverlay || !local.Contains(cursor) ? null : near);
 
             // No district names on the map (Maxim, 2026-10-23): the colour patches and the hover card name the district.
             PlacedPlates.Clear();
@@ -129,7 +142,10 @@ public static partial class GatewayView
         }
 
         if (paint)
+        {
             FlushHubNames();
+            DrawDistrictName(local, net);
+        }
 
         // Intrusion packets walking toward Home.
         if (paint)
@@ -159,6 +175,53 @@ public static partial class GatewayView
 
     /// <summary>The zoom buttons' row; the % label and the H / R buttons hang below it (76 px in all).</summary>
     private static Rect ZoomRect(Rect map) => new(map.xMax - 3 * 34f - 6f, map.yMax - 82f - (NetrunMod.Settings.MapMinimap ? 124f : 0f), 3 * 34f, 30f);
+
+    // The district under the mouse: its name fades in, framed, at the district's centre (Maxim, 2026-10-23). Corp
+    // districts are one per corporation slot.
+    private static int _districtKey = -1;
+    private static float _districtAlpha, _districtTime;
+
+    private static int DistrictKey(MapNode n) => (int)n.District * 100 + (n.District == District.Corp ? n.CorpSlot + 1 : 0);
+
+    private static void TrackDistrictHover(MapNode near)
+    {
+        float now = Time.realtimeSinceStartup, dt = Mathf.Min(now - _districtTime, 0.1f);
+        _districtTime = now;
+        int key = near == null ? -1 : DistrictKey(near);
+        // Fade in on the same district; fade out first, then switch, on another one.
+        if (key == _districtKey && key >= 0)
+            _districtAlpha = Mathf.Min(1f, _districtAlpha + dt / 0.35f);
+        else
+        {
+            _districtAlpha = Mathf.Max(0f, _districtAlpha - dt / 0.2f);
+            if (_districtAlpha <= 0f)
+                _districtKey = key;
+        }
+    }
+
+    private static void DrawDistrictName(Rect local, NetMapManager net)
+    {
+        if (_districtKey < 0 || _districtAlpha <= 0f)
+            return;
+        Vector2 sum = Vector2.zero;
+        int count = 0;
+        MapNode any = null;
+        foreach (MapNode n in net.Map.Nodes)
+            if (DistrictKey(n) == _districtKey && net.Charted(n) && !n.Offline)
+            {
+                sum += ToScreen(local, n.Pos);
+                count++;
+                any = n;
+            }
+        if (count == 0)
+            return;
+        Vector2 c = sum / count;
+        string text = NetrunUI.Upper(DistrictLabel(any, net));
+        Text.Font = GameFont.Small;
+        float w = Text.CalcSize(text).x + 20f;
+        float a = Mathf.SmoothStep(0f, 1f, _districtAlpha);
+        DrawPlate(new Rect(c.x - w / 2f, c.y - 12f, w, 24f), text, HubColor(any, net), false, 0.8f, true, a, GameFont.Small);
+    }
 
     private static string DistrictLabel(MapNode n, NetMapManager net)
     {
@@ -575,9 +638,10 @@ public static partial class GatewayView
             Text.Anchor = TextAnchor.UpperLeft;
             GUI.color = Color.white;
         }
-        if (n.Patrol)
+        if (n.Patrol && _zoom < 0.8f)
         {
-            // An ICE patrol: a small red triangle with a mark, top left (the top right holds the hub's badge).
+            // An ICE patrol far out, where there is no plate: a small red triangle with a mark, top left (closer it is an
+            // icon in the plate).
             var warn = new Rect(rect.x - 11f, rect.y - 13f, 12f, 12f);
             GUI.color = NetrunUI.Bad;
             GUI.DrawTexture(warn, ShapeTex(Shape.Triangle, true));
@@ -606,7 +670,8 @@ public static partial class GatewayView
         // Map v5 (variant B, Maxim 2026-10-22): no markers around the hub; its nodes are chips in the name plate and one
         // badge sits top right: a contract target first, else a key.
         List<ExternalNode> branches = BranchesOf(n.Id);
-        bool contract = false;
+        // Surveillance of a hub is today's only contract with a place on the map (taps and quiet runs count any hack).
+        bool contract = WatchedHubs().Contains(n.Id);
         for (int i = 0; i < branches.Count; i++)
             contract |= !branches[i].Hidden && branches[i].Contract;
         // The contract target (Maxim, 2026-10-23: the badge got covered): an amber ring that pulses on every lens, the

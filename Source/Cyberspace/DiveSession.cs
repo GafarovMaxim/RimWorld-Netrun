@@ -466,6 +466,7 @@ public class DiveSession : IExposable
         {
             // A deep scan: the only way to see a honeypot for what it is.
             HoneypotRevealed = true;
+            Node.HoneypotKnown = true;
             AddLog("NR_DiveLogHoneypotFound".Translate().Colorize(NetrunUI.Warn));
         }
         Spend(Settings.tracePerAction);
@@ -830,6 +831,7 @@ public class DiveSession : IExposable
     /// <summary>The bait was real only in part: half the haul, a burst of trace, and the hunter comes at once.</summary>
     private void SpringHoneypot()
     {
+        Node.HoneypotKnown = true;
         RollFiles();
         LootCyberdata = Mathf.RoundToInt(LootCyberdata * Settings.honeypotRewardShare);
         Trace += Settings.honeypotTrace;

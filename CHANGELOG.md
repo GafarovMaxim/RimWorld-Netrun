@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Cyberspace map: hub plates show node chips on a second row under the name; up to three state icons left of the name (key, exit, ICE patrol, known honeypot, lock, rival, storm, offline, lab, corp core); a hub under contract surveillance pulses amber; hovering a district fades its name in at its centre.
 - Board: the fixer chip filters the offers by that fixer; a fixer without a line gets a call button in the left list (pulses while they have offers); a reason line under a blocked button; blocked offers dimmed; Accept warns that the fixer's other offers are withdrawn; difficulty filter as one row of squares; the type sort groups offers with headers; the sort label cycles the sort.
 - Gateway side panel: showing a hub picks its first node; with no node the panel skips programs and DIVE; the node gets its own header and the panel scrolls to it; the emergency exit is a small icon button, Go and exit and Home share a row.
 - Cyberspace map: a rival netrunner shows as an icon left of the hub name, like the key.
