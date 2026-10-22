@@ -277,15 +277,14 @@ public static partial class GatewayView
     public static HashSet<int> WatchedHubs() => NetrunUI.Cached(WatchedKey,
         () => new HashSet<int>(ContractManager.Get()?.Active.Where(c => c.Accepted && c.WatchesHub).Select(c => c.TargetHub) ?? []), 0.5f);
 
-    /// <summary>The "watch" tag left of the hub; beside the LOCKED / OPEN tag when the hub has one, so they never overlap.</summary>
-    private static void DrawWatchTag(Rect hubRect, Rect guardTag)
+    /// <summary>The "watch" tag left of the hub.</summary>
+    private static void DrawWatchTag(Rect hubRect)
     {
         Text.Font = GameFont.Tiny;
         string text = NetrunUI.T("NR_MapWatchTag");
         float w = NetrunUI.Width(text) + 8f;
-        var tag = guardTag.width > 0f
-            ? new Rect(guardTag.x - w - 3f, guardTag.y + 0.5f, w, 14f)
-            : new Rect(hubRect.x - w - 4f, hubRect.y - 16f, w, 14f);
+        // Top left, clear of the patrol triangle at the hub's corner.
+        var tag = new Rect(hubRect.x - w - 14f, hubRect.y - 16f, w, 14f);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.8f);
         Widgets.DrawBox(tag);
@@ -594,19 +593,18 @@ public static partial class GatewayView
             GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.7f * (1f - pulse));
             GUI.DrawTexture(rect.ExpandedBy(4f + 14f * pulse), NetrunUI.ThinRing);
         }
-        Rect guardTag = default;
         if (n.Guarded && NetrunMod.Settings.ProtectedHubs)
         {
             // D2: a protected hub. Shut: an amber dashed ring, a "LOCKED" tag above it and a dashed amber line to the
             // hub that holds its guard gateway (the key). Open: a faint ring and an "OPEN" tag. The hover card explains
             // it in words (Maxim, 2026-10-14: a bare lock told the player nothing).
+            // Map v5: the LOCKED / OPEN tag is gone; a lock leads the name plate instead (Maxim, 2026-10-22).
             bool shut = n.GuardLocked;
             GUI.color = shut ? NetrunUI.Warn : new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.5f);
             GUI.DrawTexture(rect.ExpandedBy(7f), DashedRing);
             // The line to the key only for the hub or its key hub picked or hovered: always drawn, they read as crossing links.
             if (shut && GuardKeyHub(n.Id) is { } keyHub && net.Map.Node(keyHub) is { } key && (selected || hover || keyHub == _selectedMapNode))
                 DrawKeyLine(ToScreen(local, key.Pos), p, r);
-            guardTag = DrawGuardTag(rect, shut);
         }
         if (n.Id == net?.MarkedNodeId)
         {
@@ -625,8 +623,8 @@ public static partial class GatewayView
         }
         if (n.Patrol)
         {
-            // An ICE patrol: a small red triangle with a mark.
-            var warn = new Rect(rect.xMax - 1f, rect.y - 13f, 12f, 12f);
+            // An ICE patrol: a small red triangle with a mark, top left (the top right holds the hub's badge).
+            var warn = new Rect(rect.x - 11f, rect.y - 13f, 12f, 12f);
             GUI.color = NetrunUI.Bad;
             GUI.DrawTexture(warn, ShapeTex(Shape.Triangle, true));
             GUI.color = NetrunUI.BgWindow;
@@ -651,42 +649,24 @@ public static partial class GatewayView
             GUI.color = Color.white;
         }
 
-        // Branches: small dots around the node, colored by type; unknown ones grey.
+        // Map v5 (variant B, Maxim 2026-10-22): no markers around the hub; its nodes are chips in the name plate and one
+        // badge sits top right: a contract target first, else a key.
         List<ExternalNode> branches = BranchesOf(n.Id);
-        bool markers = _zoom >= 0.8f;
-        float[] angles = BranchAngles(n, net.Map, branches.Count);
+        bool contract = false, keyNode = false;
         for (int i = 0; i < branches.Count; i++)
         {
-            ExternalNode b = branches[i];
-            float ang = angles[i];
-            Vector2 bp = p + new Vector2(Mathf.Cos(ang), Mathf.Sin(ang)) * (r + (markers ? 11f : 7f) * Mathf.Sqrt(_zoom));
-            float br = (markers ? (b.IsBoss || b.Ancient ? 7.5f : 5.5f) : b.IsBoss || b.Ancient ? 5f : 3.5f) * Mathf.Sqrt(_zoom);
-            var brect = new Rect(bp.x - br, bp.y - br, br * 2f, br * 2f);
-            // Important nodes breathe with a soft ring in their colour (Maxim, 2026-10-15): a contract target or a key
-            // (amber), a black lab (purple), a corporate core or the Old Net (red).
-            if (markers && !b.Hidden && NetrunMod.Settings.Animations && ImportantColor(b) is { } glow)
-            {
-                float pulse = (Time.realtimeSinceStartup * 0.6f + b.Id % 9 * 0.11f) % 1f;
-                GUI.color = new Color(glow.r, glow.g, glow.b, 0.55f * (1f - pulse) * c.a);
-                GUI.DrawTexture(brect.ExpandedBy(2f + 7f * pulse * Mathf.Sqrt(_zoom)), NetrunUI.ThinRing);
-                GUI.color = Color.white;
-            }
-            // The node's type as a shape (square market, ring archive, hexagon corp, triangle abandoned, diamond exchange).
-            DrawShape(brect, b, c.a);
-            if (!b.Hidden && b.Contract)
-                DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), true);
-            else if (!b.Hidden && b.GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs)
-            {
-                DrawNodeBadge(new Rect(brect.xMax - 4f, brect.y - 6f, 10f, 10f), false);
-                int locked = b.GuardFor;
-                TooltipHandler.TipRegion(brect.ExpandedBy(4f), () => "NR_MapKeyTip".Translate(NetMapManager.NodeLabel(NetMapManager.Get()?.Map?.Node(locked))), 0x4E52 + b.Id);
-            }
+            if (branches[i].Hidden)
+                continue;
+            contract |= branches[i].Contract;
+            keyNode |= branches[i].GuardFor >= 0 && NetrunMod.Settings.ProtectedHubs;
         }
+        if (contract || keyNode)
+            DrawNodeBadge(new Rect(rect.xMax - 2f, rect.y - 8f, 10f, 10f), contract);
         GUI.color = Color.white;
         Text.Font = GameFont.Small;
         if (WatchedHubs().Contains(n.Id))
-            DrawWatchTag(rect, guardTag);
-        DrawTimerTag(rect, n, net, guardTag);
+            DrawWatchTag(rect);
+        DrawTimerTag(rect, n, net);
         if (!QueueHubName(rect, n, net, branches))
             DrawLootDots(rect, n, default);
 
@@ -731,85 +711,6 @@ public static partial class GatewayView
         Color c = new(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.45f);
         for (float t = radius + 4f; t < len - radius - 10f; t += 10f)
             Widgets.DrawLine(from + u * t, from + u * Mathf.Min(t + 5f, len - radius - 10f), c, 1.5f);
-    }
-
-    /// <summary>"LOCKED" (amber, with the lock) or "OPEN" over a protected hub; returns the tag's rect.</summary>
-    private static Rect DrawGuardTag(Rect hub, bool shut)
-    {
-        Text.Font = GameFont.Tiny;
-        string label = NetrunUI.Upper(NetrunUI.T(shut ? "NR_MapTagLocked" : "NR_MapTagOpen"));
-        Texture2D lockTex = shut ? NetrunTex.CyberIcon("Icon_Lock") : null;
-        float w = NetrunUI.Width(label) + 10f + (lockTex != null ? 13f : 0f);
-        var tag = new Rect(hub.center.x - w / 2f, hub.y - 24f, w, 15f);
-        Color c = shut ? NetrunUI.Warn : NetrunUI.Ok;
-        Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f));
-        GUI.color = new Color(c.r, c.g, c.b, 0.8f);
-        Widgets.DrawBox(tag);
-        float x = tag.x + 5f;
-        if (lockTex != null)
-        {
-            GUI.color = c;
-            GUI.DrawTexture(new Rect(x, tag.y + 2f, 11f, 11f), lockTex);
-            x += 13f;
-        }
-        GUI.color = c;
-        Text.Anchor = TextAnchor.MiddleLeft;
-        Widgets.Label(new Rect(x, tag.y, tag.xMax - x, tag.height), label);
-        Text.Anchor = TextAnchor.UpperLeft;
-        GUI.color = Color.white;
-        return tag;
-    }
-
-    // Where a hub's branch markers sit, by hub and marker count; dropped when the map changes (CyberMap.Dirty) via the 2 s cache.
-    private static Dictionary<int, float[]> BranchAngleCache => NetrunUI.Cached("map.branchAngles", () => new Dictionary<int, float[]>(), 2f);
-
-    /// <summary>
-    /// Angles for a hub's branch markers (Maxim, 2026-10-14: markers sat on the links and under the name plates).
-    /// Each marker takes the free direction farthest from the hub's links, from the markers already placed and from
-    /// straight down (the name plate); an exit's mark counts as a link. Computed once per hub and count, then cached.
-    /// </summary>
-    private static float[] BranchAngles(MapNode n, CyberMap map, int count)
-    {
-        int key = n.Id * 32 + Mathf.Min(count, 31);
-        Dictionary<int, float[]> cache = BranchAngleCache;
-        if (cache.TryGetValue(key, out float[] found))
-            return found;
-        var taken = new List<float> { Mathf.PI / 2f };
-        if (n.Guarded)
-            taken.Add(-Mathf.PI / 2f); // the LOCKED / OPEN tag sits above
-        foreach (MapLink l in map.LinksOf(n.Id))
-        {
-            Vector2 d = map.Node(l.Other(n.Id)).Pos - n.Pos;
-            taken.Add(Mathf.Atan2(d.y, d.x));
-        }
-        if (n.Exit)
-        {
-            Vector2 d = n.Pos - FieldCenter;
-            taken.Add(Mathf.Atan2(d.y, d.x));
-        }
-        var result = new float[count];
-        for (int i = 0; i < count; i++)
-        {
-            float best = -Mathf.PI / 2f, bestGap = -1f;
-            for (int s = 0; s < 24; s++)
-            {
-                float a = -Mathf.PI + s * (Mathf.PI / 12f);
-                float gap = float.MaxValue;
-                foreach (float t in taken)
-                    gap = Mathf.Min(gap, Mathf.Abs(Mathf.DeltaAngle(a * Mathf.Rad2Deg, t * Mathf.Rad2Deg)));
-                // A slight pull upward keeps markers above the hub when the room is equal.
-                gap += Mathf.Sin(-a) * 4f;
-                if (gap > bestGap)
-                {
-                    bestGap = gap;
-                    best = a;
-                }
-            }
-            result[i] = best;
-            taken.Add(best);
-        }
-        cache[key] = result;
-        return result;
     }
 
     /// <summary>

@@ -248,7 +248,7 @@ public static partial class GatewayView
     }
 
     /// <summary>A small timer tag next to a hub whose state ends soon (shown from zoom 0.8).</summary>
-    private static void DrawTimerTag(Rect hubRect, MapNode n, NetMapManager net, Rect guardTag)
+    private static void DrawTimerTag(Rect hubRect, MapNode n, NetMapManager net)
     {
         if (_zoom < 0.8f)
             return;
@@ -267,7 +267,8 @@ public static partial class GatewayView
         string text = tagText.text;
         float w = tagText.width + 8f;
         // Right of the hub, or right of its LOCKED / OPEN tag so the two never overlap.
-        var tag = guardTag.width > 0f ? new Rect(guardTag.xMax + 3f, guardTag.y + 0.5f, w, 14f) : new Rect(hubRect.xMax + 4f, hubRect.y - 16f, w, 14f);
+        // Top right, past the hub's badge.
+        var tag = new Rect(hubRect.xMax + 10f, hubRect.y - 16f, w, 14f);
         Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.85f));
         GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, 0.7f);
         Widgets.DrawBox(tag);
@@ -444,8 +445,16 @@ public static partial class GatewayView
         public string Text;
         public Color Edge;
         public int Priority;
-        public bool Capital, Interesting;
+        public bool Capital, Interesting, Named, Lock;
+        public List<ExternalNode> Branches;
     }
+
+    // Map v5 (variant B, Maxim 2026-10-22): up to three of a hub's nodes as chips at the plate's right end, "+N" for the rest.
+    private const int PlateChips = 3;
+    private const float ChipSize = 8f, ChipStep = 11f, LockWidth = 13f;
+    private static readonly string[] PlusN = Enumerable.Range(0, 10).Select(i => ("+" + i).Colorize(NetrunUI.Muted)).ToArray();
+
+    private static string MoreText(int count) => count <= 0 ? null : PlusN[Mathf.Min(count, 9)];
 
     // This frame's name plates and the places already taken (district plates first, then hub names by priority).
     private static readonly List<NamePlate> NameQueue = [];
@@ -454,7 +463,7 @@ public static partial class GatewayView
     /// <summary>
     /// Queues the hub's name plate (Maxim, 2026-10-14: a terminal tag under the hub, loot bars under it). The plates are
     /// drawn after all hubs by <see cref="FlushHubNames"/>, most important first, and one that would overlap a plate
-    /// already drawn is left out (its name is still in the hover card). False when the name is not shown at this zoom.
+    /// already drawn is left out (its name is still in the hover card). False when no plate is shown at this zoom.
     /// </summary>
     private static bool QueueHubName(Rect hubRect, MapNode n, NetMapManager net, List<ExternalNode> branches)
     {
@@ -468,11 +477,16 @@ public static partial class GatewayView
                     interesting = true;
                     break;
                 }
-        if (!interesting && _zoom < 1.3f)
+        // Up close every hub has its name; farther out only the interesting ones, the rest keep just their node chips.
+        bool named = interesting || _zoom >= 1.3f;
+        bool locked = n.Guarded && n.GuardLocked && NetrunMod.Settings.ProtectedHubs;
+        if (!named && branches.Count == 0 && !locked)
             return false;
         bool capital = n.Fortress && net.CorpOfSlot(n.CorpSlot) != null;
-        string text = capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
-        float w = NameWidth(text) + 14f;
+        string text = !named ? null : capital ? NetrunUI.Upper(net.CorpOfSlot(n.CorpSlot).Name) : HubName(n, net.Map, interesting);
+        int chips = Mathf.Min(branches.Count, PlateChips);
+        string more = MoreText(branches.Count - chips);
+        float w = (named ? NameWidth(text) + 16f : 6f) + (locked ? LockWidth : 0f) + chips * ChipStep + (more != null ? NameWidth(more) + 2f : 0f);
         NameQueue.Add(new NamePlate
         {
             Tag = new Rect(hubRect.center.x - w / 2f, hubRect.yMax + 7f * Mathf.Sqrt(_zoom), w, 16f),
@@ -483,6 +497,9 @@ public static partial class GatewayView
             Priority = n.Id == _selectedMapNode ? 4 : capital ? 3 : interesting ? 2 : 1,
             Capital = capital,
             Interesting = interesting,
+            Named = named,
+            Lock = locked,
+            Branches = branches,
         });
         return true;
     }
@@ -507,10 +524,67 @@ public static partial class GatewayView
             if (plate.Priority < 4 && !PlateFree(footprint))
                 continue;
             PlacedPlates.Add(footprint);
-            DrawPlate(plate.Tag, plate.Text, plate.Edge, LegendDims(plate.Node.Id), plate.Capital ? 0.8f : plate.Interesting ? 0.55f : 0.3f, plate.Capital);
+            DrawHubPlate(plate);
             DrawLootDots(plate.Hub, plate.Node, plate.Tag);
         }
         NameQueue.Clear();
+    }
+
+    /// <summary>
+    /// A hub's plate (map v5): the framed name tag (Maxim kept the frame, 2026-10-22) led by a lock when the hub is shut,
+    /// then its node chips, important ones first (contract, key, lab, core). Without a name: only the chips, on a dark strip.
+    /// </summary>
+    private static void DrawHubPlate(NamePlate plate)
+    {
+        Rect tag = plate.Tag;
+        bool dims = LegendDims(plate.Node.Id);
+        float a = dims ? 0.3f : 1f;
+        Color edge = plate.Edge;
+        Widgets.DrawBoxSolid(tag, new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, (plate.Named ? 0.82f : 0.6f) * a));
+        if (plate.Named)
+        {
+            GUI.color = new Color(edge.r, edge.g, edge.b, (plate.Capital ? 0.8f : plate.Interesting ? 0.55f : 0.3f) * a);
+            Widgets.DrawBox(tag);
+            GUI.color = Color.white;
+            Widgets.DrawBoxSolid(new Rect(tag.x + 1f, tag.y + 3f, 2f, tag.height - 6f), new Color(edge.r, edge.g, edge.b, 0.9f * a));
+        }
+        float x = tag.x + (plate.Named ? 7f : 3f), cy = tag.center.y;
+        if (plate.Lock && NetrunTex.CyberIcon("Icon_Lock") is { } lockTex)
+        {
+            GUI.color = new Color(NetrunUI.Warn.r, NetrunUI.Warn.g, NetrunUI.Warn.b, a);
+            GUI.DrawTexture(new Rect(x, cy - 5.5f, 11f, 11f), lockTex);
+            x += LockWidth;
+        }
+        Text.Font = GameFont.Tiny;
+        if (plate.Named)
+        {
+            float tw = NameWidth(plate.Text);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = plate.Capital ? new Color(edge.r, edge.g, edge.b, a) : new Color(1f, 1f, 1f, a);
+            Widgets.Label(new Rect(x, tag.y, tw + 2f, tag.height), plate.Text);
+            x += tw + 5f;
+        }
+        // Chips: important nodes first, then the rest, three at most (two passes, no sorting allocation per frame).
+        List<ExternalNode> branches = plate.Branches;
+        int drawn = 0;
+        for (int pass = 0; pass < 2 && drawn < PlateChips; pass++)
+            for (int i = 0; i < branches.Count && drawn < PlateChips; i++)
+            {
+                if ((pass == 0) != (!branches[i].Hidden && ImportantColor(branches[i]) != null))
+                    continue;
+                DrawShape(new Rect(x, cy - ChipSize / 2f, ChipSize, ChipSize), branches[i], a);
+                x += ChipStep;
+                drawn++;
+            }
+        if (MoreText(branches.Count - drawn) is { } more)
+        {
+            Text.Anchor = TextAnchor.MiddleLeft;
+            GUI.color = new Color(1f, 1f, 1f, a);
+            Widgets.Label(new Rect(x, tag.y, NameWidth(more) + 2f, tag.height), more);
+        }
+        GUI.color = Color.white;
+        Text.Anchor = TextAnchor.UpperLeft;
+        Text.Font = GameFont.Small;
     }
 
     /// <summary>A terminal plate: a dark tag with a thin edge in the given colour and a marker tick on the left.</summary>
