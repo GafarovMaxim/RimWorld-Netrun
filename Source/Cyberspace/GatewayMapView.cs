@@ -137,7 +137,7 @@ public static partial class GatewayView
                     continue;
                 MapNode na = map.Node(l.A), nb = map.Node(l.B);
                 bool onRoute = route.Contains((Mathf.Min(l.A, l.B), Mathf.Max(l.A, l.B)));
-                DrawMapLink(ToScreen(local, na.Pos), ToScreen(local, nb.Pos), LinkTrim(na), LinkTrim(nb), l, map, onRoute, focus,
+                DrawMapLink(ToScreen(local, na.Pos), ToScreen(local, nb.Pos), LinkTrim(na, nb.Pos - na.Pos), LinkTrim(nb, na.Pos - nb.Pos), l, map, onRoute, focus,
                     onRoute ? RouteDirection(selRunner, l) : 1);
             }
 
@@ -424,9 +424,12 @@ public static partial class GatewayView
     }
 
     /// <summary>How far a link stops short of a hub's centre: the hub's drawn radius plus a small gap (links end at the ring).</summary>
-    private static float LinkTrim(MapNode n)
+    private static float LinkTrim(MapNode n, Vector2 toward)
     {
         float r = (n.District == District.Home ? 15f : n.Fortress ? 11f : 8f) * Mathf.Sqrt(_zoom);
+        // A triangle's edge is nearer in some directions: the link ends where it meets the edge (map y runs down, as the poly).
+        if (HubShape(n) == Shape.Triangle)
+            return (r + 3f) * RayToPoly(TrianglePoly, toward) + 2f;
         if (n.Fortress || n.District == District.Home)
             r += 6f;
         else if (n.District == District.Orbit)
@@ -595,8 +598,7 @@ public static partial class GatewayView
         DrawEventPulse(rect, n, net);
         DrawVisited(rect, n);
         bool orbit = n.District == District.Orbit;
-        // Orbit a diamond, transit a triangle, the rest a ring.
-        Shape? shape = orbit ? Shape.Diamond : n.District == District.Transit ? Shape.Triangle : null;
+        Shape? shape = HubShape(n);
         Rect shapeRect = orbit ? rect.ExpandedBy(2f) : rect.ExpandedBy(3f);
         // The dark backing under the hub follows its shape (a round one showed around the transit triangle).
         GUI.color = NetrunUI.BgWindow;

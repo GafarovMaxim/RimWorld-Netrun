@@ -769,7 +769,11 @@ public static partial class GatewayView
         if (n.LastVisitTick < 0 || n.District == District.Home)
             return;
         GUI.color = new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.35f);
-        GUI.DrawTexture(hubRect.ExpandedBy(3f), NetrunUI.ThinRing);
+        // A shaped hub gets an outline of its own shape (a round ring showed around transit triangles).
+        if (HubShape(n) is { } shape)
+            GUI.DrawTexture(hubRect.ExpandedBy(n.District == District.Orbit ? 5f : 6f), ShapeTex(shape, false));
+        else
+            GUI.DrawTexture(hubRect.ExpandedBy(3f), NetrunUI.ThinRing);
         GUI.color = Color.white;
     }
 }

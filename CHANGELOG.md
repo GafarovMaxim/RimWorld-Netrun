@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Visited transit and orbital hubs are outlined in their own shape, and links reach the transit triangle's edge.
 - The Entertainment quarter is now called Vice.
 - The Market quarter is now called Trade Row.
 - Transit and orbital hubs have a backing of their own shape, not a round one.

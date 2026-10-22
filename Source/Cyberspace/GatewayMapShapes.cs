@@ -35,6 +35,34 @@ public static partial class GatewayView
         return pts;
     }
 
+    /// <summary>A hub's own shape: orbit a diamond, transit a triangle (Maxim, 2026-10-23), null for the round ring.</summary>
+    internal static Shape? HubShape(MapNode n) => n.District switch
+    {
+        District.Orbit => Shape.Diamond,
+        District.Transit => Shape.Triangle,
+        _ => null,
+    };
+
+    /// <summary>How far a ray from the centre (0, 0) along <paramref name="dir"/> runs before it leaves the polygon.</summary>
+    private static float RayToPoly(Vector2[] poly, Vector2 dir)
+    {
+        if (dir.sqrMagnitude < 1e-8f)
+            return 1f;
+        dir.Normalize();
+        float best = 1f;
+        for (int i = 0; i < poly.Length; i++)
+        {
+            Vector2 a = poly[i], e = poly[(i + 1) % poly.Length] - a;
+            float den = dir.x * e.y - dir.y * e.x;
+            if (Mathf.Abs(den) < 1e-6f)
+                continue;
+            float t = (a.x * e.y - a.y * e.x) / den, u = (a.x * dir.y - a.y * dir.x) / den;
+            if (t > 0f && u >= 0f && u <= 1f)
+                best = t;
+        }
+        return best;
+    }
+
     private static readonly Texture2D[] ShapeFill = new Texture2D[5];
     private static readonly Texture2D[] ShapeLine = new Texture2D[5];
 
