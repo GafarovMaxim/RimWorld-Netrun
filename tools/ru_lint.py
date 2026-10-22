@@ -7,7 +7,7 @@ to English, Latin words outside LATIN_OK, \\n count mismatch, typography, pawn p
 Run from the mod root:
   python tools/ru_lint.py            errors and a summary
   python tools/ru_lint.py --warn     also every warning
-  python tools/ru_lint.py --update   after updating Russian texts: record the current English as the checked source
+  python tools/ru_lint.py --update [KEY...]   after updating Russian texts: record the current English as checked
 """
 import glob
 import hashlib
@@ -106,15 +106,24 @@ def main():
 
     sources = json.load(open(SOURCES, encoding="utf-8")) if os.path.exists(SOURCES) else {}
     if "--update" in sys.argv:
-        json.dump({k: digest(en[k][0]) for k in sorted(en) if k in ru}, open(SOURCES, "w", encoding="utf-8"), indent=0)
-        print("recorded", sum(1 for k in en if k in ru), "English sources")
+        # Named keys only (--update NR_A NR_B), or every key when none are named.
+        named = [a for a in sys.argv[1:] if not a.startswith("--")]
+        for k in named or en:
+            if k in en and k in ru:
+                sources[k] = digest(en[k][0])
+        with open(SOURCES, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(dict(sorted(sources.items())), f, indent=0)
+        print("recorded", len(named) if named else len(sources), "English sources")
         return 0
     stale = [k for k in en if k in ru and k in sources and sources[k] != digest(en[k][0])]
     warns += [f"{k}: English changed, check the Russian: {en[k][0][:60]}" for k in stale]
 
     rules = banned_terms()
+    if not rules:
+        print("ERROR no banned terms read from", GLOSSARY, "(table format changed?)")
+        return 1
     for key, text in texts.items():
-        plain = BRACES.sub("§", text).replace("\n", " ")
+        plain = BRACES.sub("§", text).replace("\\n", " ")
         for rx, word, right in rules:
             if rx.search(plain):
                 errors.append(f"{key}: «{word}» → {right}")
@@ -127,7 +136,7 @@ def main():
             warns.append(f"{key}: hyphen as a dash, use —")
         if "  " in plain:
             warns.append(f"{key}: double space")
-        if "PAWN" in text and "_gender" not in text:
+        if "PAWN" in text:
             verbs = [v for v in PAST.findall(plain) if v.lower() not in NOT_VERBS]
             if verbs:
                 warns.append(f"{key}: pawn past tense without gender: {verbs[:3]}")
