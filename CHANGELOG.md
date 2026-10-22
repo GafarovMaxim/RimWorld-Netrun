@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Performance: the cyberspace map's hub hover card is built only when drawn and cached for half a second.
 - UI pass 6: Outskirts, Corp and Old Net district colours no longer match the danger red or the OK green; hub plates switch to the larger font from 180 % zoom.
 - UI pass 5: Board: the left sort block is gone (the label over the offers cycles the sort); a one-line "All" item; no empty reputation bar; grouped by type, cards are titled by their fixer; an accepted contract scrolls to the top and its card flashes.
 - UI pass 4: the Gateway panel widens with the window (270 to 340 px); programs in a two-column grid with a used/slots counter; the runner count chip left the window header (it is in the panel).

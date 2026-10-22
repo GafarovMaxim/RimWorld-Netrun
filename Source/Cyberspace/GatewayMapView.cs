@@ -714,7 +714,8 @@ public static partial class GatewayView
             DrawLootDots(rect, n, default);
 
         if (hover && !_mouseOnOverlay)
-            NetrunUI.Tip(rect.ExpandedBy(4f), HubCard(n, net, branches));
+            // Built on Repaint only and at most twice a second per hub (it was rebuilt on every GUI event while hovered).
+            NetrunUI.Tip(rect.ExpandedBy(4f), () => NetrunUI.Cached("map.hubCard." + n.Id, () => HubCard(n, net, branches)));
     }
 
     /// <summary>The pulse colour of an important node, or null for an ordinary one.</summary>
