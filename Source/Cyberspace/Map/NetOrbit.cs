@@ -47,8 +47,8 @@ public partial class NetMapManager
     {
         // Layout version 1 (2026-10-15): hubs step back from Home. Version 2 (2026-10-22): crossing links go, bridges
         // are rerouted through a clear pair. Once per older save; hubs never move here.
-        // Version 3 (2026-10-23): corporations sewn back into one piece, no hub without a street.
-        if (Ready && _layoutVersion < 3)
+        // Version 3 (2026-10-23): corporations sewn back into one piece, no hub without a street; version 4: every district.
+        if (Ready && _layoutVersion < 4)
         {
             if (_layoutVersion < 1)
                 CyberMapGenerator.ClearHome(Map);
@@ -60,8 +60,8 @@ public partial class NetMapManager
             }
             int joined = CyberMapGenerator.JoinParts(Map);
             if (Prefs.DevMode && joined > 0)
-                Log.Message($"[Netrun] Map layout v3: {joined} links added to join corporations.");
-            _layoutVersion = 3;
+                Log.Message($"[Netrun] Map layout v4: {joined} links added to join districts.");
+            _layoutVersion = 4;
         }
         if (!ModsConfig.OdysseyActive || !Ready || Gateway == null)
             return;

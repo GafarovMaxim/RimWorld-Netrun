@@ -394,14 +394,15 @@ public static class CyberMapGenerator
     }
 
     /// <summary>
-    /// Sews each corporation back into one piece by its own streets, and gives a street to any hub left with none
-    /// (Maxim, 2026-10-23: Uncross keeps the whole net connected, but could leave a corporation in parts joined only
-    /// through other districts, or its fortress on an unknown dark link). Clear pairs only, through TryAddLink.
+    /// Sews each district (each corporation apart) back into one piece by its own streets, and gives a street to any hub
+    /// left with none (Maxim, 2026-10-23: Uncross keeps the whole net connected, but could leave a district in parts joined
+    /// only through other districts, or a fortress on an unknown dark link). Clear pairs only, through TryAddLink.
     /// </summary>
     public static int JoinParts(CyberMap map)
     {
         int added = 0;
-        foreach (IGrouping<int, MapNode> corp in map.Nodes.Where(n => n.District == District.Corp).GroupBy(n => n.CorpSlot))
+        foreach (IGrouping<int, MapNode> corp in map.Nodes.Where(n => n.District is not (District.Home or District.Dark or District.Orbit))
+                     .GroupBy(n => (int)n.District * 100 + (n.District == District.Corp ? n.CorpSlot + 1 : 0)))
         {
             var ids = corp.Select(n => n.Id).ToList();
             for (int guard = 0; guard < ids.Count; guard++)

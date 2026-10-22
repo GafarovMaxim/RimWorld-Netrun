@@ -212,20 +212,12 @@ public static partial class GatewayView
         return y + r.height + 3f;
     }
 
-    /// <summary>Time left on this hub's own timer (patrol, storm, outage...), or null.</summary>
-    private static string HubTimer(NetMapManager net, int hub)
-    {
-        foreach (TimerEntry e in Timeline(net))
-            if (e.Hub == hub && Left(e) > 0)
-                return Short(Left(e));
-        return null;
-    }
+    private static readonly HashSet<long> PulseSeen = [];
+
     /// <summary>
     /// A hub where something is going on (a timer: patrol, storm, transit, outage, intrusion) breathes with a soft
     /// amber ring, instead of arrows pointing at it (Maxim, 2026-10-14). Uses the hourly timeline, nothing extra.
     /// </summary>
-    private static readonly HashSet<long> PulseSeen = [];
-
     private static void DrawEventPulse(Rect hubRect, MapNode n, NetMapManager net)
     {
         Timeline(net);

@@ -1082,13 +1082,18 @@ public static partial class GatewayView
             y = DrawInfoRow(inner, y, new NowRow { Text = "NR_MapExitPoint".Translate(), Color = NetrunUI.Ok, Hub = -1 });
         if (node.Fortress)
             y = DrawInfoRow(inner, y, new NowRow { Text = "NR_MapFortress".Translate(), Color = NetrunUI.Warn, Hub = -1 });
-        string timer = null;
-        foreach ((string text, Color color) in NodeStates(node))
-        {
-            timer ??= HubTimer(net, node.Id) ?? string.Empty;
-            y = DrawInfoRow(inner, y, new NowRow { Text = text, Right = timer, Color = color, Hub = -1 });
-            timer = string.Empty;
-        }
+        // Every running event of the hub with its own time left, as in "Now in the net" (Maxim, 2026-10-23: the hub's
+        // outage showed there but not in its own description); the bare states only when no timer covers them.
+        bool timed = false;
+        foreach (TimerEntry e in Timeline(net))
+            if (e.Hub == node.Id && Left(e) > 0)
+            {
+                y = DrawInfoRow(inner, y, new NowRow { Text = e.Text, Right = Short(Left(e)), Color = e.Bad ? NetrunUI.Bad : NetrunUI.Warn, Hub = -1 });
+                timed = true;
+            }
+        if (!timed)
+            foreach ((string text, Color color) in NodeStates(node))
+                y = DrawInfoRow(inner, y, new NowRow { Text = text, Color = color, Hub = -1 });
         if (selected != null && selected.NodeId != node.Id)
         {
             // The route search (Dijkstra with fresh collections) ran on every GUI event; now once a second or on a new pair.

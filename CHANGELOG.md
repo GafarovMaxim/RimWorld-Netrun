@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- A hub's description lists every running event with its time left (outage, storm, patrol, quarantine); every district, not only corporations, is sewn back into one piece by its own streets (new maps and, once, existing saves).
 
 ## [1.2.0] - 2026-10-23
 - The training dive offer opens in the terminal's style; the training button lives on the Home hub only, always. Node rows show defense as muted red pips further left; the second line of a wrapped hub name is centred and matches the first; the Board's sort button no longer covers the divider.
