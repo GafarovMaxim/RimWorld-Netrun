@@ -651,6 +651,6 @@ public static class ContractsTab
         Fixer fixer = active == null ? null : fixers.ById(active.FixerId);
         if (fixer != null)
             x = NetrunUI.HeaderChip(x, y, "NR_BoardRepChip".Translate(fixer.Name, fixer.Reputation.ToString("0"))) - 8f;
-        NetrunUI.HeaderChip(x, y, "NR_BoardActiveChip".Translate(contracts.Active.Count(), fixers.Fixers.Count));
+        NetrunUI.HeaderChip(x, y, "NR_BoardActiveChip".Translate(contracts.Active.Count(), fixers.Fixers.Count), "NR_BoardActiveChipTip".Translate());
     }
 }

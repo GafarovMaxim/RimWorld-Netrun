@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- UI pass 7: first steps for a new player in the Gateway panel (ticked as done); the map's hotkeys in the legend header's tooltip; the route lights up after Go; the Board's active chip reads "Active N of M" and explains the one-per-fixer rule.
 - Cyberspace map: district names on hover only when zoomed out; long hub and district names wrap onto two lines; event waves are slower and stop once the hub is clicked; nodes of an uncharted hub or of the walled Old Net are no longer listed; corporations are sewn back into one piece and no hub is left without a street (new maps and, once, existing saves). Board: the sort is a visible button.
 - Performance: the cyberspace map's hub hover card is built only when drawn and cached for half a second.
 - UI pass 6: Outskirts, Corp and Old Net district colours no longer match the danger red or the OK green; hub plates switch to the larger font from 180 % zoom.

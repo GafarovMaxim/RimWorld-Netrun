@@ -73,6 +73,11 @@
   <NR_MapNoRunner>Нет раннера.</NR_MapNoRunner>
   <NR_MapAlreadyHere>Раннер уже здесь.</NR_MapAlreadyHere>
   <NR_MapNoRoute>Сейчас туда не пройти.</NR_MapNoRoute>
+  <NR_MapFirstStepsHead>Первые шаги</NR_MapFirstStepsHead>
+  <NR_MapFirstStep_1>Поместите колониста с нейроинтерфейсом в кибер-капсулу.</NR_MapFirstStep_1>
+  <NR_MapFirstStep_2>Выберите на карте узел с выходом и подключите туда раннера.</NR_MapFirstStep_2>
+  <NR_MapFirstStep_3>Выберите ноду в узле, программы — и ныряйте.</NR_MapFirstStep_3>
+  <NR_MapHotkeys>Горячие клавиши:\nF — поиск\nH — Дом\nR или Tab — следующий раннер\n0 — вся карта\nWASD — двигать карту\nEsc — снять выбор</NR_MapHotkeys>
   <NR_MapRouteInfo>переходов: {0}, около {1} ч</NR_MapRouteInfo>
   <NR_MapSessionHours>{0} ч в сети</NR_MapSessionHours>
   <NR_MapGo>Идти сюда</NR_MapGo>

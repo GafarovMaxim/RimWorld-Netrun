@@ -45,7 +45,8 @@
   <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
   <NR_BoardHistoryFailed>{0}, {1}: провален</NR_BoardHistoryFailed>
   <NR_BoardRepChip>Реп. {0}: {1}</NR_BoardRepChip>
-  <NR_BoardActiveChip>Активных: {0} / {1}</NR_BoardActiveChip>
+  <NR_BoardActiveChip>Активных {0} из {1}</NR_BoardActiveChip>
+  <NR_BoardActiveChipTip>У каждого фиксера одновременно не больше одного активного контракта.</NR_BoardActiveChipTip>
   <NR_BoardFixers>Фиксеры</NR_BoardFixers>
   <NR_BoardAllFixers>Все ({0})</NR_BoardAllFixers>
   <NR_BoardFixerSub>реп. {0} · контрактов: {1}</NR_BoardFixerSub>

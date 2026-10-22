@@ -115,6 +115,7 @@ DYNAMIC = {
     "NR_ProgramDesc_": ["Sword", "Shield", "Decoy", "Stealth", "Killer", "IceBreaker", "Exec"],
     "NR_GatewayRisk_": ["0", "1", "2"],
     "NR_GatewayRiskShort_": ["0", "1", "2"],
+    "NR_MapFirstStep_": ["1", "2", "3"],
     "NR_Daemon_": ["Blade", "Aegis", "Wraith", "Hound", "Lens"],
     "NR_DaemonDesc_": ["Blade", "Aegis", "Wraith", "Hound", "Lens"],
     "NR_Celebrity_": ["0", "1", "2", "3", "4", "5", "6", "7"],

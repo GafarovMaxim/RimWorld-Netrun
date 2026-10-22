@@ -192,6 +192,7 @@ public static partial class GatewayView
     // The district under the mouse: its name fades in, framed, at the district's centre (Maxim, 2026-10-23). Corp
     // districts are one per corporation slot.
     private static int _districtKey = -1;
+    private static float _routeFlashAt = -10f;
     private static float _districtAlpha, _districtTime;
 
     private static int DistrictKey(MapNode n) => (int)n.District * 100 + (n.District == District.Corp ? n.CorpSlot + 1 : 0);
@@ -506,7 +507,8 @@ public static partial class GatewayView
         DrawLinkLine(new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f), width + 3f);
         if (onRoute)
         {
-            DrawLinkLine(new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f), 7f);
+            float flash = Mathf.Clamp01(1f - (Time.realtimeSinceStartup - _routeFlashAt) / 0.8f);
+            DrawLinkLine(new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.25f + 0.5f * flash), 7f + 5f * flash);
             // Dashes that crawl toward the route's end (12 px a second), still when animations are off.
             float crawl = NetrunMod.Settings.Animations ? Time.realtimeSinceStartup * 12f * direction : 0f;
             DrawLinkLine(NetrunUI.Accent, 2.5f, 8f, 5f, crawl);
@@ -952,11 +954,35 @@ public static partial class GatewayView
     private static int _panelRouteSteps;
     private static float _panelRouteHours;
 
+    private static float DrawFirstSteps(Rect inner, float y, Map colonyMap)
+    {
+        bool pod = GatewayManager.Runner(colonyMap, out _) != null;
+        Text.Font = GameFont.Tiny;
+        GUI.color = NetrunUI.Muted;
+        Widgets.Label(new Rect(inner.x, y, inner.width, 16f), NetrunUI.Upper(NetrunUI.T("NR_MapFirstStepsHead")));
+        y += 18f;
+        for (int i = 1; i <= 3; i++)
+        {
+            bool done = i == 1 && pod;
+            string line = (done ? "✓ " : i + ". ") + ("NR_MapFirstStep_" + i).Translate();
+            float h = Text.CalcHeight(line, inner.width - 8f);
+            GUI.color = done ? NetrunUI.Ok : NetrunUI.Subtle;
+            Widgets.Label(new Rect(inner.x + 4f, y, inner.width - 8f, h), line);
+            y += h + 2f;
+        }
+        GUI.color = Color.white;
+        Text.Font = GameFont.Small;
+        return y + 6f;
+    }
+
     /// <summary>Runners and the selected map node, above the branch panel.</summary>
     private static float DrawMapPanel(Rect inner, float y, Map colonyMap, NetMapManager net)
     {
         // Runners: connected ones, then pawns in pods who could connect.
         y = NetrunUI.Section(new Rect(inner.x, y, inner.width, 36f), "NR_MapRunners".Translate(net.Runners.Count, NetMapManager.Settings.maxRunners));
+        // A new player: three first steps, ticked as they are done, until the first runner is in (Maxim, 2026-10-23, В9).
+        if (net.Runners.Count == 0 && GatewayManager.Get() is { TrainingDone: false })
+            y = DrawFirstSteps(inner, y, colonyMap);
         for (int i = 0; i < net.Runners.Count; i++)
         {
             NetRunner r = net.Runners[i];
@@ -1089,7 +1115,11 @@ public static partial class GatewayView
         if (selected != null && (selected.NodeId != node.Id || selected.Moving))
         {
             if (NetrunUI.Button(new Rect(inner.x, y, inner.width, 30f), "NR_MapGo".Translate(), NetrunUI.Accent, net.CanTravel(selected, node.Id), "NR_MapGoTip".Translate()))
+            {
                 net.Travel(selected, node.Id);
+                // The new route lights up for a moment (UI audit 2026-10-23: a click gave only a sound).
+                _routeFlashAt = Time.realtimeSinceStartup;
+            }
             y += 34f;
         }
         // Connect straight at an exit point (a jump for a little cyberdata).

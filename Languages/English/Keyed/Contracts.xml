@@ -45,7 +45,8 @@
   <NR_BoardHistoryDone>{0}, {1}: +{2}</NR_BoardHistoryDone>
   <NR_BoardHistoryFailed>{0}, {1}: failed</NR_BoardHistoryFailed>
   <NR_BoardRepChip>Rep. {0}: {1}</NR_BoardRepChip>
-  <NR_BoardActiveChip>Active: {0} / {1}</NR_BoardActiveChip>
+  <NR_BoardActiveChip>Active {0} of {1}</NR_BoardActiveChip>
+  <NR_BoardActiveChipTip>One active contract per fixer at a time.</NR_BoardActiveChipTip>
   <NR_BoardFixers>Fixers</NR_BoardFixers>
   <NR_BoardAllFixers>All ({0})</NR_BoardAllFixers>
   <NR_BoardFixerSub>rep. {0} · offers: {1}</NR_BoardFixerSub>

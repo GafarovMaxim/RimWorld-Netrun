@@ -73,6 +73,11 @@
   <NR_MapNoRunner>No runner.</NR_MapNoRunner>
   <NR_MapAlreadyHere>The runner is already here.</NR_MapAlreadyHere>
   <NR_MapNoRoute>No way there now.</NR_MapNoRoute>
+  <NR_MapFirstStepsHead>First steps</NR_MapFirstStepsHead>
+  <NR_MapFirstStep_1>Put a colonist with a neural interface into a cyberpod.</NR_MapFirstStep_1>
+  <NR_MapFirstStep_2>Pick an exit hub on the map and connect the runner there.</NR_MapFirstStep_2>
+  <NR_MapFirstStep_3>Pick a node in a hub, choose programs and dive.</NR_MapFirstStep_3>
+  <NR_MapHotkeys>Hotkeys:\nF: search\nH: Home\nR or Tab: next runner\n0: the whole map\nWASD: move the map\nEsc: clear the selection</NR_MapHotkeys>
   <NR_MapRouteInfo>hops: {0}, about {1} h</NR_MapRouteInfo>
   <NR_MapSessionHours>{0} h in the net</NR_MapSessionHours>
   <NR_MapGo>Go here</NR_MapGo>

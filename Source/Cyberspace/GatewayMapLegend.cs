@@ -165,6 +165,8 @@ public static partial class GatewayView
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleLeft;
         var head = new Rect(box.x, box.y, box.width, 26f);
+        // The map's hotkeys in one place (UI audit 2026-10-23: they were scattered over button tooltips).
+        NetrunUI.Tip(head, "NR_MapHotkeys".Translate());
         if (Mouse.IsOver(head))
             Widgets.DrawBoxSolid(head, new Color(NetrunUI.Accent.r, NetrunUI.Accent.g, NetrunUI.Accent.b, 0.1f));
         GUI.color = NetrunUI.Accent;
