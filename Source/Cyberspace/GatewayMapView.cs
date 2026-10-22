@@ -895,9 +895,10 @@ public static partial class GatewayView
     /// </summary>
     private static void DrawNodeBadge(Rect r, bool contract)
     {
-        Widgets.DrawBoxSolid(r.ExpandedBy(1f), NetrunUI.BgWindow);
         if (contract)
         {
+            // The square contract badge keeps its dark rim; the key diamond goes without one (a black square behind it, Maxim 2026-10-22).
+            Widgets.DrawBoxSolid(r.ExpandedBy(1f), NetrunUI.BgWindow);
             Widgets.DrawBoxSolid(r, NetrunUI.Warn);
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.MiddleCenter;

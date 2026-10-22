@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+### Fixed
+- The key diamond on the cyberspace map no longer has a black square behind it.
 ### Added
 - Russian translation of Hacking Expansion itself (items, implants, hediffs, abilities, research, messages and settings).
 ### Changed
