@@ -429,7 +429,7 @@ public static partial class GatewayView
         float r = (n.District == District.Home ? 15f : n.Fortress ? 11f : 8f) * Mathf.Sqrt(_zoom);
         // A triangle's edge is nearer in some directions: the link ends where it meets the edge (map y runs down, as the poly).
         if (HubShape(n) == Shape.Triangle)
-            return (r + 3f) * RayToPoly(TrianglePoly, toward) + 2f;
+            return (r + 5f) * RayToPoly(TrianglePoly, toward) + 2f;
         if (n.Fortress || n.District == District.Home)
             r += 6f;
         else if (n.District == District.Orbit)
@@ -599,7 +599,7 @@ public static partial class GatewayView
         DrawVisited(rect, n);
         bool orbit = n.District == District.Orbit;
         Shape? shape = HubShape(n);
-        Rect shapeRect = orbit ? rect.ExpandedBy(2f) : rect.ExpandedBy(3f);
+        Rect shapeRect = orbit ? rect.ExpandedBy(2f) : rect.ExpandedBy(5f);
         // The dark backing under the hub follows its shape (a round one showed around the transit triangle).
         GUI.color = NetrunUI.BgWindow;
         GUI.DrawTexture(shape != null ? shapeRect.ExpandedBy(2f) : rect.ExpandedBy(2f), shape is { } back ? ShapeTex(back, true) : NetrunUI.Disc);

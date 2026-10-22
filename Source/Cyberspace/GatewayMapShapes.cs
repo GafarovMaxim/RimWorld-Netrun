@@ -21,7 +21,9 @@ public static partial class GatewayView
 
     private static readonly Vector2[] SquarePoly = [new(-0.78f, -0.78f), new(0.78f, -0.78f), new(0.78f, 0.78f), new(-0.78f, 0.78f)];
     private static readonly Vector2[] DiamondPoly = [new(0f, -1f), new(1f, 0f), new(0f, 1f), new(-1f, 0f)];
-    private static readonly Vector2[] TrianglePoly = [new(0f, -0.95f), new(0.95f, 0.75f), new(-0.95f, 0.75f)];
+    // Equilateral with its incentre on the hub: a backing or outline drawn a few px larger keeps an even rim on all
+    // three sides (Maxim, 2026-10-23: the old triangle's base sat lower, its rim was thicker there).
+    private static readonly Vector2[] TrianglePoly = [new(0f, -0.98f), new(0.849f, 0.49f), new(-0.849f, 0.49f)];
     private static readonly Vector2[] HexagonPoly = MakeHexagon();
 
     private static Vector2[] MakeHexagon()
