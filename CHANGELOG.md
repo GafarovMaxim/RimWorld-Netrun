@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Ghost's hunger per hack halved: 7.5 instead of 15.
 - The courier waits while other enemies on the map still fight (sleeping mechs, hive insects and shamblers do not count).
 - Auto-feed is offered only for an AI in a server or coprocessor.
 - The courier's reward options fit the letter: exec chips of one kind are named once.

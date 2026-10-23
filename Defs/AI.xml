@@ -43,7 +43,7 @@
     <isolatedHungerFactor>2</isolatedHungerFactor>
     <feedHungerRelief>50</feedHungerRelief>
     <feedTrust>5</feedTrust>
-    <ghostHungerPerHack>15</ghostHungerPerHack>
+    <ghostHungerPerHack>7.5</ghostHungerPerHack>
     <ghostCalmPerDay>15</ghostCalmPerDay>
     <!-- An AI in a colonist's socket feeds on the host: hunger drops per day -->
     <hostHungerReliefPerDay>10</hostHungerReliefPerDay>
