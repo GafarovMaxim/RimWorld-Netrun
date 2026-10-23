@@ -3,25 +3,18 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
-- Visited transit and orbital hubs are outlined in their own shape, and links reach the transit triangle's edge.
-- The Entertainment quarter is now called Vice.
-- The Market quarter is now called Trade Row.
-- Transit and orbital hubs have a backing of their own shape, not a round one.
-- Orbital hubs stand one short step out from their corporation's outermost hub, off links.
+
+## [1.2.1] - 2026-10-23
+- Map generator: each district keeps its own ground, so districts no longer mix or tear, also on big maps; on big maps hubs stand closer instead of spilling into neighbours.
+- The transit no longer grows with the hub count, and every transit hub leads to a district.
 - Transit hubs are lime triangles on the map, so they no longer look like the campus.
-- Map generator: each district keeps its own ground, so districts no longer mix or tear, also on big maps.
-- Map generator: on big maps hubs stand closer instead of spilling into neighbouring districts; the transit no longer grows with the hub count.
-- Every transit hub now leads to a district; one that cannot is left out of a new map.
-- Orbital hubs stand beyond their corporation's outer edge, away from links and other districts.
-- Fixed: a cable cut inside the Old Net could strand a hub there or lay a street around the Wall.
-- Fixed: the lock on an offline hub's link said the orbit was closed.
-- Fixed: links of an offline hub looked usable; they are now drawn shut, like the closed Wall.
-- Fixed: an orbital hub could appear right on top of another hub when no free spot was found.
-- Fixed: an Old Net hub could be left with no link; it now gets its own link through the Wall.
-- Fixed: the street-repair pass could link an Old Net hub straight to the main net, bypassing the Wall.
-- Fixed: a rival trap was not shown in a hub's description when the hub had other timed events.
-- The hub description lists its events without repeating the hub's name.
-- A hub's description lists every running event with its time left (outage, storm, patrol, quarantine); every district, not only corporations, is sewn back into one piece by its own streets (new maps and, once, existing saves).
+- Orbital hubs stand one short step out from their corporation's outermost hub, away from links and other districts.
+- The Market quarter is now called Trade Row, the Entertainment quarter Vice.
+- A hub's description lists every running event with its time left, including a rival's trap.
+- Links of an offline hub are drawn shut, with their own tooltip.
+- Existing saves: districts are sewn back together by their own streets, transit hubs get links, orbital hubs are placed again (once). Mixed districts of an old map are fixed only by a new map.
+- Fixed: the Old Net could be reached around the Wall (street repair and cable cuts); an Old Net hub left with no link now gets its own Wall link.
+- Fixed: an orbital hub could appear on top of another hub or on a link.
 
 ## [1.2.0] - 2026-10-23
 - The training dive offer opens in the terminal's style; the training button lives on the Home hub only, always. Node rows show defense as muted red pips further left; the second line of a wrapped hub name is centred and matches the first; the Board's sort button no longer covers the divider.
