@@ -111,7 +111,8 @@ public static class AIBehavior
 
     public static void TryAutoFeed(NetAI ai, Map map)
     {
-        if (!ai.AutoFeed || map == null || ai.Personality == AIPersonality.Seed || ai.Hunger < AutoFeedHunger
+        // Awake in a server or coprocessor only: an AI in a host eats through the host.
+        if (!ai.AutoFeed || map == null || !ai.InServer || ai.Personality == AIPersonality.Seed || ai.Hunger < AutoFeedHunger
             || Find.TickManager.TicksGame < ai.AutoFeedRetryTick || !CanFeed(ai, map).Accepted || Food(ai.Personality) is not { } food)
             return;
         if (AIDelivery.NeedsCarrying(ai))

@@ -13,7 +13,20 @@ public class CourierRewardOption : IExposable
 
     public float Value => Items.Sum(i => i.thingDef.BaseMarketValue * i.count);
 
-    public string Label => Items.Select(i => i.thingDef.LabelCap + " x" + i.count).ToCommaList();
+    /// <summary>
+    /// One line in the letter (its options do not wrap; Maxim, 2026-10-23: three exec chips ran off the window): kinds that
+    /// share a name before brackets are said once, "Exec data: short circuit x1, zapcode x1".
+    /// </summary>
+    public string Label
+    {
+        get
+        {
+            var parts = Items.Select(i => System.Text.RegularExpressions.Regex.Match(i.thingDef.LabelCap.ToString(), @"^(.+?) \((.+)\)$")).ToList();
+            if (Items.Count > 1 && parts.All(m => m.Success) && parts.Select(m => m.Groups[1].Value).Distinct().Count() == 1)
+                return parts[0].Groups[1].Value + ": " + Items.Select((item, k) => parts[k].Groups[2].Value + " x" + item.count).ToCommaList();
+            return Items.Select(i => i.thingDef.LabelCap + " x" + i.count).ToCommaList();
+        }
+    }
 
     public void ExposeData()
     {

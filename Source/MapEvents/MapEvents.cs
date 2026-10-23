@@ -173,6 +173,14 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         _huntersBeaten = _huntersSeen;
     }
 
+    /// <summary>
+    /// An awake enemy still fighting the colony on this map. Not counted (Maxim, 2026-10-23): sleeping mech clusters and
+    /// other dormant pawns, insects guarding their hive, shamblers, anything still in the fog.
+    /// </summary>
+    private static bool OtherThreats(Map map) => map.mapPawns.AllPawnsSpawned.Any(p =>
+        p.HostileTo(Faction.OfPlayer) && GenHostility.IsActiveThreatTo(p, Faction.OfPlayer) && !p.Fogged()
+        && p.GetComp<CompCanBeDormant>() is not { Awake: false } && p.GetLord()?.LordJob is not LordJob_DefendAndExpandHive && !p.IsShambler);
+
     private const int DownedGraceDays = 3;
 
     private void CheckCourier()
@@ -194,7 +202,9 @@ public class MapEventsManager : GameComponent, INetrunCleanable
             return;
         int left = _courierUntilTick - Find.TickManager.TicksGame;
         // The raid is beaten and the courier is unhurt: no reason to wait out the day (Maxim, 2026-10-23).
-        if (left > 0 && _huntersBeaten && _courier.Spawned && !_courier.health.HasHediffsNeedingTend() && !HealthAIUtility.ShouldSeekMedicalRest(_courier))
+        // Not while anything else on the map is still fighting the colony.
+        if (left > 0 && _huntersBeaten && _courier.Spawned && !_courier.health.HasHediffsNeedingTend() && !HealthAIUtility.ShouldSeekMedicalRest(_courier)
+            && !OtherThreats(_courier.Map))
         {
             _courier.GetLord()?.RemovePawn(_courier);
             left = 0;

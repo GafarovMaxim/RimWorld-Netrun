@@ -3,6 +3,9 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- The courier waits while other enemies on the map still fight (sleeping mechs, hive insects and shamblers do not count).
+- Auto-feed is offered only for an AI in a server or coprocessor.
+- The courier's reward options fit the letter: exec chips of one kind are named once.
 - The data courier leaves at once when the hunters are beaten and he is unhurt.
 - AI: an Auto-feed button; the AI is then fed from storage on its own when hungry, a free hauler carries the food to its server.
 
