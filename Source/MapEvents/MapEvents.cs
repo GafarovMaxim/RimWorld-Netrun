@@ -94,7 +94,10 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     {
         _courier = courier;
         _courierReward = reward;
+        // A new job starts clean: a fight left over from the last courier must not count for this one.
         _huntersBeaten = false;
+        _huntersFighting = null;
+        _huntersSeen = false;
         _courierUntilTick = Find.TickManager.TicksGame + (int)(Settings.courierDays * GenDate.TicksPerDay);
         _huntersTick = Find.TickManager.TicksGame + huntersInTicks;
         _huntersMap = courier.Map;
