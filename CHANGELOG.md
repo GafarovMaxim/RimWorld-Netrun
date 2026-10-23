@@ -3,12 +3,12 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+
+## [1.2.2] - 2026-10-23
+- The data courier leaves at once when his hunters are beaten, he is unhurt and no other enemy on the map still fights (sleeping mechs, hive insects and shamblers do not count).
+- AI: an Auto-feed button for an AI in a server or coprocessor; it is fed from storage on its own when hungry, a free hauler carries the food.
 - Ghost's hunger per hack halved: 7.5 instead of 15.
-- The courier waits while other enemies on the map still fight (sleeping mechs, hive insects and shamblers do not count).
-- Auto-feed is offered only for an AI in a server or coprocessor.
 - The courier's reward options fit the letter: exec chips of one kind are named once.
-- The data courier leaves at once when the hunters are beaten and he is unhurt.
-- AI: an Auto-feed button; the AI is then fed from storage on its own when hungry, a free hauler carries the food to its server.
 
 ## [1.2.1] - 2026-10-23
 - Map generator: each district keeps its own ground, so districts no longer mix or tear, also on big maps; on big maps hubs stand closer instead of spilling into neighbours.
