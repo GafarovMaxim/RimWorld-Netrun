@@ -77,12 +77,37 @@ public static class AIDelivery
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
-    private static void Order(Pawn pawn, NetAI ai, AIDeliveryKind kind, Thing stack, int count, AIPersonality seedGrows)
+    private static void Order(Pawn pawn, NetAI ai, AIDeliveryKind kind, Thing stack, int count, AIPersonality seedGrows, bool queued = false)
     {
         Job job = JobMaker.MakeJob(NetrunDefOf.NR_DeliverToAI, ai.Server, stack);
         job.count = count;
         PendingJobs[job.loadID] = new Pending { AIId = ai.Id, Kind = kind, SeedGrows = seedGrows };
-        pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        // Auto-feed waits for the hauler's current job to end; a player's order starts at once.
+        if (queued)
+            pawn.jobs.jobQueue.EnqueueLast(job, JobTag.Misc);
+        else
+            pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+    }
+
+    /// <summary>
+    /// Auto-feed: the nearest free colonist who hauls carries the food to the server after their current job. False when
+    /// nobody can (no stack big enough, no free hauler).
+    /// </summary>
+    public static bool OrderAuto(NetAI ai, Map map, ThingDef thing, int count)
+    {
+        Thing stack = map.listerThings.ThingsOfDef(thing)
+            .Where(t => t.Spawned && !t.IsForbidden(Faction.OfPlayer) && t.stackCount >= count)
+            .OrderByDescending(t => t.stackCount).FirstOrDefault();
+        if (stack == null)
+            return false;
+        Pawn hauler = map.mapPawns.FreeColonistsSpawned
+            .Where(p => !p.Downed && !p.Drafted && !p.InMentalState && p.workSettings?.WorkIsActive(WorkTypeDefOf.Hauling) == true
+                        && p.CanReserveAndReach(stack, PathEndMode.ClosestTouch, Danger.Some) && p.CanReach(ai.Server, PathEndMode.Touch, Danger.Some))
+            .MinBy(p => p.Position.DistanceToSquared(stack.Position));
+        if (hauler == null)
+            return false;
+        Order(hauler, ai, AIDeliveryKind.Feed, stack, count, ai.Personality, queued: true);
+        return true;
     }
 
     /// <summary>Called by the job when the items reach the server.</summary>

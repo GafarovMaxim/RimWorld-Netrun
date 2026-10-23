@@ -173,6 +173,7 @@ public class AIManager : GameComponent, INetrunCleanable
             if (hunger > 0f)
                 hunger *= AITraitUtility.HungerFactor(ai);
             ai.AddHunger(hunger * dayFraction);
+            AIBehavior.TryAutoFeed(ai, ai.Server?.MapHeld);
 
             if (ai.Hunger >= Settings.starvingHunger)
                 ai.AddTrust(-Settings.starvingTrustPerDay * dayFraction);

@@ -120,6 +120,9 @@
   <NR_AIHungerTip>Чего хочет: {0}\n\nВыше 70 ИИ начинает терять доверие.</NR_AIHungerTip>
   <NR_AIFeed>Накормить</NR_AIFeed>
   <NR_AIFeedTip>Отдать ИИ со склада то, что он хочет: {0}. Снижает голод, немного повышает доверие.</NR_AIFeedTip>
+  <NR_AIAutoFeedOn>Автокормёжка: вкл</NR_AIAutoFeedOn>
+  <NR_AIAutoFeedOff>Автокормёжка: выкл</NR_AIAutoFeedOff>
+  <NR_AIAutoFeedTip>Когда голод дойдёт до {1}, ИИ сам получит еду со склада: {0}. Свободный носильщик отнесёт её к серверу, закончив текущее дело.</NR_AIAutoFeedTip>
   <NR_AIFulfil>Выполнить просьбу</NR_AIFulfil>
   <NR_AIFulfilTip>Передать запрошенное со склада.</NR_AIFulfilTip>
   <NR_AIIsolate>Изолировать (без сети)</NR_AIIsolate>

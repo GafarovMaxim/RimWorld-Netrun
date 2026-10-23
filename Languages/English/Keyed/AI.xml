@@ -120,6 +120,9 @@
   <NR_AIHungerTip>What it wants: {0}\n\nAbove 70 the AI starts losing trust.</NR_AIHungerTip>
   <NR_AIFeed>Feed</NR_AIFeed>
   <NR_AIFeedTip>Give the AI what it wants from storage: {0}. Lowers hunger, raises trust a little.</NR_AIFeedTip>
+  <NR_AIAutoFeedOn>Auto-feed: on</NR_AIAutoFeedOn>
+  <NR_AIAutoFeedOff>Auto-feed: off</NR_AIAutoFeedOff>
+  <NR_AIAutoFeedTip>When hunger reaches {1}, the AI is fed from storage on its own: {0}. A free hauler carries the food to its server after their current job.</NR_AIAutoFeedTip>
   <NR_AIFulfil>Fulfil request</NR_AIFulfil>
   <NR_AIFulfilTip>Hand over the requested items from storage.</NR_AIFulfilTip>
   <NR_AIIsolate>Isolate (air-gap)</NR_AIIsolate>

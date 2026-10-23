@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- The data courier leaves at once when the hunters are beaten and he is unhurt.
+- AI: an Auto-feed button; the AI is then fed from storage on its own when hungry, a free hauler carries the food to its server.
 
 ## [1.2.1] - 2026-10-23
 - Map generator: each district keeps its own ground, so districts no longer mix or tear, also on big maps; on big maps hubs stand closer instead of spilling into neighbours.

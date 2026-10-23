@@ -103,6 +103,28 @@ public static class AIBehavior
         FedDelivered(ai, ai.Personality);
     }
 
+    /// <summary>
+    /// Auto-feed, hourly: once hunger reaches one feeding's worth, the food goes from storage like the Feed button, with a
+    /// free hauler carrying it to a built server. The Seed is never fed automatically: its food decides what it grows into.
+    /// </summary>
+    public static float AutoFeedHunger => Settings.feedHungerRelief;
+
+    public static void TryAutoFeed(NetAI ai, Map map)
+    {
+        if (!ai.AutoFeed || map == null || ai.Personality == AIPersonality.Seed || ai.Hunger < AutoFeedHunger
+            || Find.TickManager.TicksGame < ai.AutoFeedRetryTick || !CanFeed(ai, map).Accepted || Food(ai.Personality) is not { } food)
+            return;
+        if (AIDelivery.NeedsCarrying(ai))
+        {
+            // A carried meal takes a while: no second order for the same hunger.
+            if (AIDelivery.OrderAuto(ai, map, food.thing, food.count))
+                ai.AutoFeedRetryTick = Find.TickManager.TicksGame + 6 * GenDate.TicksPerHour;
+            return;
+        }
+        if (ColonyGoods.TryTake(map, food.thing, food.count))
+            FedDelivered(ai, ai.Personality);
+    }
+
     /// <summary>The food reached the AI (carried to its server, or taken from storage by its host).</summary>
     public static void FedDelivered(NetAI ai, AIPersonality seedGrows)
     {

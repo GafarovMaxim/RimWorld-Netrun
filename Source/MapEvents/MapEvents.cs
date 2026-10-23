@@ -66,6 +66,13 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     private int _huntersTick = -1;
     private Map _huntersMap;
     private int _huntersTries;
+    /// <summary>The map the hunters are fighting on, until none of them is a threat any more.</summary>
+    private Map _huntersFighting;
+    /// <summary>The hunters came and were beaten: a healthy courier need not wait out the day.</summary>
+    private bool _huntersBeaten;
+    /// <summary>A hunter was seen on the map: drop pods still in the air must not count as a beaten raid.</summary>
+    private bool _huntersSeen;
+    private int _huntersFightTick = -1;
     private int _blackMarketUntilTick = -1;
     public bool BlackMarketCore;
     private List<Thing> _hijacked = [];
@@ -87,6 +94,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     {
         _courier = courier;
         _courierReward = reward;
+        _huntersBeaten = false;
         _courierUntilTick = Find.TickManager.TicksGame + (int)(Settings.courierDays * GenDate.TicksPerDay);
         _huntersTick = Find.TickManager.TicksGame + huntersInTicks;
         _huntersMap = courier.Map;
@@ -131,6 +139,9 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         if (arrived)
         {
             Log.Message($"[Netrun] The courier's hunters arrived ({raid.points:0} points, {raid.raidStrategy?.defName}, {raid.raidArrivalMode?.defName}).");
+            _huntersFighting = map;
+            _huntersSeen = false;
+            _huntersFightTick = Find.TickManager.TicksGame;
             _huntersMap = null;
             return;
         }
@@ -141,6 +152,25 @@ public class MapEventsManager : GameComponent, INetrunCleanable
             _huntersTick = Find.TickManager.TicksGame + GenDate.TicksPerHour;
         else
             _huntersMap = null;
+    }
+
+    /// <summary>The hunters are beaten once none of them on the map is still an active threat (dead, downed, fled or captured).</summary>
+    private void CheckHuntersBeaten()
+    {
+        if (_huntersFighting == null)
+            return;
+        Faction mercs = Mercenaries.Faction;
+        bool onMap = Find.Maps.Contains(_huntersFighting);
+        if (onMap && mercs != null && _huntersFighting.mapPawns.SpawnedPawnsInFaction(mercs).Any(p => GenHostility.IsActiveThreatTo(p, Faction.OfPlayer)))
+        {
+            _huntersSeen = true;
+            return;
+        }
+        // None seen yet: they may still be landing; after a day without them the raid simply does not count.
+        if (!_huntersSeen && onMap && Find.TickManager.TicksGame - _huntersFightTick < GenDate.TicksPerDay)
+            return;
+        _huntersFighting = null;
+        _huntersBeaten = _huntersSeen;
     }
 
     private const int DownedGraceDays = 3;
@@ -163,6 +193,12 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         if (_courier.Downed)
             return;
         int left = _courierUntilTick - Find.TickManager.TicksGame;
+        // The raid is beaten and the courier is unhurt: no reason to wait out the day (Maxim, 2026-10-23).
+        if (left > 0 && _huntersBeaten && _courier.Spawned && !_courier.health.HasHediffsNeedingTend() && !HealthAIUtility.ShouldSeekMedicalRest(_courier))
+        {
+            _courier.GetLord()?.RemovePawn(_courier);
+            left = 0;
+        }
         if (left > 0)
         {
             // Downed pawns drop out of their lord: back on his feet (and out of bed), the courier hides again.
@@ -183,6 +219,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         letter.Options = CourierReward.Roll(reward);
         Find.LetterStack.ReceiveLetter(letter);
         _courier = null;
+        _huntersBeaten = false;
     }
 
     // ---- Black market ----
@@ -276,6 +313,7 @@ public class MapEventsManager : GameComponent, INetrunCleanable
     {
         if (Find.TickManager.TicksGame % GenTicks.TickRareInterval != 0)
             return;
+        CheckHuntersBeaten();
         CheckCourier();
         CheckHunters();
         CheckCounterHack();
@@ -332,6 +370,10 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         Scribe_References.Look(ref _courier, "courier");
         Scribe_Values.Look(ref _courierUntilTick, "courierUntilTick", -1);
         Scribe_Values.Look(ref _courierReward, "courierReward");
+        Scribe_References.Look(ref _huntersFighting, "huntersFighting");
+        Scribe_Values.Look(ref _huntersBeaten, "huntersBeaten");
+        Scribe_Values.Look(ref _huntersSeen, "huntersSeen");
+        Scribe_Values.Look(ref _huntersFightTick, "huntersFightTick", -1);
         Scribe_Values.Look(ref _huntersTick, "huntersTick", -1);
         Scribe_References.Look(ref _huntersMap, "huntersMap");
         Scribe_Values.Look(ref _huntersTries, "huntersTries");

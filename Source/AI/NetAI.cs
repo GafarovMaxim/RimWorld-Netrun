@@ -28,6 +28,10 @@ public class NetAI : IExposable
 
     public float Trust;
     public float Hunger;
+    /// <summary>Fed by itself from storage once hungry enough (Maxim, 2026-10-23: feeding by hand was a chore).</summary>
+    public bool AutoFeed;
+    /// <summary>Not saved: no new auto-feed order before this tick, so one hauler is not sent twice.</summary>
+    public int AutoFeedRetryTick;
     public bool Isolated;
     public int ServiceReadyTick;
 
@@ -125,6 +129,7 @@ public class NetAI : IExposable
         Scribe_References.Look(ref Host, "host");
         Scribe_Values.Look(ref Trust, "trust", 50f);
         Scribe_Values.Look(ref Hunger, "hunger");
+        Scribe_Values.Look(ref AutoFeed, "autoFeed");
         Scribe_Values.Look(ref Isolated, "isolated");
         Scribe_Values.Look(ref ServiceReadyTick, "serviceReadyTick");
         Scribe_Values.Look(ref Request, "request");

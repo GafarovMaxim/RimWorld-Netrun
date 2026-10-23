@@ -284,6 +284,10 @@ public static class AITab
             });
         Add("NR_AIFeed".Translate(), NetrunUI.Warn, AIBehavior.CanFeed(ai, map), "NR_AIFeedTip".Translate(AIBehavior.FoodText(ai.Personality)),
             NetrunTex.AIFeed, () => AIBehavior.Feed(ai, map));
+        if (AIBehavior.Food(ai.Personality) != null && ai.Personality != AIPersonality.Seed && !ai.InHost)
+            Add((ai.AutoFeed ? "NR_AIAutoFeedOn" : "NR_AIAutoFeedOff").Translate(), ai.AutoFeed ? NetrunUI.Ok : NetrunUI.Muted, true,
+                "NR_AIAutoFeedTip".Translate(AIBehavior.FoodText(ai.Personality), AIBehavior.AutoFeedHunger.ToString("0")), NetrunTex.AIFeed,
+                () => ai.AutoFeed = !ai.AutoFeed);
         if (ai.Request == AIRequestKind.Deliver)
             Add("NR_AIFulfil".Translate(), NetrunUI.Warn, manager.CanFulfil(ai, map), "NR_AIFulfilTip".Translate(), NetrunTex.AIFeed,
                 () => manager.Fulfil(ai, map));
