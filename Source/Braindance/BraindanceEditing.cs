@@ -99,8 +99,9 @@ public static class BraindanceEditing
     public const float BatchGlitchChance = 0.05f, BatchGlitchShare = 0.15f;
 
     /// <summary>
-    /// From the Studio: "edit all" in one click, free and at once (Maxim, 2026-10-15), with the best editor's skill. The
-    /// first time a warning about the glitch comes first.
+    /// From the Studio: "edit all" in one click. The best editor who can reach them gathers every raw stack, carries them
+    /// to the network console and edits them there (Maxim, 2026-10-28: chips no longer teleport). The first time a
+    /// warning about the glitch comes first.
     /// </summary>
     public static void StartBatch(Map map)
     {
@@ -114,30 +115,51 @@ public static class BraindanceEditing
                 () =>
                 {
                     progress.MarkHint("BDBatchWarn");
-                    FinishBatch(map, BestEditor(map));
+                    OrderBatch(map);
                 }));
             return;
         }
-        FinishBatch(map, BestEditor(map));
+        OrderBatch(map);
     }
 
-    private static Pawn BestEditor(Map map)
-        => map.mapPawns.FreeColonistsSpawned.Where(p => !p.Downed && !p.WorkTagIsDisabled(WorkTags.Intellectual))
+    private static void OrderBatch(Map map)
+    {
+        Building console = AIAwakening.Console(map);
+        if (console == null)
+        {
+            Messages.Message("NR_AwakenNoConsole".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        List<Thing> raws = RawRecordings(map).ToList();
+        Pawn editor = map.mapPawns.FreeColonistsSpawned
+            .Where(p => !p.Downed && !p.Drafted && !p.WorkTagIsDisabled(WorkTags.Intellectual) && p.CanReserveAndReach(console, PathEndMode.InteractionCell, Danger.Some))
             .MaxByWithFallback(p => p.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0);
+        List<Thing> reachable = editor == null ? [] : raws.Where(t => editor.CanReserveAndReach(t, PathEndMode.ClosestTouch, Danger.Some)).ToList();
+        if (reachable.Count == 0)
+        {
+            Messages.Message("NR_AwakenNoWorker".Translate(), MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        Job job = JobMaker.MakeJob(NetrunDefOf.NR_EditBraindanceBatch, console);
+        foreach (Thing raw in reachable)
+            job.AddQueuedTarget(TargetIndex.B, raw);
+        editor.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        Messages.Message("NR_BDBatchOrdered".Translate(editor.LabelShort, reachable.Sum(t => t.stackCount)), editor, MessageTypeDefOf.NeutralEvent, historical: false);
+    }
 
-    /// <summary>An editing job from an older save finishing: the same batch, by that colonist.</summary>
-    public static void FinishBatch(Pawn editor) => FinishBatch(editor.Map, editor);
+    /// <summary>The batch job at the console: the raw stacks the editor carries are edited.</summary>
+    public static void FinishBatch(Pawn editor)
+        => FinishBatch(editor.Map, editor, editor.inventory.innerContainer.Where(t => t.def == NetrunDefOf.NR_BraindanceRaw).ToList());
 
     /// <summary>
     /// Edits every raw recording on the map at once: one chip per author, event and mood, from the strongest take;
     /// the duplicates are wiped (Maxim, 2026-10-14: editing thousands one by one was impossible). A glitch loses
     /// some chips and dulls others.
     /// </summary>
-    public static void FinishBatch(Map map, Pawn editor)
+    public static void FinishBatch(Map map, Pawn editor, List<Thing> raws)
     {
-        if (map == null)
+        if (map == null || raws.Count == 0)
             return;
-        List<Thing> raws = RawRecordings(map).ToList();
         // Every recording of every stack (2026-10-23: a stack holds different recordings; only its top one was edited).
         var best = new Dictionary<(string, string, BraindanceMood), BraindanceRecordData>();
         int total = 0;
@@ -158,6 +180,8 @@ public static class BraindanceEditing
         int skill = editor?.skills?.GetSkill(SkillDefOf.Intellectual)?.Level ?? 0;
         IntVec3 cell = editor?.Spawned == true && editor.Map == map ? editor.Position
             : AIAwakening.Console(map)?.InteractionCell ?? raws[0].PositionHeld;
+        if (best.Count == 0)
+            return;
 
         // The glitch: a share of the chips (at least one) is hit, half of them lost, half dulled.
         var hit = new HashSet<BraindanceRecordData>();
@@ -279,23 +303,53 @@ public class JobDriver_EditBraindance : JobDriver
     }
 }
 
-/// <summary>A: comms console. Edits every raw recording on the map over the network (no carrying), one chip per kind.</summary>
+/// <summary>
+/// A: comms console, queue B: the raw stacks. The editor picks every stack up, carries them all to the console and edits
+/// them there in one go, one chip per kind. Interrupted, the stacks are dropped where the editor stands.
+/// </summary>
 public class JobDriver_EditBraindanceBatch : JobDriver
 {
     private const TargetIndex ConsoleInd = TargetIndex.A;
+    private const TargetIndex RawInd = TargetIndex.B;
 
     public override bool TryMakePreToilReservations(bool errorOnFailed)
-        => pawn.Reserve(job.GetTarget(ConsoleInd), job, errorOnFailed: errorOnFailed);
+    {
+        if (!pawn.Reserve(job.GetTarget(ConsoleInd), job, errorOnFailed: errorOnFailed))
+            return false;
+        pawn.ReserveAsManyAsPossible(job.GetTargetQueue(RawInd), job);
+        return true;
+    }
+
+    private bool Gone() => job.GetTarget(RawInd).Thing is not { Spawned: true } t || t.IsForbidden(pawn);
+
+    private List<Thing> Carried() => pawn.inventory.innerContainer.Where(t => t.def == NetrunDefOf.NR_BraindanceRaw).ToList();
 
     protected override IEnumerable<Toil> MakeNewToils()
     {
         this.FailOnDespawnedNullOrForbidden(ConsoleInd);
         this.FailOn(() => job.GetTarget(ConsoleInd).Thing.TryGetComp<CompNetTerminal>()?.Powered != true);
+        AddFinishAction(condition =>
+        {
+            if (condition == JobCondition.Succeeded || !pawn.Spawned)
+                return;
+            foreach (Thing raw in Carried())
+                pawn.inventory.innerContainer.TryDrop(raw, pawn.Position, pawn.Map, ThingPlaceMode.Near, out _);
+        });
 
-        yield return Toils_Goto.GotoThing(ConsoleInd, PathEndMode.InteractionCell);
+        // Gather: every queued stack still lying around goes into the editor's pockets; one gone is skipped.
+        Toil toConsole = Toils_Goto.GotoThing(ConsoleInd, PathEndMode.InteractionCell);
+        Toil next = Toils_JobTransforms.ExtractNextTargetFromQueue(RawInd);
+        yield return next;
+        yield return Toils_Jump.JumpIf(toConsole, () => Gone() && job.GetTargetQueue(RawInd).Count == 0);
+        yield return Toils_Jump.JumpIf(next, Gone);
+        yield return Toils_Goto.GotoThing(RawInd, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(RawInd);
+        yield return Toils_Haul.TakeToInventory(RawInd, () => job.GetTarget(RawInd).Thing?.stackCount ?? 0);
+        yield return Toils_Jump.JumpIfHaveTargetInQueue(RawInd, next);
 
-        int ticks = BraindanceEditing.BatchWorkTicks(BraindanceEditing.BatchGroups(BraindanceEditing.RawRecordings(pawn.Map).ToList()));
-        Toil work = Toils_General.Wait(ticks, ConsoleInd);
+        yield return toConsole;
+
+        Toil work = Toils_General.Wait(BraindanceEditing.EditWorkTicks, ConsoleInd);
+        work.initAction = () => work.actor.jobs.curDriver.ticksLeftThisToil = BraindanceEditing.BatchWorkTicks(BraindanceEditing.BatchGroups(Carried()));
         work.FailOnCannotTouch(ConsoleInd, PathEndMode.InteractionCell);
         work.WithProgressBarToilDelay(ConsoleInd);
         work.WithEffect(EffecterDefOf.Hacking, ConsoleInd);

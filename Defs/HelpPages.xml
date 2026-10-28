@@ -605,7 +605,7 @@
     <order>2</order>
     <color>Studio</color>
     <label>Editing and chips</label>
-    <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch. Switch the mood and the strength of the moment: the chip, its quality and its effect change.\n[[braindance]]\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: recreation and a mood, and regular use builds tolerance. Put chips in the drug policy to decide who may watch them and how often.\n## Edit all\nThe Studio's "Edit all" button edits every raw recording at once, free and instantly, with your best editor's skill: one chip per colonist, event and mood, the duplicates wiped. It can glitch (5% chance): then 15% of the chips are lost or come out worse. One recording at a time never glitches.</body>
+    <body>Editing turns a raw recording into a chip that anyone with goggles or a cyberlink can watch. Switch the mood and the strength of the moment: the chip, its quality and its effect change.\n[[braindance]]\n## !Gizmo_BD_Watch Watching\nA colonist plays a chip with goggles or a cyberlink, like a drug: recreation and a mood, and regular use builds tolerance. Put chips in the drug policy to decide who may watch them and how often.\n## Edit all\nThe Studio's "Edit all" button sends your best editor to gather every raw chip, carry them to the network console and edit them there in one go: one chip per colonist, event and mood, the duplicates wiped. It can glitch (5% chance): then 15% of the chips are lost or come out worse. One recording at a time never glitches.</body>
     <icon>thing:NR_BraindanceChip</icon>
   </Netrun.HelpPageDef>
 

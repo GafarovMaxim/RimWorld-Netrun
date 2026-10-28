@@ -47,7 +47,11 @@ public static class StudioTab
                             || p.health.hediffSet.HasHediff(NetrunDefOf.NR_BraindanceTolerance)).ToList()), 1f);
 
         GuideRegistry.Area("studio.tabs", new Rect(rect.x, rect.y, rect.width * 0.6f, 32f));
-        DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), raws.Count, hooked.Count);
+        // Chips, not stacks: ten raw chips in three stacks read as 3 (Maxim, 2026-10-28).
+        int rawChips = 0;
+        foreach (Thing raw in raws)
+            rawChips += raw.stackCount;
+        DrawTabs(new Rect(rect.x, rect.y, rect.width, 32f), rawChips, hooked.Count);
         rect.yMin += 42f;
 
         float panelW = Mathf.Min(330f, rect.width * 0.36f);
@@ -61,15 +65,13 @@ public static class StudioTab
                 break;
             case Tab.Raw:
                 GuideRegistry.Area("studio.records", left);
-                DrawList(left, ref scroll, "NR_StudioRecordings".Translate(raws.Count), raws.Count, "NR_StudioNoRecordings".Translate(),
+                DrawList(left, ref scroll, "NR_StudioRecordings".Translate(rawChips), raws.Count, "NR_StudioNoRecordings".Translate(),
                     (y, w) => { float yy = y; foreach (Thing raw in raws) yy = DrawRecording(new Rect(0f, yy, w, RowHeight), raw); return yy; });
                 if (raws.Count > 0)
                 {
                     // Edit everything at once (Maxim, 2026-10-14): one chip per kind, the duplicates wiped.
                     int groups = NetrunUI.Cached("studio.groups." + map.uniqueID, () => BraindanceEditing.BatchGroups(raws), 1f);
-                    int total = 0;
-                    foreach (Thing raw in raws)
-                        total += raw.stackCount;
+                    int total = rawChips;
                     var batch = new Rect(right.x, right.yMax - 40f, right.width, 36f);
                     if (NetrunUI.Button(batch, "NR_StudioEditAll".Translate(total, groups), NetrunUI.Accent, true,
                             "NR_StudioEditAllTip".Translate((BraindanceEditing.BatchGlitchChance * 100f).ToString("0"), (BraindanceEditing.BatchGlitchShare * 100f).ToString("0"))))
@@ -554,7 +556,7 @@ public static class StudioTab
         }
         float x = row.x + 50f;
         Text.Anchor = TextAnchor.MiddleLeft;
-        string text = rec == null ? raw.LabelCap : $"{rec.Author}: {rec.Event}";
+        string text = (rec == null ? raw.LabelCap : $"{rec.Author}: {rec.Event}") + (raw.stackCount > 1 ? "  ×" + raw.stackCount : "");
         Widgets.Label(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text.Truncate(Mathf.Max(0f, bx - x)));
         Text.Anchor = TextAnchor.UpperLeft;
         NetrunUI.Tip(new Rect(x, row.y, Mathf.Max(0f, bx - x), row.height), text);

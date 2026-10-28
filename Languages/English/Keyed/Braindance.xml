@@ -81,7 +81,8 @@
   <NR_UB_Bad_Confession>+8 Heat; hooks twice as fast as a black chip</NR_UB_Bad_Confession>
   <NR_UB_Bad_Oracle>hooks twice as fast as a black chip</NR_UB_Bad_Oracle>
   <NR_BDBatchDone>{0} finished editing: {1} recordings became {2} chips.</NR_BDBatchDone>
-  <NR_BDBatchWarn>Edit every raw recording at once?\n\nIt is free and instant, but a batch edit can glitch ({0}% chance): then {1}% of the chips are lost or come out worse. Editing one recording at a time never glitches.\n\nThis warning is shown once.</NR_BDBatchWarn>
+  <NR_BDBatchWarn>Edit every raw recording at once?\n\nYour best editor gathers every raw chip and carries them to the console first. A batch edit can glitch ({0}% chance): then {1}% of the chips are lost or come out worse. Editing one recording at a time never glitches.\n\nThis warning is shown once.</NR_BDBatchWarn>
+  <NR_BDBatchOrdered>{0} gathers {1} raw chips and carries them to the console for a batch edit.</NR_BDBatchOrdered>
   <NR_BDBatchConsole>The console</NR_BDBatchConsole>
   <NR_BDBatchGlitchLabel>Batch edit glitched</NR_BDBatchGlitchLabel>
   <NR_BDBatchGlitch>{0} edited {1} recordings in one batch, and the edit glitched. {2} chips came out; {3} recordings were lost and {4} chips lost quality.</NR_BDBatchGlitch>
