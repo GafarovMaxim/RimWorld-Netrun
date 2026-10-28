@@ -255,7 +255,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - AI quests in the vanilla Quests tab, AI levels and second services; AI traits; moving an AI between coprocessors.
 - Fixer traits, imperial clients (Royalty), five new contract kinds (surveillance, lay low, rookie training, AI order and more).
 - Braindance: 8 unique recordings, "Edit all" in one click with a small glitch risk, a braindance category in storage.
-- Pawns and DLC: dive traits, nine backstories, pod atrophy, dive stories and tales; a gene (Biotech), a royal permit (Royalty), net culture issues, memes, rituals and the Net Archon role (Ideology).
+- Pawns and DLC: dive traits, nine backstories, pod atrophy, dive stories and tales; a gene and a braindance learning desire (Biotech), a royal permit (Royalty), net culture issues, memes, rituals and the Net Archon role (Ideology).
 - Four scenarios; 26 achievements for Vanilla Achievements Expanded (optional).
 - News feed with real effects and choices; neurostabilizer drug; five sound packs with volume settings; terminal scaling; Cyberpedia articles for every system.
 - Feedback: floating +Heat over hacked objects, a message when a netrunner in a pod gets hungry or tired, safe time left in a pod.
