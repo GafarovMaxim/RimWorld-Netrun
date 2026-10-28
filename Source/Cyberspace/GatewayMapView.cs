@@ -697,7 +697,7 @@ public static partial class GatewayView
         // Surveillance of a hub is today's only contract with a place on the map (taps and quiet runs count any hack).
         bool contract = WatchedHubs().Contains(n.Id);
         for (int i = 0; i < branches.Count; i++)
-            contract |= !branches[i].Hidden && branches[i].Contract;
+            contract |= !branches[i].Hidden && (branches[i].Contract || branches[i].ChallengeCrew >= 0);
         // The contract target (Maxim, 2026-10-23: the badge got covered): an amber ring that pulses on every lens, the
         // map's only pulse besides the runner; the target node leads the plate's chips.
         if (contract)

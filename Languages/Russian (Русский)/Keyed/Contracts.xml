@@ -107,6 +107,8 @@
   <NR_ContractRookieReset>Провал нырка ({0}): тренировка новичка начинается заново.</NR_ContractRookieReset>
   <NR_BoardTag_Favor>+{0} расположения</NR_BoardTag_Favor>
   <NR_BoardTag_FavorTip>Имперский заказ: кроме серебра, {0} ед. расположения получит колонист, которого Империя знает лучше всех.</NR_BoardTag_FavorTip>
+  <NR_BoardChallengeTip>{0} бросили вызов вашим нетраннерам: возьмите {1} раньше их раннера. Победа принесёт славу вам, поражение или истёкший срок отдаст её им.</NR_BoardChallengeTip>
+  <NR_BoardChallengeFame>Слава</NR_BoardChallengeFame>
   <NR_BoardShowTip>Открыть карту киберпространства на цели: {0}.</NR_BoardShowTip>
   <NR_ContractDesc_SurveillanceNode>Держите раннера в узле {1}: всего {0} ч. Клиенту нужны глаза именно на этом узле, а не просто тёплое кресло в капсуле.</NR_ContractDesc_SurveillanceNode>
   <NR_BoardTag_InNode>В узле: {0}</NR_BoardTag_InNode>

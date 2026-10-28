@@ -189,6 +189,7 @@ public static class ContractsTab
     private static void DrawMain(Rect rect, Map map, ref Vector2 scroll, ContractManager contracts, FixerManager fixers, System.Action<string> openHelp)
     {
         List<Contract> active = contracts.Active.ToList();
+        List<ExternalNode> races = Challenges();
         var offers = NetrunUI.Cached("board.offers." + _fixerId + "." + _difficulty + "." + _sort, () =>
         {
             var all = fixers.Fixers.Where(f => !f.IsSilent && (_fixerId < 0 || f.Id == _fixerId))
@@ -205,7 +206,7 @@ public static class ContractsTab
 
         float width = rect.width - 16f;
         float height = 2 * SectionHeight + 20f
-                       + (active.Count == 0 ? EmptyH : active.Sum(c => ActiveHeight(width) + CardGap))
+                       + (active.Count + races.Count == 0 ? EmptyH : (active.Count + races.Count) * (ActiveHeight(width) + CardGap))
                        + offers.Sum(o => OfferHeight(o.contract, width) + CardGap) + groups * GroupHeight + (offers.Count == 0 ? EmptyH : 0f);
         var view = new Rect(0f, 0f, width, height);
         if (_scrollTop)
@@ -219,8 +220,14 @@ public static class ContractsTab
 
         float gAct = y;
         y = NetrunUI.Section(new Rect(0f, y, width, SectionHeight), "NR_BoardActive".Translate());
-        if (active.Count == 0)
+        if (active.Count + races.Count == 0)
             y = Empty(width, y, "NR_ContractsNoActive".Translate());
+        foreach (ExternalNode race in races)
+        {
+            float h = ActiveHeight(width);
+            DrawChallenge(new Rect(0f, y, width, h), race);
+            y += h + CardGap;
+        }
         foreach (Contract contract in active)
         {
             float h = ActiveHeight(width);
@@ -499,6 +506,58 @@ public static class ContractsTab
                 Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenGatewayAt(target.MapNodeId);
                 GatewayView.FocusNode(target.MapNodeId, target.Id);
             }
+        }
+    }
+
+    /// <summary>Crew race challenges the player accepted and has not run yet (Maxim, 2026-10-28: shown like contracts).</summary>
+    private static List<ExternalNode> Challenges()
+        => GatewayManager.Get()?.AllBranches.Where(b => b.ChallengeCrew >= 0 && b.Rival && !b.Hidden).ToList() ?? [];
+
+    private static void DrawChallenge(Rect rect, ExternalNode node)
+    {
+        Faction crew = Find.FactionManager.AllFactions.FirstOrDefault(f => f.loadID == node.ChallengeCrew);
+        NetrunUI.Box(rect, NetrunUI.BgCard, new Color(NetrunUI.Bad.r, NetrunUI.Bad.g, NetrunUI.Bad.b, 0.5f));
+        NetrunUI.ScanlineOnce(rect, NetrunUI.Bad, NetrunUI.HoverTime(rect), 0.5f);
+        var icon = new Rect(rect.x + 4f + Pad, rect.y + Pad + 4f, IconSize, IconSize);
+        if (NetrunTex.CyberIcon("Event_Rival") is { } tex)
+        {
+            GUI.color = NetrunUI.Bad;
+            GUI.DrawTexture(icon, tex);
+            GUI.color = Color.white;
+        }
+
+        float x = icon.xMax + 14f;
+        float rightW = 200f;
+        float width = rect.xMax - Pad - rightW - 12f - x;
+        float y = rect.y + Pad;
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(x, y - 2f, width, 30f), ((string)"NR_CrewRaceLabel".Translate(crew?.Name ?? "?")).Truncate(width));
+        Text.Font = GameFont.Small;
+        y += 30f;
+        int left = node.ExpireTick >= 0 ? Mathf.Max(0, node.ExpireTick - Find.TickManager.TicksGame) : 0;
+        NetrunUI.Bar(new Rect(x, y, width, 14f), node.ExpireTick >= 0 ? left / (2f * GenDate.TicksPerDay) : 1f, NetrunUI.Bad);
+        y += 20f;
+        Text.Font = GameFont.Tiny;
+        Widgets.Label(new Rect(x, y, width, 18f), (node.Name + " · ").Colorize(NetrunUI.Muted)
+            + "NR_BoardLeft".Translate(left.ToStringTicksToPeriod()).Colorize(left < GenDate.TicksPerDay ? NetrunUI.Bad : NetrunUI.Muted));
+        Text.Font = GameFont.Small;
+        NetrunUI.Tip(new Rect(x, rect.y + Pad + 30f, width, 40f), "NR_BoardChallengeTip".Translate(crew?.Name ?? "?", node.Name));
+
+        Text.Anchor = TextAnchor.UpperRight;
+        Text.Font = GameFont.Medium;
+        Widgets.Label(new Rect(rect.xMax - Pad - rightW, y - 54f, rightW, 30f), "NR_BoardChallengeFame".Translate().Colorize(NetrunUI.Warn));
+        Text.Font = GameFont.Small;
+        Text.Anchor = TextAnchor.UpperLeft;
+
+        if (node.MapNodeId < 0 || !GatewayManager.MapReady)
+            return;
+        string show = "NR_MapShow".Translate();
+        float sw = NetrunUI.ButtonWidth(show);
+        if (NetrunUI.Button(new Rect(rect.xMax - Pad - sw, rect.yMax - Pad - 30f, sw, 30f), show, NetrunUI.Warn, true, "NR_BoardShowTip".Translate(node.Name)))
+        {
+            GatewayView.FocusNode(node.MapNodeId, node.Id);
+            Find.WindowStack.WindowOfType<Dialog_NetTerminal>()?.OpenGatewayAt(node.MapNodeId);
+            GatewayView.FocusNode(node.MapNodeId, node.Id);
         }
     }
 

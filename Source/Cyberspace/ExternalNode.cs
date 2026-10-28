@@ -167,6 +167,8 @@ public class ExternalNode : IExposable
     public int ExpireTick = -1;
     /// <summary>Another netrunner is after the same files.</summary>
     public bool Rival;
+    /// <summary>A crew's race challenge the player accepted: the crew's faction loadID, -1 for none.</summary>
+    public int ChallengeCrew = -1;
     /// <summary>A trap that looks rich (hidden from the player until scanned in a dive).</summary>
     public bool Honeypot;
     /// <summary>A runner's deep scan or the sprung trap showed the honeypot: its hub plate marks it.</summary>
@@ -456,6 +458,7 @@ public class ExternalNode : IExposable
         Scribe_Values.Look(ref Contract, "contract");
         Scribe_Values.Look(ref ExpireTick, "expireTick", -1);
         Scribe_Values.Look(ref Rival, "rival");
+        Scribe_Values.Look(ref ChallengeCrew, "challengeCrew", -1);
         Scribe_Values.Look(ref Honeypot, "honeypot");
         Scribe_Values.Look(ref HoneypotKnown, "honeypotKnown");
         Scribe_Values.Look(ref WildAI, "wildAI");

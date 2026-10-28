@@ -213,7 +213,10 @@ public class CrewSim : GameComponent, INetrunCleanable
     /// <summary>A dive raced a rival crew: whoever got the files takes fame, and relations shift.</summary>
     public void NotifyRace(DiveSession dive, bool colonyWon)
     {
-        Faction crew = NetFactions.Crews.RandomElementWithFallback();
+        // The crew that threw the challenge; a plain rival on a node is some crew.
+        Faction crew = dive?.Node is { ChallengeCrew: >= 0 } race
+            ? Find.FactionManager.AllFactions.FirstOrDefault(f => f.loadID == race.ChallengeCrew)
+            : NetFactions.Crews.RandomElementWithFallback();
         if (crew == null || dive?.Node == null || !dive.Node.Rival)
             return;
         NetRanking ranking = NetRanking.Get();
@@ -307,6 +310,7 @@ public static class CrewDeals
             return;
         ExternalNode node = ExternalNode.ForDistrict(gateway.NextBranchId(), District.Market);
         node.Rival = true;
+        node.ChallengeCrew = crew.loadID;
         node.Hidden = false;
         node.ExpireTick = Find.TickManager.TicksGame + 2 * GenDate.TicksPerDay;
         gateway.AddBranch(node, District.Market, District.Ruins, District.Entertainment);

@@ -7,6 +7,8 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Offline hubs and nodes on the map keep their shape, drawn in grey.
 - Uncharted hubs no longer show a question mark; they are already dimmed.
 - Every awake AI after the first raises the minimum Heat: Heat now climbs to that minimum on its own, a fixer's scrub stops there and the scrub window says so; waking a second AI asks first; the Cyberpedia Heat page explains it.
+- An accepted crew challenge shows among active contracts (time left, a Show button) and its hub pulses on the map like a contract target.
+- Fixed: the fame of a challenge race went to a random crew instead of the one that threw it.
 
 ## [1.2.2] - 2026-10-23
 - The data courier leaves at once when his hunters are beaten, he is unhurt and no other enemy on the map still fights (sleeping mechs, hive insects and shamblers do not count).
