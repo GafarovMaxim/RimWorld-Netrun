@@ -121,7 +121,7 @@ public class AIEventManager : GameComponent
         letter.Setup(def, context);
         letter.StartTimeout((int)(NetrunDefOf.NR_AI.eventAnswerDays * GenDate.TicksPerDay));
         NetrunSound.Play("AI_Whisper");
-        Find.LetterStack.ReceiveLetter(letter);
+        EventPacing.SendChoice(letter);
     }
 
     public static void Choose(AIEventDef def, int index, AIEventContext context)

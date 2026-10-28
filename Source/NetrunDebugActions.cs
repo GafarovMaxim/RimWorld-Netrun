@@ -578,6 +578,38 @@ public static class NetrunDebugActions
             Messages.Message(d.defName + ": could not fire here (conditions)", MessageTypeDefOf.RejectInput, historical: false);
     }
 
+    [DebugAction(Events, "Threat: show cooldowns", allowedGameStates = Playing, displayPriority = 65)]
+    private static void ThreatCooldowns() => Report(EventPacing.Get()?.ThreatReport());
+
+    [DebugAction(Events, "Threat: force scheduler roll...", allowedGameStates = Playing, displayPriority = 64)]
+    private static void ThreatRoll()
+    {
+        EventPacing pacing = EventPacing.Get();
+        if (pacing == null)
+            return;
+        Find.WindowStack.Add(new FloatMenu(
+        [
+            new FloatMenuOption("normal chance", () => Report([pacing.Roll(false)])),
+            new FloatMenuOption("guaranteed (no-overlap still holds)", () => Report([pacing.Roll(true)])),
+            new FloatMenuOption("guaranteed, cooldowns cleared", () =>
+            {
+                pacing.DevSkipThreatCooldowns();
+                Report([pacing.Roll(true)]);
+            }),
+        ]));
+    }
+
+    [DebugAction(Events, "Letters: show queue", allowedGameStates = Playing, displayPriority = 63)]
+    private static void LetterQueue() => Report(EventPacing.Get()?.LetterReport());
+
+    private static void Report(List<string> lines)
+    {
+        if (lines == null)
+            return;
+        Log.Message("[Netrun] " + string.Join("\n", lines));
+        Done(string.Join("; ", lines));
+    }
+
     // ---- Test raids: no Heat, alert or hostility conditions ----
 
     [DebugAction(Raids, "Raid: corporation...", allowedGameStates = OnMap, displayPriority = 100)]

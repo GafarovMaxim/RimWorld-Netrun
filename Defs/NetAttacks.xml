@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Network attacks: the storyteller picks them only once Heat reaches minLevel (see IncidentWorker_NetAttack) -->
+  <!-- Network attacks: Netrun's own threat scheduler (EventPacing, Defs/Pacing.xml) picks them by Heat, once Heat reaches minLevel;
+       baseChance 0 keeps them out of the storyteller's pool, weight is the scheduler's pick weight -->
 
   <IncidentDef>
     <defName>NR_NetAttack_NeuralNoise</defName>
@@ -11,13 +12,14 @@
       <li>Map_PlayerHome</li>
     </targetTags>
     <workerClass>Netrun.IncidentWorker_NetNeuralNoise</workerClass>
-    <baseChance>0.6</baseChance>
+    <baseChance>0</baseChance>
     <minRefireDays>8</minRefireDays>
     <modExtensions>
       <li Class="Netrun.NetAttackExtension">
         <minLevel>Noticed</minLevel>
         <!-- Attack strength = this + Heat level (0-4); against the node defense -->
         <strength>3</strength>
+        <weight>0.6</weight>
       </li>
     </modExtensions>
   </IncidentDef>
@@ -30,13 +32,14 @@
       <li>Map_PlayerHome</li>
     </targetTags>
     <workerClass>Netrun.IncidentWorker_NetDataTheft</workerClass>
-    <baseChance>0.6</baseChance>
+    <baseChance>0</baseChance>
     <minRefireDays>10</minRefireDays>
     <modExtensions>
       <li Class="Netrun.NetAttackExtension">
         <minLevel>Noticed</minLevel>
         <!-- Attack strength = this + Heat level (0-4); against the node defense -->
         <strength>4</strength>
+        <weight>0.6</weight>
       </li>
     </modExtensions>
   </IncidentDef>
@@ -49,13 +52,14 @@
       <li>Map_PlayerHome</li>
     </targetTags>
     <workerClass>Netrun.IncidentWorker_NetBreakdown</workerClass>
-    <baseChance>0.7</baseChance>
+    <baseChance>0</baseChance>
     <minRefireDays>8</minRefireDays>
     <modExtensions>
       <li Class="Netrun.NetAttackExtension">
         <minLevel>Tracked</minLevel>
         <!-- Attack strength = this + Heat level (0-4); against the node defense -->
         <strength>4</strength>
+        <weight>0.7</weight>
       </li>
     </modExtensions>
   </IncidentDef>
@@ -79,13 +83,14 @@
       <li>Map_PlayerHome</li>
     </targetTags>
     <workerClass>Netrun.IncidentWorker_NetPowerSurge</workerClass>
-    <baseChance>0.5</baseChance>
+    <baseChance>0</baseChance>
     <minRefireDays>10</minRefireDays>
     <modExtensions>
       <li Class="Netrun.NetAttackExtension">
         <minLevel>Tracked</minLevel>
         <!-- Attack strength = this + Heat level (0-4); against the node defense -->
         <strength>5</strength>
+        <weight>0.5</weight>
       </li>
     </modExtensions>
   </IncidentDef>
@@ -98,13 +103,14 @@
       <li>Map_PlayerHome</li>
     </targetTags>
     <workerClass>Netrun.IncidentWorker_NetRansom</workerClass>
-    <baseChance>0.5</baseChance>
+    <baseChance>0</baseChance>
     <minRefireDays>15</minRefireDays>
     <modExtensions>
       <li Class="Netrun.NetAttackExtension">
         <minLevel>Target</minLevel>
         <!-- Attack strength = this + Heat level (0-4); against the node defense -->
         <strength>6</strength>
+        <weight>0.5</weight>
       </li>
     </modExtensions>
   </IncidentDef>

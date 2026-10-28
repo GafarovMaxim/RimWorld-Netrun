@@ -331,6 +331,8 @@ public class MapEventsManager : GameComponent, INetrunCleanable
         CheckHunters();
         CheckCounterHack();
         TryScheduledEvent();
+        if (Find.TickManager.TicksGame % EventPacing.CheckInterval == 0)
+            EventPacing.Get()?.Check();
     }
 
     // ---- Our own schedule for map events ----
@@ -442,7 +444,7 @@ public class IncidentWorker_DataCourier : IncidentWorker
         letter.Text = "NR_CourierOfferText".Translate(CourierReward.Value(map), Settings.courierHuntersHours.min, Settings.courierHuntersHours.max);
         letter.Map = map;
         letter.StartTimeout((int)(Settings.courierOfferHours * GenDate.TicksPerHour));
-        Find.LetterStack.ReceiveLetter(letter);
+        EventPacing.SendChoice(letter);
         return true;
     }
 

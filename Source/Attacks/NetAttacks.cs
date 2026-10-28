@@ -7,16 +7,18 @@ using Verse;
 
 namespace Netrun;
 
-/// <summary>Per-incident settings: the Heat level it needs before the storyteller may pick it.</summary>
+/// <summary>Per-incident settings: the Heat level it needs and its weight in the threat scheduler (EventPacing).</summary>
 public class NetAttackExtension : DefModExtension
 {
     public HeatLevel minLevel = HeatLevel.Noticed;
     /// <summary>Base strength against the node defense; the Heat level (0-4) is added on top.</summary>
     public int strength = 4;
+    /// <summary>Weight in the threat scheduler's pick (EventPacing); the storyteller does not pick these (baseChance 0).</summary>
+    public float weight = 1f;
 }
 
 /// <summary>
-/// Network attacks: storyteller incidents that only fire once the colony is noticed online.
+/// Network attacks: fired by Netrun's threat scheduler (EventPacing) by Heat level, not by the storyteller.
 /// A netrunner in a cyberpod and a Warden or Predator AI on the server may stop them.
 /// </summary>
 public abstract class IncidentWorker_NetAttack : IncidentWorker

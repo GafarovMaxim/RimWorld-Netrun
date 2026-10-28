@@ -58,6 +58,7 @@ public static class NetrunDefOf
     public static UniqueBraindanceSettingsDef NR_UniqueBraindance;
     public static IncidentDef NR_NetAttack_Breakdown;
     public static MapEventsSettingsDef NR_MapEvents;
+    public static PacingSettingsDef NR_Pacing;
     public static IncidentDef NR_MapHack;
     public static ThingDef NR_DistressServer;
     public static JobDef NR_ConnectDistressServer;

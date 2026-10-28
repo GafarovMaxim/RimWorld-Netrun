@@ -13,4 +13,8 @@
   <NR_LogMercRaid>Raid: {0}</NR_LogMercRaid>
   <NR_LogNetAttack>Net attack: {0}</NR_LogNetAttack>
   <NR_LogNetAttackBlocked>Net attack repelled: {0} ({1})</NR_LogNetAttackBlocked>
+  <NR_ThreatWarnLabel>You have been spotted</NR_ThreatWarnLabel>
+  <NR_ThreatWarn>Your trace just reached "{0}". Someone in the net noticed and is getting ready: expect a network attack in {1}–{2} hours.
+
+A netrunner in a cyberpod or a Warden or Predator AI on the server can stop it; network isolation keeps it out.</NR_ThreatWarn>
 </LanguageData>

@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Network attacks come from Netrun's own daily roll by Heat (8% Noticed, 15% Tracked, 25% Target, 40% Red Zone) instead of the storyteller, with a warning and a guaranteed attack 12-36 h after Heat first crosses 50 or 75 in a season; they never come during a storyteller threat or 24 h after it, at most once in 3 days, and Netrun choice letters come at most 2 a day (the rest wait, a deadline letter at most half its time).
 - Neural load: every dive adds 25% load (fades 50% a day); from 50% the Netsick a dive gives is x2, from 100% x3 (two dives a day are free). Shown in the dive summary and on the runner.
 - Fixed: the AI server and racks never heated their room (they had no tick for the heat pusher); the server now heats like a small heater (18), a rack 6.
 - Heat cools by 3 + 4% of its current value a day at every level (no more halving at Target and above; the cooling setting is now a percent); vanilla enemy raids on your colony get more points with Heat (x1.1 Tracked, x1.2 Target, x1.25 Red Zone), not the mercenary raids; both are shown on the Heat ring and screen.

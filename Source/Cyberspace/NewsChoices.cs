@@ -69,7 +69,8 @@ public class NewsChoices : GameComponent, INetrunCleanable
             letter.Text = text;
             letter.ChoiceId = choice.Id;
             letter.StartTimeout((int)(days * GenDate.TicksPerDay));
-            Find.LetterStack.ReceiveLetter(letter);
+            // Optional for the letter cap: the choice also waits in the news line.
+            EventPacing.SendChoice(letter, optional: true);
         }
         else
         {

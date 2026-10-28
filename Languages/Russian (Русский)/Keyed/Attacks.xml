@@ -13,4 +13,8 @@
   <NR_LogMercRaid>Рейд: {0}</NR_LogMercRaid>
   <NR_LogNetAttack>Сетевая атака: {0}</NR_LogNetAttack>
   <NR_LogNetAttackBlocked>Сетевая атака отбита: {0} ({1})</NR_LogNetAttackBlocked>
+  <NR_ThreatWarnLabel>Вас засекли</NR_ThreatWarnLabel>
+  <NR_ThreatWarn>Ваш след дошёл до уровня «{0}». Кто-то в сети это заметил и готовится: ждите сетевую атаку через {1}–{2} ч.
+
+Нетраннер в капсуле или ИИ Страж либо Хищник на сервере могут её остановить; сетевая изоляция её не пропустит.</NR_ThreatWarn>
 </LanguageData>
