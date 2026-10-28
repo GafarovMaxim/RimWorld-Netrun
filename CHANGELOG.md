@@ -10,6 +10,8 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - An accepted crew challenge shows among active contracts (time left, a Show button) and its hub pulses on the map like a contract target.
 - Studio: raw recording rows show how many chips the stack holds, and the raw count is in chips, not stacks.
 - Studio: "Edit all" no longer teleports the chips; the best editor gathers every raw stack, carries them to the network console and edits them there.
+- Settings: "Cyberpods need fuel" (on by default). Off, cyberpods hack without fuel and are never refuelled; a dive still costs cyberdata from storage.
+- Fixed: a gravship could not land on the distress signal site.
 - Fixed: the fame of a challenge race went to a random crew instead of the one that threw it.
 
 ## [1.2.2] - 2026-10-23

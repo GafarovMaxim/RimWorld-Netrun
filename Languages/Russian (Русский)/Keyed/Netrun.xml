@@ -63,6 +63,8 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsAIEventFrequencyValue>x{0}</NR_SettingsAIEventFrequencyValue>
   <NR_SettingsDiveReport>Показывать итоги нырка</NR_SettingsDiveReport>
   <NR_SettingsDiveReportTip>После выхода из нырка открывать окно с добычей, затратами, Heat и Netsick.</NR_SettingsDiveReportTip>
+  <NR_SettingsPodFuel>Капсулам нужно топливо</NR_SettingsPodFuel>
+  <NR_SettingsPodFuelTip>Выключено: капсулы взламывают без топлива из киберданных, и их не заправляют. Нырок по-прежнему стоит киберданных, они берутся со склада.</NR_SettingsPodFuelTip>
   <NR_SettingsNewcomer>Сетевые события — только после выхода колонии в сеть</NR_SettingsNewcomer>
   <NR_SettingsNewcomerTip>Угрозы Netrun (сетевые атаки, охота корпов, наёмники, события ИИ и фиксеров) не приходят, пока колония не вошла в сеть: любой Heat, построена капсула, консоль или ИИ-сервер, колонист с кибер-линком или нырок. Чёрный рынок и сигнал бедствия приходят всегда.</NR_SettingsNewcomerTip>
   <NR_SettingsGroupGameplay>Геймплей</NR_SettingsGroupGameplay>

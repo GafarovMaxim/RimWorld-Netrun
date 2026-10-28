@@ -371,7 +371,7 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     public static int PodFuelCyberdata(Building_Cyberpod pod)
     {
         CompRefuelable fuel = pod?.GetComp<CompRefuelable>();
-        if (fuel == null || fuel.Props.FuelMultiplierCurrentDifficulty <= 0f)
+        if (fuel == null || fuel.Props.FuelMultiplierCurrentDifficulty <= 0f || !NetrunMod.Settings.PodFuel)
             return 0;
         return UnityEngine.Mathf.FloorToInt(fuel.Fuel / fuel.Props.FuelMultiplierCurrentDifficulty);
     }

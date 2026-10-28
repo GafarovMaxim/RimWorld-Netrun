@@ -121,6 +121,8 @@
     <expandingIconTexture>UI/Netrun/Cyberspace/Event_DistressSignal</expandingIconTexture>
     <applyFactionColorToSiteTexture>false</applyFactionColorToSiteTexture>
     <requiresFaction>false</requiresFaction>
+    <!-- Odyssey: a gravship may land on the site like on vanilla stashes (Behemoth64, 2026-10-25). -->
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
     <tags>
       <li>NR_DistressSite</li>
     </tags>
