@@ -211,6 +211,7 @@
   <!-- AI server -->
   <ThingDef ParentName="BuildingBase">
     <defName>NR_AIServer</defName>
+    <tickerType>Rare</tickerType>
     <defaultPlacingRot>South</defaultPlacingRot>
     <thingCategories>
       <li>BuildingsMisc</li>
@@ -279,6 +280,7 @@
   <!-- Server rack: an extension built next to the AI server, +1 AI slot each (up to 2 racks) -->
   <ThingDef ParentName="BuildingBase">
     <defName>NR_AIServerRack</defName>
+    <tickerType>Rare</tickerType>
     <label>AI server rack</label>
     <description>An extension rack for the AI server, built around a rare AI core module. Linked to a powered server, it gives one more slot for an AI. Up to two racks can link to the server.</description>
     <thingClass>Building</thingClass>
