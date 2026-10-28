@@ -65,6 +65,8 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsDiveReportTip>After leaving a dive, open a window with the haul, costs, Heat and Netsick.</NR_SettingsDiveReportTip>
   <NR_SettingsPodFuel>Cyberpods need fuel</NR_SettingsPodFuel>
   <NR_SettingsPodFuelTip>Off: cyberpods hack without cyberdata fuel and are never refuelled. A dive still costs cyberdata, taken from storage.</NR_SettingsPodFuelTip>
+  <NR_SettingsCostlierHE>Costlier Hacking Expansion crafting</NR_SettingsCostlierHE>
+  <NR_SettingsCostlierHETip>On: cyberlinks, the cyberpod and the basic upgrades (jammer, remote access port, optimization) cost more to craft; cyberlinks need a higher Crafting skill. Applies after a game restart.</NR_SettingsCostlierHETip>
   <NR_SettingsNewcomer>Network events only after the colony goes online</NR_SettingsNewcomer>
   <NR_SettingsNewcomerTip>Netrun threats (net attacks, corporate hunts, mercenaries, AI and fixer events) wait until the colony has touched the net: any Heat, a cyberpod, console or AI server built, a colonist with a cyberlink, or a dive. Black market and distress signal come anyway.</NR_SettingsNewcomerTip>
   <NR_SettingsGroupGameplay>Gameplay</NR_SettingsGroupGameplay>

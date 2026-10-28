@@ -49,6 +49,8 @@ public class NetrunSettings : ModSettings
     public bool NewcomerProtection = true;
     /// <summary>Off: cyberpods hack without fuel and are never refuelled; dives cost cyberdata from storage (Behemoth64, 2026-10-25).</summary>
     public bool PodFuel = true;
+    /// <summary>T0.3: Hacking Expansion cyberlinks, cyberpod and basic upgrades cost more to craft (Patches/HE_Costs.xml, applied at def load: needs a restart).</summary>
+    public bool CostlierHE = true;
     /// <summary>D3: a surveillance contract counts only a runner standing in its hub (off: any pod, as before).</summary>
     public bool SurveillanceInNode = true;
     /// <summary>D5: isolating the network has a 6-hour cooldown, and a very short isolation costs trace and Netsick.</summary>
@@ -493,6 +495,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
         Toggle("NR_SettingsGradualDistricts", ref GradualDistricts, "NR_SettingsGradualDistrictsTip");
         Toggle("NR_SettingsPodFuel", ref PodFuel, "NR_SettingsPodFuelTip");
+        Toggle("NR_SettingsCostlierHE", ref CostlierHE, "NR_SettingsCostlierHETip");
 
         // Build this game's map again with the size and layout above (Maxim, 2026-10-16); red, behind a confirmation.
         if (Current.Game != null && NetMapManager.Get() is { Ready: true } netMap)
@@ -757,6 +760,7 @@ public class NetrunSettings : ModSettings
         MapLayout = -1;
         NewcomerProtection = true;
         PodFuel = true;
+        CostlierHE = true;
         SurveillanceInNode = true;
         IsolationCooldown = true;
         ProtectedHubs = true;
@@ -816,6 +820,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref ShowDiveReport, "showDiveReport", true);
         Scribe_Values.Look(ref NewcomerProtection, "newcomerProtection", true);
         Scribe_Values.Look(ref PodFuel, "podFuel", true);
+        Scribe_Values.Look(ref CostlierHE, "costlierHE", true);
         Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref IsolationCooldown, "isolationCooldown", true);
         Scribe_Values.Look(ref ProtectedHubs, "protectedHubs", true);

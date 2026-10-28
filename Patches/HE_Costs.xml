@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Costlier crafting of Hacking Expansion items (docs/BALANCE_PLAN.md, section 2). Guarded by the "Costlier HE crafting"
+       setting, read when the defs load, so a change needs a game restart. Cyberlink MarketValue is computed from its costs. -->
+  <Operation Class="Netrun.PatchOperationIfSetting">
+    <operations>
+
+      <!-- Cyberlink: 10 data, 6 components, 50 steel; Crafting 6 -> 20 data, 4 components, 1 spacer component, 25 plasteel; Crafting 8.
+           skillRequirements lives in the abstract USH_CyberlinkBodyPartBase (shared with the upgrades), so it is added on the def. -->
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_Cyberlink"]/costList</xpath>
+        <value>
+          <costList>
+            <USH_Cyberdata>20</USH_Cyberdata>
+            <ComponentIndustrial>4</ComponentIndustrial>
+            <ComponentSpacer>1</ComponentSpacer>
+            <Plasteel>25</Plasteel>
+          </costList>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="USH_Cyberlink"]/recipeMaker</xpath>
+        <value>
+          <skillRequirements>
+            <Crafting>8</Crafting>
+          </skillRequirements>
+        </value>
+      </li>
+
+      <!-- Advanced cyberlink: 4 advanced data, 6 spacer components, 50 steel; Crafting 6 -> 9 advanced data (+5), + 40 plasteel; Crafting 10. -->
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_AdvancedCyberlink"]/costList</xpath>
+        <value>
+          <costList>
+            <USH_AdvancedCyberdata>9</USH_AdvancedCyberdata>
+            <ComponentSpacer>6</ComponentSpacer>
+            <Steel>50</Steel>
+            <Plasteel>40</Plasteel>
+          </costList>
+        </value>
+      </li>
+      <li Class="PatchOperationAdd">
+        <xpath>Defs/ThingDef[defName="USH_AdvancedCyberlink"]/recipeMaker</xpath>
+        <value>
+          <skillRequirements>
+            <Crafting>10</Crafting>
+          </skillRequirements>
+        </value>
+      </li>
+
+      <!-- Cyberpod: 5 uranium, 12 data, 4 components -> 10 uranium, 20 data, 6 components (steel stays 180). -->
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_Cyberpod"]/costList</xpath>
+        <value>
+          <costList>
+            <Steel>180</Steel>
+            <Uranium>10</Uranium>
+            <USH_Cyberdata>20</USH_Cyberdata>
+            <ComponentIndustrial>6</ComponentIndustrial>
+          </costList>
+        </value>
+      </li>
+
+      <!-- Basic upgrades: only the cyberdata count changes (jammer 5 -> 10, remote access port 5 -> 10, optimization 2 -> 5). -->
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_JammerKit"]/costList/USH_Cyberdata</xpath>
+        <value><USH_Cyberdata>10</USH_Cyberdata></value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_RemoteAccessPort"]/costList/USH_Cyberdata</xpath>
+        <value><USH_Cyberdata>10</USH_Cyberdata></value>
+      </li>
+      <li Class="PatchOperationReplace">
+        <xpath>Defs/ThingDef[defName="USH_OptimizationModule"]/costList/USH_Cyberdata</xpath>
+        <value><USH_Cyberdata>5</USH_Cyberdata></value>
+      </li>
+
+    </operations>
+  </Operation>
+
+</Patch>
