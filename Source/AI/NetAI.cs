@@ -112,7 +112,7 @@ public class NetAI : IExposable
             if (!InServer)
                 return "NR_AILocationFragment".Translate();
             if (!Powered)
-                return "NR_AILocationServerOff".Translate(Server.LabelCap);
+                return Server.GetComp<CompAIServer>()?.HeatAsleep == true ? "NR_AILocationServerHot".Translate(Server.LabelCap) : "NR_AILocationServerOff".Translate(Server.LabelCap);
             if (InCoprocessor)
                 return Isolated ? "NR_AILocationIsolated".Translate(Server.LabelCap) : "NR_AILocationCoprocessor".Translate(Server.LabelCap);
             if (Isolated)

@@ -41,6 +41,7 @@
   <NR_AILocationFragment>Sleeping in a fragment.</NR_AILocationFragment>
   <NR_AILocationServer>Lives in: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Asleep: {0} has no power.</NR_AILocationServerOff>
+  <NR_AILocationServerHot>Asleep: {0} is overheated.</NR_AILocationServerHot>
   <NR_AIFellBackToFragment>The server was destroyed. {0} fell back into a fragment.</NR_AIFellBackToFragment>
 
   <!-- Awakening -->

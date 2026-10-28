@@ -263,7 +263,7 @@
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Breakdownable" />
       <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
+        <compClass>Netrun.CompHeatPusherAIHost</compClass>
         <heatPerSecond>8</heatPerSecond>
         <heatPushMaxTemperature>60</heatPushMaxTemperature>
       </li>
@@ -318,7 +318,7 @@
       </li>
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusherPowered</compClass>
+        <compClass>Netrun.CompHeatPusherAIHost</compClass>
         <heatPerSecond>3</heatPerSecond>
         <heatPushMaxTemperature>60</heatPushMaxTemperature>
       </li>

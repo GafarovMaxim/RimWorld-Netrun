@@ -146,6 +146,13 @@ public class CompAIServer : ThingComp
     }
 }
 
+/// <summary>Server and racks push no heat while the server sleeps from heat, so the room can cool and wake it.</summary>
+public class CompHeatPusherAIHost : CompHeatPusherPowered
+{
+    public override bool ShouldPushHeatNow => base.ShouldPushHeatNow
+        && parent.Map?.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).FirstOrDefault()?.GetComp<CompAIServer>()?.HeatAsleep != true;
+}
+
 /// <summary>Only one AI server per colony map (blueprints and frames count too).</summary>
 public class PlaceWorker_OnlyOneAIServer : PlaceWorker
 {

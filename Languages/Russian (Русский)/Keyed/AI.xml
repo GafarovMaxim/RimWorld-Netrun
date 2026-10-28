@@ -41,6 +41,7 @@
   <NR_AILocationFragment>Спит в осколке.</NR_AILocationFragment>
   <NR_AILocationServer>Живёт в: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Спит: {0} без питания.</NR_AILocationServerOff>
+  <NR_AILocationServerHot>Спит: {0} перегрет.</NR_AILocationServerHot>
   <NR_AIFellBackToFragment>Сервер разрушен. {0} вернулся в осколок.</NR_AIFellBackToFragment>
 
   <!-- Пробуждение -->
