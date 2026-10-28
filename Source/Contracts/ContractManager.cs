@@ -207,6 +207,10 @@ public class ContractManager : GameComponent, INetrunCleanable
             types.Add(ContractType.LayLow);
         if (PawnsFinder.AllMaps_FreeColonists.Any(IsRookie))
             types.Add(ContractType.Rookie);
+        if (StreetOnly)
+            types.RemoveAll(t => !Settings.streetContracts.Contains(t));
+        if (types.Count == 0)
+            types.Add(ContractType.DataDelivery);
         return types;
     }
 
@@ -290,6 +294,16 @@ public class ContractManager : GameComponent, INetrunCleanable
         }
     }
 
+    /// <summary>A scrub at a fixer: "lay low" counts only natural cooling, so it fails (except one taken under the old rules).</summary>
+    public void NotifyFixerScrub()
+    {
+        foreach (Contract contract in Active.Where(c => c.Type == ContractType.LayLow && !c.OldRules).ToList())
+            Fail(contract, "NR_ContractFailedScrub");
+    }
+
+    /// <summary>Red Zone: fixers only give "street" work.</summary>
+    private static bool StreetOnly => (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.RedZone && !Settings.streetContracts.NullOrEmpty();
+
     /// <summary>A braindance chip was edited: one of the wanted mood counts for a clean lab job.</summary>
     public void NotifyChipEdited(BraindanceMood mood)
     {
@@ -326,6 +340,8 @@ public class ContractManager : GameComponent, INetrunCleanable
             return "NR_ContractAlreadyActive".Translate(fixer.Name);
         if (contract.Type == ContractType.QuietRun && HeatTracker.Get()?.Level > HeatLevel.Tracked)
             return "NR_ContractTooLoud".Translate();
+        if (StreetOnly && !Settings.streetContracts.Contains(contract.Type))
+            return "NR_ContractRedZoneStreet".Translate();
         return true;
     }
 

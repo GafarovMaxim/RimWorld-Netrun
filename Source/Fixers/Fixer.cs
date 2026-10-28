@@ -50,6 +50,8 @@ public class Fixer : IExposable
     public int JoinedTick;
     /// <summary>A Siren AI talked this fixer round: 20% off everything for good.</summary>
     public bool SirenDiscount;
+    /// <summary>When this Cleaner last did an instant scrub (the cooldown counts from it).</summary>
+    public int LastScrubTick = -999999;
 
     private static FixerSettingsDef Settings => NetrunDefOf.NR_Fixers;
 
@@ -62,6 +64,7 @@ public class Fixer : IExposable
     public bool WaitsForPin => _pinned != 1 && Reputation >= Settings.pinnedReputation;
     public bool TraitKnown => TraitRevealed || Reputation >= Settings.traitRevealReputation;
     public bool HasShop => Specialty == FixerSpecialty.Fence;
+    public bool IsCleaner => Specialty == FixerSpecialty.Cleaner;
     public bool IsNew => Find.TickManager.TicksGame - JoinedTick < Settings.newcomerDays * GenDate.TicksPerDay;
 
     public bool IsSilent => Find.TickManager.TicksGame < SilentUntilTick;
@@ -121,11 +124,23 @@ public class Fixer : IExposable
         }
     }
 
-    public float HeatPerCyberdata => Settings.heatPerCyberdata * ScrubLevelFactor * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
-    public float HeatPerAdvancedCyberdata => Settings.heatPerAdvancedCyberdata * ScrubLevelFactor * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+    public float HeatPerCyberdata => HeatPerUnitAt(HeatTracker.Get()?.Heat ?? 0f, false);
+    public float HeatPerAdvancedCyberdata => HeatPerUnitAt(HeatTracker.Get()?.Heat ?? 0f, true);
 
-    /// <summary>The scrub gets less effective as the colony's trace grows.</summary>
-    private static float ScrubLevelFactor => LevelFactor(HeatTracker.Get()?.Level ?? HeatLevel.Shadow);
+    public int ScrubCooldownTicksLeft => Mathf.Max(0, LastScrubTick + Settings.cleanerScrubCooldownDays * GenDate.TicksPerDay - Find.TickManager.TicksGame);
+
+    /// <summary>An instant scrub: only a Cleaner does it, once per cooldown.</summary>
+    public AcceptanceReport CanScrubNow
+        => !IsCleaner ? "NR_ScrubCleanerOnly".Translate()
+            : ScrubCooldownTicksLeft > 0 ? "NR_ScrubCooldown".Translate(Name, ScrubCooldownTicksLeft.ToStringTicksToPeriod())
+            : (AcceptanceReport)true;
+
+    /// <summary>Most Heat one instant scrub takes off at the current level.</summary>
+    public static float ScrubCap => (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.RedZone ? Settings.cleanerScrubMaxHeatRedZone : Settings.cleanerScrubMaxHeat;
+
+    /// <summary>Cyberdata for one slow cooling deal: double in the Red Zone, except at a Cleaner.</summary>
+    public int CoolingCost => Mathf.CeilToInt(Settings.coolingCost
+        * (!IsCleaner && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.RedZone ? Settings.redZoneCoolingPriceFactor : 1f));
 
     private static float LevelFactor(HeatLevel level)
     {
@@ -133,10 +148,16 @@ public class Fixer : IExposable
         return factors.NullOrEmpty() ? 1f : factors[Mathf.Clamp((int)level, 0, factors.Count - 1)];
     }
 
-    /// <summary>Heat one cyberdata (or one advanced) removes when the Heat stands at <paramref name="heat"/>.</summary>
+    /// <summary>
+    /// Heat one cyberdata (or one advanced) removes when the Heat stands at <paramref name="heat"/>. Reputation and
+    /// discounts do not change it (T1.2); the Red Zone doubles the price.
+    /// </summary>
     public float HeatPerUnitAt(float heat, bool advanced)
-        => (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(HeatLevelUtility.LevelOf(heat))
-           * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / PriceFactor;
+    {
+        HeatLevel level = HeatLevelUtility.LevelOf(heat);
+        return (advanced ? Settings.heatPerAdvancedCyberdata : Settings.heatPerCyberdata) * LevelFactor(level)
+               * TraitScrubFactor * NetrunMod.Settings.ScrubMultiplier / (level >= HeatLevel.RedZone ? Settings.redZoneScrubPriceFactor : 1f);
+    }
 
     /// <summary>How many of the thing one purchase brings: a pack of cyberdata, one of anything else.</summary>
     public static int ShopCount(ThingDef def) => def == NetrunDefOf.USH_Cyberdata && Settings.cyberdataBundle > 0 ? Settings.cyberdataBundle : 1;
@@ -205,6 +226,7 @@ public class Fixer : IExposable
         Scribe_Values.Look(ref Held, "held");
         Scribe_Values.Look(ref _pinned, "pinned", -1);
         Scribe_Values.Look(ref JoinedTick, "joinedTick", -999999);
+        Scribe_Values.Look(ref LastScrubTick, "lastScrubTick", -999999);
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {

@@ -88,7 +88,7 @@
   <NR_Contract_AIOrder>AI order</NR_Contract_AIOrder>
   <NR_Contract_CleanLab>Clean lab</NR_Contract_CleanLab>
   <NR_ContractDesc_Surveillance>Keep a netrunner in a cyberpod, listening in on a node, for {0} hours in total. Several pods count together.</NR_ContractDesc_Surveillance>
-  <NR_ContractDesc_LayLow>The fixer needs you quiet: bring your Heat down to {0} or lower before the deadline.</NR_ContractDesc_LayLow>
+  <NR_ContractDesc_LayLow>The fixer needs you quiet: bring your Heat down to {0} or lower before the deadline. Only cooling counts: a scrub at a fixer fails the job.</NR_ContractDesc_LayLow>
   <NR_ContractDesc_Rookie>A colonist with Intellectual {2} or lower makes {0} dives in a row without a failure. A failed dive starts over.</NR_ContractDesc_Rookie>
   <NR_ContractDesc_AIOrder>Sell the fixer an AI fragment: hand it over at the terminal.</NR_ContractDesc_AIOrder>
   <NR_ContractDesc_CleanLab>Edit {0} {1} braindance chip(s) at the network console.</NR_ContractDesc_CleanLab>
@@ -113,4 +113,6 @@
   <NR_ContractDesc_SurveillanceNode>Keep a runner parked at {1} for {0} hours. The client wants eyes on that node, not just a warm seat in a pod.</NR_ContractDesc_SurveillanceNode>
   <NR_BoardTag_InNode>In node: {0}</NR_BoardTag_InNode>
   <NR_BoardTag_InNodeTip>Hours count only while a runner stands in {0} on the cyberspace map (two runners count double, no more).</NR_BoardTag_InNodeTip>
+  <NR_ContractFailedScrub>you paid a fixer to scrub the trace</NR_ContractFailedScrub>
+  <NR_ContractRedZoneStreet>Red Zone: fixers give only street work now.</NR_ContractRedZoneStreet>
 </LanguageData>

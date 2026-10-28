@@ -28,6 +28,11 @@
     <traceLockHeat>8</traceLockHeat>
     <!-- At Target and above the trace cools this much slower. -->
     <highHeatDecayFactor>0.5</highHeatDecayFactor>
+    <!-- Network isolation held this many hours without a break multiplies cooling -->
+    <isolationCoolingHours>12</isolationCoolingHours>
+    <isolationCoolingFactor>2</isolationCoolingFactor>
+    <!-- Red zone: a dive's entry costs this much more cyberdata -->
+    <redZoneDiveExtraCost>1</redZoneDiveExtraCost>
 
     <!-- An AI in a AI coprocessor linked to the cyberpod: Heat factor (Ghost hides better),
          extra cyberdata chance (Data Hunter finds more), Netsick factor (Doc and Warden protect the diver) -->

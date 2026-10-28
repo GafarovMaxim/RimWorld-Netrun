@@ -412,7 +412,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
     /// </summary>
     public int DiveCost(Map map, ExternalNode node, out string breakdown)
     {
-        int entry = node == null ? 0 : Settings.diveBaseCost + node.Defense / 2;
+        int redZone = node == null ? 0 : HeatTracker.Get()?.DiveExtraCost ?? 0;
+        int entry = node == null ? 0 : Settings.diveBaseCost + node.Defense / 2 + redZone;
         int paidPrograms = SelectedPrograms.Count(p => !HePrograms.IsHeItem(p));
         int programs = paidPrograms * Settings.programCost;
         Pawn runner = Runner(map, node, out Building_Cyberpod pod);
@@ -421,6 +422,8 @@ public partial class GatewayManager : GameComponent, INetrunCleanable
         int total = System.Math.Max(0, entry + programs - coprocessor - passenger);
 
         var lines = new List<string> { "NR_DiveCostEntry".Translate(entry), "NR_DiveCostPrograms".Translate(paidPrograms, programs) };
+        if (redZone > 0)
+            lines.Insert(1, "NR_DiveCostRedZone".Translate(redZone));
         if (coprocessor > 0)
             lines.Add("NR_DiveCostCoprocessor".Translate(coprocessor));
         if (passenger > 0)

@@ -82,7 +82,24 @@ public class FixerSettingsDef : Def
     public float blackMarketMarkup = 2.5f;
     public float heatPerAdvancedCyberdata = 15f;
     /// <summary>Scrub efficiency by Heat level (index = HeatLevel): the louder the colony, the dearer the scrub.</summary>
-    public List<float> scrubFactorByLevel = [0.6f, 0.6f, 0.4f, 0.3f, 0.2f];
+    public List<float> scrubFactorByLevel = [0.6f, 0.5f, 0.4f, 0.3f, 0.3f];
+
+    // T1.2 three channels: an instant scrub only at a Cleaner, slow cooling at any fixer, isolation (Heat.xml).
+    /// <summary>Most Heat one instant scrub takes off (in the Red Zone: the second number).</summary>
+    public float cleanerScrubMaxHeat = 25f;
+    public float cleanerScrubMaxHeatRedZone = 15f;
+    /// <summary>Days before the same Cleaner scrubs again.</summary>
+    public int cleanerScrubCooldownDays = 3;
+    /// <summary>In the Red Zone an instant scrub costs this many times more cyberdata.</summary>
+    public float redZoneScrubPriceFactor = 2f;
+    /// <summary>Slow cooling: cyberdata for extra cooling per day over several days, one deal at a time.</summary>
+    public int coolingCost = 5;
+    public float coolingPerDay = 4f;
+    public int coolingDays = 3;
+    /// <summary>In the Red Zone slow cooling costs this many times more, except at a Cleaner.</summary>
+    public float redZoneCoolingPriceFactor = 2f;
+    /// <summary>"Street" work: in the Red Zone fixers offer and accept only these (the trust ladder, T4.5, builds on it).</summary>
+    public List<ContractType> streetContracts = [];
 
     // Rat trait
     public float ratLeakChance = 0.1f;

@@ -590,13 +590,15 @@ public partial class HelpBrowser
             if (i == _demoData)
                 break;
             float factor = s.scrubFactorByLevel.NullOrEmpty() ? 1f : s.scrubFactorByLevel[Mathf.Clamp((int)HeatLevelUtility.LevelOf(heat), 0, s.scrubFactorByLevel.Count - 1)];
-            heat = Mathf.Max(0f, heat - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier);
+            heat = Mathf.Max(0f, heat - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier
+                / (HeatLevelUtility.LevelOf(heat) >= HeatLevel.RedZone ? s.redZoneScrubPriceFactor : 1f));
         }
         float h2 = _demoHeat;
         for (int i = 0; i < 400 && h2 > 0.01f; i++)
         {
             float factor = s.scrubFactorByLevel.NullOrEmpty() ? 1f : s.scrubFactorByLevel[Mathf.Clamp((int)HeatLevelUtility.LevelOf(h2), 0, s.scrubFactorByLevel.Count - 1)];
-            h2 = Mathf.Max(0f, h2 - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier);
+            h2 = Mathf.Max(0f, h2 - s.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier
+                / (HeatLevelUtility.LevelOf(h2) >= HeatLevel.RedZone ? s.redZoneScrubPriceFactor : 1f));
             needed = i + 1;
         }
 

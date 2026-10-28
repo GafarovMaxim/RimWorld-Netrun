@@ -235,6 +235,10 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
+    /// <summary>Red Zone in one click (T1.2 test: Cleaner cap 15 and double price, street contracts, entry +1).</summary>
+    [DebugAction(HeatCat, "Heat: set 96", allowedGameStates = Playing, displayPriority = 99)]
+    private static void SetHeat96() => HeatTracker.Get()?.DevSetHeat(96f, "NR_LogDev".Translate());
+
     [DebugAction(HeatCat, "Netsick: +0.3", actionType = DebugActionType.ToolMapForPawns, allowedGameStates = OnMap, displayPriority = 90)]
     private static void AddNetsick(Pawn pawn)
     {

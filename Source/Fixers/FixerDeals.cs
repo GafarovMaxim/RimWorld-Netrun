@@ -46,7 +46,6 @@ public static class FixerDeals
         fixer.AfterDeal();
     }
 
-    /// <summary>Heat removed for the given amount of data at this fixer's rates.</summary>
     /// <summary>
     /// Heat a scrub removes, unit by unit: each unit is priced at the level the Heat stands at when it is spent
     /// (advanced first). One big scrub and many small ones now cost the same.
@@ -59,10 +58,12 @@ public static class FixerDeals
         return Mathf.Max(0f, start - heat);
     }
 
-    // Awake AIs keep a floor under the Heat: a scrub stops there and data past it is not counted.
+    // Awake AIs keep a floor under the Heat, and one scrub takes at most ScrubCap: it stops there and data past it is not counted.
+    private static float Floor => Mathf.Max(AIBalance.NoiseFloor, (HeatTracker.Get()?.Heat ?? 0f) - Fixer.ScrubCap);
+
     private static float Spend(Fixer fixer, float heat, int units, bool advanced)
     {
-        float floor = AIBalance.NoiseFloor;
+        float floor = Floor;
         for (int i = 0; i < units && heat > floor; i++)
             heat = Mathf.Max(floor, heat - fixer.HeatPerUnitAt(heat, advanced));
         return heat;
@@ -73,7 +74,7 @@ public static class FixerDeals
     {
         float heat = HeatTracker.Get()?.Heat ?? 0f;
         heat = advanced ? Spend(fixer, heat, otherUnits, false) : Spend(fixer, heat, otherUnits, true);
-        float floor = AIBalance.NoiseFloor;
+        float floor = Floor;
         int n = 0;
         while (heat > floor + 0.01f && n < cap)
         {
@@ -85,6 +86,11 @@ public static class FixerDeals
 
     public static void Scrub(Fixer fixer, Map map, int cyberdata, int advanced)
     {
+        if (fixer.CanScrubNow is { Accepted: false } refused)
+        {
+            Reject(refused.Reason);
+            return;
+        }
         // Only what the Heat above the AI floor needs is taken (advanced first, as ScrubAmount spends it).
         advanced = Mathf.Min(advanced, UnitsToClear(fixer, true, 0, advanced));
         cyberdata = Mathf.Min(cyberdata, UnitsToClear(fixer, false, advanced, cyberdata));
@@ -104,9 +110,52 @@ public static class FixerDeals
 
         float amount = ScrubAmount(fixer, cyberdata, advanced);
         HeatTracker.Get()?.ReduceHeat(amount, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
+        fixer.LastScrubTick = Find.TickManager.TicksGame;
+        ContractManager.Get()?.NotifyFixerScrub();
         fixer.GainReputation(Settings.reputationPerScrub);
         NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerScrubbed".Translate(fixer.Name, amount.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: false);
+        fixer.AfterDeal();
+    }
+
+    /// <summary>A favor the fixer owes (a cyberspace find): a free scrub at any fixer, no channel, no cooldown.</summary>
+    public static void FreeScrub(Fixer fixer)
+    {
+        if (fixer.FreeScrubs <= 0)
+            return;
+        fixer.FreeScrubs--;
+        HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
+        ContractManager.Get()?.NotifyFixerScrub();
+    }
+
+    /// <summary>Slow cooling: why it cannot be bought now (null when it can).</summary>
+    public static string CoolingRefusal(Fixer fixer, Map map)
+    {
+        HeatTracker heat = HeatTracker.Get();
+        if (heat == null)
+            return "NR_NotEnoughCyberdata".Translate();
+        if (heat.CoolingActive)
+            return "NR_CoolingActive".Translate(heat.CoolingTicksLeft.ToStringTicksToPeriod());
+        if (ColonyGoods.Count(map, NetrunDefOf.USH_Cyberdata) < fixer.CoolingCost)
+            return "NR_NotEnoughCyberdata".Translate();
+        return null;
+    }
+
+    /// <summary>Slow cooling at any fixer: cyberdata for extra cooling a day over a few days.</summary>
+    public static void Cool(Fixer fixer, Map map)
+    {
+        if (CoolingRefusal(fixer, map) is { } refusal)
+        {
+            Reject(refusal);
+            return;
+        }
+        int cost = fixer.CoolingCost;
+        ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
+        EconomyTracker.Get()?.Note(spent: cost);
+        HeatTracker.Get().StartCooling(Settings.coolingPerDay, Settings.coolingDays, "NR_LogCooling".Translate(fixer.Name));
+        fixer.GainReputation(Settings.reputationPerScrub);
+        NetrunSound.Play("UI_Confirm");
+        Messages.Message("NR_FixerCooling".Translate(fixer.Name, Settings.coolingPerDay.ToString("0.#"), Settings.coolingDays), MessageTypeDefOf.PositiveEvent, historical: false);
         fixer.AfterDeal();
     }
 

@@ -66,7 +66,7 @@
     <order>20</order>
     <color>Bad</color>
     <label>Heat and trace</label>
-    <body>Heat is your colony's digital trace, from 0 to 100. Every hack and dive raises it. The higher it is, the more attention the net pays to you: network attacks, mercenary raids, corporate hunts.\n[[levels]]\nHeat cools by itself: −{heat.decay} a day, −{heat.decayHigh} at Target and above.\nEvery awake AI after the first makes network noise and raises the minimum Heat by 5 (Ghost half, Predator double, at most 50). Heat climbs to that minimum on its own, and neither cooling nor a fixer's scrub goes below it. AIs on an isolated server are silent.\n&gt; open:Heat|Open the "Heat and trace" screen</body>
+    <body>Heat is your colony's digital trace, from 0 to 100. Every hack and dive raises it. The higher it is, the more attention the net pays to you: network attacks, mercenary raids, corporate hunts.\n[[levels]]\nHeat cools by itself: −{heat.decay} a day, −{heat.decayHigh} at Target and above. Network isolation held for {heat.isoHours} h without a break doubles the cooling.\nIn the Red Zone fixers give only street work, a dive costs {heat.redEntry} more cyberdata to enter, and a Cleaner takes at most {heat.scrubCapRed} Heat per scrub for double the price.\nEvery awake AI after the first makes network noise and raises the minimum Heat by 5 (Ghost half, Predator double, at most 50). Heat climbs to that minimum on its own, and neither cooling nor a fixer's scrub goes below it. AIs on an isolated server are silent.\n&gt; open:Heat|Open the "Heat and trace" screen</body>
     <icon>heat:Tracked</icon>
     <tips>
       <li>Scrub the trace while you are below Target: it is cheaper.</li>
@@ -100,7 +100,7 @@
     <order>2</order>
     <color>Bad</color>
     <label>How to lower Heat</label>
-    <body>Four ways down, compared for the Heat you pick (your own settings):\n[[lowerheat]]\n## !Fixers/Fixer_Corp Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours) and hand over cyberdata. The rate falls as Heat grows: from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone.\n&gt; page:NR_Help_Fixers_Scrub|How a scrub works\n&gt; open:Heat|Ways to lower on the Heat screen</body>
+    <body>Four ways down, compared for the Heat you pick (your own settings):\n[[lowerheat]]\n## !Fixers/Fixer_Corp Through a fixer\nCall a fixer in the Club (silver opens a channel for {fixers.channel} hours). Only a Cleaner scrubs at once: up to {heat.scrubCap} Heat per scrub, once every {heat.scrubCooldown} days, from {heat.scrubBest} Heat per cyberdata in the Shadow to {heat.scrubWorst} in the Red Zone. Any fixer sells slow cooling: {heat.coolCost} cyberdata for +{heat.coolPerDay} cooling a day over {heat.coolDays} days.\n&gt; page:NR_Help_Fixers_Scrub|How a scrub works\n&gt; open:Heat|Ways to lower on the Heat screen</body>
     <icon>Dive_Heat</icon>
   </Netrun.HelpPageDef>
 
@@ -215,7 +215,7 @@
     <order>4</order>
     <color>Warn</color>
     <label>Scrubbing the trace</label>
-    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) lets you choose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it, so one big scrub costs the same as many small ones.\nReputation and the Cleaner specialty give discounts, a greedy fixer charges more.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
+    <body>With an open channel, "Scrub" in the Club (or on the Heat screen) shows three ways down.\n## Instant scrub: a Cleaner only\nChoose how much cyberdata to give. Each cyberdata removes {heat.scrubBest} Heat in the Shadow and only {heat.scrubWorst} in the Red Zone; advanced counts triple. Every unit is priced at the level the Heat stands at when you spend it. One scrub takes at most {heat.scrubCap} Heat ({heat.scrubCapRed} in the Red Zone), then that Cleaner waits {heat.scrubCooldown} days. Reputation and discounts do not change the rate.\n## Slow cooling: any fixer\n{heat.coolCost} cyberdata: Heat cools {heat.coolPerDay} more a day for {heat.coolDays} days. One deal at a time; double price in the Red Zone, except at a Cleaner.\n## Network isolation\nIsolated for {heat.isoHours} h without a break, the network cools twice as fast.\nA "Lay low" contract counts only cooling: a scrub at a fixer fails it.\n!Fixer_Service_Reward A fixer's service found in cyberspace is a free scrub.</body>
     <icon>Heat/Heat_Reduction</icon>
     <keywords>
       <li>scrub the trace</li>

@@ -32,6 +32,8 @@ public class Contract : IExposable
     public int Favor;
     /// <summary>D3: the cyberspace hub a surveillance contract watches (-1: any pod counts, as before).</summary>
     public int TargetHub = -1;
+    /// <summary>A "lay low" taken before T1.2: a scrub at a fixer does not fail it (the old rules).</summary>
+    public bool OldRules;
 
     public bool Accepted => DeadlineTick >= 0;
     public bool Done => Progress >= Goal;
@@ -66,6 +68,7 @@ public class Contract : IExposable
         Scribe_Values.Look(ref Param, "param");
         Scribe_Values.Look(ref Favor, "favor");
         Scribe_Values.Look(ref TargetHub, "targetHub", -1);
+        Scribe_Values.Look(ref OldRules, "oldRules");
     }
 }
 

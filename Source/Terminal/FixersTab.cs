@@ -299,9 +299,6 @@ public static class FixersTab
         // A favor the fixer owes from a cyberspace find: a free scrub, no channel needed.
         if (fixer.FreeScrubs > 0 && Add("NR_FixerFreeScrub".Translate(fixer.FreeScrubs), NetrunUI.Purple, true,
                 "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
-        {
-            fixer.FreeScrubs--;
-            HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
-        }
+            FixerDeals.FreeScrub(fixer);
     }
 }

@@ -6,7 +6,7 @@
   <NR_FixerSpecialty_Cleaner>Cleaner</NR_FixerSpecialty_Cleaner>
   <NR_FixerSpecialty_Fence>Fence</NR_FixerSpecialty_Fence>
   <NR_FixerSpecialtyDesc_Broker>Deals in information. Pays half as much again for data delivery contracts.</NR_FixerSpecialtyDesc_Broker>
-  <NR_FixerSpecialtyDesc_Cleaner>Erases traces for a living. Scrubbing your Heat is cheaper with a cleaner.</NR_FixerSpecialtyDesc_Cleaner>
+  <NR_FixerSpecialtyDesc_Cleaner>Erases traces for a living. Only a cleaner scrubs your Heat at once: up to 25 per scrub, once every 3 days. Slow cooling is cheaper with him in the Red Zone.</NR_FixerSpecialtyDesc_Cleaner>
   <NR_FixerSpecialtyDesc_Fence>Moves hardware. Sells cyberware and hacking gear, delivered by drop pod.</NR_FixerSpecialtyDesc_Fence>
 
   <!-- Traits -->
@@ -52,7 +52,7 @@
   <NR_FixerShardSold>{0} bought the AI fragment for {1} silver; the silver is on its way by drop pod.</NR_FixerShardSold>
   <!-- Tooltips -->
   <NR_FixerCallTip>Pay the fixer to open a channel for {0} hours. While it is open you can scrub your trace, shop and accept contracts.</NR_FixerCallTip>
-  <NR_FixerScrubTip>Hand over cyberdata from storage to lower your digital Heat.</NR_FixerScrubTip>
+  <NR_FixerScrubTip>Lower your digital Heat: an instant scrub (a Cleaner only) or slow cooling (any fixer).</NR_FixerScrubTip>
   <NR_FixerShopTip>Buy hacking gear. Goods arrive by drop pod.</NR_FixerShopTip>
   <NR_ShopRestock>New stock arrives with the next fixer rotation, in {0}.</NR_ShopRestock>
 
@@ -125,4 +125,22 @@
   <NR_ImperialFavor>{0} put in a word at court: {1} gains {2} royal favor.</NR_ImperialFavor>
   <NR_FixerPinFull>(pin places full: {0})</NR_FixerPinFull>
   <NR_FixerHoldPaidMsg>{0} stays in the pool through the next rotation. Paid {1} silver.</NR_FixerHoldPaidMsg>
+  <NR_ScrubCleanerOnly>Only a Cleaner scrubs Heat at once. Any fixer sells slow cooling below.</NR_ScrubCleanerOnly>
+  <NR_ScrubCooldown>{0} scrubbed recently: the next instant scrub in {1}.</NR_ScrubCooldown>
+  <NR_ScrubCapLine>Up to {0} Heat per scrub, then {1} days of waiting. Reputation does not change the rate; the Red Zone doubles the price.</NR_ScrubCapLine>
+  <NR_ScrubChannelInstant>Instant scrub</NR_ScrubChannelInstant>
+  <NR_ScrubChannelCooling>Slow cooling</NR_ScrubChannelCooling>
+  <NR_ScrubChannelIsolation>Network isolation</NR_ScrubChannelIsolation>
+  <NR_CoolingActive>A cooling deal is running: {0} left. One deal at a time.</NR_CoolingActive>
+  <NR_CoolingLine>{0} cyberdata: Heat cools {1} more a day for {2} days (−{3} in all).</NR_CoolingLine>
+  <NR_CoolingButton>Cool ({0} data)</NR_CoolingButton>
+  <NR_CoolingTip>The fixer covers your tracks bit by bit. Works at any fixer and at any Heat; costs double in the Red Zone, except at a Cleaner.</NR_CoolingTip>
+  <NR_IsolationCoolingOn>The network has been isolated long enough: cooling ×{0}.</NR_IsolationCoolingOn>
+  <NR_IsolationCoolingWait>Isolated for {0} h of {1}: then cooling doubles.</NR_IsolationCoolingWait>
+  <NR_IsolationCoolingOff>Isolate the network (Defense screen) for {0} h without a break: cooling ×{1}. No dives, contracts or AI services meanwhile.</NR_IsolationCoolingOff>
+  <NR_ScrubFailsLayLow>A "Lay low" contract is running: a scrub at a fixer fails it.</NR_ScrubFailsLayLow>
+  <NR_LogCooling>Cooling deal with {0}</NR_LogCooling>
+  <NR_FixerCooling>{0} covers your tracks: Heat cools {1} more a day for {2} days.</NR_FixerCooling>
+  <NR_ScrubRulesLetterLabel>New scrub rules</NR_ScrubRulesLetterLabel>
+  <NR_ScrubRulesLetter>{0} sends word: the trade has changed.\n\n• Only a Cleaner scrubs Heat at once: up to {1} per scrub, once every {2} days. Reputation no longer lowers the price.\n• Any fixer sells slow cooling: {3} cyberdata for {4} more cooling a day over {5} days.\n• Network isolation held for {6} h doubles cooling.\n• In the Red Zone a Cleaner takes less (15) for double the price, fixers give only street work, and a dive costs 1 more to enter.\n\nA "Lay low" contract already running finishes under the old rules.</NR_ScrubRulesLetter>
 </LanguageData>

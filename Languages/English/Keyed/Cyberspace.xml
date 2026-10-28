@@ -527,4 +527,5 @@ End the run first (exit the dive, or reach an exit point or Home). Wake anyway?<
   <NR_RewardTipAdvBlackIce>files of a Black ICE node: {0}</NR_RewardTipAdvBlackIce>
   <NR_RewardTipAdvMemory>memory unit: {0} (unless it holds a fragment or a module)</NR_RewardTipAdvMemory>
   <NR_RewardTipSilver>Silver from the exchange's files, with the mirror and the auction if they are on.</NR_RewardTipSilver>
+  <NR_DiveCostRedZone>Red Zone: +{0}</NR_DiveCostRedZone>
 </LanguageData>

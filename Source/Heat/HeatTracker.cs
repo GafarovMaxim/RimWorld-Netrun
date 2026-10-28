@@ -29,9 +29,40 @@ public class HeatTracker : GameComponent, INetrunCleanable
     /// <summary>Newest entries last.</summary>
     public IReadOnlyList<HeatLogEntry> Log => _log;
 
-    /// <summary>Passive cooling per day right now: the mod setting, halved (by Defs) at Target and above.</summary>
-    public float DecayPerDay => NetrunMod.Settings.HeatDecayPerDay
-        * (Level >= HeatLevel.Target ? NetrunDefOf.NR_Heat.highHeatDecayFactor : 1f);
+    /// <summary>
+    /// Passive cooling per day right now: the mod setting, halved (by Defs) at Target and above, plus a fixer's slow
+    /// cooling deal; all of it doubled after long network isolation.
+    /// </summary>
+    public float DecayPerDay => (NetrunMod.Settings.HeatDecayPerDay * (Level >= HeatLevel.Target ? NetrunDefOf.NR_Heat.highHeatDecayFactor : 1f)
+                                 + (CoolingActive ? _coolingPerDay : 0f))
+                                * (IsolationCooling ? NetrunDefOf.NR_Heat.isolationCoolingFactor : 1f);
+
+    // A fixer's slow cooling deal (T1.2): extra cooling a day until the tick.
+    private int _coolingUntilTick = -1;
+    private float _coolingPerDay;
+
+    public bool CoolingActive => Find.TickManager.TicksGame < _coolingUntilTick;
+    public int CoolingTicksLeft => Mathf.Max(0, _coolingUntilTick - Find.TickManager.TicksGame);
+    public float CoolingPerDay => CoolingActive ? _coolingPerDay : 0f;
+
+    public void StartCooling(float perDay, int days, string reason)
+    {
+        _coolingPerDay = perDay;
+        _coolingUntilTick = Find.TickManager.TicksGame + days * GenDate.TicksPerDay;
+        AddLog(0f, reason, HeatSource.Scrub);
+    }
+
+    /// <summary>Hours of unbroken network isolation (0 when the network is open).</summary>
+    public static float IsolationHours => (NodeDefense.Get()?.IsolatedTicks ?? 0) / (float)GenDate.TicksPerHour;
+
+    /// <summary>The network has been isolated long enough: cooling runs faster.</summary>
+    public static bool IsolationCooling => IsolationHours >= NetrunDefOf.NR_Heat.isolationCoolingHours;
+
+    /// <summary>Red Zone: dives start in the "Suspicion" alert stage. Read by the dive alert stages (T2.1).</summary>
+    public bool DiveStartsInSuspicion => Level >= HeatLevel.RedZone;
+
+    /// <summary>Red Zone: extra cyberdata on a dive's entry.</summary>
+    public int DiveExtraCost => Level >= HeatLevel.RedZone ? NetrunDefOf.NR_Heat.redZoneDiveExtraCost : 0;
 
     /// <summary>Hourly Heat samples, oldest first, up to 7 days.</summary>
     public IReadOnlyList<float> History => _history;
@@ -195,6 +226,8 @@ public class HeatTracker : GameComponent, INetrunCleanable
         Scribe_Values.Look(ref _heat, "heat", 0f);
         Scribe_Collections.Look(ref _log, "log", LookMode.Deep);
         Scribe_Collections.Look(ref _history, "history", LookMode.Value);
+        Scribe_Values.Look(ref _coolingUntilTick, "coolingUntilTick", -1);
+        Scribe_Values.Look(ref _coolingPerDay, "coolingPerDay");
 
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {

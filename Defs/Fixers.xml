@@ -69,14 +69,33 @@
     <!-- Black market goods cost this much more than the fixer's own stock -->
     <blackMarketMarkup>2.5</blackMarketMarkup>
     <heatPerAdvancedCyberdata>15</heatPerAdvancedCyberdata>
-    <!-- Scrub gets dearer as the trace grows: factor by Heat level (Shadow, Noticed, Tracked, Target, Red zone). 5 Heat per cyberdata x 0.6/0.6/0.4/0.3/0.2 = 3/3/2/1.5/1 (advanced x3). -->
+    <!-- Instant scrub (Cleaner only) gets dearer as the trace grows: factor by Heat level (Shadow, Noticed, Tracked, Target, Red zone).
+         5 Heat per cyberdata x 0.6/0.5/0.4/0.3/0.3 = 3/2.5/2/1.5/1.5, Red zone price x2 below = 0.75 (advanced x3). Reputation does not change it. -->
     <scrubFactorByLevel>
       <li>0.6</li>
-      <li>0.6</li>
+      <li>0.5</li>
       <li>0.4</li>
       <li>0.3</li>
-      <li>0.2</li>
+      <li>0.3</li>
     </scrubFactorByLevel>
+    <!-- One instant scrub takes at most this much Heat (Red zone: less), then the same Cleaner waits this many days -->
+    <cleanerScrubMaxHeat>25</cleanerScrubMaxHeat>
+    <cleanerScrubMaxHeatRedZone>15</cleanerScrubMaxHeatRedZone>
+    <cleanerScrubCooldownDays>3</cleanerScrubCooldownDays>
+    <redZoneScrubPriceFactor>2</redZoneScrubPriceFactor>
+    <!-- Slow cooling at any fixer: cyberdata for extra cooling per day over a few days, one deal at a time; Red zone price x2 except at a Cleaner -->
+    <coolingCost>5</coolingCost>
+    <coolingPerDay>4</coolingPerDay>
+    <coolingDays>3</coolingDays>
+    <redZoneCoolingPriceFactor>2</redZoneCoolingPriceFactor>
+    <!-- "Street" contracts: the only work fixers offer and accept in the Red zone -->
+    <streetContracts>
+      <li>DataDelivery</li>
+      <li>Surveillance</li>
+      <li>LayLow</li>
+      <li>Rookie</li>
+      <li>CleanLab</li>
+    </streetContracts>
 
     <!-- Rat trait: chance to leak after a deal, and the Heat it adds -->
     <ratLeakChance>0.1</ratLeakChance>

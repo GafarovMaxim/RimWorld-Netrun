@@ -164,7 +164,8 @@ public partial class HelpBrowser
         while (hs > 0.01f && units < 500)
         {
             float factor = fs.scrubFactorByLevel.NullOrEmpty() ? 1f : fs.scrubFactorByLevel[Mathf.Clamp((int)HeatLevelUtility.LevelOf(hs), 0, fs.scrubFactorByLevel.Count - 1)];
-            hs -= fs.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier;
+            hs -= fs.heatPerCyberdata * factor * NetrunMod.Settings.ScrubMultiplier
+                / (HeatLevelUtility.LevelOf(hs) >= HeatLevel.RedZone ? fs.redZoneScrubPriceFactor : 1f);
             units++;
         }
         float ghost = NetrunDefOf.NR_AI.ghostHeatScrub;

@@ -134,19 +134,18 @@
   <NR_HeatV2AxisNow>сейчас</NR_HeatV2AxisNow>
   <NR_HeatV2NoHistory>График заполнится по мере игры.</NR_HeatV2NoHistory>
   <NR_HeatV2Effects>Эффекты уровня: {0}</NR_HeatV2Effects>
-  <NR_HeatV2EffectScrub>Лучший сброс сейчас: {0} Heat за киберданные ({1}).</NR_HeatV2EffectScrub>
+  <NR_HeatV2EffectScrub>Лучший мгновенный сброс сейчас: {0} Heat за киберданные ({1}).</NR_HeatV2EffectScrub>
   <NR_HeatV2EffectDecay>Остывание: −{0} в сутки.</NR_HeatV2EffectDecay>
   <NR_HeatV2ToLower>До «{0}»: {1} без нового следа</NR_HeatV2ToLower>
   <NR_HeatV2NoTrace>Остывать нечему.</NR_HeatV2NoTrace>
   <NR_HeatV2Days>~{0} дн.</NR_HeatV2Days>
   <NR_HeatV2LessThanDay>меньше суток</NR_HeatV2LessThanDay>
   <NR_HeatV2ViaFixer>Через фиксера</NR_HeatV2ViaFixer>
-  <NR_HeatV2ViaFixerDesc>Фиксер стирает след за киберданные. У вас {0} (+{1} прод.). Позвоните, чтобы открыть канал, потом сбрасывайте.</NR_HeatV2ViaFixerDesc>
+  <NR_HeatV2ViaFixerDesc>У вас {0} киберданных (+{1} прод.). Чистильщик сбрасывает сразу, любой фиксер продаёт медленное остывание.</NR_HeatV2ViaFixerDesc>
   <NR_HeatV2FixerRate>обычн. = −{0}, прод. = −{1}</NR_HeatV2FixerRate>
-  <NR_HeatV2FixerDiscount>скидка {0}</NR_HeatV2FixerDiscount>
   <NR_HeatV2FixerSilent>молчит: {0}</NR_HeatV2FixerSilent>
   <NR_HeatV2ScrubWith>Сбросить…</NR_HeatV2ScrubWith>
-  <NR_HeatV2ScrubWithTip>Канал с {0} открыт: выберите, сколько киберданных отдать.</NR_HeatV2ScrubWithTip>
+  <NR_HeatV2ScrubWithTip>Канал с {0} открыт: мгновенный сброс (только чистильщик) или медленное остывание.</NR_HeatV2ScrubWithTip>
   <NR_HeatV2CallFixer>Позвонить · {0}</NR_HeatV2CallFixer>
   <NR_HeatV2CallFixerTip>Заплатить серебро и открыть канал с {0} на {1} ч; затем откроется окно сброса.</NR_HeatV2CallFixerTip>
   <NR_HeatV2Ghost>ИИ «Призрак»</NR_HeatV2Ghost>
@@ -155,7 +154,7 @@
   <NR_HeatV2Unavailable>Недоступно</NR_HeatV2Unavailable>
   <NR_HeatV2ToServer>В серверную</NR_HeatV2ToServer>
   <NR_HeatV2Wait>Переждать</NR_HeatV2Wait>
-  <NR_HeatV2WaitDesc>−{0} в сутки (−{1} на «Цели» и выше)</NR_HeatV2WaitDesc>
+  <NR_HeatV2WaitDesc>−{0} в сутки (−{1} на «Цели»+); изоляция {2} ч: ×{3}</NR_HeatV2WaitDesc>
   <NR_HeatV2ToZero>{0} до нуля</NR_HeatV2ToZero>
   <NR_HeatV2Totals>Итого: +{0}, сброс {1}, остывание {2}</NR_HeatV2Totals>
   <NR_HeatV2AdvicePrefix>Совет:</NR_HeatV2AdvicePrefix>
@@ -453,4 +452,6 @@
   <NR_SettingsTerminalAutoScale>Масштаб интерфейса по окну</NR_SettingsTerminalAutoScale>
   <NR_SettingsTerminalAutoScaleTip>Когда окно терминала больше базового размера, всё внутри (рамка, текст, карта, кнопки) растёт вместе с ним, до 160%. Выкл.: большое окно даёт больше места при том же размере.</NR_SettingsTerminalAutoScaleTip>
   <NR_HelpTraitUnknown>Ещё не встречалась. Черта откроется здесь, когда вы увидите её в игре: ИИ показывает её с ростом доверия, фиксер после достаточной совместной работы.</NR_HelpTraitUnknown>
+  <NR_HeatV2FixerCooling>остывание: {0} data = +{1}/сут.</NR_HeatV2FixerCooling>
+  <NR_HeatV2EffectRedZone>«Красная зона»: вход в нырок +{0}, только уличные контракты, чистильщик снимает не больше 15 и вдвое дороже.</NR_HeatV2EffectRedZone>
 </LanguageData>

@@ -6,7 +6,7 @@
   <NR_FixerSpecialty_Cleaner>Чистильщик</NR_FixerSpecialty_Cleaner>
   <NR_FixerSpecialty_Fence>Скупщик</NR_FixerSpecialty_Fence>
   <NR_FixerSpecialtyDesc_Broker>Торгует информацией. Платит в полтора раза больше за контракты на доставку данных.</NR_FixerSpecialtyDesc_Broker>
-  <NR_FixerSpecialtyDesc_Cleaner>Зарабатывает на стирании следов. Сброс Heat у чистильщика дешевле.</NR_FixerSpecialtyDesc_Cleaner>
+  <NR_FixerSpecialtyDesc_Cleaner>Зарабатывает на стирании следов. Только чистильщик сбрасывает Heat сразу: до 25 за раз, раз в 3 дня. В «Красной зоне» медленное остывание у него дешевле.</NR_FixerSpecialtyDesc_Cleaner>
   <NR_FixerSpecialtyDesc_Fence>Достаёт железо. Продаёт кибер-импланты и снаряжение для взлома, доставка дроп-подом.</NR_FixerSpecialtyDesc_Fence>
 
   <!-- Черты -->
@@ -52,7 +52,7 @@
   <NR_FixerShardSold>{0} купил осколок ИИ за {1} серебра; серебро летит дроп-подом.</NR_FixerShardSold>
   <!-- Подсказки -->
   <NR_FixerCallTip>Заплатить фиксеру и открыть канал на {0} ч. Пока канал открыт, можно сбрасывать след, покупать и брать контракты.</NR_FixerCallTip>
-  <NR_FixerScrubTip>Передать киберданные со склада, чтобы снизить цифровой след.</NR_FixerScrubTip>
+  <NR_FixerScrubTip>Снизить цифровой след: мгновенный сброс (только чистильщик) или медленное остывание (любой фиксер).</NR_FixerScrubTip>
   <NR_FixerShopTip>Купить снаряжение для взлома. Товар прилетает дроп-подом.</NR_FixerShopTip>
   <NR_ShopRestock>Новый ассортимент придёт со следующей сменой фиксеров, через {0}.</NR_ShopRestock>
 
@@ -125,4 +125,22 @@
   <NR_ImperialFavor>{0} замолвил словечко при дворе: {1} получает {2} ед. расположения.</NR_ImperialFavor>
   <NR_FixerPinFull>(места для закреплённых заняты: {0})</NR_FixerPinFull>
   <NR_FixerHoldPaidMsg>{0} останется в пуле после смены. Заплачено {1} серебра.</NR_FixerHoldPaidMsg>
+  <NR_ScrubCleanerOnly>Сразу сбрасывает Heat только чистильщик. Медленное остывание продаёт любой фиксер, ниже.</NR_ScrubCleanerOnly>
+  <NR_ScrubCooldown>{0} недавно чистил след: следующий мгновенный сброс через {1}.</NR_ScrubCooldown>
+  <NR_ScrubCapLine>До {0} Heat за раз, потом {1} дн. ожидания. Репутация не меняет курс; в «Красной зоне» цена вдвое выше.</NR_ScrubCapLine>
+  <NR_ScrubChannelInstant>Мгновенный сброс</NR_ScrubChannelInstant>
+  <NR_ScrubChannelCooling>Медленное остывание</NR_ScrubChannelCooling>
+  <NR_ScrubChannelIsolation>Изоляция сети</NR_ScrubChannelIsolation>
+  <NR_CoolingActive>Договор на остывание уже идёт: осталось {0}. Одновременно только один.</NR_CoolingActive>
+  <NR_CoolingLine>{0} киберданных: Heat остывает на {1} в сутки быстрее {2} дн. (всего −{3}).</NR_CoolingLine>
+  <NR_CoolingButton>Остудить ({0} data)</NR_CoolingButton>
+  <NR_CoolingTip>Фиксер понемногу заметает ваши следы. Работает у любого фиксера и при любом Heat; в «Красной зоне» вдвое дороже, кроме чистильщика.</NR_CoolingTip>
+  <NR_IsolationCoolingOn>Сеть изолирована достаточно долго: остывание ×{0}.</NR_IsolationCoolingOn>
+  <NR_IsolationCoolingWait>Изоляция {0} ч из {1}: потом остывание удвоится.</NR_IsolationCoolingWait>
+  <NR_IsolationCoolingOff>Изолируйте сеть (экран защиты) на {0} ч без перерыва: остывание ×{1}. Всё это время без нырков, контрактов и услуг ИИ.</NR_IsolationCoolingOff>
+  <NR_ScrubFailsLayLow>Идёт контракт «Залечь на дно»: сброс у фиксера его провалит.</NR_ScrubFailsLayLow>
+  <NR_LogCooling>Остывание у {0}</NR_LogCooling>
+  <NR_FixerCooling>{0} заметает следы: Heat остывает на {1} в сутки быстрее {2} дн.</NR_FixerCooling>
+  <NR_ScrubRulesLetterLabel>Новые правила сброса</NR_ScrubRulesLetterLabel>
+  <NR_ScrubRulesLetter>{0} передаёт: правила изменились.\n\n• Сразу сбрасывает Heat только чистильщик: до {1} за раз, раз в {2} дн. Репутация больше не снижает цену.\n• Любой фиксер продаёт медленное остывание: {3} киберданных за +{4} остывания в сутки на {5} дн.\n• Изоляция сети {6} ч без перерыва удваивает остывание.\n• В «Красной зоне» чистильщик снимает меньше (15) и вдвое дороже, фиксеры дают только уличную работу, а вход в нырок стоит на 1 больше.\n\nУже идущий контракт «Залечь на дно» доигрывается по старым правилам.</NR_ScrubRulesLetter>
 </LanguageData>

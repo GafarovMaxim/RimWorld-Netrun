@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using Verse;
 
@@ -19,11 +20,13 @@ public class NetrunMigration : GameComponent
     private static readonly (int Version, string Name, System.Action Run)[] Steps =
     [
         (1, "research moved from HE projects to Netrun's own", MigrateResearch),
+        (2, "T1.2 scrub rules: old lay-low contracts keep old rules, letter for pinned Cleaners", MigrateScrubRules),
     ];
 
     /// <summary>
     /// Save versions: 1 = research moved from HE projects to Netrun's own (docs/CONCEPTS_10.md, section 3).
-    /// T1.1 rebuilt the step runner and added no version. The current version is the last step's.
+    /// T1.1 rebuilt the step runner and added no version. 2 = T1.2, three scrub channels (running "lay low" contracts
+    /// finish under the old rules, players with a pinned Cleaner get a letter). The current version is the last step's.
     /// </summary>
     public static int CurrentVersion => Steps[Steps.Length - 1].Version;
 
@@ -110,6 +113,29 @@ public class NetrunMigration : GameComponent
         Grant(NetrunDefOf.NR_Res_Neurorecording, "USH_BasicCybertech");
         Grant(NetrunDefOf.NR_Res_AIAwakening, "USH_AdvancedCybertech");
         Grant(NetrunDefOf.NR_Res_AIArchitecture, "USH_AdvancedCybertech");
+    }
+
+    /// <summary>
+    /// T1.2: a running "lay low" keeps the old rules (a scrub does not fail it); a pinned Cleaner tells the player the
+    /// new rules once. A rerun does not send a second letter while the first is still in the stack.
+    /// </summary>
+    private static void MigrateScrubRules()
+    {
+        foreach (Contract contract in ContractManager.Get()?.Active ?? [])
+            if (contract.Type == ContractType.LayLow)
+                contract.OldRules = true;
+
+        Fixer cleaner = FixerManager.Get()?.Fixers.FirstOrDefault(f => f.Pinned && f.IsCleaner);
+        if (cleaner == null)
+            return;
+        FixerSettingsDef s = NetrunDefOf.NR_Fixers;
+        string label = "NR_ScrubRulesLetterLabel".Translate();
+        if (Find.LetterStack.LettersListForReading.Any(l => l.Label.ToString() == label))
+            return;
+        Find.LetterStack.ReceiveLetter(label,
+            "NR_ScrubRulesLetter".Translate(cleaner.Name, s.cleanerScrubMaxHeat.ToString("0"), s.cleanerScrubCooldownDays, s.coolingCost,
+                s.coolingPerDay.ToString("0.#"), s.coolingDays, NetrunDefOf.NR_Heat.isolationCoolingHours.ToString("0")),
+            LetterDefOf.NeutralEvent);
     }
 
     private static void Grant(ResearchProjectDef project, string oldPrerequisite)

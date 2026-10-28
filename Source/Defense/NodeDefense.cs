@@ -149,6 +149,9 @@ public class NodeDefense : GameComponent
     private int _isolatedAt = -1;
     private int _liftedAt = -1;
 
+    /// <summary>Ticks of unbroken isolation so far (0 when the network is open).</summary>
+    public int IsolatedTicks => Isolated && _isolatedAt >= 0 ? Find.TickManager.TicksGame - _isolatedAt : 0;
+
     /// <summary>Ticks until the network can be isolated again (0: now).</summary>
     public int IsolationCooldownLeft
         => !NetrunMod.Settings.IsolationCooldown || Isolated || _liftedAt < 0 ? 0 : System.Math.Max(0, _liftedAt + CooldownTicks - Find.TickManager.TicksGame);

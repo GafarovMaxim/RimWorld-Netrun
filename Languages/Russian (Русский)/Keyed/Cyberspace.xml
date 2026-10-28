@@ -527,4 +527,5 @@
   <NR_RewardTipAdvBlackIce>файлы ноды с Black ICE: {0}</NR_RewardTipAdvBlackIce>
   <NR_RewardTipAdvMemory>хранилище: {0} (если там нет осколка или модуля)</NR_RewardTipAdvMemory>
   <NR_RewardTipSilver>Серебро из файлов биржи, с зеркалом и аукционом, если они включены.</NR_RewardTipSilver>
+  <NR_DiveCostRedZone>«Красная зона»: +{0}</NR_DiveCostRedZone>
 </LanguageData>

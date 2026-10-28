@@ -88,7 +88,7 @@
   <NR_Contract_AIOrder>Заказ на ИИ</NR_Contract_AIOrder>
   <NR_Contract_CleanLab>Чистая лаборатория</NR_Contract_CleanLab>
   <NR_ContractDesc_Surveillance>Держите нетраннера в кибер-капсуле на прослушке ноды, всего {0} ч. Несколько капсул считаются вместе.</NR_ContractDesc_Surveillance>
-  <NR_ContractDesc_LayLow>Фиксеру нужно, чтобы вы залегли: снизьте Heat до {0} или ниже до срока.</NR_ContractDesc_LayLow>
+  <NR_ContractDesc_LayLow>Фиксеру нужно, чтобы вы залегли: снизьте Heat до {0} или ниже до срока. Считается только остывание: сброс у фиксера провалит работу.</NR_ContractDesc_LayLow>
   <NR_ContractDesc_Rookie>Колонист с Интеллектом {2} или ниже должен сделать подряд без провала нырков: {0}. После провала счёт начинается заново.</NR_ContractDesc_Rookie>
   <NR_ContractDesc_AIOrder>Продайте фиксеру осколок ИИ: передайте его через терминал.</NR_ContractDesc_AIOrder>
   <NR_ContractDesc_CleanLab>Смонтируйте у сетевой консоли чипы с настроением «{1}»: {0} шт.</NR_ContractDesc_CleanLab>
@@ -113,4 +113,6 @@
   <NR_ContractDesc_SurveillanceNode>Держите раннера в узле {1}: всего {0} ч. Клиенту нужны глаза именно на этом узле, а не просто тёплое кресло в капсуле.</NR_ContractDesc_SurveillanceNode>
   <NR_BoardTag_InNode>В узле: {0}</NR_BoardTag_InNode>
   <NR_BoardTag_InNodeTip>Часы идут, только пока раннер стоит в узле {0} на карте киберпространства (два раннера считаются вдвойне, не больше).</NR_BoardTag_InNodeTip>
+  <NR_ContractFailedScrub>вы заплатили фиксеру за сброс следа</NR_ContractFailedScrub>
+  <NR_ContractRedZoneStreet>«Красная зона»: фиксеры сейчас дают только уличную работу.</NR_ContractRedZoneStreet>
 </LanguageData>

@@ -36,4 +36,9 @@ public class HeatSettingsDef : Def
     public float traceLockHeat = 8f;
     /// <summary>Passive cooling is multiplied by this at Target and above.</summary>
     public float highHeatDecayFactor = 0.5f;
+    /// <summary>After this many hours of unbroken network isolation, cooling is multiplied by the factor.</summary>
+    public float isolationCoolingHours = 12f;
+    public float isolationCoolingFactor = 2f;
+    /// <summary>Red Zone: a dive's entry costs this much more cyberdata.</summary>
+    public int redZoneDiveExtraCost = 1;
 }

@@ -270,6 +270,8 @@ public static class HeatScreen
         Fixer best = BestFixer();
         if (best != null)
             y = EffectLine(r.width, y, HeatEffectSeverity.Info, "NR_HeatV2EffectScrub".Translate(best.HeatPerCyberdata.ToString("0.#"), best.Name));
+        if (tracker.DiveExtraCost > 0)
+            y = EffectLine(r.width, y, HeatEffectSeverity.Warn, "NR_HeatV2EffectRedZone".Translate(tracker.DiveExtraCost));
         y = EffectLine(r.width, y, HeatEffectSeverity.Info, "NR_HeatV2EffectDecay".Translate(tracker.DecayPerDay.ToString("0.#")));
 
         y += 4f;
@@ -305,7 +307,7 @@ public static class HeatScreen
         => float.IsInfinity(days) ? "∞" : days < 1f ? "NR_HeatV2LessThanDay".Translate() : (string)"NR_HeatV2Days".Translate(Mathf.CeilToInt(days));
 
     private static Fixer BestFixer()
-        => FixerManager.Get()?.Fixers.Where(f => !f.IsSilent).OrderByDescending(f => f.HeatPerCyberdata).FirstOrDefault();
+        => FixerManager.Get()?.Fixers.Where(f => !f.IsSilent && f.IsCleaner).OrderByDescending(f => f.HeatPerCyberdata).FirstOrDefault();
 
     // ---- 4. How to lower: through a fixer (the pool, each with its action), a Ghost AI, waiting ----
 
@@ -368,7 +370,8 @@ public static class HeatScreen
         Text.Font = GameFont.Tiny;
         float low = NetrunMod.Settings.HeatDecayPerDay;
         Widgets.Label(new Rect(wait.x + 12f, wait.y + 24f, wait.width - 180f, 18f),
-            "NR_HeatV2WaitDesc".Translate(low.ToString("0.#"), (low * NetrunDefOf.NR_Heat.highHeatDecayFactor).ToString("0.#")).Colorize(NetrunUI.Muted));
+            "NR_HeatV2WaitDesc".Translate(low.ToString("0.#"), (low * NetrunDefOf.NR_Heat.highHeatDecayFactor).ToString("0.#"),
+                NetrunDefOf.NR_Heat.isolationCoolingHours.ToString("0"), NetrunDefOf.NR_Heat.isolationCoolingFactor.ToString("0.#")).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.MiddleRight;
         Widgets.Label(new Rect(wait.xMax - 170f, wait.y, 160f, wait.height),
             (tracker.Heat <= 0f ? "NR_HeatV2NoTrace".Translate() : "NR_HeatV2ToZero".Translate(DaysText(tracker.DaysToZero()))).Colorize(NetrunUI.Muted));
@@ -392,10 +395,11 @@ public static class HeatScreen
         Widgets.DrawBoxSolid(row, NetrunUI.BgCard);
         Text.Font = GameFont.Tiny;
         Text.Anchor = TextAnchor.MiddleLeft;
-        float discount = 1f - fixer.PriceFactor;
+        // A Cleaner shows the instant scrub rate; anyone sells slow cooling.
         string info = fixer.Name.Colorize(FixersTab.SpecialtyColor(fixer.Specialty)) + "  "
-            + "NR_HeatV2FixerRate".Translate(fixer.HeatPerCyberdata.ToString("0.#"), fixer.HeatPerAdvancedCyberdata.ToString("0.#")).Colorize(NetrunUI.Muted)
-            + (discount > 0.01f ? "  " + "NR_HeatV2FixerDiscount".Translate(discount.ToStringPercent()).Colorize(NetrunUI.Ok) : string.Empty);
+            + (fixer.IsCleaner
+                ? "NR_HeatV2FixerRate".Translate(fixer.HeatPerCyberdata.ToString("0.#"), fixer.HeatPerAdvancedCyberdata.ToString("0.#"))
+                : "NR_HeatV2FixerCooling".Translate(fixer.CoolingCost, NetrunDefOf.NR_Fixers.coolingPerDay.ToString("0.#"))).Colorize(NetrunUI.Muted);
         Widgets.Label(new Rect(row.x + 8f, row.y, row.width - 170f, row.height), info);
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
@@ -413,10 +417,7 @@ public static class HeatScreen
         {
             if (NetrunUI.Button(button, "NR_FixerFreeScrub".Translate(fixer.FreeScrubs), NetrunUI.Purple, true,
                     "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
-            {
-                fixer.FreeScrubs--;
-                HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name));
-            }
+                FixerDeals.FreeScrub(fixer);
         }
         else if (fixer.ChannelOpen)
         {
