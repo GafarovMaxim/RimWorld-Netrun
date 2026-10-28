@@ -120,34 +120,34 @@
     <!-- Data delivery: items wanted, silver per item, how many items one advanced cyberdata counts as,
          Broker reward multiplier -->
     <dataDeliveryGoal>4~10</dataDeliveryGoal>
-    <dataDeliveryRewardPerItem>60</dataDeliveryRewardPerItem>
+    <dataDeliveryRewardPerItem>35</dataDeliveryRewardPerItem>
     <advancedCyberdataWorth>3</advancedCyberdataWorth>
     <!-- A fence buys a fresh AI fragment: min price, rising to the max with reputation (a wild AI sold in a dive pays the best of these) -->
     <shardBuyMin>800</shardBuyMin>
     <shardBuyMax>1000</shardBuyMax>
-    <brokerDataBonus>1.5</brokerDataBonus>
+    <brokerDataBonus>1.43</brokerDataBonus>
 
     <!-- System tap: hacks wanted, silver per hack -->
     <systemTapGoal>2~5</systemTapGoal>
-    <systemTapRewardPerHack>120</systemTapRewardPerHack>
+    <systemTapRewardPerHack>70</systemTapRewardPerHack>
 
     <!-- Surveillance: netrunner-hours in a cyberpod, silver per hour. Lay low: offered at this Heat or more, bring it down by this much.
          Rookie: dives without a failure by a colonist with Intellectual up to this. AI order: one AI fragment. Clean lab: chips of one mood. -->
     <surveillanceHours>12~30</surveillanceHours>
-    <surveillanceRewardPerHour>25</surveillanceRewardPerHour>
+    <surveillanceRewardPerHour>15</surveillanceRewardPerHour>
     <layLowMinHeat>25</layLowMinHeat>
     <layLowDrop>15~30</layLowDrop>
-    <layLowRewardPerHeat>18</layLowRewardPerHeat>
+    <layLowRewardPerHeat>8</layLowRewardPerHeat>
     <rookieMaxSkill>6</rookieMaxSkill>
     <rookieDives>2</rookieDives>
-    <rookieReward>450</rookieReward>
-    <aiOrderReward>650</aiOrderReward>
+    <rookieReward>250</rookieReward>
+    <aiOrderReward>400</aiOrderReward>
     <cleanLabChips>1~2</cleanLabChips>
-    <cleanLabRewardPerChip>300</cleanLabRewardPerChip>
+    <cleanLabRewardPerChip>180</cleanLabRewardPerChip>
 
     <!-- Quiet run: hacks wanted while Heat stays at Tracked or lower, silver per hack -->
     <quietRunGoal>2~4</quietRunGoal>
-    <quietRunRewardPerHack>220</quietRunRewardPerHack>
+    <quietRunRewardPerHack>130</quietRunRewardPerHack>
   </Netrun.FixerSettingsDef>
 
   <!-- Fixer handles -->
