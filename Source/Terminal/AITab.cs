@@ -150,6 +150,8 @@ public static class AITab
             else
                 tagX += NetrunUI.Chip(tagX, y + 1f, "???", NetrunUI.Muted, "NR_AITraitHiddenDesc".Translate(AITraitUtility.RevealTrust(i).ToString("0"))) + 6f;
         }
+        if (ai.InMainServer && ai.Server.GetComp<CompAIServer>() is { Temp: not ServerTemp.Normal } room)
+            tagX += NetrunUI.Chip(tagX, y + 1f, room.TempLabel.ToUpper(), room.Temp == ServerTemp.Cooled ? NetrunUI.Ok : room.Temp == ServerTemp.Overheated ? NetrunUI.Warn : NetrunUI.Bad, room.TempTip) + 6f;
         if (ai.HasRequest)
         {
             string left = ai.RequestDeadlineTick > Find.TickManager.TicksGame

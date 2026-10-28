@@ -29,6 +29,15 @@
   <NR_AIFragmentStored>Sleeping: {0} ({1}).</NR_AIFragmentStored>
   <NR_ServerSlots>AI slots: {0} / {1}</NR_ServerSlots>
   <NR_ServerAsleep>No power: the AIs inside are asleep.</NR_ServerAsleep>
+  <NR_ServerAsleepHot>Too hot: the AIs inside are asleep until the room cools to {0}.</NR_ServerAsleepHot>
+  <NR_ServerTemp_Normal>Room temperature normal</NR_ServerTemp_Normal>
+  <NR_ServerTemp_Cooled>Cooled</NR_ServerTemp_Cooled>
+  <NR_ServerTemp_Overheated>Overheating</NR_ServerTemp_Overheated>
+  <NR_ServerTemp_Asleep>Too hot, asleep</NR_ServerTemp_Asleep>
+  <NR_ServerTempTip_Normal>Server room: {0}. At {1} or below the server runs cooled; above {2} it overheats; above {3} it sleeps.</NR_ServerTempTip_Normal>
+  <NR_ServerTempTip_Cooled>Server room: {0}, cool enough. AI service cooldowns and hunger growth are {4} lower.</NR_ServerTempTip_Cooled>
+  <NR_ServerTempTip_Overheated>Server room: {0}, hot. No penalty yet, but above {3} the server goes to sleep. Cool the room.</NR_ServerTempTip_Overheated>
+  <NR_ServerTempTip_Asleep>Server room: {0}, above {3}. The server sleeps and its AIs are unavailable, but none is lost. It wakes at {5} or below.</NR_ServerTempTip_Asleep>
   <NR_AILocationFragment>Sleeping in a fragment.</NR_AILocationFragment>
   <NR_AILocationServer>Lives in: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Asleep: {0} has no power.</NR_AILocationServerOff>

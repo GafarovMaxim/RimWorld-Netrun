@@ -423,6 +423,21 @@ public static class NetrunDebugActions
         Find.WindowStack.Add(new FloatMenu(options));
     }
 
+    [DebugAction(AICat, "Server: set room temperature state", allowedGameStates = OnMap, displayPriority = 85)]
+    private static void SetServerTemp()
+    {
+        CompAIServer server = Find.CurrentMap?.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Select(b => b.GetComp<CompAIServer>()).FirstOrDefault();
+        if (server == null)
+        {
+            Done("No AI server on this map.");
+            return;
+        }
+        var options = System.Enum.GetValues(typeof(ServerTemp)).Cast<ServerTemp>()
+            .Select(s => new FloatMenuOption(s.ToString(), () => server.DevForce(s))).ToList();
+        options.Add(new FloatMenuOption("Auto (read the room)", () => server.DevForce(null)));
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
     [DebugAction(AICat, "AIs: offer quest...", allowedGameStates = Playing, displayPriority = 90)]
     private static void OfferAIQuest()
     {

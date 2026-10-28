@@ -171,7 +171,7 @@ public static class AIBehavior
         if (!CanUseService(ai).Accepted)
             return;
 
-        ai.ServiceReadyTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Settings.serviceCooldownDays * GenDate.TicksPerDay);
+        ai.ServiceReadyTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Settings.serviceCooldownDays * ai.CoolFactor * GenDate.TicksPerDay);
         NetIdeo.Record("NR_UsedAIService");
 
         // A Trickster answering a request for attention.

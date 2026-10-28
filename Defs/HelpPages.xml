@@ -258,7 +258,7 @@
     <order>1</order>
     <color>Purple</color>
     <label>Homes, trust and hunger</label>
-    <body>An AI can live in three places, and each gives something different. Click a home:\n[[aihomes]]\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days. Starving or betrayed AIs make trouble and may escape into the net.</body>
+    <body>An AI can live in three places, and each gives something different. Click a home:\n[[aihomes]]\n## !Gizmo_AI_Use Trust and services\nA service needs {ai.minTrust} trust, costs {ai.serviceTrust} trust and {ai.serviceHunger} hunger, then rests {ai.cooldown} days.\n## !Gizmo_AI_Use Heat and cooling\nThe AI server and its racks give off heat, only while powered. Keep the server room cool: at {ai.coolTemp} or below the server runs cooled and service cooldowns and hunger are lower by {ai.coolBonus}. Above {ai.hotTemp} it overheats; above {ai.sleepTemp} it sleeps, and its AIs are unavailable until the room cools to {ai.wakeTemp}. Heat never loses an AI, it only sleeps. The server card shows the room state.\n## Trouble\nStarving or betrayed AIs make trouble and may escape into the net.</body>
     <icon>Gizmo_AI_Use</icon>
   </Netrun.HelpPageDef>
 

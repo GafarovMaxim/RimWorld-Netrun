@@ -118,6 +118,11 @@ public class HelpPageDef : Def
             ["ai.serviceTrust"] = ai.serviceTrustCost.ToString("0"),
             ["ai.serviceHunger"] = ai.serviceHungerCost.ToString("0"),
             ["ai.cooldown"] = ai.serviceCooldownDays.ToString("0.#"),
+            ["ai.coolTemp"] = ai.serverCoolTemp.ToStringTemperature("F0"),
+            ["ai.hotTemp"] = ai.serverHotTemp.ToStringTemperature("F0"),
+            ["ai.sleepTemp"] = ai.serverSleepTemp.ToStringTemperature("F0"),
+            ["ai.wakeTemp"] = ai.serverWakeTemp.ToStringTemperature("F0"),
+            ["ai.coolBonus"] = ai.serverCoolBonus.ToStringPercent("F0"),
             ["ai.starving"] = ai.starvingHunger.ToString("0"),
         };
         foreach (KeyValuePair<string, string> kv in values)

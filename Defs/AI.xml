@@ -15,6 +15,14 @@
     <awakenDetectChancePerHeat>0.006</awakenDetectChancePerHeat>
     <awakenDetectHeat>10</awakenDetectHeat>
 
+    <!-- Server room (checked hourly): at or below the cool mark the server runs cooled (service cooldown and
+         hunger lower by the bonus); above the hot mark it is overheated; above the sleep mark it sleeps like unpowered -->
+    <serverCoolTemp>15</serverCoolTemp>
+    <serverHotTemp>35</serverHotTemp>
+    <serverSleepTemp>50</serverSleepTemp>
+    <serverWakeTemp>45</serverWakeTemp>
+    <serverCoolBonus>0.1</serverCoolBonus>
+
     <!-- Finds on completed hacks: AI fragment from core-command ICE / Black ICE targets,
          core module from Black ICE targets and satellite black boxes -->
     <fragmentChanceCoreCommandICE>0.05</fragmentChanceCoreCommandICE>
@@ -208,7 +216,7 @@
       <li>BuildingsMisc</li>
     </thingCategories>
     <label>AI server</label>
-    <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Only one can be built. Starts with one slot; server racks built next to it add more, up to three.</description>
+    <description>A shielded server rack built to host awakened AIs. Needs power: without it the AIs inside fall asleep. Gives off heat: keep the room cool: above 50 C the server sleeps until the room cools to 45 C. Only one can be built. Starts with one slot; server racks built next to it add more, up to three.</description>
     <thingClass>Building</thingClass>
     <minifiedDef>MinifiedThing</minifiedDef>
     <graphicData>
@@ -254,6 +262,11 @@
       </li>
       <li Class="CompProperties_Flickable" />
       <li Class="CompProperties_Breakdownable" />
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>8</heatPerSecond>
+        <heatPushMaxTemperature>60</heatPushMaxTemperature>
+      </li>
       <li Class="Netrun.CompProperties_AIServer" />
       <li Class="CompProperties_AffectedByFacilities">
         <linkableFacilities>
@@ -304,6 +317,11 @@
         <basePowerConsumption>100</basePowerConsumption>
       </li>
       <li Class="CompProperties_Flickable" />
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusherPowered</compClass>
+        <heatPerSecond>3</heatPerSecond>
+        <heatPushMaxTemperature>60</heatPushMaxTemperature>
+      </li>
       <li Class="CompProperties_Facility">
         <maxSimultaneous>2</maxSimultaneous>
         <maxDistance>6</maxDistance>

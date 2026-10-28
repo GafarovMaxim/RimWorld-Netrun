@@ -40,7 +40,7 @@ public static class AISecondService
     {
         if (!CanUse(ai).Accepted || map == null)
             return;
-        ai.SecondServiceReadyTick = Find.TickManager.TicksGame + (int)(CooldownDays * GenDate.TicksPerDay);
+        ai.SecondServiceReadyTick = Find.TickManager.TicksGame + (int)(CooldownDays * ai.CoolFactor * GenDate.TicksPerDay);
         ai.AddHunger(5f);
         string result = Perform(ai, map);
         Messages.Message("NR_AI2Used".Translate(ai.Name, result), MessageTypeDefOf.PositiveEvent, historical: true);

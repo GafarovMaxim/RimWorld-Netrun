@@ -158,6 +158,8 @@ public class AIManager : GameComponent, INetrunCleanable
 
         foreach (NetAI ai in _ais.ToList())
         {
+            if (ai.InMainServer)
+                ai.Server.GetComp<CompAIServer>()?.RefreshTemp();
             if (!ai.Housed || !UpdatePower(ai, now))
                 continue;
 
@@ -171,7 +173,7 @@ public class AIManager : GameComponent, INetrunCleanable
             if (ai.Isolated && hunger > 0f)
                 hunger *= Settings.isolatedHungerFactor;
             if (hunger > 0f)
-                hunger *= AITraitUtility.HungerFactor(ai);
+                hunger *= AITraitUtility.HungerFactor(ai) * ai.CoolFactor;
             ai.AddHunger(hunger * dayFraction);
             AIBehavior.TryAutoFeed(ai, ai.Server?.MapHeld);
 
@@ -242,6 +244,12 @@ public class AIManager : GameComponent, INetrunCleanable
         {
             ai.UnpoweredSinceTick = -1;
             return true;
+        }
+        // Heat sleep is not a power loss: the AI sleeps until the room cools and the "lost unpowered" clock does not run.
+        if (ai.InMainServer && ai.Server.GetComp<CompAIServer>()?.HeatAsleep == true)
+        {
+            ai.UnpoweredSinceTick = -1;
+            return false;
         }
 
         int unpoweredFor = ai.UnpoweredSinceTick < 0 ? 0 : now - ai.UnpoweredSinceTick;

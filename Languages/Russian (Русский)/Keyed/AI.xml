@@ -29,6 +29,15 @@
   <NR_AIFragmentStored>Спит: {0} ({1}).</NR_AIFragmentStored>
   <NR_ServerSlots>Слоты для ИИ: {0} / {1}</NR_ServerSlots>
   <NR_ServerAsleep>Нет питания: ИИ внутри спят.</NR_ServerAsleep>
+  <NR_ServerAsleepHot>Слишком жарко: ИИ внутри спят, пока комната не остынет до {0}.</NR_ServerAsleepHot>
+  <NR_ServerTemp_Normal>Температура в норме</NR_ServerTemp_Normal>
+  <NR_ServerTemp_Cooled>Охлаждено</NR_ServerTemp_Cooled>
+  <NR_ServerTemp_Overheated>Перегрев</NR_ServerTemp_Overheated>
+  <NR_ServerTemp_Asleep>Жарко, спит</NR_ServerTemp_Asleep>
+  <NR_ServerTempTip_Normal>Серверная: {0}. При {1} и ниже сервер охлаждён; выше {2} перегревается; выше {3} засыпает.</NR_ServerTempTip_Normal>
+  <NR_ServerTempTip_Cooled>Серверная: {0}, достаточно прохладно. Перезарядка услуг ИИ и рост голода меньше на {4}.</NR_ServerTempTip_Cooled>
+  <NR_ServerTempTip_Overheated>Серверная: {0}, жарко. Штрафа пока нет, но выше {3} сервер уснёт. Охладите комнату.</NR_ServerTempTip_Overheated>
+  <NR_ServerTempTip_Asleep>Серверная: {0}, выше {3}. Сервер спит, ИИ недоступны, но не теряются. Проснётся при {5} и ниже.</NR_ServerTempTip_Asleep>
   <NR_AILocationFragment>Спит в осколке.</NR_AILocationFragment>
   <NR_AILocationServer>Живёт в: {0}.</NR_AILocationServer>
   <NR_AILocationServerOff>Спит: {0} без питания.</NR_AILocationServerOff>

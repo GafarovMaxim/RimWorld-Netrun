@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- The AI server and racks give off heat while powered: at 15 °C or below the server runs cooled (service cooldowns and hunger -10%), above 35 °C it overheats, above 50 °C it sleeps until the room cools to 45 °C; heat sleep never loses an AI.
 - A powered cyberpod shields its netrunner from hypothermia and heatstroke; light clothing gives a dive bonus (no apparel +4% hacking and -10% dive Netsick, up to 1.5 kg half of that), shown in the pod's panel.
 - Netsick withdrawal waits while a colonist is in a caravan, on a gravship in flight or on a map without a cyberpod (setting "Netsick withdrawal on trips"); a neurostabilizer dose postpones withdrawal by 4 days.
 - Heat scrub reworked: reputation no longer changes the price; only a Cleaner scrubs at once (up to 25 Heat, once every 3 days; in the Red Zone up to 15 for double); any fixer sells slow cooling (5 cyberdata for +4 cooling a day over 3 days); network isolation held 12 hours doubles cooling; in the Red Zone fixers give only street contracts and dive entry costs 1 more; a scrub at a fixer fails a new "Lay low" contract.

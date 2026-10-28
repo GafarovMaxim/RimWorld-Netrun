@@ -62,6 +62,13 @@ public class AISettingsDef : Def
     public float archivistXp = 4000f;
     public float seedHeatScrub = 3f;
 
+    // Server room temperature (checked hourly): cooled bonus, overheat mark, and the temperature at which the server sleeps.
+    public float serverCoolTemp = 15f;
+    public float serverHotTemp = 35f;
+    public float serverSleepTemp = 50f;
+    public float serverWakeTemp = 45f;
+    public float serverCoolBonus = 0.1f;
+
     // Seed: feedings (or quiet days for Ghost) needed before it settles into a personality.
     public int seedGrowthToEvolve = 5;
 

@@ -16,6 +16,8 @@ public class CompProperties_AIServer : CompProperties
     public CompProperties_AIServer() => compClass = typeof(CompAIServer);
 }
 
+public enum ServerTemp { Normal, Cooled, Overheated, Asleep }
+
 /// <summary>
 /// Hosts awakened AIs. The main AI server starts with one slot and gains one per linked server rack;
 /// a netrun coprocessor holds a single AI that works for its cyberpod.
@@ -26,6 +28,10 @@ public class CompAIServer : ThingComp
     private int _installedModules;
     private CompPowerTrader _power;
     private CompAffectedByFacilities _facilities;
+
+    // Saved, so heat sleep holds through a load until the room cools to the wake mark (hysteresis).
+    private ServerTemp _temp;
+    private ServerTemp? _forced;
 
     private static AISettingsDef Settings => NetrunDefOf.NR_AI;
     public CompProperties_AIServer Props => (CompProperties_AIServer)props;
@@ -41,7 +47,35 @@ public class CompAIServer : ThingComp
 
     public int Used => AIManager.Get()?.InServer((Building)parent).Count() ?? 0;
     public bool HasFreeSlot => Used < Slots;
-    public bool Powered => _power == null || _power.PowerOn;
+    public bool Powered => (_power == null || _power.PowerOn) && _temp != ServerTemp.Asleep;
+    public ServerTemp Temp => _temp;
+    /// <summary>Asleep from heat while the power is on: the AI only sleeps, it is never lost for this.</summary>
+    public bool HeatAsleep => _temp == ServerTemp.Asleep && (_power == null || _power.PowerOn);
+    public float CoolFactor => _temp == ServerTemp.Cooled ? 1f - Settings.serverCoolBonus : 1f;
+
+    /// <summary>Hourly, from the AI manager's tick: reads the room temperature. A forced dev state wins.</summary>
+    public void RefreshTemp()
+    {
+        if (IsCoprocessor || !parent.Spawned)
+            return;
+        float t = parent.AmbientTemperature;
+        // Falls asleep above serverSleepTemp, wakes only at serverWakeTemp or below.
+        _temp = _forced ?? (t > Settings.serverSleepTemp || (_temp == ServerTemp.Asleep && t > Settings.serverWakeTemp) ? ServerTemp.Asleep
+            : t > Settings.serverHotTemp ? ServerTemp.Overheated
+            : t <= Settings.serverCoolTemp ? ServerTemp.Cooled : ServerTemp.Normal);
+    }
+
+    /// <summary>Dev: pin a state (null returns to the real room reading).</summary>
+    public void DevForce(ServerTemp? state)
+    {
+        _forced = state;
+        RefreshTemp();
+    }
+
+    public string TempLabel => ("NR_ServerTemp_" + _temp).Translate();
+    public string TempTip => ("NR_ServerTempTip_" + _temp).Translate(parent.AmbientTemperature.ToStringTemperature("F0"),
+        Settings.serverCoolTemp.ToStringTemperature("F0"), Settings.serverHotTemp.ToStringTemperature("F0"), Settings.serverSleepTemp.ToStringTemperature("F0"),
+        Settings.serverCoolBonus.ToStringPercent("F0"), Settings.serverWakeTemp.ToStringTemperature("F0"));
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
@@ -97,8 +131,10 @@ public class CompAIServer : ThingComp
         var lines = new List<string> { "NR_ServerSlots".Translate(Used, Slots) };
         foreach (NetAI ai in AIManager.Get()?.InServer((Building)parent) ?? [])
             lines.Add($"  {ai.Name} ({ai.Personality.Label()})");
+        if (!IsCoprocessor)
+            lines.Add(TempLabel + " (" + parent.AmbientTemperature.ToStringTemperature("F0") + ")");
         if (!Powered && Used > 0)
-            lines.Add("NR_ServerAsleep".Translate());
+            lines.Add(HeatAsleep ? "NR_ServerAsleepHot".Translate(Settings.serverWakeTemp.ToStringTemperature("F0")) : "NR_ServerAsleep".Translate());
         return string.Join("\n", lines);
     }
 
@@ -106,6 +142,7 @@ public class CompAIServer : ThingComp
     {
         base.PostExposeData();
         Scribe_Values.Look(ref _installedModules, "installedModules");
+        Scribe_Values.Look(ref _temp, "roomTemp", ServerTemp.Normal);
     }
 }
 
