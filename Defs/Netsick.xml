@@ -39,6 +39,15 @@
     <jackpotAdvancedData>3~5</jackpotAdvancedData>
     <jackpotFragmentChance>0.15</jackpotFragmentChance>
     <failNetsickGain>0.1</failNetsickGain>
+
+    <!-- Neural load (hediff NR_NeuralLoad, -0.5 a day): +neuralLoadPerDive per dive; the Netsick from a dive is multiplied by
+         the factor of the load stage it had before the dive (stage 0 / 1 / 2 = below 0.5 / from 0.5 / from 1.0). -->
+    <neuralLoadPerDive>0.25</neuralLoadPerDive>
+    <neuralLoadNetsickFactors>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </neuralLoadNetsickFactors>
   </Netrun.NetsickSettingsDef>
 
   <HediffDef>
@@ -89,6 +98,37 @@
             <mtbDays>3</mtbDays>
           </li>
         </mentalStateGivers>
+      </li>
+    </stages>
+  </HediffDef>
+
+  <!-- Neural load: every dive adds 0.25, it fades 0.5 a day, so two dives a day are free. No tick of its own. -->
+  <HediffDef>
+    <defName>NR_NeuralLoad</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>neural load</label>
+    <description>The brain is tired from diving. Every dive adds to the load and it fades by half a day. The higher the load, the more Netsick the next dive gives: x1 when light, x2 when heavy, x3 on overload. Two dives a day are free, the third already hurts.</description>
+    <defaultLabelColor>(0.9, 0.6, 0.3)</defaultLabelColor>
+    <isBad>true</isBad>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>0.01</initialSeverity>
+    <comps>
+      <li Class="HediffCompProperties_SeverityPerDay">
+        <severityPerDay>-0.5</severityPerDay>
+        <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+    <stages>
+      <li>
+        <label>light, Netsick from dives x1</label>
+      </li>
+      <li>
+        <minSeverity>0.5</minSeverity>
+        <label>heavy, Netsick from dives x2</label>
+      </li>
+      <li>
+        <minSeverity>1.0</minSeverity>
+        <label>overload, Netsick from dives x3</label>
       </li>
     </stages>
   </HediffDef>

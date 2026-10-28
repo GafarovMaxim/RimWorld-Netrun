@@ -1,5 +1,6 @@
 using System.Linq;
 using RimWorld;
+using UnityEngine;
 using Verse;
 
 namespace Netrun;
@@ -35,6 +36,9 @@ public static class DiveEffects
             report.Events.Add("Dive_ICE|" + "NR_DiveEffectAdrenaline".Translate(pawn.LabelShort));
         }
 
+        if (!dive.Training && pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_NeuralLoad) is { } load)
+            report.Events.Add("Event_Cyberspace_NeuralNoise|" + "NR_DiveEffectNeuralLoad".Translate(pawn.LabelShort, load.CurStage?.label ?? string.Empty));
+
         if (dive.Turn >= Settings.effectMigraineTurns && Give(pawn, "NR_DiveMigraine"))
             report.Events.Add("Event_Cyberspace_NeuralNoise|" + "NR_DiveEffectMigraine".Translate(pawn.LabelShort));
 
@@ -46,6 +50,26 @@ public static class DiveEffects
             NetrunRecords.Add(pawn, NetrunRecords.NR_Record_LinkBurns);
             report.Events.Add("Dive_Lightning_Red|" + "NR_DiveEffectBurned".Translate(pawn.LabelShort));
         }
+    }
+
+    private static NetsickSettingsDef NetsickSettings => NetrunDefOf.NR_NetsickSettings;
+
+    /// <summary>Multiplier for the Netsick of a dive: the factor of the neural load stage the runner has now (1 without load).</summary>
+    public static float NeuralLoadFactor(Pawn pawn)
+    {
+        var factors = NetsickSettings.neuralLoadNetsickFactors;
+        if (pawn?.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_NeuralLoad) is not { } load || factors.NullOrEmpty())
+            return 1f;
+        return factors[Mathf.Min(load.CurStageIndex, factors.Count - 1)];
+    }
+
+    /// <summary>A dive adds neural load (not a training dive).</summary>
+    public static void AddNeuralLoad(Pawn pawn, bool training)
+    {
+        if (pawn == null || pawn.Dead || training || pawn.health?.hediffSet == null)
+            return;
+        Hediff load = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_NeuralLoad) ?? pawn.health.AddHediff(NetrunDefOf.NR_NeuralLoad);
+        load.Severity += NetsickSettings.neuralLoadPerDive;
     }
 
     /// <summary>Hack chance from the runner's state: flow helps, a burned link hurts.</summary>

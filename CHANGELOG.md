@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Neural load: every dive adds 25% load (fades 50% a day); from 50% the Netsick a dive gives is x2, from 100% x3 (two dives a day are free). Shown in the dive summary and on the runner.
 - Fixed: the AI server and racks never heated their room (they had no tick for the heat pusher); the server now heats like a small heater (18), a rack 6.
 - Heat cools by 3 + 4% of its current value a day at every level (no more halving at Target and above; the cooling setting is now a percent); vanilla enemy raids on your colony get more points with Heat (x1.1 Tracked, x1.2 Target, x1.25 Red Zone), not the mercenary raids; both are shown on the Heat ring and screen.
 - The AI server and racks give off heat while powered: at 15 °C or below the server runs cooled (service cooldowns and hunger -10%), above 35 °C it overheats, above 50 °C it sleeps until the room cools to 45 °C; heat sleep never loses an AI.

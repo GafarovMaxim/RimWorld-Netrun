@@ -336,6 +336,7 @@
   <NR_DiveEffectMemory>{0} приносит кое-что из сети: +{2} опыта к навыку «{1}».</NR_DiveEffectMemory>
   <NR_DiveEffectAdrenaline>{0}: ICE позади, адреналин зашкаливает.</NR_DiveEffectAdrenaline>
   <NR_DiveEffectMigraine>У {0} цифровая мигрень после долгого нырка.</NR_DiveEffectMigraine>
+  <NR_DiveEffectNeuralLoad>{0}: нейронагрузка, {1}. Чем она выше, тем больше Netsick даст следующий нырок.</NR_DiveEffectNeuralLoad>
   <NR_DiveEffectPhantom>{0} ловит фантомные сигналы: зависимость показывает ICE в реальном мире.</NR_DiveEffectPhantom>
   <NR_DiveEffectBurned>Black ICE выжег нейролинк {0}: три дня взломы даются труднее.</NR_DiveEffectBurned>
   <NR_HeadlineHarden>«{0}» усилил ICE: защита +1.</NR_HeadlineHarden>

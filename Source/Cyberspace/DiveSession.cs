@@ -1170,7 +1170,8 @@ public class DiveSession : IExposable
         float heat = Trace * Node.HeatPerTrace * CyberpodUtility.HeatFactor(coprocessor) * (GatewayManager.Get()?.TraceFactor ?? 1f);
         if (heat > 0f)
             HeatTracker.Get()?.AddHeat(heat, "NR_DiveHeatReason".Translate(Runner?.LabelShort ?? "?", Node.Name), HeatSource.Dive);
-        AddNetsick(Settings.netsickPerDive);
+        AddNetsick(Settings.netsickPerDive * DiveEffects.NeuralLoadFactor(Runner));
+        DiveEffects.AddNeuralLoad(Runner, Training);
         if (!success && !Retreated)
             AddFailBurns();
 

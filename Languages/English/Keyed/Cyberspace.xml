@@ -336,6 +336,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveEffectMemory>{0} brought something back from the net: +{2} XP to {1}.</NR_DiveEffectMemory>
   <NR_DiveEffectAdrenaline>{0} survived the ICE and feels unstoppable.</NR_DiveEffectAdrenaline>
   <NR_DiveEffectMigraine>{0} has a digital migraine after a long dive.</NR_DiveEffectMigraine>
+  <NR_DiveEffectNeuralLoad>{0}: neural load, {1}. The next dive gives more Netsick the higher it is.</NR_DiveEffectNeuralLoad>
   <NR_DiveEffectPhantom>{0} catches phantom signals: the dependency shows ICE in the real world.</NR_DiveEffectPhantom>
   <NR_DiveEffectBurned>Black ICE burned {0}'s neural link: hacks are harder for three days.</NR_DiveEffectBurned>
   <NR_HeadlineHarden>«{0}» hardened its ICE: defense +1.</NR_HeadlineHarden>

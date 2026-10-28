@@ -29,4 +29,8 @@ public class NetsickSettingsDef : Def
     public IntRange jackpotAdvancedData = new(3, 5);
     public float jackpotFragmentChance = 0.3f;
     public float failNetsickGain = 0.1f;
+
+    // T1.5 neural load: added by each dive; the Netsick a dive gives is multiplied by the factor of the stage the load had before it.
+    public float neuralLoadPerDive = 0.25f;
+    public System.Collections.Generic.List<float> neuralLoadNetsickFactors = [1f, 2f, 3f];
 }

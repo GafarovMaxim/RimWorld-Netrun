@@ -68,6 +68,7 @@ public static class NetrunDefOf
     public static HediffDef NR_AISocketInstalled;
     public static NetsickSettingsDef NR_NetsickSettings;
     public static HediffDef NR_Netsick;
+    public static HediffDef NR_NeuralLoad;
     public static HediffDef NR_NeurostabilizerHigh;
     public static ThingDef NR_NetrunCoprocessor;
     public static ThingDef NR_AIServerRack;
