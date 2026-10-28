@@ -517,4 +517,14 @@
   <NR_DiveRivalBar>Соперник: ходов до захвата — {0}</NR_DiveRivalBar>
   <NR_DiveRivalBarTip>В этой ноде другой нетраннер. Ходов до того, как он заберёт оставшиеся файлы: {0}. Где он в ноде, неизвестно, виден только его темп.</NR_DiveRivalBarTip>
   <NR_ReportTurns>ходов в ноде: {0}</NR_ReportTurns>
+  <NR_RewardSpecial>Особая находка</NR_RewardSpecial>
+  <NR_RewardTipSpecial>Шанс особой находки при чистом выходе: осколок ИИ, исследования, услуга фиксера, расположение группы, запись знаменитости, демон или модуль ядра.</NR_RewardTipSpecial>
+  <NR_RewardTipData>Основные файлы: {0}. Тайники: по {1} (один на сложной ветке, один между развилками). {2} Все бонусы (шторм, охраняемый узел, приманка, зеркало, новости, Орбита, скрытые проходы) уже учтены и вместе не превышают ×{3}.</NR_RewardTipData>
+  <NR_RewardTipForgotten>Забытый кэш: {0}–{1}.</NR_RewardTipForgotten>
+  <NR_RewardTipNoForgotten>Забытого кэша здесь нет.</NR_RewardTipNoForgotten>
+  <NR_RewardTipAdvBoss>файлы ядра: {0}</NR_RewardTipAdvBoss>
+  <NR_RewardTipAdvCorp>файлы, только сложный путь: {0}</NR_RewardTipAdvCorp>
+  <NR_RewardTipAdvBlackIce>файлы ноды с Black ICE: {0}</NR_RewardTipAdvBlackIce>
+  <NR_RewardTipAdvMemory>хранилище: {0} (если там нет осколка или модуля)</NR_RewardTipAdvMemory>
+  <NR_RewardTipSilver>Серебро из файлов биржи, с зеркалом и аукционом, если они включены.</NR_RewardTipSilver>
 </LanguageData>

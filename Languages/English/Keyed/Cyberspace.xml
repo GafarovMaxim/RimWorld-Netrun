@@ -517,4 +517,14 @@ End the run first (exit the dive, or reach an exit point or Home). Wake anyway?<
   <NR_DiveRivalBar>Rival: {0} turns left</NR_DiveRivalBar>
   <NR_DiveRivalBarTip>Another netrunner is in this node. In {0} turns they take the files that are still here. Where they are in the node is unknown, only their pace.</NR_DiveRivalBarTip>
   <NR_ReportTurns>{0} turns in the node</NR_ReportTurns>
+  <NR_RewardSpecial>Special find</NR_RewardSpecial>
+  <NR_RewardTipSpecial>Chance of a special find on a clean exit: an AI fragment, research, a fixer's service, the group's favor, a celebrity recording, a daemon or a core module.</NR_RewardTipSpecial>
+  <NR_RewardTipData>Main files: {0}. Caches: {1} each (one on the hard branch, one between forks). {2} All bonuses (storm, guarded hub, lure, mirror, news, Orbit, hidden passages) are already counted and together never pass x{3}.</NR_RewardTipData>
+  <NR_RewardTipForgotten>Forgotten cache: {0}-{1}.</NR_RewardTipForgotten>
+  <NR_RewardTipNoForgotten>No forgotten cache here.</NR_RewardTipNoForgotten>
+  <NR_RewardTipAdvBoss>the core's files: {0}</NR_RewardTipAdvBoss>
+  <NR_RewardTipAdvCorp>files, hard path only: {0}</NR_RewardTipAdvCorp>
+  <NR_RewardTipAdvBlackIce>files of a Black ICE node: {0}</NR_RewardTipAdvBlackIce>
+  <NR_RewardTipAdvMemory>memory unit: {0} (unless it holds a fragment or a module)</NR_RewardTipAdvMemory>
+  <NR_RewardTipSilver>Silver from the exchange's files, with the mirror and the auction if they are on.</NR_RewardTipSilver>
 </LanguageData>

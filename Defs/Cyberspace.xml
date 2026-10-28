@@ -90,6 +90,11 @@
     <forgottenCacheReward>2~4</forgottenCacheReward>
     <advancedCorpHard>1~1</advancedCorpHard>
     <advancedBoss>2~3</advancedBoss>
+    <!-- Black ICE nodes other than corp vaults: +1 advanced with the files. The memory unit: 1-2 advanced unless it holds a fragment or a module. -->
+    <advancedBlackIce>1~1</advancedBlackIce>
+    <memoryAdvanced>1~2</memoryAdvanced>
+    <!-- All reward multipliers on one dive (storm, guarded hub, lure, mirror, news glut, Orbit, hidden passages) stack to at most this; the core is exempt. -->
+    <rewardMultCap>2</rewardMultCap>
     <exchangeSilver>120~250</exchangeSilver>
     <specialItemChance>0.1</specialItemChance>
     <specialItemChanceBlackIce>0.25</specialItemChanceBlackIce>

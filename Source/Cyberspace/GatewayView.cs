@@ -30,6 +30,9 @@ public static partial class GatewayView
     ];
 
     private static int _selectedId = -1;
+
+    /// <summary>The node chosen in the panel (dev actions use it).</summary>
+    public static ExternalNode SelectedNode => GatewayManager.Get()?.AllBranches.FirstOrDefault(n => n.Id == _selectedId);
     private static bool _listMode;
     private static Vector2 _pan;
     private static float _zoom = DefaultZoom;
@@ -706,19 +709,19 @@ public static partial class GatewayView
             y = Row(inner, y, RewardIcon, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardMult".Translate(), NetrunUI.Ok,
                 "NR_GatewayTipReward".Translate() + "\n\n" + node.RewardText);
             // Items in a column: icon, name, amount or chance.
-            foreach ((ThingDef def, string amount) in node.RewardLines())
+            foreach ((Texture2D icon, string label, string amount, string tip) in node.RewardLines())
             {
                 float s = NetrunUI.Icon(26f);
                 var line = new Rect(inner.x + 24f, y, inner.width - 24f, s + 2f);
-                Widgets.ThingIcon(new Rect(line.x, line.y + 1f, s, s), def);
+                GUI.DrawTexture(new Rect(line.x, line.y + 1f, s, s), icon ?? BaseContent.BadTex);
                 Text.Font = GameFont.Tiny;
                 Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(new Rect(line.x + s + 6f, line.y, line.width - 90f, line.height), def.LabelCap.ToString().Truncate(line.width - 90f));
+                Widgets.Label(new Rect(line.x + s + 6f, line.y, line.width - 90f, line.height), label.Truncate(line.width - 90f));
                 Text.Anchor = TextAnchor.MiddleRight;
                 Widgets.Label(new Rect(line.xMax - 64f, line.y, 64f, line.height), amount.Colorize(NetrunUI.Ok));
                 Text.Anchor = TextAnchor.UpperLeft;
                 Text.Font = GameFont.Small;
-                NetrunUI.Tip(line, def.LabelCap + ": " + amount);
+                NetrunUI.Tip(line, label + ": " + amount + (tip.NullOrEmpty() ? "" : "\n\n" + tip));
                 y += 22f;
             }
             y += 4f;

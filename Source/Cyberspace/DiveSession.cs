@@ -319,7 +319,7 @@ public class DiveSession : IExposable
             Link(Elements[e2], merge);
             last = merge;
         }
-        if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
+        if (Node.HasMemory)
         {
             int m = Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true }, col++, 0f);
             Link(Elements[last], m);
@@ -360,7 +360,7 @@ public class DiveSession : IExposable
         if (Node.BlackIce)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Ice, Strength = Node.IceStrength + (Storm ? 1 : 0) });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Files, Cleared = true });
-        if (Node.Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
+        if (Node.HasMemory)
             Elements.Add(new DiveElement { Kind = DiveElementKind.Memory, Cleared = true });
         Elements.Add(new DiveElement { Kind = DiveElementKind.Exit, Cleared = true });
         Linearize();
@@ -439,7 +439,7 @@ public class DiveSession : IExposable
         if (Node.ForgottenCache && !_cacheFound)
         {
             _cacheFound = true;
-            int found = Settings.forgottenCacheReward.RandomInRange;
+            int found = Scaled(Settings.forgottenCacheReward.RandomInRange);
             LootCyberdata += found;
             AddLog("NR_DiveLogForgottenCache".Translate(found).Colorize(NetrunUI.Ok));
         }
@@ -666,14 +666,19 @@ public class DiveSession : IExposable
             AddLog("NR_DiveLogPassage".Translate(Settings.branchPassageBonus.ToString("0.0#")).Colorize(NetrunUI.Ok));
         }
         else if (Current.Cache)
-            LootCyberdata += Settings.cacheReward.RandomInRange;
+            LootCyberdata += Scaled(Settings.cacheReward.RandomInRange);
         else
             RollFiles();
         AddLog("NR_DiveLogDownload".Translate(LootText()));
         Spend(Settings.tracePerAction);
     }
 
-    /// <summary>Main files: a fixed range by node tier (the hard path of a medium node pays more), times storm and the like, plus the hidden passage.</summary>
+    /// <summary>A cyberdata amount with every bonus on it (storm, hub, mirror, news, Orbit, passages), capped by the Def; what the haul shows is what is delivered.</summary>
+    private int Scaled(int raw) => Scaled(Node, raw, PassageBonus);
+
+    public static int Scaled(ExternalNode node, int raw, float passage) => Mathf.RoundToInt(raw * node.StackMult(passage));
+
+    /// <summary>Main files: a fixed range by node tier (the hard path of a medium node pays more), times the capped bonuses.</summary>
     private void RollFiles()
     {
         (int data, int advanced, int silver) = RollMain(Node, TookHardPath, PassageBonus);
@@ -682,15 +687,14 @@ public class DiveSession : IExposable
         LootSilver += silver;
     }
 
-    /// <summary>One roll of a node's main files on a path: cyberdata, advanced cyberdata, silver. The dev action rolls it in bulk.</summary>
+    /// <summary>One roll of a node's main files on a path: cyberdata, advanced cyberdata, silver (all with their bonuses). The dev action rolls it in bulk.</summary>
     public static (int data, int advanced, int silver) RollMain(ExternalNode node, bool hard, float passage = 0f)
     {
-        int data = Mathf.RoundToInt(node.BaseRewardRange(hard).RandomInRange * node.RewardFactor * (1f + passage));
-        if (node.IsBoss)
-            return (data, Settings.advancedBoss.RandomInRange, 0);
-        if (node.Type == ExternalNodeType.Corp && hard)
-            return (data, Settings.advancedCorpHard.RandomInRange, 0);
-        return (data, 0, node.Type == ExternalNodeType.DarkExchange ? Settings.exchangeSilver.RandomInRange : 0);
+        int data = Scaled(node, node.BaseRewardRange(hard).RandomInRange, passage);
+        (int amin, int amax) = node.FilesAdvanced(hard);
+        int advanced = Mathf.RoundToInt(new IntRange(amin, amax).RandomInRange * node.ExtraMult(false));
+        int silver = node.Type == ExternalNodeType.DarkExchange ? Mathf.RoundToInt(Settings.exchangeSilver.RandomInRange * node.ExtraMult(true)) : 0;
+        return (data, advanced, silver);
     }
 
     /// <summary>
@@ -868,7 +872,7 @@ public class DiveSession : IExposable
         else if (Rand.Chance(0.05f))
             LootItems.Add(NetrunDefOf.NR_AICoreModule);
         else
-            LootAdvanced += Rand.RangeInclusive(1, 2);
+            LootAdvanced += Mathf.RoundToInt(Settings.memoryAdvanced.RandomInRange * Node.ExtraMult(false));
     }
 
     public string LootText()
@@ -1137,11 +1141,10 @@ public class DiveSession : IExposable
         if (map != null)
         {
             IntVec3 spot = Runner.PositionHeld;
-            float mirror = Node.Mirrored ? 2f : 1f;
-            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare * mirror * (GatewayManager.Get()?.LootFactor ?? 1f)
-                * (Node.District == District.Orbit ? NetMapManager.Settings.orbitLoot : 1f)));
-            Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare * mirror));
-            Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare * mirror * (Node.Auction ? 1.5f : 1f)));
+            // Every bonus is already in the rolled amounts (Scaled / RollMain), so the haul on screen is what lands here.
+            Spawn(map, spot, NetrunDefOf.USH_Cyberdata, Mathf.RoundToInt(LootCyberdata * keepShare));
+            Spawn(map, spot, NetrunDefOf.USH_AdvancedCyberdata, Mathf.RoundToInt(LootAdvanced * keepShare));
+            Spawn(map, spot, ThingDefOf.Silver, Mathf.RoundToInt(LootSilver * keepShare));
             if (keepShare >= 1f)
             {
                 foreach (ThingDef item in LootItems)

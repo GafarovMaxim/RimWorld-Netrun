@@ -360,6 +360,43 @@ public static class NetrunDebugActions
         Done("Rewards rolled, see the log");
     }
 
+    /// <summary>Prints the node card forecast and 10 whole dives rolled the way a dive does (random route, caches, memory), flagging any outside the forecast.</summary>
+    [DebugAction(DiveCat, "Dive: forecast vs roll x10 (selected node)", allowedGameStates = Playing, displayPriority = 69)]
+    private static void ForecastVsRoll()
+    {
+        ExternalNode node = GatewayView.SelectedNode ?? GatewayManager.Get()?.AllBranches.FirstOrDefault();
+        if (node == null)
+        {
+            Done("No node: open the cyberspace panel and select one");
+            return;
+        }
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        var sb = new System.Text.StringBuilder($"[Netrun dev] {node.Name}: defense {node.Defense}, Black ICE {node.BlackIce}, mult x{node.StackMult():0.##} (cap x{s.rewardMultCap:0.#}{(node.IsBoss ? ", core exempt" : "")})\nForecast card:\n");
+        foreach ((_, string label, string amount, string tip) in node.RewardLines())
+            sb.AppendLine($"  {label}: {amount}" + (tip.NullOrEmpty() ? "" : "  [" + tip.Replace("\n", " ") + "]"));
+        var t = node.ForecastTotals();
+        int forks = DiveSession.ForksFor(node);
+        sb.AppendLine("Rolls (data / advanced / silver):");
+        for (int i = 0; i < 10; i++)
+        {
+            int hardForks = Enumerable.Range(0, forks).Count(_ => Rand.Bool);
+            bool hard = hardForks > 0;
+            float passage = (forks - hardForks) * s.branchPassageBonus;
+            (int data, int adv, int silver) = DiveSession.RollMain(node, hard, passage);
+            int caches = hardForks + UnityEngine.Mathf.Max(0, forks - 1) + (forks == 0 && Rand.Chance(0.6f) ? 1 : 0);
+            for (int c = 0; c < caches; c++)
+                data += DiveSession.Scaled(node, s.cacheReward.RandomInRange, passage);
+            if (node.ForgottenCache)
+                data += DiveSession.Scaled(node, s.forgottenCacheReward.RandomInRange, passage);
+            if (node.HasMemory)
+                adv += UnityEngine.Mathf.RoundToInt(s.memoryAdvanced.RandomInRange * node.ExtraMult(false));
+            bool ok = data >= t.dataMin && data <= t.dataMax && adv >= t.advMin && adv <= t.advMax && silver >= t.silverMin && silver <= t.silverMax;
+            sb.AppendLine($"  {(hard ? "hard" : "easy")} x{hardForks}/{forks}: {data} / {adv} / {silver}" + (ok ? "" : "   <-- OUTSIDE the forecast"));
+        }
+        Log.Message(sb.ToString());
+        Done("Forecast and rolls logged");
+    }
+
     // ---- AIs ----
 
     /// <summary>Fires any AI event now, ignoring its conditions and limits, on an AI that fits its personality.</summary>

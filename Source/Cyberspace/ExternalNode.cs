@@ -105,6 +105,12 @@ public class CyberspaceSettingsDef : Def
     /// <summary>Corp nodes: advanced cyberdata only on the hard path; the core always.</summary>
     public IntRange advancedCorpHard = new(1, 1);
     public IntRange advancedBoss = new(2, 3);
+    /// <summary>Black ICE nodes that are not corp vaults: 1 advanced cyberdata with the files (docs/BALANCE_PLAN.md, section 2).</summary>
+    public IntRange advancedBlackIce = new(1, 1);
+    /// <summary>The memory unit pays advanced cyberdata unless it holds an AI fragment or a core module.</summary>
+    public IntRange memoryAdvanced = new(1, 2);
+    /// <summary>All reward multipliers on one dive (storm, guarded hub, lure, mirror, news glut, Orbit, hidden passages) together stop here; the corporate core is exempt.</summary>
+    public float rewardMultCap = 2f;
     public IntRange exchangeSilver = new(120, 250);
     public float specialItemChance = 0.1f;
     public float specialItemChanceBlackIce = 0.25f;
@@ -318,10 +324,34 @@ public class ExternalNode : IExposable
         }
     }
 
-    /// <summary>Storm, guarded hub and honeypot lure scale the rolled files.</summary>
-    public float RewardFactor => (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
-        * (InGuardedHub ? NetMapManager.GuardedRewardMult : 1f)
-        * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
+    /// <summary>
+    /// Everything that scales cyberdata on a dive: storm, guarded hub, honeypot lure, mirror, news glut, Orbit and the hidden
+    /// passages, multiplied and capped at rewardMultCap (the corporate core is exempt). The roll and the forecast share it.
+    /// </summary>
+    public float StackMult(float passage = 0f)
+    {
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        float m = (GatewayManager.Get()?.StormActive == true ? s.stormRewardMult : 1f)
+            * (InGuardedHub ? NetMapManager.GuardedRewardMult : 1f)
+            * (Honeypot ? s.honeypotShownReward : 1f)
+            * (Mirrored ? 2f : 1f)
+            * (GatewayManager.Get()?.LootFactor ?? 1f)
+            * (District == District.Orbit ? NetMapManager.Settings.orbitLoot : 1f)
+            * (1f + passage);
+        return IsBoss ? m : Mathf.Min(m, s.rewardMultCap);
+    }
+
+    /// <summary>The mirror (and the auction, for silver) on advanced cyberdata and silver, under the same cap.</summary>
+    public float ExtraMult(bool silver)
+    {
+        float m = (Mirrored ? 2f : 1f) * (silver && Auction ? 1.5f : 1f);
+        return IsBoss ? m : Mathf.Min(m, NetrunDefOf.NR_Cyberspace.rewardMultCap);
+    }
+
+    public float RewardFactor => StackMult();
+
+    /// <summary>The node has a memory unit at the end of the dive.</summary>
+    public bool HasMemory => Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore;
 
     /// <summary>The tier's main-files range (before the factor); only medium nodes differ by path.</summary>
     public IntRange BaseRewardRange(bool hard)
@@ -345,23 +375,101 @@ public class ExternalNode : IExposable
 
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
-    /// <summary>What a clean dive can bring, item by item, with an amount or a chance (for the node panel).</summary>
-    public System.Collections.Generic.List<(ThingDef def, string amount)> RewardLines()
+    /// <summary>Advanced cyberdata from the files themselves: (always, extra on the hard path).</summary>
+    public (int min, int max) FilesAdvanced(bool hard)
     {
-        var s = NetrunDefOf.NR_Cyberspace;
-        var lines = new System.Collections.Generic.List<(ThingDef, string)>();
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        if (IsBoss)
+            return (s.advancedBoss.min, s.advancedBoss.max);
+        if (Type == ExternalNodeType.Corp)
+            return hard ? (s.advancedCorpHard.min, s.advancedCorpHard.max) : (0, 0);
+        return BlackIce ? (s.advancedBlackIce.min, s.advancedBlackIce.max) : (0, 0);
+    }
+
+    /// <summary>
+    /// Totals a clean dive can bring over every route through the forks: min is the quietest, max the richest (caches, the forgotten
+    /// cache, hidden passages, every bonus and the cap included). The roll is checked against it by the dev action.
+    /// </summary>
+    public (int dataMin, int dataMax, int advMin, int advMax, int silverMin, int silverMax) ForecastTotals()
+    {
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        int forks = DiveSession.ForksFor(this);
+        int dataMin = int.MaxValue, dataMax = 0, advMin = int.MaxValue, advMax = 0;
+        // Each route: how many forks take the hard branch (the first n; the order does not change the sums).
+        for (int hardForks = 0; hardForks <= forks; hardForks++)
+        {
+            bool hard = hardForks > 0;
+            int easyForks = forks - hardForks;
+            // Caches: the hard branch has one, a junction between two forks has one, a node without forks may hold one.
+            int caches = hardForks + Mathf.Max(0, forks - 1) + (forks == 0 ? 1 : 0);
+            float mult = StackMult(easyForks * s.branchPassageBonus);
+            IntRange main = BaseRewardRange(hard);
+            int lo = Mathf.RoundToInt(main.min * StackMult());
+            int hi = Mathf.RoundToInt((main.max + caches * s.cacheReward.max + (ForgottenCache ? s.forgottenCacheReward.max : 0)) * mult);
+            dataMin = Mathf.Min(dataMin, lo);
+            dataMax = Mathf.Max(dataMax, hi);
+            (int fmin, int fmax) = FilesAdvanced(hard);
+            advMin = Mathf.Min(advMin, fmin);
+            advMax = Mathf.Max(advMax, fmax);
+        }
+        if (HasMemory)
+            advMax += s.memoryAdvanced.max;
+        float extra = ExtraMult(false);
+        int silver = Type == ExternalNodeType.DarkExchange ? 1 : 0;
+        float sx = ExtraMult(true);
+        return (dataMin, dataMax, Mathf.RoundToInt(advMin * extra), Mathf.RoundToInt(advMax * extra),
+            silver * Mathf.RoundToInt(s.exchangeSilver.min * sx), silver * Mathf.RoundToInt(s.exchangeSilver.max * sx));
+    }
+
+    /// <summary>Chance of a special find on a clean exit (the core and the Old Net always leave one).</summary>
+    public float SpecialFindChance
+    {
+        get
+        {
+            if (IsBoss || Ancient)
+                return 1f;
+            float chance = BlackIce ? NetrunDefOf.NR_Cyberspace.specialItemChanceBlackIce : NetrunDefOf.NR_Cyberspace.specialItemChance;
+            return Mathf.Min(1f, District == District.Dump ? chance * 1.5f : chance);
+        }
+    }
+
+    /// <summary>What a clean dive can bring, line by line: icon, name, amount or chance, tooltip (for the node panel).</summary>
+    public System.Collections.Generic.List<(Texture2D icon, string label, string amount, string tip)> RewardLines()
+    {
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        var lines = new System.Collections.Generic.List<(Texture2D, string, string, string)>();
+        var t = ForecastTotals();
         bool forked = DiveSession.ForksFor(this) > 0;
-        lines.Add((NetrunDefOf.USH_Cyberdata, RangeText(new IntRange(ShownRewardRange(false).min, ShownRewardRange(forked).max))));
-        if (IsBoss)
-            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, RangeText(s.advancedBoss)));
-        else if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
-            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, forked ? "0–" + s.advancedCorpHard.max : "0"));
+
+        // Cyberdata: main files + caches + the forgotten cache, with every bonus, under the cap.
+        string dataTip = "NR_RewardTipData".Translate(RangeText(ShownRewardRange(false)) + (forked ? " / " + RangeText(ShownRewardRange(true)) : ""),
+            s.cacheReward.max.ToString(), ForgottenCache ? "NR_RewardTipForgotten".Translate(s.forgottenCacheReward.min.ToString(), s.forgottenCacheReward.max.ToString()).ToString() : "NR_RewardTipNoForgotten".Translate().ToString(),
+            s.rewardMultCap.ToString("0.#")).ToString();
+        lines.Add((NetrunDefOf.USH_Cyberdata.uiIcon, NetrunDefOf.USH_Cyberdata.LabelCap, RangeText(new IntRange(t.dataMin, t.dataMax)), dataTip));
+
+        // Advanced cyberdata, and when it comes.
+        if (t.advMax > 0)
+        {
+            var when = new System.Collections.Generic.List<string>();
+            if (IsBoss)
+                when.Add("NR_RewardTipAdvBoss".Translate(RangeText(s.advancedBoss)));
+            else if (Type == ExternalNodeType.Corp)
+                when.Add("NR_RewardTipAdvCorp".Translate(RangeText(s.advancedCorpHard)));
+            else if (BlackIce)
+                when.Add("NR_RewardTipAdvBlackIce".Translate(RangeText(s.advancedBlackIce)));
+            if (HasMemory)
+                when.Add("NR_RewardTipAdvMemory".Translate(RangeText(s.memoryAdvanced)));
+            lines.Add((NetrunDefOf.USH_AdvancedCyberdata.uiIcon, NetrunDefOf.USH_AdvancedCyberdata.LabelCap, RangeText(new IntRange(t.advMin, t.advMax)), string.Join("; ", when)));
+        }
         if (Type == ExternalNodeType.DarkExchange)
-            lines.Add((ThingDefOf.Silver, RangeText(s.exchangeSilver)));
+            lines.Add((ThingDefOf.Silver.uiIcon, ThingDefOf.Silver.LabelCap, RangeText(new IntRange(t.silverMin, t.silverMax)), "NR_RewardTipSilver".Translate()));
         if (IsBoss)
-            lines.Add((NetrunDefOf.NR_AICoreModule, s.bossCoreModuleChance.ToStringPercent()));
+            lines.Add((NetrunDefOf.NR_AICoreModule.uiIcon, NetrunDefOf.NR_AICoreModule.LabelCap, s.bossCoreModuleChance.ToStringPercent(), null));
         if (Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)
-            lines.Add((NetrunDefOf.NR_AIFragment, AIBalance.FragmentChance(Type == ExternalNodeType.Abandoned ? NetrunDefOf.NR_Cyberspace.memoryFragmentAbandoned : NetrunDefOf.NR_Cyberspace.memoryFragmentOther).ToStringPercent()));
+            lines.Add((NetrunDefOf.NR_AIFragment.uiIcon, NetrunDefOf.NR_AIFragment.LabelCap,
+                AIBalance.FragmentChance(Ancient ? 0.5f : Type == ExternalNodeType.Abandoned ? s.memoryFragmentAbandoned : s.memoryFragmentOther).ToStringPercent(), null));
+        // The special find (fragment, research, service, favor, chip, daemon, module): one roll on a clean exit.
+        lines.Add((NetrunTex.CyberIcon("Reward_Valuables"), "NR_RewardSpecial".Translate(), SpecialFindChance.ToStringPercent(), "NR_RewardTipSpecial".Translate()));
         return lines;
     }
 
