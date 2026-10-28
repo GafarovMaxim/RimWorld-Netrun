@@ -55,6 +55,8 @@ public class NetrunSettings : ModSettings
     public bool SurveillanceInNode = true;
     /// <summary>D5: isolating the network has a 6-hour cooldown, and a very short isolation costs trace and Netsick.</summary>
     public bool IsolationCooldown = true;
+    /// <summary>T1.6: off (default) = Netsick withdrawal waits in caravans, on a flying gravship and on maps without a cyberpod.</summary>
+    public bool NetsickInTrips;
     /// <summary>D2: two or three corporate hubs are shut until a guard gateway next door is broken.</summary>
     public bool ProtectedHubs = true;
     /// <summary>I1: districts beyond the start are uncharted until a runner reaches them or a dive charts the next one.</summary>
@@ -492,6 +494,7 @@ public class NetrunSettings : ModSettings
         Toggle("NR_SettingsNewcomer", ref NewcomerProtection, "NR_SettingsNewcomerTip");
         Toggle("NR_SettingsSurveillanceNode", ref SurveillanceInNode, "NR_SettingsSurveillanceNodeTip");
         Toggle("NR_SettingsIsolationCooldown", ref IsolationCooldown, "NR_SettingsIsolationCooldownTip");
+        Toggle("NR_SettingsNetsickTrips", ref NetsickInTrips, "NR_SettingsNetsickTripsTip");
         Toggle("NR_SettingsProtectedHubs", ref ProtectedHubs, "NR_SettingsProtectedHubsTip");
         Toggle("NR_SettingsGradualDistricts", ref GradualDistricts, "NR_SettingsGradualDistrictsTip");
         Toggle("NR_SettingsPodFuel", ref PodFuel, "NR_SettingsPodFuelTip");
@@ -763,6 +766,7 @@ public class NetrunSettings : ModSettings
         CostlierHE = true;
         SurveillanceInNode = true;
         IsolationCooldown = true;
+        NetsickInTrips = false;
         ProtectedHubs = true;
         GradualDistricts = true;
     }
@@ -823,6 +827,7 @@ public class NetrunSettings : ModSettings
         Scribe_Values.Look(ref CostlierHE, "costlierHE", true);
         Scribe_Values.Look(ref SurveillanceInNode, "surveillanceInNode", true);
         Scribe_Values.Look(ref IsolationCooldown, "isolationCooldown", true);
+        Scribe_Values.Look(ref NetsickInTrips, "netsickInTrips");
         Scribe_Values.Look(ref ProtectedHubs, "protectedHubs", true);
         Scribe_Values.Look(ref GradualDistricts, "gradualDistricts", true);
         Scribe_Values.Look(ref NotifySounds, "notifySounds");

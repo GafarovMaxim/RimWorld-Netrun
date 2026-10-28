@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Neurostabilizer: eases Netsick and holds the withdrawal off for two days. Mild addiction, like smokeleaf. -->
+  <!-- Neurostabilizer: eases Netsick and holds the withdrawal off: none for at least 4 days. Mild addiction, like smokeleaf. -->
 
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_Neurostabilizer</defName>
     <label>neurostabilizer</label>
-    <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, and for two days the user does not feel cut off and does not break for a pod.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
+    <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, for two days the user does not feel cut off and does not break for a pod, and the withdrawal does not return for at least 4 days.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_NeurostabilizerHigh</HediffDef>
       <HediffDef>NR_NeurostabilizerAddiction</HediffDef>
@@ -56,6 +56,7 @@
       <outcomeDoers>
         <li Class="Netrun.IngestionOutcomeDoer_ReduceNetsick">
           <amount>0.15</amount>
+          <postponeDays>4</postponeDays>
         </li>
         <li Class="IngestionOutcomeDoer_GiveHediff">
           <hediffDef>NR_NeurostabilizerHigh</hediffDef>

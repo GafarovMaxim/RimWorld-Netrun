@@ -71,6 +71,10 @@ public class NetsickManager : GameComponent
             if (pawn.TryGetHoldingCyberpod(out _))
                 continue;
 
+            // On a trip: the withdrawal clock stands still (the "offline" day count shifts forward).
+            if (TripPaused(pawn))
+                netsick.LastConnectedTick += TickInterval;
+
             // Left the pod mid-dive: the emotional dive simply ends. A craving that never reached a pod is dropped after a day.
             netsick.EmotionalDiveUntilTick = -1;
             netsick.WakeRequestedTick = -1;
@@ -79,6 +83,23 @@ public class NetsickManager : GameComponent
             netsick.Severity -= Settings.decayPerDay * DayFraction * NetrunTraits.DecayFactor(pawn)
                                 * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
         }
+    }
+
+    /// <summary>
+    /// T1.6: withdrawal and cravings wait while the pawn is on a trip (caravan, gravship in flight: no map) or on a map
+    /// without a cyberpod, unless the "Netsick in trips" setting is on. Only called from the 250-tick loop and the
+    /// withdrawal check, never per tick.
+    /// </summary>
+    public static bool TripPaused(Pawn pawn)
+    {
+        if (NetrunMod.Settings.NetsickInTrips)
+            return false;
+        Map map = pawn.MapHeld;
+        // No map: a caravan, or (Odyssey) a gravship in flight.
+        if (map == null)
+            return true;
+        var pods = map.GetComponent<MapComponent_CyberpodManager>()?.Pods;
+        return pods == null || !pods.Any();
     }
 
     // When each pawn was last told about hunger (even key) or tiredness (odd key) in a pod. Not saved: after a load a

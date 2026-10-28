@@ -19,6 +19,7 @@ public class Hediff_Netsick : HediffWithComps
 
     public bool Withdrawing
         => !NeurostabilizerUtility.Stabilized(pawn)
+           && !NetsickManager.TripPaused(pawn)
            && Severity >= Settings.withdrawalMinSeverity
            && Find.TickManager.TicksGame - LastConnectedTick > Settings.withdrawalAfterDays * GenDate.TicksPerDay;
 

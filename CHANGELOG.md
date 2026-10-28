@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Netsick withdrawal waits while a colonist is in a caravan, on a gravship in flight or on a map without a cyberpod (setting "Netsick withdrawal on trips"); a neurostabilizer dose postpones withdrawal by 4 days.
 - Heat scrub reworked: reputation no longer changes the price; only a Cleaner scrubs at once (up to 25 Heat, once every 3 days; in the Red Zone up to 15 for double); any fixer sells slow cooling (5 cyberdata for +4 cooling a day over 3 days); network isolation held 12 hours doubles cooling; in the Red Zone fixers give only street contracts and dive entry costs 1 more; a scrub at a fixer fails a new "Lay low" contract.
 - Contract silver pay lowered: data delivery 35 per item (Broker about 50), system tap 70, quiet run 130, surveillance 15 per hour, lay low 8 per Heat, rookie training 250, AI order 400, clean lab 180 per chip.
 - New machining table recipes disassemble Hacking Expansion cyberlink upgrades into half of their cyberdata and half of their steel or plasteel (components are lost).
