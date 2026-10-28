@@ -1,4 +1,4 @@
-"""Stage 5 icons: the Biotech gene "neural resilience" and the braindance lesson (learning desire).
+"""Stage 5 icons: the Biotech gene "neural resilience".
 
 Gene icons in vanilla are a light glyph with soft shading over the gene card; learning icons are small colored
 pictograms. Run: python tools/gen_stage5_icons.py
@@ -43,25 +43,6 @@ def gene():
     finish(img, size).save(OUT + "Genes/NR_NeuralResilience.png")
 
 
-def lesson():
-    size = 64
-    img = canvas(size)
-    d = ImageDraw.Draw(img)
-    s = SS
-    # a braindance chip with an eye
-    d.rounded_rectangle([8 * s, 14 * s, 56 * s, 50 * s], radius=5 * s, fill=INK)
-    d.rounded_rectangle([11 * s, 17 * s, 53 * s, 47 * s], radius=4 * s, fill=DARK2)
-    for i in range(5):
-        x = (16 + i * 8) * s
-        d.rectangle([x, 8 * s, x + 3 * s, 14 * s], fill=GOLD)
-        d.rectangle([x, 50 * s, x + 3 * s, 56 * s], fill=GOLD)
-    d.ellipse([18 * s, 22 * s, 46 * s, 42 * s], fill=WHITE)
-    d.ellipse([26 * s, 24 * s, 38 * s, 40 * s], fill=CYAN)
-    d.ellipse([29 * s, 28 * s, 35 * s, 36 * s], fill=INK)
-    finish(img, size).save(OUT + "Learning/NR_BraindanceLesson.png")
-
-
 if __name__ == "__main__":
     gene()
-    lesson()
     print("ok")

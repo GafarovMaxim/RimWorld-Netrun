@@ -101,7 +101,7 @@ Excessive pod immersion leads to chronic cyberspace dependency. Severe withdrawa
 * **Corporations and crews:** corporations with Alert and Strength that harden, patrol, send intrusions along the map, capture nodes and can collapse; protected corporate hubs that open with a key from a neighbouring hub; rival runner crews that race, help, hunt and get hired; a top-100 of the net.
 * **Node defense:** wall-mounted firewalls, your own ICE tiers, a honeypot, netrunners on watch duty, network isolation, intercepting intrusions with a dive.
 * **AI quests and levels:** each personality has its own quest in the vanilla Quests tab; levels unlock stronger and second services.
-* **Pawns and DLC:** dive traits, backstories, a gene, a braindance learning desire, a royal permit, Ideology issues, memes, rituals and the Net archon role.
+* **Pawns and DLC:** dive traits, backstories, a gene, a royal permit, Ideology issues, memes, rituals and the Net archon role.
 * **The Transition:** a late-game ending that starts with a rumour and a stranger from a corporate black lab.
 * **Starts and achievements:** four scenarios (The last node, Corporate runaways, Pirate studio, Flying node for Odyssey); 26 achievements with Vanilla Achievements Expanded (optional).
 

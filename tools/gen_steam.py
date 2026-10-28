@@ -188,7 +188,7 @@ A big zoomable [b]cyberspace map[/b] with lenses (loot, danger, corporations, jo
 [*]Dive traits, [b]9 backstories[/b], dive stories and tales
 [*][b]Royalty[/b]: imperial fixers, a trace-scrub permit
 [*][b]Ideology[/b]: net memes, rituals, the Net Archon role
-[*][b]Biotech[/b]: a gene, braindance learning for children
+[*][b]Biotech[/b]: a gene
 [*][b]Odyssey[/b]: orbital hubs while your gravship is in space
 [*][b]4 scenarios[/b]: The Last Node, Corporate Runaways, Pirate Studio, Flying Node (Odyssey)
 [*][b]26 achievements[/b] with Vanilla Achievements Expanded (optional)

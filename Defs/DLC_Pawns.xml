@@ -15,25 +15,6 @@
     <biostatMet>-1</biostatMet>
   </GeneDef>
 
-  <!-- Biotech: a child learns from a braindance chip like from a book; the chip is not used up -->
-  <LearningDesireDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>NR_Learning_Braindance</defName>
-    <label>braindance lesson</label>
-    <description>Watching a braindance recording from storage: other people's skills, felt from the inside. Teaches intellectual or artistic skill. The chip is not used up.</description>
-    <workerClass>Netrun.LearningGiver_Braindance</workerClass>
-    <jobDef>NR_BraindanceLesson</jobDef>
-    <iconPath>UI/Netrun/Learning/NR_BraindanceLesson</iconPath>
-    <selectionWeight>0.6</selectionWeight>
-    <xpPerTick>0.08</xpPerTick>
-  </LearningDesireDef>
-
-  <JobDef MayRequire="Ludeon.RimWorld.Biotech">
-    <defName>NR_BraindanceLesson</defName>
-    <driverClass>Netrun.JobDriver_BraindanceLesson</driverClass>
-    <reportString>learning from a braindance.</reportString>
-    <casualInterruptible>true</casualInterruptible>
-  </JobDef>
-
   <!-- Royalty: the Empire scrubs the colony's trace for a knight or higher -->
   <RoyalTitlePermitDef MayRequire="Ludeon.RimWorld.Royalty">
     <defName>NR_Permit_TraceScrub</defName>

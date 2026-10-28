@@ -38,8 +38,6 @@ public static class NetrunDefOf
     public static ResearchProjectDef NR_Res_BlackICEDefense;
     public static ResearchProjectDef NR_Res_ExecPrograms;
 
-    [MayRequireBiotech]
-    public static LearningDesireDef NR_Learning_Braindance;
     public static ThingDef NR_AICoreModule;
     public static ThingDef NR_AIServer;
     public static JobDef NR_AwakenAI;

@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 LANGUAGES = ["English", "Russian (Русский)"]
 
 # Def names that look like keys but are not.
-NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket"}
+NOT_KEYS = {"NR_Fixers", "NR_NamerFixer", "NR_Heat", "NR_AI", "NR_AISocket", "NR_BraindanceLesson", "NR_Learning_Braindance"}  # removed defs, see RemovedDefAliases
 
 HEAT = ["Shadow", "Noticed", "Tracked", "Target", "RedZone"]
 PERSONALITIES = ["DataHunter", "Ghost", "Muse", "Predator", "Warden", "Oracle", "Forge", "Siren", "Trickster", "Doc", "Archivist", "Seed", "Echo"]

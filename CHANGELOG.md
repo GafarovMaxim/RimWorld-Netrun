@@ -14,6 +14,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - Prices: traders pay 40% less for cyberdata and 30% less for advanced cyberdata; the AI fragment is no longer traded by caravans and traders, a fence (Fence fixer) buys a fresh one for 800 silver, up to 1000 with reputation, and selling a wild AI in a dive pays the same (at least 800).
 - The node card now lists everything a dive can give (files, caches, forgotten cache, advanced cyberdata and when, silver, special find chance); all reward bonuses (storm, guarded hub, lure, mirror, news, Orbit, hidden passages) stack to at most x2 (the corporate core is exempt), and non-corp Black ICE nodes add 1 advanced cyberdata.
 - Dive rewards are fixed by node tier instead of the entry cost: 2-3 / 3-5 / 4-6 (hard path) / 5-8 / core 10-14 cyberdata, caches 1, forgotten cache 2-4, corp advanced files only on the hard path, dark exchange 120-250 silver.
+- Braindance lessons for children (Biotech) are removed: vanilla books already teach skills; a child mid-lesson in an old save simply carries on with something else.
 - Fixed: an AI server asleep from heat kept pushing heat (and so could never wake); the server and racks now give off no heat while it sleeps, and its AIs read "overheated" instead of "no power".
 - Fixed: opening the AI server window and closing the terminal no longer play the game's window chime on top of the sound pack.
 - Fixed: "Edit all" in the studio logged "Invalid count: -1" when the editor picked up a raw chip stack.
@@ -254,7 +255,7 @@ All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](htt
 - AI quests in the vanilla Quests tab, AI levels and second services; AI traits; moving an AI between coprocessors.
 - Fixer traits, imperial clients (Royalty), five new contract kinds (surveillance, lay low, rookie training, AI order and more).
 - Braindance: 8 unique recordings, "Edit all" in one click with a small glitch risk, a braindance category in storage.
-- Pawns and DLC: dive traits, nine backstories, pod atrophy, dive stories and tales; a gene and a braindance learning desire (Biotech), a royal permit (Royalty), net culture issues, memes, rituals and the Net Archon role (Ideology).
+- Pawns and DLC: dive traits, nine backstories, pod atrophy, dive stories and tales; a gene (Biotech), a royal permit (Royalty), net culture issues, memes, rituals and the Net Archon role (Ideology).
 - Four scenarios; 26 achievements for Vanilla Achievements Expanded (optional).
 - News feed with real effects and choices; neurostabilizer drug; five sound packs with volume settings; terminal scaling; Cyberpedia articles for every system.
 - Feedback: floating +Heat over hacked objects, a message when a netrunner in a pod gets hungry or tired, safe time left in a pod.

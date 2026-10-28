@@ -44,7 +44,7 @@ public class NetrunJanitor : GameComponent
     /// defNames Netrun removed on purpose (docs/BALANCE_PLAN.md, 20.3). A save record pointing at one of them is
     /// dropped quietly; any other missing def gets a warning, since it may be a bug or a renamed def.
     /// </summary>
-    public static readonly HashSet<string> KnownRemovedDefs = [];
+    public static readonly HashSet<string> KnownRemovedDefs = ["NR_Learning_Braindance", "NR_BraindanceLesson"];
 
     /// <summary>
     /// For <see cref="INetrunCleanable.Cleanup"/>: call when a saved record's def is gone and the record is being dropped.
