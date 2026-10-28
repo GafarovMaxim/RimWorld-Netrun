@@ -732,6 +732,34 @@ public static class NetrunDebugActions
         Done("cleanup: " + (lines.Count > 0 ? string.Join(", ", lines) : "nothing to clean"));
     }
 
+    /// <summary>Save migration state: save version, current version, one line per step (BALANCE_PLAN 20.4).</summary>
+    [DebugAction(Tools, "Migration: report", allowedGameStates = Playing, displayPriority = 68)]
+    private static void MigrationReport() => ShowMigration("report", NetrunMigration.Get()?.Report());
+
+    /// <summary>Sets the save version back and reruns the steps from there (steps are idempotent).</summary>
+    [DebugAction(Tools, "Migration: rerun from version N...", allowedGameStates = Playing, displayPriority = 67)]
+    private static void MigrationRerun()
+    {
+        var options = new List<FloatMenuOption>();
+        for (int v = 1; v <= NetrunMigration.CurrentVersion; v++)
+        {
+            int from = v;
+            options.Add(new FloatMenuOption("from v" + from, () => ShowMigration("rerun from v" + from, NetrunMigration.Get()?.RerunFrom(from))));
+        }
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    /// <summary>Pretends the save is version 0 and runs every step on the current game.</summary>
+    [DebugAction(Tools, "Migration: simulate old save", allowedGameStates = Playing, displayPriority = 66)]
+    private static void MigrationSimulate() => ShowMigration("simulate old save", NetrunMigration.Get()?.RerunFrom(1));
+
+    private static void ShowMigration(string what, List<string> lines)
+    {
+        string text = $"[Netrun] migration {what}:\n" + (lines is { Count: > 0 } ? string.Join("\n", lines) : "nothing ran");
+        Log.Message(text);
+        Find.WindowStack.Add(new Dialog_MessageBox(text));
+    }
+
     /// <summary>Opens one achievement (or all) through its counter, the same signal the game sends, not around it.</summary>
     [DebugAction(Tools, "Achievements: unlock...", allowedGameStates = Playing, displayPriority = 60)]
     private static void UnlockAchievement()

@@ -40,6 +40,22 @@ public class NetrunJanitor : GameComponent
 
     public static NetrunJanitor Get() => GameComp<NetrunJanitor>.Get();
 
+    /// <summary>
+    /// defNames Netrun removed on purpose (docs/BALANCE_PLAN.md, 20.3). A save record pointing at one of them is
+    /// dropped quietly; any other missing def gets a warning, since it may be a bug or a renamed def.
+    /// </summary>
+    public static readonly HashSet<string> KnownRemovedDefs = [];
+
+    /// <summary>
+    /// For <see cref="INetrunCleanable.Cleanup"/>: call when a saved record's def is gone and the record is being dropped.
+    /// Warns only for defs that are not known to be removed.
+    /// </summary>
+    public static void MissingDef(string defName, string where)
+    {
+        if (!KnownRemovedDefs.Contains(defName ?? ""))
+            Log.Warning($"[Netrun] {where}: def {defName} no longer exists, entry dropped.");
+    }
+
     public override void LoadedGame()
     {
         base.LoadedGame();
