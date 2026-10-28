@@ -44,8 +44,8 @@
          T3.4), every rolled hack with Sword, ICEBreaker, a Killer charge, a scan in Suspicion or worse. Scan, move and
          download are silent otherwise. Defense this low or lower has no noise (alertFreeDefense). -->
     <noiseMax>6</noiseMax>
-    <noiseSuspicion>2</noiseSuspicion>
-    <noiseAlarm>4</noiseAlarm>
+    <noiseSuspicion>1</noiseSuspicion>
+    <noiseAlarm>3</noiseAlarm>
     <noiseStealthShift>1</noiseStealthShift>
     <noiseGateFail>1</noiseGateFail>
     <!-- TEMP(T2.4): not read yet; a failed hack on white ICE adds it once ICE classes exist. -->

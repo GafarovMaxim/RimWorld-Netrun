@@ -37,7 +37,7 @@ from collections import deque
 
 TUNE = dict(
     base=0.30, per_int=0.035, per_str=0.065, bonus=0.30, gate_extra=(0, 2),
-    actions=2, suspicion=2, alarm=4, ghost_shift=1,
+    actions=2, suspicion=1, alarm=3, ghost_shift=1,
     seen_noise=2, gate_fail_noise=1, white_fail_noise=2, ice_fail_noise=1,
     patrol_hit=0.5, grey_hit=0.5, black_hit_quiet=0.3, black_hit=0.6, black_end=0.4,
     cipher=0.85, solo_lock_cipher=0.6, hold=0.7, big_group_threshold=2, group_from=2, large_grey=1,

@@ -57,8 +57,8 @@ public class CyberspaceSettingsDef : Def
     public float lightGearNetsickCut1 = 0.05f;
     /// <summary>Noise and alarm states (BALANCE_PLAN 3.3, 3.11): thresholds, what raises noise, what each state changes.</summary>
     public int noiseMax = 6;
-    public int noiseSuspicion = 2;
-    public int noiseAlarm = 4;
+    public int noiseSuspicion = 1;
+    public int noiseAlarm = 3;
     public int noiseStealthShift = 1;
     public int noiseGateFail = 1;
     public int noiseIceWhiteFail = 2;
