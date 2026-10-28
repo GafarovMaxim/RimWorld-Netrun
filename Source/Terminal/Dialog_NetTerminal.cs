@@ -74,6 +74,9 @@ public partial class Dialog_NetTerminal : Window
         _view = wanted == View.Map || NetworkGate.Get()?.IsUnlocked(wanted.ToString()) == true ? wanted : View.Map;
         doCloseX = false;
         doCloseButton = false;
+        // The pack's own open/close sounds play in PostOpen/PostClose; the game's window chime on top sounded like a bell.
+        soundAppear = null;
+        soundClose = null;
         // Moved only by the casing (NetrunUI.DragByCasing), not by a drag on the map.
         draggable = false;
         resizeable = true;

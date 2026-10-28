@@ -19,6 +19,9 @@ public class Dialog_AIServer : Window
     {
         _map = map;
         doCloseX = false;
+        // The pack's own open/close sounds play in PostOpen/PostClose; the game's window chime on top sounded like a bell.
+        soundAppear = null;
+        soundClose = null;
         // Like the game's own windows: paused once on opening (if set), but time, the camera and a click outside still work.
         forcePause = false;
         absorbInputAroundWindow = false;
