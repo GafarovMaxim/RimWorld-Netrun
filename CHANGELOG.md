@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- New machining table recipes disassemble Hacking Expansion cyberlink upgrades into half of their cyberdata and half of their steel or plasteel (components are lost).
 - Crafting Hacking Expansion items costs more (setting "Costlier Hacking Expansion crafting", on by default, applies after a restart): cyberlink 20 data, 4 components, 1 spacer component, 25 plasteel, Crafting 8; advanced cyberlink +5 advanced data, 40 plasteel, Crafting 10; cyberpod 10 uranium, 20 data, 6 components; jammer and remote access port 10 data, optimization module 5 data. Trader prices of cyberlinks roughly double.
 - Prices: traders pay 40% less for cyberdata and 30% less for advanced cyberdata; the AI fragment is no longer traded by caravans and traders, a fence (Fence fixer) buys a fresh one for 800 silver, up to 1000 with reputation, and selling a wild AI in a dive pays the same (at least 800).
 - The node card now lists everything a dive can give (files, caches, forgotten cache, advanced cyberdata and when, silver, special find chance); all reward bonuses (storm, guarded hub, lure, mirror, news, Orbit, hidden passages) stack to at most x2 (the corporate core is exempt), and non-corp Black ICE nodes add 1 advanced cyberdata.

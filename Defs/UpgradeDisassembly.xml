@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Disassembly of Hacking Expansion cyberlink upgrades (docs/BALANCE_PLAN.md, section 2): 50% of the cyberdata and steel/plasteel, rounded down, min 1 data;
+       components and uranium are lost. Yields assume the Costlier HE crafting costs (Patches/HE_Costs.xml); with the setting off they stay as is. -->
+  <RecipeDef Name="NR_DisassembleUpgradeBase" Abstract="True">
+    <workAmount>2500</workAmount>
+    <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+    <workSkill>Crafting</workSkill>
+    <effectWorking>Smith</effectWorking>
+    <soundWorking>Recipe_Machining</soundWorking>
+    <recipeUsers><li>TableMachining</li></recipeUsers>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_JammerKit</defName>
+    <label>disassemble jammer kit</label>
+    <description>Strip a jammer kit for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling jammer kit.</jobString>
+    <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_JammerKit</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_JammerKit</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_Cyberdata>5</USH_Cyberdata>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_AdvancedJammerKit</defName>
+    <label>disassemble advanced jammer kit</label>
+    <description>Strip a advanced jammer kit for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling advanced jammer kit.</jobString>
+    <researchPrerequisite>USH_AdvancedCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_AdvancedJammerKit</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_AdvancedJammerKit</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_AdvancedCyberdata>1</USH_AdvancedCyberdata>
+      <Plasteel>6</Plasteel>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_OptimizationModule</defName>
+    <label>disassemble optimization module</label>
+    <description>Strip a optimization module for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling optimization module.</jobString>
+    <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_OptimizationModule</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_OptimizationModule</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_Cyberdata>2</USH_Cyberdata>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_AdvancedOptimizationModule</defName>
+    <label>disassemble advanced optimization module</label>
+    <description>Strip a advanced optimization module for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling advanced optimization module.</jobString>
+    <researchPrerequisite>USH_AdvancedCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_AdvancedOptimizationModule</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_AdvancedOptimizationModule</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_AdvancedCyberdata>1</USH_AdvancedCyberdata>
+      <Plasteel>7</Plasteel>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_RemoteAccessPort</defName>
+    <label>disassemble remote access port</label>
+    <description>Strip a remote access port for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling remote access port.</jobString>
+    <researchPrerequisite>USH_BasicCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_RemoteAccessPort</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_RemoteAccessPort</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_Cyberdata>5</USH_Cyberdata>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_AdvancedRemoteAccessPort</defName>
+    <label>disassemble advanced remote access port</label>
+    <description>Strip a advanced remote access port for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling advanced remote access port.</jobString>
+    <researchPrerequisite>USH_AdvancedCybertech</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_AdvancedRemoteAccessPort</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_AdvancedRemoteAccessPort</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_AdvancedCyberdata>2</USH_AdvancedCyberdata>
+      <Plasteel>5</Plasteel>
+    </products>
+  </RecipeDef>
+
+  <RecipeDef ParentName="NR_DisassembleUpgradeBase">
+    <defName>NR_Disassemble_ExecDataCase</defName>
+    <label>disassemble exec data case</label>
+    <description>Strip a exec data case for part of its cyberdata and metal. Components are lost.</description>
+    <jobString>Disassembling exec data case.</jobString>
+    <researchPrerequisite>USH_ExecData</researchPrerequisite>
+    <ingredients><li><filter><thingDefs><li>USH_ExecDataCase</li></thingDefs></filter><count>1</count></li></ingredients>
+    <fixedIngredientFilter><thingDefs><li>USH_ExecDataCase</li></thingDefs></fixedIngredientFilter>
+    <products>
+      <USH_AdvancedCyberdata>1</USH_AdvancedCyberdata>
+      <Plasteel>6</Plasteel>
+    </products>
+  </RecipeDef>
+
+</Defs>

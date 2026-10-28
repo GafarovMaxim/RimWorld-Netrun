@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <NR_Disassemble_JammerKit.label>разобрать: глушитель</NR_Disassemble_JammerKit.label>
+  <NR_Disassemble_JammerKit.description>Разобрать устройство (глушитель) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_JammerKit.description>
+  <NR_Disassemble_JammerKit.jobString>Разбирает: глушитель.</NR_Disassemble_JammerKit.jobString>
+  <NR_Disassemble_AdvancedJammerKit.label>разобрать: продвинутый глушитель</NR_Disassemble_AdvancedJammerKit.label>
+  <NR_Disassemble_AdvancedJammerKit.description>Разобрать устройство (продвинутый глушитель) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_AdvancedJammerKit.description>
+  <NR_Disassemble_AdvancedJammerKit.jobString>Разбирает: продвинутый глушитель.</NR_Disassemble_AdvancedJammerKit.jobString>
+  <NR_Disassemble_OptimizationModule.label>разобрать: модуль оптимизации</NR_Disassemble_OptimizationModule.label>
+  <NR_Disassemble_OptimizationModule.description>Разобрать устройство (модуль оптимизации) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_OptimizationModule.description>
+  <NR_Disassemble_OptimizationModule.jobString>Разбирает: модуль оптимизации.</NR_Disassemble_OptimizationModule.jobString>
+  <NR_Disassemble_AdvancedOptimizationModule.label>разобрать: продвинутый модуль оптимизации</NR_Disassemble_AdvancedOptimizationModule.label>
+  <NR_Disassemble_AdvancedOptimizationModule.description>Разобрать устройство (продвинутый модуль оптимизации) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_AdvancedOptimizationModule.description>
+  <NR_Disassemble_AdvancedOptimizationModule.jobString>Разбирает: продвинутый модуль оптимизации.</NR_Disassemble_AdvancedOptimizationModule.jobString>
+  <NR_Disassemble_RemoteAccessPort.label>разобрать: порт удалённого доступа</NR_Disassemble_RemoteAccessPort.label>
+  <NR_Disassemble_RemoteAccessPort.description>Разобрать устройство (порт удалённого доступа) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_RemoteAccessPort.description>
+  <NR_Disassemble_RemoteAccessPort.jobString>Разбирает: порт удалённого доступа.</NR_Disassemble_RemoteAccessPort.jobString>
+  <NR_Disassemble_AdvancedRemoteAccessPort.label>разобрать: продвинутый порт удалённого доступа</NR_Disassemble_AdvancedRemoteAccessPort.label>
+  <NR_Disassemble_AdvancedRemoteAccessPort.description>Разобрать устройство (продвинутый порт удалённого доступа) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_AdvancedRemoteAccessPort.description>
+  <NR_Disassemble_AdvancedRemoteAccessPort.jobString>Разбирает: продвинутый порт удалённого доступа.</NR_Disassemble_AdvancedRemoteAccessPort.jobString>
+  <NR_Disassemble_ExecDataCase.label>разобрать: футляр данных экзеков</NR_Disassemble_ExecDataCase.label>
+  <NR_Disassemble_ExecDataCase.description>Разобрать устройство (футляр данных экзеков) на часть киберданных и металла. Компоненты теряются.</NR_Disassemble_ExecDataCase.description>
+  <NR_Disassemble_ExecDataCase.jobString>Разбирает: футляр данных экзеков.</NR_Disassemble_ExecDataCase.jobString>
+</LanguageData>
