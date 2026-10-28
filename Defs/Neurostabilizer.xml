@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
 
-  <!-- Neurostabilizer: eases Netsick and holds the withdrawal off: none for at least 4 days. Mild addiction, like smokeleaf. -->
+  <!-- Neurostabilizer: eases Netsick and holds the withdrawal off: none for 36 hours after a dose (doses do not stack). Three doses in a row (each within 24 h of the last) give a 5 day resistance: no postponing then. Mild addiction, like smokeleaf. -->
 
   <ThingDef ParentName="MakeableDrugBase">
     <defName>NR_Neurostabilizer</defName>
     <label>neurostabilizer</label>
-    <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, for two days the user does not feel cut off and does not break for a pod, and the withdrawal does not return for at least 4 days.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
+    <description>A blister of neutroamine capsules laced with a cyberdata-tuned neural buffer. It quiets the itch for the net: the dependency eases a little, for two days the user does not feel cut off and does not break for a pod, and the withdrawal does not return for 36 hours after the dose. Doses do not add up, and three in a row (each within a day of the last) make the body resist for 5 days: the withdrawal is no longer held off then.\n\nIt is mildly habit-forming, about like smokeleaf: taken often, it becomes a need of its own.</description>
     <descriptionHyperlinks>
       <HediffDef>NR_NeurostabilizerHigh</HediffDef>
       <HediffDef>NR_NeurostabilizerAddiction</HediffDef>
       <HediffDef>NR_Netsick</HediffDef>
+      <HediffDef>NR_StabilizerResistance</HediffDef>
     </descriptionHyperlinks>
     <graphicData>
       <texPath>Things/Item/Drug/NR_Neurostabilizer</texPath>
@@ -56,7 +57,10 @@
       <outcomeDoers>
         <li Class="Netrun.IngestionOutcomeDoer_ReduceNetsick">
           <amount>0.15</amount>
-          <postponeDays>4</postponeDays>
+          <postponeHours>36</postponeHours>
+          <streakDoses>3</streakDoses>
+          <streakHediff>NR_StabilizerDoseStreak</streakHediff>
+          <resistanceHediff>NR_StabilizerResistance</resistanceHediff>
         </li>
         <li Class="IngestionOutcomeDoer_GiveHediff">
           <hediffDef>NR_NeurostabilizerHigh</hediffDef>
@@ -94,6 +98,40 @@
       <li Class="HediffCompProperties_SeverityPerDay">
         <severityPerDay>-0.5</severityPerDay>
         <showHoursToRecover>true</showHoursToRecover>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <!-- Counts doses in a row: the hediff lives 24 h after the last dose (refreshed by each dose), severity = doses so far. -->
+  <HediffDef>
+    <defName>NR_StabilizerDoseStreak</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>stabilizer doses in a row</label>
+    <description>Neurostabilizer doses taken in a row, each within 24 hours of the previous one. Three in a row make the body resist the stabilizer for 5 days. It goes away 24 hours after the last dose.</description>
+    <defaultLabelColor>(0.4, 0.9, 1)</defaultLabelColor>
+    <maxSeverity>10</maxSeverity>
+    <isBad>false</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>60000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
+      </li>
+    </comps>
+  </HediffDef>
+
+  <HediffDef>
+    <defName>NR_StabilizerResistance</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>stabilizer resistance</label>
+    <description>The body got used to the neural buffer after three doses in a row. For 5 days a dose no longer holds the Netsick withdrawal off. It still eases Netsick a little and gives the calm feeling, and the usual tolerance and dependence still build up.</description>
+    <defaultLabelColor>(0.9, 0.6, 0.3)</defaultLabelColor>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>1</initialSeverity>
+    <isBad>true</isBad>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <disappearsAfterTicks>300000</disappearsAfterTicks>
+        <showRemainingTime>true</showRemainingTime>
       </li>
     </comps>
   </HediffDef>

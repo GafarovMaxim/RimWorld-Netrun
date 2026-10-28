@@ -4,6 +4,10 @@
   <NR_NeurostabilizerHigh.description>Нейробуфер держит тягу к сети в тишине. Пока он действует, Netsick не вызывает ни ломки, ни сетевой тяги.</NR_NeurostabilizerHigh.description>
   <NR_NeurostabilizerTolerance.label>толерантность к нейростабилизатору</NR_NeurostabilizerTolerance.label>
   <NR_NeurostabilizerTolerance.description>Привыкание к нейростабилизатору. Чем оно сильнее, тем слабее действует доза.</NR_NeurostabilizerTolerance.description>
+  <NR_StabilizerDoseStreak.label>дозы стабилизатора подряд</NR_StabilizerDoseStreak.label>
+  <NR_StabilizerDoseStreak.description>Дозы нейростабилизатора, принятые подряд, каждая в течение 24 часов после прошлой. Три подряд вызывают сопротивление организма на 5 дней. Исчезает через 24 часа после последней дозы.</NR_StabilizerDoseStreak.description>
+  <NR_StabilizerResistance.label>сопротивление стабилизатору</NR_StabilizerResistance.label>
+  <NR_StabilizerResistance.description>После трёх доз подряд организм привык к нейробуферу. 5 дней доза не отодвигает ломку Netsick. Она всё так же немного снимает Netsick и даёт спокойствие, а обычные толерантность и зависимость продолжают расти.</NR_StabilizerResistance.description>
   <NR_NeurostabilizerAddiction.label>зависимость от нейростабилизатора</NR_NeurostabilizerAddiction.label>
   <NR_NeurostabilizerAddiction.description>Мозг привык к нейробуферу и без него зудит.\n\nБез регулярного приёма начнётся ломка. Долгое воздержание постепенно снимает зависимость.</NR_NeurostabilizerAddiction.description>
   <NR_NeurostabilizerAddiction.stages.1.label>ломка</NR_NeurostabilizerAddiction.stages.1.label>
