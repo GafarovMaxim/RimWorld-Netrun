@@ -149,12 +149,12 @@ public partial class HelpBrowser
     {
         float t = Slider(inner, inner.y, "NR_HelpLowerHeatNow".Translate(Mathf.RoundToInt(_demoLowerHeat)), ref _demoLowerHeat, 0f, HeatTracker.MaxHeat);
         float heat = Mathf.Round(_demoLowerHeat);
-        // Waiting: day by day at the cooling rate (slower from Target up).
-        float low = NetrunMod.Settings.HeatDecayPerDay, high = low * NetrunDefOf.NR_Heat.highHeatDecayFactor;
+        // Waiting: day by day at the cooling rate (faster the hotter).
+        float low = HeatTracker.BaseDecayAt(0f);
         float h = heat, days = 0f;
         while (h > 0.01f && days < 400f)
         {
-            h -= HeatLevelUtility.LevelOf(h) >= HeatLevel.Target ? high : low;
+            h -= HeatTracker.BaseDecayAt(h);
             days++;
         }
         // Scrub: unit by unit at the level's rate, a fixer with no discount.

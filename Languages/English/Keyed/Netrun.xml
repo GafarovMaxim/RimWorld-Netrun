@@ -3,7 +3,7 @@
 
   <!-- Settings -->
   <NR_SettingsHeatGain>Digital Heat gain: {0}</NR_SettingsHeatGain>
-  <NR_SettingsHeatDecay>Digital Heat cooldown per day: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsHeatDecay>Digital Heat cooling speed: {0}</NR_SettingsHeatDecay>
   <NR_SettingsAccent>Terminal highlight color:</NR_SettingsAccent>
   <NR_SettingsAccent_0>Cyan</NR_SettingsAccent_0>
   <NR_SettingsAccent_1>Magenta</NR_SettingsAccent_1>
@@ -74,9 +74,9 @@ Heat now: {8}</NR_EconomySummary>
   <NR_SettingsGroupSupport>Bug reports</NR_SettingsGroupSupport>
   <NR_SettingsDifficulty>Heat difficulty:</NR_SettingsDifficulty>
   <NR_SettingsDifficultyTip>A preset for how fast Heat grows, how fast it cools and how much a fixer scrubs. Fine-tune under "Advanced".</NR_SettingsDifficultyTip>
-  <NR_SettingsDifficulty_Easy>Easy: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Easy>
-  <NR_SettingsDifficulty_Normal>Normal: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Normal>
-  <NR_SettingsDifficulty_Hard>Hard: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Hard>
+  <NR_SettingsDifficulty_Easy>Easy: gain {0}, cooling {1}, scrub {2}</NR_SettingsDifficulty_Easy>
+  <NR_SettingsDifficulty_Normal>Normal: gain {0}, cooling {1}, scrub {2}</NR_SettingsDifficulty_Normal>
+  <NR_SettingsDifficulty_Hard>Hard: gain {0}, cooling {1}, scrub {2}</NR_SettingsDifficulty_Hard>
   <NR_SettingsDifficulty_Custom>Custom (changed under Advanced)</NR_SettingsDifficulty_Custom>
   <NR_SettingsAdvanced>Advanced</NR_SettingsAdvanced>
   <NR_SettingsScrub>Fixer scrub efficiency: {0}</NR_SettingsScrub>

@@ -34,8 +34,13 @@ public class HeatSettingsDef : Def
 
     // ICE outcome "Trace lock".
     public float traceLockHeat = 8f;
-    /// <summary>Passive cooling is multiplied by this at Target and above.</summary>
-    public float highHeatDecayFactor = 0.5f;
+    /// <summary>Passive cooling a day = decayBase + decayPerHeat x Heat, times the cooling setting.</summary>
+    public float decayBase = 3f;
+    public float decayPerHeat = 0.04f;
+    /// <summary>Points multiplier of vanilla enemy raids on a player home at Tracked, Target and the Red Zone.</summary>
+    public float raidPointsTracked = 1.1f;
+    public float raidPointsTarget = 1.2f;
+    public float raidPointsRedZone = 1.25f;
     /// <summary>After this many hours of unbroken network isolation, cooling is multiplied by the factor.</summary>
     public float isolationCoolingHours = 12f;
     public float isolationCoolingFactor = 2f;

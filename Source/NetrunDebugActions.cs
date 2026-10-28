@@ -236,6 +236,14 @@ public static class NetrunDebugActions
     }
 
     /// <summary>Red Zone in one click (T1.2 test: Cleaner cap 15 and double price, street contracts, entry +1).</summary>
+    [DebugAction(HeatCat, "Heat: show cooling and raid factor", allowedGameStates = Playing, displayPriority = 98)]
+    private static void ShowHeatDecay()
+    {
+        HeatTracker heat = HeatTracker.Get();
+        if (heat != null)
+            Log.Message($"[Netrun] Heat {heat.Heat:0.#} ({heat.Level}): cooling {heat.DecayPerDay:0.##}/day (base {HeatTracker.BaseDecayAt(heat.Heat):0.##}), raid points x{heat.RaidPointsFactor:0.##}");
+    }
+
     [DebugAction(HeatCat, "Heat: set 96", allowedGameStates = Playing, displayPriority = 99)]
     private static void SetHeat96() => HeatTracker.Get()?.DevSetHeat(96f, "NR_LogDev".Translate());
 

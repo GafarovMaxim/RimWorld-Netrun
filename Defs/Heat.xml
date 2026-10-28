@@ -26,8 +26,13 @@
 
     <!-- Heat from the "trace lock" ICE outcome -->
     <traceLockHeat>8</traceLockHeat>
-    <!-- At Target and above the trace cools this much slower. -->
-    <highHeatDecayFactor>0.5</highHeatDecayFactor>
+    <!-- Passive cooling a day = decayBase + decayPerHeat x Heat (times the cooling setting), at any level -->
+    <decayBase>3</decayBase>
+    <decayPerHeat>0.04</decayPerHeat>
+    <!-- Vanilla enemy raids on a player home get more points at these levels (not our mercenaries) -->
+    <raidPointsTracked>1.1</raidPointsTracked>
+    <raidPointsTarget>1.2</raidPointsTarget>
+    <raidPointsRedZone>1.25</raidPointsRedZone>
     <!-- Network isolation held this many hours without a break multiplies cooling -->
     <isolationCoolingHours>12</isolationCoolingHours>
     <isolationCoolingFactor>2</isolationCoolingFactor>

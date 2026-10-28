@@ -30,12 +30,37 @@ public class HeatTracker : GameComponent, INetrunCleanable
     public IReadOnlyList<HeatLogEntry> Log => _log;
 
     /// <summary>
-    /// Passive cooling per day right now: the mod setting, halved (by Defs) at Target and above, plus a fixer's slow
+    /// Passive cooling per day right now: base + 0.04 x Heat (Defs, times the setting), plus a fixer's slow
     /// cooling deal; all of it doubled after long network isolation.
     /// </summary>
-    public float DecayPerDay => (NetrunMod.Settings.HeatDecayPerDay * (Level >= HeatLevel.Target ? NetrunDefOf.NR_Heat.highHeatDecayFactor : 1f)
-                                 + (CoolingActive ? _coolingPerDay : 0f))
+    public float DecayPerDay => (BaseDecayAt(_heat) + (CoolingActive ? _coolingPerDay : 0f))
                                 * (IsolationCooling ? NetrunDefOf.NR_Heat.isolationCoolingFactor : 1f);
+
+    /// <summary>Passive cooling per day at a Heat value (T1.3): decayBase + decayPerHeat x Heat, times the cooling setting.</summary>
+    public static float BaseDecayAt(float heat)
+        => (NetrunDefOf.NR_Heat.decayBase + NetrunDefOf.NR_Heat.decayPerHeat * heat) * NetrunMod.Settings.HeatDecayScale;
+
+    /// <summary>Points multiplier of vanilla enemy raids at the current Heat level (T1.3). Cheap: no scans.</summary>
+    public float RaidPointsFactor => Level switch
+    {
+        HeatLevel.Tracked => NetrunDefOf.NR_Heat.raidPointsTracked,
+        HeatLevel.Target => NetrunDefOf.NR_Heat.raidPointsTarget,
+        HeatLevel.RedZone => NetrunDefOf.NR_Heat.raidPointsRedZone,
+        _ => 1f,
+    };
+
+    /// <summary>Days for Heat to fall from one value to another on passive cooling alone (rate = r + k x Heat).</summary>
+    private static float DaysBetween(float from, float to)
+    {
+        if (from <= to)
+            return 0f;
+        float r = BaseDecayAt(0f), k = BaseDecayAt(1f) - r;
+        if (r <= 0f && k <= 0f)
+            return float.PositiveInfinity;
+        if (k <= 0.0001f)
+            return (from - to) / r;
+        return Mathf.Log((r + k * from) / Mathf.Max(0.0001f, r + k * to)) / k;
+    }
 
     // A fixer's slow cooling deal (T1.2): extra cooling a day until the tick.
     private int _coolingUntilTick = -1;
@@ -104,26 +129,11 @@ public class HeatTracker : GameComponent, INetrunCleanable
         }
     }
 
-    /// <summary>Days for Heat to cool to zero with no new trace (slower part above Target).</summary>
-    public float DaysToZero()
-    {
-        float low = NetrunMod.Settings.HeatDecayPerDay;
-        if (low <= 0f)
-            return float.PositiveInfinity;
-        float high = low * NetrunDefOf.NR_Heat.highHeatDecayFactor;
-        float target = HeatLevel.Target.MinHeat();
-        return _heat <= target ? _heat / low : (_heat - target) / Mathf.Max(0.01f, high) + target / low;
-    }
+    /// <summary>Days for Heat to cool to zero with no new trace.</summary>
+    public float DaysToZero() => DaysBetween(_heat, 0f);
 
     /// <summary>Days to cool below the current level's threshold (0 at Shadow).</summary>
-    public float DaysToLowerLevel()
-    {
-        if (Level == HeatLevel.Shadow)
-            return 0f;
-        float min = Level.MinHeat();
-        float rate = Level >= HeatLevel.Target ? NetrunMod.Settings.HeatDecayPerDay * NetrunDefOf.NR_Heat.highHeatDecayFactor : NetrunMod.Settings.HeatDecayPerDay;
-        return rate <= 0f ? float.PositiveInfinity : (_heat - min + 0.5f) / rate;
-    }
+    public float DaysToLowerLevel() => Level == HeatLevel.Shadow ? 0f : DaysBetween(_heat, Level.MinHeat() - 0.5f);
 
     public void ReduceHeat(float amount, string reason, HeatSource source = HeatSource.Other)
     {

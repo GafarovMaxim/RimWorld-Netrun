@@ -80,11 +80,13 @@ public class HelpPageDef : Def
         var fixers = NetrunDefOf.NR_Fixers;
         var cyber = NetrunDefOf.NR_Cyberspace;
         var ai = NetrunDefOf.NR_AI;
-        float decay = NetrunMod.Settings.HeatDecayPerDay;
         var values = new Dictionary<string, string>
         {
-            ["heat.decay"] = decay.ToString("0.#"),
-            ["heat.decayHigh"] = (decay * NetrunDefOf.NR_Heat.highHeatDecayFactor).ToString("0.#"),
+            ["heat.decay"] = HeatTracker.BaseDecayAt(0f).ToString("0.#"),
+            ["heat.decayHigh"] = HeatTracker.BaseDecayAt(HeatTracker.MaxHeat).ToString("0.#"),
+            ["heat.raidTracked"] = NetrunDefOf.NR_Heat.raidPointsTracked.ToString("0.##"),
+            ["heat.raidTarget"] = NetrunDefOf.NR_Heat.raidPointsTarget.ToString("0.##"),
+            ["heat.raidRed"] = NetrunDefOf.NR_Heat.raidPointsRedZone.ToString("0.##"),
             ["heat.scrubBest"] = (fixers.heatPerCyberdata * fixers.scrubFactorByLevel.FirstOrDefault() * NetrunMod.Settings.ScrubMultiplier).ToString("0.#"),
             ["heat.scrubWorst"] = (fixers.heatPerCyberdata * fixers.scrubFactorByLevel.LastOrDefault() * NetrunMod.Settings.ScrubMultiplier / fixers.redZoneScrubPriceFactor).ToString("0.##"),
             ["heat.scrubCap"] = fixers.cleanerScrubMaxHeat.ToString("0"),

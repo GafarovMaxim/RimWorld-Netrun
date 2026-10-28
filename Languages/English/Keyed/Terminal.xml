@@ -136,6 +136,8 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatV2Effects>Level effects: {0}</NR_HeatV2Effects>
   <NR_HeatV2EffectScrub>Best instant scrub now: {0} Heat per cyberdata ({1}).</NR_HeatV2EffectScrub>
   <NR_HeatV2EffectDecay>Cooling: −{0} a day.</NR_HeatV2EffectDecay>
+  <NR_HeatV2EffectRaids>Your coordinates in the network: raids ×{0}.</NR_HeatV2EffectRaids>
+  <NR_HeatNetLine>Cooling: −{0} a day. Your coordinates in the network: raids ×{1}.</NR_HeatNetLine>
   <NR_HeatV2ToLower>Down to "{0}": {1} without new trace</NR_HeatV2ToLower>
   <NR_HeatV2NoTrace>No trace to cool.</NR_HeatV2NoTrace>
   <NR_HeatV2Days>~{0} days</NR_HeatV2Days>
@@ -154,7 +156,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HeatV2Unavailable>Unavailable</NR_HeatV2Unavailable>
   <NR_HeatV2ToServer>Server room</NR_HeatV2ToServer>
   <NR_HeatV2Wait>Wait it out</NR_HeatV2Wait>
-  <NR_HeatV2WaitDesc>−{0} a day (−{1} at Target+); isolation {2} h: ×{3}</NR_HeatV2WaitDesc>
+  <NR_HeatV2WaitDesc>−{0} a day at Heat 0, −{1} at Heat 100 (the hotter, the faster); isolation {2} h: ×{3}</NR_HeatV2WaitDesc>
   <NR_HeatV2ToZero>{0} to zero</NR_HeatV2ToZero>
   <NR_HeatV2Totals>Total: +{0}, scrubbed {1}, cooled {2}</NR_HeatV2Totals>
   <NR_HeatV2AdvicePrefix>Advice:</NR_HeatV2AdvicePrefix>
@@ -374,7 +376,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_SettingsRetreatLoss>Loss on retreat: {0}</NR_SettingsRetreatLoss>
   <NR_SettingsDifficultyMore>ICE {0}, AI hunger {1}, retreat loss {2}</NR_SettingsDifficultyMore>
   <NR_SettingsDifficultyName_Cyberpunk>Cyberpunk</NR_SettingsDifficultyName_Cyberpunk>
-  <NR_SettingsDifficulty_Cyberpunk>Cyberpunk: gain {0}, cooling {1}/day, scrub {2}</NR_SettingsDifficulty_Cyberpunk>
+  <NR_SettingsDifficulty_Cyberpunk>Cyberpunk: gain {0}, cooling {1}, scrub {2}</NR_SettingsDifficulty_Cyberpunk>
   <NR_HelpCtx_Menu>Menu</NR_HelpCtx_Menu>
   <NR_DeckKey_IsolateOn>NET LOCK: isolate the colony's network.</NR_DeckKey_IsolateOn>
   <NR_DeckKey_IsolateOff>NET LOCK: the network is isolated. Press to connect again.</NR_DeckKey_IsolateOff>

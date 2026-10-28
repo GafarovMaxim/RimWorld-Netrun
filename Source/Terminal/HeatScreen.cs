@@ -273,6 +273,7 @@ public static class HeatScreen
         if (tracker.DiveExtraCost > 0)
             y = EffectLine(r.width, y, HeatEffectSeverity.Warn, "NR_HeatV2EffectRedZone".Translate(tracker.DiveExtraCost));
         y = EffectLine(r.width, y, HeatEffectSeverity.Info, "NR_HeatV2EffectDecay".Translate(tracker.DecayPerDay.ToString("0.#")));
+        y = EffectLine(r.width, y, tracker.RaidPointsFactor > 1f ? HeatEffectSeverity.Warn : HeatEffectSeverity.Info, "NR_HeatV2EffectRaids".Translate(tracker.RaidPointsFactor.ToString("0.##")));
 
         y += 4f;
         string next = level == HeatLevel.Shadow
@@ -368,9 +369,8 @@ public static class HeatScreen
         LowerCardFrame(wait, NetrunUI.Muted, false);
         Widgets.Label(new Rect(wait.x + 12f, wait.y + 4f, wait.width - 180f, 22f), "NR_HeatV2Wait".Translate());
         Text.Font = GameFont.Tiny;
-        float low = NetrunMod.Settings.HeatDecayPerDay;
         Widgets.Label(new Rect(wait.x + 12f, wait.y + 24f, wait.width - 180f, 18f),
-            "NR_HeatV2WaitDesc".Translate(low.ToString("0.#"), (low * NetrunDefOf.NR_Heat.highHeatDecayFactor).ToString("0.#"),
+            "NR_HeatV2WaitDesc".Translate(HeatTracker.BaseDecayAt(0f).ToString("0.#"), HeatTracker.BaseDecayAt(HeatTracker.MaxHeat).ToString("0.#"),
                 NetrunDefOf.NR_Heat.isolationCoolingHours.ToString("0"), NetrunDefOf.NR_Heat.isolationCoolingFactor.ToString("0.#")).Colorize(NetrunUI.Muted));
         Text.Anchor = TextAnchor.MiddleRight;
         Widgets.Label(new Rect(wait.xMax - 170f, wait.y, 160f, wait.height),

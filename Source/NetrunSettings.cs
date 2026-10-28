@@ -29,6 +29,8 @@ public class NetrunSettings : ModSettings
     public HeatDifficulty Difficulty = HeatDifficulty.Normal;
     public float HeatGainMultiplier = DefaultHeatGainMultiplier;
     public float HeatDecayPerDay = DefaultHeatDecayPerDay;
+    /// <summary>The cooling setting as a multiplier of the Defs formula (1 = default).</summary>
+    public float HeatDecayScale => HeatDecayPerDay / DefaultHeatDecayPerDay;
     /// <summary>Scales the Heat a fixer removes per cyberdata: above 1 the scrub is cheaper.</summary>
     public float ScrubMultiplier = 1f;
 
@@ -424,7 +426,7 @@ public class NetrunSettings : ModSettings
         string[] tips = PresetOrder.Select(d =>
         {
             var p = Presets[d];
-            return (string)("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), p.decay.ToString("0.#"), p.scrub.ToStringPercent())
+            return (string)("NR_SettingsDifficulty_" + d).Translate(p.gain.ToStringPercent(), (p.decay / DefaultHeatDecayPerDay).ToStringPercent(), p.scrub.ToStringPercent())
                    + "\n" + (string)"NR_SettingsDifficultyMore".Translate(p.ice.ToStringPercent(), p.hunger.ToStringPercent(), p.retreat.ToStringPercent());
         }).ToArray();
         int current = System.Array.IndexOf(PresetOrder, Difficulty);
@@ -447,7 +449,7 @@ public class NetrunSettings : ModSettings
         {
             float[] before = [HeatGainMultiplier, HeatDecayPerDay, ScrubMultiplier, IceStrength, AIHunger, RetreatLoss];
             HeatGainMultiplier = Slider("NR_SettingsHeatGain".Translate(HeatGainMultiplier.ToStringPercent()), HeatGainMultiplier, 0.25f, 3f);
-            HeatDecayPerDay = Slider("NR_SettingsHeatDecay".Translate(HeatDecayPerDay.ToString("0.0")), HeatDecayPerDay, 0f, 20f);
+            HeatDecayPerDay = Slider("NR_SettingsHeatDecay".Translate(HeatDecayScale.ToStringPercent()), HeatDecayPerDay, 0f, 20f);
             IceStrength = Slider("NR_SettingsIceStrength".Translate(IceStrength.ToStringPercent()), IceStrength, 0.5f, 2f);
             AIHunger = Slider("NR_SettingsAIHunger".Translate(AIHunger.ToStringPercent()), AIHunger, 0.25f, 2f);
             ScrubMultiplier = Slider("NR_SettingsScrub".Translate(ScrubMultiplier.ToStringPercent()), ScrubMultiplier, 0.5f, 2f);

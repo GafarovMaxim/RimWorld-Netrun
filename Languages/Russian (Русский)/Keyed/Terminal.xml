@@ -136,6 +136,8 @@
   <NR_HeatV2Effects>Эффекты уровня: {0}</NR_HeatV2Effects>
   <NR_HeatV2EffectScrub>Лучший мгновенный сброс сейчас: {0} Heat за киберданные ({1}).</NR_HeatV2EffectScrub>
   <NR_HeatV2EffectDecay>Остывание: −{0} в сутки.</NR_HeatV2EffectDecay>
+  <NR_HeatV2EffectRaids>Ваши координаты в сети: рейды ×{0}.</NR_HeatV2EffectRaids>
+  <NR_HeatNetLine>Остывание: −{0} в сутки. Ваши координаты в сети: рейды ×{1}.</NR_HeatNetLine>
   <NR_HeatV2ToLower>До «{0}»: {1} без нового следа</NR_HeatV2ToLower>
   <NR_HeatV2NoTrace>Остывать нечему.</NR_HeatV2NoTrace>
   <NR_HeatV2Days>~{0} дн.</NR_HeatV2Days>
@@ -154,7 +156,7 @@
   <NR_HeatV2Unavailable>Недоступно</NR_HeatV2Unavailable>
   <NR_HeatV2ToServer>В серверную</NR_HeatV2ToServer>
   <NR_HeatV2Wait>Переждать</NR_HeatV2Wait>
-  <NR_HeatV2WaitDesc>−{0} в сутки (−{1} на «Цели»+); изоляция {2} ч: ×{3}</NR_HeatV2WaitDesc>
+  <NR_HeatV2WaitDesc>−{0} в сутки при Heat 0, −{1} при Heat 100 (чем горячее, тем быстрее); изоляция {2} ч: ×{3}</NR_HeatV2WaitDesc>
   <NR_HeatV2ToZero>{0} до нуля</NR_HeatV2ToZero>
   <NR_HeatV2Totals>Итого: +{0}, сброс {1}, остывание {2}</NR_HeatV2Totals>
   <NR_HeatV2AdvicePrefix>Совет:</NR_HeatV2AdvicePrefix>
@@ -374,7 +376,7 @@
   <NR_SettingsRetreatLoss>Потери при отступлении: {0}</NR_SettingsRetreatLoss>
   <NR_SettingsDifficultyMore>ICE {0}, голод ИИ {1}, потери при отступлении {2}</NR_SettingsDifficultyMore>
   <NR_SettingsDifficultyName_Cyberpunk>Киберпанк</NR_SettingsDifficultyName_Cyberpunk>
-  <NR_SettingsDifficulty_Cyberpunk>Киберпанк: рост {0}, остывание {1}/день, сброс {2}</NR_SettingsDifficulty_Cyberpunk>
+  <NR_SettingsDifficulty_Cyberpunk>Киберпанк: рост {0}, остывание {1}, сброс {2}</NR_SettingsDifficulty_Cyberpunk>
   <NR_HelpCtx_Menu>Меню</NR_HelpCtx_Menu>
   <NR_DeckKey_IsolateOn>NET LOCK: изолировать сеть колонии.</NR_DeckKey_IsolateOn>
   <NR_DeckKey_IsolateOff>NET LOCK: сеть изолирована. Нажмите, чтобы подключиться снова.</NR_DeckKey_IsolateOff>

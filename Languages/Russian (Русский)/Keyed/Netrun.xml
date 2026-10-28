@@ -3,7 +3,7 @@
 
   <!-- Настройки -->
   <NR_SettingsHeatGain>Прирост Heat: {0}</NR_SettingsHeatGain>
-  <NR_SettingsHeatDecay>Остывание Heat в день: {0}</NR_SettingsHeatDecay>
+  <NR_SettingsHeatDecay>Скорость остывания Heat: {0}</NR_SettingsHeatDecay>
   <NR_SettingsAccent>Цвет подсветки терминала:</NR_SettingsAccent>
   <NR_SettingsAccent_0>Голубой</NR_SettingsAccent_0>
   <NR_SettingsAccent_1>Пурпурный</NR_SettingsAccent_1>
@@ -74,9 +74,9 @@ Heat сейчас: {8}</NR_EconomySummary>
   <NR_SettingsGroupSupport>Отчёты об ошибках</NR_SettingsGroupSupport>
   <NR_SettingsDifficulty>Сложность Heat:</NR_SettingsDifficulty>
   <NR_SettingsDifficultyTip>Пресет: как быстро растёт Heat, как быстро остывает и сколько снимает фиксер. Точная подстройка в «Расширенных».</NR_SettingsDifficultyTip>
-  <NR_SettingsDifficulty_Easy>Лёгкий: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Easy>
-  <NR_SettingsDifficulty_Normal>Обычный: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Normal>
-  <NR_SettingsDifficulty_Hard>Жёсткий: прирост {0}, остывание {1}/сутки, сброс {2}</NR_SettingsDifficulty_Hard>
+  <NR_SettingsDifficulty_Easy>Лёгкий: прирост {0}, остывание {1}, сброс {2}</NR_SettingsDifficulty_Easy>
+  <NR_SettingsDifficulty_Normal>Обычный: прирост {0}, остывание {1}, сброс {2}</NR_SettingsDifficulty_Normal>
+  <NR_SettingsDifficulty_Hard>Жёсткий: прирост {0}, остывание {1}, сброс {2}</NR_SettingsDifficulty_Hard>
   <NR_SettingsDifficulty_Custom>Свой (изменено в «Расширенных»)</NR_SettingsDifficulty_Custom>
   <NR_SettingsAdvanced>Расширенные</NR_SettingsAdvanced>
   <NR_SettingsScrub>Эффективность сброса у фиксера: {0}</NR_SettingsScrub>

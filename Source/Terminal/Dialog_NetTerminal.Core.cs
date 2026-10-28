@@ -371,7 +371,7 @@ public partial class Dialog_NetTerminal
         // The day's trend lives in the tooltip now; the ring itself only shows the value.
         float trend = HeatTrendPerDay(tracker);
         string trendTip = trend > 0.05f ? "NR_CoreTrendUp".Translate(trend.ToString("0.#")) : trend < -0.05f ? "NR_CoreTrendDown".Translate((-trend).ToString("0.#")) : "NR_CoreTrendFlat".Translate();
-        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()) + "\n\n" + trendTip
+        NetrunUI.Tip(rect, "NR_CoreRingTip".Translate(tracker.Heat.ToString("0"), current.Label(), current.Description()) + "\n\n" + trendTip + "\n" + "NR_HeatNetLine".Translate(tracker.DecayPerDay.ToString("0.#"), tracker.RaidPointsFactor.ToString("0.##"))
             + (floor > 0.5f ? "\n" + NoiseLine(floor) : "")
             + (NodeDefense.Get() is { } nodeDefense ? "\n\n" + nodeDefense.DefenseTip(_map) : ""));
         if (Widgets.ButtonInvisible(rect))
