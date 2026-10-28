@@ -121,23 +121,31 @@ public class Dialog_FixerScrub : Window
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
 
+        // No more than brings the Heat to its floor: data past it would be spent for nothing.
+        int limit = Mathf.Min(available, Mathf.Max(needed, 0));
+        if (value > limit)
+        {
+            value = limit;
+            buffer = null;
+        }
+
         float x = rect.xMax - 10f - 60f;
         float cy = rect.y + 7f;
         AcceptanceReport any = available > 0 ? true : (AcceptanceReport)"NR_ScrubNone".Translate();
         if (NetrunUI.Button(new Rect(x, cy, 60f, 30f), "NR_ScrubMax".Translate(), NetrunUI.Ok, any, "NR_ScrubMaxTip".Translate()))
         {
             // Just enough to bring the Heat to zero (or all there is).
-            value = Mathf.Min(available, Mathf.Max(needed, 0));
+            value = limit;
             buffer = null;
         }
         x -= 36f;
-        if (NetrunUI.Button(new Rect(x, cy, 30f, 30f), "+", NetrunUI.Accent, value < available ? true : (AcceptanceReport)false))
+        if (NetrunUI.Button(new Rect(x, cy, 30f, 30f), "+", NetrunUI.Accent, value < limit ? true : (AcceptanceReport)false))
         {
             value++;
             buffer = null;
         }
         x -= 66f;
-        Widgets.TextFieldNumeric(new Rect(x, cy + 2f, 60f, 26f), ref value, ref buffer, 0, available);
+        Widgets.TextFieldNumeric(new Rect(x, cy + 2f, 60f, 26f), ref value, ref buffer, 0, limit);
         x -= 36f;
         if (NetrunUI.Button(new Rect(x, cy, 30f, 30f), "−", NetrunUI.Accent, value > 0 ? true : (AcceptanceReport)false))
         {

@@ -83,6 +83,9 @@ public static class FixerDeals
 
     public static void Scrub(Fixer fixer, Map map, int cyberdata, int advanced)
     {
+        // Only what the Heat above the AI floor needs is taken (advanced first, as ScrubAmount spends it).
+        advanced = Mathf.Min(advanced, UnitsToClear(fixer, true, 0, advanced));
+        cyberdata = Mathf.Min(cyberdata, UnitsToClear(fixer, false, advanced, cyberdata));
         if (cyberdata <= 0 && advanced <= 0)
             return;
 

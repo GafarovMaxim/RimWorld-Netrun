@@ -3,6 +3,8 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Fixed: "Edit all" in the studio logged "Invalid count: -1" when the editor picked up a raw chip stack.
+- Fixed: a fixer's scrub no longer takes cyberdata past what brings the Heat down to the AI minimum; the amount fields stop there.
 - AI auto-feed: when the carrier drops the delivery (downed, drafted, interrupted), the next order goes out within the hour instead of after 6 hours.
 - Offline hubs and nodes on the map keep their shape, drawn in grey.
 - Uncharted hubs no longer show a question mark; they are already dimmed.

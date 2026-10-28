@@ -343,6 +343,11 @@ public class JobDriver_EditBraindanceBatch : JobDriver
         yield return Toils_Jump.JumpIf(toConsole, () => Gone() && job.GetTargetQueue(RawInd).Count == 0);
         yield return Toils_Jump.JumpIf(next, Gone);
         yield return Toils_Goto.GotoThing(RawInd, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(RawInd);
+        // TakeToInventory refuses a job without a count (logs "Invalid count: -1"): the whole stack.
+        Toil count = ToilMaker.MakeToil("SetBatchCount");
+        count.initAction = () => job.count = job.GetTarget(RawInd).Thing?.stackCount ?? 1;
+        count.defaultCompleteMode = ToilCompleteMode.Instant;
+        yield return count;
         yield return Toils_Haul.TakeToInventory(RawInd, () => job.GetTarget(RawInd).Thing?.stackCount ?? 0);
         yield return Toils_Jump.JumpIfHaveTargetInQueue(RawInd, next);
 
