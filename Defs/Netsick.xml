@@ -48,6 +48,11 @@
       <li>2</li>
       <li>3</li>
     </neuralLoadNetsickFactors>
+    <neuralLoadHackPenalties>
+      <li>0</li>
+      <li>0.05</li>
+      <li>0.1</li>
+    </neuralLoadHackPenalties>
   </Netrun.NetsickSettingsDef>
 
   <HediffDef>
@@ -107,7 +112,7 @@
     <defName>NR_NeuralLoad</defName>
     <hediffClass>HediffWithComps</hediffClass>
     <label>neural load</label>
-    <description>The brain is tired from diving. Every dive adds to the load and it fades by half a day. The higher the load, the more Netsick the next dive gives: x1 when light, x2 when heavy, x3 on overload. Two dives a day are free, the third already hurts.</description>
+    <description>The brain is tired from diving. Every dive adds to the load and it fades by half a day. The higher the load, the more Netsick the next dive gives: x1 when light, x2 when heavy, x3 on overload, and hacking gets 5% and 10% worse. Two dives a day are free, the third already hurts.</description>
     <defaultLabelColor>(0.9, 0.6, 0.3)</defaultLabelColor>
     <isBad>true</isBad>
     <maxSeverity>1.0</maxSeverity>
@@ -124,11 +129,11 @@
       </li>
       <li>
         <minSeverity>0.5</minSeverity>
-        <label>heavy, Netsick from dives x2</label>
+        <label>heavy, Netsick from dives x2, hacking -5%</label>
       </li>
       <li>
         <minSeverity>1.0</minSeverity>
-        <label>overload, Netsick from dives x3</label>
+        <label>overload, Netsick from dives x3, hacking -10%</label>
       </li>
     </stages>
   </HediffDef>

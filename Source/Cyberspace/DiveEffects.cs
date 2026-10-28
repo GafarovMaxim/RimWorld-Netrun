@@ -82,6 +82,9 @@ public static class DiveEffects
             bonus += Settings.effectFlowHackBonus;
         if (Has(pawn, "NR_BurnedLink"))
             bonus -= Settings.effectBurnedHackPenalty;
+        var penalties = NetsickSettings.neuralLoadHackPenalties;
+        if (pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_NeuralLoad) is { } load && !penalties.NullOrEmpty())
+            bonus -= penalties[Mathf.Min(load.CurStageIndex, penalties.Count - 1)];
         return bonus;
     }
 

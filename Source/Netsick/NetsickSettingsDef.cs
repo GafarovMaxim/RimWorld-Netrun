@@ -33,4 +33,6 @@ public class NetsickSettingsDef : Def
     // T1.5 neural load: added by each dive; the Netsick a dive gives is multiplied by the factor of the stage the load had before it.
     public float neuralLoadPerDive = 0.25f;
     public System.Collections.Generic.List<float> neuralLoadNetsickFactors = [1f, 2f, 3f];
+    // Hack chance lost at each load stage (plan v1: the third dive of a day hacks worse).
+    public System.Collections.Generic.List<float> neuralLoadHackPenalties = [0f, 0.05f, 0.1f];
 }

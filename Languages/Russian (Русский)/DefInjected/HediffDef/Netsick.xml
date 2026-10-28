@@ -7,8 +7,8 @@
   <NR_Netsick.stages.2.label>сильная</NR_Netsick.stages.2.label>
   <NR_Netsick.stages.3.label>тяжёлая</NR_Netsick.stages.3.label>
   <NR_NeuralLoad.label>нейронагрузка</NR_NeuralLoad.label>
-  <NR_NeuralLoad.description>Мозг устал от нырков. Каждый нырок добавляет нагрузку, за сутки она спадает наполовину. Чем она выше, тем больше Netsick даст следующий нырок: ×1 при лёгкой, ×2 при тяжёлой, ×3 при перегрузке. Два нырка в день бесплатны, третий уже бьёт.</NR_NeuralLoad.description>
+  <NR_NeuralLoad.description>Мозг устал от нырков. Каждый нырок добавляет нагрузку, за сутки она спадает наполовину. Чем она выше, тем больше Netsick даст следующий нырок: ×1 при лёгкой, ×2 при тяжёлой, ×3 при перегрузке, а взлом хуже на 5% и 10%. Два нырка в день бесплатны, третий уже бьёт.</NR_NeuralLoad.description>
   <NR_NeuralLoad.stages.0.label>лёгкая, Netsick с нырков ×1</NR_NeuralLoad.stages.0.label>
-  <NR_NeuralLoad.stages.1.label>тяжёлая, Netsick с нырков ×2</NR_NeuralLoad.stages.1.label>
-  <NR_NeuralLoad.stages.2.label>перегрузка, Netsick с нырков ×3</NR_NeuralLoad.stages.2.label>
+  <NR_NeuralLoad.stages.1.label>тяжёлая, Netsick с нырков ×2, взлом −5%</NR_NeuralLoad.stages.1.label>
+  <NR_NeuralLoad.stages.2.label>перегрузка, Netsick с нырков ×3, взлом −10%</NR_NeuralLoad.stages.2.label>
 </LanguageData>
