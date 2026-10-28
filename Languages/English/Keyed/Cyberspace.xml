@@ -46,15 +46,15 @@
   <NR_DiveActTip_HackChance>Chance to break it: {0}.</NR_DiveActTip_HackChance>
   <NR_DiveActTip_Retreat>Leave now. From the lobby it is free; deeper in, half the haul is lost and Netsick grows.</NR_DiveActTip_Retreat>
   <NR_Program_Sword>Sword</NR_Program_Sword>
-  <NR_ProgramDesc_Sword>Hacking +30%, but hacks leave twice the trace. Costs {0} cyberdata.</NR_ProgramDesc_Sword>
+  <NR_ProgramDesc_Sword>Hacking +30%, but hacks leave twice the trace and every hack makes noise. Costs {0} cyberdata.</NR_ProgramDesc_Sword>
   <NR_Program_Shield>Shield</NR_Program_Shield>
   <NR_ProgramDesc_Shield>Absorbs one Black ICE strike. Costs {0} cyberdata.</NR_ProgramDesc_Shield>
   <NR_Program_Decoy>Decoy</NR_Program_Decoy>
   <NR_ProgramDesc_Decoy>50% to draw off one ICE strike. Costs {0} cyberdata.</NR_ProgramDesc_Decoy>
   <NR_Program_Stealth>Stealth</NR_Program_Stealth>
-  <NR_ProgramDesc_Stealth>Half the trace for the whole dive. Costs {0} cyberdata.</NR_ProgramDesc_Stealth>
+  <NR_ProgramDesc_Stealth>Half the trace for the whole dive; both noise thresholds are 1 higher. Costs {0} cyberdata.</NR_ProgramDesc_Stealth>
   <NR_Program_Killer>Killer</NR_Program_Killer>
-  <NR_ProgramDesc_Killer>Breaks one gate or ICE without a roll. Costs {0} cyberdata.</NR_ProgramDesc_Killer>
+  <NR_ProgramDesc_Killer>Breaks one gate or ICE without a roll, loudly (noise). Costs {0} cyberdata.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} jacks into {1}.</NR_DiveLogStart>
   <!-- Training dive -->
   <NR_TrainingNodeName>Training simulator</NR_TrainingNodeName>
@@ -214,7 +214,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_Daemon_Aegis>Aegis</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>One Shield charge in every dive.</NR_DaemonDesc_Aegis>
   <NR_Daemon_Wraith>Wraith</NR_Daemon_Wraith>
-  <NR_DaemonDesc_Wraith>Half the trace in every dive, like Stealth. The node alert needs one more failure to wake the patrol.</NR_DaemonDesc_Wraith>
+  <NR_DaemonDesc_Wraith>Half the trace in every dive, like Stealth, and both noise thresholds are 1 higher (once, even with Stealth).</NR_DaemonDesc_Wraith>
   <NR_Daemon_Hound>Hound</NR_Daemon_Hound>
   <NR_DaemonDesc_Hound>One Killer charge in every dive.</NR_DaemonDesc_Hound>
   <NR_Daemon_Lens>Lens</NR_Daemon_Lens>
@@ -486,15 +486,24 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_Flavor_Tip_10>Tip: braindance edits live in the Studio. The comms console just takes the calls.</NR_Flavor_Tip_10>
   <NR_Flavor_Tip_11>Tip: if the net feels loud, wait. The net always gets bored first.</NR_Flavor_Tip_11>
   <NR_Flavor_Tip_12>Tip: Netsick is not weakness. It is a bill, and bills can be paid in sleep.</NR_Flavor_Tip_12>
-  <NR_DiveLogAlert>Node alert {0}/{1}: the failed gate was noticed.</NR_DiveLogAlert>
-  <NR_DiveLogPatrolAwake>Node alert at maximum: an ICE patrol is awake and sweeping the node.</NR_DiveLogPatrolAwake>
+  <NR_DiveLogNoise>Noise +{0}: {1}/{2}.</NR_DiveLogNoise>
+  <NR_DiveLogState_Suspicion>The node grows suspicious: Black ICE wakes up, gates are harder, scans make noise.</NR_DiveLogState_Suspicion>
+  <NR_DiveLogState_Alarm>ALARM: a patrol sweeps the node, the files start to melt, every action leaves more trace.</NR_DiveLogState_Alarm>
+  <NR_DiveLogRedZoneStart>Red Zone: the net is already looking for you, the node starts in Suspicion.</NR_DiveLogRedZoneStart>
+  <NR_DiveLogFilesMelt>The node erases its files: -{0} cyberdata from the main files.</NR_DiveLogFilesMelt>
+  <NR_DiveLogGhostRun>Ghost run: the node never noticed you. Trace x{0} and a sure find.</NR_DiveLogGhostRun>
+  <NR_AlarmState_Quiet>Quiet</NR_AlarmState_Quiet>
+  <NR_AlarmState_Suspicion>Suspicion</NR_AlarmState_Suspicion>
+  <NR_AlarmState_Alarm>Alarm</NR_AlarmState_Alarm>
+  <NR_ReportNoise>Noise</NR_ReportNoise>
+  <NR_ReportNoiseValue>{0}/{1}, peak: {2}</NR_ReportNoiseValue>
+  <NR_ReportGhostRun>Ghost run: the node never noticed you (trace x{0}, a sure find).</NR_ReportGhostRun>
   <NR_DiveLogPatrolShield>The ICE patrol struck: the shield took the hit.</NR_DiveLogPatrolShield>
   <NR_DiveLogPatrolStrike>The ICE patrol found {0} and threw them out of the node. Half the haul is lost.</NR_DiveLogPatrolStrike>
-  <NR_DiveHudAlert>Node alert</NR_DiveHudAlert>
-  <NR_DiveHudPatrol>patrol awake</NR_DiveHudPatrol>
-  <NR_DiveHudAlertTip>Every failed gate hack raises the node alert (ICE failures do not). At {0} an ICE patrol wakes up: each node turn it strikes with a {1} chance. A strike throws the runner out with half the haul and nausea; a shield or Aegis takes it instead.\n\nThe Wraith daemon lets one more failure slip by. Nodes of defense 1 have no alert.</NR_DiveHudAlertTip>
+  <NR_DiveHudAlert>Alarm</NR_DiveHudAlert>
+  <NR_DiveHudAlertTip>Noise {0}/{1}. Suspicion at {2}, Alarm at {3}; noise never goes down, and neither does the state.\n\nNoise: a failed gate +{4}, a failed ICE +{5}, ICEBreaker +{6}, a Killer charge +{7}, every hack with Sword +{8}, a scan in Suspicion or Alarm +{9}. Moving, downloading and other scans are silent. Stealth or the Wraith daemon raises both thresholds by 1.\n\nQuiet: Black ICE ahead strikes in {12} of node turns. Suspicion: Black ICE {13}, gates {14} harder, scans make noise. Alarm: a patrol strikes in {10} of node turns (the runner is thrown out with half the haul; a shield takes it), the main files lose {17} cyberdata a turn until downloaded, trace per action x{15}, the owning corporation's Alert +{16}.\n\nGhost run: exit without ever leaving Quiet for trace x{11} and a sure special find. Nodes of defense 1 have no noise.</NR_DiveHudAlertTip>
   <NR_Program_IceBreaker>ICE breaker</NR_Program_IceBreaker>
-  <NR_ProgramDesc_IceBreaker>Hacking Expansion black ICE breaker as a program: breaks one gate without a roll, but that action leaves double trace. Burns one ICE breaker, no cyberdata. One HE item per dive.</NR_ProgramDesc_IceBreaker>
+  <NR_ProgramDesc_IceBreaker>Hacking Expansion black ICE breaker as a program: breaks one gate without a roll, but that action leaves double trace and makes a lot of noise. Burns one ICE breaker, no cyberdata. One HE item per dive.</NR_ProgramDesc_IceBreaker>
   <NR_Program_Exec>Exec</NR_Program_Exec>
   <NR_ProgramDesc_Exec>An exec data run as a program: +1 action in each of the first three turns. Burns one exec data, no cyberdata. One HE item per dive.</NR_ProgramDesc_Exec>
   <NR_HeProgramNoResearch>Needs the "{0}" research.</NR_HeProgramNoResearch>

@@ -393,6 +393,8 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HintCaption>// FIRST TIME</NR_HintCaption>
   <NR_HintRead>Read</NR_HintRead>
   <NR_HintGotIt>Got it</NR_HintGotIt>
+  <NR_HintTitle_Noise>The node heard you</NR_HintTitle_Noise>
+  <NR_Hint_Noise>Failed hacks and loud programs make noise. Past the first threshold the node grows suspicious, past the second it raises the Alarm: a patrol, melting files, more trace. Noise never goes down. Exit without ever leaving Quiet for a ghost run. The eye under the trace gauge shows the state.</NR_Hint_Noise>
   <NR_HintTitle_Ice>ICE struck back</NR_HintTitle_Ice>
   <NR_Hint_Ice>ICE guards nodes and hits the netrunner on a failed hack: nausea, a lockout, sometimes a coma. Shield and Decoy programs soften it; Exit while you can.</NR_Hint_Ice>
   <NR_HintTitle_Netsick>Netsick</NR_HintTitle_Netsick>

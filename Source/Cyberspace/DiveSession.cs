@@ -30,6 +30,14 @@ public enum DiveProgram
     Exec,
 }
 
+/// <summary>The node's alarm state (BALANCE_PLAN 3.3): set by noise, it never goes back down within a dive.</summary>
+public enum DiveAlarm : byte
+{
+    Quiet,
+    Suspicion,
+    Alarm,
+}
+
 /// <summary>One element of a node's architecture (Data Fortress style): a box on the dive map.</summary>
 public class DiveElement : IExposable
 {
@@ -133,22 +141,31 @@ public class DiveSession : IExposable
     public bool Retreated;
     /// <summary>ICE hits that got through (not stopped by a shield or a decoy).</summary>
     public int IceHits;
-    /// <summary>Node alert: failed gate hacks; at the threshold an ICE patrol wakes up (docs/DIVE_BALANCE.md).</summary>
-    public int NodeAlert;
+    /// <summary>Noise 0..noiseMax (BALANCE_PLAN 3.3): never goes down. -1 only while loading a save from before T2.1.</summary>
+    public int Noise;
+    /// <summary>The alarm state; it only climbs, so it is also the dive's peak state.</summary>
+    public DiveAlarm AlarmState;
+    /// <summary>Cyberdata the main files lost while the node was in Alarm (taken off when they are downloaded).</summary>
+    public int FilesMelted;
     private bool _cacheFound;
 
-    /// <summary>Nodes this weak have no alert: training grounds of the Outskirts.</summary>
+    /// <summary>Nodes this weak have no noise or alarm: training grounds of the Outskirts.</summary>
     public bool AlertApplies => Node != null && !Node.Training && Node.Defense > Settings.alertFreeDefense;
 
-    /// <summary>Wraith (stealth daemon) lets one more failure slip by.</summary>
-    /// <summary>Alarms before the patrol wakes; the difficulty's ICE strength makes patrols quicker or slower.</summary>
     /// <summary>The share of the haul a retreat costs, scaled by the difficulty.</summary>
     private float RetreatLoss => Mathf.Clamp01(Settings.retreatLootLoss * NetrunMod.Settings.RetreatLoss);
 
-    public int AlertThreshold => Mathf.Max(1, Mathf.RoundToInt(Settings.alertThreshold / Mathf.Max(0.25f, NetrunMod.Settings.IceStrength)))
-                                 + (Daemons.Contains(DiveDaemon.Wraith) ? 1 : 0);
+    /// <summary>Decision c11: Stealth (the Ghost) or the Wraith daemon shifts both thresholds once; they do not stack, like their trace cut.</summary>
+    private int StealthShift => Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith) ? Settings.noiseStealthShift : 0;
 
-    public bool PatrolAwake => AlertApplies && NodeAlert >= AlertThreshold;
+    public int SuspicionAt => Settings.noiseSuspicion + StealthShift;
+    public int AlarmAt => Settings.noiseAlarm + StealthShift;
+
+    public DiveAlarm StateFor(int noise) => noise >= AlarmAt ? DiveAlarm.Alarm : noise >= SuspicionAt ? DiveAlarm.Suspicion : DiveAlarm.Quiet;
+
+    /// <summary>A ghost run so far: the node has noise rules and never left Quiet.</summary>
+    public bool Ghost => AlertApplies && AlarmState == DiveAlarm.Quiet;
+
     public DiveReport Report;
 
     /// <summary>The training simulation: every rule works, but hits, Heat, Netsick and the haul are only shown.</summary>
@@ -258,6 +275,13 @@ public class DiveSession : IExposable
         }
         session.ActionsLeft = UnityEngine.Mathf.Max(1, session.ActionsPerTurn + session.ExtraActions(1));
         session.AddLog("NR_DiveLogStart".Translate(runner.LabelShort, node.Name));
+        // The Red Zone: the net is already looking for the colony, a dive starts in Suspicion.
+        if (session.AlertApplies && HeatTracker.Get()?.DiveStartsInSuspicion == true)
+        {
+            session.Noise = session.SuspicionAt;
+            session.AlarmState = DiveAlarm.Suspicion;
+            session.AddLog("NR_DiveLogRedZoneStart".Translate().Colorize(NetrunUI.Warn));
+        }
         if (session.Training)
             session.AddLog("NR_DiveLogTraining".Translate().Colorize(NetrunUI.Accent));
         return session;
@@ -436,6 +460,9 @@ public class DiveSession : IExposable
     public void Scan()
     {
         NetrunSound.Play("UI_Scan");
+        // A suspicious node hears every scan.
+        if (AlarmState >= DiveAlarm.Suspicion)
+            AddNoise(Settings.noiseScanSuspicion);
         // Interference: a scan takes two actions.
         if (Node.Interference && ActionsLeft > 1)
             ActionsLeft--;
@@ -491,6 +518,9 @@ public class DiveSession : IExposable
         bonus += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner) + GearHackBonus;
         // Bonuses stack up to a cap, so gear never makes the hardest nodes trivial; penalties are not capped.
         chance += Mathf.Min(bonus, Settings.hackBonusCap);
+        // A suspicious node watches its gates.
+        if (target.Kind == DiveElementKind.Gate && AlarmState >= DiveAlarm.Suspicion)
+            chance -= Settings.suspicionGatePenalty;
         // The training is forgiving: a flat bonus on top (still clamped).
         if (Training)
             chance += TrainingCoach.HackBonus;
@@ -511,6 +541,7 @@ public class DiveSession : IExposable
             BreakerCharges--;
             target.Cleared = true;
             AddLog("NR_DiveLogBreaker".Translate(ElementLabel(target)));
+            AddNoise(Settings.noiseIceBreaker);
             Spend(Settings.tracePerAction * 2f);
             return;
         }
@@ -519,30 +550,77 @@ public class DiveSession : IExposable
             KillerCharges--;
             target.Cleared = true;
             AddLog("NR_DiveLogKiller".Translate(ElementLabel(target)));
-        }
-        else if (Rand.Chance(HackChance(target)))
-        {
-            target.Cleared = true;
-            NetrunSound.Play("UI_Hack");
-            AddLog("NR_DiveLogHackOk".Translate(ElementLabel(target)));
+            AddNoise(Settings.noiseKiller);
         }
         else
         {
-            AddLog("NR_DiveLogHackFail".Translate(ElementLabel(target)).Colorize(NetrunUI.Bad));
-            // ICE answers a failed hack with its own strike sound; a gate just slips.
-            if (target.Kind == DiveElementKind.Ice)
-                IceAttack();
+            // Sword is a loud program: every rolled hack with it is heard.
+            if (sword)
+                AddNoise(Settings.noiseSword);
+            if (Rand.Chance(HackChance(target)))
+            {
+                target.Cleared = true;
+                NetrunSound.Play("UI_Hack");
+                AddLog("NR_DiveLogHackOk".Translate(ElementLabel(target)));
+            }
             else
             {
-                NetrunSound.Play("Dive_HackFail");
-                if (target.Kind == DiveElementKind.Gate)
-                    RaiseAlert();
+                AddLog("NR_DiveLogHackFail".Translate(ElementLabel(target)).Colorize(NetrunUI.Bad));
+                // ICE answers a failed hack with its own strike sound; a gate just slips.
+                if (target.Kind == DiveElementKind.Ice)
+                {
+                    // TEMP(T2.4): all ICE counts as black for noise (noiseIceFail); white ICE uses noiseIceWhiteFail once IceClass exists.
+                    AddNoise(Settings.noiseIceFail);
+                    IceAttack();
+                }
+                else
+                {
+                    NetrunSound.Play("Dive_HackFail");
+                    AddNoise(Settings.noiseGateFail);
+                }
             }
         }
         Spend(Settings.tracePerAction * (sword ? 2f : 1f));
     }
 
-    /// <summary>A failed gate raises the node alert; the patrol wakes at the threshold.</summary>
+    /// <summary>Raises noise (capped, never down) on nodes with noise rules; the state follows the thresholds.</summary>
+    public void AddNoise(int amount)
+    {
+        if (amount <= 0 || Finished || !AlertApplies)
+            return;
+        FirstHints.Show("Noise", "NR_Help_Gateway_Noise");
+        Noise = Mathf.Min(Settings.noiseMax, Noise + amount);
+        AddLog("NR_DiveLogNoise".Translate(amount, Noise, Settings.noiseMax).Colorize(NetrunUI.Warn));
+        RaiseState(StateFor(Noise));
+    }
+
+    /// <summary>Moves the alarm state up (never down), with a sound and a log line; Alarm also alerts the owning corporation.</summary>
+    public void RaiseState(DiveAlarm state)
+    {
+        if (state <= AlarmState)
+            return;
+        AlarmState = state;
+        NetrunSound.Play(state == DiveAlarm.Alarm ? "UI_Alert" : "UI_Glitch");
+        AddLog(("NR_DiveLogState_" + state).Translate().Colorize(state == DiveAlarm.Alarm ? NetrunUI.Bad : NetrunUI.Warn));
+        if (state == DiveAlarm.Alarm && !Training)
+            CorpManager.Get()?.NotifyNodeAlarm(Node, Settings.alarmCorpAlert);
+    }
+
+    /// <summary>Dev: sets noise exactly and the state from it (may go down, for testing).</summary>
+    public void DevSetNoise(int noise)
+    {
+        Noise = Mathf.Clamp(noise, 0, Settings.noiseMax);
+        AlarmState = StateFor(Noise);
+        AddLog("NR_DiveLogNoise".Translate(0, Noise, Settings.noiseMax).Colorize(NetrunUI.Warn));
+    }
+
+    /// <summary>Migration and dev: the state matches the noise (only upward).</summary>
+    public void SyncAlarmFromNoise()
+    {
+        if (StateFor(Noise) > AlarmState)
+            AlarmState = StateFor(Noise);
+    }
+
     /// <summary>Achievement counters for a finished dive (docs/TECH_DETAILS.md, section 3.5).</summary>
     private void DiveSignals(bool success)
     {
@@ -564,17 +642,6 @@ public class DiveSession : IExposable
             NetrunSignals.Increment("CorpCores");
     }
 
-    private void RaiseAlert()
-    {
-        if (!AlertApplies || PatrolAwake)
-            return;
-        NodeAlert++;
-        if (PatrolAwake)
-            AddLog("NR_DiveLogPatrolAwake".Translate().Colorize(NetrunUI.Bad));
-        else
-            AddLog("NR_DiveLogAlert".Translate(NodeAlert, AlertThreshold).Colorize(NetrunUI.Warn));
-    }
-
     /// <summary>
     /// The ICE patrol strikes: a shield (or Aegis) takes it, otherwise the runner is thrown out with half the haul
     /// and HE nausea. No coma and no lockout: only Black ICE does that.
@@ -589,9 +656,8 @@ public class DiveSession : IExposable
         }
         if (Training)
         {
-            // The simulator only shows the strike and calms the patrol down, so the lesson goes on.
+            // The simulator only shows the strike, so the lesson goes on.
             NetrunSound.Play("Dive_ICE");
-            NodeAlert = 0;
             AddLog("NR_DiveLogSimPatrol".Translate().Colorize(NetrunUI.Warn));
             return;
         }
@@ -605,10 +671,16 @@ public class DiveSession : IExposable
     private void HackHunter()
     {
         var hunter = new DiveElement { Kind = DiveElementKind.Ice, Strength = Settings.hunterStrength };
-        if (KillerCharges > 0 || Rand.Chance(HackChance(hunter)))
+        bool killer = KillerCharges > 0;
+        if (!killer && Programs.Contains(DiveProgram.Sword))
+            AddNoise(Settings.noiseSword);
+        if (killer || Rand.Chance(HackChance(hunter)))
         {
-            if (KillerCharges > 0)
+            if (killer)
+            {
                 KillerCharges--;
+                AddNoise(Settings.noiseKiller);
+            }
             HunterActive = false;
             AddLog("NR_DiveLogHunterDown".Translate().Colorize(NetrunUI.Ok));
         }
@@ -686,7 +758,8 @@ public class DiveSession : IExposable
     private void RollFiles()
     {
         (int data, int advanced, int silver) = RollMain(Node, TookHardPath, PassageBonus);
-        LootCyberdata += data;
+        // Files melted in Alarm are gone.
+        LootCyberdata += Mathf.Max(0, data - FilesMelted);
         LootAdvanced += advanced;
         LootSilver += silver;
     }
@@ -721,9 +794,13 @@ public class DiveSession : IExposable
         float chance = Node.BlackIce ? Settings.specialItemChanceBlackIce : Settings.specialItemChance;
         if (Node.District == District.Dump)
             chance *= 1.5f;
-        if (!Rand.Chance(chance))
-            return;
+        if (Rand.Chance(chance))
+            RollFind();
+    }
 
+    /// <summary>One roll of the special-find table (a clean exit's chance, or the ghost run's sure find).</summary>
+    private void RollFind()
+    {
         District d = Node.District;
         var finds = new List<(System.Action find, float weight)>
         {
@@ -897,7 +974,8 @@ public class DiveSession : IExposable
     private void Spend(float trace)
     {
         bool stealth = Programs.Contains(DiveProgram.Stealth) || Daemons.Contains(DiveDaemon.Wraith);
-        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner) * (Node.Mirrored ? 2f : 1f);
+        Trace += trace * (stealth ? Settings.stealthTraceFactor : 1f) * DiveTraits.TraceFactor(Runner) * (Node.Mirrored ? 2f : 1f)
+                 * (AlarmState == DiveAlarm.Alarm ? Settings.alarmTraceFactor : 1f);
         ActionsLeft--;
         if (ActionsLeft <= 0 && !Finished)
             NodeTurn();
@@ -914,15 +992,23 @@ public class DiveSession : IExposable
         }
         bool iceNext = Next is { Kind: DiveElementKind.Ice, Cleared: false };
         bool iceNear = iceNext || Ahead(2) is { Kind: DiveElementKind.Ice, Cleared: false };
-        if (iceNext && Rand.Chance(Settings.iceAttackChance))
+        // Quiet: the ICE is half asleep.
+        if (iceNext && Rand.Chance(AlarmState == DiveAlarm.Quiet ? Settings.iceAttackChanceQuiet : Settings.iceAttackChance))
             IceAttack();
         if (!Finished && HunterActive && Rand.Chance(Settings.hunterAttackChance))
         {
             AddLog("NR_DiveLogHunterStrikes".Translate().Colorize(NetrunUI.Bad));
             IceAttack();
         }
-        if (!Finished && PatrolAwake && Rand.Chance(Settings.alertPatrolChance))
+        // TEMP(T3.4): old patrol roll in Alarm (alarmPatrolChance), replace with the patrol figure on the graph.
+        if (!Finished && AlarmState == DiveAlarm.Alarm && Rand.Chance(Settings.alarmPatrolChance))
             PatrolStrike();
+        // Alarm: the main files melt until they are downloaded.
+        if (!Finished && AlarmState == DiveAlarm.Alarm && Elements.Any(e => e.Kind == DiveElementKind.Files && !e.Cache && !e.Looted))
+        {
+            FilesMelted += Settings.alarmFilesMelt;
+            AddLog("NR_DiveLogFilesMelt".Translate(FilesMelted).Colorize(NetrunUI.Bad));
+        }
         if (!Finished)
             NodeEvents();
 
@@ -1091,6 +1177,7 @@ public class DiveSession : IExposable
         {
             RollFiles();
             RollSpecial();
+            GhostRunBonus();
             End(success: true, keepShare: 1f);
         }
         else
@@ -1105,8 +1192,26 @@ public class DiveSession : IExposable
     {
         AddLog("NR_DiveLogExit".Translate());
         if (!Training)
+        {
             RollSpecial();
+            GhostRunBonus();
+        }
         End(success: true, keepShare: 1f);
+    }
+
+    /// <summary>Set on a ghost run's exit, for the contracts and the summary (End runs right after, so it is not saved).</summary>
+    private bool _ghostRun;
+
+    /// <summary>Ghost run (an exit that never left Quiet, BALANCE_PLAN 3.3): half the trace and one sure find.</summary>
+    private void GhostRunBonus()
+    {
+        if (!Ghost || Training)
+            return;
+        _ghostRun = true;
+        Trace *= Settings.ghostTraceFactor;
+        AddLog("NR_DiveLogGhostRun".Translate(Settings.ghostTraceFactor.ToString("0.##")).Colorize(NetrunUI.Ok));
+        // TEMP(T4.3): the ghost run's item is one roll of the old special-find table; switch to the RewardPool item of the node's tier.
+        RollFind();
     }
 
     /// <summary>Leaving early: from the lobby it is free, deeper in it costs part of the haul and some Netsick.</summary>
@@ -1183,7 +1288,7 @@ public class DiveSession : IExposable
             Runner?.skills?.Learn(SkillDefOf.Intellectual, Settings.successXp, direct: true);
             ContractManager contracts = ContractManager.Get();
             for (int i = 0; i < (Node.Contract ? 2 : 1); i++)
-                contracts?.NotifyHackCompleted();
+                contracts?.NotifyHackCompleted(_ghostRun);
             GatewayManager.Get()?.RemoveNode(Node);
             if (Node.CounterHack)
                 MapEventsManager.Get()?.CounterHackWon();
@@ -1275,6 +1380,10 @@ public class DiveSession : IExposable
             Xp = success ? Settings.successXp : 0f,
             Special = SpecialFound,
             HunterFollowed = hunterFollowed,
+            HasNoise = AlertApplies,
+            Noise = Noise,
+            PeakState = AlarmState,
+            GhostRun = _ghostRun,
         };
         if (HunterSpawned)
             report.Events.Add("Event_HunterICE|" + "NR_ReportEventHunter".Translate());
@@ -1344,7 +1453,17 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Values.Look(ref IceHits, "iceHits");
-        Scribe_Values.Look(ref NodeAlert, "nodeAlert");
+        // T2.1: -1 = the key is missing, a dive saved before noise existed. Its failure counter "nodeAlert" becomes the
+        // noise (BALANCE_PLAN 20.2); NetrunMigration v4 then sets the state from the thresholds.
+        Scribe_Values.Look(ref Noise, "noise", -1);
+        if (Scribe.mode == LoadSaveMode.LoadingVars && Noise < 0)
+        {
+            int oldAlert = 0;
+            Scribe_Values.Look(ref oldAlert, "nodeAlert");
+            Noise = Mathf.Clamp(oldAlert, 0, Settings.noiseMax);
+        }
+        Scribe_Values.Look(ref AlarmState, "alarmState", DiveAlarm.Quiet);
+        Scribe_Values.Look(ref FilesMelted, "filesMelted");
         Scribe_Values.Look(ref _cacheFound, "cacheFound");
         Scribe_Deep.Look(ref Report, "report");
         Scribe_Collections.Look(ref Visited, "visited", LookMode.Value);

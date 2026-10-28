@@ -329,7 +329,7 @@ public static class ContractsTab
                 tags.Add(("NR_BoardTag_AnyHack".Translate(), NetrunUI.Ok, "NR_BoardTag_AnyHackTip".Translate()));
                 break;
             case ContractType.QuietRun:
-                tags.Add(("NR_BoardTag_Quiet".Translate(HeatLevel.Tracked.Label()), NetrunUI.Bad, "NR_BoardTag_QuietTip".Translate(HeatLevel.Tracked.Label())));
+                tags.Add(("NR_BoardTag_Quiet".Translate(), NetrunUI.Ok, "NR_BoardTag_QuietTip".Translate()));
                 break;
             case ContractType.Surveillance:
                 if (contract.WatchesHub)

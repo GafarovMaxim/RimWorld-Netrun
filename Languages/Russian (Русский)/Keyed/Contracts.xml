@@ -7,7 +7,7 @@
   <NR_Contract_QuietRun>Тихий заход</NR_Contract_QuietRun>
   <NR_ContractDesc_DataDelivery>Передать через терминал {0} киберданных. Продвинутые киберданные засчитываются за несколько.</NR_ContractDesc_DataDelivery>
   <NR_ContractDesc_SystemTap>Завершить взломов: {0}.</NR_ContractDesc_SystemTap>
-  <NR_ContractDesc_QuietRun>Завершить взломов: {0}, при этом след не должен подняться выше уровня «Отслеживается».</NR_ContractDesc_QuietRun>
+  <NR_ContractDesc_QuietRun>Сделать призрачных проходов: {0} (выйти из нырка, ни разу не покинув «Тихо»). Целевая нода контракта считается за два.</NR_ContractDesc_QuietRun>
 
   <!-- Вкладка «Контракты» -->
   <NR_ContractsNoActive>Активных контрактов нет.</NR_ContractsNoActive>
@@ -19,7 +19,6 @@
   <!-- Проверки при принятии -->
   <NR_ContractNeedsChannel>Сначала свяжитесь с фиксером.</NR_ContractNeedsChannel>
   <NR_ContractAlreadyActive>У вас уже есть контракт с {0}.</NR_ContractAlreadyActive>
-  <NR_ContractTooLoud>Ваш след уже слишком высок для тихого захода.</NR_ContractTooLoud>
 
   <!-- Итоги -->
   <NR_ContractAccepted>Контракт принят: {0} для {1}.</NR_ContractAccepted>
@@ -28,7 +27,6 @@
   <NR_ContractFailedLabel>Контракт провален</NR_ContractFailedLabel>
   <NR_ContractFailed>«{0}» для {1} провален: {2}.\n\nФиксер доверяет вам меньше и не будет отвечать {3} дн.</NR_ContractFailed>
   <NR_ContractFailedExpired>истёк срок</NR_ContractFailedExpired>
-  <NR_ContractFailedLoud>след поднялся слишком высоко</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>вы отказались от работы</NR_ContractFailedAbandoned>
   <!-- Прогресс -->
   <NR_ContractDeliverTip>Передаёт киберданные со склада. Одни продвинутые киберданные засчитываются за {0}.</NR_ContractDeliverTip>
@@ -75,8 +73,8 @@
   <NR_BoardTag_DeliveryTip>Сдать киберданные через терминал. Продвинутые засчитываются за {0}.</NR_BoardTag_DeliveryTip>
   <NR_BoardTag_AnyHack>Любые взломы</NR_BoardTag_AnyHack>
   <NR_BoardTag_AnyHackTip>Засчитывается любой завершённый взлом.</NR_BoardTag_AnyHackTip>
-  <NR_BoardTag_Quiet>Heat ≤ «{0}»</NR_BoardTag_Quiet>
-  <NR_BoardTag_QuietTip>След не должен подняться выше «{0}», пока идёт контракт, иначе провал.</NR_BoardTag_QuietTip>
+  <NR_BoardTag_Quiet>Призрачный проход</NR_BoardTag_Quiet>
+  <NR_BoardTag_QuietTip>Засчитываются только нырки, которые ни разу не покинули «Тихо». Heat не важен.</NR_BoardTag_QuietTip>
   <NR_BoardTagArticle>Клик: статья в Киберпедии.</NR_BoardTagArticle>
   <NR_BoardActiveLine>Сдано {0} из {1}</NR_BoardActiveLine>
   <NR_BoardLeft>осталось {0}</NR_BoardLeft>

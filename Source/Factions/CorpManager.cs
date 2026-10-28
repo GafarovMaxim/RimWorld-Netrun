@@ -209,6 +209,16 @@ public class CorpManager : GameComponent, INetrunCleanable
         Clamp(c);
     }
 
+    /// <summary>A dive raised a full Alarm in this corporation's node (BALANCE_PLAN 3.3).</summary>
+    public void NotifyNodeAlarm(ExternalNode branch, float alert)
+    {
+        CorpState c = OwnerOf(branch);
+        if (c == null)
+            return;
+        c.Alert += alert;
+        Clamp(c);
+    }
+
     public void NotifyIntercept(int factionId)
     {
         CorpState c = Corps.FirstOrDefault(x => x.FactionId == factionId);

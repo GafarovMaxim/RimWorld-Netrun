@@ -22,6 +22,7 @@ public class NetrunMigration : GameComponent
         (1, "research moved from HE projects to Netrun's own", MigrateResearch),
         (2, "T1.2 scrub rules: old lay-low contracts keep old rules, letter for pinned Cleaners", MigrateScrubRules),
         (3, "T1.10 free scrub favors burn out: owed favors get the 15-day clock", MigrateFreeScrubs),
+        (4, "T2.1 noise and alarm: a running dive's old alert counter becomes noise, the state follows the thresholds", MigrateDiveNoise),
     ];
 
     /// <summary>
@@ -29,7 +30,9 @@ public class NetrunMigration : GameComponent
     /// T1.1 rebuilt the step runner and added no version. 2 = T1.2, three scrub channels (running "lay low" contracts
     /// finish under the old rules, players with a pinned Cleaner get a letter). 3 = T1.10, a fixer's free scrub favor
     /// burns out after freeScrubDays (favors owed in an older save start their clock at load). T1.10's other new fields
-    /// (EventPacing deferredTick, AI letter effectsPending) load right from their defaults. The current version is the last step's.
+    /// (EventPacing deferredTick, AI letter effectsPending) load right from their defaults. 4 = T2.1, noise and alarm states
+    /// (DiveSession.ExposeData reads the old "nodeAlert" key into Noise; the step sets the alarm state from the thresholds).
+    /// The current version is the last step's.
     /// </summary>
     public static int CurrentVersion => Steps[Steps.Length - 1].Version;
 
@@ -154,6 +157,16 @@ public class NetrunMigration : GameComponent
         foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
             if (fixer.FreeScrubs > 0 && fixer.FreeScrubUntilTick < 0)
                 fixer.FreeScrubUntilTick = Find.TickManager.TicksGame + (int)(NetrunDefOf.NR_Cyberspace.freeScrubDays * GenDate.TicksPerDay);
+    }
+
+    /// <summary>
+    /// T2.1: a dive saved mid-way with the old failure counter. Loading already put the counter into Noise (the old key
+    /// exists only during that load); here the state catches up with the thresholds. Idempotent: the state only goes up.
+    /// </summary>
+    private static void MigrateDiveNoise()
+    {
+        if (GatewayManager.Get()?.Session is { Finished: false } session)
+            session.SyncAlarmFromNoise();
     }
 
     private static void Grant(ResearchProjectDef project, string oldPrerequisite)

@@ -68,9 +68,7 @@ public class ContractManager : GameComponent, INetrunCleanable
 
         foreach (Contract contract in Active.ToList())
         {
-            if (contract.Type == ContractType.QuietRun && HeatTracker.Get()?.Level > HeatLevel.Tracked)
-                Fail(contract, "NR_ContractFailedLoud");
-            else if (contract.Type == ContractType.LayLow && (HeatTracker.Get()?.Heat ?? 0f) <= contract.Goal)
+            if (contract.Type == ContractType.LayLow && (HeatTracker.Get()?.Heat ?? 0f) <= contract.Goal)
             {
                 contract.Progress = contract.Goal;
                 Complete(contract);
@@ -338,8 +336,6 @@ public class ContractManager : GameComponent, INetrunCleanable
             return "NR_ContractNeedsChannel".Translate();
         if (HasActive(fixer))
             return "NR_ContractAlreadyActive".Translate(fixer.Name);
-        if (contract.Type == ContractType.QuietRun && HeatTracker.Get()?.Level > HeatLevel.Tracked)
-            return "NR_ContractTooLoud".Translate();
         if (StreetOnly && !Settings.streetContracts.Contains(contract.Type))
             return "NR_ContractRedZoneStreet".Translate();
         return true;
@@ -360,15 +356,15 @@ public class ContractManager : GameComponent, INetrunCleanable
         Messages.Message("NR_ContractAccepted".Translate(contract.Title, fixer.Name), MessageTypeDefOf.NeutralEvent, historical: true);
     }
 
-    /// <summary>Called once per hack completed by a colonist.</summary>
-    public void NotifyHackCompleted()
+    /// <summary>
+    /// Called once per hack completed by a colonist (a dive counts as one, its contract node as two).
+    /// A quiet run counts only ghost runs (a dive that never left Quiet, BALANCE_PLAN v2 / T2.1).
+    /// </summary>
+    public void NotifyHackCompleted(bool ghostRun = false)
     {
         foreach (Contract contract in Active.ToList())
         {
-            // The hack's own Heat is already applied, so a hack that breaks a quiet run never counts for it.
-            if (contract.Type == ContractType.QuietRun && HeatTracker.Get()?.Level > HeatLevel.Tracked)
-                Fail(contract, "NR_ContractFailedLoud");
-            else if (contract.Type is ContractType.SystemTap or ContractType.QuietRun)
+            if (contract.Type == ContractType.SystemTap || (contract.Type == ContractType.QuietRun && ghostRun))
                 AddProgress(contract, 1);
         }
     }

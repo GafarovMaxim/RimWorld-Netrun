@@ -37,7 +37,7 @@ from collections import deque
 
 TUNE = dict(
     base=0.30, per_int=0.035, per_str=0.065, bonus=0.30, gate_extra=(0, 2),
-    actions=2, suspicion=2, alarm=4,
+    actions=2, suspicion=2, alarm=4, ghost_shift=1,
     seen_noise=2, gate_fail_noise=1, white_fail_noise=2, ice_fail_noise=1,
     patrol_hit=0.5, grey_hit=0.5, black_hit_quiet=0.3, black_hit=0.6, black_end=0.4,
     cipher=0.85, solo_lock_cipher=0.6, hold=0.7, big_group_threshold=2, group_from=2, large_grey=1,
@@ -366,8 +366,11 @@ def run(builder, n_runners, rng, catcher=False, auto=False):
 
     pen = TUNE["big_group_threshold"] * max(0, n_runners - TUNE["group_from"])   # every extra runner is a bigger signature
 
+    # c11: the Ghost program (always in this policy's loadout) shifts both thresholds up.
+    shift = TUNE["ghost_shift"]
+
     def state():
-        return 2 if noise >= TUNE["alarm"] - pen else (1 if noise >= TUNE["suspicion"] - pen // 2 else 0)
+        return 2 if noise >= TUNE["alarm"] + shift - pen else (1 if noise >= TUNE["suspicion"] + shift - pen // 2 else 0)
 
     def exits():
         return g.exits + (g.hidden_exits if seen_backdoor else [])

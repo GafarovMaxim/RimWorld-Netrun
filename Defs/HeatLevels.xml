@@ -39,7 +39,6 @@
       <li><severity>Bad</severity><text>Corporate hunt for your AI server.</text></li>
       <li><severity>Bad</severity><text>An ICE hunter can come after your netrunner in dives.</text></li>
       <li><severity>Warn</severity><text>Heat cools twice as slowly.</text></li>
-      <li><severity>Warn</severity><text>"Quiet run" contracts fail.</text></li>
     </effects>
   </Netrun.HeatLevelInfoDef>
 

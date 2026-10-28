@@ -46,15 +46,15 @@
   <NR_DiveActTip_HackChance>Шанс взлома: {0}.</NR_DiveActTip_HackChance>
   <NR_DiveActTip_Retreat>Уйти сейчас. Со входа бесплатно; глубже теряется половина добычи и растёт Netsick.</NR_DiveActTip_Retreat>
   <NR_Program_Sword>Меч</NR_Program_Sword>
-  <NR_ProgramDesc_Sword>Взлом +30%, но взломы оставляют вдвое больше следа. Стоит {0} киберданных.</NR_ProgramDesc_Sword>
+  <NR_ProgramDesc_Sword>Взлом +30%, но взломы оставляют вдвое больше следа и каждый шумит. Стоит {0} киберданных.</NR_ProgramDesc_Sword>
   <NR_Program_Shield>Щит</NR_Program_Shield>
   <NR_ProgramDesc_Shield>Поглощает один удар Black ICE. Стоит {0} киберданных.</NR_ProgramDesc_Shield>
   <NR_Program_Decoy>Фальшивка</NR_Program_Decoy>
   <NR_ProgramDesc_Decoy>Шанс 50% отвести один удар ICE. Стоит {0} киберданных.</NR_ProgramDesc_Decoy>
   <NR_Program_Stealth>Невидимка</NR_Program_Stealth>
-  <NR_ProgramDesc_Stealth>Вдвое меньше следа за весь нырок. Стоит {0} киберданных.</NR_ProgramDesc_Stealth>
+  <NR_ProgramDesc_Stealth>Вдвое меньше следа за весь нырок; оба порога шума на 1 выше. Стоит {0} киберданных.</NR_ProgramDesc_Stealth>
   <NR_Program_Killer>Убийца</NR_Program_Killer>
-  <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки. Стоит {0} киберданных.</NR_ProgramDesc_Killer>
+  <NR_ProgramDesc_Killer>Ломает одни ворота или ICE без проверки, но громко (шум). Стоит {0} киберданных.</NR_ProgramDesc_Killer>
   <NR_DiveLogStart>{0} подключается к {1}.</NR_DiveLogStart>
   <!-- Тренировочный нырок -->
   <NR_TrainingNodeName>Тренировочный симулятор</NR_TrainingNodeName>
@@ -214,7 +214,7 @@
   <NR_Daemon_Aegis>Эгида</NR_Daemon_Aegis>
   <NR_DaemonDesc_Aegis>Один заряд Щита в каждом нырке.</NR_DaemonDesc_Aegis>
   <NR_Daemon_Wraith>Морок</NR_Daemon_Wraith>
-  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как программа «Невидимка». Патрулю нужна на одну неудачу больше, чтобы проснуться.</NR_DaemonDesc_Wraith>
+  <NR_DaemonDesc_Wraith>Вдвое меньше следа в каждом нырке, как программа «Невидимка», и оба порога шума на 1 выше (один раз, даже вместе с «Невидимкой»).</NR_DaemonDesc_Wraith>
   <NR_Daemon_Hound>Гончая</NR_Daemon_Hound>
   <NR_DaemonDesc_Hound>Один заряд Убийцы в каждом нырке.</NR_DaemonDesc_Hound>
   <NR_Daemon_Lens>Линза</NR_Daemon_Lens>
@@ -486,15 +486,24 @@
   <NR_Flavor_Tip_10>Совет: правка брейнданса живёт в Студии. Консоль связи только принимает звонки.</NR_Flavor_Tip_10>
   <NR_Flavor_Tip_11>Совет: если сеть шумит, подождите. Сеть всегда устаёт первой.</NR_Flavor_Tip_11>
   <NR_Flavor_Tip_12>Совет: Netsick — не слабость. Это счёт, а счета оплачиваются сном.</NR_Flavor_Tip_12>
-  <NR_DiveLogAlert>Тревога ноды {0}/{1}: проваленный взлом ворот заметили.</NR_DiveLogAlert>
-  <NR_DiveLogPatrolAwake>Тревога ноды на максимуме: проснулся патруль ICE и прочёсывает ноду.</NR_DiveLogPatrolAwake>
+  <NR_DiveLogNoise>Шум +{0}: {1}/{2}.</NR_DiveLogNoise>
+  <NR_DiveLogState_Suspicion>Нода насторожилась: Black ICE проснулся, ворота сложнее, сканы шумят.</NR_DiveLogState_Suspicion>
+  <NR_DiveLogState_Alarm>ТРЕВОГА: патруль прочёсывает ноду, файлы тают, каждое действие оставляет больше следа.</NR_DiveLogState_Alarm>
+  <NR_DiveLogRedZoneStart>Красная зона: сеть уже ищет вас, нода с порога в Подозрении.</NR_DiveLogRedZoneStart>
+  <NR_DiveLogFilesMelt>Нода стирает файлы: −{0} киберданных в основных файлах.</NR_DiveLogFilesMelt>
+  <NR_DiveLogGhostRun>Призрачный проход: нода вас не заметила. След ×{0} и верная находка.</NR_DiveLogGhostRun>
+  <NR_AlarmState_Quiet>Тихо</NR_AlarmState_Quiet>
+  <NR_AlarmState_Suspicion>Подозрение</NR_AlarmState_Suspicion>
+  <NR_AlarmState_Alarm>Тревога</NR_AlarmState_Alarm>
+  <NR_ReportNoise>Шум</NR_ReportNoise>
+  <NR_ReportNoiseValue>{0}/{1}, пик: {2}</NR_ReportNoiseValue>
+  <NR_ReportGhostRun>Призрачный проход: нода вас не заметила (след ×{0}, верная находка).</NR_ReportGhostRun>
   <NR_DiveLogPatrolShield>Патруль ICE ударил: щит принял удар.</NR_DiveLogPatrolShield>
   <NR_DiveLogPatrolStrike>Патруль ICE нашёл {0} и выбросил из ноды. Половина добычи потеряна.</NR_DiveLogPatrolStrike>
-  <NR_DiveHudAlert>Тревога ноды</NR_DiveHudAlert>
-  <NR_DiveHudPatrol>патруль не спит</NR_DiveHudPatrol>
-  <NR_DiveHudAlertTip>Каждый проваленный взлом ворот поднимает тревогу ноды (провал на ICE не поднимает). На {0} просыпается патруль ICE: каждый ход ноды он бьёт с шансом {1}. Удар выбрасывает раннера с половиной добычи и тошнотой; щит или Эгида принимают удар на себя.\n\nДемон Морок пропускает ещё одну неудачу. На нодах защиты 1 тревоги нет.</NR_DiveHudAlertTip>
+  <NR_DiveHudAlert>Тревога</NR_DiveHudAlert>
+  <NR_DiveHudAlertTip>Шум {0}/{1}. Подозрение с {2}, Тревога с {3}; шум не убывает, состояние не возвращается вниз.\n\nШум: провал на воротах +{4}, провал на ICE +{5}, Ледоруб +{6}, заряд Убийцы +{7}, каждый взлом с Мечом +{8}, скан в Подозрении или Тревоге +{9}. Шаги, загрузка и другие сканы тихие. «Невидимка» или демон Морок поднимают оба порога на 1.\n\nТихо: Black ICE впереди бьёт в {12} ходов ноды. Подозрение: Black ICE {13}, ворота на {14} сложнее, сканы шумят. Тревога: патруль бьёт в {10} ходов ноды (раннера выбрасывает с половиной добычи; щит принимает удар), основные файлы теряют {17} киберданных за ход, пока их не скачали, след за действие ×{15}, тревога корпорации-владельца +{16}.\n\nПризрачный проход: выход, ни разу не покинув «Тихо», даёт след ×{11} и верную особую находку. На нодах защиты 1 шума нет.</NR_DiveHudAlertTip>
   <NR_Program_IceBreaker>Ледоруб</NR_Program_IceBreaker>
-  <NR_ProgramDesc_IceBreaker>Ледоруб Hacking Expansion как программа: ломает одни ворота без проверки, но это действие оставляет двойной след. Сжигает один ледоруб, без киберданных. Один предмет HE на нырок.</NR_ProgramDesc_IceBreaker>
+  <NR_ProgramDesc_IceBreaker>Ледоруб Hacking Expansion как программа: ломает одни ворота без проверки, но это действие оставляет двойной след и сильно шумит. Сжигает один ледоруб, без киберданных. Один предмет HE на нырок.</NR_ProgramDesc_IceBreaker>
   <NR_Program_Exec>Скрипт</NR_Program_Exec>
   <NR_ProgramDesc_Exec>Дискета со скриптом как программа: +1 действие в каждом из трёх первых ходов. Сжигает одну дискету со скриптом, без киберданных. Один предмет HE на нырок.</NR_ProgramDesc_Exec>
   <NR_HeProgramNoResearch>Нужно исследование «{0}».</NR_HeProgramNoResearch>

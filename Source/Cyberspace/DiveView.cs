@@ -756,24 +756,40 @@ public static class DiveView
         return y + 28f;
     }
 
-    /// <summary>Node alert: one pip per failed gate; the last one blinks once the patrol is awake.</summary>
+    /// <summary>Eye colour of an alarm state: green, yellow, red.</summary>
+    public static Color AlarmColor(DiveAlarm state) => state switch
+    {
+        DiveAlarm.Alarm => NetrunUI.Bad,
+        DiveAlarm.Suspicion => NetrunUI.Warn,
+        _ => NetrunUI.Ok,
+    };
+
+    /// <summary>The alarm eye in the state's colour, its name, and noise pips 0..max (a pip turns yellow / red past each threshold).</summary>
     private static float AlertRow(Rect inner, float y, DiveSession session)
     {
-        int threshold = session.AlertThreshold;
-        bool awake = session.PatrolAwake;
-        bool blink = awake && (!NetrunMod.Settings.Animations || Mathf.FloorToInt(Time.realtimeSinceStartup * 2f) % 2 == 0);
-        string pips = new string('●', Mathf.Min(session.NodeAlert, threshold - (awake ? 1 : 0))).Colorize(NetrunUI.Warn)
-            + (awake ? "●".Colorize(blink ? NetrunUI.Bad : NetrunUI.Warn) : "")
-            + new string('○', Mathf.Max(0, threshold - session.NodeAlert)).Colorize(NetrunUI.Muted);
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        Color color = AlarmColor(session.AlarmState);
+        var row = new Rect(inner.x, y, inner.width, 20f);
+        // TEMP(A1): placeholder eye icon (the scan action icon tinted by state); replace with the alarm eye art.
+        GUI.color = color;
+        GUI.DrawTexture(new Rect(row.x, row.y + 1f, 18f, 18f), NetrunTex.CyberIcon("Action_Scan"));
+        GUI.color = Color.white;
+        var pips = new System.Text.StringBuilder();
+        for (int i = 1; i <= s.noiseMax; i++)
+            pips.Append(i > session.Noise ? "○".Colorize(NetrunUI.Muted) : "●".Colorize(AlarmColor(session.StateFor(i))));
         Text.Font = GameFont.Tiny;
-        var row = new Rect(inner.x, y, inner.width, 18f);
-        Widgets.Label(row, ((string)"NR_DiveHudAlert".Translate() + (awake ? ": " + (string)"NR_DiveHudPatrol".Translate() : "")).Colorize(awake ? NetrunUI.Bad : NetrunUI.Muted));
+        Widgets.Label(new Rect(row.x + 22f, row.y + 2f, row.width - 22f, 18f),
+            ((string)"NR_DiveHudAlert".Translate() + ": " + ("NR_AlarmState_" + session.AlarmState).Translate()).Colorize(color));
         Text.Anchor = TextAnchor.UpperRight;
-        Widgets.Label(row, pips);
+        Widgets.Label(new Rect(row.x, row.y + 2f, row.width, 18f), pips.ToString());
         Text.Anchor = TextAnchor.UpperLeft;
         Text.Font = GameFont.Small;
-        NetrunUI.Tip(row, "NR_DiveHudAlertTip".Translate(threshold, NetrunDefOf.NR_Cyberspace.alertPatrolChance.ToStringPercent()));
-        return y + 22f;
+        NetrunUI.Tip(row, "NR_DiveHudAlertTip".Translate(session.Noise, s.noiseMax, session.SuspicionAt, session.AlarmAt,
+            s.noiseGateFail, s.noiseIceFail, s.noiseIceBreaker, s.noiseKiller, s.noiseSword, s.noiseScanSuspicion,
+            s.alarmPatrolChance.ToStringPercent(), s.ghostTraceFactor.ToString("0.##"), s.iceAttackChanceQuiet.ToStringPercent(),
+            s.iceAttackChance.ToStringPercent(), s.suspicionGatePenalty.ToStringPercent(), s.alarmTraceFactor.ToString("0.##"),
+            s.alarmCorpAlert.ToString("0"), s.alarmFilesMelt));
+        return y + 24f;
     }
 
     private static string Pips(int left, int total, Color color)

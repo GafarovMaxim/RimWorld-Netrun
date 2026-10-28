@@ -7,7 +7,7 @@
   <NR_Contract_QuietRun>Quiet run</NR_Contract_QuietRun>
   <NR_ContractDesc_DataDelivery>Hand over {0} cyberdata through the terminal. Advanced cyberdata counts as several.</NR_ContractDesc_DataDelivery>
   <NR_ContractDesc_SystemTap>Complete {0} hacks.</NR_ContractDesc_SystemTap>
-  <NR_ContractDesc_QuietRun>Complete {0} hacks without your trace rising above Tracked.</NR_ContractDesc_QuietRun>
+  <NR_ContractDesc_QuietRun>Make {0} ghost runs: dives that exit without ever leaving Quiet. The contract's target node counts twice.</NR_ContractDesc_QuietRun>
 
   <!-- Contracts tab -->
   <NR_ContractsNoActive>No active contracts.</NR_ContractsNoActive>
@@ -19,7 +19,6 @@
   <!-- Accept checks -->
   <NR_ContractNeedsChannel>Contact the fixer first.</NR_ContractNeedsChannel>
   <NR_ContractAlreadyActive>You already have a contract with {0}.</NR_ContractAlreadyActive>
-  <NR_ContractTooLoud>Your trace is already too high for a quiet run.</NR_ContractTooLoud>
 
   <!-- Results -->
   <NR_ContractAccepted>Contract accepted: {0} for {1}.</NR_ContractAccepted>
@@ -28,7 +27,6 @@
   <NR_ContractFailedLabel>Contract failed</NR_ContractFailedLabel>
   <NR_ContractFailed>"{0}" for {1} failed: {2}\n\nThe fixer trusts you less and won't answer for {3} days.</NR_ContractFailed>
   <NR_ContractFailedExpired>the deadline passed</NR_ContractFailedExpired>
-  <NR_ContractFailedLoud>your trace rose too high</NR_ContractFailedLoud>
   <NR_ContractFailedAbandoned>you walked away from the job</NR_ContractFailedAbandoned>
   <!-- Progress -->
   <NR_ContractDeliverTip>Hands over cyberdata from storage. One advanced cyberdata counts as {0}.</NR_ContractDeliverTip>
@@ -75,8 +73,8 @@
   <NR_BoardTag_DeliveryTip>Hand cyberdata over at the terminal. Advanced cyberdata counts as {0}.</NR_BoardTag_DeliveryTip>
   <NR_BoardTag_AnyHack>Any hacks</NR_BoardTag_AnyHack>
   <NR_BoardTag_AnyHackTip>Every finished hack counts.</NR_BoardTag_AnyHackTip>
-  <NR_BoardTag_Quiet>Heat ≤ {0}</NR_BoardTag_Quiet>
-  <NR_BoardTag_QuietTip>The trace must not rise above "{0}" while the contract runs, or it fails.</NR_BoardTag_QuietTip>
+  <NR_BoardTag_Quiet>Ghost run</NR_BoardTag_Quiet>
+  <NR_BoardTag_QuietTip>Only dives that never leave Quiet count. Heat does not matter.</NR_BoardTag_QuietTip>
   <NR_BoardTagArticle>Click: the Cyberpedia article.</NR_BoardTagArticle>
   <NR_BoardActiveLine>Done {0} of {1}</NR_BoardActiveLine>
   <NR_BoardLeft>{0} left</NR_BoardLeft>

@@ -37,10 +37,37 @@
     <lightGearHack1>0.02</lightGearHack1>
     <lightGearNetsickCut0>0.10</lightGearNetsickCut0>
     <lightGearNetsickCut1>0.05</lightGearNetsickCut1>
-    <!-- Node alert: every failed gate hack raises it; at the threshold an ICE patrol wakes up and may strike each
-         node turn, throwing the runner out with half the haul. Defense this low or lower has no alert. -->
-    <alertThreshold>3</alertThreshold>
-    <alertPatrolChance>0.15</alertPatrolChance>
+    <!-- Noise and alarm (BALANCE_PLAN 3.3, numbers from the simulation 3.11). Noise 0..noiseMax never goes down, nor does
+         the state: Quiet, Suspicion at noiseSuspicion, Alarm at noiseAlarm. The Stealth program or the Wraith daemon shifts
+         both thresholds by noiseStealthShift (decision c11, once, not per program). Noise: failed gate, failed white ICE
+         (classes come with T2.4; until then every ICE is black), failed grey/black ICE, seen by the patrol (the patrol figure,
+         T3.4), every rolled hack with Sword, ICEBreaker, a Killer charge, a scan in Suspicion or worse. Scan, move and
+         download are silent otherwise. Defense this low or lower has no noise (alertFreeDefense). -->
+    <noiseMax>6</noiseMax>
+    <noiseSuspicion>2</noiseSuspicion>
+    <noiseAlarm>4</noiseAlarm>
+    <noiseStealthShift>1</noiseStealthShift>
+    <noiseGateFail>1</noiseGateFail>
+    <!-- TEMP(T2.4): not read yet; a failed hack on white ICE adds it once ICE classes exist. -->
+    <noiseIceWhiteFail>2</noiseIceWhiteFail>
+    <noiseIceFail>1</noiseIceFail>
+    <!-- TEMP(T3.4): not read yet; the patrol figure adds it when it sees the runner. -->
+    <noisePatrolSeen>2</noisePatrolSeen>
+    <noiseSword>1</noiseSword>
+    <noiseIceBreaker>2</noiseIceBreaker>
+    <noiseKiller>1</noiseKiller>
+    <noiseScanSuspicion>1</noiseScanSuspicion>
+    <!-- Quiet: Black ICE ahead strikes this often (iceAttackChance otherwise). Suspicion: gates this much harder.
+         Alarm: the old patrol roll each node turn (until the patrol figure, T3.4), trace per action x, main files lose
+         this much cyberdata per node turn until downloaded, the owning corporation's Alert +. -->
+    <iceAttackChanceQuiet>0.3</iceAttackChanceQuiet>
+    <suspicionGatePenalty>0.05</suspicionGatePenalty>
+    <alarmPatrolChance>0.15</alarmPatrolChance>
+    <alarmTraceFactor>1.5</alarmTraceFactor>
+    <alarmFilesMelt>1</alarmFilesMelt>
+    <alarmCorpAlert>5</alarmCorpAlert>
+    <!-- Ghost run (an exit that never left Quiet): trace x this and one roll of the special-find table (the item pool, T4.3) -->
+    <ghostTraceFactor>0.5</ghostTraceFactor>
     <alertFreeDefense>1</alertFreeDefense>
     <alertPatrolKeepShare>0.5</alertPatrolKeepShare>
     <swordBonus>0.3</swordBonus>

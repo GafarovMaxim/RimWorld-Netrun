@@ -164,7 +164,7 @@
     <cleanLabChips>1~2</cleanLabChips>
     <cleanLabRewardPerChip>180</cleanLabRewardPerChip>
 
-    <!-- Quiet run: hacks wanted while Heat stays at Tracked or lower, silver per hack -->
+    <!-- Quiet run: ghost runs wanted (dives that never leave Quiet, the target node counts twice), silver per run -->
     <quietRunGoal>2~4</quietRunGoal>
     <quietRunRewardPerHack>130</quietRunRewardPerHack>
   </Netrun.FixerSettingsDef>

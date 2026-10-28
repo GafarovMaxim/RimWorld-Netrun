@@ -33,6 +33,11 @@ public class DiveReport : IExposable
     public float Xp;
     public bool Special;
     public bool HunterFollowed;
+    /// <summary>The node had noise rules; then the final noise, the peak alarm state and whether it was a ghost run.</summary>
+    public bool HasNoise;
+    public int Noise;
+    public DiveAlarm PeakState;
+    public bool GhostRun;
     public List<string> Events = [];
 
     public void ExposeData()
@@ -59,6 +64,10 @@ public class DiveReport : IExposable
         Scribe_Values.Look(ref Xp, "xp");
         Scribe_Values.Look(ref Special, "special");
         Scribe_Values.Look(ref HunterFollowed, "hunterFollowed");
+        Scribe_Values.Look(ref HasNoise, "hasNoise");
+        Scribe_Values.Look(ref Noise, "noise");
+        Scribe_Values.Look(ref PeakState, "peakState", DiveAlarm.Quiet);
+        Scribe_Values.Look(ref GhostRun, "ghostRun");
         Scribe_Collections.Look(ref Events, "events", LookMode.Value);
         Items ??= [];
         Events ??= [];
@@ -255,6 +264,8 @@ public class Dialog_DiveReport : Window
         }
         y += (haul.Count + 1) / 2 * 48f + 4f;
 
+        if (d.GhostRun)
+            y = Line(r, y, Icon("Action_Scan"), "NR_ReportGhostRun".Translate(NetrunDefOf.NR_Cyberspace.ghostTraceFactor.ToString("0.##")), NetrunUI.Ok);
         if (d.Special)
             y = Line(r, y, Icon("Reward_DaemonProgram"), "NR_ReportSpecial".Translate(), NetrunUI.Ok);
         if (d.Items.FirstOrDefault(t => t.HasModExtension<UniqueBraindanceExtension>()) is { } unique)
@@ -278,6 +289,10 @@ public class Dialog_DiveReport : Window
             sick > 0.001f ? NetrunUI.Warn : NetrunUI.Muted);
         if (d.Xp > 0f)
             y = Row(r, y, Icon("Icon_Xp") ?? Icon("Action_Hack"), "NR_ReportXp".Translate(), "+" + d.Xp.ToString("0") + " " + SkillDefOf.Intellectual.label, NetrunUI.Ok);
+        if (d.HasNoise)
+            y = Row(r, y, Icon("Action_Scan"), "NR_ReportNoise".Translate(),
+                "NR_ReportNoiseValue".Translate(d.Noise, NetrunDefOf.NR_Cyberspace.noiseMax, ("NR_AlarmState_" + d.PeakState).Translate()),
+                DiveView.AlarmColor(d.PeakState));
         if (d.HunterFollowed)
             Row(r, y, Icon("Event_HunterICE"), "NR_ReportHunter".Translate(), "NR_ReportHunterValue".Translate(), NetrunUI.Bad);
     }

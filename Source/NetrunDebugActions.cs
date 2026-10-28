@@ -335,6 +335,32 @@ public static class NetrunDebugActions
     [DebugAction(DiveCat, "Dive: finish as failure", allowedGameStates = Playing, displayPriority = 85)]
     private static void FinishDiveFail() => GatewayManager.Get()?.Session?.DevFinish(success: false);
 
+    [DebugAction(DiveCat, "Dive: set noise N", allowedGameStates = Playing, displayPriority = 84)]
+    private static void SetNoise()
+    {
+        if (GatewayManager.Get()?.Session is not { Finished: false } session)
+        {
+            Messages.Message("No dive running", MessageTypeDefOf.RejectInput, historical: false);
+            return;
+        }
+        var options = new List<FloatMenuOption>();
+        for (int n = 0; n <= NetrunDefOf.NR_Cyberspace.noiseMax; n++)
+        {
+            int noise = n;
+            options.Add(new FloatMenuOption($"{noise} ({session.StateFor(noise)})", () => session.DevSetNoise(noise)));
+        }
+        Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    [DebugAction(DiveCat, "Dive: force alarm", allowedGameStates = Playing, displayPriority = 83)]
+    private static void ForceAlarm()
+    {
+        if (GatewayManager.Get()?.Session is not { Finished: false } session)
+            return;
+        session.Noise = System.Math.Max(session.Noise, System.Math.Min(NetrunDefOf.NR_Cyberspace.noiseMax, session.AlarmAt));
+        session.RaiseState(DiveAlarm.Alarm);
+    }
+
     [DebugAction(DiveCat, "Dive: show last summary", allowedGameStates = Playing, displayPriority = 80)]
     private static void ShowLastReport()
     {

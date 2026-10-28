@@ -393,6 +393,8 @@
   <NR_HintCaption>// ВПЕРВЫЕ</NR_HintCaption>
   <NR_HintRead>Читать</NR_HintRead>
   <NR_HintGotIt>Понятно</NR_HintGotIt>
+  <NR_HintTitle_Noise>Нода вас услышала</NR_HintTitle_Noise>
+  <NR_Hint_Noise>Проваленные взломы и громкие программы шумят. За первым порогом нода настораживается, за вторым поднимает Тревогу: патруль, тающие файлы, больше следа. Шум не убывает. Выйдите, ни разу не покинув «Тихо», и получите призрачный проход. Глаз под шкалой следа показывает состояние.</NR_Hint_Noise>
   <NR_HintTitle_Ice>ICE ударил в ответ</NR_HintTitle_Ice>
   <NR_Hint_Ice>ICE охраняет ноды и бьёт нетраннера при сорванном взломе: тошнота, блокировка, иногда кома. Программы «Щит» и «Фальшивка» смягчают удар; уходите, пока можно.</NR_Hint_Ice>
   <NR_HintTitle_Netsick>Netsick</NR_HintTitle_Netsick>
