@@ -856,9 +856,10 @@ public class DiveSession : IExposable
             LootAdvanced += Settings.wildAIEraseAdvanced;
             AddLog("NR_DiveLogWildErased".Translate());
         }, resolveTree = true });
-        node.options.Add(new DiaOption("NR_WildAISell".Translate(Settings.wildAISellSilver)) { action = () =>
+        int sellPrice = FixerDeals.BestShardPrice();
+        node.options.Add(new DiaOption("NR_WildAISell".Translate(sellPrice)) { action = () =>
         {
-            LootSilver += Settings.wildAISellSilver;
+            LootSilver += sellPrice;
             HeatTracker.Get()?.AddHeat(Settings.wildAISellHeat, "NR_WildAISoldLog".Translate());
             AddLog("NR_DiveLogWildSold".Translate());
         }, resolveTree = true });

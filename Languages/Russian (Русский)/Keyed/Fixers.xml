@@ -45,6 +45,11 @@
   <NR_ShopEmpty>Товаров больше нет.</NR_ShopEmpty>
   <NR_ShopPrice>{0} серебра</NR_ShopPrice>
   <NR_ShopBuy>Купить</NR_ShopBuy>
+  <NR_ShopSellShard>Продать осколок</NR_ShopSellShard>
+  <NR_ShopShardInfo>Покупает свежий осколок ИИ за {0} серебра (в колонии: {1})</NR_ShopShardInfo>
+  <NR_ShopShardNone>на складе нет свежего осколка ИИ</NR_ShopShardNone>
+  <NR_ShopSellShardTip>Продать один свежий осколок ИИ со склада. Цена растёт с репутацией. ИИ, который уже жил в колонии, не продаётся. Серебро прилетает дроп-подом.</NR_ShopSellShardTip>
+  <NR_FixerShardSold>{0} купил осколок ИИ за {1} серебра; серебро летит дроп-подом.</NR_FixerShardSold>
   <!-- Подсказки -->
   <NR_FixerCallTip>Заплатить фиксеру и открыть канал на {0} ч. Пока канал открыт, можно сбрасывать след, покупать и брать контракты.</NR_FixerCallTip>
   <NR_FixerScrubTip>Передать киберданные со склада, чтобы снизить цифровой след.</NR_FixerScrubTip>

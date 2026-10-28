@@ -122,6 +122,9 @@
     <dataDeliveryGoal>4~10</dataDeliveryGoal>
     <dataDeliveryRewardPerItem>60</dataDeliveryRewardPerItem>
     <advancedCyberdataWorth>3</advancedCyberdataWorth>
+    <!-- A fence buys a fresh AI fragment: min price, rising to the max with reputation (a wild AI sold in a dive pays the best of these) -->
+    <shardBuyMin>800</shardBuyMin>
+    <shardBuyMax>1000</shardBuyMax>
     <brokerDataBonus>1.5</brokerDataBonus>
 
     <!-- System tap: hacks wanted, silver per hack -->

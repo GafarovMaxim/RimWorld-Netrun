@@ -115,6 +115,9 @@ public class FixerSettingsDef : Def
     public IntRange dataDeliveryGoal = new(4, 10);
     public int dataDeliveryRewardPerItem = 60;
     public int advancedCyberdataWorth = 3;
+    /// <summary>A fence buys a fresh AI fragment for this much silver, up to the max at full reputation (also the floor for a wild AI sold in a dive).</summary>
+    public int shardBuyMin = 800;
+    public int shardBuyMax = 1000;
     public float brokerDataBonus = 1.5f;
 
     public IntRange systemTapGoal = new(2, 5);

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -130,6 +132,40 @@ public static class FixerDeals
         NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerDelivery".Translate(fixer.Name, thing.stackCount > 1 ? def.label + " x" + thing.stackCount : def.label),
             new LookTargets(dropSpot, map), MessageTypeDefOf.PositiveEvent, historical: true);
+        fixer.AfterDeal();
+    }
+
+    /// <summary>Fresh fragments only: one that holds a known AI is the colony's own and is never sold.</summary>
+    public static IEnumerable<Thing> SellableShards(Map map)
+        => ColonyGoods.Available(map, NetrunDefOf.NR_AIFragment).Where(t => t.TryGetComp<CompAIFragment>()?.StoredAIId < 0);
+
+    /// <summary>The best shard price among the fences the colony knows (never below the floor): what a wild AI sold in a dive pays.</summary>
+    public static int BestShardPrice()
+    {
+        int best = Settings.shardBuyMin;
+        foreach (Fixer f in FixerManager.Get()?.Fixers ?? [])
+            if (f.HasShop && f.ShardBuyPrice > best)
+                best = f.ShardBuyPrice;
+        return best;
+    }
+
+    public static void SellShard(Fixer fixer, Map map)
+    {
+        Thing shard = SellableShards(map).FirstOrDefault();
+        if (shard == null)
+        {
+            Reject("NR_ShopShardNone".Translate());
+            return;
+        }
+
+        int price = fixer.ShardBuyPrice;
+        shard.Destroy();
+        Thing silver = ThingMaker.MakeThing(ThingDefOf.Silver);
+        silver.stackCount = price;
+        DropPodUtility.DropThingsNear(DropCellFinder.TradeDropSpot(map), map, [silver], forbid: false);
+        fixer.GainReputation(Settings.reputationPerPurchase);
+        NetrunSound.Play("UI_Confirm");
+        Messages.Message("NR_FixerShardSold".Translate(fixer.Name, price), MessageTypeDefOf.PositiveEvent, historical: false);
         fixer.AfterDeal();
     }
 

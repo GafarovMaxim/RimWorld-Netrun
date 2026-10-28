@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+
+  <!-- Traders pay less for cyberdata (vanilla SellPriceFactor applies only when the player sells, see TradeUtility.GetPricePlayerSell).
+       MarketValue stays untouched, so colony wealth, raid points and Hacking Expansion's own numbers do not change. -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="USH_Cyberdata"]/statBases</xpath>
+    <value>
+      <SellPriceFactor>0.6</SellPriceFactor>
+    </value>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="USH_AdvancedCyberdata"]/statBases</xpath>
+    <value>
+      <SellPriceFactor>0.7</SellPriceFactor>
+    </value>
+  </Operation>
+
+</Patch>

@@ -104,10 +104,26 @@ public class Dialog_FixerShop : Window
             Widgets.EndScrollView();
         }
 
+        DrawShardRow(new Rect(r.x, r.yMax - 34f, r.width - 120f, 34f));
+
         string close = "CloseButton".Translate();
         float cw = NetrunUI.ButtonWidth(close);
         if (NetrunUI.Button(new Rect(r.xMax - cw, r.yMax - 34f, cw, 34f), close, NetrunUI.Muted, true))
             Close();
+    }
+
+    /// <summary>The fence buys a fresh AI fragment from the colony's storage.</summary>
+    private void DrawShardRow(Rect row)
+    {
+        int price = _fixer.ShardBuyPrice;
+        int have = FixerDeals.SellableShards(_map).Count();
+        Text.Anchor = TextAnchor.MiddleLeft;
+        Widgets.Label(new Rect(row.x, row.y, row.width - 150f, row.height), "NR_ShopShardInfo".Translate(price, have).Colorize(NetrunUI.Warn));
+        Text.Anchor = TextAnchor.UpperLeft;
+        AcceptanceReport can = have > 0 ? true : (AcceptanceReport)"NR_ShopShardNone".Translate();
+        float bw = NetrunUI.ButtonWidth("NR_ShopSellShard".Translate());
+        if (NetrunUI.Button(new Rect(row.xMax - bw, row.y, bw, row.height), "NR_ShopSellShard".Translate(), NetrunUI.Ok, can, "NR_ShopSellShardTip".Translate()))
+            FixerDeals.SellShard(_fixer, _map);
     }
 
     /// <summary>One item card; true when it was bought (the stock changed, stop handling clicks this frame).</summary>

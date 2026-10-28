@@ -45,6 +45,11 @@
   <NR_ShopEmpty>Nothing left for sale.</NR_ShopEmpty>
   <NR_ShopPrice>{0} silver</NR_ShopPrice>
   <NR_ShopBuy>Buy</NR_ShopBuy>
+  <NR_ShopSellShard>Sell a shard</NR_ShopSellShard>
+  <NR_ShopShardInfo>Buys a fresh AI fragment for {0} silver (in the colony: {1})</NR_ShopShardInfo>
+  <NR_ShopShardNone>no fresh AI fragment in storage</NR_ShopShardNone>
+  <NR_ShopSellShardTip>Sell one fresh AI fragment from storage. The price rises with reputation. An AI that already lived with the colony is not sold. The silver arrives by drop pod.</NR_ShopSellShardTip>
+  <NR_FixerShardSold>{0} bought the AI fragment for {1} silver; the silver is on its way by drop pod.</NR_FixerShardSold>
   <!-- Tooltips -->
   <NR_FixerCallTip>Pay the fixer to open a channel for {0} hours. While it is open you can scrub your trace, shop and accept contracts.</NR_FixerCallTip>
   <NR_FixerScrubTip>Hand over cyberdata from storage to lower your digital Heat.</NR_FixerScrubTip>

@@ -137,7 +137,7 @@
     <wildAIChance>0.25</wildAIChance>
     <wildAITameTrace>5</wildAITameTrace>
     <wildAIEraseAdvanced>3</wildAIEraseAdvanced>
-    <wildAISellSilver>500</wildAISellSilver>
+    <!-- Selling a wild AI pays the best fence price (Defs/Fixers.xml shardBuyMin..shardBuyMax) -->
     <wildAISellHeat>10</wildAISellHeat>
   </Netrun.CyberspaceSettingsDef>
 

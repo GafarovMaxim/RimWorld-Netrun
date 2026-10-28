@@ -160,7 +160,6 @@ public class CyberspaceSettingsDef : Def
     public float wildAIChance = 0.25f;
     public float wildAITameTrace = 5f;
     public int wildAIEraseAdvanced = 3;
-    public int wildAISellSilver = 500;
     public float wildAISellHeat = 10f;
 }
 

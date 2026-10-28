@@ -229,7 +229,7 @@
     <order>5</order>
     <color>Warn</color>
     <label>Shop and black market</label>
-    <body>Fences sell goods for silver: the price is the item's value with the shop's markup, lower with reputation. Pinned fences add rare items, and in the black market event fixers who trust you sell what is not in their stock, dearer. Try it:\n[[market]]</body>
+    <body>Fences sell goods for silver: the price is the item's value with the shop's markup, lower with reputation. Pinned fences add rare items, and in the black market event fixers who trust you sell what is not in their stock, dearer. A fence also buys a fresh AI fragment (800 silver, up to 1000 with reputation); traders do not take it. Try it:\n[[market]]</body>
     <icon>Fixers/Fixer_Shop</icon>
     <keywords>
       <li>black market</li>

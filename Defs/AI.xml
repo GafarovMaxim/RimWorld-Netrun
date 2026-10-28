@@ -154,7 +154,7 @@
   <ThingDef ParentName="ResourceBase">
     <defName>NR_AIFragment</defName>
     <label>AI fragment</label>
-    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at an AI server for a little cyberdata. Its personality stays hidden until then, and not every fragment makes it: some are empty shells, some slip out into the net.\n\nAway from a powered AI server the fragment slowly falls apart.</description>
+    <description>A self-contained shard of an unknown artificial intelligence. It is not merely data: something inside is still thinking.\n\nA colonist can awaken it at an AI server for a little cyberdata. Its personality stays hidden until then, and not every fragment makes it: some are empty shells, some slip out into the net.\n\nAway from a powered AI server the fragment slowly falls apart.\n\nNot sold to traders: only a fence will buy it.</description>
     <thingClass>ThingWithComps</thingClass>
     <graphicData>
       <texPath>Things/Item/NR_AIFragment</texPath>
@@ -172,7 +172,7 @@
     <thingCategories>
       <li>ItemsMisc</li>
     </thingCategories>
-    <tradeability>Sellable</tradeability>
+    <tradeability>None</tradeability>
     <comps>
       <li Class="Netrun.CompProperties_AIFragment" />
     </comps>

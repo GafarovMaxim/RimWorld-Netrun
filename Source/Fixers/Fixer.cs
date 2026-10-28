@@ -144,6 +144,9 @@ public class Fixer : IExposable
     public int PriceOf(ThingDef def) => Mathf.CeilToInt(def.BaseMarketValue * ShopCount(def) * Settings.shopMarkup * PriceFactor
                                                        * (Stock.Contains(def) ? 1f : Settings.blackMarketMarkup));
 
+    /// <summary>What this fence pays for an AI fragment: from the minimum up to the maximum as reputation grows.</summary>
+    public int ShardBuyPrice => Mathf.RoundToInt(Mathf.Lerp(Settings.shardBuyMin, Settings.shardBuyMax, Reputation / MaxReputation));
+
     public void GainReputation(float amount)
     {
         bool wasPinned = Pinned;

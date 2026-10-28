@@ -478,6 +478,13 @@ public static class NetrunDebugActions
             fixer.GainReputation(20f);
     }
 
+    [DebugAction(Fixers, "Fixer: give AI fragment (shard offer)", allowedGameStates = Playing, displayPriority = 75)]
+    private static void GiveShard()
+    {
+        Map map = Find.CurrentMap;
+        GenPlace.TryPlaceThing(ThingMaker.MakeThing(NetrunDefOf.NR_AIFragment), UI.MouseCell().InBounds(map) ? UI.MouseCell() : map.Center, map, ThingPlaceMode.Near);
+    }
+
     [DebugAction(Fixers, "Contracts: give accepted...", allowedGameStates = Playing, displayPriority = 70)]
     private static void GiveContract()
     {
