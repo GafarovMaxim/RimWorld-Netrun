@@ -16,6 +16,8 @@
   <NR_PodNeedFood>{0} в кибер-капсуле хочет есть. Разбудите, пока голод не перешёл в истощение.</NR_PodNeedFood>
   <NR_PodNeedRest>{0} в кибер-капсуле устаёт всё сильнее. Разбудите и отправьте спать, иначе усталость свалит с ног.</NR_PodNeedRest>
 
+  <NR_PodGearLight>Лёгкая одежда ({0} кг): +{1} к взлому, −{2} Netsick в нырке.</NR_PodGearLight>
+  <NR_PodGearHeavy>Одежда {0} кг: слишком тяжёлая для бонуса лёгкой одежды (до 1,5 кг).</NR_PodGearHeavy>
   <NR_PodSafeTime>Безопасно в капсуле: ещё около {0} ч, потом Netsick станет сильной.</NR_PodSafeTime>
   <NR_PodSafeOver>Netsick уже сильная: пора выходить из капсулы.</NR_PodSafeOver>
   <NR_PodSafeAlways>В этой капсуле Netsick не растёт.</NR_PodSafeAlways>

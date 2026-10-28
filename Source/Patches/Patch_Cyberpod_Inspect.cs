@@ -15,7 +15,11 @@ public static class Patch_Cyberpod_Inspect
         {
             if (__instance is not Building_Cyberpod pod || pod.Faction != Faction.OfPlayer || pod.ContainedThing is not Pawn pawn || pawn.Dead)
                 return;
-            string line = NetsickManager.SafeTimeText(pawn, pod);
+            float mass = CyberpodUtility.ApparelMass(pawn);
+            CyberpodUtility.LightGear(mass, out float hack, out float cut);
+            string line = NetsickManager.SafeTimeText(pawn, pod) + "\n"
+                + (hack > 0f ? "NR_PodGearLight".Translate(mass.ToString("0.0"), hack.ToStringPercent("0"), cut.ToStringPercent("0"))
+                             : "NR_PodGearHeavy".Translate(mass.ToString("0.0")));
             __result = __result.NullOrEmpty() ? line : __result.TrimEnd() + "\n" + line;
         }
         catch (System.Exception e)

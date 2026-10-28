@@ -127,6 +127,8 @@ public class DiveSession : IExposable
     // For the dive summary.
     public float HeatAtStart;
     public float NetsickAtStart;
+    /// <summary>Light clothing of this session (worn mass counted at the start).</summary>
+    public float GearHackBonus, GearNetsickCut;
     public bool SpecialFound;
     public bool Retreated;
     /// <summary>ICE hits that got through (not stopped by a shield or a decoy).</summary>
@@ -239,6 +241,8 @@ public class DiveSession : IExposable
         session.Storm = GatewayManager.Get()?.StormActive == true || NetMapManager.Get()?.NodeOf(node)?.Storm == true;
         session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
+        // Light clothing: worn mass is counted once, here.
+        CyberpodUtility.LightGear(CyberpodUtility.ApparelMass(runner), out session.GearHackBonus, out session.GearNetsickCut);
         session.Build();
         // A watched corporate confession: this dive shows every hidden step, the forks' numbers and any trap.
         if (!node.Training && UniqueBraindanceManager.Get() is { RevealNextDive: true } ub)
@@ -484,7 +488,7 @@ public class DiveSession : IExposable
             bonus += Settings.swordBonus;
         if (DefDatabase<HediffDef>.GetNamedSilentFail("NR_UBH_ZeroRun") is { } zero && Runner?.health.hediffSet.HasHediff(zero) == true)
             bonus += NetrunDefOf.NR_UniqueBraindance.zeroRunHackBonus;
-        bonus += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner);
+        bonus += DiveEffects.HackBonus(Runner) + NetrunTraits.HackBonus(Runner) + GearHackBonus;
         // Bonuses stack up to a cap, so gear never makes the hardest nodes trivial; penalties are not capped.
         chance += Mathf.Min(bonus, Settings.hackBonusCap);
         // The training is forgiving: a flat bonus on top (still clamped).
@@ -1075,7 +1079,7 @@ public class DiveSession : IExposable
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
         Hediff netsick = Runner.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
                          ?? Runner.health.AddHediff(NetrunDefOf.NR_Netsick);
-        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor) * NetrunTraits.GainFactor(Runner);
+        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor) * NetrunTraits.GainFactor(Runner) * (1f - GearNetsickCut);
     }
 
     /// <summary>Dev: end the dive at once, as a clean exit (with the special roll) or a failure.</summary>
@@ -1335,6 +1339,8 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref Storm, "storm");
         Scribe_Values.Look(ref HeatAtStart, "heatAtStart");
         Scribe_Values.Look(ref NetsickAtStart, "netsickAtStart");
+        Scribe_Values.Look(ref GearHackBonus, "gearHackBonus", 0f); // old saves: no bonus
+        Scribe_Values.Look(ref GearNetsickCut, "gearNetsickCut", 0f);
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Values.Look(ref IceHits, "iceHits");

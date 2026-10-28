@@ -48,6 +48,13 @@ public class CyberspaceSettingsDef : Def
     public float hackPerSkill = 0.035f;
     public float hackPerStrength = 0.065f;
     public float hackBonusCap = 0.30f;
+    /// <summary>Light clothing (worn apparel mass, kg): at 0 kg and up to the second limit; hack bonus and Netsick cut of the session.</summary>
+    public float lightGearMass0 = 0.0001f;
+    public float lightGearMass1 = 1.5f;
+    public float lightGearHack0 = 0.04f;
+    public float lightGearHack1 = 0.02f;
+    public float lightGearNetsickCut0 = 0.10f;
+    public float lightGearNetsickCut1 = 0.05f;
     public int alertThreshold = 3;
     public float alertPatrolChance = 0.15f;
     public int alertFreeDefense = 1;

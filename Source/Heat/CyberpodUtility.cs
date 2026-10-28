@@ -45,6 +45,39 @@ public static class CyberpodUtility
         return true;
     }
 
+    /// <summary>True when the pawn lies in a cyberpod that has power: it keeps the climate off the pawn.</summary>
+    public static bool InPoweredPod(Pawn pawn)
+        => pawn != null && pawn.TryGetHoldingCyberpod(out Building_Cyberpod pod) && pod.GetComp<CompPowerTrader>()?.PowerOn == true;
+
+    /// <summary>Total mass (kg) of the apparel the pawn wears.</summary>
+    public static float ApparelMass(Pawn pawn)
+    {
+        float mass = 0f;
+        List<Apparel> worn = pawn?.apparel?.WornApparel;
+        if (worn != null)
+            for (int i = 0; i < worn.Count; i++)
+                mass += worn[i].GetStatValue(StatDefOf.Mass);
+        return mass;
+    }
+
+    /// <summary>Light clothing by worn mass: the hacking bonus and the Netsick cut (0 when the gear is heavier).</summary>
+    public static void LightGear(float mass, out float hackBonus, out float netsickCut)
+    {
+        CyberspaceSettingsDef s = NetrunDefOf.NR_Cyberspace;
+        if (mass <= s.lightGearMass0)
+        {
+            hackBonus = s.lightGearHack0;
+            netsickCut = s.lightGearNetsickCut0;
+        }
+        else if (mass <= s.lightGearMass1)
+        {
+            hackBonus = s.lightGearHack1;
+            netsickCut = s.lightGearNetsickCut1;
+        }
+        else
+            hackBonus = netsickCut = 0f;
+    }
+
     public static float HeatFactor(NetAI ai) => ai == null ? 1f
         : ai.Personality == AIPersonality.Ghost ? Settings.coprocessorGhostHeatFactor
         : Settings.coprocessorHeatFactor;

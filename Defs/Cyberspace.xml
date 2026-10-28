@@ -30,6 +30,13 @@
     <hackPerStrength>0.065</hackPerStrength>
     <!-- Sum of all hack bonuses (programs, daemons, traits, AI, HE, recordings) is capped (docs/DIVE_BALANCE.md) -->
     <hackBonusCap>0.30</hackBonusCap>
+    <!-- Light clothing, by worn apparel mass in kg (counted once at dive start): naked, then up to the second limit -->
+    <lightGearMass0>0.0001</lightGearMass0>
+    <lightGearMass1>1.5</lightGearMass1>
+    <lightGearHack0>0.04</lightGearHack0>
+    <lightGearHack1>0.02</lightGearHack1>
+    <lightGearNetsickCut0>0.10</lightGearNetsickCut0>
+    <lightGearNetsickCut1>0.05</lightGearNetsickCut1>
     <!-- Node alert: every failed gate hack raises it; at the threshold an ICE patrol wakes up and may strike each
          node turn, throwing the runner out with half the haul. Defense this low or lower has no alert. -->
     <alertThreshold>3</alertThreshold>
