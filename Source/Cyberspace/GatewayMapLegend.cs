@@ -377,8 +377,10 @@ public static partial class GatewayView
                 GUI.DrawTexture(r.ContractedBy(1f), ShapeTex(Shape.Triangle, true));
                 break;
             case LegendItem.Offline:
+                GUI.color = new Color(NetrunUI.Muted.r, NetrunUI.Muted.g, NetrunUI.Muted.b, 0.3f);
+                GUI.DrawTexture(r.ContractedBy(1f), NetrunUI.Disc);
                 GUI.color = NetrunUI.Muted;
-                GUI.DrawTexture(r, DashedRing);
+                GUI.DrawTexture(r, HubRing);
                 break;
             case LegendItem.Storm:
                 GUI.color = NetrunUI.Purple;

@@ -76,7 +76,8 @@
   <NR_FixerSpiteData>{0} took it badly that you walked out on the contract and pulled {1} cyberdata out of your storage on the way out.</NR_FixerSpiteData>
   <NR_FixerSpiteHeat>{0} took it badly that you walked out on the contract. With nothing to take, he leaked your trace: Heat +{1}.</NR_FixerSpiteHeat>
   <NR_FixerSpiteLog>{0} leaked the trace out of spite</NR_FixerSpiteLog>
-  <NR_ScrubMaxTip>Just enough to bring the Heat to zero (or all you have).</NR_ScrubMaxTip>
+  <NR_ScrubMaxTip>Just enough to bring the Heat down to its minimum (or all you have).</NR_ScrubMaxTip>
+  <NR_ScrubFloor>Network noise from awake AIs keeps the Heat at {0} or higher: a scrub cannot go below it.</NR_ScrubFloor>
   <NR_ShopTitleShort>SHOP //</NR_ShopTitleShort>
   <NR_ShopBlackTag>BLACK MARKET</NR_ShopBlackTag>
   <NR_ShopBlackTip>Sold only while the black market is open, one of each.</NR_ShopBlackTip>

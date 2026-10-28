@@ -279,6 +279,8 @@ Wake it at the AI server, and {0} will be with the colony again, in a way.</NR_E
   <NR_AIFragmentCrumbled>An AI fragment has fallen apart: it lay too long away from a powered AI server.</NR_AIFragmentCrumbled>
   <NR_AIFragmentDecaying>Falling apart: {0} days left. Keep it near a powered AI server.</NR_AIFragmentDecaying>
   <NR_AIFragmentStable>Stable near the AI server ({0} days left elsewhere).</NR_AIFragmentStable>
+  <NR_AwakenNoiseWarn>Every awake AI after the first makes network noise and raises the minimum Heat by {0} (Ghost half, Predator double). The minimum is now {1}; with this AI it will be higher, and neither cooling nor a fixer's scrub goes below it.\n\nWake it anyway?</NR_AwakenNoiseWarn>
+  <NR_LogNoiseFloor>Network noise of awake AIs</NR_LogNoiseFloor>
   <NR_NoiseFloorLine>Network noise: {0} awake AIs, Heat does not cool below {1}.</NR_NoiseFloorLine>
   <NR_AwakenNoResearch>Fresh fragments need the "{0}" research.</NR_AwakenNoResearch>
   <NR_AIToOtherCoprocessor>To another pod</NR_AIToOtherCoprocessor>

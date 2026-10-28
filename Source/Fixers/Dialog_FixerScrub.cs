@@ -82,6 +82,14 @@ public class Dialog_FixerScrub : Window
         Widgets.DrawBoxSolid(new Rect(bar.x, bar.y, bar.width * after / HeatTracker.MaxHeat, bar.height), HeatLevelUtility.LevelOf(after).Color());
         y += 22f;
         Widgets.Label(new Rect(r.x, y, r.width, 24f), "NR_ScrubResult".Translate(scrub.ToString("0"), heat.ToString("0"), after.ToString("0")));
+        float floor = AIBalance.NoiseFloor;
+        if (floor > 0f)
+        {
+            y += 24f;
+            Text.Font = GameFont.Tiny;
+            Widgets.Label(new Rect(r.x, y, r.width, 32f), "NR_ScrubFloor".Translate(floor.ToString("0")).Colorize(NetrunUI.Warn));
+            Text.Font = GameFont.Small;
+        }
 
         // Buttons.
         float by = r.yMax - 36f;

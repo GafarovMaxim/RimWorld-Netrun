@@ -54,13 +54,15 @@ public static class FixerDeals
         float start = HeatTracker.Get()?.Heat ?? 0f;
         float heat = Spend(fixer, start, advanced, true);
         heat = Spend(fixer, heat, cyberdata, false);
-        return start - heat;
+        return Mathf.Max(0f, start - heat);
     }
 
+    // Awake AIs keep a floor under the Heat: a scrub stops there and data past it is not counted.
     private static float Spend(Fixer fixer, float heat, int units, bool advanced)
     {
-        for (int i = 0; i < units && heat > 0f; i++)
-            heat = Mathf.Max(0f, heat - fixer.HeatPerUnitAt(heat, advanced));
+        float floor = AIBalance.NoiseFloor;
+        for (int i = 0; i < units && heat > floor; i++)
+            heat = Mathf.Max(floor, heat - fixer.HeatPerUnitAt(heat, advanced));
         return heat;
     }
 
@@ -69,10 +71,11 @@ public static class FixerDeals
     {
         float heat = HeatTracker.Get()?.Heat ?? 0f;
         heat = advanced ? Spend(fixer, heat, otherUnits, false) : Spend(fixer, heat, otherUnits, true);
+        float floor = AIBalance.NoiseFloor;
         int n = 0;
-        while (heat > 0.01f && n < cap)
+        while (heat > floor + 0.01f && n < cap)
         {
-            heat = Mathf.Max(0f, heat - fixer.HeatPerUnitAt(heat, advanced));
+            heat = Mathf.Max(floor, heat - fixer.HeatPerUnitAt(heat, advanced));
             n++;
         }
         return n;

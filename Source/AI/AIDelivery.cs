@@ -110,6 +110,16 @@ public static class AIDelivery
         return true;
     }
 
+    /// <summary>The carrier dropped the job (downed, drafted, interrupted): auto-feed may order again within the hour.</summary>
+    public static void Failed(Job job)
+    {
+        if (!PendingJobs.TryGetValue(job.loadID, out Pending pending))
+            return;
+        PendingJobs.Remove(job.loadID);
+        if (pending.Kind == AIDeliveryKind.Feed && AIManager.Get()?.ById(pending.AIId) is { } ai)
+            ai.AutoFeedRetryTick = 0;
+    }
+
     /// <summary>Called by the job when the items reach the server.</summary>
     public static void Complete(Job job, Thing carried)
     {
@@ -141,6 +151,11 @@ public class JobDriver_DeliverToAI : JobDriver
     {
         this.FailOnDespawnedOrNull(TargetIndex.A);
         this.FailOnDestroyedOrNull(TargetIndex.B);
+        AddFinishAction(condition =>
+        {
+            if (condition != JobCondition.Succeeded)
+                AIDelivery.Failed(job);
+        });
 
         yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
         yield return Toils_Haul.StartCarryThing(TargetIndex.B, subtractNumTakenFromJobCount: false);

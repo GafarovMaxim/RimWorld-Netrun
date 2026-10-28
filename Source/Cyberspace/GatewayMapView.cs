@@ -565,7 +565,7 @@ public static partial class GatewayView
         Color c = n.Offline || n.District == District.OldNet && !net.Map.WallOpen ? NetrunUI.Muted : HubColor(n, net);
         if (LensHubColor(n, net) is { } lensColor)
             c = lensColor;
-        // I1: an uncharted district is drawn faint, with a question mark and no name.
+        // I1: an uncharted district is drawn faint and without a name (no question mark: Maxim, 2026-10-28).
         bool charted = net.Charted(n);
         if (!charted)
             c = new Color(c.r, c.g, c.b, c.a * 0.4f);
@@ -605,19 +605,14 @@ public static partial class GatewayView
         GUI.DrawTexture(shape != null ? shapeRect.ExpandedBy(2f) : rect.ExpandedBy(2f), shape is { } back ? ShapeTex(back, true) : NetrunUI.Disc);
         // Map v4 (D9): a hollow ring in the hub's colour with a faint fill; full only for hubs a runner has been to,
         // and under a lens (its colour is the information) unless the lens has no data for it.
-        float a = (n.Offline ? 0.5f : 1f) * c.a;
+        // Offline: the same shape in grey, not a vanishing outline (Maxim, 2026-10-28).
+        float a = (n.Offline ? 0.8f : 1f) * c.a;
         bool full = !home && !noData && !n.Offline && (n.LastVisitTick >= 0 || Lens != MapLens.Overview);
         // Far out there is no plate: the exit hangs beside the hub; closer it is an icon in the plate (2026-10-23).
         if (n.Exit && !home && _zoom < 0.8f)
             DrawExitBeside(local, p, r, a);
         if (home)
             DrawHomeHub(rect, c, a);
-        else if (n.Offline)
-        {
-            // Offline: only a faint dashed outline, no fill and no cross.
-            GUI.color = new Color(c.r, c.g, c.b, 0.55f * c.a);
-            GUI.DrawTexture(shape != null ? shapeRect : rect, shape is { } s ? ShapeTex(s, false) : DashedRing);
-        }
         else
         {
             Texture2D fill = shape is { } s ? ShapeTex(s, true) : NetrunUI.Disc;
@@ -667,14 +662,6 @@ public static partial class GatewayView
         }
         GUI.color = Color.white;
         Text.Font = GameFont.Tiny;
-        if (!charted)
-        {
-            GUI.color = new Color(NetrunUI.Muted.r, NetrunUI.Muted.g, NetrunUI.Muted.b, 0.9f);
-            Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(rect, "?");
-            Text.Anchor = TextAnchor.UpperLeft;
-            GUI.color = Color.white;
-        }
         if (n.Patrol && _zoom < 0.8f)
         {
             // An ICE patrol far out, where there is no plate: a small red triangle with a mark, top left (closer it is an

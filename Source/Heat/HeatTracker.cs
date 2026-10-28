@@ -130,6 +130,14 @@ public class HeatTracker : GameComponent, INetrunCleanable
     {
         if (Find.TickManager.TicksGame % HistoryInterval == 0)
         {
+            // A new awake AI lifts the floor: Heat below it rises to it (it used to stay at 0 until the next hack).
+            float floor = AIBalance.NoiseFloor;
+            if (_heat < floor)
+            {
+                float old = _heat;
+                _heat = floor;
+                AddLog(_heat - old, "NR_LogNoiseFloor".Translate(), HeatSource.AI);
+            }
             _history.Add(_heat);
             if (_history.Count > HistorySize)
                 _history.RemoveRange(0, _history.Count - HistorySize);

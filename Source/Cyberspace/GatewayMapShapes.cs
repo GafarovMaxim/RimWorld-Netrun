@@ -156,8 +156,9 @@ public static partial class GatewayView
         Color c = b.Offline ? NetrunUI.Muted : b.Color;
         GUI.color = new Color(NetrunUI.BgWindow.r, NetrunUI.BgWindow.g, NetrunUI.BgWindow.b, 0.9f * alpha);
         GUI.DrawTexture(r.ExpandedBy(1.5f), ShapeTex(s, true));
-        GUI.color = new Color(c.r, c.g, c.b, (b.Offline ? 0.45f : 1f) * alpha);
-        GUI.DrawTexture(r, ShapeTex(s, !b.Offline));
+        // Offline: the filled shape in grey (the bare outline vanished on the dark plate).
+        GUI.color = new Color(c.r, c.g, c.b, (b.Offline ? 0.75f : 1f) * alpha);
+        GUI.DrawTexture(r, ShapeTex(s, true));
         if (b.IsBoss || b.Ancient)
         {
             // A core: a dark centre and a bright dot.

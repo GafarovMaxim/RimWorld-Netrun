@@ -76,7 +76,8 @@
   <NR_FixerSpiteData>{0} обиделся, что вы бросили контракт, и напоследок увёл со склада {1} киберданных.</NR_FixerSpiteData>
   <NR_FixerSpiteHeat>{0} обиделся, что вы бросили контракт. Взять было нечего, и он слил ваш след: Heat +{1}.</NR_FixerSpiteHeat>
   <NR_FixerSpiteLog>{0} слил след из обиды</NR_FixerSpiteLog>
-  <NR_ScrubMaxTip>Ровно столько, чтобы обнулить Heat (или всё, что есть).</NR_ScrubMaxTip>
+  <NR_ScrubMaxTip>Ровно столько, чтобы опустить Heat до минимума (или всё, что есть).</NR_ScrubMaxTip>
+  <NR_ScrubFloor>Сетевой шум активных ИИ держит Heat не ниже {0}: очистка не опустит его дальше.</NR_ScrubFloor>
   <NR_ShopTitleShort>МАГАЗИН //</NR_ShopTitleShort>
   <NR_ShopBlackTag>ЧЁРНЫЙ РЫНОК</NR_ShopBlackTag>
   <NR_ShopBlackTip>Продаётся, только пока открыт чёрный рынок, по одной штуке.</NR_ShopBlackTip>

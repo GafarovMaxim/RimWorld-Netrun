@@ -279,6 +279,8 @@
   <NR_AIFragmentCrumbled>Осколок ИИ распался: он слишком долго лежал вдали от запитанного ИИ-сервера.</NR_AIFragmentCrumbled>
   <NR_AIFragmentDecaying>Распадается: осталось {0} дн. Держите его рядом с запитанным ИИ-сервером.</NR_AIFragmentDecaying>
   <NR_AIFragmentStable>Стабилен рядом с ИИ-сервером (вдали осталось бы {0} дн.).</NR_AIFragmentStable>
+  <NR_AwakenNoiseWarn>Каждый активный ИИ после первого создаёт сетевой шум и поднимает минимальный Heat на {0} (Ghost вдвое меньше, Predator вдвое больше). Сейчас минимум {1}; с этим ИИ он станет выше, и ни остывание, ни очистка у фиксера не опустят Heat ниже.\n\nВсё равно пробудить?</NR_AwakenNoiseWarn>
+  <NR_LogNoiseFloor>Сетевой шум активных ИИ</NR_LogNoiseFloor>
   <NR_NoiseFloorLine>Сетевой шум: {0} активных ИИ, Heat не остывает ниже {1}.</NR_NoiseFloorLine>
   <NR_AwakenNoResearch>Для новых осколков нужно исследование «{0}».</NR_AwakenNoResearch>
   <NR_AIToOtherCoprocessor>В другую капсулу</NR_AIToOtherCoprocessor>

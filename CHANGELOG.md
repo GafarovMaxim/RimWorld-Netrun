@@ -3,6 +3,10 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- AI auto-feed: when the carrier drops the delivery (downed, drafted, interrupted), the next order goes out within the hour instead of after 6 hours.
+- Offline hubs and nodes on the map keep their shape, drawn in grey.
+- Uncharted hubs no longer show a question mark; they are already dimmed.
+- Every awake AI after the first raises the minimum Heat: Heat now climbs to that minimum on its own, a fixer's scrub stops there and the scrub window says so; waking a second AI asks first; the Cyberpedia Heat page explains it.
 
 ## [1.2.2] - 2026-10-23
 - The data courier leaves at once when his hunters are beaten, he is unhurt and no other enemy on the map still fights (sleeping mechs, hive insects and shamblers do not count).

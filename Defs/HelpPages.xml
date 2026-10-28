@@ -66,7 +66,7 @@
     <order>20</order>
     <color>Bad</color>
     <label>Heat and trace</label>
-    <body>Heat is your colony's digital trace, from 0 to 100. Every hack and dive raises it. The higher it is, the more attention the net pays to you: network attacks, mercenary raids, corporate hunts.\n[[levels]]\nHeat cools by itself: −{heat.decay} a day, −{heat.decayHigh} at Target and above.\n&gt; open:Heat|Open the "Heat and trace" screen</body>
+    <body>Heat is your colony's digital trace, from 0 to 100. Every hack and dive raises it. The higher it is, the more attention the net pays to you: network attacks, mercenary raids, corporate hunts.\n[[levels]]\nHeat cools by itself: −{heat.decay} a day, −{heat.decayHigh} at Target and above.\nEvery awake AI after the first makes network noise and raises the minimum Heat by 5 (Ghost half, Predator double, at most 50). Heat climbs to that minimum on its own, and neither cooling nor a fixer's scrub goes below it. AIs on an isolated server are silent.\n&gt; open:Heat|Open the "Heat and trace" screen</body>
     <icon>heat:Tracked</icon>
     <tips>
       <li>Scrub the trace while you are below Target: it is cheaper.</li>

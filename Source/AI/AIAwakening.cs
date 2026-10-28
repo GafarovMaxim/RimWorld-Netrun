@@ -68,14 +68,27 @@ public static class AIAwakening
                 else if (!Affordable(map))
                     options.Add(new FloatMenuOption(label + ": " + "NR_AwakenNoCyberdata".Translate(NetrunDefOf.NR_AI.awakenCyberdataCost), null));
                 else
-                    options.Add(new FloatMenuOption(label, () => OpenWorkerMenu(map, fragment)));
+                    options.Add(new FloatMenuOption(label, () => WarnNoise(map, fragment)));
             }
             else
             {
-                options.Add(new FloatMenuOption("NR_AwakenFragmentStored".Translate(stored.Name), () => OpenWorkerMenu(map, fragment)));
+                options.Add(new FloatMenuOption("NR_AwakenFragmentStored".Translate(stored.Name), () => WarnNoise(map, fragment)));
             }
         }
         Find.WindowStack.Add(new FloatMenu(options));
+    }
+
+    /// <summary>A second awake AI raises the Heat floor: say so before the colonist goes (Maxim, 2026-10-28).</summary>
+    private static void WarnNoise(Map map, Thing fragment)
+    {
+        if (!AIBalance.NoisyAIs().Any())
+        {
+            OpenWorkerMenu(map, fragment);
+            return;
+        }
+        Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(
+            "NR_AwakenNoiseWarn".Translate(NetrunDefOf.NR_AI.noisePerAI.ToString("0"), AIBalance.NoiseFloor.ToString("0")),
+            () => OpenWorkerMenu(map, fragment)));
     }
 
     private static void OpenWorkerMenu(Map map, Thing fragment)
