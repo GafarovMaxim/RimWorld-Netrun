@@ -703,11 +703,10 @@ public static partial class GatewayView
             y = Row(inner, y, NetrunTex.CyberIcon(node.BlackIce ? "Dive_BLACKICE" : "Dive_ICE"), "NR_GatewayRowIce".Translate(),
                 node.BlackIce ? "NR_GatewayIceBlack".Translate(node.IceStrength) : "NR_GatewayIceWhite".Translate(),
                 node.BlackIce ? NetrunUI.Bad : NetrunUI.TextColor, "NR_GatewayTipIce".Translate());
-            y = Row(inner, y, RewardIcon, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardMult".Translate(node.RewardMultiplier.ToString("0.#")), NetrunUI.Ok,
+            y = Row(inner, y, RewardIcon, "NR_GatewayRowReward".Translate(), "NR_GatewayRewardMult".Translate(), NetrunUI.Ok,
                 "NR_GatewayTipReward".Translate() + "\n\n" + node.RewardText);
             // Items in a column: icon, name, amount or chance.
-            int rewardCost = gateway.DiveCost(map, node, out _);
-            foreach ((ThingDef def, string amount) in node.RewardLines(rewardCost))
+            foreach ((ThingDef def, string amount) in node.RewardLines())
             {
                 float s = NetrunUI.Icon(26f);
                 var line = new Rect(inner.x + 24f, y, inner.width - 24f, s + 2f);

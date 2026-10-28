@@ -65,8 +65,6 @@ public class CyberspaceSettingsDef : Def
     public IntRange failBurns = new(2, 3);
 
     // Branches (docs/DIVE_BRANCHING.md): haul multipliers of the hard and easy branch, their trace, the hidden passage.
-    public float branchHardReward = 1.6f;
-    public float branchEasyReward = 0.8f;
     public float branchHardTrace = 4f;
     public float branchEasyTrace = 1f;
     public float branchPassageBonus = 0.1f;
@@ -96,9 +94,18 @@ public class CyberspaceSettingsDef : Def
     public float effectBurnedHackPenalty = 0.1f;
     /// <summary>Waking up in a cyberpod (Hacking Expansion's own is 5000 = 2 hours).</summary>
     public int podWakeUpTicks = 2500;
-    public float rewardMultLow = 1.5f;
-    public float rewardMultMid = 2f;
-    public float rewardMultBlackIce = 3f;
+    // Main files by node tier (docs/BALANCE_PLAN.md, section 2): fixed ranges, no longer tied to the dive cost.
+    public IntRange rewardLow = new(2, 3);
+    public IntRange rewardMid = new(3, 5);
+    public IntRange rewardMidHard = new(4, 6);
+    public IntRange rewardBlackIce = new(5, 8);
+    public IntRange rewardBoss = new(10, 14);
+    public IntRange cacheReward = new(1, 1);
+    public IntRange forgottenCacheReward = new(2, 4);
+    /// <summary>Corp nodes: advanced cyberdata only on the hard path; the core always.</summary>
+    public IntRange advancedCorpHard = new(1, 1);
+    public IntRange advancedBoss = new(2, 3);
+    public IntRange exchangeSilver = new(120, 250);
     public float specialItemChance = 0.1f;
     public float specialItemChanceBlackIce = 0.25f;
 
@@ -123,7 +130,6 @@ public class CyberspaceSettingsDef : Def
     public float bossIntervalDays = 20f;
     public float bossLifetimeDays = 3f;
     public int bossIceStrength = 8;
-    public float bossRewardMult = 6f;
     public float bossCoreModuleChance = 0.5f;
     /// <summary>Old Net systems behind the wall.</summary>
     public int ancientIceStrength = 10;
@@ -312,47 +318,46 @@ public class ExternalNode : IExposable
         }
     }
 
-    /// <summary>How many times the dive cost the main files pay back.</summary>
-    public float RewardMultiplier => BaseRewardMultiplier
-        * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
+    /// <summary>Storm, guarded hub and honeypot lure scale the rolled files.</summary>
+    public float RewardFactor => (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
         * (InGuardedHub ? NetMapManager.GuardedRewardMult : 1f)
         * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
 
-    private float BaseRewardMultiplier => (IsBoss || Ancient) ? NetrunDefOf.NR_Cyberspace.bossRewardMult
-        : BlackIce ? NetrunDefOf.NR_Cyberspace.rewardMultBlackIce
-        : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid;
+    /// <summary>The tier's main-files range (before the factor); only medium nodes differ by path.</summary>
+    public IntRange BaseRewardRange(bool hard)
+    {
+        var s = NetrunDefOf.NR_Cyberspace;
+        return (IsBoss || Ancient) ? s.rewardBoss : BlackIce ? s.rewardBlackIce : Defense <= 2 ? s.rewardLow : hard ? s.rewardMidHard : s.rewardMid;
+    }
 
-    /// <summary>
-    /// Branched dives: the base without the Black ICE premium (the hard branch carries the ICE and its own multiplier),
-    /// times storm and honeypot as usual.
-    /// </summary>
-    public float BranchBaseMultiplier => ((IsBoss || Ancient) ? NetrunDefOf.NR_Cyberspace.bossRewardMult
-            : Defense <= 2 ? NetrunDefOf.NR_Cyberspace.rewardMultLow : NetrunDefOf.NR_Cyberspace.rewardMultMid)
-        * (GatewayManager.Get()?.StormActive == true ? NetrunDefOf.NR_Cyberspace.stormRewardMult : 1f)
-        * (Honeypot ? NetrunDefOf.NR_Cyberspace.honeypotShownReward : 1f);
+    /// <summary>What the main files can pay on a path, with the factor applied; the forecast and the roll share it.</summary>
+    public IntRange ShownRewardRange(bool hard)
+    {
+        IntRange r = BaseRewardRange(hard);
+        float f = RewardFactor;
+        return new IntRange(Mathf.RoundToInt(r.min * f), Mathf.RoundToInt(r.max * f));
+    }
+
+    public static string RangeText(IntRange r) => r.min == r.max ? r.min.ToString() : $"{r.min}–{r.max}";
+
+    /// <summary>The best case average, for the map's loot lens.</summary>
+    public float ExpectedHaul => ShownRewardRange(DiveSession.ForksFor(this) > 0).Average;
 
     public string RewardText => ("NR_ExtNodeReward_" + Type).Translate();
 
     /// <summary>What a clean dive can bring, item by item, with an amount or a chance (for the node panel).</summary>
-    public System.Collections.Generic.List<(ThingDef def, string amount)> RewardLines(int diveCost)
+    public System.Collections.Generic.List<(ThingDef def, string amount)> RewardLines()
     {
         var s = NetrunDefOf.NR_Cyberspace;
-        int basis = Mathf.Max(diveCost, s.diveBaseCost + Defense / 2);
         var lines = new System.Collections.Generic.List<(ThingDef, string)>();
-        if (DiveSession.ForksFor(this) > 0)
-        {
-            float b = basis * BranchBaseMultiplier;
-            lines.Add((NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(b * s.branchEasyReward * 0.85f))}–{Mathf.RoundToInt(b * s.branchHardReward * 1.15f)}"));
-        }
-        else
-        {
-            int data = Mathf.Max(2, Mathf.RoundToInt(basis * RewardMultiplier));
-            lines.Add((NetrunDefOf.USH_Cyberdata, $"{Mathf.Max(2, Mathf.RoundToInt(data * 0.85f))}–{Mathf.RoundToInt(data * 1.15f)}"));
-        }
-        if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
-            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, "1–2"));
+        bool forked = DiveSession.ForksFor(this) > 0;
+        lines.Add((NetrunDefOf.USH_Cyberdata, RangeText(new IntRange(ShownRewardRange(false).min, ShownRewardRange(forked).max))));
+        if (IsBoss)
+            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, RangeText(s.advancedBoss)));
+        else if (Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
+            lines.Add((NetrunDefOf.USH_AdvancedCyberdata, forked ? "0–" + s.advancedCorpHard.max : "0"));
         if (Type == ExternalNodeType.DarkExchange)
-            lines.Add((ThingDefOf.Silver, "200–400"));
+            lines.Add((ThingDefOf.Silver, RangeText(s.exchangeSilver)));
         if (IsBoss)
             lines.Add((NetrunDefOf.NR_AICoreModule, s.bossCoreModuleChance.ToStringPercent()));
         if (Type is ExternalNodeType.Abandoned or ExternalNodeType.Corp or ExternalNodeType.DarkExchange or ExternalNodeType.CorpCore)

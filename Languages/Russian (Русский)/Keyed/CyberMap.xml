@@ -159,7 +159,7 @@
   <NR_MapLensScale_Overview></NR_MapLensScale_Overview>
   <NR_MapLensNoRunner>Сначала выберите раннера</NR_MapLensNoRunner>
   <NR_MapCardDistrict>{0} · угроза {1}/5</NR_MapCardDistrict>
-  <NR_MapCardHaul>Лучшая добыча ×{0}</NR_MapCardHaul>
+  <NR_MapCardHaul>Лучшая добыча ~{0}</NR_MapCardHaul>
   <NR_MapCardContract>цель контракта</NR_MapCardContract>
   <NR_MapCardRoute>От {0}: {1} ч, след +{2}</NR_MapCardRoute>
   <NR_MapCardQuiet>Тихий путь (пунктир): {0} ч, след +{1}</NR_MapCardQuiet>

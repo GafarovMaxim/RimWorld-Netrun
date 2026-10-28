@@ -95,7 +95,7 @@
   <NR_Guide_gateway_node.label>Нода</NR_Guide_gateway_node.label>
   <NR_Guide_gateway_node.steps.0.text>Выбранная нода: тип, защита, ICE, след за действие и риск.</NR_Guide_gateway_node.steps.0.text>
   <NR_Guide_gateway_node.steps.0.hint>кликните по ноде на поле.</NR_Guide_gateway_node.steps.0.hint>
-  <NR_Guide_gateway_node.steps.1.text>Награда: множитель от стоимости нырка и что можно вынести, по предметам.</NR_Guide_gateway_node.steps.1.text>
+  <NR_Guide_gateway_node.steps.1.text>Награда: сколько основных файлов платит нода и что ещё можно вынести, по предметам.</NR_Guide_gateway_node.steps.1.text>
   <NR_Guide_gateway_programs.label>Программы и демоны</NR_Guide_gateway_programs.label>
   <NR_Guide_gateway_programs.steps.0.text>Загрузите программы в слоты капсулы перед нырком; каждая стоит киберданных. Демоны работают всегда.</NR_Guide_gateway_programs.steps.0.text>
   <NR_Guide_gateway_programs.steps.0.hint>включите программу.</NR_Guide_gateway_programs.steps.0.hint>

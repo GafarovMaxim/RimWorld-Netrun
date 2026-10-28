@@ -50,9 +50,7 @@
     <failBurns>2~3</failBurns>
     <failBurnDamage>1.5~3.5</failBurnDamage>
     <!-- Branches (docs/DIVE_BRANCHING.md): medium nodes fork once, large ones and the corporate core twice.
-         The hard branch carries Black ICE; the easy one a hidden passage. Multipliers act on the main files. -->
-    <branchHardReward>1.6</branchHardReward>
-    <branchEasyReward>0.8</branchEasyReward>
+         The hard branch carries Black ICE; the easy one a hidden passage (+10% to the files). -->
     <branchHardTrace>4</branchHardTrace>
     <branchEasyTrace>1</branchEasyTrace>
     <branchPassageBonus>0.1</branchPassageBonus>
@@ -81,10 +79,18 @@
     <effectBurnedHackPenalty>0.1</effectBurnedHackPenalty>
     <!-- Waking up and leaving a cyberpod, ticks (Hacking Expansion: 5000 = 2 hours) -->
     <podWakeUpTicks>2500</podWakeUpTicks>
-    <!-- Main files pay the dive cost back times this: defense up to 2, up to 4, Black ICE. Plus a chance of something special on a clean exit. -->
-    <rewardMultLow>1.5</rewardMultLow>
-    <rewardMultMid>2</rewardMultMid>
-    <rewardMultBlackIce>3</rewardMultBlackIce>
+    <!-- Main files by node tier (fixed ranges, docs/BALANCE_PLAN.md section 2): defense up to 2, medium (easy path / hard path), Black ICE, the core.
+         Caches 1, the forgotten cache 2-4. Corp advanced cyberdata only on the hard path (the core 2-3). Dark exchange silver. Plus a chance of something special on a clean exit. -->
+    <rewardLow>2~3</rewardLow>
+    <rewardMid>3~5</rewardMid>
+    <rewardMidHard>4~6</rewardMidHard>
+    <rewardBlackIce>5~8</rewardBlackIce>
+    <rewardBoss>10~14</rewardBoss>
+    <cacheReward>1~1</cacheReward>
+    <forgottenCacheReward>2~4</forgottenCacheReward>
+    <advancedCorpHard>1~1</advancedCorpHard>
+    <advancedBoss>2~3</advancedBoss>
+    <exchangeSilver>120~250</exchangeSilver>
     <specialItemChance>0.1</specialItemChance>
     <specialItemChanceBlackIce>0.25</specialItemChanceBlackIce>
     <!-- Special finds by weight (docs/PHASE5_REWARDS.md) -->
@@ -107,7 +113,6 @@
     <bossIntervalDays>20</bossIntervalDays>
     <bossLifetimeDays>3</bossLifetimeDays>
     <bossIceStrength>8</bossIceStrength>
-    <bossRewardMult>6</bossRewardMult>
     <bossCoreModuleChance>0.5</bossCoreModuleChance>
     <!-- Cyberspace events (docs/PHASE5_CYBEREVENTS.md) -->
     <hunterChance>0.35</hunterChance>

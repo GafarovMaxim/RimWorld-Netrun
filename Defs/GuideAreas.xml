@@ -527,7 +527,7 @@
         <hint>click a node on the field.</hint>
       </li>
       <li>
-        <text>Reward: the multiplier of the dive cost and what you can bring back, item by item.</text>
+        <text>Reward: how many main files the node pays and what else you can bring back, item by item.</text>
       </li>
     </steps>
   </Netrun.GuideAreaDef>

@@ -268,7 +268,7 @@ public static partial class GatewayView
             float best = -1f;
             foreach (ExternalNode b in kv.Value)
                 if (!b.Hidden)
-                    best = Mathf.Max(best, Mathf.Clamp01((b.RewardMultiplier - 0.5f) / 2.5f));
+                    best = Mathf.Max(best, Mathf.Clamp01((b.ExpectedHaul - 1f) / 9f));
             if (best >= 0f)
                 dots[kv.Key] = Mathf.Clamp(Mathf.CeilToInt(best * 5f), 1, 5);
         }

@@ -158,7 +158,7 @@ public static partial class GatewayView
             List<ExternalNode> known = BranchesOf(n.Id).Where(b => !b.Hidden).ToList();
             float v = lens switch
             {
-                MapLens.Loot => known.Count == 0 ? -1f : Mathf.Clamp01((known.Max(b => b.RewardMultiplier) - 0.5f) / 2.5f),
+                MapLens.Loot => known.Count == 0 ? -1f : Mathf.Clamp01((known.Max(b => b.ExpectedHaul) - 1f) / 9f),
                 MapLens.Danger => Danger(n, known),
                 MapLens.Corps => n.District == District.Corp && net.CorpOfSlot(n.CorpSlot) != null ? 1f : -1f,
                 MapLens.Contracts => known.Any(b => b.Contract) || net.Watch.Contains(n.Id) || WatchedHubs().Contains(n.Id) ? 1f : -1f,
@@ -418,7 +418,7 @@ public static partial class GatewayView
         lines.Add("NR_MapCardDistrict".Translate(district, Mathf.CeilToInt(Danger(n, known) * 5f)));
         lines.Add("NR_MapBranches".Translate(known.Count, branches.Count - known.Count));
         if (known.Count > 0)
-            lines.Add("NR_MapCardHaul".Translate(known.Max(b => b.RewardMultiplier).ToString("0.#")));
+            lines.Add("NR_MapCardHaul".Translate(known.Max(b => b.ExpectedHaul).ToString("0.#")));
         if (n.Exit)
             lines.Add("NR_MapExitPoint".Translate());
         if (n.Fortress)

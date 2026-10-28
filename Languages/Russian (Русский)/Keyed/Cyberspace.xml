@@ -8,13 +8,13 @@
   <NR_ExtNodeReward_Archive>киберданные</NR_ExtNodeReward_Archive>
   <NR_ExtNodeName_Corp>Корп-хранилище-{0}</NR_ExtNodeName_Corp>
   <NR_ExtNodeType_Corp>корпоративное хранилище</NR_ExtNodeType_Corp>
-  <NR_ExtNodeReward_Corp>киберданные, 1–2 продвинутых, ценности</NR_ExtNodeReward_Corp>
+  <NR_ExtNodeReward_Corp>киберданные, продвинутые на сложном пути, ценности</NR_ExtNodeReward_Corp>
   <NR_ExtNodeName_Abandoned>Мёртвый сервер-{0}</NR_ExtNodeName_Abandoned>
   <NR_ExtNodeType_Abandoned>заброшенный сервер</NR_ExtNodeType_Abandoned>
   <NR_ExtNodeReward_Abandoned>киберданные, осколок ИИ в хранилище</NR_ExtNodeReward_Abandoned>
   <NR_ExtNodeName_DarkExchange>Тёмная биржа-{0}</NR_ExtNodeName_DarkExchange>
   <NR_ExtNodeType_DarkExchange>тёмная биржа</NR_ExtNodeType_DarkExchange>
-  <NR_ExtNodeReward_DarkExchange>киберданные, 200–400 серебра, ценности</NR_ExtNodeReward_DarkExchange>
+  <NR_ExtNodeReward_DarkExchange>киберданные, 120–250 серебра, ценности</NR_ExtNodeReward_DarkExchange>
   <NR_DiveElement_Hidden>?</NR_DiveElement_Hidden>
   <NR_DiveElement_Lobby>Вход</NR_DiveElement_Lobby>
   <NR_DiveElement_Gate>Кодовые ворота</NR_DiveElement_Gate>
@@ -92,7 +92,7 @@
   <NR_Coach_HiddenScan>Впереди что-то скрыто, и войти туда нельзя. Скан открывает скрытые шаги.</NR_Coach_HiddenScan>
   <NR_Coach_Ice>Впереди ICE. Взломай его: шанс {0}. Провал взлома — и он бьёт по тебе; пока он следит за тобой, он может ударить и в конце хода. Программа «Щит» поглощает один удар (зарядов: {1}). В настоящем нырке удары дают Netsick и хуже, здесь их только показывают.</NR_Coach_Ice>
   <NR_Coach_Cache>Тайник. Скачай его: добыча попадёт к тебе за одно действие. Считается только то, что вынесено.</NR_Coach_Cache>
-  <NR_Coach_Passage>Скрытый проход, найденный сканом. Скачай его: он повышает множитель добычи всего нырка.</NR_Coach_Passage>
+  <NR_Coach_Passage>Скрытый проход, найденный сканом. Скачай его: он немного прибавляет к основным файлам нырка.</NR_Coach_Passage>
   <NR_Coach_Files>Основные файлы ноды, настоящая добыча. Скачай их.</NR_Coach_Files>
   <NR_Coach_Exit>Это выход. Нажми «Выход», чтобы уйти со всей добычей. Уход раньше (отступление) стоит части добычи.</NR_Coach_Exit>
   <NR_Coach_Done>Тренировка пройдена: движение, скан развилки и скрытого шага, взлом ворот и ICE, выбор пути, загрузка и выход с добычей. Настоящие ноды ждут на карте: они стоят киберданных, и там удары настоящие.</NR_Coach_Done>
@@ -284,7 +284,7 @@
   <NR_DiveHudTraceTip>Каждое действие поднимает след нырка; при выходе он превращается в Heat. «Невидимка» и Морок уменьшают его вдвое.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Добыча</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Добыча: пусто.</NR_DiveHudHaulEmpty>
-  <NR_GatewayRewardMult>×{0} от стоимости нырка</NR_GatewayRewardMult>
+  <NR_GatewayRewardMult>по уровню ноды</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Итоги нырков: последние {0}.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>Нырки не записаны.</NR_GatewayNoReports>
   <NR_GatewayReports>Отчёты о нырках ({0})</NR_GatewayReports>
@@ -304,7 +304,7 @@
   <NR_DiveForkTitle>Развилка</NR_DiveForkTitle>
   <NR_DiveBranchHardDesc>Больше добычи и лишний тайник, но его стережёт Black ICE, и след громче.</NR_DiveBranchHardDesc>
   <NR_DiveBranchEasyDesc>Меньше добычи, без Black ICE, тихий след. Где-то на нём есть скрытый проход.</NR_DiveBranchEasyDesc>
-  <NR_DiveBranchNumbers>Добыча ×{0} · {1} · след +{2}</NR_DiveBranchNumbers>
+  <NR_DiveBranchNumbers>Добыча {0} · {1} · след +{2}</NR_DiveBranchNumbers>
   <NR_DiveBranchIce>Black ICE, сила {0}</NR_DiveBranchIce>
   <NR_DiveBranchNoIce>без ICE</NR_DiveBranchNoIce>
   <NR_DiveBranchScanHint>Просканируйте развилку, чтобы увидеть числа.</NR_DiveBranchScanHint>

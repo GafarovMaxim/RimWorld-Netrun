@@ -675,12 +675,12 @@ public static class DiveView
         y = HudHeader(inner, y, "NR_DiveForkTitle".Translate(), scanned ? null : "?".Colorize(NetrunUI.Warn));
         for (int branch = 1; branch <= 2; branch++)
         {
-            (float reward, int ice, float trace) = session.BranchInfo(session.Position, branch);
+            (string reward, int ice, float trace) = session.BranchInfo(session.Position, branch);
             Color c = branch == 1 ? NetrunUI.Bad : NetrunUI.Ok;
             string title = (branch == 1 ? "NR_DiveBranchHard" : "NR_DiveBranchEasy").Translate();
             string desc = (branch == 1 ? "NR_DiveBranchHardDesc" : "NR_DiveBranchEasyDesc").Translate();
             string numbers = scanned
-                ? (string)"NR_DiveBranchNumbers".Translate(reward.ToString("0.0#"), ice > 0 ? (string)"NR_DiveBranchIce".Translate(ice) : (string)"NR_DiveBranchNoIce".Translate(),
+                ? (string)"NR_DiveBranchNumbers".Translate(reward, ice > 0 ? (string)"NR_DiveBranchIce".Translate(ice) : (string)"NR_DiveBranchNoIce".Translate(),
                     trace.ToString("0"))
                 : (string)"NR_DiveBranchScanHint".Translate();
             Text.Font = GameFont.Tiny;

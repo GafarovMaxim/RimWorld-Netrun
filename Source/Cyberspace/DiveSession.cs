@@ -219,17 +219,8 @@ public class DiveSession : IExposable
     /// <summary>Turns: the setting, plus a couple per fork (branched nodes are longer).</summary>
     public int MaxTurns => Settings.maxTurns + Forks * Settings.branchExtraTurns + (Training ? TrainingCoach.ExtraTurns : 0);
 
-    /// <summary>The haul multiplier of the chosen path: the mean of the branches taken plus hidden passages.</summary>
-    public float PathMultiplier
-    {
-        get
-        {
-            if (ForkChoice.Count == 0)
-                return 1f;
-            float mean = (float)ForkChoice.Average(c => c == 1 ? Settings.branchHardReward : Settings.branchEasyReward);
-            return mean + PassageBonus;
-        }
-    }
+    /// <summary>The hard branch was taken at some fork: the node pays its hard-path range and the corp's advanced files.</summary>
+    public bool TookHardPath => ForkChoice.Contains(1);
 
     public static DiveSession Start(ExternalNode node, Pawn runner, List<DiveProgram> programs, int costPaid, List<DiveDaemon> daemons)
     {
@@ -448,7 +439,7 @@ public class DiveSession : IExposable
         if (Node.ForgottenCache && !_cacheFound)
         {
             _cacheFound = true;
-            int found = Rand.RangeInclusive(3, 6);
+            int found = Settings.forgottenCacheReward.RandomInRange;
             LootCyberdata += found;
             AddLog("NR_DiveLogForgottenCache".Translate(found).Colorize(NetrunUI.Ok));
         }
@@ -628,7 +619,7 @@ public class DiveSession : IExposable
     // ---- Forks ----
 
     /// <summary>What a branch holds, for the choice cards: its haul multiplier, Black ICE strength (0 if none), trace.</summary>
-    public (float reward, int ice, float trace) BranchInfo(int fork, int branch)
+    public (string reward, int ice, float trace) BranchInfo(int fork, int branch)
     {
         int first = Elements[fork].Links[branch - 1];
         int ice = 0;
@@ -636,8 +627,8 @@ public class DiveSession : IExposable
             if (Elements[i].Kind == DiveElementKind.Ice)
                 ice = Elements[i].Strength;
         return branch == 1
-            ? (Settings.branchHardReward, ice, Settings.branchHardTrace)
-            : (Settings.branchEasyReward, ice, Settings.branchEasyTrace);
+            ? (ExternalNode.RangeText(Node.ShownRewardRange(true)), ice, Settings.branchHardTrace)
+            : (ExternalNode.RangeText(Node.ShownRewardRange(false)), ice, Settings.branchEasyTrace);
     }
 
     /// <summary>Takes a branch at the fork here. The choice is final and costs no action; the branch adds its trace.</summary>
@@ -675,25 +666,31 @@ public class DiveSession : IExposable
             AddLog("NR_DiveLogPassage".Translate(Settings.branchPassageBonus.ToString("0.0#")).Colorize(NetrunUI.Ok));
         }
         else if (Current.Cache)
-            LootCyberdata += Rand.RangeInclusive(1, 2);
+            LootCyberdata += Settings.cacheReward.RandomInRange;
         else
             RollFiles();
         AddLog("NR_DiveLogDownload".Translate(LootText()));
         Spend(Settings.tracePerAction);
     }
 
-    /// <summary>Main files pay the dive back: cost (at least the node's entry) times 1.5 / 2 / 3, plus the type's extras.</summary>
-    public float RewardMultiplier => Node.RewardMultiplier;
-
+    /// <summary>Main files: a fixed range by node tier (the hard path of a medium node pays more), times storm and the like, plus the hidden passage.</summary>
     private void RollFiles()
     {
-        int basis = Mathf.Max(CostPaid, Settings.diveBaseCost + Node.Defense / 2);
-        float mult = Forks > 0 ? Node.BranchBaseMultiplier * PathMultiplier : RewardMultiplier;
-        LootCyberdata += Mathf.Max(2, Mathf.RoundToInt(basis * mult * Rand.Range(0.85f, 1.15f)));
-        if (Node.Type is ExternalNodeType.Corp or ExternalNodeType.CorpCore)
-            LootAdvanced += Rand.RangeInclusive(1, 2);
-        else if (Node.Type == ExternalNodeType.DarkExchange)
-            LootSilver += Rand.RangeInclusive(200, 400);
+        (int data, int advanced, int silver) = RollMain(Node, TookHardPath, PassageBonus);
+        LootCyberdata += data;
+        LootAdvanced += advanced;
+        LootSilver += silver;
+    }
+
+    /// <summary>One roll of a node's main files on a path: cyberdata, advanced cyberdata, silver. The dev action rolls it in bulk.</summary>
+    public static (int data, int advanced, int silver) RollMain(ExternalNode node, bool hard, float passage = 0f)
+    {
+        int data = Mathf.RoundToInt(node.BaseRewardRange(hard).RandomInRange * node.RewardFactor * (1f + passage));
+        if (node.IsBoss)
+            return (data, Settings.advancedBoss.RandomInRange, 0);
+        if (node.Type == ExternalNodeType.Corp && hard)
+            return (data, Settings.advancedCorpHard.RandomInRange, 0);
+        return (data, 0, node.Type == ExternalNodeType.DarkExchange ? Settings.exchangeSilver.RandomInRange : 0);
     }
 
     /// <summary>

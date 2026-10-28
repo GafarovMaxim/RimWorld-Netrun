@@ -8,13 +8,13 @@
   <NR_ExtNodeReward_Archive>cyberdata</NR_ExtNodeReward_Archive>
   <NR_ExtNodeName_Corp>Corp vault-{0}</NR_ExtNodeName_Corp>
   <NR_ExtNodeType_Corp>corporate vault</NR_ExtNodeType_Corp>
-  <NR_ExtNodeReward_Corp>cyberdata, 1-2 advanced, valuables</NR_ExtNodeReward_Corp>
+  <NR_ExtNodeReward_Corp>cyberdata, advanced on the hard path, valuables</NR_ExtNodeReward_Corp>
   <NR_ExtNodeName_Abandoned>Dead server-{0}</NR_ExtNodeName_Abandoned>
   <NR_ExtNodeType_Abandoned>abandoned server</NR_ExtNodeType_Abandoned>
   <NR_ExtNodeReward_Abandoned>cyberdata, an AI fragment in the memory unit</NR_ExtNodeReward_Abandoned>
   <NR_ExtNodeName_DarkExchange>Dark exchange-{0}</NR_ExtNodeName_DarkExchange>
   <NR_ExtNodeType_DarkExchange>dark exchange</NR_ExtNodeType_DarkExchange>
-  <NR_ExtNodeReward_DarkExchange>cyberdata, 200-400 silver, valuables</NR_ExtNodeReward_DarkExchange>
+  <NR_ExtNodeReward_DarkExchange>cyberdata, 120-250 silver, valuables</NR_ExtNodeReward_DarkExchange>
   <NR_DiveElement_Hidden>?</NR_DiveElement_Hidden>
   <NR_DiveElement_Lobby>Lobby</NR_DiveElement_Lobby>
   <NR_DiveElement_Gate>Code gate</NR_DiveElement_Gate>
@@ -92,7 +92,7 @@
   <NR_Coach_HiddenScan>Something hidden lies ahead and you cannot step into it. Scan reveals hidden steps.</NR_Coach_HiddenScan>
   <NR_Coach_Ice>ICE ahead. Hack it: your chance is {0}. A failed hack makes it strike you, and while it watches you it may strike at the end of a turn too. Your Shield program absorbs one hit (charges left: {1}). Real hits mean Netsick and worse; here they are only shown.</NR_Coach_Ice>
   <NR_Coach_Cache>A cache. Download takes it into your haul for one action. Only what you carry out counts.</NR_Coach_Cache>
-  <NR_Coach_Passage>A hidden passage, found by scanning. Download it: it raises the haul multiplier of the whole dive.</NR_Coach_Passage>
+  <NR_Coach_Passage>A hidden passage, found by scanning. Download it: it adds a little to the main files of the dive.</NR_Coach_Passage>
   <NR_Coach_Files>The node's main files, the real prize. Download them.</NR_Coach_Files>
   <NR_Coach_Exit>This is the exit. Press Exit to leave with everything you took. Leaving earlier (retreat) costs part of the haul.</NR_Coach_Exit>
   <NR_Coach_Done>Training complete. You moved, scanned a fork and a hidden step, hacked a gate and ICE, chose a path, downloaded and left with the haul. Real nodes are on the map: they cost cyberdata, and there the hits are for real.</NR_Coach_Done>
@@ -284,7 +284,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveHudTraceTip>Every action raises the dive's trace; on leaving it becomes Heat. Stealth and the Wraith halve it.</NR_DiveHudTraceTip>
   <NR_DiveHudHaul>Haul</NR_DiveHudHaul>
   <NR_DiveHudHaulEmpty>Haul: empty.</NR_DiveHudHaulEmpty>
-  <NR_GatewayRewardMult>×{0} of the dive cost</NR_GatewayRewardMult>
+  <NR_GatewayRewardMult>by node tier</NR_GatewayRewardMult>
   <NR_GatewayReportsTip>Dive summaries: the last {0} runs.</NR_GatewayReportsTip>
   <NR_GatewayNoReports>No dives on record.</NR_GatewayNoReports>
   <NR_GatewayReports>Dive reports ({0})</NR_GatewayReports>
@@ -304,7 +304,7 @@ It works in every dive, for free, without a slot.</NR_FindDaemon>
   <NR_DiveForkTitle>Fork</NR_DiveForkTitle>
   <NR_DiveBranchHardDesc>More loot and an extra cache, but Black ICE guards it and the trace is louder.</NR_DiveBranchHardDesc>
   <NR_DiveBranchEasyDesc>Less loot, no Black ICE, a quiet trace. Somewhere along it lies a hidden passage.</NR_DiveBranchEasyDesc>
-  <NR_DiveBranchNumbers>Haul ×{0} · {1} · trace +{2}</NR_DiveBranchNumbers>
+  <NR_DiveBranchNumbers>Haul {0} · {1} · trace +{2}</NR_DiveBranchNumbers>
   <NR_DiveBranchIce>Black ICE, strength {0}</NR_DiveBranchIce>
   <NR_DiveBranchNoIce>no ICE</NR_DiveBranchNoIce>
   <NR_DiveBranchScanHint>Scan the fork to see the numbers.</NR_DiveBranchScanHint>

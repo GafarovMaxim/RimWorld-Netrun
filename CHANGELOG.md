@@ -3,6 +3,7 @@
 All notable changes to Hacking Expansion: Netrun. Format: [Keep a Changelog](https://keepachangelog.com/), versions follow `About/About.xml`.
 
 ## [Unreleased]
+- Dive rewards are fixed by node tier instead of the entry cost: 2-3 / 3-5 / 4-6 (hard path) / 5-8 / core 10-14 cyberdata, caches 1, forgotten cache 2-4, corp advanced files only on the hard path, dark exchange 120-250 silver.
 - Fixed: opening the AI server window and closing the terminal no longer play the game's window chime on top of the sound pack.
 - Fixed: "Edit all" in the studio logged "Invalid count: -1" when the editor picked up a raw chip stack.
 - Fixed: a fixer's scrub no longer takes cyberdata past what brings the Heat down to the AI minimum; the amount fields stop there.

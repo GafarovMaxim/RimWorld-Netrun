@@ -268,7 +268,7 @@ The ring shows the five levels; the arrow is the change over the last day. Click
   <NR_HelpDiveStep_EXIT>Exit</NR_HelpDiveStep_EXIT>
   <NR_HelpDiveStepDesc_LOBBY>The lobby: where every dive starts. Leaving from here is free.</NR_HelpDiveStepDesc_LOBBY>
   <NR_HelpDiveStepDesc_GATE>A code gate: a wall to hack before you can go on. Stronger nodes have stronger gates.</NR_HelpDiveStepDesc_GATE>
-  <NR_HelpDiveStepDesc_FILES>Files: download them for the haul. They pay back the dive with a multiplier.</NR_HelpDiveStepDesc_FILES>
+  <NR_HelpDiveStepDesc_FILES>Files: download them for the haul. Their amount depends on the node.</NR_HelpDiveStepDesc_FILES>
   <NR_HelpDiveStepDesc_HIDDEN>A hidden step: invisible until scanned. Not everything hidden is good to take.</NR_HelpDiveStepDesc_HIDDEN>
   <NR_HelpDiveStepDesc_BLACKICE>Black ICE: strikes on every node turn while you are in the node. Shields, decoys and killers help.</NR_HelpDiveStepDesc_BLACKICE>
   <NR_HelpDiveStepDesc_MEMORY>Memory units: may hold AI fragments or core modules.</NR_HelpDiveStepDesc_MEMORY>

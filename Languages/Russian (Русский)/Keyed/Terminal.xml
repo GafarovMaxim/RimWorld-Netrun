@@ -268,7 +268,7 @@
   <NR_HelpDiveStep_EXIT>Выход</NR_HelpDiveStep_EXIT>
   <NR_HelpDiveStepDesc_LOBBY>Лобби: здесь начинается каждый нырок. Уйти отсюда можно бесплатно.</NR_HelpDiveStepDesc_LOBBY>
   <NR_HelpDiveStepDesc_GATE>Кодовые ворота: стена, которую надо взломать, чтобы идти дальше. У сильных нод ворота крепче.</NR_HelpDiveStepDesc_GATE>
-  <NR_HelpDiveStepDesc_FILES>Файлы: скачайте их, это добыча. Они окупают нырок с множителем.</NR_HelpDiveStepDesc_FILES>
+  <NR_HelpDiveStepDesc_FILES>Файлы: скачайте их, это добыча. Сколько их, зависит от ноды.</NR_HelpDiveStepDesc_FILES>
   <NR_HelpDiveStepDesc_HIDDEN>Скрытая ступень: не видна до скана. Не всё скрытое стоит брать.</NR_HelpDiveStepDesc_HIDDEN>
   <NR_HelpDiveStepDesc_BLACKICE>Black ICE: бьёт каждый ход ноды, пока вы в ней. Помогают «Щит», «Фальшивка» и программы-убийцы.</NR_HelpDiveStepDesc_BLACKICE>
   <NR_HelpDiveStepDesc_MEMORY>Блоки памяти: в них бывают осколки ИИ и модули ядра.</NR_HelpDiveStepDesc_MEMORY>

@@ -333,6 +333,33 @@ public static class NetrunDebugActions
             Messages.Message("No dive yet", MessageTypeDefOf.RejectInput, historical: false);
     }
 
+    /// <summary>Rolls the main files of every tier 100 times and logs min / average / max, to check the fixed ranges.</summary>
+    [DebugAction(DiveCat, "Dive: roll rewards x100", allowedGameStates = Playing, displayPriority = 70)]
+    private static void RollRewards()
+    {
+        var tiers = new (string name, ExternalNode node, bool hard)[]
+        {
+            ("low (defense 1-2)", new ExternalNode { Defense = 2, Type = ExternalNodeType.Market }, false),
+            ("mid easy path", new ExternalNode { Defense = 3, Type = ExternalNodeType.Market }, false),
+            ("mid hard path", new ExternalNode { Defense = 3, Type = ExternalNodeType.Market }, true),
+            ("corp mid easy", new ExternalNode { Defense = 3, Type = ExternalNodeType.Corp }, false),
+            ("corp mid hard", new ExternalNode { Defense = 3, Type = ExternalNodeType.Corp }, true),
+            ("Black ICE", new ExternalNode { Defense = 5, BlackIce = true, Type = ExternalNodeType.Archive }, true),
+            ("dark exchange (defense 3)", new ExternalNode { Defense = 3, Type = ExternalNodeType.DarkExchange }, false),
+            ("corp core (boss)", new ExternalNode { Defense = 5, BlackIce = true, Type = ExternalNodeType.CorpCore }, true),
+        };
+        var sb = new System.Text.StringBuilder("[Netrun dev] Dive rewards x100 (cyberdata / advanced / silver, min-avg-max)\n");
+        foreach ((string name, ExternalNode node, bool hard) in tiers)
+        {
+            var rolls = Enumerable.Range(0, 100).Select(_ => DiveSession.RollMain(node, hard)).ToList();
+            sb.AppendLine($"{name}: data {rolls.Min(r => r.data)}-{rolls.Average(r => r.data):0.0}-{rolls.Max(r => r.data)}"
+                + $", advanced {rolls.Min(r => r.advanced)}-{rolls.Average(r => r.advanced):0.0}-{rolls.Max(r => r.advanced)}"
+                + $", silver {rolls.Min(r => r.silver)}-{rolls.Average(r => r.silver):0}-{rolls.Max(r => r.silver)}");
+        }
+        Log.Message(sb.ToString());
+        Done("Rewards rolled, see the log");
+    }
+
     // ---- AIs ----
 
     /// <summary>Fires any AI event now, ignoring its conditions and limits, on an AI that fits its personality.</summary>

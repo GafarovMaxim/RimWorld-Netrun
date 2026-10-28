@@ -159,7 +159,7 @@
   <NR_MapLensScale_Overview></NR_MapLensScale_Overview>
   <NR_MapLensNoRunner>Pick a runner first</NR_MapLensNoRunner>
   <NR_MapCardDistrict>{0} · danger {1}/5</NR_MapCardDistrict>
-  <NR_MapCardHaul>Best haul ×{0}</NR_MapCardHaul>
+  <NR_MapCardHaul>Best haul ~{0}</NR_MapCardHaul>
   <NR_MapCardContract>contract target</NR_MapCardContract>
   <NR_MapCardRoute>From {0}: {1} h, trace +{2}</NR_MapCardRoute>
   <NR_MapCardQuiet>Quiet route (dashed): {0} h, trace +{1}</NR_MapCardQuiet>
