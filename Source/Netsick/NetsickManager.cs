@@ -37,7 +37,7 @@ public class NetsickManager : GameComponent
 
                 // In a map session Netsick counts the hours in the net (docs/CYBERSPACE_V2.md, section 2).
                 float perDay = NetMapManager.Get()?.InSession(diver) == true ? NetrunDefOf.NR_CyberMap.sessionGainPerDay : Settings.podGainPerDay;
-                Hediff_Netsick netsick = AddNetsick(diver, perDay * DayFraction * PodFactor(pod));
+                Hediff_Netsick netsick = AddNetsick(diver, perDay * DayFraction * PodFactor(pod) * GearFactor(diver));
                 ContractManager.Get()?.NotifyPodTicks(TickInterval, diver);
                 netsick.LastConnectedTick = now;
                 WarnNeeds(diver, pod, now);
@@ -83,6 +83,16 @@ public class NetsickManager : GameComponent
             netsick.Severity -= Settings.decayPerDay * DayFraction * NetrunTraits.DecayFactor(pawn)
                                 * (LiveLeisure(pawn) ? Settings.liveLeisureDecayFactor : 1f);
         }
+
+        // Caravans and transporters in flight hold no map, so the loop above never sees them: their clock stands still too.
+        if (NetrunMod.Settings.NetsickInTrips)
+            return;
+        foreach (Pawn pawn in PawnsFinder.AllCaravansAndTravellingTransporters_Alive)
+        {
+            if (pawn.Faction == Faction.OfPlayer && pawn.MapHeld == null
+                && pawn.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick) is Hediff_Netsick netsick)
+                netsick.LastConnectedTick += TickInterval;
+        }
     }
 
     /// <summary>
@@ -99,7 +109,7 @@ public class NetsickManager : GameComponent
         if (map == null)
             return true;
         var pods = map.GetComponent<MapComponent_CyberpodManager>()?.Pods;
-        return pods == null || !pods.Any();
+        return pods == null || !pods.Any(p => p.Faction == Faction.OfPlayer);
     }
 
     // When each pawn was last told about hunger (even key) or tiredness (odd key) in a pod. Not saved: after a load a
@@ -219,7 +229,7 @@ public class NetsickManager : GameComponent
     {
         float severity = pawn.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)?.Severity ?? 0f;
         float perDay = (NetMapManager.Get()?.InSession(pawn) == true ? NetrunDefOf.NR_CyberMap.sessionGainPerDay : Settings.podGainPerDay)
-                       * PodFactor(pod) * NetrunTraits.GainFactor(pawn);
+                       * PodFactor(pod) * GearFactor(pawn) * NetrunTraits.GainFactor(pawn);
         if (severity >= StrongSeverity)
             return 0f;
         return perDay <= 0f ? float.PositiveInfinity : (StrongSeverity - severity) / perDay * 24f;
@@ -236,6 +246,13 @@ public class NetsickManager : GameComponent
 
     private static float PodFactor(Building_Cyberpod pod)
         => CyberpodUtility.NetsickFactor(CyberpodUtility.CoprocessorAI(pod));
+
+    /// <summary>T1.7: light clothing cuts the pod session's Netsick gain (not the dive's). A few apparel items, every 250 ticks.</summary>
+    private static float GearFactor(Pawn pawn)
+    {
+        CyberpodUtility.LightGear(CyberpodUtility.ApparelMass(pawn), out _, out float cut);
+        return 1f - cut;
+    }
 
     /// <summary>Netsick from outside the pod loop (an emergency disconnect, an ICE patrol on the map).</summary>
     public static void AddNetsickFor(Pawn pawn, float amount)

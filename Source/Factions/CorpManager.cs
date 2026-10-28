@@ -488,7 +488,8 @@ public class IncidentWorker_CorpRaid : IncidentWorker_RaidEnemy
     private static Faction Pick() => CorpManager.Get()?.Corps.Where(c => c.Alert >= CorpManager.Settings.intrusionAlert && c.Faction is { defeated: false } f && f.HostileTo(Faction.OfPlayer))
         .Select(c => c.Faction).RandomElementWithFallback();
 
-    protected override bool CanFireNowSub(IncidentParms parms) => Pick() != null && base.CanFireNowSub(parms);
+    protected override bool CanFireNowSub(IncidentParms parms)
+        => Pick() != null && (parms.forced || EventPacing.Get()?.ThreatBlock() == null) && base.CanFireNowSub(parms);
 
     protected override bool TryResolveRaidFaction(IncidentParms parms)
     {

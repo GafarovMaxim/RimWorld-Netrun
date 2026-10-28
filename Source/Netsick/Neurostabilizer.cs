@@ -67,7 +67,11 @@ public class IngestionOutcomeDoer_ReduceNetsick : IngestionOutcomeDoer
 
 public static class NeurostabilizerUtility
 {
-    /// <summary>While stabilized, Netsick neither hurts as withdrawal nor sends the pawn to a pod.</summary>
+    /// <summary>While stabilized, Netsick neither hurts as withdrawal nor sends the pawn to a pod. Resistance cancels it.</summary>
     public static bool Stabilized(Pawn pawn)
-        => NetrunDefOf.NR_NeurostabilizerHigh != null && pawn?.health?.hediffSet?.HasHediff(NetrunDefOf.NR_NeurostabilizerHigh) == true;
+    {
+        var set = pawn?.health?.hediffSet;
+        return set != null && NetrunDefOf.NR_NeurostabilizerHigh != null && set.HasHediff(NetrunDefOf.NR_NeurostabilizerHigh)
+            && (NetrunDefOf.NR_StabilizerResistance == null || !set.HasHediff(NetrunDefOf.NR_StabilizerResistance));
+    }
 }

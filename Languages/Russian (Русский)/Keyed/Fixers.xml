@@ -63,7 +63,7 @@
   <NR_ScrubMin>мин</NR_ScrubMin>
   <NR_ClubCallAlliesTip>Потратить благосклонность: союзная фракция пришлёт бойцов (или группа пришлёт продвинутые данные). Раз в сезон.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Услуга ×{0}</NR_FixerFreeScrub>
-  <NR_FixerFreeScrubTip>Фиксер должен вам: сбросить {0} Heat бесплатно, без звонка.</NR_FixerFreeScrubTip>
+  <NR_FixerFreeScrubTip>Фиксер должен вам: сбросить {0} Heat бесплатно, без звонка. Услуга сгорит через {1}.</NR_FixerFreeScrubTip>
   <NR_FixerNewTag>НОВЫЙ</NR_FixerNewTag>
   <NR_FixerNewTip>Недавно появился в пуле.</NR_FixerNewTip>
   <NR_FixerHeldTag>УДЕРЖАН</NR_FixerHeldTag>
@@ -139,6 +139,8 @@
   <NR_IsolationCoolingWait>Изоляция {0} ч из {1}: потом остывание удвоится.</NR_IsolationCoolingWait>
   <NR_IsolationCoolingOff>Изолируйте сеть (экран защиты) на {0} ч без перерыва: остывание ×{1}. Всё это время без нырков, контрактов и услуг ИИ.</NR_IsolationCoolingOff>
   <NR_ScrubFailsLayLow>Идёт контракт «Залечь на дно»: сброс у фиксера его провалит.</NR_ScrubFailsLayLow>
+  <NR_ScrubVeteran>Ветеран: ×{0} Heat за каждую data (черта, а не скидка).</NR_ScrubVeteran>
+  <NR_CoolingFailsLayLow>Идёт контракт «Залечь на дно»: платное остывание тоже его провалит.</NR_CoolingFailsLayLow>
   <NR_LogCooling>Остывание у {0}</NR_LogCooling>
   <NR_FixerCooling>{0} заметает следы: Heat остывает на {1} в сутки быстрее {2} дн.</NR_FixerCooling>
   <NR_ScrubRulesLetterLabel>Новые правила сброса</NR_ScrubRulesLetterLabel>

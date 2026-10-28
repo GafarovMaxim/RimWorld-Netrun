@@ -297,8 +297,7 @@ public static class FixersTab
             Find.WindowStack.Add(new Dialog_FixerShop(fixer, map));
 
         // A favor the fixer owes from a cyberspace find: a free scrub, no channel needed.
-        if (fixer.FreeScrubs > 0 && Add("NR_FixerFreeScrub".Translate(fixer.FreeScrubs), NetrunUI.Purple, true,
-                "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
+        if (fixer.FreeScrubsLeft > 0 && Add("NR_FixerFreeScrub".Translate(fixer.FreeScrubsLeft), NetrunUI.Purple, true, fixer.FreeScrubTip))
             FixerDeals.FreeScrub(fixer);
     }
 }

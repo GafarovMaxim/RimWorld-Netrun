@@ -121,9 +121,9 @@ public static class FixerDeals
     /// <summary>A favor the fixer owes (a cyberspace find): a free scrub at any fixer, no channel, no cooldown.</summary>
     public static void FreeScrub(Fixer fixer)
     {
-        if (fixer.FreeScrubs <= 0)
+        if (fixer.FreeScrubsLeft <= 0)
             return;
-        fixer.FreeScrubs--;
+        fixer.FreeScrubs = fixer.FreeScrubsLeft - 1;
         HeatTracker.Get()?.ReduceHeat(NetrunDefOf.NR_Cyberspace.freeScrubHeat, "NR_LogScrub".Translate(fixer.Name), HeatSource.Scrub);
         ContractManager.Get()?.NotifyFixerScrub();
     }
@@ -153,6 +153,8 @@ public static class FixerDeals
         ColonyGoods.TryTake(map, NetrunDefOf.USH_Cyberdata, cost);
         EconomyTracker.Get()?.Note(spent: cost);
         HeatTracker.Get().StartCooling(Settings.coolingPerDay, Settings.coolingDays, "NR_LogCooling".Translate(fixer.Name));
+        // r3: paid cooling is not natural cooling, so it fails "lay low" like a scrub.
+        ContractManager.Get()?.NotifyFixerScrub();
         fixer.GainReputation(Settings.reputationPerScrub);
         NetrunSound.Play("UI_Confirm");
         Messages.Message("NR_FixerCooling".Translate(fixer.Name, Settings.coolingPerDay.ToString("0.#"), Settings.coolingDays), MessageTypeDefOf.PositiveEvent, historical: false);

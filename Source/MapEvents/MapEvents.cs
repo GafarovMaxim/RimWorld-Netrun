@@ -557,6 +557,7 @@ public class IncidentWorker_CorpHunt : IncidentWorker_MercRaid
     protected override bool CanFireNowSub(IncidentParms parms)
         => (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) >= HeatLevel.Target
            && parms.target is Map map && map.listerBuildings.AllBuildingsColonistOfDef(NetrunDefOf.NR_AIServer).Any()
+           && (parms.forced || EventPacing.Get()?.ThreatBlock() == null)
            && base.CanFireNowSub(parms);
 
     protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)

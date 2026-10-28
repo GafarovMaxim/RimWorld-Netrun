@@ -85,6 +85,8 @@ public class NetAI : IExposable
     public bool Powered => InHost || (InServer && Server.GetComp<CompAIServer>()?.Powered == true);
     /// <summary>1 normally, lower while the main server runs cooled: scales service cooldown and hunger.</summary>
     public float CoolFactor => InMainServer ? Server.GetComp<CompAIServer>()?.CoolFactor ?? 1f : 1f;
+    /// <summary>r2: the main server's room is above the hot mark (read hourly by the server).</summary>
+    public bool Overheated => InMainServer && Server.GetComp<CompAIServer>()?.Temp == ServerTemp.Overheated;
     public bool Escaping => EscapeAtTick >= 0;
 
     /// <summary>Where messages and drops about this AI should point.</summary>

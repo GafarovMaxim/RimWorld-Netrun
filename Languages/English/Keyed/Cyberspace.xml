@@ -195,7 +195,7 @@
   <NR_BossNode>{0} has surfaced in the Gateway for {1} days: top defense, strong Black ICE, and a reward worth the risk.</NR_BossNode>
   <NR_DiveLogBoss>The core's vault is open.</NR_DiveLogBoss>
   <NR_FindResearch>Research data from the net: {0} moved forward.</NR_FindResearch>
-  <NR_FindFixerService>{0} owes you a favor: one free scrub of {1} Heat (Club).</NR_FindFixerService>
+  <NR_FindFixerService>{0} owes you a favor: one free scrub of {1} Heat (Club). Use it within {2} days.</NR_FindFixerService>
   <NR_FindGroupFavor>A hacker group noticed your work. Favor: {0}/{1}.</NR_FindGroupFavor>
   <NR_FindCelebrity>A rare recording turned up: {0}.</NR_FindCelebrity>
   <NR_CelebrityEvent>a famous performance</NR_CelebrityEvent>

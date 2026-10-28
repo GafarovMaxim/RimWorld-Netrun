@@ -17,7 +17,9 @@ public static class Patch_RaidEnemy_HeatPoints
         try
         {
             if (parms == null || parms.target is not Map { IsPlayerHome: true } || __instance is IncidentWorker_MercRaid
-                || parms.faction?.def == NetrunDefOf.NR_Mercenaries)
+                || parms.faction?.def == NetrunDefOf.NR_Mercenaries
+                // Quest raids keep the quest's own points; our corporation and crew raids are Heat consequences already.
+                || parms.quest != null || __instance.def?.defName.StartsWith("NR_") == true)
                 return;
             float factor = HeatTracker.Get()?.RaidPointsFactor ?? 1f;
             if (factor > 1f)

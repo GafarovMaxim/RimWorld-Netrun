@@ -195,7 +195,7 @@
   <NR_BossNode>{0} всплыло в Шлюзе на {1} дн.: максимальная защита, сильный Black ICE и награда, которая стоит риска.</NR_BossNode>
   <NR_DiveLogBoss>Хранилище ядра открыто.</NR_DiveLogBoss>
   <NR_FindResearch>Данные исследований из сети: проект «{0}» продвинулся.</NR_FindResearch>
-  <NR_FindFixerService>{0} в долгу перед вами: один бесплатный сброс {1} Heat (Клуб).</NR_FindFixerService>
+  <NR_FindFixerService>{0} в долгу перед вами: один бесплатный сброс {1} Heat (Клуб). Использовать в течение {2} дн.</NR_FindFixerService>
   <NR_FindGroupFavor>Хакерская группа заметила вашу работу. Благосклонность: {0}/{1}.</NR_FindGroupFavor>
   <NR_FindCelebrity>Нашлась редкая запись: {0}.</NR_FindCelebrity>
   <NR_CelebrityEvent>знаменитое выступление</NR_CelebrityEvent>

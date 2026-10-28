@@ -83,6 +83,9 @@ public class IncidentWorker_MercRaid : IncidentWorker_RaidEnemy
             return false;
         if (!parms.forced && (HeatTracker.Get()?.Level ?? HeatLevel.Shadow) < HeatLevel.Target)
             return false;
+        // T1.4: at most one Netrun threat in 3 days, none during or right after a storyteller threat.
+        if (!parms.forced && EventPacing.Get()?.ThreatBlock() != null)
+            return false;
         return base.CanFireNowSub(parms);
     }
 

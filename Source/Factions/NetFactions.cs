@@ -189,6 +189,8 @@ public class IncidentWorker_CrewRaid : IncidentWorker_RaidEnemy
     {
         if (!NetFactions.Crews.Any(f => f.HostileTo(Faction.OfPlayer)))
             return false;
+        if (!parms.forced && EventPacing.Get()?.ThreatBlock() != null)
+            return false;
         return base.CanFireNowSub(parms);
     }
 

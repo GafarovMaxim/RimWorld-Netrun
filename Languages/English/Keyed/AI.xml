@@ -36,7 +36,7 @@
   <NR_ServerTemp_Asleep>Too hot, asleep</NR_ServerTemp_Asleep>
   <NR_ServerTempTip_Normal>Server room: {0}. At {1} or below the server runs cooled; above {2} it overheats; above {3} it sleeps.</NR_ServerTempTip_Normal>
   <NR_ServerTempTip_Cooled>Server room: {0}, cool enough. AI service cooldowns and hunger growth are {4} lower.</NR_ServerTempTip_Cooled>
-  <NR_ServerTempTip_Overheated>Server room: {0}, hot. No penalty yet, but above {3} the server goes to sleep. Cool the room.</NR_ServerTempTip_Overheated>
+  <NR_ServerTempTip_Overheated>Server room: {0}, hot. The AI loses {6} trust a day and its spiteful overheating comes x{7} as often; above {3} the server goes to sleep. Cool the room.</NR_ServerTempTip_Overheated>
   <NR_ServerTempTip_Asleep>Server room: {0}, above {3}. The server sleeps and its AIs are unavailable, but none is lost. It wakes at {5} or below.</NR_ServerTempTip_Asleep>
   <NR_AILocationFragment>Sleeping in a fragment.</NR_AILocationFragment>
   <NR_AILocationServer>Lives in: {0}.</NR_AILocationServer>

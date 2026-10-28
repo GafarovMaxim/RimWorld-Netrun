@@ -413,10 +413,9 @@ public static class HeatScreen
             Text.Anchor = TextAnchor.UpperLeft;
             Text.Font = GameFont.Small;
         }
-        else if (fixer.FreeScrubs > 0)
+        else if (fixer.FreeScrubsLeft > 0)
         {
-            if (NetrunUI.Button(button, "NR_FixerFreeScrub".Translate(fixer.FreeScrubs), NetrunUI.Purple, true,
-                    "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"))))
+            if (NetrunUI.Button(button, "NR_FixerFreeScrub".Translate(fixer.FreeScrubsLeft), NetrunUI.Purple, true, fixer.FreeScrubTip))
                 FixerDeals.FreeScrub(fixer);
         }
         else if (fixer.ChannelOpen)

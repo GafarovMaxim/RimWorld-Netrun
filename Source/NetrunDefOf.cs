@@ -71,6 +71,7 @@ public static class NetrunDefOf
     public static HediffDef NR_Netsick;
     public static HediffDef NR_NeuralLoad;
     public static HediffDef NR_NeurostabilizerHigh;
+    public static HediffDef NR_StabilizerResistance;
     public static ThingDef NR_NetrunCoprocessor;
     public static ThingDef NR_AIServerRack;
     public static JobDef NR_UseNetTerminal;

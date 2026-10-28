@@ -118,7 +118,9 @@
     <findCoreModule>3</findCoreModule>
     <researchReward>600</researchReward>
     <fixerServiceReputation>8</fixerServiceReputation>
-    <freeScrubHeat>15</freeScrubHeat>
+    <!-- A fixer's favor from a find: a free scrub of this much Heat; it burns out this many days after it was granted -->
+    <freeScrubHeat>10</freeScrubHeat>
+    <freeScrubDays>15</freeScrubDays>
     <groupFavorForAllies>3</groupFavorForAllies>
     <alliesCooldownDays>15</alliesCooldownDays>
     <!-- Boss node: corporate core -->

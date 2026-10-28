@@ -68,6 +68,10 @@ public class AISettingsDef : Def
     public float serverSleepTemp = 50f;
     public float serverWakeTemp = 45f;
     public float serverCoolBonus = 0.1f;
+    // r2: an overheated server room costs trust a day and makes the listed spite events this many times likelier.
+    public float serverHotTrustPerDay = 1f;
+    public float serverHotEventFactor = 2f;
+    public System.Collections.Generic.List<AIEventDef> serverHotEvents = [];
 
     // Seed: feedings (or quiet days for Ghost) needed before it settles into a personality.
     public int seedGrowthToEvolve = 5;

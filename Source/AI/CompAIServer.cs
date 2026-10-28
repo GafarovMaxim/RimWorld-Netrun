@@ -75,7 +75,8 @@ public class CompAIServer : ThingComp
     public string TempLabel => ("NR_ServerTemp_" + _temp).Translate();
     public string TempTip => ("NR_ServerTempTip_" + _temp).Translate(parent.AmbientTemperature.ToStringTemperature("F0"),
         Settings.serverCoolTemp.ToStringTemperature("F0"), Settings.serverHotTemp.ToStringTemperature("F0"), Settings.serverSleepTemp.ToStringTemperature("F0"),
-        Settings.serverCoolBonus.ToStringPercent("F0"), Settings.serverWakeTemp.ToStringTemperature("F0"));
+        Settings.serverCoolBonus.ToStringPercent("F0"), Settings.serverWakeTemp.ToStringTemperature("F0"),
+        Settings.serverHotTrustPerDay.ToString("0.#"), Settings.serverHotEventFactor.ToString("0.#"));
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {

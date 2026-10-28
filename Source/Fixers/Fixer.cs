@@ -44,6 +44,20 @@ public class Fixer : IExposable
     public bool TraitRevealed;
     /// <summary>Free trace scrubs owed by this fixer (a cyberspace find).</summary>
     public int FreeScrubs;
+    /// <summary>When the owed free scrubs burn out (-1: never; only saves from before T1.10, the migration sets it).</summary>
+    public int FreeScrubUntilTick = -1;
+
+    /// <summary>Free scrubs still usable: they all burn out together, freeScrubDays after the last one was granted.</summary>
+    public int FreeScrubsLeft => FreeScrubUntilTick >= 0 && Find.TickManager.TicksGame >= FreeScrubUntilTick ? 0 : FreeScrubs;
+
+    public void GrantFreeScrub()
+    {
+        FreeScrubs = FreeScrubsLeft + 1;
+        FreeScrubUntilTick = Find.TickManager.TicksGame + (int)(NetrunDefOf.NR_Cyberspace.freeScrubDays * GenDate.TicksPerDay);
+    }
+
+    public string FreeScrubTip => "NR_FixerFreeScrubTip".Translate(NetrunDefOf.NR_Cyberspace.freeScrubHeat.ToString("0"),
+        FreeScrubUntilTick < 0 ? "-" : (FreeScrubUntilTick - Find.TickManager.TicksGame).ToStringTicksToPeriod());
     public List<ThingDef> Stock = [];
     /// <summary>Held by the player: stays through the next rotations.</summary>
     public bool Held;
@@ -223,6 +237,7 @@ public class Fixer : IExposable
         Scribe_Values.Look(ref TraitRevealed, "traitRevealed");
         Scribe_Collections.Look(ref Stock, "stock", LookMode.Def);
         Scribe_Values.Look(ref FreeScrubs, "freeScrubs");
+        Scribe_Values.Look(ref FreeScrubUntilTick, "freeScrubUntilTick", -1);
         Scribe_Values.Look(ref Held, "held");
         Scribe_Values.Look(ref _pinned, "pinned", -1);
         Scribe_Values.Look(ref JoinedTick, "joinedTick", -999999);

@@ -181,6 +181,8 @@ public class AIManager : GameComponent, INetrunCleanable
                 ai.AddTrust(-Settings.starvingTrustPerDay * dayFraction);
             if (ai.Isolated)
                 ai.AddTrust(-Settings.isolatedTrustPerDay * dayFraction);
+            if (ai.Overheated)
+                ai.AddTrust(-Settings.serverHotTrustPerDay * dayFraction);
             // A nostalgic AI pines when the colony keeps no recordings.
             if (ai.Active && ai.Has(AITrait.Nostalgic) && !AITraitUtility.HasChips(ai.Anchor?.Map ?? Find.AnyPlayerHomeMap))
                 ai.AddTrust(-Settings.nostalgicTrustPerDay * dayFraction);

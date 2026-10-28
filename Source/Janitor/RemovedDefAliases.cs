@@ -35,3 +35,29 @@ public static class RemovedDefAliases
         }
     }
 }
+
+/// <summary>
+/// A child saved mid-lesson (T1.9) holds a job driver of the removed class <c>Netrun.JobDriver_BraindanceLesson</c>:
+/// it loads as a vanilla wait instead of a red "Could not find class" error.
+/// </summary>
+[HarmonyPatch(typeof(BackCompatibility), nameof(BackCompatibility.GetBackCompatibleType))]
+public static class RemovedClassAliases
+{
+    private static readonly Dictionary<string, Type> Map = new()
+    {
+        ["Netrun.JobDriver_BraindanceLesson"] = typeof(Verse.AI.JobDriver_Wait),
+    };
+
+    private static void Postfix(string providedClassName, ref Type __result)
+    {
+        try
+        {
+            if (__result == null && providedClassName != null && Map.TryGetValue(providedClassName, out Type alias))
+                __result = alias;
+        }
+        catch (Exception e)
+        {
+            Log.Warning("[Netrun] removed class alias failed: " + e.Message);
+        }
+    }
+}

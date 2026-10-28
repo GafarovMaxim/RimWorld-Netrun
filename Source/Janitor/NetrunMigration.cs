@@ -21,16 +21,21 @@ public class NetrunMigration : GameComponent
     [
         (1, "research moved from HE projects to Netrun's own", MigrateResearch),
         (2, "T1.2 scrub rules: old lay-low contracts keep old rules, letter for pinned Cleaners", MigrateScrubRules),
+        (3, "T1.10 free scrub favors burn out: owed favors get the 15-day clock", MigrateFreeScrubs),
     ];
 
     /// <summary>
     /// Save versions: 1 = research moved from HE projects to Netrun's own (docs/CONCEPTS_10.md, section 3).
     /// T1.1 rebuilt the step runner and added no version. 2 = T1.2, three scrub channels (running "lay low" contracts
-    /// finish under the old rules, players with a pinned Cleaner get a letter). The current version is the last step's.
+    /// finish under the old rules, players with a pinned Cleaner get a letter). 3 = T1.10, a fixer's free scrub favor
+    /// burns out after freeScrubDays (favors owed in an older save start their clock at load). T1.10's other new fields
+    /// (EventPacing deferredTick, AI letter effectsPending) load right from their defaults. The current version is the last step's.
     /// </summary>
     public static int CurrentVersion => Steps[Steps.Length - 1].Version;
 
     private int _version;
+    // Not saved: the version the save had when it was loaded (BALANCE_PLAN 20.4 p.3), so a dev rerun can tell a real old save.
+    private int _loadedVersion = -1;
 
     // Not saved: what failed during the last run, for the dev report.
     private readonly Dictionary<int, string> _failed = [];
@@ -47,11 +52,13 @@ public class NetrunMigration : GameComponent
     {
         base.StartedNewGame();
         _version = CurrentVersion;
+        _loadedVersion = CurrentVersion;
     }
 
     public override void LoadedGame()
     {
         base.LoadedGame();
+        _loadedVersion = _version;
         if (_version < CurrentVersion)
             RunPending();
     }
@@ -93,7 +100,7 @@ public class NetrunMigration : GameComponent
     /// <summary>The dev report: save version, current version, one line per step.</summary>
     public List<string> Report()
     {
-        var lines = new List<string> { $"save version {_version}, current {CurrentVersion}" };
+        var lines = new List<string> { $"save version {_version} (loaded as {_loadedVersion}), current {CurrentVersion}" };
         foreach ((int version, string name, _) in Steps)
         {
             string state = _failed.TryGetValue(version, out string error) ? $"failed last run ({error})"
@@ -118,12 +125,15 @@ public class NetrunMigration : GameComponent
     /// <summary>
     /// T1.2: a running "lay low" keeps the old rules (a scrub does not fail it); a pinned Cleaner tells the player the
     /// new rules once. A rerun does not send a second letter while the first is still in the stack.
+    /// Idempotent (T1.10): only a save that really predates v2 marks its contracts, so a dev rerun or "simulate old save"
+    /// on a newer save never moves contracts taken under the new rules back to the old ones.
     /// </summary>
     private static void MigrateScrubRules()
     {
-        foreach (Contract contract in ContractManager.Get()?.Active ?? [])
-            if (contract.Type == ContractType.LayLow)
-                contract.OldRules = true;
+        if (Get() is { _loadedVersion: >= 0 and < 2 })
+            foreach (Contract contract in ContractManager.Get()?.Active ?? [])
+                if (contract.Type == ContractType.LayLow)
+                    contract.OldRules = true;
 
         Fixer cleaner = FixerManager.Get()?.Fixers.FirstOrDefault(f => f.Pinned && f.IsCleaner);
         if (cleaner == null)
@@ -136,6 +146,14 @@ public class NetrunMigration : GameComponent
             "NR_ScrubRulesLetter".Translate(cleaner.Name, s.cleanerScrubMaxHeat.ToString("0"), s.cleanerScrubCooldownDays, s.coolingCost,
                 s.coolingPerDay.ToString("0.#"), s.coolingDays, NetrunDefOf.NR_Heat.isolationCoolingHours.ToString("0")),
             LetterDefOf.NeutralEvent);
+    }
+
+    /// <summary>T1.10: favors owed before burn-out existed start their clock now. Idempotent: only fixers with no clock yet.</summary>
+    private static void MigrateFreeScrubs()
+    {
+        foreach (Fixer fixer in FixerManager.Get()?.Fixers ?? [])
+            if (fixer.FreeScrubs > 0 && fixer.FreeScrubUntilTick < 0)
+                fixer.FreeScrubUntilTick = Find.TickManager.TicksGame + (int)(NetrunDefOf.NR_Cyberspace.freeScrubDays * GenDate.TicksPerDay);
     }
 
     private static void Grant(ResearchProjectDef project, string oldPrerequisite)

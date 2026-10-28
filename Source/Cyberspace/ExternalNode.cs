@@ -135,7 +135,8 @@ public class CyberspaceSettingsDef : Def
     public float findCoreModule = 3f;
     public float researchReward = 600f;
     public float fixerServiceReputation = 8f;
-    public float freeScrubHeat = 15f;
+    public float freeScrubHeat = 10f;
+    public float freeScrubDays = 15f;
     public int groupFavorForAllies = 3;
     public float alliesCooldownDays = 15f;
 

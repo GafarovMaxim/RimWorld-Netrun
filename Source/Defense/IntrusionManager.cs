@@ -110,8 +110,11 @@ public class IntrusionManager : GameComponent, INetrunCleanable
 
     private void Strike(IntrusionPacket p)
     {
-        Packets.Remove(p);
         Map map = Find.Maps.FirstOrDefault(m => m.uniqueID == p.MapId) ?? Find.AnyPlayerHomeMap;
+        // T1.4: no strike into a fight on the map; the packet waits at Home and tries again in HoursPerLink (Progress is 0).
+        if (map != null && map.dangerWatcher.DangerRating != StoryDanger.None)
+            return;
+        Packets.Remove(p);
         if (map == null || p.Attack?.Worker is not IncidentWorker_NetAttack)
             return;
         IncidentParms parms = StorytellerUtility.DefaultParmsNow(p.Attack.category, map);

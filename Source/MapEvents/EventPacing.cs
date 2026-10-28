@@ -10,13 +10,15 @@ namespace Netrun;
 public class PacingSettingsDef : Def
 {
     /// <summary>Chance a day of a network attack by Heat level: Shadow, Noticed, Tracked, Target, Red Zone.</summary>
-    public List<float> threatChanceByLevel = [0f, 0.08f, 0.15f, 0.25f, 0.4f];
+    public List<float> threatChanceByLevel = [0f, 0.08f, 0.15f, 0.25f, 0.5f];
     /// <summary>At most one Netrun threat in this many days.</summary>
     public float ourThreatGapDays = 3f;
     /// <summary>No Netrun threat while a storyteller threat is on a home map, nor this many hours after.</summary>
     public float storytellerQuietHours = 24f;
     /// <summary>The first crossing of 50 and 75 Heat in a season: a warning, then a guaranteed attack this many hours later.</summary>
     public IntRange thresholdDelayHours = new(12, 36);
+    /// <summary>A roll that hit the gap between Netrun threats waits this many days, then comes if the rules allow, else drops.</summary>
+    public FloatRange deferredThreatDays = new(1f, 3f);
     /// <summary>Netrun choice letters a day; the rest wait in a queue of at most maxQueuedLetters.</summary>
     public int maxChoiceLettersPerDay = 2;
     public int maxQueuedLetters = 4;
@@ -40,6 +42,8 @@ public class EventPacing : GameComponent, INetrunCleanable
     private int _lastOurThreatTick = Never;
     private int _nextRollTick = -1;
     private int _thresholdDueTick = -1;
+    // T1.4: a daily roll blocked by the gap between our threats, deferred to this tick (-1: none).
+    private int _deferredTick = -1;
     private int _season50 = -1;
     private int _season75 = -1;
     private int _dayStartTick = Never;
@@ -78,11 +82,13 @@ public class EventPacing : GameComponent, INetrunCleanable
         int quiet = (int)(S.storytellerQuietHours * GenDate.TicksPerHour) - (now - _lastStorytellerThreatTick);
         if (quiet > 0)
             return $"quiet after a storyteller threat, {quiet.ToStringTicksToPeriod()} left";
-        int gap = (int)(S.ourThreatGapDays * GenDate.TicksPerDay) - (now - _lastOurThreatTick);
+        int gap = GapLeft(now);
         if (gap > 0)
             return $"gap between Netrun threats, {gap.ToStringTicksToPeriod()} left";
         return null;
     }
+
+    private int GapLeft(int now) => (int)(S.ourThreatGapDays * GenDate.TicksPerDay) - (now - _lastOurThreatTick);
 
     public float ChancePerDay(HeatLevel level)
         => S.threatChanceByLevel.Count > (int)level ? S.threatChanceByLevel[(int)level] * NetrunMod.Settings.NetAttackFrequency : 0f;
@@ -114,6 +120,15 @@ public class EventPacing : GameComponent, INetrunCleanable
             string result = Roll(false);
             if (Prefs.DevMode)
                 Log.Message("[Netrun] threat roll: " + result);
+        }
+
+        if (_deferredTick >= 0 && now >= _deferredTick)
+        {
+            _deferredTick = -1;
+            string block = ThreatBlock();
+            bool fired = block == null && FireAttack();
+            if (Prefs.DevMode)
+                Log.Message("[Netrun] deferred attack: " + (fired ? "fired" : "dropped (" + (block ?? "nothing to hit") + ")"));
         }
 
         ReleaseLetters(now);
@@ -156,7 +171,15 @@ public class EventPacing : GameComponent, INetrunCleanable
             return $"{level} {chance:P0}: no attack today";
         string block = ThreatBlock();
         if (block != null)
+        {
+            // Two Netrun threats at once: this one waits 1-3 days (BALANCE_PLAN 6 p.4). A storyteller threat still drops it.
+            if (_deferredTick < 0 && GapLeft(Now) > 0)
+            {
+                _deferredTick = Now + (int)(S.deferredThreatDays.RandomInRange * GenDate.TicksPerDay);
+                return $"{level}: deferred {(_deferredTick - Now).ToStringTicksToPeriod()} ({block})";
+            }
             return $"{level}: blocked ({block})";
+        }
         return FireAttack() ? $"{level}: attack fired" : $"{level}: nothing to hit";
     }
 
@@ -303,6 +326,7 @@ public class EventPacing : GameComponent, INetrunCleanable
             "last storyteller threat: " + (_lastStorytellerThreatTick <= Never ? "never" : (now - _lastStorytellerThreatTick).ToStringTicksToPeriod() + " ago"),
             "last Netrun threat: " + (_lastOurThreatTick <= Never ? "never" : (now - _lastOurThreatTick).ToStringTicksToPeriod() + " ago"),
             "threshold attack: " + (_thresholdDueTick < 0 ? "none" : "due in " + (_thresholdDueTick - now).ToStringTicksToPeriod()),
+            "deferred attack: " + (_deferredTick < 0 ? "none" : "due in " + (_deferredTick - now).ToStringTicksToPeriod()),
             $"season {Find.TickManager.TicksAbs / GenDate.TicksPerQuadrum}, 50 crossed in season {_season50}, 75 in season {_season75}",
         };
         foreach (Map map in Find.Maps.Where(m => m.IsPlayerHome))
@@ -347,6 +371,7 @@ public class EventPacing : GameComponent, INetrunCleanable
         Scribe_Values.Look(ref _lastOurThreatTick, "lastOurThreatTick", Never);
         Scribe_Values.Look(ref _nextRollTick, "nextRollTick", -1);
         Scribe_Values.Look(ref _thresholdDueTick, "thresholdDueTick", -1);
+        Scribe_Values.Look(ref _deferredTick, "deferredTick", -1);
         Scribe_Values.Look(ref _season50, "season50", -1);
         Scribe_Values.Look(ref _season75, "season75", -1);
         Scribe_Values.Look(ref _dayStartTick, "dayStartTick", Never);

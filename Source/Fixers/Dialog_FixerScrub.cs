@@ -26,7 +26,7 @@ public class Dialog_FixerScrub : Window
     // The instant scrub rows show only where the scrub is possible.
     private readonly bool _instant;
 
-    public override Vector2 InitialSize => new(520f, _instant ? 560f : 380f);
+    public override Vector2 InitialSize => new(520f, _instant ? 590f : 400f);
     protected override float Margin => 0f;
 
     public Dialog_FixerScrub(Fixer fixer, Map map)
@@ -76,6 +76,9 @@ public class Dialog_FixerScrub : Window
         // 1. Instant scrub: a Cleaner only, capped, once per cooldown.
         y = Header(r, y, "NR_ScrubChannelInstant".Translate());
         Text.Font = GameFont.Tiny;
+        // The AI noise floor, shown with every channel (plan v1, section 8 p.4).
+        if (AIBalance.NoiseFloor > 0f)
+            y = Line(r, y, "NR_ScrubFloor".Translate(AIBalance.NoiseFloor.ToString("0")), NetrunUI.Warn);
         if (!_instant)
         {
             y = Line(r, y, _fixer.CanScrubNow.Reason, NetrunUI.Muted);
@@ -84,6 +87,9 @@ public class Dialog_FixerScrub : Window
         {
             y = Line(r, y, "NR_ScrubRates".Translate(_fixer.HeatPerCyberdata.ToString("0.#"), _fixer.HeatPerAdvancedCyberdata.ToString("0.#")), NetrunUI.Muted);
             y = Line(r, y, "NR_ScrubCapLine".Translate(Fixer.ScrubCap.ToString("0"), settings.cleanerScrubCooldownDays), NetrunUI.Muted);
+            // r4: the Veteran trait changes the rates above; say so (once the trait is known).
+            if (_fixer.Trait == FixerTrait.Veteran && _fixer.TraitKnown)
+                y = Line(r, y, "NR_ScrubVeteran".Translate(settings.veteranScrubFactor.ToString("0.##")), NetrunUI.Muted);
             Text.Font = GameFont.Small;
             y += 4f;
             int needData = FixerDeals.UnitsToClear(_fixer, false, _advanced, _availableData);
@@ -101,8 +107,6 @@ public class Dialog_FixerScrub : Window
             Widgets.Label(new Rect(r.x, y, r.width, 24f), "NR_ScrubResult".Translate(scrub.ToString("0"), heat.ToString("0"), after.ToString("0")));
             y += 24f;
             Text.Font = GameFont.Tiny;
-            if (AIBalance.NoiseFloor > 0f)
-                y = Line(r, y, "NR_ScrubFloor".Translate(AIBalance.NoiseFloor.ToString("0")), NetrunUI.Warn);
             if (ContractManager.Get()?.Active.Any(c => c.Type == ContractType.LayLow && !c.OldRules) == true)
                 y = Line(r, y, "NR_ScrubFailsLayLow".Translate(), NetrunUI.Bad);
         }
@@ -130,6 +134,13 @@ public class Dialog_FixerScrub : Window
             Close();
         }
         y += ch + 8f;
+        // r3: paid cooling is not natural cooling either.
+        if (ContractManager.Get()?.Active.Any(c => c.Type == ContractType.LayLow && !c.OldRules) == true)
+        {
+            Text.Font = GameFont.Tiny;
+            y = Line(r, y - 4f, "NR_CoolingFailsLayLow".Translate(), NetrunUI.Bad) + 4f;
+            Text.Font = GameFont.Small;
+        }
 
         // 3. Isolation: information only (the switch is on the Defense screen).
         y = Header(r, y, "NR_ScrubChannelIsolation".Translate());

@@ -35,4 +35,6 @@ public class NetsickSettingsDef : Def
     public System.Collections.Generic.List<float> neuralLoadNetsickFactors = [1f, 2f, 3f];
     // Hack chance lost at each load stage (plan v1: the third dive of a day hacks worse).
     public System.Collections.Generic.List<float> neuralLoadHackPenalties = [0f, 0.05f, 0.1f];
+    // r1: actions added to the first dive turn at each load stage (overload: one less).
+    public System.Collections.Generic.List<int> neuralLoadFirstTurnActions = [0, 0, -1];
 }

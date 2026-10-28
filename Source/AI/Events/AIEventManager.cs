@@ -90,7 +90,10 @@ public class AIEventManager : GameComponent
             return false;
 
         // Own events first: a personality event wins over a general one twice as often.
-        AIEventDef def = candidates.RandomElementByWeight(d => d.weight * (d.General ? 1f : 2f));
+        // r2: an overheated server room makes its spite events likelier.
+        bool hot = ai.Overheated;
+        AIEventDef def = candidates.RandomElementByWeight(d => d.weight * (d.General ? 1f : 2f)
+            * (hot && NetrunDefOf.NR_AI.serverHotEvents.Contains(d) ? NetrunDefOf.NR_AI.serverHotEventFactor : 1f));
         _lastEventTick = now;
         EconomyTracker.Get()?.Note(aiEvent: true);
         Fire(def, AIEventContext.Make(ai, map, def));
@@ -100,15 +103,13 @@ public class AIEventManager : GameComponent
     public void Fire(AIEventDef def, AIEventContext context)
     {
         FirstHints.Show("AIEvent", "NR_Help_Events_AI");
-        foreach (AIEventEffect effect in def.effects)
-            effect.Apply(context);
-
         string label = "NR_AIEventLabel".Translate(context.AI.Name, def.LabelCap);
         string text = context.Format(def.description);
         LookTargets look = context.Anchor is { Spawned: true } a ? new LookTargets(a) : LookTargets.Invalid;
 
         if (def.options.NullOrEmpty())
         {
+            ApplyEffects(def, context);
             NetrunSound.Play("AI_Whisper");
             Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, look);
             return;
@@ -120,8 +121,14 @@ public class AIEventManager : GameComponent
         letter.lookTargets = look;
         letter.Setup(def, context);
         letter.StartTimeout((int)(NetrunDefOf.NR_AI.eventAnswerDays * GenDate.TicksPerDay));
-        NetrunSound.Play("AI_Whisper");
+        // T1.4: effects and the whisper come with the letter (ChoiceLetter_AIEvent.Received), not while it waits in the queue.
         EventPacing.SendChoice(letter);
+    }
+
+    public static void ApplyEffects(AIEventDef def, AIEventContext context)
+    {
+        foreach (AIEventEffect effect in def.effects)
+            effect.Apply(context);
     }
 
     public static void Choose(AIEventDef def, int index, AIEventContext context)
@@ -218,12 +225,26 @@ public class ChoiceLetter_AIEvent : ChoiceLetter
     private int _aiId;
     private Pawn _target;
     private bool _answered;
+    // Effects wait for delivery. Saved default false: a letter queued by an older version already applied them.
+    private bool _effectsPending;
 
     public void Setup(AIEventDef def, AIEventContext context)
     {
         _def = def;
         _aiId = context.AI.Id;
         _target = context.Target;
+        _effectsPending = true;
+    }
+
+    public override void Received()
+    {
+        base.Received();
+        if (!_effectsPending || _def == null)
+            return;
+        _effectsPending = false;
+        if (Context() is { } context)
+            AIEventManager.ApplyEffects(_def, context);
+        NetrunSound.Play("AI_Whisper");
     }
 
     private AIEventContext Context()
@@ -301,5 +322,6 @@ public class ChoiceLetter_AIEvent : ChoiceLetter
         Scribe_Values.Look(ref _aiId, "aiId");
         Scribe_References.Look(ref _target, "target");
         Scribe_Values.Look(ref _answered, "answered");
+        Scribe_Values.Look(ref _effectsPending, "effectsPending");
     }
 }

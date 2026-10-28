@@ -128,7 +128,7 @@ public class DiveSession : IExposable
     public float HeatAtStart;
     public float NetsickAtStart;
     /// <summary>Light clothing of this session (worn mass counted at the start).</summary>
-    public float GearHackBonus, GearNetsickCut;
+    public float GearHackBonus;
     public bool SpecialFound;
     public bool Retreated;
     /// <summary>ICE hits that got through (not stopped by a shield or a decoy).</summary>
@@ -174,7 +174,7 @@ public class DiveSession : IExposable
     {
         int extra = turn <= ExecTurns ? 1 : 0;
         if (turn == 1)
-            extra += DiveTraits.FirstTurnActions(Runner) + (Precept_NetArchon.Holds(Runner) ? 1 : 0);
+            extra += DiveTraits.FirstTurnActions(Runner) + (Precept_NetArchon.Holds(Runner) ? 1 : 0) + DiveEffects.NeuralLoadFirstTurnActions(Runner);
         if (turn == 1 && DefDatabase<HediffDef>.GetNamedSilentFail("USH_InstalledOptimizationModule") is { } module
             && Runner?.health?.hediffSet?.HasHediff(module) == true)
             extra++;
@@ -242,7 +242,7 @@ public class DiveSession : IExposable
         session.HeatAtStart = HeatTracker.Get()?.Heat ?? 0f;
         session.NetsickAtStart = DiveReport.NetsickOf(runner);
         // Light clothing: worn mass is counted once, here.
-        CyberpodUtility.LightGear(CyberpodUtility.ApparelMass(runner), out session.GearHackBonus, out session.GearNetsickCut);
+        CyberpodUtility.LightGear(CyberpodUtility.ApparelMass(runner), out session.GearHackBonus, out _);
         session.Build();
         // A watched corporate confession: this dive shows every hidden step, the forks' numbers and any trap.
         if (!node.Training && UniqueBraindanceManager.Get() is { RevealNextDive: true } ub)
@@ -774,8 +774,8 @@ public class DiveSession : IExposable
             return;
         }
         fixer.GainReputation(Settings.fixerServiceReputation);
-        fixer.FreeScrubs++;
-        Messages.Message("NR_FindFixerService".Translate(fixer.Name, Settings.freeScrubHeat.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: true);
+        fixer.GrantFreeScrub();
+        Messages.Message("NR_FindFixerService".Translate(fixer.Name, Settings.freeScrubHeat.ToString("0"), Settings.freeScrubDays.ToString("0")), MessageTypeDefOf.PositiveEvent, historical: true);
     }
 
     private static void FindGroupFavor()
@@ -1079,7 +1079,7 @@ public class DiveSession : IExposable
         CyberpodUtility.InCyberpod(Runner, out NetAI coprocessor);
         Hediff netsick = Runner.health.hediffSet.GetFirstHediffOfDef(NetrunDefOf.NR_Netsick)
                          ?? Runner.health.AddHediff(NetrunDefOf.NR_Netsick);
-        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor) * NetrunTraits.GainFactor(Runner) * (1f - GearNetsickCut);
+        netsick.Severity += amount * CyberpodUtility.NetsickFactor(coprocessor) * NetrunTraits.GainFactor(Runner);
     }
 
     /// <summary>Dev: end the dive at once, as a clean exit (with the special roll) or a failure.</summary>
@@ -1341,7 +1341,6 @@ public class DiveSession : IExposable
         Scribe_Values.Look(ref HeatAtStart, "heatAtStart");
         Scribe_Values.Look(ref NetsickAtStart, "netsickAtStart");
         Scribe_Values.Look(ref GearHackBonus, "gearHackBonus", 0f); // old saves: no bonus
-        Scribe_Values.Look(ref GearNetsickCut, "gearNetsickCut", 0f);
         Scribe_Values.Look(ref SpecialFound, "specialFound");
         Scribe_Values.Look(ref Retreated, "retreated");
         Scribe_Values.Look(ref IceHits, "iceHits");

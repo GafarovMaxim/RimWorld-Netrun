@@ -63,7 +63,7 @@
   <NR_ScrubMin>min</NR_ScrubMin>
   <NR_ClubCallAlliesTip>Spend the favor: an allied faction sends fighters (or the group sends advanced data). Once a season.</NR_ClubCallAlliesTip>
   <NR_FixerFreeScrub>Favor ×{0}</NR_FixerFreeScrub>
-  <NR_FixerFreeScrubTip>The fixer owes you: scrub {0} Heat for free, no call needed.</NR_FixerFreeScrubTip>
+  <NR_FixerFreeScrubTip>The fixer owes you: scrub {0} Heat for free, no call needed. The favor burns out in {1}.</NR_FixerFreeScrubTip>
   <NR_FixerNewTag>NEW</NR_FixerNewTag>
   <NR_FixerNewTip>Joined the pool recently.</NR_FixerNewTip>
   <NR_FixerHeldTag>HELD</NR_FixerHeldTag>
@@ -139,6 +139,8 @@
   <NR_IsolationCoolingWait>Isolated for {0} h of {1}: then cooling doubles.</NR_IsolationCoolingWait>
   <NR_IsolationCoolingOff>Isolate the network (Defense screen) for {0} h without a break: cooling ×{1}. No dives, contracts or AI services meanwhile.</NR_IsolationCoolingOff>
   <NR_ScrubFailsLayLow>A "Lay low" contract is running: a scrub at a fixer fails it.</NR_ScrubFailsLayLow>
+  <NR_ScrubVeteran>Veteran: x{0} Heat per cyberdata (the trait, not a discount).</NR_ScrubVeteran>
+  <NR_CoolingFailsLayLow>A "Lay low" contract is running: paid cooling fails it too.</NR_CoolingFailsLayLow>
   <NR_LogCooling>Cooling deal with {0}</NR_LogCooling>
   <NR_FixerCooling>{0} covers your tracks: Heat cools {1} more a day for {2} days.</NR_FixerCooling>
   <NR_ScrubRulesLetterLabel>New scrub rules</NR_ScrubRulesLetterLabel>

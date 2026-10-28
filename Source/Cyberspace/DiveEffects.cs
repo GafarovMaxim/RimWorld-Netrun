@@ -63,6 +63,15 @@ public static class DiveEffects
         return factors[Mathf.Min(load.CurStageIndex, factors.Count - 1)];
     }
 
+    /// <summary>r1: actions the neural load adds to the first turn (overload: -1).</summary>
+    public static int NeuralLoadFirstTurnActions(Pawn pawn)
+    {
+        var actions = NetsickSettings.neuralLoadFirstTurnActions;
+        if (pawn?.health?.hediffSet?.GetFirstHediffOfDef(NetrunDefOf.NR_NeuralLoad) is not { } load || actions.NullOrEmpty())
+            return 0;
+        return actions[Mathf.Min(load.CurStageIndex, actions.Count - 1)];
+    }
+
     /// <summary>A dive adds neural load (not a training dive).</summary>
     public static void AddNeuralLoad(Pawn pawn, bool training)
     {

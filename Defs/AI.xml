@@ -22,6 +22,12 @@
     <serverSleepTemp>50</serverSleepTemp>
     <serverWakeTemp>45</serverWakeTemp>
     <serverCoolBonus>0.1</serverCoolBonus>
+    <!-- Overheated room (above the hot mark): AI trust lost a day, and "spiteful overheating" this many times likelier -->
+    <serverHotTrustPerDay>1</serverHotTrustPerDay>
+    <serverHotEventFactor>2</serverHotEventFactor>
+    <serverHotEvents>
+      <li>NR_AIEvent_A3</li>
+    </serverHotEvents>
 
     <!-- Finds on completed hacks: AI fragment from core-command ICE / Black ICE targets,
          core module from Black ICE targets and satellite black boxes -->

@@ -10,13 +10,15 @@
       <li>0.08</li>
       <li>0.15</li>
       <li>0.25</li>
-      <li>0.4</li>
+      <li>0.5</li>
     </threatChanceByLevel>
     <!-- No overlap: at most one Netrun threat in this many days, none during a storyteller threat or this many hours after -->
     <ourThreatGapDays>3</ourThreatGapDays>
     <storytellerQuietHours>24</storytellerQuietHours>
     <!-- The first crossing of 50 and 75 Heat in a season: a warning letter, then a guaranteed attack this many hours later -->
     <thresholdDelayHours>12~36</thresholdDelayHours>
+    <!-- A daily roll that hits the gap between Netrun threats waits this many days; then it comes if allowed, else drops -->
+    <deferredThreatDays>1~3</deferredThreatDays>
     <!-- Netrun choice letters (AI events, news choices, the courier offer) a day; the rest wait in a queue.
          A full queue drops its oldest optional letter; a letter with a timeout never waits past half of it. -->
     <maxChoiceLettersPerDay>2</maxChoiceLettersPerDay>
